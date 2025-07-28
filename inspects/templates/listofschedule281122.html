@@ -1,0 +1,555 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Latest compiled and minified CSS -->
+
+  <title> List of Schedules</title>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+   
+
+<!-- Optional theme -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  
+  <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" /> -->
+
+</head>
+
+<body >
+  <h3 class="report_heading"> List of Schedules </h3>
+  <br><br>
+  
+  <button style="position:absolute; top:0; right:0; "  class="btn btn-primary"><a href ="\form\" style="color:white;">Add new </a></button>
+ 
+  
+    {% csrf_token %}
+<div class="container inpt-container">
+
+<div class="row" id="row1">
+
+    <div  class="col" >
+      <label class="lbl-caption" for="exampleFormControlSelect1">Date of Inspection</label>
+      
+          <!-- <input id="date1" type="text"  class=" datepker" name="date_to_act" placeholder="dd-mm-yy" readonly >
+           -->
+           <input type="text" autocomplete="off" placeholder="Select daterange.."  id ="date1" name="daterange1" required class="form-control" style="margin-top:0em; height: 36px; background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;" id="txtDate2"   readonly requied>
+            
+        </div>
+
+    <div class="col"  >
+      <div class="form-group">
+        <label class="lbl-caption" for="Zone" >Rly./Org. Wise</label>
+        <select class="form-control" id="zone"  size="0" name="zone" onchange="railway__1(this.id)" data-placeholder="Select Zone"   class="custom-select" >
+             <option value=""  selected disabled hidden>select</option>
+             {% for z in Zone %}
+             <option value="{{z}}">{{z}}</option>
+             {% endfor %}
+ 
+         </select>
+                   
+          </div>
+    </div>
+
+    <div class="col">
+    <div class="form-group">
+    <label class="lbl-caption" for="division">Div./Unit Wise</label>
+    <select class="form-control" id="division" name="division" class="custom-select" data-placeholder="Select Division"  style=" height:34px;"
+      ><span style="color:red;font-weight:bold">*</span>
+
+        <option value=""  selected disabled hidden>select</option>
+      {% for d in division %}
+      <option value="{{d.location_code}}">{{d.location_code}}-{{d.location_type}}</option>
+      {% endfor %}
+
+    </select>
+    </div>
+
+    </div>
+
+
+    <div  class="col" >
+      <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+        <div class="btn-group mr-2" role="group" >
+            
+    <button class="btn btn-warning btn-sm"  onclick="searchDetails1()">Search</button>  
+
+    <button type="submit"  class="btn btn-secondary btn-sm "   onclick="refreshPage()">Reset</button>
+        </div>
+      </div>
+
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div class="container-fluid" style="overflow:hidden">
+    <table class="table table-hover table-data" id="Show1" class="center" style="margin-left:4em" >
+        <thead>
+            <tr>
+              <th scope="col">S.No</th>
+              <th scope="col">Insp. Date</th>
+              <th scope="col">Rly./Org.</th>
+              <th scope="col">Div./Unit</th>
+              <th scope="col">Major Location</th>
+              <th scope="col">Status</th>
+              <th scope="col" >Action</th>
+      
+            </tr>
+        </thead>
+
+        <tbody>
+          
+        </tbody>
+       
+    </table>
+</div>  
+
+<br>
+
+<div class="modal fade" id="Modal" role="dialog" aria-labelledby="donorModal" aria-hidden="true"> 
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+
+              <h3 class="modal-title text-center" id="donorModal">Update Date of Inspection</h3>
+              <button type="button" class=" btn btn-danger close" data-dismiss="modal"  onclick="CloseModalPopup();" aria-label="Close">x</button>
+          </div>
+          <div class="modal-body">
+              <form method="GET" id="donorsave">
+                <label for="Date">Date:</label><br>
+                <input id="date_to_act" type="text"   class="form-control datepker" name="date_to_act1" placeholder="dd/mm/yy" required ><br>
+                <label for="Status">Status:</label><br>
+                <select  id="status11" name="status">
+                  <option value="Pending">Pending</option>
+                  <option value="Postponed">Postponed</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Canceled">Canceled</option>
+                </select>
+              </form>
+              <br>
+              <br>
+          <button type="button" onclick="update()"class="btn btn-success">Save</button>
+      </div>
+      
+  </div>
+</div>
+
+
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+
+</body>
+
+<script>
+  //for date range
+  $(function() {
+
+$('input[name="daterange1"]').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    // maxDate: new Date(),
+    "opens": "right",
+    locale: {
+        cancelLabel: 'Clear'
+    }
+});
+
+$('input[name="daterange1"]').on('apply.daterangepicker', function(ev, picker) {
+  $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+  
+  if(picker.startDate.format('DD/MM/YY') == picker.endDate.format('DD/MM/YY')){
+      $(this).val(picker.startDate.format('DD/MM/YY'))
+    }
+    else{
+      $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+    
+    }
+  
+  $('.applyButtonClasses').click()
+
+  
+});
+
+$('input[name="daterange1"]').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+});
+  $(".datepker").datepicker({
+    
+    dateFormat: 'dd/mm/y',
+    showButtonPanel: true,
+    closeText: 'Clear',
+    
+    onClose: function () {
+       var event = arguments.callee.caller.caller.arguments[0];
+       // If "Clear" gets clicked, then really clear it
+       if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+          $(this).val('');
+       }
+    }
+  });
+  
+  
+  function refreshPage() {
+    location.reload();
+
+}
+$("#zone").select2();
+$("#division").select2();
+
+function railway__1(id){
+  
+  // let newid = id.substr(4)
+  
+  var rly=$('#zone').val();
+// alert(rly)
+
+  data={
+      'rly_data': JSON.stringify(rly)
+      
+    }
+
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'getdiv_rly1' %}",
+      dataType : 'json',
+      data : data,
+
+      success : function(response){
+        division=response.division;
+        $('#division').empty();
+                              $('#division').append(`<option value="" disabled>NA</option>`);
+                              for (let i = 0; i < division.length; i++) {
+                              $('#division').append(`<option value="${division[i].location_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                              }
+      }
+    })
+}
+
+var table;
+ function show_data()
+ {
+   
+    $.ajax
+    (
+        {
+            url:'{% url "Show" %}',
+            datatype:'json',
+            type:'GET',
+            success:function(response)
+            {
+              table=$('#Show1').DataTable();
+              table.destroy();
+              $('#Show1 tbody').empty();
+              console.log(response.donor)
+              var s=0
+                for(i in response.donor)
+                {
+                    s=s+1
+                    // $('#Show1 tbody').append
+                    // (
+                    //     `<tr>
+                    //         <td>${s}</td>
+                  
+                    //         <td>${response.donor[i].date_to_act}</td>
+                    //         <td>${response.donor[i].Railways_act}</td>
+                    //         <td>${response.donor[i].Division_act}</td>`
+                    //         `<td>${response.donor[i].location3_act}</td>
+                    //         <td>${response.donor[i].statusNew}</td>
+                            
+                    //         <td><button type="button" id="${response.donor[i].activity_id}"onclick="upschedule(this)" class="btn btn-warning"data-toggle="modal" data-target="#Modal">Edit</button>
+                    //        </td>
+                
+                    //     </tr> `   
+                    // )
+
+                    row=''
+                    row += `<tr>
+                        <td>${s}</td>`
+            row += `<td>${response.donor[i].date_to_act}</td>`
+            row += `<td>${response.donor[i].Railways_act}</td>`
+            row += `<td>${response.donor[i].Division_act}</td>`
+
+            if (response.donor[i].location3_act!=null) {
+              row += `<td>${response.donor[i].location3_act}</td>`
+            } else {
+                row += `<td></td>`
+              }
+              row += `<td>${response.donor[i].statusNew}</td>`
+              if (response.donor[i].statusNew!='Cancelled' && response.donor[i].statusNew!='Completed'){
+              row+=`<td><button type="button" id="${response.donor[i].activity_id}"onclick="upschedule(this)" class="btn btn-warning"data-toggle="modal" data-target="#Modal">Edit</button>`
+              
+                }
+                else {
+                row += `<td><button  disabled type="button" id="${response.donor[i].activity_id}"onclick="upschedule(this)" class="btn btn-warning"data-toggle="modal" data-target="#Modal">Edit</button>`
+              }
+                  row += `</tr>`
+
+              $('#Show1 tbody').append(row)
+          }
+          var table = $('#Show1').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                  extend: 'excel',
+                  messageTop: 'List of Schedule'
+
+                },
+                {
+                  extend: 'pdf',
+                  messageTop: 'List of Schedule'
+
+                },
+
+              ],
+            });
+            }
+        }
+    )
+ }
+ 
+ function delet(D)
+ {
+     var activity_id=D.id;
+    //  alert(activity_id)
+     data={'activity_id':activity_id}
+     $.ajax
+     ({
+         url:'{% url "delet" %}',
+         dataType:'json',
+         type:'GET',
+         data:data,
+         success :function(response)
+         {
+             alert("Your data is deleted.")
+             window.location.reload()
+         }
+     })
+ }
+ var globalacti_id=null;
+ function upschedule(D)
+ {
+    var activity_id=D.id;
+    globalacti_id=activity_id;
+    
+     data={'activity_id':activity_id,}
+     $.ajax
+     ({
+         url:'{% url "upschedule" %}',
+         dataType:'json',
+         type:'GET',
+         data:data,
+         success:function(response)
+         {
+             var instance=response.donor_obj;
+             $('#activity_id').val(activity_id)
+             $('#date_to_act').val(instance[0].date_to_act)
+       
+            
+             if(instance[0].status=='0'){
+              $('#status11').empty();
+              var xxx=  '<option selected value="Pending">Pending</option>'
+              
+              xxx+='<option value="2">Postponed</option>'
+              xxx+='<option value="4">Completed</option>'
+              xxx+='<option value="3">Cancelled</option>'
+              // xxx+='<option value="1">Save as Draft</option>'
+
+             }
+            //  else if(instance[0].status=='1'){
+            //   $('#status11').empty();
+            //   var xxx=  '<option selected value="1">Save as Draft</option>'
+            //   xxx+='<option value="0">Pending</option>'
+            //   xxx+='<option value="2">Postponed</option>'
+            //   xxx+='<option value="4">Completed</option>'
+            //   xxx+='<option value="3">Canceled</option>'
+            //  }
+             else if(instance[0].status=='2'){
+              $('#status11').empty();
+              var xxx=  '<option selected value="1">Postponed</option>'
+              xxx+='<option value="0">Pending</option>'
+              // xxx+='<option value="1">Save as Draft</option>'
+              xxx+='<option value="4">Completed</option>'
+              xxx+='<option value="3">Cancelled</option>'
+             }
+             else if(instance[0].status=='3'){
+              $('#status11').empty();
+              var xxx=  '<option selected value="3">Cancelled</option>'
+              xxx+='<option value="0">Pending</option>'
+              // xxx+='<option value="1">Save as Draft</option>'
+              xxx+='<option value="4">Completed</option>'
+              xxx+='<option value="2">Postponed</option>'
+             }
+             else if(instance[0].status=='4'){
+              $('#status11').empty();
+              var xxx=  '<option selected value="4">Completed</option>'
+              xxx+='<option value="0">Pending</option>'
+              // xxx+='<option value="1">Save as Draft</option>'
+              xxx+='<option value="2">Postponed</option>'
+              xxx+='<option value="3">Cancelled</option>'
+             }
+             $('#status11').append(xxx)
+             
+             
+         }
+     })
+ }
+
+ function update()
+ {
+     var activity_id=$('#activity_id').val()
+     var date_to_act=$('#date_to_act').val()
+     var status=$('#status11').val()
+     
+     data={'activity_id':globalacti_id,'date_to_act':date_to_act,'status':status}
+       r = confirm('Are you sure you want to edit!')
+        if ( r == true){
+          console.log("true")
+        }
+        else{
+          window.location.reload();
+        }
+        
+     $.ajax
+     ({
+         url:'{% url "update_schedule" %}',
+         dataType:'json',
+         type:'GET',
+         data:data,
+         success:function(response)
+         {
+             alert("Your data is updated!")
+             window.location.reload()
+         }
+     })
+ } 
+
+
+window.onload = function() {
+    //load('listofschedule.html',show_data(this))
+    show_data();
+  };
+
+  let today=new Date().toISOString().split('T')[0];
+  document.getElementsByName("date_to_act1")[0].setAttribute('min',today);  
+
+
+ 
+  // Read selected option
+  $('#rly').click(function(){
+    var username = $('#rly option:selected').text();
+    var userid = $('#rly').val();
+
+   
+
+  });
+
+
+
+$('.datepicker').datepicker({
+  inline: true
+});
+
+$('#division').click(function(){
+var username = $('#div option:selected').text();
+var userid = $('#div').val();
+});
+
+</script>
+<script>
+
+  function searchDetails1(){
+    
+    var date1 = $('#date1').val();
+    // alert(date1)
+    var zone=$('#zone').val();
+    var division=$('#division').val();
+    data = {'date':date1,'zone':zone,'division':division}
+   
+    $.ajax({
+           url:'{% url "searchDetails1" %}',
+           dataType: 'json',
+           type: 'GET',
+           data: data,
+           success: function(response)
+           {
+            var table = $('#Show1').DataTable();
+        table.destroy();
+        $('#Show1 tbody').empty();
+               // console.log(response.details)
+               for(i in response.details)
+               {
+                let s = i+1
+           
+                   $('#Show1 tbody').append
+                   (
+                       `<tr>
+                        <td>${s}</td>
+                  
+                        <td>${response.details[i].date_to_act}</td>
+                        <td>${response.details[i].Railways_act}</td>
+                        <td>${response.details[i].Division_act}</td>
+                        <td>${response.details[i].location3_act}</td>
+                        <td>${response.details[i].status}</td>
+                        
+                        <td><button type="button" id="${response.details[i].activity_id}"onclick="upschedule(this)" class="btn btn-warning"data-toggle="modal" data-target="#Modal">Edit</button>
+                        </td>
+                       </tr>`
+                   )
+               }
+               var table = $('#Show1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+              {
+                extend: 'excel',
+                messageTop: 'List of Schedule',
+                messageTop: 'On this (' + date1 + ')',
+                messageTop: 'Of this (' + zone + ')',
+                messageTop: 'Of this (' + division + ')'
+              },
+              {
+                extend: 'pdf',
+                messageTop: 'List of Schedule',
+                messageTop: 'On this (' + date1 + ')',
+                messageTop: 'Of this (' + zone + ')',
+                messageTop: 'Of this (' + division + ')'
+              },
+
+          ],
+        });
+
+              
+           }
+       })
+ }
+  
+ function CloseModalPopup() {       
+  $("#Modal").close();
+}
+
+
+  </script>
+
+</html>
+
+{% endblock content %}

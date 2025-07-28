@@ -1,0 +1,389 @@
+{% extends 'adminDash.html' %} 
+{% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+ 
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+      
+  
+    
+<style>
+  
+      table,
+      td,
+      th {
+        border: 2px solid rgb(229, 232, 241);
+    
+      }
+    
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: auto;
+        width: 100%;
+        margin-left: 3px;
+      }
+    
+      th {
+        height: 100%;
+        padding: 15px;
+        border-bottom: 1px snow;
+        text-decoration: black;
+        text-align: center;
+      }
+    
+      td {
+        text-align: center;
+        padding: 15px;
+        table-layout: auto;
+    
+      }
+    
+      tr:hover {
+        background-color: 1px solid rgba(123, 228, 241, 0.884);
+      }
+      /* #viewbtn {
+        margin-left: 1200px;
+        margin-right: 10px;
+      } */
+    </style>
+    
+    
+    
+    <style>
+      input[type=text]
+      {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: block;
+              /* border: 1.5px solid rgb(14, 12, 12); */
+              border-radius: 4px;
+              box-sizing: border-box;
+      }
+    
+      input[type=submit] {
+              width: 20%;
+              text-align: center;
+              background-color: #4CAF50;
+              color: rgb(15, 12, 12);
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=submit]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+    
+      input[type=button] {
+              width: 10%;
+              text-align: center;
+              background-color: #4CAF50;
+              color: white;
+              padding: 6px 6px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=button]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    
+      .inputtag{
+        height:20px;
+      }
+
+      
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+{% comment %} .button {
+  background-color: #1c87c9;
+  border: none;
+  color: white;
+  padding: 10px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 10px 7px;
+  cursor: pointer;
+} {% endcomment %}
+.button {
+  display: inline-block;
+  padding: 10px 7px;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  background-color:  #1c87c9;
+  border-radius: 6px;
+  outline: none;
+
+}
+
+.modal-lg{
+  max-width: 48%;
+}
+.modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 80%;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+  
+
+    </style>
+<br>
+
+<h2 style="font-family: 'Times New Roman', Times, serif;">
+    <center><b>Inspection Checklist</b></center>
+  </h2>
+
+  
+
+<div class="container">
+    <a href="/search_createchecklist/" class="button"  style="margin-left: 85%;  position: static; ">
+      Create new checklist 
+    </a> 
+</div>
+
+
+<br>
+
+
+<form action="#" method="POST" >
+   {% csrf_token %}
+    <div class="container" >
+          <div class="row" style="margin-left: 7em; margin-right: 7em;">
+                               
+    <table style="width:100%" class="table" id="tableid">
+        
+        <thead>
+            <tr>
+            {% comment %} <th>Checklist ID</th> {% endcomment %}
+            <th>S.&nbsp;No</th>
+            <th>Checklist&nbsp;Title&nbsp;&nbsp;&nbsp;</th>
+            <th>Checklist&nbsp;Version</th>
+
+            <th>Inspection&nbsp;Type</th>
+            {% comment %} <th>Created By</th> {% endcomment %}
+            <th>Created&nbsp;On</th>
+            <th>Status</th>
+            <th>View</th>
+            <th>Edit</th>
+            <th>Action</th>
+            </tr>
+        </thead>
+                                              
+            <tbody>
+              {% for obj in obj %}
+
+
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    {% comment %} <td>{{ obj.checklist_id }}</td> {% endcomment %}
+                    <td style="text-align-last: left;">{{obj.checklist_title}}</td>
+                    <td style="text-align-last: left;">{{obj.version}}</td>
+                    <td style="text-align-last: left;">{{obj.inspection_type}}</td>
+                    {% comment %} <td>{{ obj.created_by }}</td> {% endcomment %}
+                    <td style="text-align-last: left;">{{obj.created_on}}</td>
+                    <td style="text-align-last: left;">{{obj.status}}</td>
+                    <td> <div class="btn-group">
+                      <a id="{{obj.checklist_id}}" href="#" data-target="#checklist_Modal" data-toggle="modal" onclick="checklist_Modal_view(this)" style="width: max-content; color: inherit;">
+                      <i class="fa fa-eye" style="font-size: 25px;"></i></i></a>
+                      </div>
+                    </td>
+                    <td> <div class="btn-group">
+                      <a  href="{% url 'search_editchecklist' obj.checklist_id %}" {% if obj.status != 'Draft' %}  style="width: max-content; color: gray; pointer-events: none;" {%else%} style="width: max-content; color: inherit;" {%endif%}>
+                      <i class="fas fa-edit" style="font-size: 25px;"></i></i></a>
+                      </div>
+                    </td>
+
+                    <td style="text-align-last: left;"> <div class="btn-group" >
+                      {% if obj.status == 'Draft' %}
+                      <a  href="{% url 'search_delete_flag' obj.checklist_id %}" id="viewfun" onclick="myfun()" style="width: max-content; color: green;">
+
+                      Enabled</a>
+                      {% endif %}
+                      {% if obj.status == "Finalized" %}
+                        <a  href="#" id="viewfun" onclick="deleteChecklist('{{obj.checklist_id}}')" style="width: max-content; color: red;">
+                        Delete</a>
+                      {% endif %}
+                      {% comment %} {% if obj.delete_flag == True %}
+                        <a  href="{% url 'search_delete_enable_flag' obj.checklist_id %}" id="viewfun" onclick="myfun1()" style="width: max-content; color: red;">
+                        Disabled</i></a>
+                      {% endif %} {% endcomment %}
+                      
+                      </div>
+                    </td>
+            
+                        
+                    </tr>
+                    {% endfor %}
+                   
+                    </tbody>
+                    </table>
+                     </div>
+          
+                 
+                </div>
+</form>
+<div class="modal fade right" id="checklist_Modal"  tabindex="-1" role="dialog" aria-labelledby="checklist_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"  style='width:60%;'>
+      <div class="modal-content modal-content-full-width">
+          {% comment %} <div class="modal-header modal-header-full-width">
+            <h3 class="modal-title w-100 text-center" id="checklist_ModalLabel"></h3><br>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          </div> {% endcomment %}
+          <div class="modal-body" style="text-align: left;">
+              <div class="row">
+                  <div id="preiew_checklist_pdf">
+                      <iframe id="iframepreview"  style="width:800px; height:800px;" frameborder="0"></iframe>
+                  </div>
+              </div>
+          </div>
+          <!--  Modal Body -->
+          <div class="modal-footer modal-footer-full-width">
+              <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+          </div>
+          <!-- Modal Footer-->
+      </div>
+  </div>
+</div>
+
+  <br>
+  <br>
+
+<script>
+  function myfun1(){
+    alert("It is now enabled")
+  }
+  function myfun(){
+    alert("It is now disabled")
+  }
+
+    function viewChecklist(id,title,mwno,schd)
+  {
+   window.location ='view_checklist?title='+title+'&mwno='+mwno+'&schd='+schd+'&id='+id
+  }
+</script>
+<script>
+  function checklist_Modal_view(e)
+  {
+      file = "/admin_checklistpdf/"+e.id;
+      $('#iframepreview').attr('src', file);
+  }
+</script>
+<script>
+    function myfunction(el,id){
+      var url="#";
+      el.href=url.replace('id',id);
+    }
+  </script>
+  <script>
+      function not_valid_user(id, created_by)
+  {
+    // alert(id);
+    alert(created_by+" is working on this checklist ")
+     $(id).prop('disabled', true);
+  }
+  </script>
+<!----------arohi-delete-->
+
+<script>
+
+ 
+  function deleteChecklist(checklist_id){
+
+    $.ajax({
+      url: '{% url "delete_checklist_ajax" %}',
+      method: 'GET',
+      dataType: 'JSON',
+      async: false,
+      data: {checklist_id},
+      success: function(res){
+        alert('Successfully deleted record!')
+        window.location.reload()
+      }
+    })
+  }
+
+</script>
+<script>
+    $('#viewbtn').click(function (e) {
+      e.preventDefault();
+      window.location ='#'
+    })
+  </script>
+
+<script>
+
+  $(document).ready( function () {
+    $('#tableid').DataTable();
+});
+
+</script>
+
+
+{% endblock %}  

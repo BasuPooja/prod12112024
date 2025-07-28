@@ -1,0 +1,1077 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Einspection | User Form</title>
+
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}" />
+
+
+</head>
+<style>
+  .card1 :hover {
+    background-color: red;
+  }
+
+  .button123 {
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: wavy;
+    outline: none;
+    color: #fff;
+    margin: 10px;
+    text-align: center;
+    /* text-transform: uppercase; */
+    transition: 0.5s;
+    background-size: 100% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+
+  .button123:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: wavy;
+  }
+
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+/* 
+  div.scrollmenu {
+    background-color: rgb(255, 255, 255);
+    overflow: auto;
+    white-space: nowrap;
+  }
+
+  div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    word-wrap: break-word;
+  }
+
+  div.scrollmenu a:hover {
+    background-color: #777;
+  } */
+
+  #regForm {
+    background-color: #ffffff;
+    margin: 100px auto;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+  }
+
+  /* Style the input fields */
+  input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #aaaaaa;
+  }
+
+  /* Mark input boxes that gets an error on validation: */
+  input.invalid {
+    background-color: #ffdddd;
+  }
+
+  /* Hide all steps by default: */
+  .tab {
+    display: none;
+  }
+
+  /* Make circles that indicate the steps of the form: */
+  .step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+  }
+
+  /* Mark the active step: */
+  .step.active {
+    opacity: 1;
+  }
+
+  /* Mark the steps that are finished and valid: */
+  .step.finish {
+    background-color: #04AA6D;
+  }
+
+  .sidenav {
+    height: 200%;
+    width: 300px;
+    color: black;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    /* position: fixed; */
+    background-color: rgb(74, 72, 72);
+    /* overflow-x: hidden; */
+    margin-left: 1%;
+  }
+
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    
+  }
+
+  .sidenav a:hover {
+    color: #f1f1f1;
+
+  }
+
+  .main {
+    margin-left: 3%;
+    /* Same as the width of the sidenav */
+    font-size: 15%;
+    /* Increased text to enable scrolling */
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidenav {
+      padding-top: 15px;
+    }
+
+    .sidenav a {
+      font-size: 18px;
+    }
+  }
+  .rating {
+display: flex;
+flex-direction: row-reverse;
+justify-content: center;
+}
+
+
+.rating > input{ display:none;}
+
+.rating > label {
+position: relative;
+width: 1em;
+font-size: 2vw;
+color: #FFD700;
+cursor: pointer;
+}
+
+.rating > label::before{
+content: "\2605";
+position: absolute;
+opacity: 0;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before {
+opacity: 1 !important;
+}
+
+.rating > input:checked ~ label:before{
+opacity:1;
+}
+
+.rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
+
+.active{
+  background-color: red;
+}
+</style>
+{% csrf_token %}
+
+<body class="mt-4">
+
+  <div class="d-flex py-2">
+
+    <div class="container d-flex col" id="menu1">
+
+      <div class="col-lg-3" style="">
+        <!-- <div class="col-lg-3" style="float:left; margin-left:0%; padding-left: 0%;"> -->
+        <nav class="sidenav" >
+          <div class="align-items-start  text-wrap sticky-left" >
+
+            <img src="/media/{{name.inspection_image}}" alt="" class="pic rounded  card-img-top mx-auto mt-4 mb-1 h-75"
+              alt="..." id="{{i.instypeid}}">
+              
+              <input name="cardId" id="cardId" value="{{id}}" hidden>
+              <a class="btn-group text-wrap mydata1" onclick="mydata(0)" 
+              style="color: rgb(255, 255, 255); text-align: left; border-style: solid; padding-bottom: 10px;" 
+              id="v-pills-settings-tab" 
+              data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" 
+              role="tab" aria-controls="v-pills-settings" aria-selected="false" >User Details</a>
+              {% for i in menu %}
+           
+
+              <div class="child" >
+                <a class="btn-group text-wrap mydata1" 
+                onclick="mydata({{forloop.counter}})" style="color: rgb(255, 255, 255); 
+                text-align: left; border-style: solid; padding-bottom: 10px;" id="v-pills-settings-tab"
+                data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" 
+                aria-selected="false" >{{i.name}}</a>
+              </div>                  
+
+            {% endfor %}
+          </div>
+        </nav>
+      </div>
+
+      <div class="col-lg-9 shadow mt-3" style="float: right; margin-top: 0%; padding-top: 0%; position: relative; margin-left: 350px;" >
+        <form action="" method="POST" class="form-group bg-light font-weigth-bold " id="userForm" value="userForm"
+            name="userForm" style="text-align: center;" enctype="multipart/form-data" enctype="multipart/form-data">{% csrf_token %}
+            <div class="tab-content" id="v-pills-tabContent showquestionsid "
+              style="width: 100%; margin-left:25px;text-align: left;">
+                <input name="id" id="id" value="{{id}}" hidden>
+              <br>
+              <div class="tab">
+                <h2 class="text-justify  text-nowrap ">{{name.name}}: Inspection Details</h2><br>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Railways
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <select id="userdata0" name="name1"  class="form-control" style="width: 91%" onchange="getZoneEinsp()"  required>
+                      <option selected>{{divisionParent.location_description}}</option>
+                      {% for i in railwayZone %}
+                      <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>
+                      
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Division
+                      <sup class="text-danger">*</sup></label><br>
+                    
+                      <select id="userdata1" name="name1"  class="form-control" style="width: 91%"  required>
+                        <option selected >{{userDivision.location_description}}</option>
+                        {% for i in newdivision %}
+                        <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>
+                        
+                        {% endfor %}
+                      </select>
+                  </div>
+
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Officer Name
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata2" class="form-control" style="width: 91%" value="{{request.user.first_name}}{{' '}}{{request.user.last_name}}" disabled />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Officer Designation
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata3" class="form-control" style="width: 91%" value="{{designations1}}" disabled />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Start Date
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata4" placeholder="DD-MM-YYYY" onchange="changedate()" readonly class="form-control" style="width: 91%" value="" required />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Start Time
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="time" name="name1" id="userdata5" class="form-control" style="width: 91%" value="" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">End Date
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata6" placeholder="DD-MM-YYYY" readonly class="form-control"  style="width: 91%" value="" required />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">End Time
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="time" name="name1" id="userdata7" class="form-control" style="width: 91%" value="" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Start Station
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <select id="userdata10" name="name1"  class="form-control" style="width: 91%"  required>
+                      <option selected disabled="true">----- Select Start Station -----</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">End Station
+                      <sup class="text-danger">*</sup></label><br>
+                    
+                      <select id="userdata11" name="name1"  class="form-control" style="width: 91%" onchange="checkFillofStation(this.value)" required>
+                        <option selected disabled="true">----- Select End Station -----</option>
+                      </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Inspection Of
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata8" class="form-control" style="width: 91%" value="{{name.name}}" disabled />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="text" hidden value="{{name.entity}}" id="entitylbl">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold"  name="userLabel">{{name.entity}}{{' Details'}}
+                      <sup class="text-danger">*</sup></label><br>
+                    <!-- <input type="text" name="name1" id="userdata9" class="form-control" style="width: 91%" value="" maxlength="6"/> -->
+                    <select id="userdata9" name="name1"  class="form-control" style="width: 91%"  required>
+                      <option selected disabled="true" >{{name.entity}}</option>
+                      
+                      
+
+
+                     
+                    </select>
+                    <small id="HelpInline" class="text-muted">
+                      Must be 2-6 characters long.
+                    </small>
+                  </div>
+                </div>
+
+
+
+                  <label for="priority" class="col-sm-4 col-form-label font-weight-bold">Inspection Type<sup class="text-danger"> *</sup></label>
+                  <div class="col-sm-4">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="is_scheduled" id="userdata12" value="Surprise" checked>
+                      <label class="form-check-label" for="inlineRadio1">Surprise</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="is_scheduled" id="userdata12" value="Scheduled">
+                      <label class="form-check-label" for="inlineRadio2">Schedule</label>
+                    </div>                
+                  </div><br>
+                  <small id="requiredFields" class="text-danger">
+                    * signifies mandatory fields.
+                  </small>
+              </div>
+              {% if questform %}
+              <div class="tab">
+                {% for i in questform %}
+                        {% if i.divtype == 'open' and forloop.counter != 1 %}
+                            </div>
+                            <div class="tab">
+                        {% endif %}
+                {% ifchanged i.instypeid_id__name %}
+                <h2>{{name.name}}{{': '}}{{i.instypeid_id__name}}</h2><br>
+                <input type="text" value="{{i.qid}}" id="subcategory_id" name="subcategory_id" hidden readonly />
+                
+                
+                
+                {% endifchanged %}
+
+                <div class="row">
+
+                  <label for="fromstation" class="col-sm-12 col-form-label font-weight-bold" name="userLabel"
+                    id="{{i.qid}}">{{i.activity}}</label><br>
+
+                </div>
+                {% if i.choicetype__cid == 1 %}
+                <div class="row">
+                  <div class="col-lg-12" style="width: 90%; padding-left: 25px;">
+                    <input type="text" name="name1" id="userinput{{forloop.counter}}" class="form-control"
+                      style="width: 91%" />
+                  </div>
+                  <br>
+                </div>
+                {% elif i.choicetype__cid == 2 %}
+                <div class="row mx-2">
+
+                  <div class="col-lg-2">
+                    <div class="form-check form-check-inline ms-2 mt-2" >
+                        <input class="form-check-input" type="radio" id="roption1{{forloop.counter}}" 
+                        name="roption{{forloop.counter}}" value="{{i.data1}}" onchange="radioSwitch(this.id,this.value)">
+                        <label class="form-check-label" for="roption1">{{i.data1}}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-2">
+                    <div class="form-check form-check-inline ms-2 mt-2" >
+                      <input class="form-check-input" type="radio" id="roption2{{forloop.counter}}"
+                      name="roption{{forloop.counter}}" value="{{i.data2}}" >
+                    <label class="form-check-label" for="roption2">{{i.data2}}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-2">
+                    <div class="form-check form-check-inline ms-2 mt-2" >
+                      <input class="form-check-input" type="radio" id="roption3{{forloop.counter}}"
+                        name="roption{{forloop.counter}}" value="Null" disabled checked hidden>
+                      <label class="form-check-label" for="roption3"></label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12" style="width: 90%; padding-left: 25px;">
+                    <input type="text" placeholder="Remarks" name="name1" id="" class="form-control mt-2"
+                      style="width: 91%" />
+                  </div>
+                  <br>
+                </div>
+                {% elif i.choicetype__cid == 3 %}
+                <div class="row">
+
+                  <div style="width: 90%; padding-left: 25px;">
+
+                    <select id="doption{{forloop.counter}}" name="doption" class="custom-select my-1 mr-lg-12">
+                      <option selected disabled="true" value="">----- Select Answer Choice -----</option>
+                      {% if i.doption__did == 1 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 2 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 3 %}
+                      {% for k in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 4 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 5 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% endif %}
+
+                    </select>
+                  </div><br>
+
+                </div>
+                {% elif i.choicetype__cid == 4 %}
+                <div class="row">
+
+                  <div class="col" style="width: 90%; padding-left: 25px;">
+                    <input type="date" id="date{{forloop.counter}}" name="date" style="width: 91%;" required />
+                  </div><br>
+                </div>
+                {% elif i.choicetype__cid == 5 %}
+                <div class="row">
+
+                  <div class="col" style="width: 91%; padding-left: 25px;">
+                    <input type="time" id="time{{forloop.counter}}" name="time" required /><br>
+                  </div>
+                </div>
+                {% elif i.choicetype__cid == 6 %}
+                <div class="row">
+
+                  <div class="col" style="width: 91%; padding-left: 25px;">
+                    <input class="form-control form-control-sm" name="file" id="file{{forloop.counter}}" type="file"
+                      required /><br>
+                  </div>
+                </div>
+
+                {% endif %}
+
+                {% endfor %}
+              </div>
+              {% endif %}
+              <div class="tab">
+                <h2 class="text-justify form-row text-nowrap ">{{name.name}}: Inspection Conclusion</h2><br>
+                <div class="form-row">
+                  <label for="priority" class="col-form-label font-weight-bold">Any Other Abnoramality Noticed? (if Yes, enter remarks.)<sup class="text-danger"> *</sup></label>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="abnormal" id="userdata13" value="no" checked>
+                    <label class="form-check-label" for="inlineRadio1">No</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="abnormal" id="userdata13" value="yes" onchange="abnormality(this.value)">
+                    <label class="form-check-label" for="inlineRadio2" >Yes</label>
+                  </div> 
+                  
+                </div>
+                <div class="col-sm-12" style="width: 100%;">
+                  <span id="abnormality11"></span>
+                </div> 
+
+                <div class="form-row">
+                  <label for="docUpload" class="col-sm-12 col-form-label font-weight-bold">Upload Document</label>
+                  <div class="custom-file input-group-prepend" style="width: 90%; padding-left: 2.5%;">
+                    <input type="file" class="form-control form-control-sm" style="width: 90%; padding-left: 2.5%;" id="userdata14">
+                    <!-- <label class="custom-file-label col-11" for="userdata14"  >Choose file</label>   -->
+                  </div>
+                </div>
+                <small id="HelpInline" class="text-muted">
+                  Must be .jpg, .png, .jpeg, .dox, .xls format.
+                </small><br>
+
+                <div class="form-row">
+                  <label for="priority" class="col-sm-12 col-form-label font-weight-bold">Overall Rating</label>
+                <div class="rating col-2">
+                  
+                  <input type="radio" name="ratings1" value="5" id="5" onchange="checker(this.id,this.value)"><label for="5">☆</label>
+                  <input type="radio" name="ratings1" value="4" id="4" onchange="checker(this.id,this.value)"><label for="4">☆</label>
+                  <input type="radio" name="ratings1" value="3" id="3" onchange="checker(this.id,this.value)"><label for="3">☆</label>
+                  <input type="radio" name="ratings1" value="2" id="2" onchange="checker(this.id,this.value)"><label for="2">☆</label>
+                  <input type="radio" name="ratings1" value="1" id="1" onchange="checker(this.id,this.value)"><label for="1">☆</label>
+                </div>
+              </div>
+              </div>
+
+              <div class="row">
+                <div class="col" style="width: 90%; padding-left: 25px;">
+                  <input type="text" id="userinputlength" value="{{queslen}}" class="form-control" hidden>
+                </div>
+
+              </div>
+              <br><br>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <button type="button" class="btn btn-dark btn-block" id="prevBtn" onclick="nextPrev(-1)">&laquo; Previous</button>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-2 d-block">
+                    <button type="button" id="useradd" name="useradd" value="useradd" onclick="addQ145()"
+                    class=" btn btn-secondary  pull-right btn-block">Save</button>
+                  </div>
+                  <div class="col-lg-2 d-block ">  
+                    <button type="button" class="btn btn-white bg-white border-dark pull-left btn-block"
+                    onclick="reset('userForm')">Clear</button>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-2">
+                    <button type="button" class="btn btn-dark btn-block" id="nextBtn" onclick="nextPrev(1)">Next &raquo;</button>
+                  </div>
+                </div>
+              </div>
+              <br>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+<script>
+
+
+
+var countEinspection=0;
+var ratingsEinpection=5;
+  $(document).ready(function () {
+    $("#card1").show();
+    $("#menu1").show();
+    
+  });
+
+  function checker(id,value){
+    
+    console.log(value)
+    ratingsEinpection=value;
+  }
+
+  
+
+  function getZoneEinsp(){
+    let zone = $('#userdata0').val();
+    let division = $('#userdata1').val();
+    data = {
+      'zone':zone,
+      'division':division,
+    }
+    $.ajax({
+      type: 'GET',
+        url: "{% url 'getZoneEinsp' %}",
+        data: data,
+        success: function (response){
+          $('#userdata1').empty();
+          let row = '<option selected disabled hidden>--Select Division--</option>';
+          if(response.length==0){
+          row+='<option selected disabled hidden>--No Division--</option>';
+          }
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value="' + response[i].rly_unit_code + '">' + response[i].location_description + ' </option>';
+          }
+          $('#userdata1').append(row);
+        }
+    })
+  }
+
+  function radioSwitch(id,value){
+    
+    // temp2=id
+    // temp = String(id.split("roption1")[1]);
+    // spanid='roption44'+temp;
+    // var xrd = document.getElementById("spanid");
+    // alert('temp:',temp,'temp2:',temp2,'spanid:',spanid,'xrd:',xrd)
+    // xrd.style.display = id == temp2 ? "block" : "none";
+  }
+
+  function abnormality(value){
+    if(value="yes" && countEinspection==0){
+      let v = ''
+      v+='<div class="col-lg-12" style="width: 90%; padding-left: 2.5%;">'
+      v+='<input type="text" name="name1" id="userdata15" class="form-control" placeholder="Please Enter Remarks" style="width: 91%" />'
+      v+='</div>'
+      $('#abnormality11').append(v)
+      countEinspection=countEinspection+1
+    }
+    
+  }
+  function reset(id) {
+    document.getElementById(id).reset();
+  }
+
+  function gotoquestions(id, name) {
+    var cardId = $('#cardId').val()
+    var activeElement = document.getElementById(id);
+      activeElement.style.color = "teal";
+    console.log(name)
+    console.log(cardId)
+    console.log(id)
+  }
+
+  function checkFillofStation(entity){
+    entity=document.getElementById('entitylbl').value;
+    var start_station=$('#userdata10').val();
+    var end_station=$('#userdata11').val();
+    if(start_station=='' ||  start_station==null){
+      document.getElementById("userdata10").focus();
+      alert('Start Station not Choosen!!')
+    }
+    else if(end_station=='' ||  end_station==null){
+      document.getElementById("userdata11").focus();
+      alert('End Station not Choosen!!')
+    }
+    else{
+      data={
+        'start_station':start_station,
+        'end_station':end_station,
+        'entity':entity,
+       }
+      
+      $.ajax({
+      type: "GET",
+      dataType: "json",
+      data: data,
+      url: '{% url "checkFillofStation" %}',
+      success: function (response) {
+        $('#userdata9').empty();
+          let row = '<option selected disabled hidden>--Select Train Data--</option>';
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+            if(entity=='Train'){
+            row += '<option value="' + response[i].tnid + '">' + response[i].train_no + ' </option>';
+          }
+          else if(entity=='Running Room'){
+            row += '<option value="' + response[i].rrid + '">' + response[i].rr_name + ' </option>';
+          }
+          else if(entity=='Station'){
+            row += '<option value="' + response[i].stnshortcode + '">' + response[i].station_name + ' </option>';
+          }
+          }
+          $('#userdata9').append(row);
+      }
+
+    })
+    }
+  }
+
+function addQ145() {
+    var data = {{ ajaxdata | safe }}
+    var cardId = $('#cardId').val();
+    var id = $('#id').val();
+    var id1 = $('#id').val();
+    var railways=$('#userdata0').val();
+    var division=$('#userdata1').val();
+    var start_date=$('#userdata4').val();
+    var start_time=$('#userdata5').val();
+    var end_date=$('#userdata6').val();
+    var end_time=$('#userdata7').val();
+    var inspection_of=$('#userdata8').val();
+    var detail=$('#userdata9').val();
+    var start_station=$('#userdata10').val();
+    var end_station=$('#userdata11').val();
+    var radios1 = document.getElementsByName('is_scheduled');
+    var radios2 = document.getElementsByName('abnormal');
+    var is_scheduled='Surprise';
+    var abnormal='no';
+    var remarks=$('#userdata15').val();
+    
+    
+    for (var r1 of radios1)
+    {
+        if (r1.checked) {
+          is_scheduled=r1.value;
+      }
+     }
+
+     for (var r2 of radios2)
+    {
+        if (r2.checked) {
+          abnormal=r2.value;
+      }
+     }
+    // for(var r3 in radios3){
+    //   // alert(r33)
+    //   if (r3.checked) {
+    //       ratings1=r3.value;
+    //       alert(ratings1)
+    //       break;
+    //   }
+    // }
+    console.log('ratingsEinpection:',ratingsEinpection)
+    console.log(is_scheduled,abnormal)
+    console.log(abnormal)
+    console.log(id)
+    var str2 = [];
+    for (let i = 0; i < data.length; i++) {
+      let a = data[i].split('@#@'), val;
+      if (a[0] == '1') {
+        id = 'userinput' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      else if (a[0] == '2') {
+        id = 'roption' + String(i + 1)
+        val = document.querySelector('input[name=' + id + ']:checked').id;
+        str2[i] = val;
+      }
+      else if (a[0] == '3') {
+        id = 'doption' + String(i + 1);
+        val = document.getElementById(id).value
+        str2[i] = val;
+      }
+      else if (a[0] == '4') {
+        id = 'date' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      else if (a[0] == '5') {
+        id = 'time' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      else if (a[0] == '6') {
+        id = 'file' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      qid = a[1]
+      // alert(val+" "+ qid);
+      str2[i] = str2[i] + '@#@' + qid + '@#@' + a[0];
+    }
+    console.log(start_station,end_station)
+    var data1 = {
+      'str2': str2,
+      'cardId': cardId,
+      'id': id1,
+      'railways':railways,
+      'division':division,
+      'start_date':start_date,
+      'start_time':start_time,
+      'end_date':end_date,
+      'end_time':end_time,
+      'start_station':start_station,
+      'end_station':end_station,
+      'inspection_of':inspection_of,
+      'detail':detail,
+      'is_scheduled':is_scheduled,
+      'abnormal':abnormal,
+      'remarks':remarks,
+      csrfmiddlewaretoken:'{{ csrf_token }}'
+    }
+    if(start_station=='' ||  start_station==null){
+      document.getElementById("userdata10").focus();
+      alert('Start Station not Choosen!!')
+    }
+    else if(end_station=='' ||  end_station==null){
+      document.getElementById("userdata11").focus();
+      alert('End Station not Choosen!!')
+    }
+    else if(start_date=='' || start_date==null){
+      document.getElementById("userdata4").focus();
+      alert('Start Date not Choosen!!')
+    }
+    else if(end_date=='' || end_date==null){
+      document.getElementById("userdata6").focus();
+      alert('End Date not Choosen!!')
+    }
+    else if(start_time=='' || start_time==null){
+      document.getElementById("userdata5").focus();
+      alert(' Start Time not Choosen!!')
+    }
+    else if(end_time=='' || end_time==null){
+      document.getElementById("userdata7").focus();
+      alert(' End Time not Choosen!!')
+    }
+    else if(railways=='' || railways==null){
+      document.getElementById("userdata0").focus();
+      alert(' Railway Zone not Choosen!!')
+    }
+    else if(division=='' || division==null){
+      document.getElementById("userdata1").focus();
+      alert(' Railway Division not Choosen!!')
+    }
+    else{
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      data: data1,
+      url: '{% url "addQ145" %}',
+      success: function (response) {
+        alert('Save Successfull!!')
+      }
+
+    })
+  }
+}
+
+</script>
+
+
+<script>
+  var currentTab = 0; // Current tab is set to be the first tab (0)
+  showTab(currentTab); // Display the current tab
+  
+  function showTab(n) {
+    // This function will display the specified tab of the form ...
+    var x = document.getElementsByClassName("tab");
+    console.log("end pagination",x.length,n)
+    x[n].style.display = "block";
+    // ... and fix the Previous/Next buttons:
+    if (n == 0) {
+      document.getElementById("prevBtn").style.display = "none";
+    } else {
+      document.getElementById("prevBtn").style.display = "inline";
+    }
+    if (n == (x.length - 1)) {
+      document.getElementById("nextBtn").style.display = "none";
+      
+    } 
+    else if (n < (x.length - 1)) {
+      document.getElementById("nextBtn").style.display = "inline-block";
+      
+    } 
+    else {
+      document.getElementById("nextBtn").innerHTML = "Next";
+    }
+    // ... and run a function that displays the correct step indicator:
+  }
+  
+  // function nextPrev(n) {
+  //   // This function will figure out which tab to display
+  //   var x = document.getElementsByClassName("tab");
+  //   // Exit the function if any field in the current tab is invalid:
+  //   // Hide the current tab:
+  //   x[currentTab].style.display = "none";
+  //   // Increase or decrease the current tab by 1:
+   
+  //   // if you have reached the end of the form... :
+  //   if(currentTab < n && (n-currentTab)!=1){
+  //     currentTab = n
+  //   }
+  //   else if(currentTab > n && (currentTab - n)!=1){
+  //     currentTab = n
+  //   }
+  //   else if(currentTab < n && (n-currentTab)==1){
+  //     currentTab = currentTab+ (n-currentTab)
+  //   }
+  //   else if(currentTab > n && (currentTab - n)==1){
+  //     currentTab = currentTab+ (n-currentTab)
+  //   }
+  //   else{
+  //     currentTab = currentTab + n;
+  //   }
+  //   if (currentTab >= x.length) {
+  //     //...the form gets submitted:
+  //     document.getElementById("regForm").submit();
+  //     return false;
+  //   }
+  //   // Otherwise, display the correct tab:
+  //   showTab(currentTab);
+  // }
+  
+  
+  
+  function nextPrev(n) {
+    // This function will figure out which tab to display
+    var x = document.getElementsByClassName("tab");
+    // Exit the function if any field in the current tab is invalid:
+    // Hide the current tab:
+    x[currentTab].style.display = "none";
+    // Increase or decrease the current tab by 1:
+    currentTab = currentTab + n;
+    // if you have reached the end of the form... :
+    if (currentTab >= x.length) {
+      //...the form gets submitted:
+      document.getElementById("regForm").submit();
+      return false;
+    }
+    // Otherwise, display the correct tab:
+    showTab(currentTab);
+  }
+  
+  function mydata(da){
+    var x = document.getElementsByClassName("tab");
+    var y = document.getElementsByClassName("mydata1");
+    console.log("y",y)
+    x[currentTab].style.display = "none";
+    if(da>=1){
+      currentTab = da
+      // y[currentTab].style.backgroundColor = "red";
+      y[currentTab].className.replace("mydata1",'active')
+      console.log(currentTab)
+    }
+    else{
+      currentTab = 0
+    }
+    showTab(currentTab)
+  }
+
+// saud faisal
+
+
+$("#userdata1").change(function(){
+  var rail = $("#userdata1").val();
+  data1 = {"rail":rail};
+  $.ajax({
+      type: "GET",
+      dataType: "json",
+      data: data1,
+      url: '{% url "getstations" %}',
+      success: function (response) {
+        for(var i = 0; i<response.length;i++){
+          $("#userdata10").append('<option value = '+response[i].stnshortcode+'>'+response[i].station_name+"</option>");
+          $("#userdata11").append('<option value = '+response[i].stnshortcode+'>'+response[i].station_name+"</option>");
+        }
+        
+      }
+  })
+})
+
+var currentdate= new Date();
+  $("#userdata4").datepicker({
+      minDate: currentdate,
+      autoclose:true,
+      dateFormat: "dd-mm-yy",
+      endDate:"currentdate",
+      changeMonth : true,
+      changeYear : true,
+      todayHighlight: true,
+      clearBtn : true 
+  })
+  
+  $("#userdata6").datepicker({ minDate: currentdate,
+      autoclose:true,
+      dateFormat: "dd-mm-yy",
+      endDate:"currentdate",
+      changeMonth : true,
+      changeYear : true,
+      todayHighlight: true,
+      clearBtn : true });
+
+function changedate(){
+  let startdate = $("#userdata4").val();
+  if(startdate == ''){
+    alert("Please Select Start Date First");
+    $("#userdata4").focus()
+  }
+  else{
+    var date1 = $('#userdata4').datepicker('getDate'); 
+    $("#userdata6").datepicker("option","minDate",date1); 
+
+
+    
+  }
+}
+
+  </script>
+
+</html>
+{% endblock content %}

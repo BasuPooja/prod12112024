@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Here</title>
+    <style>
+ <style>
+body  
+{  
+    margin: 0;  
+    padding: 0;  
+    background-color:#6abadeba;  
+    font-family: 'Arial';  
+}  
+.login{  
+        width: 382px;  
+        overflow: hidden;  
+        margin: auto;  
+        margin: 20 0 0 450px;  
+        padding: 80px;  
+        background: #23463f;  
+        border-radius: 15px ;  
+          
+}  
+h2{  
+    text-align: center;  
+    color: #277582;  
+    padding: 20px;  
+}  
+label{  
+    color: #08ffd1;  
+    font-size: 17px;  
+}  
+#Uname{  
+    width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 3px;  
+    padding-left: 8px;  
+}  
+#Pass{  
+    width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 3px;  
+    padding-left: 8px;  
+      
+}  
+#log{  
+    width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 17px;  
+    padding-left: 7px;  
+    color: blue;  
+  
+  
+}  
+span{  
+    color: white;  
+    font-size: 17px;  
+}  
+a{  
+    float: right;  
+    background-color: grey;  
+}  
+</style>  
+    </style>
+</head>
+<body>
+    
+   
+
+    <h2>One Time Authentication</h2><br>    
+    <div class="login">    
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO%}
+        <div class="alert alert-primary" id="msg" role="alert" style="color: red;">{{ message }}</div>
+        {%endif%}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+        <div class="alert alert-success" id="msg" role="alert" style="color: red;">{{ message }}</div>
+        {%endif%}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+        <div class="alert alert-danger" id="msg" role="alert" style="color: red;">{{ message }}</div>
+        {%endif%}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING%}
+        <div class="alert alert-warning" id="msg" role="alert" style="color: red;">{{ message }}</div>
+        {%endif%}
+        {% endfor %}
+        {% endif %}
+    <br>
+    <form method="post" action="/onetimepushback" class="mb-2">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username (e-Inspection): </label>
+            <input type="text" class="form-control" id="Uname" name="Uname" placeholder="Enter Your Username" Required>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="pass1">Password (e-Inspection): </label>
+            <input type="password" class="form-control" id="Pass" name="Pass" placeholder="Enter Your Password" Required>
+        </div>
+        <br>
+        <div class="form-group">
+            {% comment %} <label for="pass1">sso_id : </label> {% endcomment %}
+            <input type="text" class="form-control" id="sso_id" name="sso_id" value= "{{sso_Id}}" Required hidden>
+        </div>
+        <br>
+        <button type="submit"  name="log" id="log">Authenticate</button>
+        <br><br>
+        <br><br>
+    </form>
+    </div>
+{% comment %} <form method="post" action = "/oidc_auth_code">
+    {% csrf_token %}
+        <button type="Submit">Login with E-Pramaan</button>
+
+        
+    </form> {% endcomment %}
+</body>
+</html>
+

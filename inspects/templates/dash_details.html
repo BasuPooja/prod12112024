@@ -1,0 +1,808 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>
+</head>
+
+
+  
+    <style>
+        /* .body{
+            overflow-x: hidden;
+        } */
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #e3e6f0;
+            border-radius: .35rem;
+        }
+
+        .modal-dialog {
+            width: 70%;
+
+            padding: 0;
+        }
+
+        .modal-content {
+            height: 99%;
+        }
+
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: none;
+            }
+        }
+
+        body {
+            padding-right: 0 !important
+        }
+
+.select2-selection__rendered {
+    line-height: 32px !important;
+}
+.select2-container .select2-selection--single {
+    height: 35px !important;
+}
+.select2-selection__arrow {
+    height: 34px !important;
+}
+
+/* .table-bordered {
+    border-color: #fafcfe;
+} */
+    </style>
+</head>
+
+<body>
+    <!-- <div class=" navbar-dark bg-dark" style="margin:0 auto ;">
+        <center>
+            <font color="white">
+                <h3 style="margin:0 auto ;height: 50px; ">e-Nireekshan</h3>
+            </font>
+        </center>
+    </div> -->
+
+    
+    
+    <div class="container">
+                {% if typei == 'Item' %}
+                    {% if case  == 'pendj' %}
+                    <h3 class="report_heading">Item Wise Pending Inspection Para</h3>
+                    
+                    {% elif case  == 'fullj' %}
+                    <h3 class="report_heading">Item Wise Fully Complied Inspection Para</h3>
+                    
+                    {% elif case  != 'totalj' %}
+                    <h3 class="report_heading">{{railway}} ({{case}} Inspection Para)</h3>
+                {% endif %}  
+                
+                
+                {% elif typei == 'Insp' %}
+                <h3 class="report_heading">{{railway}} ({{case}} Inspection Notes)</h3>
+                {% endif %}
+    </div>
+                <br>
+                <div class="container">
+                    <div class="inpt-container" id="container1" style="padding-bottom:10px;" >
+                        <div class="row" style="text-align: left;margin-left: 2em;" >
+    
+                            <div class="col" >
+                                <label class="lbl-caption" for="date_range" > Date wise</label><br>
+                                <input type="text" autocomplete="off" placeholder="Select daterange.." id="date_range" name="date_range" required class="form-control" style="margin-top:0em; height: 35px; background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;"    readonly>
+                                
+                            </div>
+    
+                            <div class="col"  style="margin-left:2em ;">
+                                <label class="lbl-caption" for="Zone" >Railway/Orginazation</label>
+                                {% if hid_railway.0.type == 'HQ' %}
+                                    <select class="form-control" name="rly_id" id="rly_id" class="custom-select" style="max-width:100%; color: gray;" disabled>
+                                        <option value="{{hid_railway.0.item}}" selected>{{hid_railway.0.item}}</option>
+                                    </select>
+                                {% else %}
+                                    <select class="form-control" name="rly_id" id="rly_id" class="custom-select" style="max-width:100%;">
+                                        <option value="" selected>All</option>
+                                        {% for z in zone %}
+                                        <option value="{{z}}">{{z}}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endif %}
+    
+    
+                            </div>
+                            <div class="col">
+                                <label class="lbl-caption" for="division">Division/Unit</label>
+                                
+                                    {% if hid_railway.0.type == "DIV" %}
+                                        <select class="form-control" name="div_id" id="div_id" class="custom-select" style="max-width:100%;" disabled>
+                                            
+                                            <option value="{{hid_railway.0.item}}" selected>{{hid_railway.0.item}}</option>
+                                        </select>  
+                                    {% else %}
+    
+                                        <select class="form-control" name="div_id" id="div_id" class="custom-select" style="max-width:100%;">
+                                            <option value="" selected>All</option>
+                                            {% for d in division %}
+                                            <option value="{{d.location_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                                            {% endfor %}
+                                        </select> 
+                                    {% endif %}
+                                     
+                            </div>
+                            <!-- <div class="col" >
+                                <label for="division">Mark Officer Dept.</label>
+                                <select class="form-control" name="dept_id" id="dept_id" class="custom-select" style="max-width:100%;">
+                                    <option value="" selected>All</option>
+                                    {% for d in dept %}
+                                    <option value="{{d}}">{{d}}</option>
+                                    {% endfor %}
+                                </select> 
+                            </div> -->
+    
+                            <div class="col">
+                                <label class="lbl-caption" for="division">Marked Officer</label>
+                                {% if data5 == "graph" %}
+                                <select class="form-control" name="Officer_id" id="Officer_id" class="custom-select" style="max-width:100%;" disabled>
+                                    <option value="{{markoff1.0.designation_code}}" selected>{{markoff}}</option>
+                                    
+                                    <!-- {% for d in insp_officer %}
+                                    {{d.marked_to__designation_code}}
+                                    <option value="{{d.marked_to__designation_code}}">{{d.marked_to__designation}}</option>
+                                    {% endfor %} -->
+                                </select>  
+                                {% else %}
+                                <select class="form-control" name="Officer_id" id="Officer_id" class="custom-select" style="max-width:100%;">
+                                    <option value="" selected>All</option>
+                                    
+                                    {% for d in insp_officer %}
+                                    {{d.marked_to__designation_code}}
+                                    <option value="{{d.marked_to__designation_code}}">{{d.marked_to__designation}}</option>
+                                    {% endfor %}
+                                </select> 
+                                {% endif %}
+                            </div>
+                            <input type="text" value="{{daterange}}" id="daterange_id" hidden> 
+                        <input type="text" value="{{data}}" id="forme_byme_id" hidden> 
+                        
+                        {% if data5 == "graph" %}
+                        <div class="col">
+                            <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                                <div class="btn-group mr-2" role="group" >
+                                    <button  type="button" id="submit_filter1" name="submit_filter1"  class="btn btn-warning btn-sm"  onclick="pending_filterdata(this);">Continue</button>
+                                    <button  type="button"  class="btn btn-secondary btn-sm" id="insp_clear" onclick="refreshPage()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                      
+                          </div>
+                        {% else %}
+                        <div  class="col" >
+                            <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                                <div class="btn-group mr-2" role="group" >
+                                
+                                    <button  type="button" id="submit_filter" name="submit_filter" class="btn btn-warning btn-sm"  onclick="pending_filterdata(this);">Continue</button>
+                                    <button  type="button"  class="btn btn-secondary btn-sm" id="insp_clear" onclick="refreshPage()">Reset</button>
+                            
+                                </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                
+                
+</div>
+               
+                <div class="container" style="overflow-x: auto;">
+                    <table id="instituteTable" class="table table-striped table-bordered table-data" >
+                        <thead class="" >
+                            <th>
+                                S.no
+                            </th>
+                            <th>
+                                Insp. Note No.
+                            </th>
+                            {% if typei == 'Item' %}
+                            <th>
+                                Item No.
+                            </th>
+                            {% endif %}
+        
+                            <th style="width:100px">
+                                Date of Insp.
+                            </th>
+                            {% if typei == 'Insp' %}
+                            <th>
+                                RLY./Org.
+                            </th>
+                            <th>
+                                Div./Unit
+                            </th>
+                            <th>
+                                Department
+                            </th>
+                            <th>
+                                Insp. Note
+                            </th>
+                            <th>
+                                Rec'd. Comp.
+                            </th>
+                            {% else %}
+                            <th>
+                                Observation
+                            </th>
+                            <th>
+                                Insp. Note
+                            </th>
+                            <th>
+                                Rec'd. Comp.
+                            </th>
+                            {% endif %}
+        
+                        </thead>
+                        <tbody>
+                            {% if typei == 'Insp' %}
+                            {% for g in insp_data %}
+                            <tr style="text-align: left;">
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'inspectionReportPdf' insp_id=g.inspection_no %}" target="_blank"
+                                        >{{ g.inspection_note_no }}</a>
+                                </td>
+                                
+                                <td>{{g.inspected_on|date:'d/m/y' }}</td>
+                                <td>
+                                    
+                                        {% for j in g.multiple_loc %}
+                                        {% if j.type == 'HQ' %}
+                                        {{j.item}} <br>
+                                        {% endif %}
+                                        {% endfor %}
+                                    
+                                </td>
+                                <td>{% for j in g.multiple_loc %}
+                                    {% if j.type == 'DIV' %}
+                                    {{j.item}} <br>
+                                    {% endif %}
+                                    {% endfor %}</td>
+                                <td>{% for j in g.multiple_loc %}
+                                    {% if j.type == 'DPT' %}
+                                    {{j.item}} <br>
+                                    {% endif %}
+                                    {% endfor %}</td>
+                                
+                                <td style="text-align: center;"><a  href="{% url 'inspectionReportPdf' g.inspection_no  %}"   target="_blank" type="button" class="btn btn-outline-primary btn-sm"><i class="far fa-file-alt"></i></a></td>
+                                <td>
+                                    {% if g.status_flag == 1 or g.status_flag == 2 %}
+                                    <a type="button" class="btn btn-outline-danger btn-sm"  href="{% url 'inspectionReportReply' g.inspection_no %}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a>
+
+                                    <!-- <a href="#" data-toggle="modal" data-target="#ReplyModal" id={{g.inspection_no}} onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #ff6961; "></i></a> -->
+                                    
+                                    {% elif g.status_flag == 4 %}
+                                    <a type="button" class="btn btn-outline-success btn-sm"  href="{% url 'inspectionReportReply' g.inspection_no %}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a>
+
+                                    <!-- <a href="#" data-toggle="modal" data-target="#ReplyModal" id={{g.inspection_no}} onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #7ffd6e; "></i></a>  -->
+                                    
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% elif typei == 'Item' %}
+                            {% for i in result %}
+                            <tr style="text-align: left;">
+                                    
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{i.inspection_no__inspection_note_no}}</td>
+                                <td>{{i.des_id}}</td>
+                                <td>{{i.inspection_no__inspected_on|date:'d/m/y'}}</td>
+                                {% if i.observation %}
+                                <td style="text-align: left;">{{i.observation}}</td>
+                                {% else %}
+                                <td style="text-align: left;">{{i.item_title}}</td>
+                                {% endif %}
+                                <td style="text-align: center;"><a  href="{% url 'inspectionReportPdf' i.inspection_no  %}"   target="_blank" type="button" class="btn btn-outline-primary btn-sm"><i class="far fa-file-alt"></i></a></td>
+                                {% if i.inspection_no__status_flag == 4 %}
+                                <td><a type="button" class="btn btn-outline-success btn-sm"  href="{% url 'inspectionReportReply' i.inspection_no %}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a></td>
+
+                                <!-- <td style="text-align: center;"><a  data-toggle="modal" data-target="#ReplyModal" id={{i.inspection_no}} onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #7ffd6e; "></i></a></td> -->
+                                {% else %}
+                                <td><a type="button" class="btn btn-outline-danger btn-sm"  href="{% url 'inspectionReportReply' i.inspection_no %}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a></td>
+
+                                <!-- <td style="text-align: center;"><a  data-toggle="modal" data-target="#ReplyModal" id={{i.inspection_no}} onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #ff6961; "></i></a></td> -->
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                
+       
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="text-align: center;">Inspection Report
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for reply accept  addded by mithun-->
+<div class="modal fade right" id="ReplyModal" tabindex="-1" role="dialog" aria-labelledby="ReplyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable" role="document">
+    <div class="modal-content modal-content-full-width">
+        <div class="modal-header modal-header-full-width">
+            <h3 class="report_heading" id="ReplyModalLabel" >List of Accepted Replies</h3><br>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body" style="text-align: left;">
+            <div class="inpt-container pb-2">
+                <div class="row" id="row1" style="font-family: 'Lato', sans-serif;font-size: 1em; margin-left: 2em;">
+                <div class="col-md-3">
+                    <label class="lbl-caption">Inspection Note No</label>
+                    <input type="text" value="" id="ins_note_id" readonly class="form-control" readonly/>
+                </div>
+                &nbsp;&nbsp;
+                <div class="col-md-3">
+                    <label class="lbl-caption">Officer Designation</label>
+                    <input type="text" value="" id="ins_desig" readonly class="form-control" readonly/>
+                </div>
+                &nbsp;&nbsp;
+                <div class="col-md-3">
+                    <label class="lbl-caption">Inspection Officer</label>
+                    <input type="text" value="" id="ins_officer" class="form-control" readonly/>
+                </div>
+                &nbsp;&nbsp;
+                <div class="col-md-2">
+                    <label class="lbl-caption">Inspection Date</label>
+                    <input type="text" value="" id="ins_date" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="row">
+                <!-- <div class="col-1"></div> -->
+                <div class="col-12" style="width: 95%;">
+                    <label class="lbl-caption">Inspection Title</label>
+                    <input type="text" value="" class="form-control" id="ins_title" readonly/>
+                </div>
+                <!-- <div class="col-1"></div> -->
+                &nbsp;&nbsp;
+                <div class="col" >
+                    <input type="text" value=""  id="ins_id" readonly class="form-control lbl-caption" hidden/>
+                </div>
+            </div>
+        </div>
+            
+            <br>
+            
+            <table id="mytable1" class="table table-striped table-bordered table-sm table-data ">
+                <thead>
+                    <tr>
+                        <th>Item No</th>
+                        <th>Observation</th>
+                        <th>Inspection Para Status</th>
+                        <th>Inspection Para</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div><!--  Modal Body -->
+        <div class="modal-footer modal-footer-full-width">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closereply">Close</button>
+        </div>
+    </div><!-- Modal-Content-->
+    </div><!-- Modal-Dialog -->
+    </div><!-- Modal -->
+
+        <input type="text" value="{{case}}" id="case_data1" hidden>
+        <input type="text" value="{{typei}}" id="typei_data2" hidden>
+        <input type="text" value="{{hid_railway}}" id="railway_data" hidden>
+        <input type="text" value="{{color_id}}" id="color_id" hidden>
+       
+        
+        <br>
+        <br>
+</body>
+<script>
+    $(document).ready(function () {
+    $('#submit_filter1').click();
+    });
+   
+   
+    var table = $('#instituteTable').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+    $("#rly_id").select2();
+    $("#div_id").select2();
+    $("#dept_id").select2();
+    $("#Officer_id").select2();
+
+    function pending_filterdata()
+    {
+        
+        table.destroy();
+        $('#instituteTable tbody').empty()
+
+        var rly_id=$('#rly_id').val();
+        var div_id=$('#div_id').val();
+        var dept_id=$('#dept_id').val();
+        
+        var case_data1=$('#case_data1').val();
+        var typei_data2=$('#typei_data2').val();
+        var railway_data=$('#railway_data').val();
+        var daterange_id=$('#daterange_id').val();
+        var color_id=$('#color_id').val();
+        var forme_byme_id=$('#forme_byme_id').val();
+        var date_range=$('#date_range').val();
+        var Officer_id=$('#Officer_id').val();
+
+
+        let data={
+            'div_id':div_id,
+            'rly_id':rly_id,
+            'dept_id':dept_id,
+            'typei_data2':typei_data2,
+            'case_data1': case_data1,
+            'railway_data': railway_data,
+            'daterange_id': daterange_id,
+            'color_id': color_id,
+            'forme_byme_id': forme_byme_id,
+            'date_range': date_range,
+            'Officer_id': Officer_id
+            }
+        
+        $.ajax({
+
+            url: "{% url 'dash_details_filterdata' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                $('#instituteTable tbody').empty()
+              
+                let filterdata = response.result;
+                let insp_data = response.insp_data;
+                let typei = response.typei;
+               
+                let row = "";
+                if (typei == 'Item'){
+                    for (let i = 0; i < filterdata.length; i++){
+                    
+                        let srno = i+1
+                        row += "<tr text-align:left>";
+                        row += `<td width:5%>${srno}</td>
+                        
+                        <td width:11%>${filterdata[i]['inspection_no__inspection_note_no']}</td>
+                        <td width:11%>${filterdata[i]['des_id']}</td>
+                        <td width:20%>${formatDate(filterdata[i]['inspection_no__inspected_on'])}</td>`
+                        if(filterdata[i]['observation']){
+                            row += `<td width:40%>${filterdata[i]['observation']}</td>`
+                        }
+                        else{
+                            row += `<td width:40%>${filterdata[i]['item_title']}</td>`
+                        }
+                        
+                        
+                        row += `<td style="text-align: center;"><a  href="/inspectionReportPdf/${filterdata[i]['inspection_no']}"   target="_blank" type="button" class="btn btn-outline-primary btn-sm"><i class="far fa-file-alt" ></i></a></td>`
+                        
+                        if(case_data1 == 'pendj')
+                        row+= `<td><a type="button" class="btn btn-outline-danger btn-sm"   href="/inspectionReportReply/${filterdata[i]['inspection_no']}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a></td>`
+
+                            // row+= `<td style="text-align: center;"><a data-toggle="modal" data-target="#ReplyModal" id="${filterdata[i]['inspection_no']}" onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #ff6961; "></i></a></td>`
+                                
+                        else
+                        row+= `<td><a type="button" class="btn btn-outline-success btn-sm"   href="/inspectionReportReply/${filterdata[i]['inspection_no']}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a></td>`
+
+                            // row+=`<td style="text-align: center;"><a data-toggle="modal" data-target="#ReplyModal" id="${filterdata[i]['inspection_no']}" onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #7ffd6e; "></i></a></td>`
+                                
+                        row += "</tr>";                    
+                    }
+                }
+                else{
+                    for (let j = 0; j < insp_data.length; j++){
+                        let hq = ''
+                        let div = ''
+                        let dpt = ''
+                        for(x in insp_data[j].multiple_loc){
+                            if(insp_data[j].multiple_loc[x].type == 'HQ'){
+                                hq += insp_data[j].multiple_loc[x].item +'<br>'
+                            }
+                            if(insp_data[j].multiple_loc[x].type == 'DIV'){
+                                div += insp_data[j].multiple_loc[x].item +'<br>'
+                            }
+                            if(insp_data[j].multiple_loc[x].type == 'DPT'){
+                                dpt += insp_data[j].multiple_loc[x].item +'<br>'
+                            }
+                            
+                        }
+                    
+                            let srno = j+1
+                            row += "<tr text-align:left>";
+                            row += `<td width:5%>${srno}</td>
+                            
+                            <td width:11%>${insp_data[j]['inspection_note_no']}</td>
+                            <td width:20%>${formatDate(insp_data[j]['inspected_on'])}</td>
+                            <td width:20%>${hq}</td>
+                            <td width:20%>${div}</td>
+                            <td width:20%>${dpt}</td>
+                            
+                            
+                           
+                            
+                            <td style="text-align: center;"><a  href="/inspectionReportPdf/${insp_data[j]['inspection_no']}"   target="_blank" class="btn btn-outline-primary btn-sm"><i class="far fa-file-alt"></i></a></td>
+                            `
+                            if(insp_data[j]['status_flag'] == 4){
+                                row+= `<td><a type="button" class="btn btn-outline-success btn-sm"   href="/inspectionReportReply/${insp_data[j]['inspection_no']}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a></td>`
+
+                                // row+=`<td style="text-align: center;"><a data-toggle="modal" data-target="#ReplyModal" id="${insp_data[j]['inspection_no']}" onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #7ffd6e; "></i></a></td>`
+                            }  
+                            else{
+                                row+= `<td><a type="button" class="btn btn-outline-danger btn-sm"   href="/inspectionReportReply/${insp_data[j]['inspection_no']}"  target="blank" style="text-align: center;"><i class="fas fa-eye"></i></a></td>`
+
+                                // row+=`<td style="text-align: center;"><a data-toggle="modal" data-target="#ReplyModal" id="${insp_data[j]['inspection_no']}" onclick="reply(this)"><i class="fas fa-eye fa-2x" style="color:  #ff6961; "></i></a></td>`
+                            }
+                                
+                                
+                            row += "</tr>";                    
+                    }
+                }
+                
+                $('#instituteTable tbody').append(row)
+                table = $('#instituteTable').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+                
+            }
+        })
+    }
+
+    function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day,month,newyear].join('/');
+}
+    
+
+function refreshPage() {
+        location.reload();
+        
+    }
+
+    $(function() {
+
+$('input[name="date_range"]').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    maxDate: new Date(),
+    locale: {
+        cancelLabel: 'Clear'
+    }
+});
+
+$('input[name="date_range"]').on('apply.daterangepicker', function(ev, picker) {
+$(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+$('.applyButtonClasses').click()
+
+
+});
+
+$('input[name="date_range"]').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+
+
+});
+
+$('#rly_id').change(function() 
+    {
+        var rly_id=$('#rly_id').val();
+        data=
+        {
+            'rly_id':rly_id,
+            'str':'filter',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                div=response.div;
+                $('#div_id').empty();
+                $('#div_id').append(`<option value="">All</option>`);
+                for (let i = 0; i < div.length; i++) 
+                {
+                    $('#div_id').append
+                    (
+                        `<option value="${div[i]}">
+                        ${div[i]}
+                        </option>`);
+                }
+            }
+        })   
+    });
+
+
+$(document).ready(function(){
+    
+    var rly_id=$('#rly_id').val();
+    if(rly_id){
+        data={
+            'rly_id':rly_id,
+            'str':'filter',
+        }
+        $.ajax({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                div=response.div;
+                $('#div_id').empty();
+                $('#div_id').append(`<option value="">All</option>`);
+                for (let i = 0; i < div.length; i++) 
+                {
+                    $('#div_id').append(
+                        `<option value="${div[i]}">
+                        ${div[i]}
+                        </option>`);
+                }
+            }
+        });
+    };
+        
+})
+
+
+    
+    
+    function reply(e)
+    {
+        var inspection_id=e.id;
+        
+        var table = $('#mytable1').DataTable();
+        table.destroy();
+        $('#mytable1').hide();
+        data=
+        {
+            'inspection_id':inspection_id,
+            'str':'reply',
+            'status':'A',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax_dash' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+
+            success: function (response) 
+            {
+                // gunjan
+                desigdetails=response.desigdetails;
+                if(desigdetails.length != 0)
+                {$('#ins_desig').val(desigdetails[0]['designation']);}
+                else
+                {$('#ins_desig').val('Null');}
+                // namedetails=response.namedetails;
+                // if(namedetails.length != 0)
+                // {$('#ins_officer').val(namedetails[0]['empname']);}
+                // else
+                // {$('#ins_officer').val('Null');}
+                
+                idetails=response.idetails;
+                $('#ins_id').val(idetails[0]['inspection_no']);
+                $('#ins_note_id').val(idetails[0]['inspection_note_no']); 
+                // $('#ins_officer').val(idetails[0]['empname']);
+                // $('#ins_desig').val(idetails[0]['desig_longdesc']);           
+                $('#ins_title').val(idetails[0]['inspection_title']);
+                $('#ins_date').val(idetails[0]['inspection_date']);
+                $('#ins_officer').val(idetails[0]['empname']);
+                replydata=response.itemdetails;
+               
+                let row = "";
+                let head = 
+                    `<thead>
+                    <tr align="left">
+                        <th>Item No</th>
+                        <th>inspection para</th>
+                        <th>action by</th>
+                        <th>reply received</th>
+                        <th>% Compliance</th>
+                        <th>Priority</th>
+                        <th>Reject Reply</th>
+                    </tr>
+                    </thead>`;
+                for (let i = 0; i < replydata.length; i++) 
+                {
+                    // alert(replydata[i]['item_no']);
+                    row += "<tr>";    
+                    row += `<td width=10%>${replydata[i]['des_id']}</td>`;
+                    if(replydata[i]['type']=='SH'){
+                        row +=`<td align="left">${replydata[i]['observation']}</td>`;
+                    }
+                    else if(replydata[i]['type']=='H'){
+                        row +=`<td align="left">${replydata[i]['item_title']}</td>`;
+                    }
+                    marks_ofcs=replydata[i]['marked_ofcs']
+                    content_row=`<td>
+                                    <table width="100%" class="table">`
+                    for (j=0;j<marks_ofcs.length;j++){
+                        if (marks_ofcs[j]['status_flag'] == 3 )
+                        content_row+=`<tr>
+                        <td style="line-height: 2.42857143;"><span style="color: green;">${marks_ofcs[j]['marked_to__designation']}</span></td>
+                      </tr>`
+                    else
+                    content_row+=`<tr>
+                        <td style="line-height: 2.42857143;"><span style="color: red;">${marks_ofcs[j]['marked_to__designation']}</span></td>
+                      </tr>`
+                    }
+                    content_row+=`</table></td>`
+                    row+=content_row
+                    // if( i['chk_cts'] == 'YES' )
+                    // row += `<td align="left"><input type="text" id="${replydata[i]['item_no']}/" name="comp_remarks" style="height:7%;background-Color:lightblue;" value="${replydata[i]['compliance']}" readonly></td>`;
+                    
+                    
+                    // row += `<td width=10%>${replydata[i]['reply_on']}</td>`
+                }
+                $('#mytable1 thead').remove();
+                $('#mytable1 tr').remove();
+                $('#mytable1').append(head);
+                $('#mytable1 tbody').append(row);
+                $('#mytable1').show();
+                $('#mytable1').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+            }
+        })
+    }
+   
+     
+</script>
+
+{% endblock %}   

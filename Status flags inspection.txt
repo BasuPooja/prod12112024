@@ -1,0 +1,69 @@
+Status flags
+
+Inspection_details
+0: Draft
+1: Pending compliance
+2: Partly complied
+3:
+4: Complied and accepted
+
+Item_details
+0: Draft
+1: Pending compliance
+2: 
+3: Partly complied
+4: Fully complied
+
+Marked_Officers
+Status flag values
+0: Draft
+1: Pending compliance
+2:
+3: Complied
+4: Reverted
+
+status : 'R' = Rejected
+TARGET FLAG VALUES:
+0: NO TARGET GIVEN
+1: TARGET SET AND SAVED IN target_compliance
+
+target_compliance
+status_flag of target_compliance table VALUES:
+0: compliance pending
+1: compliance saved as draft
+2: compliance rejected
+3: compliance sent & accepted
+4: compliance status updated & not complete
+
+target_status
+status_flag of target_status table VALUES:
+1: started
+2: on track
+3: partially completed
+4: delayed
+5: completed
+
+Marked_Officers_forward
+1: Pending compliance
+2: complied
+3: rejected
+
+
+Officers_Remark
+0: 
+1: 
+
+
+Corrigendum_Report
+
+
+item_type
+1: ps, --passenger safety
+2: es, --employee safety
+0: oth, --others safety
+
+insp_type
+0: ri, --regular inspection
+1: di, --drive inspection
+2: ni, --night inspection
+3: si, --surprise inspection

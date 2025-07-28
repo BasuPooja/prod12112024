@@ -1,0 +1,2563 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: "Quicksand", sans-serif;
+    height: 100%;
+    margin: 0;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    /* border: 1.5px solid rgb(14, 12, 12); */
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type="submit"] {
+    width: 40%;
+    text-align: center;
+    background-color: #4caf50;
+
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+    text-align: center;
+  }
+
+  input[type="button"]:hover {
+    background-color: #45a049;
+    text-align: center;
+  }
+  /* #viewbtn{
+        margin-left:1050px;
+      } */
+
+  .inputtag {
+    height: 20px;
+  }
+  .button {
+    padding: 15px 25px;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 2em;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #04aa6d;
+    border: none;
+    border-radius: 15px;
+  }
+
+  .button:hover {
+    background-color: #3e8e41;
+  }
+
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+
+          /* The Modal */
+          .modal { 
+             display: none; 
+             /* position: fixed; 
+             width: 100%; 
+             height: 100%;  */
+             background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+            }
+           
+           /* #modaldismis{
+            float: right;
+            margin-top :-80px;
+            font-size: large;
+            padding-inline: 10px;
+            margin-top: 10px; 
+        } */
+/* Modal Content */
+.modal-content {
+    background-color: #F5F5F4;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-height: 80%; 
+    background-color: #F5F5F4;
+}
+
+#thead1 th {
+    background-color:#966FD6;  
+    color:whitesmoke;
+}
+#thead2 th {
+    background-color:#966FD6;  
+    color:whitesmoke;
+}
+
+/* Change table border and cell separation to yellow */
+#table_id {
+    border: 3px solid #966FD6;
+    border-collapse: separate;
+    border-spacing: 5px; /* Adjust the value as needed */
+    width: 100%;
+    overflow-y: auto; /* Enable scrolling within the table */
+    overflow-x: auto;
+    max-height: calc(100% - 40px); /* Subtract padding from modal content */
+    margin-top: 70px;
+}
+
+
+#table_id tr:nth-child(even) {
+    background-color: #EBDEF0; /* Even rows are white   # #*/
+}
+
+#table_id tr:nth-child(odd) {
+    background-color: white; /* Odd rows are orange  #facf7e*/
+}
+
+#table-container {
+    max-height: 100%; 
+     overflow: auto;   
+    
+}
+
+#table_id thead {
+    position: sticky;
+    top: 0;
+    background-color: #2b7bea;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    color: black;
+    z-index: 1; 
+}
+
+</style>
+<style>
+  .closebtn {
+
+margin-top: -40%;
+cursor: pointer;
+font-size: large;
+padding-inline: 10px;
+margin-left: 95%;
+}
+
+  #viewbtn {
+    margin-left: 1200px;
+    margin-right: 10px;
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .inpt-container {
+    background-image: linear-gradient(#cce3fc, #ffffff);
+    border-bottom: 2px solid #b0d8f5;
+    margin-bottom: 1rem;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
+    integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap-grid.min.css"
+    integrity="sha512-Aa+z1qgIG+Hv4H2W3EMl3btnnwTQRA47ZiSecYSkWavHUkBF2aPOIIvlvjLCsjapW1IfsGrEO3FU693ReouVTA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="{% static '/css/forms_common.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="{% static '/css/forms_common.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static '/css/datatables/jquery.dataTables.min.css' %}"
+  />
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+  />
+</head>
+<style>
+  table.dataTable tfoot th,
+  table.dataTable tfoot td {
+    /* padding: 10px 18px; */
+    border-bottom: none;
+
+  }
+  .loader {
+    display: none;
+    position: sticky;
+    left: 45%;
+    top: 45%;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    z-index: 999;
+    --webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+</style>
+
+<h3 class="report_heading">Inspection Report Officer Wise</h3>
+<div class="loader"></div>
+<br />
+<div class="container">
+  <div class="inpt-container" id="container1">
+    <form method="POST" id="indexForm" target="_blank">
+      {% csrf_token %}
+      <input type = 'hidden' id="ajaxname" name="ajaxname" value="aahreherh">
+      <div class="row" style="margin-left: 1em; margin-right: 5em">
+        <div class="col-2 form-group">
+          <label for="rly_id" class="lbl-caption">Rly./Org. Wise</label>
+          <select
+            class="form-control self-control"
+            id="location_code"
+            name="location_code"
+            class="custom-select"
+            data-placeholder="Rly/Org..."
+            multiple
+          >
+            <option value="" disabled hidden>All</option>
+            {% for z in zone %}
+            <!-- <script>console.log("hi");</script> -->
+            <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-2 form-group">
+          <label for="div_id" class="lbl-caption">Div./Unit Wise</label>
+
+          <select
+            class="form-control self-control"
+            id="location_type"
+            name="location_type"
+            class="custom-select"
+            data-placeholder="Div/Unit..."
+            multiple
+          >
+            <option value="" disabled hidden>All</option>
+            {% for d in division %}
+            <option value="{{d.rly_unit_code}}">
+              {{d.location_code}}-{{d.location_type}}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-2 form-group">
+          <label for="designation" class="lbl-caption">Designation Wise</label>
+          <select
+            class="form-control sel-control"
+            id="designation"
+            name="designation"
+            class="custom-select"
+            multiple
+            data-placeholder="Designation..."
+          >
+            <option value="" disabled hidden>select</option>
+            {% for d in desi %}
+            <option value="{{d.designation_code}}">{{d.designation}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-2 form-group">
+          <label for="date" class="lbl-caption">Date Range</label>
+          <input
+            class="form-control"
+            id="created_on"
+            name="created_on"
+            value="{{new_date}}"
+            autocomplete="off"
+            placeholder="Select Daterange"
+            style="margin-top: 0em; background-color: #fff"
+            readonly
+          />
+        </div>
+      
+       
+        <div class="col-2">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary btn-sm" id="myfuncolor" onclick="myFunction()" style="margin-top: 10%;margin-bottom: 23%; margin-right: 7px;">Issued By Officer</button>
+              <button type="button" class="btn btn-primary btn-sm" id="markofficercolor" onclick="MarkedByOfficer()" style="margin-top: 10%;margin-bottom: 23%; margin-right: 7px;">Marked To Officer</button>
+              
+              <a
+                class="btn btn-secondary btn-sm"
+                href="/NewInspectionReport/"
+                style="margin-top: 10%;margin-bottom: 23%; margin-right: 7px;"
+                >Reset</a
+              >
+              <button type="submit" id="generate_pdf_btn" style="margin-top: 10%;margin-bottom: 23%; margin-right: 7px;"  class="btn btn-primary" name = 'sbmit_value' value="submit_pdf" align="right" >PDF</button>
+              <button type="submit" id="generate_excel_btn" style="margin-top: 10%;margin-bottom: 23%; margin-right: 7px;"  class="btn btn-primary" name = 'sbmit_value' value="submit_excel" align="right" >Excel</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- NAV BAR -->
+<div class="container">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a
+        class="nav-link active"
+        id="nav-home-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-home"
+        type="button"
+        role="tab"
+        aria-controls="nav-home"
+        aria-selected="true"
+        >INSPECTION REPORT</a
+      >
+      <a
+        class="nav-link"
+        id="nav-accept-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-accept"
+        type="button"
+        role="tab"
+        aria-controls="nav-accept"
+        aria-selected="false"
+        >MOM</a
+      >
+      <a
+        class="nav-link"
+        id="nav-reject-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-reject"
+        type="button"
+        role="tab"
+        aria-controls="nav-reject"
+        aria-selected="false"
+        >DO</a
+      >
+      <a
+        class="nav-link"
+        id="nav-task-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-task"
+        type="button"
+        role="tab"
+        aria-controls="nav-task"
+        aria-selected="false"
+        >TASKS</a
+      >
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div
+      class="tab-pane fade show active"
+      id="nav-home"
+      role="tabpanel"
+      aria-labelledby="nav-home-tab"
+    >
+      <br />
+      <!-- inspection report -->
+      <div class="row" id="1" style="overflow-x: auto">
+        <form method="POST" id="indexForm">
+          {% csrf_token %}
+          <div id="tablediv" class="box-body no-padding">
+            <table
+              id="tableid"
+              name="tableid"
+              class="table table-entry table-bordered"
+              cellspacing="0"
+              style="width: 100%"
+            >
+              <thead
+                style="
+                  color: white;
+                  background-color: #1e90ff;
+                  text-align: left;
+                "
+              >
+                <tr>
+                  <th>Officer's Desig</th>
+                  <th>Total Inspection Notes</th>
+                  <th>Fully Complied Inspection Notes</th>
+                  <th>Pending Compliance Inspection Note</th>
+                  <th>Total Inspection Points</th>
+                  <th>Pending Inspection Points</th>
+                  <th>Overdue Inspection Points</th>
+                  <th>% Complied</th>
+                </tr>
+              </thead>
+
+              <tbody></tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+          <div class="container-fluid" id="summarybuttons">
+            <p class="btn btn-lg btn-primary" id="total_total_inspection">
+              Total Inspection : <b>{{total_lodged_count|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_closed">
+              Total Closed : <b>{{total_closed|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_total_open">
+              Total Open: <b>{{total_pending|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_total_item">
+              Total Item: <b>{{total_total_item|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_total_item_pending">
+              Total Item Pending: <b>{{total_total_item_pending|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_total_item_overdue">
+              Total Item Overdue: <b>{{total_pendingatudm|default:0}}</b>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="nav-accept"
+      role="tabpanel"
+      aria-labelledby="nav-accept-tab"
+    >
+      <br />
+      <!-- mom -->
+      <div class="row" id="1" style="overflow-x: auto">
+        <form method="POST" id="indexForm">
+          {% csrf_token %}
+          <div id="tablediv" class="box-body no-padding">
+            <table
+              id="momtableid"
+              name="momtableid"
+              class="table table-entry table-bordered"
+              cellspacing="0"
+              style="width: 100%"
+            >
+              <thead
+                style="
+                  color: white;
+                  background-color: #1e90ff;
+                  text-align: left;
+                "
+              >
+                <tr>
+                  <th>Officer's Desig</th>
+                  <th>Total MOM</th>
+                  <th>Fully Complied MOM</th>
+                  <th>Pending Compliance MOM</th>
+                  <th>Total MOM Items</th>
+                  <th>Pending MOM Items</th>
+                  <th>Overdue MOM Items</th>
+                  <th>MOM % Complied</th>
+                </tr>
+              </thead>
+
+              <tbody></tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+          <div class="container-fluid" id="summarybuttons">
+            <p class="btn btn-lg btn-primary" id="mom_total_total_inspection">
+              Total Inspection : <b>{{total_lodged_count|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="mom_total_closed">
+              Total Closed : <b>{{total_closed|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="mom_total_total_open">
+              Total Open: <b>{{total_pending|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="mom_total_total_item">
+              Total Item: <b>{{total_total_item|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="mom_total_total_item_pending">
+              Total Item Pending: <b>{{total_total_item_pending|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="mom_total_total_item_overdue">
+              Total Item Overdue: <b>{{total_pendingatudm|default:0}}</b>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="nav-reject"
+      role="tabpanel"
+      aria-labelledby="nav-reject-tab"
+    >
+      <br />
+
+      <div class="row" id="1" style="overflow-x: auto">
+        <form method="POST" id="indexForm">
+          {% csrf_token %}
+          <div id="tablediv" class="box-body no-padding">
+            <table
+              id="dotableid"
+              name="dotableid"
+              class="table table-entry table-bordered"
+              cellspacing="0"
+              style="width: 100%"
+            >
+              <thead
+                style="
+                  color: white;
+                  background-color: #1e90ff;
+                  text-align: left;
+                "
+              >
+                <tr>
+                  <th>Officer's Desig</th>
+                  <th>Total DO Letters</th>
+                  <th>Pending DO Letters</th>
+                  <th>Complied DO Letters</th>
+                  <th>% Complied</th>
+                </tr>
+              </thead>
+
+              <tbody></tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+          <div class="container-fluid" id="summarybuttons">
+            <p class="btn btn-lg btn-primary" id="do_total_total_open">
+              Total DO Letters : <b>{{total_lodged_count|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="do_total_total_pending">
+              Total DO Pending : <b>{{total_closed|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="do_total_total_closed">
+              Total DO Closed: <b>{{total_pending|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="do_total_total_per_complied">
+              Total % Do Complied: <b>{{total_pendingatudm|default:0}}</b>
+            </p>
+          </div>
+        </form>
+      </div>
+      <br />
+    </div>
+    <div
+      class="tab-pane fade"
+      id="nav-task"
+      role="tabpanel"
+      aria-labelledby="nav-task-tab"
+    >
+      <br />
+
+      <div class="row" id="1" style="overflow-x: auto">
+        <form method="POST" id="indexForm">
+          {% csrf_token %}
+          <div id="tablediv" class="box-body no-padding">
+            <table
+              id="tasktableid"
+              name="tasktableid"
+              class="table table-entry table-bordered"
+              cellspacing="0"
+              style="width: 100%"
+            >
+              <thead
+                style="
+                  color: white;
+                  background-color: #1e90ff;
+                  text-align: left;
+                "
+              >
+                <tr>
+                  <th>Officer's Desig</th>
+                  <th>Total Task</th> 
+                  <th>Pending Task </th>
+                  <th>Complied Task </th>
+                  <th>% Complied </th>
+                </tr>
+              </thead>
+
+              <tbody></tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+          <div class="container-fluid" id="summarybuttons">
+            <p class="btn btn-lg btn-primary" id="task_total_total_open">
+              Total Task Created : <b>{{total_lodged_count|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_total_task_assign">
+              Total Task Pending: <b>{{total_closed|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="total_total_task_completed">
+              Total Task Completed: <b>{{total_pending|default:0}}</b>
+            </p>
+            <p class="btn btn-lg btn-primary" id="task_total_total_per_complied">
+              Total % Task Complied: <b>{{total_total_item|default:0}}</b>
+            </p>
+          </div>
+        </form>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
+<!-- END NAV BAR -->
+
+<div
+  class="modal left fade"
+  id="Search_Modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="MOM_ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document" style="width: 60%">
+    <div class="modal-content modal-content-full-width">
+      <div class="modal-body" style="text-align: left">
+        <div class="row">
+          <div id="preiew_mom_pdf">
+            <!-- <a class="btn btn-primary" target="_blank" id="aiframetest1" style="float:right">
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i></a> -->
+
+            <iframe
+              id="iframepreview"
+              style="width: 900px; height: 900px"
+              frameborder="0"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      <!--  Modal Body -->
+      <div class="modal-footer modal-footer-full-width">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="closereply"
+        >
+          Close
+        </button>
+      </div>
+      <!-- Modal Footer-->
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal left fade"
+  id="Insp_Modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="Insp_ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document" style="width: 60%">
+    <div class="modal-content modal-content-full-width">
+      <div class="modal-body" style="text-align: left">
+        <div class="row">
+          <div id="preiew_insp_pdf">
+            <iframe
+              id="iframepreviews"
+              style="width: 900px; height: 900px"
+              frameborder="0"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      <!--  Modal Body -->
+      <div class="modal-footer modal-footer-full-width">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-dismiss="modal"
+          id="closereply"
+        >
+          Close
+        </button>
+      </div>
+      <!-- Modal Footer-->
+    </div>
+  </div>
+</div>
+<!-- Search Inss Para modal End -->
+
+
+
+<!-- MODAL -->
+
+<!-- END MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+      
+      <div class="heading" style="font-size: 20px;">
+          <button id="modaldismis" type="button" class="closebtn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+              Close
+            </button>
+      <center><h3 id = 'demo'>Details of Inspection</h3></center>
+      </div>
+      
+        <!-- <div class="row" id = 'hideme'>
+          <div class = 'col-2' id = "g_rly">
+              <label for="Zone" class="lbl-caption">Rly./Org. </label>
+              <select class="form-control" id="zone1" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select" onchange="fetchdata2('All')"
+                   ><span style="color:red;font-weight:bold">*</span>
+                  <option value="All" selected>All</option>
+                  {% for z in zone %}
+                  <option value="{{z}}">{{z}}</option>
+                  {% endfor %}
+
+              </select>
+          </div>
+          <div class = 'col-2' id = "a_rly">
+              <label for="Zone" class="lbl-caption">Rly./Org. </label>
+              <select class="form-control" id="zone" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select" onchange="My_Card_data('Station')"
+                   ><span style="color:red;font-weight:bold">*</span>
+                  <option value="All" selected>All</option>
+                  {% for z in zone %}
+                  <option value="{{z}}">{{z}}</option>
+                  {% endfor %}
+
+              </select>
+          </div>
+          <div class="col-2" id="g_div">
+              <label for="division " class="lbl-caption" >Div/Unit</label>
+              <select class="form-control" id="division1" data-placeholder="Div./Unit Wise..." name="division" class="custom-select" style="max-width:100%;"
+              onchange = "fetchdata2('All')"><span style="color:red;font-weight:bold">*</span>
+
+                      <option value="All" selected>All</option>
+                      {% for d in division %}
+                          <option value="{{d.location_code}}-{{d.location_type}}">{{d.location_code}}-{{d.location_type}}</option>
+                          {% endfor %}
+                  </select>
+          </div>
+          <div class="col-2" id="a_div">
+              <label for="division " class="lbl-caption" >Div/Unit</label>
+              <select class="form-control" id="division" data-placeholder="Div./Unit Wise..." name="division" class="custom-select" style="max-width:100%;"
+              onchange = "My_Card_data('Station')"><span style="color:red;font-weight:bold">*</span>
+
+                      <option value="All" selected>All</option>
+                      {% for d in division %}
+                          <option value="{{d.location_code}}-{{d.location_type}}">{{d.location_code}}-{{d.location_type}}</option>
+                          {% endfor %}
+                  </select>
+          </div>
+          <div class="col-4" id = 'anvi'>
+              <span>
+                  <span class="radio-box">
+                  <label class="radio-inline custom-label">
+                  <input type="radio" name="optradio" onclick="My_Card_data('STM')" value="STM" id="radio1" data-toggle="modal" data-target="#modales">Station
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('SEM')" value="SEM" id="radio2" data-toggle="modal" data-target="#modalos">Section
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('TRN')" value="TRN" id="radio3" data-toggle="modal" data-target="#modalns">Train
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('OTH')" value="OTH" id="radio4" data-toggle="modal" data-target="#modalts">Others
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('Station')" value="Station" id="radio5" data-toggle="modal" data-target="#modalts">All
+                  </label>
+                  </span>
+              </span>
+          </div>
+          <div class="col-4" id = 'gurleen'>
+              <span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('STM')" value="STM" id="radio1" data-toggle="modal" data-target="#modales">Station
+                  </label>
+                  </span> 
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('SEM')" value="SEM" id="radio2" data-toggle="modal" data-target="#modalos">Section
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('TRN')" value="TRN" id="radio3" data-toggle="modal" data-target="#modalns">Train
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('OTH')" value="OTH" id="radio4" data-toggle="modal" data-target="#modalts">Others
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('All')" value="All" id="radio6" data-toggle="modal" data-target="#modalts">All
+                  </label>
+                  </span>
+              </span>
+          </div>
+          <div class="col-4" id = 'check'>
+              <span class="check-box">
+              <input type="checkbox" id="Pending" name="Pending" value="Pending" onchange="fetchdata2('Pending')" onclick="return false">
+              <label for="vehicle1">Pending</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="Overdue" name="Overdue" value="Overdue" onchange="fetchdata2('Overdue')">
+              <label for="Overdue"> Overdue</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="Priority" name="Priority" value="Priority" onchange="fetchdata2('Priority')">
+              <label for="Priority"> Priority</label><br>
+              </span>
+            
+          </div>
+          <div class="col-4" id = 'check1'>
+              <span class="check-box">
+              <input type="checkbox" id="vehicle1" name="Pending" onchange="My_Card_data('Pending')" value="Pending" onclick="return false">
+              <label for="vehicle1">Pending</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="vehicle2" name="Overdue" onchange="My_Card_data('Overdue')"  value="Overdue">
+              <label for="vehicle2"> Overdue</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="vehicle3" name="Priority" onchange="My_Card_data('Priority')"  value="Priority">
+              <label for="vehicle2"> Priority</label>
+              </span>
+          </div>
+        </div> -->
+
+      
+      <br><br>
+      <div id="table-container">
+      <div id="div-all-desig">
+      <table id="table_id" class="table table-striped table-bordered table-sm" style="width: 100%;">
+          <thead style="background-color: #2b7bea;white-space: nowrap; font-size: 1.2rem; color:#98929f; " id = 'thead'>
+           <tr>
+            <th style="width: 5%; text-align: center;">S.No.</th> 
+             <th style="width: 10%; text-align: center;">inspection no  <br></th>
+            <th style="width: 10%; text-align: center;">inspection data  <br></th>
+            
+        </tr>
+          </thead>
+          <tbody id = 'mydata'>
+            <tr>
+              <td style="width: 5%; text-align: center;">S.No.</th> 
+             <td style="width: 10%; text-align: center;"> Rly <br> <input type="text" class="box" placeholder="Search"> </td>
+            <td style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+  </div>
+</div>
+
+<button type="button" id = 'btnmodal' class="btn btn-primary" data-toggle="modal" data-target="#modal" hidden></button>
+
+<!-- END MODAL -->
+
+
+
+<!-- send mail modal -->
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<!--send mail Modal -->
+
+<div id="datamodal" class="modal">
+  <div class="modal-content">
+      
+      <div class="heading" style="font-size: 20px;">
+          <button id="modaldismis" type="button" class="closebtn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+              Close
+            </button>
+      <center><h3 id = 'demo'>Send Comment via Email </h3></center>
+      <hr>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" value="" id="hide_desig_code">
+        <div class="row">
+          <div class="col">
+            <label for="">To</label>
+            <input class="form-control" ype="text" value="" id="send_desig_code">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label for="message">Message</label>
+            <textarea class="form-control" name="message" id="message" cols="160" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="SendMailMarked()">Send</button>
+      </div>
+  </div>
+</div>
+<button type="button" id = 'open_modal' class="btn btn-primary" data-toggle='modal' data-target='#datamodal' hidden></button>
+
+<!-- send mail end  -->
+<script>
+
+
+var modaltable =$('#table_id').DataTable({
+    "iDisplayLength": 10,
+                    
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [10,15, 30, 50, 75, 100],
+    dom: 'Blfrtip',
+         bSort: false,
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                if(irType == 'All'){
+                    var stre ='Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate
+                }
+                else{
+                    var stre=irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate
+                }
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+
+
+
+
+  $(document).ready(function () {
+    $("#location_code").select2();
+  });
+  $(document).ready(function () {
+    $("#location_type").select2();
+  });
+  // $(document).ready(function () {
+  //   $("#dept").select2();
+  // });
+  $(document).ready(function () {
+    $("#designation").select2();
+  });
+  $(document).ready(function () {
+    $("#status").select2();
+  });
+
+  $(function () {
+    $('input[name="created_on"]').daterangepicker({
+      autoUpdateInput: false,
+      autoApply: true,
+      maxDate: new Date(),
+      opens: "left",
+      locale: {
+        cancelLabel: "Clear",
+      },
+    });
+
+    $('input[name="created_on"]').on(
+      "apply.daterangepicker",
+      function (ev, picker) {
+        $(this).val(
+          picker.startDate.format("DD/MM/YY") +
+            " to " +
+            picker.endDate.format("DD/MM/YY")
+        );
+
+        if (
+          picker.startDate.format("DD/MM/YY") ==
+          picker.endDate.format("DD/MM/YY")
+        ) {
+          $(this).val(picker.startDate.format("DD/MM/YY"));
+        } else {
+          $(this).val(
+            picker.startDate.format("DD/MM/YY") +
+              " to " +
+              picker.endDate.format("DD/MM/YY")
+          );
+        }
+
+        $(".applyButtonClasses").click();
+      }
+    );
+
+    $('input[name="created_on"]').on(
+      "cancel.daterangepicker",
+      function (ev, picker) {
+        $(this).val("");
+      }
+    );
+  });
+
+  $("#location_type").change(function () {
+    var groupss = $("#location_type").val();
+    data = {
+      groupss: JSON.stringify(groupss),
+    };
+    $.ajax({
+      type: "GET",
+      url: "{% url 'search_desig_ajax1' %}",
+      dataType: "json",
+      data: data,
+
+      success: function (response) {
+        //alert("hereeee")
+        console.log("0000000000", response);
+        $("#designation").find("option").remove();
+        $("#designation").append();
+        //$("#designation").find('option').remove();
+        for (i = 0; i < response.ins.length; i++) {
+          $("#designation").append(
+            `<option value="${response.ins[i]["designation_code"]}">${response.ins[i]["designation"]}</option>`
+            
+          );
+        }
+      },
+    });
+  });
+
+  function location_change_add() {
+    //alert('hellkkkk')
+    var root = $("#location_type").val();
+    data = {
+      root: JSON.stringify(root),
+    };
+    $.ajax({
+      type: "GET",
+      url: "{% url 'search_des_loc_ajax' %}",
+      dataType: "json",
+      data: data,
+      success: function (response) {
+        //alert("hereeee")
+        console.log("0000000000", response);
+        $("#location_code").find("option").remove();
+        $("#location_code").append();
+        for (i in response.ins) {
+          $("#location_code").append(
+            `<option selected value="${response.ins[i]}">${response.ins[i]}</option>`
+          );
+        }
+      },
+    });
+  }
+
+  $("#location_code").change(function () {
+    var group = $("#location_code").val();
+    // alert(group)
+    //alert("heree")
+    data = {
+      group: JSON.stringify(group),
+    };
+    $.ajax({
+      type: "GET",
+      url: "{% url 'search_locat_ajax1' %}",
+      dataType: "json",
+      data: data,
+      success: function (response) {
+        $("#location_type").select2("destroy");
+        $("#designation").select2("destroy");
+        $("#location_type option").remove();
+
+        // $("#location_type").find("option").remove(); rly_unit_code':i['rly_unit_code']
+
+        let option = ``;
+        for (i = 0; i < response.ins.length; i++) {
+          option += `<option value="${response.ins[i]["rly_unit_code"]}" >${response.ins[i]["location_code"]}-${response.ins[i]["location_type"]}</option>`;
+        }
+        $("#location_type").append(option);
+
+        let option1 = ``;
+        $("#designation option").remove();
+
+        for (i = 0; i < response.insdesig.length; i++) {
+          option1 += `<option value="${response.insdesig[i]["designation_code"]}">${response.insdesig[i]["designation"]}</option>`;
+        }
+        $("#designation").append(option1);
+        $("#location_type").select2();
+        $("#designation").select2();
+      },
+    });
+  });
+
+  //show data in
+
+  $("#tablediv").hide();
+  $("#tabledivs").hide();
+
+  var table = $("#tableid").DataTable();
+  var Momtable = $("#momtableid").DataTable();
+  var Dotable = $("#dotableid").DataTable();
+  var Tasktable = $("#tasktableid").DataTable();
+
+  // FNC TO FETCH DATA ON CONTINUE BUTTON
+  function myFunction() {
+    $("#myfuncolor").attr('class','btn btn-success')
+    $("#markofficercolor").attr('class','btn btn-primary')
+    $('#ajaxname').val('Issued By Officer')
+    count = 0;
+    var location_code = $("#location_code").val();
+    var location_type = $("#location_type").val();
+    var designation = $("#designation").val();
+    // var dept = $("#dept").val();
+    var created_on = $("#created_on").val();
+    var status = $("#status").val();
+    var query = $("#query").val();
+    //alert(query)
+
+    data = {
+      location_code: JSON.stringify(location_code),
+      location_type: JSON.stringify(location_type),
+      designation: JSON.stringify(designation),
+      // dept: JSON.stringify(dept),
+      created_on: created_on,
+    };
+    console.log("data4444",data)
+    $(".loader").show();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'fetch_desig_ajax_officerwise_all' %}",
+      dataType: "json",
+      data: data,
+      //data:{location_code,location_type,designation,dept,created_on},
+
+      success: function (response) {
+        table.destroy();
+        Momtable.destroy();
+        Dotable.destroy();
+        Tasktable.destroy();
+        console.log("response67788", response);
+        $("#tableid tbody").empty();
+        $("#tableid tfoot").empty();
+
+        $("#momtableid tbody").empty();
+        $("#momtableid tfoot").empty();
+
+        $("#dotableid tbody").empty();
+        $("#dotableid tfoot").empty();
+
+        $("#tasktableid tbody").empty();
+        $("#tasktableid tfoot").empty();
+
+        let myhtml2 = "";
+        let momhtml = "";
+        let dohtml = "";
+        let taskhtml = "";
+        for (i = 0; i < response.rly_list.length; i++) {
+          myhtml2 += "<tr>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "<a></td>";
+          myhtml2 +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_insp','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_inspection"] + "<a></td>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_closed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_closed"] + "<a></td>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_open"] + "<a></td>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_item','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_item"] + "<a></td>";
+          myhtml2 +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_item_pending','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_item_pending"] + "<a></td>";
+          myhtml2 +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_iten_overdue','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_item_overdue"] + "<a></td>";
+          myhtml2 +=
+            " <td>" + response.rly_list[i]["per_complied"].toFixed(2) + "</td>";
+          myhtml2 += "</tr>";
+
+          // FOR MOM CREATE ROWS IN TABLE
+
+          momhtml += "<tr>";
+          momhtml += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "<a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_insp','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_inspection"] + "<a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_closed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_closed"] + "<a></td>";
+          momhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_open"] + "<a></td>";
+          momhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_item','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_item"] + "<a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_item_pending','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_item_pending"] + "<a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_iten_overdue','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_item_overdue"] + "<a></td>";
+          momhtml +=
+            " <td>" +
+            response.rly_list[i]["mom_per_complied"].toFixed(2) +
+            "</td>";
+          momhtml += "</tr>";
+
+          // do letter data
+          dohtml += "<tr>";
+          dohtml += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "<a></td>";
+          dohtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('do_t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["do_total_open"] + "<a></td>";
+          dohtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('do_t_pending','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["do_total_pending"] + "<a></td>";
+          dohtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('do_t_closed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["do_total_closed"] + "<a></td>";
+          dohtml +=
+            " <td>" +
+            response.rly_list[i]["do_per_complied"].toFixed(2) +
+            "</td>";
+          dohtml += "</tr>";
+
+          // task tracker data
+          taskhtml += "<tr>";
+          taskhtml += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "<a></td>";
+          taskhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('track_t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["totol_open"] + "</td>";
+          taskhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('track_t_assigned','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["task_assigned"] + "</td>";
+          taskhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('track_t_completed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["task_completed"] + "</td>";
+          taskhtml +=
+            " <td>" +
+            response.rly_list[i]["task_per_complied"].toFixed(2) +
+            "</td>";
+          taskhtml += "</tr>";
+        }
+        myhtml3 = "<tr>";
+        myhtml3 += "<td>" + "Total" + "</td>";
+        myhtml3 += "<td>" + response.total_total_inspection + "</td>";
+        myhtml3 += "<td>" + response.total_total_closed + "</td>";
+        myhtml3 += "<td>" + response.total_total_open + "</td>";
+        myhtml3 += "<td>" + response.total_total_item + "</td>";
+        myhtml3 += "<td>" + response.total_total_item_pending + "</td>";
+        myhtml3 += "<td>" + response.total_total_item_overdue + "</td>";
+        myhtml3 +=
+          "<td>" + response.total_total_per_complied.toFixed(2) + "</td>";
+        myhtml3 += "</tr>";
+
+        mommyhtml3 = "<tr>";
+        mommyhtml3 += "<td>" + "Total" + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_inspection + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_closed + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_open + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_item + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_item_pending + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_item_overdue + "</td>";
+        mommyhtml3 +=
+          "<td>" + response.mom_total_total_per_complied.toFixed(2) + "</td>";
+        mommyhtml3 += "</tr>";
+
+        domyhtml3 = "<tr>";
+        domyhtml3 += "<td>" + "Total" + "</td>";
+        domyhtml3 += "<td>" + response.do_total_total_open + "</td>";
+        domyhtml3 += "<td>" + response.do_total_total_pending + "</td>";
+        domyhtml3 += "<td>" + response.do_total_total_closed + "</td>";
+        domyhtml3 +=
+          "<td>" + response.do_total_total_per_complied.toFixed(2) + "</td>";
+        domyhtml3 += "</tr>";
+
+
+        trackmyhtml3 = "<tr>";
+        trackmyhtml3 += "<td>" + "Total" + "</td>";
+        trackmyhtml3 += "<td>" + response.task_total_total_open + "</td>";
+        trackmyhtml3 += "<td>" + response.total_total_task_assign + "</td>";
+        trackmyhtml3 += "<td>" + response.total_total_task_completed + "</td>";
+        trackmyhtml3 +=
+          "<td>" + response.task_total_total_per_complied.toFixed(2) + "</td>";
+        trackmyhtml3 += "</tr>";
+        
+        // FOOTER BUTTON DATA OF INSPECTION REPORT
+        $("#total_total_inspection")
+          .find("b")
+          .html(response.total_total_inspection);
+        $("#total_total_closed").find("b").html(response.total_total_closed);
+        $("#total_total_open").find("b").html(response.total_total_open);
+        $("#total_total_item").find("b").html(response.total_total_item);
+        $("#total_total_item_pending")
+          .find("b")
+          .html(response.total_total_item_pending);
+        $("#total_total_item_overdue")
+          .find("b")
+          .html(response.total_total_item_overdue);
+
+
+        // FOOTER BUTTON DATA OF MOM REPORT
+        $("#mom_total_total_inspection")
+          .find("b")
+          .html(response.mom_total_total_inspection);
+        $("#mom_total_total_closed")
+          .find("b")
+          .html(response.mom_total_total_closed);
+        $("#mom_total_total_open")
+          .find("b")
+          .html(response.mom_total_total_open);
+        $("#mom_total_total_item")
+          .find("b")
+          .html(response.mom_total_total_item);
+        $("#mom_total_total_item_pending")
+          .find("b")
+          .html(response.mom_total_total_item_pending);
+        $("#mom_total_total_item_overdue")
+          .find("b")
+          .html(response.mom_total_total_item_overdue);
+
+
+        // FOOTER BUTTON DATA OF DO REPORT
+        $("#do_total_total_open")
+          .find("b")
+          .html(response.do_total_total_open);
+        $("#do_total_total_pending")
+          .find("b")
+          .html(response.do_total_total_pending);
+        $("#do_total_total_closed")
+          .find("b")
+          .html(response.do_total_total_closed);
+        $("#do_total_total_per_complied")
+          .find("b")
+          .html(response.do_total_total_per_complied);
+
+
+         // FOOTER BUTTON DATA OF TASK TRACKER REPORT
+         $("#task_total_total_open")
+          .find("b")
+          .html(response.task_total_total_open);
+        $("#total_total_task_assign")
+          .find("b")
+          .html(response.total_total_task_assign);
+        $("#total_total_task_completed")
+          .find("b")
+          .html(response.total_total_task_completed);
+        $("#task_total_total_per_complied")
+          .find("b")
+          .html(response.task_total_total_per_complied);
+
+
+        $("#tableid tbody").append(myhtml2);
+        $("#tableid tfoot").append(myhtml3);
+        $("#momtableid tbody").append(momhtml);
+        $("#momtableid tfoot").append(mommyhtml3);
+
+        $("#dotableid tbody").append(dohtml);
+        $("#dotableid tfoot").append(domyhtml3);
+
+        $("#tasktableid tbody").append(taskhtml);
+        $("#tasktableid tfoot").append(trackmyhtml3);
+
+        $("#tablediv").show();
+        $(".loader").hide();
+
+        table = $("#tableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+        Momtable = $("#momtableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("momtableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+        Dotable = $("#dotableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("dotableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+        Tasktable = $("#tasktableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tasktableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+      
+      },
+    });
+  }
+
+</script>
+
+<script>
+  // saud faisal
+
+  function MarkedByOfficer() {
+    $("#markofficercolor").attr('class','btn btn-success')
+    $("#myfuncolor").attr('class','btn btn-primary')
+
+
+    $('#ajaxname').val('MarkedByOfficer')
+    let ajaxname = "MarkedByOfficer";
+    count = 0;
+    var location_code = $("#location_code").val();
+    var location_type = $("#location_type").val();
+    var designation = $("#designation").val();
+    // var dept = $("#dept").val();
+    var created_on = $("#created_on").val();
+    var status = $("#status").val();
+    var query = $("#query").val();
+    //alert(query)
+    $(".loader").show();
+    $.ajax({
+      url: "{% url 'fetch_desig_ajax_officerwise_all' %}",
+      method: "GET",
+      dataType: "JSON",
+      data: {
+        ajaxname: ajaxname,
+        location_code: JSON.stringify(location_code),
+        location_type: JSON.stringify(location_type),
+        designation: JSON.stringify(designation),
+        // dept: JSON.stringify(dept),
+        created_on: created_on,
+      },
+      async: false,
+      success: function (response) {
+        table.destroy();
+        Momtable.destroy();
+        Dotable.destroy();
+        Tasktable.destroy();
+
+        // console.log("response67788", response);
+        $("#tableid tbody").empty();
+        $("#tableid tfoot").empty();
+
+        $("#momtableid tbody").empty();
+        $("#momtableid tfoot").empty();
+
+        $("#dotableid tbody").empty();
+        $("#dotableid tfoot").empty();
+
+        $("#tasktableid tbody").empty();
+        $("#tasktableid tfoot").empty();
+
+        let myhtml2 = "";
+        let momhtml = "";
+        let dohtml = "";
+        let taskhtml = "";
+        for (i = 0; i < response.rly_list.length; i++) {
+          myhtml2 += "<tr>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "</a></td>";
+          myhtml2 +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_insp','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_inspection"] + "</a></td>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_closed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_closed"] + "</a></td>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_open"] + "</a></td>";
+          myhtml2 += " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_item','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_item"] + "</a></td>";
+          myhtml2 +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_item_pending','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_item_pending"] + "</a></td>";
+          myhtml2 +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('t_iten_overdue','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["total_item_overdue"] + "</a></td>";
+          myhtml2 +=
+            " <td>" + response.rly_list[i]["per_complied"].toFixed(2) + "</td>";
+          myhtml2 += "</tr>";
+
+          // FOR MOM CREATE ROWS IN TABLE
+
+          momhtml += "<tr>";
+          momhtml += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "</a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_insp','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_inspection"] + "</a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_closed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_closed"] + "</a></td>";
+          momhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_open"] + "</a></td>";
+          momhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_item','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_item"] + "</td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_item_pending','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_item_pending"] + "</a></td>";
+          momhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('mom_t_iten_overdue','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["mom_total_item_overdue"] + "</a></td>";
+          momhtml +=
+            " <td>" +
+            response.rly_list[i]["mom_per_complied"].toFixed(2) +
+            "</td>";
+          momhtml += "</tr>";
+
+          // do letter data
+          dohtml += "<tr>";
+          dohtml += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "</a></td>";
+          dohtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('do_t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["do_total_open"] + "</a></td>";
+          dohtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('do_t_pending','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["do_total_pending"] + "</a></td>";
+          dohtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('do_t_closed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["do_total_closed"] + "</a></td>";
+          dohtml +=
+            " <td>" +
+            response.rly_list[i]["do_per_complied"].toFixed(2) +
+            "</td>";
+          dohtml += "</tr>";
+
+          // task tracker data
+          taskhtml += "<tr>";
+          taskhtml += " <td><a href = 'javascript:void(0)' onclick = openmodal('"+response.rly_list[i]["desig_code"]+"','"+response.rly_list[i]["rly"]+"')>" + response.rly_list[i]["rly"] + "</a></td>";
+          taskhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('track_t_open','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["totol_open"] + "</a></td>";
+          taskhtml += " <td><a href = 'javascript:void(0)' onclick = ClickedData('track_t_assigned','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["task_assigned"] + "</a></td>";
+          taskhtml +=
+            " <td><a href = 'javascript:void(0)' onclick = ClickedData('track_t_completed','"+response.rly_list[i]["desig_code"]+"')>" + response.rly_list[i]["task_completed"] + "</a></td>";
+          taskhtml +=
+            " <td>" +
+            response.rly_list[i]["task_per_complied"].toFixed(2) +
+            "</td>";
+          taskhtml += "</tr>";
+        }
+
+        mommyhtml3 = "<tr>";
+        mommyhtml3 += "<td>" + "Total" + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_inspection + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_closed + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_open + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_item + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_item_pending + "</td>";
+        mommyhtml3 += "<td>" + response.mom_total_total_item_overdue + "</td>";
+        mommyhtml3 +=
+          "<td>" + response.mom_total_total_per_complied.toFixed(2) + "</td>";
+        mommyhtml3 += "</tr>";
+
+        myhtml3 = "<tr>";
+        myhtml3 += "<td>" + "Total" + "</td>";
+        myhtml3 += "<td>" + response.total_total_inspection + "</td>";
+        myhtml3 += "<td>" + response.total_total_closed + "</td>";
+        myhtml3 += "<td>" + response.total_total_open + "</td>";
+        myhtml3 += "<td>" + response.total_total_item + "</td>";
+        myhtml3 += "<td>" + response.total_total_item_pending + "</td>";
+        myhtml3 += "<td>" + response.total_total_item_overdue + "</td>";
+        myhtml3 +=
+          "<td>" + response.total_total_per_complied.toFixed(2) + "</td>";
+        myhtml3 += "</tr>";
+
+
+        domyhtml3 = "<tr>";
+        domyhtml3 += "<td>" + "Total" + "</td>";
+        domyhtml3 += "<td>" + response.do_total_total_open + "</td>";
+        domyhtml3 += "<td>" + response.do_total_total_pending + "</td>";
+        domyhtml3 += "<td>" + response.do_total_total_closed + "</td>";
+        domyhtml3 +=
+          "<td>" + response.do_total_total_per_complied.toFixed(2) + "</td>";
+        domyhtml3 += "</tr>";
+
+
+        trackmyhtml3 = "<tr>";
+        trackmyhtml3 += "<td>" + "Total" + "</td>";
+        trackmyhtml3 += "<td>" + response.task_total_total_open + "</td>";
+        trackmyhtml3 += "<td>" + response.total_total_task_assign + "</td>";
+        trackmyhtml3 += "<td>" + response.total_total_task_completed + "</td>";
+        trackmyhtml3 +=
+          "<td>" + response.task_total_total_per_complied.toFixed(2) + "</td>";
+        trackmyhtml3 += "</tr>";
+
+        $("#total_total_inspection")
+          .find("b")
+          .html(response.total_total_inspection);
+        $("#total_total_closed").find("b").html(response.total_total_closed);
+        $("#total_total_open").find("b").html(response.total_total_open);
+        $("#total_total_item").find("b").html(response.total_total_item);
+        $("#total_total_item_pending")
+          .find("b")
+          .html(response.total_total_item_pending);
+        $("#total_total_item_overdue")
+          .find("b")
+          .html(response.total_total_item_overdue);
+
+        $("#mom_total_total_inspection")
+          .find("b")
+          .html(response.mom_total_total_inspection);
+        $("#mom_total_total_closed")
+          .find("b")
+          .html(response.mom_total_total_closed);
+        $("#mom_total_total_open")
+          .find("b")
+          .html(response.mom_total_total_open);
+        $("#mom_total_total_item")
+          .find("b")
+          .html(response.mom_total_total_item);
+        $("#mom_total_total_item_pending")
+          .find("b")
+          .html(response.mom_total_total_item_pending);
+        $("#mom_total_total_item_overdue")
+          .find("b")
+          .html(response.mom_total_total_item_overdue);
+
+        $("#tableid tbody").append(myhtml2);
+        $("#tableid tfoot").append(myhtml3);
+
+        $("#momtableid tbody").append(momhtml);
+        $("#momtableid tfoot").append(mommyhtml3);
+
+        $("#dotableid tbody").append(dohtml);
+        $("#dotableid tfoot").append(domyhtml3);
+
+        $("#tasktableid tbody").append(taskhtml);
+        $("#tasktableid tfoot").append(trackmyhtml3);
+
+        $("#tablediv").show();
+        $(".loader").hide();
+
+        table = $("#tableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tableid")
+                  .css("text-align", "center");
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+        Momtable = $("#momtableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("momtableid")
+                  .css("text-align", "center");
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+      
+        Dotable = $("#dotableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("dotableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+      
+        Tasktable = $("#tasktableid").DataTable({
+          iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tasktableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+      
+      },
+    });
+  }
+
+// clicked data
+function ClickedData(type,desig){
+    let location_code = $("#location_code").val();
+    let location_type = $("#location_type").val();
+    let designation = $("#designation").val();
+    // var dept = $("#dept").val();
+    let created_on = $("#created_on").val();
+    let ajaxname = $("#ajaxname").val();
+    // alert(type+desig)
+    data = {
+      location_code: JSON.stringify(location_code),
+      location_type: JSON.stringify(location_type),
+      designation: JSON.stringify(designation),
+      // dept: JSON.stringify(dept),
+      created_on: created_on,
+      type:type,
+      desig: desig,
+      ajaxname:ajaxname,
+
+    };
+    $(".loader").show();
+    $.ajax({
+      type: "GET",
+      url: "{% url 'ClickedDataMarkedOfficer' %}",
+      dataType: "json",
+      data: data,
+      //data:{location_code,location_type,designation,dept,created_on},
+
+      success: function (response) {
+        console.log("response",response.result)
+        modaltable.destroy()
+        $("#thead").empty()
+        $("#mydata").empty()
+
+
+        if (['t_insp','t_closed','t_open'].includes(type)){
+          $("#thead").append(`<tr><th>S No.</th><th>Inspection Date </th><th>Inspection Note No </th><th>Title</th><th>Insp Note.</th></tr>`)
+          for(let i = 0; i < response.result.length;i++){
+            $("#mydata").append(`<tr><td>${i+1}</td><td>${response.result[i][1]}</td><td>${response.result[i][2]}</td><td>${response.result[i][3]}</td><td><a href="/inspectionReportHtml/${response.result[i][4]}/" target = "blank"><i style = "font-size:22px;" class="far fa-file-alt"></i></a></td></tr>`)
+          }
+        }
+        else if (['t_item','t_item_pending','t_iten_overdue'].includes(type)){
+          $("#thead").append(`<tr><th>S No.</th><th>Inspection Date </th><th>Inspection Note No </th><th>Observation</th><th>Insp Note.</th></tr>`)
+          for(let i = 0; i < response.result.length;i++){
+            $("#mydata").append(`<tr><td>${i+1}</td><td>${response.result[i][2]}</td><td>${response.result[i][3]}</td><td>${response.result[i][5]}</td><td><a href="/inspectionReportHtml/${response.result[i][4]}/" target = "blank"><i style = "font-size:22px;" class="far fa-file-alt"></i></a></td></tr>`)
+          }
+        }
+        else if (['mom_t_insp','mom_t_closed','mom_t_open','mom_t_item','mom_t_item_pending','mom_t_iten_overdue'].includes(type)){
+          $("#thead").append(`<tr><th>S No.</th><th>Inspection Date </th><th>Inspection Note No </th><th>Observation</th><th>Insp Note.</th></tr>`)
+          for(let i = 0; i < response.result.length;i++){
+            $("#mydata").append(`<tr><td>${i+1}</td><td>${response.result[i][0]}</td><td>${response.result[i][1]}</td><td>${response.result[i][2]}</td><td><a href="/inspectionReportHtml/${response.result[i][4]}/" target = "blank"><i style = "font-size:22px;" class="far fa-file-alt"></i></a></td></tr>`)
+          }
+        }
+        else if(['do_t_open','do_t_pending','do_t_closed'].includes(type)){
+          $("#thead").append(`<tr><th>S No.</th><th>DO Letter Date </th><th>Letter No </th><th>Subject</th></tr>`)
+          for(let i = 0; i < response.result.length;i++){
+            $("#mydata").append(`<tr><td>${i+1}</td><td>${response.result[i][0]}</td><td>${response.result[i][1]}</td><td>${response.result[i][2]}</td></tr>`)
+          }
+        }
+        else if(['track_t_open','track_t_assigned','track_t_completed'].includes(type)){
+          $("#thead").append(`<tr><th>S No.</th><th>Initiated date</th><th>Task Description</th><th>Pending With</th></tr>`)
+          for(let i = 0; i < response.result.length;i++){
+            $("#mydata").append(`<tr><td>${i+1}</td><td>${response.result[i][0]}</td><td>${response.result[i][1]}</td><td>${response.result[i][2]}</td></tr>`)
+          }
+        }
+        
+          $("#btnmodal").click();
+          $(".loader").hide();
+
+
+          modaltable =$('#table_id').DataTable({
+            "iDisplayLength": 10,
+                            
+                // "ordering": false,
+                "lengthChange": true,
+                "lengthMenu": [10,15, 30, 50, 75, 100],
+            dom: 'Blfrtip',
+                bSort: false,
+                
+                buttons: [
+                {
+                    extend: 'excel',
+                    title: function (e) {
+                        var e1 = $('#datefrom').val()
+                        var e2 = $('#dateto').val()
+                        if(irType == 'All'){
+                            var stre ='Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate
+                        }
+                        else{
+                            var stre=irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate
+                        }
+                        return stre
+                    },
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    
+                },
+                {
+                    extend:'pdfHtml5',
+                    title: function (e) {
+                        var e1 = $('#datefrom').val()
+                        var e2 = $('#dateto').val()
+                        var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                        return stre
+                    },
+                    exportOptions: {
+                        alignment: 'right',
+                        },
+                    customize: function ( doc ) {
+                        console.log("doc",doc)
+                        console.log("doc",doc.defaultStyle)
+                        console.log("doc2",doc.styles.tableBodyEven)
+                        console.log("doc3",doc.styles.tableBodyOdd)
+                        doc.content.splice(0,1);
+                        
+                        doc.styles.tableBodyEven.alignment = 'center';
+                        doc.styles.tableBodyOdd.alignment = 'center';
+                      
+                      },
+                      text :'PDF',
+                      
+                        fontSize : 'LEGAL'
+                    
+                },
+                {
+                    extend: 'print',
+                    title: function (e) {
+                        var s1 = $('#datefrom').val()
+                        var s2 = $('#dateto').val()
+                        var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                        return str
+                    },
+                    customize: function ( doc ) {
+                        $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                        //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                        //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                        //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                        //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                        //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                        },
+                },
+                ],
+                headers:true
+          });
+
+          },
+          error:function(e){
+            alert("error")
+          }
+        })
+
+}
+
+
+function SendMailMarked(){
+  let desig_code = $("#hide_desig_code").val()
+  let message = $("#message").val()
+  $.ajax({
+      type: "GET",
+      url: "{% url 'SendMailMarked' %}",
+      dataType: "json",
+      data: {desig_no:desig_code,message:message},
+      //data:{location_code,location_type,designation,dept,created_on},
+
+      success: function (response) {
+        if(response.success === true){
+          alert("Message Send Successfully...")
+        }
+        else{
+          alert("Officer Email Does Not Exists!")
+        }
+      }
+  });
+}
+
+function openmodal(code,name){
+  // alert("val"+code)
+  $('#hide_desig_code').val(code)
+  $('#send_desig_code').val(name)
+  $("#open_modal").click()
+}
+</script>
+
+{% endblock %}

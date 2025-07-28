@@ -1,0 +1,927 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/wrap_css.css' %}">   -->
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>
+      <style>
+        .wrap.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    
+    .wrap-1.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap-1 {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    .wrap.active .content,.wrap-1.active .content  {
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    .wrap .content, .wrap-1 .content {
+        opacity: 0;
+    }
+    .wrap.active:before, .wrap-1.active:before {
+        height: 2000px;
+        width: 2000px;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        margin-left: -1000px;
+        margin-top: -1000px;
+        display: block;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap:before, .wrap-1:before {
+        position: fixed;
+        width: 1px;
+        height: 1px;
+        background: white;
+        content: "";
+        bottom: 10px;
+        left: 50%;
+        top: 95%;
+        color: #fff;
+        border-radius: 50%;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+        width: 10px;  /* Remove scrollbar space */
+        background: #dedede;
+    }
+    /* Optional: show position indicator in red */
+    .wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+        background: #FF0000;
+    }
+      </style>
+</head>
+
+<body>
+    <h3 class="report_heading">Sent Reply of Inspection Notes Marked to Me</h3> 
+    <br>
+    <div id="maindiv">
+    <div class="container">
+        <div class="inpt-container" id="container1" style="padding-bottom: 10px;" >
+            <div class="row" style="text-align: left; margin-left: 2em;" >
+                <div class="col">
+                    <label for="Zone" class="lbl-caption">Rly./Org. Wise</label>
+                    <select class="form-control" name="rly_id" id="rly_id" class="custom-select" data-placeholder="Select zone.." style="max-width:100%;height:2em;">
+                        <option value="" selected>All</option>
+                        {% for z in zone %}
+                        <option value="{{z}}">{{z}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="division" class="lbl-caption">Div./Unit Wise</label>
+                    <select class="form-control" name="div_id" id="div_id" class="custom-select" data-placeholder="Select division.." style="max-width:100%;;height:2em">
+                        <option value="" selected>All</option>
+                        {% for d in division %}
+                        <option value="{{d.location_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                        {% endfor %}
+                    </select>  
+                </div>
+                <div class="col">
+                    <label for="Ofc" class="lbl-caption">Insp. Officer</label>
+                    <select class="form-control" name="ofc_id" id="ofc_id" class="custom-select" data-placeholder="Select officer.." style="max-width:100%;height:2em;">
+                        <option value="" selected>All</option>
+                        {% for z in officr %}
+                        <option value="{{z}}">{{z}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label style="width:10em" class="lbl-caption">Date Range</label>
+                    <label id="reportrange" style="width:15em;background: #fff; cursor: pointer;border: 1px solid #ccc;height:2em">
+                    <i class="fa fa-calendar" style="margin-left:10px"></i>
+                    <span id="dateid"></span> 
+                    <i class="fa fa-caret-down"></i>
+                    </label>
+                </div>
+                <div class="col">
+                    <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                        <div class="btn-group mr-2" role="group" >
+                            <button type="button" id="submit_filter" class="btn btn-warning btn-sm" onclick="compliance_filterdata(this);">Continue</button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="compliance_alterdata();">Reset</button>
+                            <a type="button" class="btn btn-danger btn-sm"  target="_blank" href="{% url 'compliance_form_accept_pdf' %}" hidden> PDF</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container" style="overflow-x: auto;">
+        <table id="tableshow" class="table table-striped table-bordered table-data" cellspacing="0">
+            <thead style="background-color:black; color:white">
+                <tr style="text-align:left">
+                    <th>S.No.</th>
+                    <th style="display:none;">Insp. Date</th>
+                    <th>Insp. Date</th>
+                    <th>Insp. Note No</th>
+                    <th>Insp. Title</th>
+                    <th>Insp. Officer</th>
+                    <th>Rly./Org.</th>
+                    <th>Div. /Unit</th>
+                    <th>View</th>
+                    <th>REC'D REPLY</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in listgrid %}
+                <tr style="text-align:left">
+                    <td width="5%">{{forloop.counter}}</td>
+                    <td style="display:none;">{{i.inspected_on_date| date:'Y-m-d' }}</td>
+                    <td width="10%">{{i.inspected_on}}</td>
+                    <td width="10%">{{i.inspection_note_no}}</td>
+                    <td width="45%"><a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='{{i.inspection_title}}'>{{i.inspection_title|truncatechars:100}}</a></td>
+                    <td width="10%">{{i.inspection_officer}}</td>
+                    <td style="width:5%">{% for z in i.zone %}<p>{{z}}</p>{% endfor %}</td>
+                    <td style="width:5%">{% for z in i.div %}<p>{{z}}</p>{% endfor %}</td>
+                    <td style="width:10%">
+                        <a type="button"  class="btn btn-outline-primary btn-sm " href="{% url 'inspectionReportHtml' i.inspection_no %}"  id=/{{i.inspection_no}} target="_blank" onclick="viewdate(this)"><i class="far fa-file-alt"></i></a>
+                        
+                        <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#ReplyModal" id={{i.inspection_no}} onclick="reply(this)">Reply</button>
+                    </td>
+                    <td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="{% url 'inspectionReportReply_pdf' i.inspection_no %}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>
+                </tr>
+            {% endfor %}  
+            {% for i in phase2_accept %}
+                <tr style="text-align:left">
+                    <td style="width:5%">{{i.sr_no}}</td>
+                    <td style="display:none;">{{i.eitemid__einspno__inspected_on| date:'Y-m-d' }}</td>
+                    <td style="width:10%">{{i.eitemid__einspno__inspected_on | date:'d/m/y'}}</td>
+                    <td style="width:10%">{{i.eitemid__einspno__inspection_note_no}}</td>
+                    <td style="width:45%;"><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.eitemid__einspno__inspection_title}}'>{{i.eitemid__einspno__inspection_title|truncatechars:100}}</a></td>
+                    <td style="width:10%">{{i.eitemid__einspno__designation__designation}}</td>
+
+                    <td>
+                        {% for j in i.einsprly %}
+                              <span >{{j.location_code}}<br></span>
+                            {% endfor %}
+                            </td>
+                      <td> {% for j in i.einspdiv %}
+                        <span >{{j.location_code}}<br></span>
+                      {% endfor %}
+                      </td>
+                    <td style="width:10%">
+                        <a type="button"  class="btn btn-outline-primary btn-sm " href="{% url 'pdfDetails' %}?id={{i.eitemid__einspno}}"  id=/{{i.eitemid__einspno}} target="_blank"><i class="far fa-file-alt"></i></a>
+                        <button type="button" class="btn btn-outline-success btn-sm " id={{i.eitemid__einspno}} onclick="reply(this,'2')" >Reply</button>
+                    </td>
+                    <td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="{% url 'inspectionReportReply_pdf' i.eitemid__einspno %}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>
+                </tr>
+            {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="secondarydiv">
+    <div class="container">
+        <div>
+            <button onclick="reloadFunction()" class="btn btn-secondary"
+                style="width:160px;margin-left: 15px;">Back To Sent</button>
+        </div>
+        <br>
+    <div class="inpt-container p-2">
+        <div class="acc-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <div class="row">
+                <div class="col-11"><h5>Inspection Note Details</h5></div>
+                <div class="col-1" style="text-align: right;">
+                    <button class="btn btn-sm btn-outline-dark ">
+                        <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                        <i class="fas fa-angle-double-down fa-lg"></i>
+                    </button>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+
+        <div id="collapseOne" class="collapse show"  aria-labelledby="headingOne" data-parent="#accordion" >
+        <div class="row">
+            <div class="col">
+                <label class="lbl-caption">Inspection Note No</label>
+                <input type="text" value="" id="ins_note_id" readonly class="form-control lbl-caption" readonly/>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col">
+                <label class="lbl-caption">Inspecting Officer Designation</label>
+                <input type="text" value="" id="ins_desig" readonly class="form-control lbl-caption" readonly/>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col">
+                <label class="lbl-caption">Inspecting Officer Name</label>
+                <input type="text" value="" id="ins_officer" class="form-control lbl-caption" readonly/>
+            </div>
+            &nbsp;&nbsp;
+            <div class="col">
+                <label class="lbl-caption">Inspection Date</label>
+                <input type="text" value="" id="ins_date" class="form-control lbl-caption" readonly/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="lbl-caption">Inspection Title</label>
+                <input type="text" value="" class="form-control lbl-caption" style="max-width: 100%;" id="ins_title" readonly/>
+            </div>
+            &nbsp;&nbsp;
+            <input type="text" value=""  id="ins_id" readonly class="form-control lbl-caption" hidden/>
+        </div>
+    </div>
+
+    </div>
+        <br>
+    <div id="secondarydivp1">
+        <table id="mytable1" class="table table-striped table-bordered table-data" width="100%">
+            <thead>
+                <tr>
+                    <th>Item No</th>
+                    <th>Observation</th>
+                    <th>Compliance Status</th>
+                    <th>Compliance</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="secondarydivp2">
+        <table id="mytable15" class="table table-striped table-bordered table-data" width="100%">
+            <thead>
+                <tr align="left">
+                    <th>Item No</th>
+                    <th>Insp. Para</th>
+                    <th>Accepted Compliance Remarks</th>
+                    <th>Target date</th>
+                    <th>Replied on</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+        </table>
+
+    </div>
+
+    <div id="annenddiv">
+        <div>
+            <button onclick="reloadFunctionAmmend()" class="btn btn-secondary"
+                style="width:160px;margin-left: 15px;float:right">Back</button>
+        </div>
+        <br>
+        <div id="pending_reply">
+            <table id="mytable16" class="table table-striped table-bordered table-data" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th style="width: 10%;">Item No</th>
+                        <th style="width: 40%;">Insp. Para</th>
+                        <th style="width: 50%;">Compliance Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="row" id="appenddiv">
+                
+           
+          </div>
+        <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+            <div class="btn-group" role="group" style="margin-right: 80%;">
+                <button type="button" id="submit" class="btn btn-success btn-sm" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Submit all the saved replies." onclick="save_data()" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button> 
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+  
+  
+    
+</body>
+
+<script>
+    function reloadFunction(){
+        $('#secondarydiv').hide();
+            $('#maindiv').show();
+    }
+    $( document ).ready
+    (
+        function() 
+        {
+            $('#secondarydiv').hide();
+            $('#maindiv').show();
+            $('#tableshow').DataTable({
+                "language": {
+                            "search": "Keyword search:"
+                        },
+                        "aaSorting": [[1, "desc"]],
+                    "aoColumns": [
+            null,
+            null,
+            { "sType": "date-uk" },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+                "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html(iDisplayIndex +1);
+				return nRow;}
+                });
+            
+                $('#container2').hide();
+            compliance_form_accept();
+            $('.js-btn-tooltip').tooltip;
+        }
+    );
+    
+    $('#mytable').hide();
+    $("#rly_id").select2();
+    $("#div_id").select2();
+    $("#dept_id").select2();
+
+    function reply(e,phase)
+    {
+        var inspection_id=e.id;
+        if (phase == '2'){
+            // urls='/compliance_phase2/'+"?inspection_id=" + inspection_id + "&type=reply&status=C";
+            // $("#frmDash").attr("src",urls);
+            // $(".wrap").toggleClass('active');
+            data =
+            {
+                'inspection_id': inspection_id,
+                'type': 'reply',
+                'status': 'C',
+                'duration': 'Later',
+
+            }
+            $.ajax
+                ({
+                    url: "{% url 'compliance_phase2' %}",
+                    method: "GET",
+                    dataType: "JSON",
+                    async: false,
+                    data: data,
+                    success: function (response) {
+                        $('#secondarydiv').show();
+                        $('#maindiv').hide();
+                        $('#secondarydivp1').hide();
+                        $('#secondarydivp2').show();
+                        $('#annenddiv').hide();
+                        var listgrid = response.listgrid, row = '';
+                        console.log(listgrid)
+                        idetails = response.insp_details;
+                        desigdetails = idetails[0].designation_id__designation;
+
+                        $('#ins_desig').val(idetails[0]['designation_id__designation'])
+
+
+                        $('#ins_id').val(idetails[0]['einspno']);
+                        $('#ins_note_id').val(idetails[0]['inspection_note_no']);
+                        $('#ins_title').val(idetails[0]['inspection_title']);
+                        $('#ins_date').val(idetails[0]['inspected_on']);
+                        $('#ins_officer').val(idetails[0]['insp_name']);
+                        for (let i = 0; i < listgrid.length; i++) {
+                            row += `<tr>
+                                    <td>${listgrid[i]['sr_no']}</td>
+                                    <td>${listgrid[i]['question']} <br>
+                                        Observation: ${listgrid[i]['value']}<br>
+                                        Remarks: ${listgrid[i]['report_act']}
+                                    </td>
+                                    <td>`
+                            if (listgrid[i]['compliance'])
+                                row += ` <textarea type='text' class="form-control" id=${listgrid[i]['marked_no']}/ name="comp_remarks" style="height:90%; background-color: lightblue;" maxlength="3000" readonly>${listgrid[i]['compliance']}</textarea>`
+                            else
+                                row += `<textarea type='text' class="form-control" id=${listgrid[i]['marked_no']}/ name="comp_remarks" style="height:90%; " maxlength="3000" ></textarea>`
+
+                            row += `</td>`
+                            if (listgrid[i]['tgt_date'] != -1)
+                                row += `<td>${listgrid[i]['tgt_date']}</td>`
+                            else
+                                row += `<td>NA</td>`
+
+                            row += `<td>${listgrid[i]['compliance_recieved_on']}</td>
+                                </tr>`
+                                console.log(row)
+                        }
+                        var table1123 = $('#mytable15').DataTable();
+                        table1123.destroy();
+                        $('#mytable15 tbody').empty();
+                        $('#mytable15 tbody').append(row);
+
+                        $('#mytable15').DataTable({
+                            "language": {
+                                "search": "Keyword search:"
+                            }
+                        });
+                    }
+                });
+
+
+        }
+        else{
+        var table = $('#mytable1').DataTable();
+        table.destroy();
+        $('#mytable1').hide();
+        data=
+        {
+            'inspection_id':inspection_id,
+            'str':'reply',
+            'status':'A',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                $('#secondarydiv').show();
+                $('#maindiv').hide();
+                $('#secondarydivp1').show();
+                $('#secondarydivp2').hide();
+                $('#annenddiv').hide();
+                desigdetails=response.desigdetails;
+                if(desigdetails.length != 0)
+                {$('#ins_desig').val(desigdetails[0]['designation']);}
+                else
+                {$('#ins_desig').val('Null');}
+         
+                idetails=response.idetails;
+                $('#ins_id').val(idetails[0]['inspection_no']);
+                $('#ins_note_id').val(idetails[0]['inspection_note_no']); 
+               
+                $('#ins_title').val(idetails[0]['inspection_title']);
+                $('#ins_date').val(idetails[0]['inspection_date']);
+                $('#ins_officer').val(idetails[0]['empname']);
+                replydata=response.itemdetails;
+                let row = "";
+                let head = 
+                    `<thead>
+                    <tr align="left">
+                        <th>Item No</th>
+                        <th>Insp. Para</th>
+                        <th>Accepted Compliance Remarks</th>
+                        <th>Add Addendum</th>
+                        <th>Target date</th>
+                        <th>Replied on</th>
+                    </tr>
+                    </thead>`;
+                    for (let i = 0; i < replydata.length; i++) 
+                {
+                    row += "<tr>";    
+                    row += `<td width=10%>${replydata[i]['item']}</td>`;
+                    if(replydata[i]['type']=='SH')
+                    {row +=`<td align="left" width=30%>${replydata[i]['observation']}</td>`;}
+                    else if(replydata[i]['type']=='H')
+                    {row +=`<td align="left" width=35%>${replydata[i]['item_title']}</td>`;}
+                    row +=`<td align="left" width=30%>
+                            <textarea type='text' class="form-control ;" id="${replydata[i]['item_no']}/" name="comp_remarks" style="height:7%;background-Color:lightblue;" maxlength="500" readonly >${replydata[i]['compliance']}</textarea>
+                        </td>`
+                        row += `<td width=5%><button type="button" class="btn btn-block btn-outline-primary btn-sm glyphicon p-0" id="add${replydata[i]['item_no']}" onclick="addendum(this)">Addendum</button></td>`
+                    if (replydata[i]['tgt_date'])
+                    row += `<td width=10%>${replydata[i]['tgt_date']}</td>`
+                    else
+                    row += `<td width=10%>NA</td>`
+                    row += `<td width=10%>${replydata[i]['reply_on']}</td>`
+                }
+                $('#mytable1 thead').remove();
+                $('#mytable1 tr').remove();
+                $('#mytable1').append(head);
+                $('#mytable1 tbody').append(row);
+                $('#mytable1').show();
+                $('#mytable1').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+            }
+        })
+        }
+    }
+   
+    function compliance_filterdata(e)
+    {
+        var table = $('#tableshow').DataTable();
+        table.destroy();
+        $('#tableshow').hide();
+        var str=e.id;
+        var data={}
+        if(str=='submit_filter')
+        {
+            var div_id=$('#div_id').val();
+            var rly_id=$('#rly_id').val();
+            var ofc_id=$('#ofc_id').val();
+            var date_id=document.getElementById('dateid').innerHTML
+            if (date_id==''){
+                var start = moment().subtract(50, 'years');
+                var end = moment();
+            }
+            else{
+                var start=$('#reportrange').data('daterangepicker').startDate;
+                var end=$('#reportrange').data('daterangepicker').endDate;
+            }
+            
+            var startDate = new Date(start);
+            startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+            var endDate = new Date(end);
+            endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+            data=
+            {
+                'div_id':div_id,
+                'rly_id':rly_id,
+                'startDate':startDate,
+                'endDate': endDate,
+                'ofc_id':ofc_id,
+                'str':'accept'
+            }
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata1' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                let filterdata = response.inspect_details;
+                let row = "";
+                let head = ''
+                    // `<thead style="background-color:black; color:white">
+                    //     <tr align=left>
+                    //         <th>S.No.</th>
+                    //         <th style="display:none;"></th>
+                    //         <th>Insp. Date</th>
+                    //         <th>Insp. Note No</th>
+                    //         <th>Insp. Title</th>
+                    //         <th>Insp. Officer</th>
+                    //         <th>Rly./Org.</th>
+                    //         <th>Div. /Unit</th>
+                    //         <th>View</th>
+                    //     </tr>
+                    // </thead>`;
+                for (let i = 0; i < filterdata.length; i++) 
+                {
+                    var zns=filterdata[i]['zone'];
+                    var divs=filterdata[i]['div'];
+                    var railway_zone='';
+                    for (let z = 0; z < zns.length; z++) {
+                        railway_zone+=`<p>`+zns[z]+`</p>`;
+                    }
+                    var divisions='';
+                    for (let z = 0; z < divs.length; z++) {
+                        divisions+=`<p>`+divs[z]+`</p>`;
+                    }
+                    row += "<tr align=left>";
+                    row += `<td width=5%>${filterdata[i]['sr_no']}</td>
+                    <td style="display:none;">${filterdata[i]['inspected_on']}</td>
+                    <td width=10%>${filterdata[i]['inspected_on']}</td>
+                    <td width=10%>${filterdata[i]['inspection_note_no']}</td>
+                    <td width=45%><a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='${filterdata[i]['inspection_title']}'>${filterdata[i]['inspection_title'].slice(0, 100)}..</a></td>
+                    <td width=10%>${filterdata[i]['inspection_officer']}</td>
+                    <td style="width:5%">`+railway_zone+`</td>
+                    <td style="width:5%">`+divisions+`</td>
+                    <td style="width:10%; text-align:left">
+                        <a type="button" class="btn btn-outline-primary btn-sm " href="/inspectionReportHtml/${filterdata[i]['inspection_no']}"  target="_blank" onclick="viewdate(this)"><i class="far fa-file-alt"></i></a>
+                        <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#ReplyModal" id="${filterdata[i]['inspection_no']}" onclick="reply(this)">Reply</button>
+                    </td>`;
+
+                    row += `<td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="/inspectionReportReply_pdf/${filterdata[i]['inspection_no']}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>`
+
+                    row += "</tr>";                    
+                }
+                let phase2_data = response.phase2;
+                for (let i = 0; i < phase2_data.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    row += `<td width=5%>${i+1}</td>
+                    <td style="display:none;">${phase2_data[i]['eitemid__einspno']}</td>
+                    <td width=10%>${phase2_data[i]['eitemid__einspno__inspected_on']}</td>
+                    <td width=10% >${phase2_data[i]['eitemid__einspno__inspection_note_no']}</td>
+                    <td width=45%>${phase2_data[i]['eitemid__einspno__inspection_title'].slice(0, 100)}..</td>
+                    <td width=15%>${phase2_data[i]['eitemid__einspno__designation__designation']}</td>
+                    `
+                    row += `<td>`;
+                    for(j in phase2_data[i]['einsprly'])
+                    {
+                    row += phase2_data[i]['einsprly'][j]['location_code']+'<br>';
+                    }
+                    
+                    row += `</td><td width=7%>`;
+                    for(j in phase2_data[i]['einspdiv'])
+                    {
+                    row += phase2_data[i]['einspdiv'][j]['location_code']+'<br>';
+                    }
+                    row += `</td>`;    
+                    row+=`
+                        <td style="width:10%">
+                        <a type="button"  class="btn btn-outline-primary btn-sm " href="/pdfDetails/?id=${phase2_data[i]['eitemid__einspno']}"  id=/${phase2_data[i]['eitemid__einspno']} target="_blank"><i class="far fa-file-alt"></i></a>
+                        <button type="button" class="btn btn-outline-success btn-sm " id=${phase2_data[i]['eitemid__einspno']} onclick="reply(this,'2')" >Reply</button>
+                    </td>`
+                    row += `<td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="/inspectionReportReply_pdf/${phase2_data[i]['eitemid__einspno']}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>`
+
+                    row += "</tr>";                    
+                }
+                
+                // $('#tableshow thead').remove();
+                $('#tableshow tbody').empty();
+                // $('#tableshow').append(head);
+                $('#tableshow tbody').append(row);
+                $('#tableshow').show();
+                $('#tableshow').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    },
+                    order: [[1, 'desc']],
+                    "aoColumns": [
+            null,
+            null,
+            { "sType": "date-uk" },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+                "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html(iDisplayIndex +1);
+				return nRow;}
+                });
+            
+            }
+        })
+    }
+
+    function compliance_alterdata()
+    {
+        window.location.href='{% url "compliance_form_accept" %}'
+      
+    }
+    
+    $('#rly_id').change(function() 
+    {
+        var rly_id=$('#rly_id').val();
+        data=
+        {
+            'rly_id':rly_id,
+            'str':'filter',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                div=response.div;
+                $('#div_id').empty();
+                $('#div_id').append(`<option value="">All</option>`);
+                for (let i = 0; i < div.length; i++) 
+                {
+                    $('#div_id').append
+                    (
+                        `<option value="${div[i]}">
+                        ${div[i]}
+                        </option>`);
+                }
+            }
+        })   
+    });
+
+    function compliance_form_accept()
+    {
+        $('#container2').show();
+        $('#tableshow').show();
+        var start = moment().subtract(30, 'days');
+        var end = moment();
+        function cb(start, end) 
+        {
+            $('#reportrange span').html(start.format('D/M/YY') + ' to ' + end.format('D/M/YY'));
+        }
+        $('#reportrange').daterangepicker
+        ({
+            startDate: start,
+            endDate: end,
+            maxDate: new Date(),
+            
+        },cb);
+        
+    }
+
+</script>
+<script>
+    jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+"date-uk-pre": function ( a ) {
+  var ukDatea = a.split('/');
+  return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+},
+
+"date-uk-asc": function ( a, b ) {
+  return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+},
+
+"date-uk-desc": function ( a, b ) {
+  return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+}
+} );
+</script>
+<script>
+    function reloadFunctionAmmend()
+    {
+        $('#secondarydiv').show();
+        $('#maindiv').hide();
+        $('#secondarydivp1').show();
+        $('#secondarydivp2').hide();
+        $('#annenddiv').hide();
+    }
+    var addendem_id ;
+  function addendum(e){
+    let id=e.id
+    addendem_id = id;
+    let data={
+        id: id,
+        typ: 'Ammend',
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+    }
+    $.ajax({
+            type: 'POST',
+            url: "{% url 'addendum_ajax' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                $('#secondarydiv').show();
+                $('#maindiv').hide();
+                $('#secondarydivp1').hide();
+                $('#secondarydivp2').hide();
+                $('#annenddiv').show();
+                
+                let marked_no = response.marked_no, row = ''
+                
+                for(let l=0; l<marked_no.length;l++)
+                {
+                row += `<tr>
+                        <td>${(l+1)}</td>
+                        <td>`
+                            if(marked_no[l]['item_no__type'] == 'H')
+                            row += `<textarea type='text' class="form-control" style="height:90%; background-color: lightblue;" readonly>${marked_no[l]['item_no__item_title']}</textarea>`
+                            else
+                            row += `<textarea type='text' class="form-control" style="height:90%; background-color: lightblue;" readonly>${marked_no[l]['item_no__observation']}</textarea>`
+                            
+                            row += `</td>
+                        <td>
+                            <textarea type='text' class="form-control" id="${marked_no[l]['marked_no']}/" name="comp_remarks" style="height:90%; background-color: lightblue;" maxlength="3000" readonly>${marked_no[l]['compliance']}</textarea>
+                        </td>  
+                    </tr>`;
+                }
+                $('#mytable16 tbody').empty();
+                $('#mytable16 tbody').append(row);
+                row = '';
+                
+                if(response.adden_status == 1 )
+                {
+                    $('#submit').hide();
+                    let adden = response.adden;
+                    row += `<div class="col-12">
+                    <table style="width: 100%;">`
+                    for(let l=0; l<adden.length;l++)
+                    {
+                        row += `<tr>
+                            <td style="width: 10%;"> Additional Status</td>
+                            <td style="width: 70%;">
+                                <textarea type='text' class="form-control" id="additionalComment" style="height:90%; background-color: lightblue;" readonly>${adden[l]['compliance']}</textarea>
+                            </td >
+                            <td style="width: 20%;">Replied On: ${formatDate(adden[l]['created_on'])}</td>  
+                            </tr>`
+                     }
+                     row += `</table></div>`;
+                }
+                else{
+                    $('#submit').show();
+                    row += `<div class="col-md-2" >
+                                    <label style="font-weight: 600;"> Additional Status </label>
+                                </div>
+                                <div class="col-md-10">
+                                <textarea type='text' class="form-control" id="additionalComment"></textarea>
+                                </div>`;
+                }
+                
+
+                $('#appenddiv').empty();
+                $('#appenddiv').append(row);
+                
+            },
+            error: function (exception) {
+            alert("oops error!");
+            }
+                
+        });
+  }
+
+    
+   function save_data(){
+    let data={
+        id: addendem_id,
+        typ: "Save",
+        additionalComment: $('#additionalComment').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+    }
+    $.ajax({
+            type: 'POST',
+            url: "{% url 'addendum_ajax' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                $('#secondarydiv').show();
+                $('#maindiv').hide();
+                $('#secondarydivp1').show();
+                $('#secondarydivp2').hide();
+                $('#annenddiv').hide();
+                alert('Successfully Submitted')
+            },
+            error: function (exception) {
+            alert("oops error!");
+            }
+                
+        });
+   }
+
+   function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        let newyear = String(year).slice(2, 5)
+        return [day, month, newyear].join('/');
+    }
+
+</script>
+{% endblock %}

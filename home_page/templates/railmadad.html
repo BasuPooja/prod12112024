@@ -1,0 +1,4573 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+<!-- <head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="complaint1.css">
+</head> -->
+<head>
+	{% include 'inspects_staticProvider.html' %}
+	<title>My Rail Madad</title>
+	<script type="text/javascript" src="{% static '/js/chart.min2.js'%}"></script>
+	<script type="text/javascript" src="{% static '/js/chartjs-plugin-datalabels.min.js'%}"></script>
+	<script type="text/javascript" src="{% static '/js/chart.min.js'%}"></script>
+	<style>
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			border: 0px;
+			background-color: rgb(255, 255, 255, 0) !important;
+			color: #007bff !important;
+
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			background-color: rgba(23.32, 77, 77, 0) !important;
+			color: #007bff !important;
+
+		}
+
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+		.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			color: rgba(51, 51, 51, 0) !important;
+			border: 1px solid rgba(0, 0, 0, 0);
+			background-color: rgba(23.32, 77, 77, 0);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			color: #007bff !important;
+			border: 1px solid rgba(17, 17, 17, 0);
+			background-color: #58585800;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			outline: none;
+			background-color: #2b2b2b00;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* W3C */
+			box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			border: 0px;
+			background-color: rgb(255, 255, 255, 0) !important;
+			color: #007bff !important;
+
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			background-color: rgba(23.32, 77, 77, 0) !important;
+			color: #007bff !important;
+
+		}
+
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+		.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			color: #333 !important;
+			border: 1px solid rgba(0, 0, 0, 0);
+			background-color: rgba(23.32, 77, 77, 0);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			color: #007bff !important;
+			border: 1px solid rgba(17, 17, 17, 0);
+			background-color: #58585800;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			outline: none;
+			background-color: #2b2b2b00;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* W3C */
+			box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+		}
+
+		table.dataTable tbody th,
+		table.dataTable tbody td {
+			padding: 5px 10px;
+		}
+	</style>
+	<style>
+		@media only screen and (max-width: 400px) and (min-width: 300px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 17px;
+				padding-left: 0;
+				margin-left: 0;
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		@media only screen and (max-width: 450px) and (min-width: 401px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 20px;
+				padding-left: 0;
+				margin-left: 0;
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		@media only screen and (max-width: 700px) and (min-width: 451px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 25px;
+				padding-left: 0;
+				margin-left: 0;
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		@media only screen and (max-width: 299px) and (min-width: 200px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 10px;
+				padding-left: 0;
+				margin-left: 0;
+
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		.t2 {
+			font-size: 100%;
+			color: white !important;
+		}
+
+		.t2:hover {
+			background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+			text-transform: uppercase;
+			font-weight: bold;
+			color: black !important;
+		}
+
+		.t2:hover #menu_icon {
+			color: black !important;
+		}
+
+		.dropdown:hover {
+			/* background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white); */
+			/* text-transform: uppercase; */
+		}
+
+		.dropdown:hover .dropdown-toggle {
+			font-weight: bold;
+			color: white !important;
+		}
+
+		.dropdown:hover .dropdown-menu {
+			display: block;
+			text-transform: none;
+		}
+
+		.dropdown-menu .dropdown-item:hover {
+			background-image: linear-gradient(to bottom right, rgb(98, 132, 245), white);
+			/* text-transform: uppercase; */
+		}
+
+		.dropdown-menu {
+			margin-top: 0;
+		}
+
+		.menu li {
+			display: inline-block;
+			font-family: Lato;
+			padding-right: 0%;
+		}
+
+		.menu {
+			/* padding:0%; */
+			margin-bottom: 0%;
+		}
+
+		.dropdown-toggle::after {
+			display: inline-block;
+			margin-left: .255em;
+			vertical-align: .255em;
+			content: "";
+			color: white;
+			border-top: .3em solid;
+			border-right: .3em solid transparent;
+			border-bottom: 0;
+			border-left: .3em solid transparent;
+		}
+	</style>
+	<style>
+		.sidebar {
+			position: fixed;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: 15%;
+			/* background: #11101d; */
+			background: #2c3e50;
+			/* background: #12161D; */
+			z-index: 100;
+			margin-top: 3rem;
+			background: #4072CC;
+			/* background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+				background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+				background: linear-gradient(to bottom right, #4072CC, #7C72EA); */
+		}
+
+		.sidebar.close {
+			width: 78px;
+		}
+
+		.sidebar .logo-details {
+			height: 60px;
+			width: 100%;
+			display: flex;
+			align-items: center;
+		}
+
+		.sidebar .logo-details i {
+			font-size: 30px;
+			color: #fff;
+			height: 50px;
+			min-width: 78px;
+			text-align: center;
+			line-height: 50px;
+		}
+
+		.sidebar .logo-details .logo_name {
+			font-size: 22px;
+			color: #fff;
+			font-weight: 600;
+			transition: 0.3s ease;
+			transition-delay: 0.1s;
+		}
+
+		.sidebar.close .logo-details .logo_name {
+			transition-delay: 0s;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.sidebar .nav-links {
+			height: 100%;
+			padding: 30px 0 150px 0;
+			overflow: auto;
+		}
+
+		.sidebar.close .nav-links {
+			overflow: visible;
+		}
+
+		.sidebar .nav-links::-webkit-scrollbar {
+			display: none;
+		}
+
+		.sidebar .nav-links li {
+			position: relative;
+			list-style: none;
+			transition: all 0.4s ease;
+		}
+
+		.sidebar .nav-links li {
+			/* color: #1c81d9; */
+			color: white;
+		}
+
+		.sidebar .nav-links li:hover {
+			background: #1d1b31;
+		}
+
+		.sidebar .nav-links li .iocn-link {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.sidebar.close .nav-links li .iocn-link {
+			display: block
+		}
+
+		.sidebar .nav-links li {
+			height: 50px;
+			padding-left: 8%;
+			min-width: 48px;
+			text-align: left;
+			line-height: 50px;
+			color: #fff;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		.sidebar.close .nav-links li i {
+			min-width: 70px;
+		}
+
+		.sidebar .nav-links li.showMenu i.arrow {
+			transform: rotate(-180deg);
+		}
+
+		.sidebar.close .nav-links i.arrow {
+			display: none;
+		}
+
+		.sidebar .nav-links li a {
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+		}
+
+		.sidebar .nav-links li a .link_name {
+			font-size: 14px;
+			font-weight: 400;
+			color: #fff;
+			transition: all 0.4s ease;
+		}
+
+		.sidebar.close .nav-links li a .link_name {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.sidebar .nav-links li .sub-menu {
+			padding: 6px 6px 14px 30px;
+			margin-top: -10px;
+			background: #1d1b31;
+			display: none;
+		}
+
+		.sidebar .nav-links li.showMenu .sub-menu {
+			display: block;
+		}
+
+		.sidebar .nav-links li .sub-menu a {
+			color: #fff;
+			font-size: 15px;
+			padding: 5px 0;
+			white-space: nowrap;
+			opacity: 0.6;
+			transition: all 0.3s ease;
+		}
+
+		.sidebar .nav-links li .sub-menu a:hover {
+			opacity: 1;
+		}
+
+		.sidebar.close .nav-links li .sub-menu {
+			position: absolute;
+			left: 100%;
+			top: -10px;
+			margin-top: 0;
+			padding: 10px 20px;
+			border-radius: 0 6px 6px 0;
+			opacity: 0;
+			display: block;
+			pointer-events: none;
+			transition: 0s;
+		}
+
+		.sidebar.close .nav-links li:hover .sub-menu {
+			top: 0;
+			opacity: 1;
+			pointer-events: auto;
+			transition: all 0.4s ease;
+		}
+
+		.sidebar .nav-links li .sub-menu .link_name {
+			display: none;
+		}
+
+		.sidebar.close .nav-links li .sub-menu .link_name {
+			font-size: 18px;
+			opacity: 1;
+			display: block;
+		}
+
+		.sidebar .nav-links li .sub-menu.blank {
+			opacity: 1;
+			pointer-events: auto;
+			padding: 3px 20px 6px 16px;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.sidebar .nav-links li:hover .sub-menu.blank {
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.sidebar .profile-details {
+			position: fixed;
+			bottom: 0;
+			width: 260px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: #1d1b31;
+			padding: 12px 0;
+			transition: all 0.5s ease;
+		}
+
+		.sidebar.close .profile-details {
+			background: none;
+		}
+
+		.sidebar.close .profile-details {
+			width: 78px;
+		}
+
+		.sidebar .profile-details .profile-content {
+			display: flex;
+			align-items: center;
+		}
+
+		.sidebar .profile-details img {
+			height: 52px;
+			width: 52px;
+			object-fit: cover;
+			border-radius: 16px;
+			margin: 0 14px 0 12px;
+			background: #1d1b31;
+			transition: all 0.5s ease;
+		}
+
+		.sidebar.close .profile-details img {
+			padding: 10px;
+		}
+
+		.sidebar .profile-details .profile_name,
+		.sidebar .profile-details .job {
+			color: #fff;
+			font-size: 18px;
+			font-weight: 500;
+			white-space: nowrap;
+		}
+
+		.sidebar.close .profile-details i,
+		.sidebar.close .profile-details .profile_name,
+		.sidebar.close .profile-details .job {
+			display: none;
+		}
+
+		.sidebar .profile-details .job {
+			font-size: 12px;
+		}
+
+		.home-section {
+			position: relative;
+			height: 100vh;
+			left: 260px;
+			top: 48px;
+			width: calc(100% - 260px);
+			transition: all 0.5s ease;
+		}
+
+		.sidebar.close~.home-section {
+			left: 78px;
+			width: calc(100% - 78px);
+		}
+
+		.home-section .home-content .bx-menu,
+		.home-section .home-content .text {
+			color: #11101d;
+			font-size: 35px;
+		}
+
+		.home-section .home-content .bx-menu {
+			margin: 0 0%;
+			cursor: pointer;
+		}
+
+		.home-section .home-content .text {
+			font-size: 26px;
+			font-weight: 600;
+		}
+
+		@media (max-width: 400px) {
+			.sidebar {
+				width: 100%;
+				height: auto;
+			}
+
+			.sidebar.close {
+				width: 0;
+			}
+
+			.home-section {
+				left: 78px;
+				width: calc(100% - 78px);
+
+			}
+
+			/* .sidebar.close ~ .home-section{
+					width: 100%;
+					left: 0;
+				}*/
+		}
+
+		nav ul {
+			list-style: none;
+		}
+
+		.listRight {
+			left: auto !important;
+			right: 0 !important;
+		}
+	</style>
+
+	<style>
+		h3 {
+			font-family: "Lato";
+			font-size: 20px;
+			font-weight: 700;
+			/* text-shadow: rgba(0, 0, 0, 0.5) 0 10px 10px; */
+		}
+
+		h2 {
+			font-family: "Lato";
+			font-size: 20px;
+			font-weight: 700;
+		}
+
+		.back {
+			cursor: pointer;
+		}
+
+
+		.colornav {
+			background-color: #3f51b5;
+			background-image: -webkit-linear-gradient(left, #3f51b5, #03a9f4);
+			background-image: linear-gradient(to right, #3f51b5, #03a9f4);
+		}
+
+		/* Apeksha Styles */
+		th {
+			text-align: center;
+		}
+
+		tr {
+			text-align: center;
+		}
+
+		thead {
+			color: black;
+			background-color: #bfccf0;
+		}
+
+
+		.nav-item {
+			background-color: #f2ecf5;
+
+		}
+	   
+	</style>
+
+<style>
+    .loader {
+    width: 80px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -20px -40px;
+    z-index: 1000;
+
+}
+
+.lightsaber {
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    background-color: #666;
+    border-radius: 1px;
+    bottom: 0;
+}
+
+.lightsaber.ls-left {
+    left: 0;
+}
+
+.lightsaber.ls-right {
+    right: 0;
+}
+
+.lightsaber:before {
+    position: absolute;
+    content: ' ';
+    display: block;
+    width: 2px;
+    height: 25px;
+    max-height: 1px;
+    left: 1px;
+    top: 1px;
+    background-color: #fff;
+    border-radius: 1px;
+    -webkit-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+    -webkit-transform-origin: center top;
+    -ms-transform-origin: center top;
+    transform-origin: center top;
+}
+
+.lightsaber:after {
+    position: absolute;
+    content: ' ';
+    display: block;
+    width: 2px;
+    height: 2px;
+    left: 1px;
+    top: 4px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.ls-particles {
+    position: absolute;
+    left: 42px;
+    top: 10px;
+    width: 1px;
+    height: 5px;
+    background-color: rgb(51, 51, 51, 0);
+    -webkit-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+}
+
+
+.lightsaber.ls-green:before {
+    -webkit-animation: showlightgreen 2s ease-in-out infinite 1s; animation: showlightgreen 2s ease-in-out infinite 1s;
+}
+
+.lightsaber.ls-red:before {
+    -webkit-animation: showlightred 2s ease-in-out infinite 1s; animation: showlightred 2s ease-in-out infinite 1s;
+}
+
+
+.lightsaber.ls-left {
+    -webkit-animation: fightleft 2s ease-in-out infinite 1s; animation: fightleft 2s ease-in-out infinite 1s;
+}
+
+.lightsaber.ls-right {
+    -webkit-animation: fightright 2s ease-in-out infinite 1s; animation: fightright 2s ease-in-out infinite 1s;
+}
+
+.ls-particles.ls-part-1 {
+    -webkit-animation: particles1 2s ease-out infinite 1s; animation: particles1 2s ease-out infinite 1s;
+}
+
+.ls-particles.ls-part-2 {
+    -webkit-animation: particles2 2s ease-out infinite 1s; animation: particles2 2s ease-out infinite 1s;
+}
+
+.ls-particles.ls-part-3 {
+    -webkit-animation: particles3 2s ease-out infinite 1s; animation: particles3 2s ease-out infinite 1s;
+}
+
+.ls-particles.ls-part-4 {
+    -webkit-animation: particles4 2s ease-out infinite 1s; animation: particles4 2s ease-out infinite 1s;
+}
+
+.ls-particles.ls-part-5 {
+    -webkit-animation: particles5 2s ease-out infinite 1s; animation: particles5 2s ease-out infinite 1s;
+}
+
+@-webkit-keyframes showlightgreen {
+    0% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #87c054;
+    }
+  
+    5% {
+        box-shadow: 0 0 4px 2px #87c054;
+    }
+    
+    10% {
+        max-height: 22px;
+    }
+  
+    80% {
+        max-height: 22px;
+    }
+    
+    85% {
+        box-shadow: 0 0 4px 2px #87c054;
+    }
+    
+    100% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #87c054;
+    }
+}
+
+@-webkit-keyframes showlightred {
+    0% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #f06363;
+    }
+  
+    20% {
+        box-shadow: 0 0 4px 2px #f06363;
+    }
+    
+    25% {
+        max-height: 22px;
+    }
+  
+    80% {
+        max-height: 22px;
+    }
+    
+    85% {
+        box-shadow: 0 0 4px 2px #f06363;
+    }
+    
+    100% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #f06363;
+    }
+}
+
+@-webkit-keyframes fightleft {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        left: 0;
+        bottom: 0;
+    }
+    
+    30% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        bottom: 0;
+    }
+    
+    40% {
+        -webkit-transform: rotateZ(45deg);
+        transform: rotateZ(45deg);
+        left: 0;
+        bottom: 2px;
+    }
+    
+    45%{
+        -webkit-transform: rotateZ(65deg);
+        transform: rotateZ(65deg);
+        left: 0;
+    }
+    
+    65%{
+        -webkit-transform: rotateZ(410deg);
+        transform: rotateZ(410deg);
+        left: 30px;
+        bottom: 10px;
+    }
+    
+    95% {
+        -webkit-transform: rotateZ(410deg);
+        transform: rotateZ(410deg);
+        left: 0;
+        bottom: 0;
+    }
+    
+    100% {
+        -webkit-transform: rotateZ(360deg);
+        transform: rotateZ(360deg);
+        left: 0;
+        bottom: 0;
+    }
+}
+
+@-webkit-keyframes fightright {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        right: 0;
+        bottom: 0;
+    }
+    
+    30% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        bottom: 0;
+    }
+    
+    45% {
+        -webkit-transform: rotateZ(-45deg);
+        transform: rotateZ(-45deg);
+        right: 0;
+        bottom: 2px;
+    }
+    
+    50%{
+        -webkit-transform: rotateZ(-65deg);
+        transform: rotateZ(-65deg);
+        right: 0;
+    }
+    
+    68%{
+        -webkit-transform: rotateZ(-410deg);
+        transform: rotateZ(-410deg);
+        right: 27px;
+        bottom: 13px;
+    }
+    
+    95% {
+        -webkit-transform: rotateZ(-410deg);
+        transform: rotateZ(-410deg);
+        right: 0;
+        bottom: 0;
+    }
+    
+    100% {
+        -webkit-transform: rotateZ(-360deg);
+        transform: rotateZ(-360deg);
+        right: 0;
+        bottom: 0;
+    }
+}
+
+@-webkit-keyframes particles1 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(35deg) translateY(0px);
+        transform: rotateZ(35deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(35deg) translateY(0px);
+        transform: rotateZ(35deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(35deg) translateY(0px);
+        transform: rotateZ(35deg) translateY(0px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(35deg) translateY(-30px);
+        transform: rotateZ(35deg) translateY(-30px);
+    }
+}
+
+@-webkit-keyframes particles2 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(0px);
+        transform: rotateZ(-65deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(0px);
+        transform: rotateZ(-65deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(-65deg) translateY(0px);
+        transform: rotateZ(-65deg) translateY(0px);
+    }
+    
+    95% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(-40px);
+        transform: rotateZ(-65deg) translateY(-40px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(-40px);
+        transform: rotateZ(-65deg) translateY(-40px);
+    }
+}
+
+@-webkit-keyframes particles3 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(0px);
+        transform: rotateZ(-75deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(0px);
+        transform: rotateZ(-75deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(-75deg) translateY(0px);
+        transform: rotateZ(-75deg) translateY(0px);
+    }
+    
+    97% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(-35px);
+        transform: rotateZ(-75deg) translateY(-35px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(-35px);
+        transform: rotateZ(-75deg) translateY(-35px);
+    }
+}
+
+@-webkit-keyframes particles4 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(0px);
+        transform: rotateZ(-25deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(0px);
+        transform: rotateZ(-25deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(-25deg) translateY(0px);
+        transform: rotateZ(-25deg) translateY(0px);
+    }
+    
+    97% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(-30px);
+        transform: rotateZ(-25deg) translateY(-30px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(-30px);
+        transform: rotateZ(-25deg) translateY(-30px);
+    }
+}
+
+@-webkit-keyframes particles5 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(0px);
+        transform: rotateZ(65deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(0px);
+        transform: rotateZ(65deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(65deg) translateY(0px);
+        transform: rotateZ(65deg) translateY(0px);
+    }
+    
+    97% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(-35px);
+        transform: rotateZ(65deg) translateY(-35px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(-35px);
+        transform: rotateZ(65deg) translateY(-35px);
+    }
+}
+
+@keyframes showlightgreen {
+    0% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #87c054;
+    }
+  
+    5% {
+        box-shadow: 0 0 4px 2px #87c054;
+    }
+    
+    10% {
+        max-height: 22px;
+    }
+  
+    80% {
+        max-height: 22px;
+    }
+    
+    85% {
+        box-shadow: 0 0 4px 2px #87c054;
+    }
+    
+    100% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #87c054;
+    }
+}
+
+@keyframes showlightred {
+    0% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #f06363;
+    }
+  
+    20% {
+        box-shadow: 0 0 4px 2px #f06363;
+    }
+    
+    25% {
+        max-height: 22px;
+    }
+  
+    80% {
+        max-height: 22px;
+    }
+    
+    85% {
+        box-shadow: 0 0 4px 2px #f06363;
+    }
+    
+    100% {
+        max-height: 0;
+        box-shadow: 0 0 0 0 #f06363;
+    }
+}
+
+@keyframes fightleft {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        left: 0;
+        bottom: 0;
+    }
+    
+    30% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        bottom: 0;
+    }
+    
+    40% {
+        -webkit-transform: rotateZ(45deg);
+        transform: rotateZ(45deg);
+        left: 0;
+        bottom: 2px;
+    }
+    
+    45%{
+        -webkit-transform: rotateZ(65deg);
+        transform: rotateZ(65deg);
+        left: 0;
+    }
+    
+    65%{
+        -webkit-transform: rotateZ(410deg);
+        transform: rotateZ(410deg);
+        left: 30px;
+        bottom: 10px;
+    }
+    
+    95% {
+        -webkit-transform: rotateZ(410deg);
+        transform: rotateZ(410deg);
+        left: 0;
+        bottom: 0;
+    }
+    
+    100% {
+        -webkit-transform: rotateZ(360deg);
+        transform: rotateZ(360deg);
+        left: 0;
+        bottom: 0;
+    }
+}
+
+@keyframes fightright {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        right: 0;
+        bottom: 0;
+    }
+    
+    30% {
+        -webkit-transform: rotateZ(0deg);
+        transform: rotateZ(0deg);
+        bottom: 0;
+    }
+    
+    45% {
+        -webkit-transform: rotateZ(-45deg);
+        transform: rotateZ(-45deg);
+        right: 0;
+        bottom: 2px;
+    }
+    
+    50%{
+        -webkit-transform: rotateZ(-65deg);
+        transform: rotateZ(-65deg);
+        right: 0;
+    }
+    
+    68%{
+        -webkit-transform: rotateZ(-410deg);
+        transform: rotateZ(-410deg);
+        right: 27px;
+        bottom: 13px;
+    }
+    
+    95% {
+        -webkit-transform: rotateZ(-410deg);
+        transform: rotateZ(-410deg);
+        right: 0;
+        bottom: 0;
+    }
+    
+    100% {
+        -webkit-transform: rotateZ(-360deg);
+        transform: rotateZ(-360deg);
+        right: 0;
+        bottom: 0;
+    }
+}
+
+@keyframes particles1 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(35deg) translateY(0px);
+        transform: rotateZ(35deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(35deg) translateY(0px);
+        transform: rotateZ(35deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(35deg) translateY(0px);
+        transform: rotateZ(35deg) translateY(0px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(35deg) translateY(-30px);
+        transform: rotateZ(35deg) translateY(-30px);
+    }
+}
+
+@keyframes particles2 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(0px);
+        transform: rotateZ(-65deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(0px);
+        transform: rotateZ(-65deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(-65deg) translateY(0px);
+        transform: rotateZ(-65deg) translateY(0px);
+    }
+    
+    95% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(-40px);
+        transform: rotateZ(-65deg) translateY(-40px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-65deg) translateY(-40px);
+        transform: rotateZ(-65deg) translateY(-40px);
+    }
+}
+
+@keyframes particles3 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(0px);
+        transform: rotateZ(-75deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(0px);
+        transform: rotateZ(-75deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(-75deg) translateY(0px);
+        transform: rotateZ(-75deg) translateY(0px);
+    }
+    
+    97% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(-35px);
+        transform: rotateZ(-75deg) translateY(-35px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-75deg) translateY(-35px);
+        transform: rotateZ(-75deg) translateY(-35px);
+    }
+}
+
+@keyframes particles4 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(0px);
+        transform: rotateZ(-25deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(0px);
+        transform: rotateZ(-25deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(-25deg) translateY(0px);
+        transform: rotateZ(-25deg) translateY(0px);
+    }
+    
+    97% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(-30px);
+        transform: rotateZ(-25deg) translateY(-30px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(-25deg) translateY(-30px);
+        transform: rotateZ(-25deg) translateY(-30px);
+    }
+}
+
+@keyframes particles5 {
+    0% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(0px);
+        transform: rotateZ(65deg) translateY(0px);
+    }
+    
+    63% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(0px);
+        transform: rotateZ(65deg) translateY(0px);
+    }
+    
+    64% {
+        background-color: rgba(51, 51, 51,1);
+        -webkit-transform: rotateZ(65deg) translateY(0px);
+        transform: rotateZ(65deg) translateY(0px);
+    }
+    
+    97% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(-35px);
+        transform: rotateZ(65deg) translateY(-35px);
+    }
+    
+    100% {
+        background-color: rgba(51, 51, 51,0);
+        -webkit-transform: rotateZ(65deg) translateY(-35px);
+        transform: rotateZ(65deg) translateY(-35px);
+    }
+}
+    </style>
+</head>
+<body>
+<!-- <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Complaint Monitoring</li>
+  </ol>
+</nav> -->
+<div class=" navbar-dark bg-dark mb-2 sticky-top colornav" style="margin:0 auto ;">
+	<ul class="navbar" style="list-style: none;padding: 0rem 1rem;">
+		<ul style="padding: 0 !important;width:40%;">
+			{% if request.session.d_level == 'CRB' %}
+			<li style="width:3%;display:inline-block;" class="back">
+				<!-- <a href="/home_page"><img src="/static/images/home.png" class="img img-responsive img-fluid" /></a> -->
+				<a href="/home_page" id="notificationLink1" style="color:white;font-size: 23px;" data-toggle="tooltip" title="Home"><i class="bx bxs-home"
+					aria-hidden="true"></i></a>
+			</li>
+			{% endif %} 
+			<li style="display:inline-block;width:30%">
+				<h2
+					style="color:#fff; font-family:Lato; padding-left: 5%;text-align: Left;font-size: 1.6rem;font-weight: 600;">
+					<a onClick="window.location.reload()"> My Rail Madad</a></h2>
+			</li>
+			
+		</ul>
+		<ul>
+			<li style="display:inline-block;">
+				<h4
+					style="margin:0%;color:#fff; font-family:Lato, sans-serif;font-size:16px;font-weight:600;">
+					Welcome&nbsp; {{request.session.designation|safe}}</h4>
+			</li>
+			<li class="nav-item dropdown" style="display:inline-block;background-color:#03a9f4">
+				<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img
+						src="/static/images/profile2.webp" class="rounded-circle" style="width: 2.00rem;"
+						alt="Profile" style="padding: 0 !important;" /></a>
+				<div class="dropdown-menu dropdown-menu-left" style="left:-90px !important;">
+					<a href="/viewDetail" class="dropdown-item">View Profile</a>
+					<a href="/inspect_changePassword" class="dropdown-item">Change Password</a>
+					<div class="dropdown-divider"></div>
+					<a href='/inspect_logout' onclick='logoutConfirm();' class="dropdown-item">Logout</a>
+				</div>
+			</li>
+		</ul>
+	</ul>
+</div>
+
+<div class="container-fluid">
+	<div class="row" style="margin: 0;">
+		<!-- <div class="col-2">
+		</div> -->
+		 <div class="col-12" >
+				<!-- <table class="table table-heading"> 
+					<tr>
+						<td> -->
+							<table style="width: 100%; margin-bottom: 8px;" >
+								<!-- <tr style="text-align:center;padding-top:5px;padding-bottom:5px;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);"> -->
+									<tr style="background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);">
+									<td align="left"style="width: 80%;">
+										<h4 class="report-heading">Complaint Monitoring (Zone Wise) Including Refund and Inquiry Cases</h4>
+									</td>
+									<!-- <td align="left">
+										<h4 class="heading" >Zone-wise Complaints Statistics</h4>
+									</td> -->
+									<td align="right" style="width: 20%;">
+										<select class="form-control select2" id="period" data-live-search="true" data-actions-box="true" style="max-width:100%;height:3em;" onchange="period_selected()">
+											<option selected value="1">Yesterday ({{rail_yest}})</option>
+											{% for i in periods %}
+											<option value="{{i.key}}">{{i.value}} ({{i.fromdate}} : {{rail_today}})</option>
+											{% endfor %}
+										</select>
+										<!-- <select class="form-control form-select" style="max-width:250px;">
+											<option>Yesterday</option>
+											<option>Last 7 Days</option>
+											<option>Month to Date</option>
+										</select> -->
+									</td>
+								</tr>
+							</table>
+						<!-- </td>
+					</tr>
+				</table> -->
+				<div class="page_wrapper" id="spinner_div">
+					<div class="row" style="height:800px; " id="loader">
+						<div class="col-5" style=" width: 1800px;" ></div>
+						<div class="col-2" style="padding-top: 30%; ">
+							<center>
+								<!-- <div class="loader" ></div> -->
+								<div class="loader">
+									<div class="ls-particles ls-part-1"></div>
+									<div class="ls-particles ls-part-2"></div>
+									<div class="ls-particles ls-part-3"></div>
+									<div class="ls-particles ls-part-4"></div>
+									<div class="ls-particles ls-part-5"></div>
+									<div class="lightsaber ls-left ls-green"></div>
+									<div class="lightsaber ls-right ls-red"></div>
+								</div>
+							</center>
+						</div>
+						<div class="col-5"></div>
+					</div>
+				</div>
+				<div class="page-wrapper" id="data_div">
+					<!-- <h4 class="heading" ><center>Zone-wise Complaints Statistics</center></h4> -->
+				<!-- <div class="card" style="overflow-x:scroll;max-height:400px;"> -->
+					<div class="card">
+					<div class="row">
+						<div class="col-12">
+							<table class="table table-striped table-bordered table-data table-responsive"  id="table1">
+								<thead>
+									<tr>
+										<th  style="text-align:center" class="text-bold" rowspan="2">Zone</th>
+										<th  style="text-align:center" colspan="2">Total Complaints</th>
+										<th  style="text-align:center" class="text-bold" rowspan="2">Average Pendency (Minutes)</th>
+										<th  style="text-align:center" colspan="14">Cause-wise Complaints Breakup (Received)</th>
+									</tr>
+									<tr>
+										<th style="text-align:center" >Received</th>
+										<th style="text-align:center" >Closed</th>
+										<th style="text-align:center" >Cleanliness</th>
+										<th style="text-align:center" >Water Availability</th>
+										<th style="text-align:center" >Electrical Equipment</th>
+										<th style="text-align:center" >Catering</th>
+										<th style="text-align:center" >Security</th>
+										<th style="text-align:center" >Reserved Ticketing</th>
+										<th style="text-align:center" >Unreserved Ticketing</th>
+										<th style="text-align:center" >Refunds</th>
+										<th style="text-align:center" >Amenities</th>
+										<th style="text-align:center" >Luggace/Parcel</th>
+										<th style="text-align:center" >Goods</th>
+										<th style="text-align:center" >Punctuality</th>
+										<th style="text-align:center" >Others</th>
+										<!-- <th>Total</th> -->
+									</tr>
+									</thead>
+									<tbody>
+										{% if zone_cause %}
+										{% for i in zone_cause %}
+										<tr>
+										<td style="text-align:left">{{i.zone}}</td>
+										<td>{{i.com_rcvd}}</td>
+										<td>{{i.com_closed}}</td>
+										<td>{{i.avg_pend}}</td>
+										<!-- </tr> -->
+										<!-- <td>{{z.zone}}</td> -->
+											{% for z in i.values %} 
+											<td>{{z}}</td>
+											{% endfor %}
+										</tr>
+										{% endfor %}
+										{% endif %} 
+				
+									</tbody>
+							</table>
+						</div>
+					</div>
+					
+					</div>
+				<!-- <hr/> -->
+					<!-- <h4 class="heading">Highlights (<span class="top-5">Top 5 with Maximum Complaints Received</span>)</h4> -->
+					<div class="row mt-1">
+						<div class="col-12">
+							<div class="row">
+								<div class="col-lg-4 sm-12">
+									<div class="card">
+										<div class="card-header" style="text-align:center;padding-top:5px;padding-bottom:5px;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);">
+											<h5>Top 5 Zones with Maximum Complaints Received</h5>
+										</div>
+										<div class="card-body">
+											<!-- <div style="background-image: radial-gradient(circle, rgba(212,238,174,1) 0%, rgba(148,187,233,1) 100%);"> -->
+											<div>
+												<canvas id="mychart21"></canvas>
+												<canvas id="mychart22"></canvas>
+												<canvas id="mychart23"></canvas>
+											</div>
+											<!-- <img src="1.jpg" class="img img-fluid img-responsive" /> -->
+										</div>
+										<!-- <div class="card-footer">
+							
+										</div> -->
+									</div>
+								</div>
+								<div class="col-lg-4 sm-12">
+									<div class="card">
+										<div class="card-header" style="text-align:center;padding-top:5px;padding-bottom:5px;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);">
+											<h5>Top 5 Divisions with Maximum Complaints Received</h5>
+										</div>
+										<div class="card-body">
+											<!-- <div style="background-image: radial-gradient(circle, rgba(212,238,174,1) 0%, rgba(148,187,233,1) 100%);"> -->
+											<div>
+												<canvas id="mychart11"></canvas>
+												<canvas id="mychart12"></canvas>
+												<canvas id="mychart13"></canvas>
+												</div>
+											<!-- <img src="1.jpg" class="img img-fluid img-responsive" /> -->
+										</div>
+										<!-- <div class="card-footer">
+							
+										</div> -->
+									</div>
+								</div>
+								<div class="col-lg-4 sm-12">
+									<div class="card">
+										<div class="card-header" style="text-align:center;padding-top:5px;padding-bottom:5px;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);">
+											<h5>Top 5 Trains with Maximum Complaints Received</h5>
+										</div>
+										<div class="card-body">
+											<!-- <div style="background-image: radial-gradient(circle, rgba(212,238,174,1) 0%, rgba(148,187,233,1) 100%);"> -->
+											<div>
+												<canvas id="mychart31"></canvas>
+												<canvas id="mychart32"></canvas>
+												<canvas id="mychart33"></canvas>
+											</div>
+											<!-- <img src="1.jpg" class="img img-fluid img-responsive" /> -->
+										</div>
+										<!-- <div class="card-footer">
+							
+										</div> -->
+									</div>
+								</div>
+							</div>
+							<div class="row" style="background-color:#ded8ed; width: 100%; margin-left: 1px;">
+								<div class="col-12"  style="width: 100%; ">
+									<!-- <h6>Index for all three above tables</h6> -->
+									<table  style="width: 100%; text-align: left;font-size: 0.7em; ">
+										<tr style=" text-align: left; ">
+											<th style=" text-align: left; width: 9%; font-size: 1em; font-weight: 800;"><u>Index for the above tables:</u></th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#4600FE; width:40px"> <br></span> Cleanliness</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#208200; width:40px"> <br></span> Coach - Cleanliness</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#FE9200; width:40px"> <br></span> Coach - Maintenance </th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#00DCFE; width:40px"> <br></span> Water Availability</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#1300FE; width:40px"> <br></span> Electrical Equipment</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#FE0000; width:40px"> <br></span> Bed Roll</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#D59400; width:40px"> <br></span> Security</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#3C6411; width:40px"> <br></span> Goods</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#74AA6B; width:40px"> <br></span> Punctuality </th>
+											<th style=" text-align: left; width: 10%;"><span class="badge" style="background-color:#FE00FA; width:40px"> <br></span> Facilities for Women with Special needs</th>
+											
+										</tr>
+										<tr>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#026C57; width:40px"> <br></span> Catering & Vending Services</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#611164; width:40px"> <br></span> Refund of Tickets</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#113464; width:40px"> <br></span> Passenger Amenities</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#F8B0B0; width:40px"> <br></span> Divyangjan Facilities </th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#AD00FE; width:40px"> <br></span> Corruption / Bribery </th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#005CFE; width:40px"> <br></span> Staff Behaviour </th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#D52B00; width:40px"> <br></span> Reserved Ticketing</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#FFD300; width:40px"> <br></span> Unreserved Ticketing</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#F64444; width:40px"> <br></span> Luggage / Parcels</th>
+											<th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#B0F8E0; width:40px"> <br></span> Medical Assistance </th>
+											<th style=" text-align: left; width: 10%;"><span class="badge" style="background-color:#662900; width:40px"> <br></span> All Other Complaints</th>
+											
+											
+										</tr>
+	
+									</table>
+								</div>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+		 </div>	
+		</div>
+		<hr/>
+		<div class="row">
+			<!-- <div class="col-2"><h6 style="color: blue; text-align: left;">(Source: Rail Madad)</h6></div> -->
+			<div class="col-7"><h6 style="color: blue; text-align: left;padding-left: 3px;">Source: Web Application (For more information visit: <a  href="https://railmadad.indianrailways.gov.in/rmmis/final/home.jsp" target="blank">https://railmadad.indianrailways.gov.in/rmmis</a>)</h6> </div>
+			<div class="col-5"><h6 style="color: blue; text-align: right; ">This report was last updated on {{rail_day}} at {{rail_time}}</h6></div>
+		</div>
+	</div>
+
+
+
+<!-- <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-primary navbar-footer">
+<p class="copyright">Copyright@2022: Designed and Developed by Centre for Railway Information Systems (CRIS)</p>
+</nav> -->
+</body>
+
+ <!-- ---------------- division wise --------------     -->
+
+ <script> 
+	
+	// ---------------------- yesterday ----------------------------- //   
+	const ctx11 = document.getElementById('mychart11').getContext('2d');
+   
+	  let div_list_y1 = {{ div_list_y | safe}};
+	  let cleanliness_div_y1 = {{ cleanliness_div_y | safe}};
+	  let water_div_y1 = {{ water_div_y | safe}};
+	  let electrical_div_y1 = {{ electrical_div_y | safe}};
+	  let catering_div_y1 = {{ catering_div_y | safe}};
+	  let security_div_y1 = {{ security_div_y | safe}};
+	  let r_ticketing_div_y1 = {{ r_ticketing_div_y | safe}};
+	  let u_ticketing_div_y1 = {{ u_ticketing_div_y | safe}};
+	  let refund_ticket_div_y1 = {{ refund_ticket_div_y | safe}};
+	  let pssngr_amenities_div_y1 = {{ pssngr_amenities_div_y | safe}};
+	  let goods_div_y1 = {{ goods_div_y | safe}};
+	  let luggage_div_y1 = {{ luggage_div_y | safe}};
+	  let punctuality_div_y1 = {{ punctuality_div_y | safe}};
+	  let medical_div_y1={{ medical_div_y | safe}};
+	  let divyangjan_div_y1={{ divyangjan_div_y | safe}};
+	  let woman_div_y1={{ woman_div_y | safe}};
+	  let corruption_div_y1={{ corruption_div_y | safe}};
+	  let staff_div_y1={{ staff_div_y | safe}};
+	  let coach_clean_div_y1={{ coach_clean_div_y | safe}};
+	  let coach_main_div_y1={{ coach_main_div_y | safe}};
+	  let bed_div_y1={{ bed_div_y | safe}};
+	  let other_div_y1 = {{ other_div_y | safe}};
+
+	//   let listy22 = {{ div_values_y | safe}}
+	  // let list23 = [4,2,0,1,2]
+   
+	  const mychart11 = new Chart(ctx11, {
+		type: 'bar',
+		data: {
+		  labels: div_list_y1,
+		  labelAngle: 90,
+		  datasets: [
+			{
+			  label: 'Cleanliness',
+			  data: cleanliness_div_y1,
+   
+			  backgroundColor: '#4600FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Water Availability',
+			  data: water_div_y1,
+   
+			  backgroundColor: '#00DCFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Electrical Equipment',
+			  data: electrical_div_y1,
+   
+			  backgroundColor: '#1300FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Catering & Vending Services',
+			  data: catering_div_y1,
+   
+			  backgroundColor: '#026C57',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Security',
+			  data: security_div_y1,
+   
+			  backgroundColor: '#D59400',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Reserved Ticketing',
+			  data: r_ticketing_div_y1,
+   
+			  backgroundColor: '#D52B00',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Unreserved Ticketing',
+			  data: u_ticketing_div_y1,
+   
+			  backgroundColor: '#FFD300',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Refund of Tickets',
+			  data: refund_ticket_div_y1,
+   
+			  backgroundColor: '#611164',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Passenger Amenities',
+			  data: pssngr_amenities_div_y1,
+   
+			  backgroundColor: '#113464',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Goods',
+			  data: goods_div_y1,
+   
+			  backgroundColor: '#3C6411',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Luggage / Parcels',
+			  data: luggage_div_y1,
+   
+			  backgroundColor: '#F64444',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Punctuality',
+			  data: punctuality_div_y1,
+   
+			  backgroundColor: '#74AA6B',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Medical Assistance',
+			  data: medical_div_y1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_div_y1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_div_y1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_div_y1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_div_y1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_div_y1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_div_y1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_div_y1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'All Other Complaints',
+			  data: other_div_y1,
+   
+			  backgroundColor: '#662900',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+		  ]
+		},
+		options: {
+			interaction: {mode: 'index'},
+			layout: {padding: {right: 16.5}},
+			scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+			plugins:{
+				legend: {display: false,},
+				tooltip: {filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0}
+			}
+		} 
+	});
+   
+// ----------------Ends --------------
+
+// ---------------------- week ----------------------------- //   
+const ctx12 = document.getElementById('mychart12').getContext('2d');
+   
+   let div_list_w1 = {{ div_list_w | safe}};
+   let cleanliness_div_w1 = {{ cleanliness_div_w | safe}};
+   let water_div_w1 = {{ water_div_w | safe}};
+   let electrical_div_w1 = {{ electrical_div_w | safe}};
+   let catering_div_w1 = {{ catering_div_w | safe}};
+   let security_div_w1 = {{ security_div_w | safe}};
+   let r_ticketing_div_w1 = {{ r_ticketing_div_w | safe}};
+   let u_ticketing_div_w1 = {{ u_ticketing_div_w | safe}};
+   let refund_ticket_div_w1 = {{ refund_ticket_div_w | safe}};
+   let pssngr_amenities_div_w1 = {{ pssngr_amenities_div_w | safe}};
+   let goods_div_w1 = {{ goods_div_w | safe}};
+   let luggage_div_w1 = {{ luggage_div_w | safe}};
+   let punctuality_div_w1 = {{ punctuality_div_w | safe}};
+   let medical_div_w1={{ medical_div_w | safe}};
+   let divyangjan_div_w1={{ divyangjan_div_w | safe}};
+   let woman_div_w1={{ woman_div_w | safe}};
+   let corruption_div_w1={{ corruption_div_w | safe}};
+   let staff_div_w1={{ staff_div_w | safe}};
+   let coach_clean_div_w1={{ coach_clean_div_w | safe}};
+   let coach_main_div_w1={{ coach_main_div_w | safe}};
+   let bed_div_w1={{ bed_div_w | safe}};
+   let other_div_w1 = {{ other_div_w | safe}};
+ //   let listy22 = {{ div_values_y | safe}}
+   // let list23 = [4,2,0,1,2]
+
+   const mychart12 = new Chart(ctx12, {
+	 type: 'bar',
+	 data: {
+	   labels: div_list_w1,
+	   labelAngle: 90,
+	   datasets: [
+		 {
+		   label: 'Cleanliness',
+		   data: cleanliness_div_w1,
+
+		   backgroundColor: '#4600FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Water Availability',
+		   data: water_div_w1,
+
+		   backgroundColor: '#00DCFE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Electrical Equipment',
+		   data: electrical_div_w1,
+
+		   backgroundColor: '#1300FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Catering & Vending Services',
+		   data: catering_div_w1,
+
+		   backgroundColor: '#026C57',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Security',
+		   data: security_div_w1,
+
+		   backgroundColor: '#D59400',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Reserved Ticketing',
+		   data: r_ticketing_div_w1,
+
+		   backgroundColor: '#D52B00',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Unreserved Ticketing',
+		   data: u_ticketing_div_w1,
+
+		   backgroundColor: '#FFD300',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Refund of Tickets',
+		   data: refund_ticket_div_w1,
+
+		   backgroundColor: '#611164',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Passenger Amenities',
+		   data: pssngr_amenities_div_w1,
+
+		   backgroundColor: '#113464',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Goods',
+		   data: goods_div_w1,
+
+		   backgroundColor: '#3C6411',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Luggage / Parcels',
+		   data: luggage_div_w1,
+
+		   backgroundColor: '#F64444',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Punctuality',
+		   data: punctuality_div_w1,
+
+		   backgroundColor: '#74AA6B',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+			  label: 'Medical Assistance',
+			  data: medical_div_w1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_div_w1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_div_w1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_div_w1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_div_w1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_div_w1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_div_w1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_div_w1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+		 {
+		   label: 'All Other Complaints',
+		   data: other_div_w1,
+
+		   backgroundColor: '#662900',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+	   ]
+	 },
+	 options: {
+		 interaction: {mode: 'index'},
+		 layout: {padding: {right: 16.5}},
+		 scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+		 plugins:{
+			 legend: {display: false,},
+			 tooltip: {filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0}
+		 }
+	 } 
+ });
+
+// ----------------Ends --------------
+
+const ctx13 = document.getElementById('mychart13').getContext('2d');
+   
+   let div_list_m1 = {{ div_list_m | safe}};
+   let cleanliness_div_m1 = {{ cleanliness_div_m | safe}};
+   let water_div_m1 = {{ water_div_m | safe}};
+   let electrical_div_m1 = {{ electrical_div_m | safe}};
+   let catering_div_m1 = {{ catering_div_m | safe}};
+   let security_div_m1 = {{ security_div_m | safe}};
+   let r_ticketing_div_m1 = {{ r_ticketing_div_m | safe}};
+   let u_ticketing_div_m1 = {{ u_ticketing_div_m | safe}};
+   let refund_ticket_div_m1 = {{ refund_ticket_div_m | safe}};
+   let pssngr_amenities_div_m1 = {{ pssngr_amenities_div_m | safe}};
+   let goods_div_m1 = {{ goods_div_m | safe}};
+   let luggage_div_m1 = {{ luggage_div_m | safe}};
+   let punctuality_div_m1 = {{ punctuality_div_m | safe}};
+   let medical_div_m1={{ medical_div_m | safe}};
+   let divyangjan_div_m1={{ divyangjan_div_m | safe}};
+   let woman_div_m1={{ woman_div_m | safe}};
+   let corruption_div_m1={{ corruption_div_m | safe}};
+   let staff_div_m1={{ staff_div_m | safe}};
+   let coach_clean_div_m1={{ coach_clean_div_m | safe}};
+   let coach_main_div_m1={{ coach_main_div_m | safe}};
+   let bed_div_m1={{ bed_div_m | safe}};
+   let other_div_m1 = {{ other_div_m | safe}};
+   
+ //   let listy22 = {{ div_values_y | safe}}
+   // let list23 = [4,2,0,1,2]
+
+   const mychart13 = new Chart(ctx13, {
+	 type: 'bar',
+	 data: {
+	   labels: div_list_m1,
+	   labelAngle: 90,
+	   datasets: [
+		 {
+		   label: 'Cleanliness',
+		   data: cleanliness_div_m1,
+
+		   backgroundColor: '#4600FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Water Availability',
+		   data: water_div_m1,
+
+		   backgroundColor: '#00DCFE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Electrical Equipment',
+		   data: electrical_div_m1,
+
+		   backgroundColor: '#1300FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Catering & Vending Services',
+		   data: catering_div_m1,
+
+		   backgroundColor: '#026C57',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Security',
+		   data: security_div_m1,
+
+		   backgroundColor: '#D59400',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Reserved Ticketing',
+		   data: r_ticketing_div_m1,
+
+		   backgroundColor: '#D52B00',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Unreserved Ticketing',
+		   data: u_ticketing_div_m1,
+
+		   backgroundColor: '#FFD300',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Refund of Tickets',
+		   data: refund_ticket_div_m1,
+
+		   backgroundColor: '#611164',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Passenger Amenities',
+		   data: pssngr_amenities_div_m1,
+
+		   backgroundColor: '#113464',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Goods',
+		   data: goods_div_m1,
+
+		   backgroundColor: '#3C6411',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Luggage / Parcels',
+		   data: luggage_div_m1,
+
+		   backgroundColor: '#F64444',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Punctuality',
+		   data: punctuality_div_m1,
+
+		   backgroundColor: '#74AA6B',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+			  label: 'Medical Assistance',
+			  data: medical_div_m1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_div_m1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_div_m1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_div_m1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_div_m1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_div_m1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_div_m1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_div_m1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+		 {
+		   label: 'All Other Complaints',
+		   data: other_div_m1,
+
+		   backgroundColor: '#662900',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+	   ]
+	 },
+	 options: {
+		 interaction: {mode: 'index'},
+		 layout: {padding: {right: 16.5}},
+		 scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+		 plugins:{
+			 legend: {display: false,},
+			 tooltip: {filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0}
+		 }
+	 } 
+ });
+
+// ----------------Ends --------------
+</script>
+
+<!-- <script>
+	     
+			const ctx11 = document.getElementById('mychart11').getContext('2d');
+	   
+			let listy1 = {{ div_list_y | safe}};
+			let listy2 = {{ div_values_y | safe}}
+	   
+			const mychart11 = new Chart(ctx11, {
+			  type: 'bar',
+			  data: {
+				labels: listy1,
+				labelAngle: 90,
+				datasets: [
+				  {
+					label: 'Complaints',
+					data: listy2,
+					backgroundColor: '#F54C26',
+					borderColor: '#FFFFFF',
+					
+					borderWidth: 0,
+				  },]},
+				   
+				});
+	   
+	// ----------------Ends --------------
+	
+	const ctx12 = document.getElementById('mychart12').getContext('2d');
+	   
+	   let listw1 = {{ div_list_w | safe}};
+	   let listw2 = {{ div_values_w | safe}}
+	
+	   const mychart12 = new Chart(ctx12, {
+		 type: 'bar',
+		 data: {
+		   labels: listw1,
+		   labelAngle: 90,
+		   datasets: [
+			 {
+			   label: 'Complaints',
+			   data: listw2,
+	
+			   backgroundColor: '#F54C26',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+			 },]}, });
+	
+	// ----------------Ends --------------
+	
+	const ctx13 = document.getElementById('mychart13').getContext('2d');
+	   
+	   let listm1 = {{ div_list_m | safe}};
+	   let listm2 = {{ div_values_m | safe}}
+	
+	   const mychart13 = new Chart(ctx13, {
+		 type: 'bar',
+		 data: {
+		   labels: listm1,
+		   labelAngle: 90,
+		   datasets: [
+			 {
+			   label: 'Complaints',
+			   data: listm2,
+	
+			   backgroundColor: '#F54C26',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+			 },]}, });
+	
+	// ----------------Ends --------------
+</script> -->
+
+<!--  ---------------- zone wise -------------- -->
+<script> 
+	
+		// ---------------------- yesterday ----------------------------- //   
+		  const ctx21 = document.getElementById('mychart21').getContext('2d');
+	   
+		  let zone_list_y1 = {{ zone_list_y | safe}};
+		  let cleanliness_zone_y1 = {{ cleanliness_zone_y | safe}};
+		  let water_zone_y1 = {{ water_zone_y | safe}};
+		  let electrical_zone_y1 = {{ electrical_zone_y | safe}};
+		  let catering_zone_y1 = {{ catering_zone_y | safe}};
+		  let security_zone_y1 = {{ security_zone_y | safe}};
+		  let r_ticketing_zone_y1 = {{ r_ticketing_zone_y | safe}};
+		  let u_ticketing_zone_y1 = {{ u_ticketing_zone_y | safe}};
+		  let refund_ticket_zone_y1 = {{ refund_ticket_zone_y | safe}};
+		  let pssngr_amenities_zone_y1 = {{ pssngr_amenities_zone_y | safe}};
+		  let goods_zone_y1 = {{ goods_zone_y | safe}};
+		  let luggage_zone_y1 = {{ luggage_zone_y | safe}};
+		  let punctuality_zone_y1 = {{ punctuality_zone_y | safe}};
+		  let medical_zone_y1={{ medical_zone_y | safe}};
+		let divyangjan_zone_y1={{ divyangjan_zone_y | safe}};
+		let woman_zone_y1={{ woman_zone_y | safe}};
+		let corruption_zone_y1={{ corruption_zone_y | safe}};
+		let staff_zone_y1={{ staff_zone_y | safe}};
+		let coach_clean_zone_y1={{ coach_clean_zone_y | safe}};
+		let coach_main_zone_y1={{ coach_main_zone_y | safe}};
+		let bed_zone_y1={{ bed_zone_y | safe}};
+		  let other_zone_y1 = {{ other_zone_y | safe}};
+		//   let listy22 = {{ zone_values_y | safe}}
+		  // let list23 = [4,2,0,1,2]
+	   
+		  const mychart21 = new Chart(ctx21, {
+			type: 'bar',
+			data: {
+			  labels: zone_list_y1,
+			  labelAngle: 90,
+			  datasets: [
+				{
+				  label: 'Cleanliness',
+				  data: cleanliness_zone_y1,
+	   
+				  backgroundColor: '#4600FE',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Water Availability',
+				  data: water_zone_y1,
+	   
+				  backgroundColor: '#00DCFE',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Electrical Equipment',
+				  data: electrical_zone_y1,
+	   
+				  backgroundColor: '#1300FE',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Catering & Vending Services',
+				  data: catering_zone_y1,
+	   
+				  backgroundColor: '#026C57',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Security',
+				  data: security_zone_y1,
+	   
+				  backgroundColor: '#D59400',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Reserved Ticketing',
+				  data: r_ticketing_zone_y1,
+	   
+				  backgroundColor: '#D52B00',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Unreserved Ticketing',
+				  data: u_ticketing_zone_y1,
+	   
+				  backgroundColor: '#FFD300',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Refund of Tickets',
+				  data: refund_ticket_zone_y1,
+	   
+				  backgroundColor: '#611164',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Passenger Amenities',
+				  data: pssngr_amenities_zone_y1,
+	   
+				  backgroundColor: '#113464',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Goods',
+				  data: goods_zone_y1,
+	   
+				  backgroundColor: '#3C6411',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Luggage / Parcels',
+				  data: luggage_zone_y1,
+	   
+				  backgroundColor: '#F64444',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+				  label: 'Punctuality',
+				  data: punctuality_zone_y1,
+	   
+				  backgroundColor: '#74AA6B',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+				{
+			  label: 'Medical Assistance',
+			  data: medical_zone_y1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_zone_y1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_zone_y1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_zone_y1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_zone_y1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_zone_y1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_zone_y1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_zone_y1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+				{
+				  label: 'All Other Complaints',
+				  data: other_zone_y1,
+	   
+				  backgroundColor: '#662900',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+			  ]
+			},
+			options: {
+				interaction: {mode: 'index'},
+				layout: {padding: {right: 16.5}},
+				scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+				plugins:{
+					legend: {display: false,},
+					tooltip: {filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0}
+				}
+        	} 
+		});
+	   
+	// ----------------Ends --------------
+
+	// ---------------------- week ----------------------------- //   
+	const ctx22 = document.getElementById('mychart22').getContext('2d');
+	   
+	   let zone_list_w1 = {{ zone_list_w | safe}};
+	   let cleanliness_zone_w1 = {{ cleanliness_zone_w | safe}};
+	   let water_zone_w1 = {{ water_zone_w | safe}};
+	   let electrical_zone_w1 = {{ electrical_zone_w | safe}};
+	   let catering_zone_w1 = {{ catering_zone_w | safe}};
+	   let security_zone_w1 = {{ security_zone_w | safe}};
+	   let r_ticketing_zone_w1 = {{ r_ticketing_zone_w | safe}};
+	   let u_ticketing_zone_w1 = {{ u_ticketing_zone_w | safe}};
+	   let refund_ticket_zone_w1 = {{ refund_ticket_zone_w | safe}};
+	   let pssngr_amenities_zone_w1 = {{ pssngr_amenities_zone_w | safe}};
+	   let goods_zone_w1 = {{ goods_zone_w | safe}};
+	   let luggage_zone_w1 = {{ luggage_zone_w | safe}};
+	   let punctuality_zone_w1 = {{ punctuality_zone_w | safe}};
+	   let medical_zone_w1={{ medical_zone_w | safe}};
+		let divyangjan_zone_w1={{ divyangjan_zone_w | safe}};
+		let woman_zone_w1={{ woman_zone_w | safe}};
+		let corruption_zone_w1={{ corruption_zone_w | safe}};
+		let staff_zone_w1={{ staff_zone_w | safe}};
+		let coach_clean_zone_w1={{ coach_clean_zone_w | safe}};
+		let coach_main_zone_w1={{ coach_main_zone_w | safe}};
+		let bed_zone_w1={{ bed_zone_w | safe}};
+	   let other_zone_w1 = {{ other_zone_w | safe}};
+	 //   let listy22 = {{ zone_values_y | safe}}
+	   // let list23 = [4,2,0,1,2]
+	
+	   const mychart22 = new Chart(ctx22, {
+		 type: 'bar',
+		 data: {
+		   labels: zone_list_w1,
+		   labelAngle: 90,
+		   datasets: [
+			 {
+			   label: 'Cleanliness',
+			   data: cleanliness_zone_w1,
+	
+			   backgroundColor: '#4600FE',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Water Availability',
+			   data: water_zone_w1,
+	
+			   backgroundColor: '#00DCFE',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Electrical Equipment',
+			   data: electrical_zone_w1,
+	
+			   backgroundColor: '#1300FE',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Catering & Vending Services',
+			   data: catering_zone_w1,
+	
+			   backgroundColor: '#026C57',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Security',
+			   data: security_zone_w1,
+	
+			   backgroundColor: '#D59400',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Reserved Ticketing',
+			   data: r_ticketing_zone_w1,
+	
+			   backgroundColor: '#D52B00',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Unreserved Ticketing',
+			   data: u_ticketing_zone_w1,
+	
+			   backgroundColor: '#FFD300',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Refund of Tickets',
+			   data: refund_ticket_zone_w1,
+	
+			   backgroundColor: '#611164',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Passenger Amenities',
+			   data: pssngr_amenities_zone_w1,
+	
+			   backgroundColor: '#113464',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Goods',
+			   data: goods_zone_w1,
+	
+			   backgroundColor: '#3C6411',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Luggage / Parcels',
+			   data: luggage_zone_w1,
+	
+			   backgroundColor: '#F64444',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Punctuality',
+			   data: punctuality_zone_w1,
+	
+			   backgroundColor: '#74AA6B',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			 label: 'Medical Assistance',
+			  data: medical_zone_w1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_zone_w1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_zone_w1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_zone_w1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_zone_w1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_zone_w1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_zone_w1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_zone_w1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			 {
+			   label: 'All Other Complaints',
+			   data: other_zone_w1,
+	
+			   backgroundColor: '#662900',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+		   ]
+		 },
+		 options: {
+			 interaction: {mode: 'index'},
+			 layout: {padding: {right: 16.5}},
+			 scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+			 plugins:{
+				 legend: {display: false,},
+				 tooltip: {filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0}
+			 }
+		 } 
+	 });
+	
+ // ----------------Ends --------------
+
+ const ctx23 = document.getElementById('mychart23').getContext('2d');
+	   
+	   let zone_list_m1 = {{ zone_list_m | safe}};
+	   let cleanliness_zone_m1 = {{ cleanliness_zone_m | safe}};
+	   let water_zone_m1 = {{ water_zone_m | safe}};
+	   let electrical_zone_m1 = {{ electrical_zone_m | safe}};
+	   let catering_zone_m1 = {{ catering_zone_m | safe}};
+	   let security_zone_m1 = {{ security_zone_m | safe}};
+	   let r_ticketing_zone_m1 = {{ r_ticketing_zone_m | safe}};
+	   let u_ticketing_zone_m1 = {{ u_ticketing_zone_m | safe}};
+	   let refund_ticket_zone_m1 = {{ refund_ticket_zone_m | safe}};
+	   let pssngr_amenities_zone_m1 = {{ pssngr_amenities_zone_m | safe}};
+	   let goods_zone_m1 = {{ goods_zone_m | safe}};
+	   let luggage_zone_m1 = {{ luggage_zone_m | safe}};
+	   let punctuality_zone_m1 = {{ punctuality_zone_m | safe}};
+	   let medical_zone_m1={{ medical_zone_m | safe}};
+		let divyangjan_zone_m1={{ divyangjan_zone_m | safe}};
+		let woman_zone_m1={{ woman_zone_m | safe}};
+		let corruption_zone_m1={{ corruption_zone_m | safe}};
+		let staff_zone_m1={{ staff_zone_m | safe}};
+		let coach_clean_zone_m1={{ coach_clean_zone_m | safe}};
+		let coach_main_zone_m1={{ coach_main_zone_m | safe}};
+		let bed_zone_m1={{ bed_zone_m | safe}};
+	   let other_zone_m1 = {{ other_zone_m | safe}};
+	 //   let listy22 = {{ zone_values_y | safe}}
+	   // let list23 = [4,2,0,1,2]
+	
+	   const mychart23 = new Chart(ctx23, {
+		 type: 'bar',
+		 data: {
+		   labels: zone_list_m1,
+		   labelAngle: 90,
+		   datasets: [
+			 {
+			   label: 'Cleanliness',
+			   data: cleanliness_zone_m1,
+	
+			   backgroundColor: '#4600FE',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Water Availability',
+			   data: water_zone_m1,
+	
+			   backgroundColor: '#00DCFE',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Electrical Equipment',
+			   data: electrical_zone_m1,
+	
+			   backgroundColor: '#1300FE',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Catering & Vending Services',
+			   data: catering_zone_m1,
+	
+			   backgroundColor: '#026C57',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Security',
+			   data: security_zone_m1,
+	
+			   backgroundColor: '#D59400',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Reserved Ticketing',
+			   data: r_ticketing_zone_m1,
+	
+			   backgroundColor: '#D52B00',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Unreserved Ticketing',
+			   data: u_ticketing_zone_m1,
+	
+			   backgroundColor: '#FFD300',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Refund of Tickets',
+			   data: refund_ticket_zone_m1,
+	
+			   backgroundColor: '#611164',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Passenger Amenities',
+			   data: pssngr_amenities_zone_m1,
+	
+			   backgroundColor: '#113464',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Goods',
+			   data: goods_zone_m1,
+	
+			   backgroundColor: '#3C6411',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Luggage / Parcels',
+			   data: luggage_zone_m1,
+	
+			   backgroundColor: '#F64444',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			   label: 'Punctuality',
+			   data: punctuality_zone_m1,
+	
+			   backgroundColor: '#74AA6B',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+			 {
+			 label: 'Medical Assistance',
+			  data: medical_zone_m1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_zone_m1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_zone_m1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_zone_m1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_zone_m1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_zone_m1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_zone_m1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_zone_m1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			 {
+			   label: 'All Other Complaints',
+			   data: other_zone_m1,
+	
+			   backgroundColor: '#662900',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+	
+	
+			 },
+		   ]
+		 },
+		 options: {
+			 interaction: {mode: 'index'},
+			 layout: {padding: {right: 16.5}},
+			 scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+			 plugins:{
+				 legend: {display: false,},
+				 tooltip: {filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0}
+			 }
+		 } 
+	 });
+	
+ // ----------------Ends --------------
+</script>
+
+	<!-- // const ctx22 = document.getElementById('mychart22').getContext('2d');
+	   
+	//    let listw21 = {{ zone_list_w | safe}};
+	//    let listw22 = {{ zone_values_w | safe}}
+	
+	//    const mychart22 = new Chart(ctx22, {
+	// 	 type: 'bar',
+	// 	 data: {
+	// 	   labels: listw21,
+	// 	   labelAngle: 90,
+	// 	   datasets: [
+	// 		 {
+	// 		   label: 'Complaints',
+	// 		   data: listw22,
+	
+	// 		   backgroundColor: '#F54C26',
+	// 		   borderColor: '#FFFFFF',
+	// 		   borderWidth: 0,
+	// 		 },]}, });
+	
+	// ----------------Ends --------------
+	// const ctx23 = document.getElementById('mychart23').getContext('2d');
+	   
+	//    let listm21 = {{ zone_list_m | safe}};
+	//    let listm22 = {{ zone_values_m | safe}}
+	
+	//    const mychart23 = new Chart(ctx23, {
+	// 	 type: 'bar',
+	// 	 data: {
+	// 	   labels: listm21,
+	// 	   labelAngle: 90,
+	// 	   datasets: [
+	// 		 {
+	// 		   label: 'Complaints',
+	// 		   data: listm22,
+	
+	// 		   backgroundColor: '#F54C26',
+	// 		   borderColor: '#FFFFFF',
+	// 		   borderWidth: 0,
+	// 		 },]}, });
+	
+	// ----------------Ends -------------- -->
+
+	
+ <!--  ---------------- train wise -------------- -->
+
+ <script> 
+	
+	// ---------------------- yesterday ----------------------------- //   
+	const ctx31 = document.getElementById('mychart31').getContext('2d');
+	  let train_names_y1 = {{ train_names_y | safe}};
+	//   console.log(train_names_y1)
+	  let train_list_y1 = {{ train_list_y | safe}};
+	  let cleanliness_train_y1 = {{ cleanliness_train_y | safe}};
+	  let water_train_y1 = {{ water_train_y | safe}};
+	  let electrical_train_y1 = {{ electrical_train_y | safe}};
+	  let catering_train_y1 = {{ catering_train_y | safe}};
+	  let security_train_y1 = {{ security_train_y | safe}};
+	  let r_ticketing_train_y1 = {{ r_ticketing_train_y | safe}};
+	  let u_ticketing_train_y1 = {{ u_ticketing_train_y | safe}};
+	  let refund_ticket_train_y1 = {{ refund_ticket_train_y | safe}};
+	  let pssngr_amenities_train_y1 = {{ pssngr_amenities_train_y | safe}};
+	  let goods_train_y1 = {{ goods_train_y | safe}};
+	  let luggage_train_y1 = {{ luggage_train_y | safe}};
+	  let punctuality_train_y1 = {{ punctuality_train_y | safe}};
+	  let medical_train_y1={{ medical_train_y | safe}};
+		let divyangjan_train_y1={{ divyangjan_train_y | safe}};
+		let woman_train_y1={{ woman_train_y | safe}};
+		let corruption_train_y1={{ corruption_train_y | safe}};
+		let staff_train_y1={{ staff_train_y | safe}};
+		let coach_clean_train_y1={{ coach_clean_train_y | safe}};
+		let coach_main_train_y1={{ coach_main_train_y | safe}};
+		let bed_train_y1={{ bed_train_y | safe}};
+	  let other_train_y1 = {{ other_train_y | safe}};
+	//   let listy22 = {{ train_values_y | safe}}
+	  // let list23 = [4,2,0,1,2]
+   
+	  const mychart31 = new Chart(ctx31, {
+		type: 'bar',
+		data: {
+		  labels: train_list_y1,
+		  labelAngle: 90,
+		  datasets: [
+			{
+			  label: 'Cleanliness',
+			  data: cleanliness_train_y1,
+   
+			  backgroundColor: '#4600FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Water Availability',
+			  data: water_train_y1,
+   
+			  backgroundColor: '#00DCFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Electrical Equipment',
+			  data: electrical_train_y1,
+   
+			  backgroundColor: '#1300FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Catering & Vending Services',
+			  data: catering_train_y1,
+   
+			  backgroundColor: '#026C57',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Security',
+			  data: security_train_y1,
+   
+			  backgroundColor: '#D59400',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Reserved Ticketing',
+			  data: r_ticketing_train_y1,
+   
+			  backgroundColor: '#D52B00',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Unreserved Ticketing',
+			  data: u_ticketing_train_y1,
+   
+			  backgroundColor: '#FFD300',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Refund of Tickets',
+			  data: refund_ticket_train_y1,
+   
+			  backgroundColor: '#611164',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Passenger Amenities',
+			  data: pssngr_amenities_train_y1,
+   
+			  backgroundColor: '#113464',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Goods',
+			  data: goods_train_y1,
+   
+			  backgroundColor: '#3C6411',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Luggage / Parcels',
+			  data: luggage_train_y1,
+   
+			  backgroundColor: '#F64444',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Punctuality',
+			  data: punctuality_train_y1,
+   
+			  backgroundColor: '#74AA6B',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			label: 'Medical Assistance',
+			  data: medical_train_y1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_train_y1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_train_y1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_train_y1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_train_y1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_train_y1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_train_y1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_train_y1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'All Other Complaints',
+			  data: other_train_y1,
+   
+			  backgroundColor: '#662900',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+		  ]
+		},
+		options: {
+			interaction: {mode: 'index'},
+			layout: {padding: {right: 16.5}},
+			scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+			plugins:{
+				legend: {display: false,},
+				tooltip: {
+					filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
+					callbacks: {
+						title: footer= (tooltipItems) => {
+									let sum = 0;
+
+									tooltipItems.forEach(function(tooltipItem) {
+										// console.log(tooltipItem.label)
+										var index=train_list_y1.indexOf(tooltipItem.label)
+										// console.log(index)
+										sum=train_names_y1[index]
+										// sum = tooltipItem.parsed.y;
+									});
+									return sum;
+									}
+						}
+				}
+			}
+		} 
+	});
+   
+// ----------------Ends --------------
+
+// ---------------------- week ----------------------------- //   
+const ctx32 = document.getElementById('mychart32').getContext('2d');
+   
+   let train_list_w1 = {{ train_list_w | safe}};
+   let train_names_w1 = {{ train_names_w | safe}};
+   let cleanliness_train_w1 = {{ cleanliness_train_w | safe}};
+   let water_train_w1 = {{ water_train_w | safe}};
+   let electrical_train_w1 = {{ electrical_train_w | safe}};
+   let catering_train_w1 = {{ catering_train_w | safe}};
+   let security_train_w1 = {{ security_train_w | safe}};
+   let r_ticketing_train_w1 = {{ r_ticketing_train_w | safe}};
+   let u_ticketing_train_w1 = {{ u_ticketing_train_w | safe}};
+   let refund_ticket_train_w1 = {{ refund_ticket_train_w | safe}};
+   let pssngr_amenities_train_w1 = {{ pssngr_amenities_train_w | safe}};
+   let goods_train_w1 = {{ goods_train_w | safe}};
+   let luggage_train_w1 = {{ luggage_train_w | safe}};
+   let punctuality_train_w1 = {{ punctuality_train_w | safe}};
+   let medical_train_w1={{ medical_train_w | safe}};
+		let divyangjan_train_w1={{ divyangjan_train_w | safe}};
+		let woman_train_w1={{ woman_train_w | safe}};
+		let corruption_train_w1={{ corruption_train_w | safe}};
+		let staff_train_w1={{ staff_train_w | safe}};
+		let coach_clean_train_w1={{ coach_clean_train_w | safe}};
+		let coach_main_train_w1={{ coach_main_train_w | safe}};
+		let bed_train_w1={{ bed_train_w | safe}};
+   let other_train_w1 = {{ other_train_w | safe}};
+ //   let listy22 = {{ train_values_y | safe}}
+   // let list23 = [4,2,0,1,2]
+
+   const mychart32 = new Chart(ctx32, {
+	 type: 'bar',
+	 data: {
+	   labels: train_list_w1,
+	   labelAngle: 90,
+	   datasets: [
+		 {
+		   label: 'Cleanliness',
+		   data: cleanliness_train_w1,
+
+		   backgroundColor: '#4600FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Water Availability',
+		   data: water_train_w1,
+
+		   backgroundColor: '#00DCFE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Electrical Equipment',
+		   data: electrical_train_w1,
+
+		   backgroundColor: '#1300FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Catering & Vending Services',
+		   data: catering_train_w1,
+
+		   backgroundColor: '#026C57',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Security',
+		   data: security_train_w1,
+
+		   backgroundColor: '#D59400',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Reserved Ticketing',
+		   data: r_ticketing_train_w1,
+
+		   backgroundColor: '#D52B00',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Unreserved Ticketing',
+		   data: u_ticketing_train_w1,
+
+		   backgroundColor: '#FFD300',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Refund of Tickets',
+		   data: refund_ticket_train_w1,
+
+		   backgroundColor: '#611164',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Passenger Amenities',
+		   data: pssngr_amenities_train_w1,
+
+		   backgroundColor: '#113464',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Goods',
+		   data: goods_train_w1,
+
+		   backgroundColor: '#3C6411',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Luggage / Parcels',
+		   data: luggage_train_w1,
+
+		   backgroundColor: '#F64444',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Punctuality',
+		   data: punctuality_train_w1,
+
+		   backgroundColor: '#74AA6B',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+			label: 'Medical Assistance',
+			  data: medical_train_w1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_train_w1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_train_w1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_train_w1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_train_w1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_train_w1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_train_w1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_train_w1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+		 {
+		   label: 'All Other Complaints',
+		   data: other_train_w1,
+
+		   backgroundColor: '#662900',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+	   ]
+	 },
+	 options: {
+		 interaction: {mode: 'index'},
+		 layout: {padding: {right: 16.5}},
+		 scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+		 plugins:{
+			 legend: {display: false,},
+			 tooltip: {
+					filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
+					callbacks: {
+						title: footer= (tooltipItems) => {
+									let sum = 0;
+
+									tooltipItems.forEach(function(tooltipItem) {
+										// console.log(tooltipItem.label)
+										var index=train_list_w1.indexOf(tooltipItem.label)
+										// console.log(index)
+										sum=train_names_w1[index]
+										// sum = tooltipItem.parsed.y;
+									});
+									return sum;
+									}
+						}
+				}
+		 }
+	 } 
+ });
+
+// ----------------Ends --------------
+
+const ctx33 = document.getElementById('mychart33').getContext('2d');
+   
+   let train_list_m1 = {{ train_list_m | safe}};
+   let train_names_m1 = {{ train_names_m | safe}};
+   let cleanliness_train_m1 = {{ cleanliness_train_m | safe}};
+   let water_train_m1 = {{ water_train_m | safe}};
+   let electrical_train_m1 = {{ electrical_train_m | safe}};
+   let catering_train_m1 = {{ catering_train_m | safe}};
+   let security_train_m1 = {{ security_train_m | safe}};
+   let r_ticketing_train_m1 = {{ r_ticketing_train_m | safe}};
+   let u_ticketing_train_m1 = {{ u_ticketing_train_m | safe}};
+   let refund_ticket_train_m1 = {{ refund_ticket_train_m | safe}};
+   let pssngr_amenities_train_m1 = {{ pssngr_amenities_train_m | safe}};
+   let goods_train_m1 = {{ goods_train_m | safe}};
+   let luggage_train_m1 = {{ luggage_train_m | safe}};
+   let punctuality_train_m1 = {{ punctuality_train_m | safe}};
+   let medical_train_m1={{ medical_train_m | safe}};
+		let divyangjan_train_m1={{ divyangjan_train_m | safe}};
+		let woman_train_m1={{ woman_train_m | safe}};
+		let corruption_train_m1={{ corruption_train_m | safe}};
+		let staff_train_m1={{ staff_train_m | safe}};
+		let coach_clean_train_m1={{ coach_clean_train_m | safe}};
+		let coach_main_train_m1={{ coach_main_train_m | safe}};
+		let bed_train_m1={{ bed_train_m | safe}};
+   let other_train_m1 = {{ other_train_m | safe}};
+ //   let listy22 = {{ train_values_y | safe}}
+   // let list23 = [4,2,0,1,2]
+
+   const mychart33 = new Chart(ctx33, {
+	 type: 'bar',
+	 data: {
+	   labels: train_list_m1,
+	   labelAngle: 90,
+	   datasets: [
+		 {
+		   label: 'Cleanliness',
+		   data: cleanliness_train_m1,
+
+		   backgroundColor: '#4600FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Water Availability',
+		   data: water_train_m1,
+
+		   backgroundColor: '#00DCFE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Electrical Equipment',
+		   data: electrical_train_m1,
+
+		   backgroundColor: '#1300FE',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Catering & Vending Services',
+		   data: catering_train_m1,
+
+		   backgroundColor: '#026C57',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Security',
+		   data: security_train_m1,
+
+		   backgroundColor: '#D59400',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Reserved Ticketing',
+		   data: r_ticketing_train_m1,
+
+		   backgroundColor: '#D52B00',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Unreserved Ticketing',
+		   data: u_ticketing_train_m1,
+
+		   backgroundColor: '#FFD300',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Refund of Tickets',
+		   data: refund_ticket_train_m1,
+
+		   backgroundColor: '#611164',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Passenger Amenities',
+		   data: pssngr_amenities_train_m1,
+
+		   backgroundColor: '#113464',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Goods',
+		   data: goods_train_m1,
+
+		   backgroundColor: '#3C6411',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Luggage / Parcels',
+		   data: luggage_train_m1,
+
+		   backgroundColor: '#F64444',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+		   label: 'Punctuality',
+		   data: punctuality_train_m1,
+
+		   backgroundColor: '#74AA6B',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+		 {
+			label: 'Medical Assistance',
+			  data: medical_train_m1,
+   
+			  backgroundColor: '#B0F8E0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Divyangjan Facilities',
+			  data: divyangjan_train_m1,
+   
+			  backgroundColor: '#F8B0B0',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Facilities for Women with Special needs',
+			  data: woman_train_m1,
+   
+			  backgroundColor: '#FE00FA',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Corruption / Bribery',
+			  data: corruption_train_m1,
+   
+			  backgroundColor: '#AD00FE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Staff Behaviour',
+			  data: staff_train_m1,
+   
+			  backgroundColor: '#005CFE',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Cleanliness',
+			  data: coach_clean_train_m1,
+   
+			  backgroundColor: '#208200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Coach - Maintenance',
+			  data: coach_main_train_m1,
+   
+			  backgroundColor: '#FE9200',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+			{
+			  label: 'Bed Roll',
+			  data: bed_train_m1,
+   
+			  backgroundColor: '#FE0000',
+			  borderColor: '#FFFFFF',
+			  borderWidth: 0,
+   
+   
+			},
+		 {
+		   label: 'All Other Complaints',
+		   data: other_train_m1,
+
+		   backgroundColor: '#662900',
+		   borderColor: '#FFFFFF',
+		   borderWidth: 0,
+
+
+		 },
+	   ]
+	 },
+	 options: {
+		 interaction: {mode: 'index'},
+		 layout: {padding: {right: 16.5}},
+		 scales: {x: {stacked: true, min: 0,max: 5,}, y:{stacked:true}},
+		 plugins:{
+			 legend: {display: false,},
+			 tooltip: {
+					filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
+					callbacks: {
+						title: footer= (tooltipItems) => {
+									let sum = 0;
+
+									tooltipItems.forEach(function(tooltipItem) {
+										// console.log(tooltipItem.label)
+										var index=train_list_m1.indexOf(tooltipItem.label)
+										// console.log(index)
+										sum=train_names_m1[index]
+										// sum = tooltipItem.parsed.y;
+									});
+									return sum;
+									}
+						}
+				}
+		 }
+	 } 
+ });
+
+// ----------------Ends --------------
+</script>
+
+<!-- <script>
+	
+	
+	 const ctx31 = document.getElementById('mychart31').getContext('2d');
+	   
+	   let listy31 = {{ train_list_y | safe}};
+	   let listy32 = {{ train_values_y | safe}}
+	
+	   const mychart31 = new Chart(ctx31, {
+		 type: 'bar',
+		 data: {
+		   labels: listy31,
+		   labelAngle: 90,
+		   datasets: [
+			 {
+			   label: 'Complaints',
+			   data: listy32,
+	
+			   backgroundColor: '#F54C26',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+			 },]}, });
+	
+		const ctx32 = document.getElementById('mychart32').getContext('2d');
+	   
+	   let listw31 = {{ train_list_w | safe}};
+	   let listw32 = {{ train_values_w | safe}}
+	
+	   const mychart32 = new Chart(ctx32, {
+		 type: 'bar',
+		 data: {
+		   labels: listw31,
+		   labelAngle: 90,
+		   datasets: [
+			 {
+			   label: 'Complaints',
+			   data: listw32,
+	
+			   backgroundColor: '#F54C26',
+			   borderColor: '#FFFFFF',
+			   borderWidth: 0,
+			 },]}, });
+			   
+		  const ctx33 = document.getElementById('mychart33').getContext('2d');
+	   
+		  let listm31 = {{ train_list_m | safe}};
+		  let listm32 = {{ train_values_m | safe}};
+		  // let list33 = [4,2,0,1,2]
+	   
+		  const mychart3 = new Chart(ctx33, {
+			type: 'bar',
+			data: {
+			  labels: listm31,
+			  labelAngle: 90,
+			  datasets: [
+				{
+				  label: 'Complaints',
+				  data: listm32,
+				  
+				  backgroundColor: '#F54C26',
+				  borderColor: '#FFFFFF',
+				  borderWidth: 0,
+	   
+	   
+				},
+			  //   {
+			  //     data: list33,
+			  //     label: 'Within Target',
+			  //     backgroundColor: '#e6b800;',
+			  //     borderColor: '#F4E06D',
+			  //     borderWidth: 1,
+	   
+	   
+			  //   },
+			  ]
+			},
+		  //   options: {
+	   
+	   
+			 
+		  //     interaction: {
+		  //       mode: 'index'
+		  //     },
+		  //     layout: {
+		  //       padding: {
+		  //         right: 16.5
+		  //       }
+		  //     },
+		  //     plugins: {
+		  //       legend: {
+		  //         display: false
+		  //       },
+			   
+		  //   },
+	   
+		  //     scales: {
+		  //       x: {
+		  //         stacked: true,
+		  //         min: 0,
+		  //         max: 6,
+		  //         ticks: {
+		  //           maxRotation: 0,
+		  //         },
+		  //         title: {
+		  //           display: false,
+		  //           text: 'RB/ZONE'
+		  //         },
+		  //       },
+	   
+		  //       y: {
+		  //         stacked: true,
+		  //         display: true,
+		  //         beginAtZero: true,
+		  //         min: 0,
+		  //         max: 100,
+		  //         title: {
+		  //           display: false,
+		  //           text: '% Compliances'
+		  //         },
+		  //         ticks: {
+		  //           stepSize: 20,
+		  //         }
+		  //       }
+		  //     },
+		  //     title: {
+		  //       display: false,
+		  //     }
+		  //   },
+		  });
+	   
+		  // ----------------Ends --------------
+</script> -->
+
+	 <script>
+	  var table1,table2;
+	
+	  $(document).ready(function(){
+				$('#mychart12').hide();
+				$('#mychart13').hide();
+				$('#mychart22').hide();
+				$('#mychart23').hide();
+				$('#mychart32').hide();
+				$('#mychart33').hide();
+				$('#spinner_div').hide();
+				
+				table11=$('#table1').DataTable({
+					dom: 'Bfrtip',
+					"pagingType": "simple",
+					"sEmptyTable": 'No data available in table',
+					// "bSort": false,
+					pageLength:4,
+					lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+					"lengthChange":false,
+					"searching":false,
+					"language": {
+					"info": "Page _PAGE_ of _PAGES_",
+					"paginate": {
+					"previous": "Prev",},}
+				})
+			
+				// 	table2=$('#table21').DataTable({
+			// 		dom: 'Bfrtip',
+			// 		"pagingType": "simple",
+			// 		"sEmptyTable": 'No data available in table',
+			// 		// "bSort": false,
+			// 		pageLength:2,
+			// 		lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+			// 		"lengthChange":false,
+			// 		"searching":false,
+			// 		"language": {
+			// 		"info": "Page _PAGE_ of _PAGES_",
+			// 		"paginate": {
+			// 		"previous": "Prev",},}
+			// 	})
+			})
+	 
+	// 		function table_view(id) {
+	// 	elements=document.getElementsByClassName("bttn");
+	// 			for(i=0;i<elements.length;i++){
+	// 				elements[i].style.backgroundColor='#4072CC';
+	// 				elements[i].style.color='#FDFDFE';
+	// 			}
+	// 			$('#title').show();
+	// 			$('#complaint_monitoring').hide();
+	// 			$('#major_cause_wise').hide();
+	// 			$('#bottom_5').hide();
+	// 			$('#title2').hide();
+	// 			$('#title3').hide();
+	
+	// 			if(id==1){
+	// 				$('#complaint_monitoring').show();
+	// 				document.getElementById("title").innerHTML = "Complaint Monitoring";
+	// 				document.getElementById("btn1").style.backgroundColor='black';
+	// 				document.getElementById("btn1").style.color='#FDFDFE';
+	// 				table11.page.len(-1).draw();
+	// 			}  
+	// 			else if(id==2){
+	// 				$('#major_cause_wise').show();
+	// 				document.getElementById("title").innerHTML = "Major Cause Wise (Complaints Received)";
+	// 				document.getElementById("btn2").style.backgroundColor='black';
+	// 				document.getElementById("btn2").style.color='#FDFDFE';
+	// 				table2.page.len(-1).draw();
+	// 			}
+				   
+	// 			else if(id==3)
+	// 				{
+	// 					$('#bottom_5').show();
+	// 					document.getElementById("title").innerHTML = "Bottom 5 Divisions/Zones/Trains";
+	// 					document.getElementById("btn3").style.backgroundColor='black';
+	// 					document.getElementById("btn3").style.color='#FDFDFE';
+	// 				}     
+	// 		}
+	// // function end
+	
+	// $(document).ready(function () {
+	
+	// // $('#safetyrow').hide();
+	// document.getElementById("title3").innerHTML = "Complaint Monitoring";
+	// document.getElementById("title2").innerHTML = "Major Cause Wise (Complaints Received)";
+	// $('#title').hide();
+	// // $('#bottom_5').hide();
+	// });
+	
+	
+	
+	function period_selected(){
+		
+		let period=$('#period').val()
+		data = {
+			   period,
+			}
+			$('#spinner_div').show();
+			$('#data_div').hide();
+		$.ajax({
+				url: "{% url 'change_period' %}",
+				dataType: 'json',
+				type: 'GET',
+				data: data,
+				success: function (response) {
+					console.log(response)
+					$('#spinner_div').hide();
+					$('#data_div').show();
+					val=response.zone_cause;
+					table11.destroy()
+					ro=''
+					for(let i=0;i<val.length;i++){
+						value=val[i]['values'];
+						ro +=`<tr>`
+						ro += `<td style="text-align: left;">`+val[i]['zone']+`</td>`;
+						ro += `<td>`+val[i]['com_rcvd']+`</td>`;
+						ro += `<td>`+val[i]['com_closed']+`</td>`;
+						ro += `<td>`+val[i]['avg_pend']+`</td>`;
+						for (j=0;j<value.length;j++)
+								ro += `<td>`+value[j]+`</td>`;
+						ro +=`</tr>`
+						}
+						
+						$('#table1 tbody').empty()
+						$('#table1 tbody').append(ro)
+	
+						// val2=response.zone_cause;
+						// table2.destroy()
+						// ro='';
+						// for(let i=0;i<val2.length;i++){
+						// 	value=val2[i]['values'];
+						// 	ro +=`<tr>`
+						// 	ro += `<td style="text-align: left;">`+val[i]['zone']+`</td>`;
+						// 	for (j=0;j<value.length;j++)
+						// 		ro += `<td>`+value[j]+`</td>`;
+						// 	ro +=`</tr>`
+						// }
+						// $('#table21 tbody').empty()
+						// $('#table21 tbody').append(ro)
+						// alert('success')
+						table11 = $('#table1').DataTable({
+							dom: 'Bfrtip',
+							"pagingType": "simple",
+							"sEmptyTable": 'No data available in table',
+							// "bSort": false,
+							pageLength:4,
+							lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+							"lengthChange":false,
+							"searching":false,
+							"language": {
+							"info": "Page _PAGE_ of _PAGES_",
+							"paginate": {
+							"previous": "Prev",},}
+						});
+	
+						// table2=$('#table21').DataTable({
+						// 	dom: 'Bfrtip',
+						// 	"pagingType": "simple",
+						// 	"sEmptyTable": 'No data available in table',
+						// 	// "bSort": false,
+						// 	pageLength:2,
+						// 	lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+						// 	"lengthChange":false,
+						// 	"searching":false,
+						// 	"language": {
+						// 	"info": "Page _PAGE_ of _PAGES_",
+						// 	"paginate": {
+						// 	"previous": "Prev",},}
+						// })
+	
+					if (period==7){
+						$('#mychart11').hide();
+						$('#mychart12').show();
+						$('#mychart13').hide();
+						$('#mychart21').hide();
+						$('#mychart22').show();
+						$('#mychart23').hide();
+						$('#mychart31').hide();
+						$('#mychart32').show();
+						$('#mychart33').hide();
+					}
+					else if(period==30){
+						$('#mychart11').hide();
+						$('#mychart12').hide();
+						$('#mychart13').show();
+						$('#mychart21').hide();
+						$('#mychart22').hide();
+						$('#mychart23').show();
+						$('#mychart31').hide();
+						$('#mychart32').hide();
+						$('#mychart33').show();
+					}
+					else{
+						$('#mychart11').show();
+						$('#mychart12').hide();
+						$('#mychart13').hide();
+						$('#mychart21').show();
+						$('#mychart22').hide();
+						$('#mychart23').hide();
+						$('#mychart31').show();
+						$('#mychart32').hide();
+						$('#mychart33').hide();
+					}
+					
+				}
+				});
+		
+	}
+	
+	 </script>
+</html>

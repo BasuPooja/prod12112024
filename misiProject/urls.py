@@ -1,0 +1,878 @@
+"""inspection URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/2.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, re_path
+from inspects import views
+# from django.contrib import admin
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from myadmin import views as v2
+from myadmin.views import *
+from mom import views as m3
+from do_letters import views as m4
+from mails import views as m6
+from home_page import views as m7
+
+from django.conf.urls import url  #by yashika restapi 24_feb_22
+from rest_framework.authtoken import views as authviews #by yashika restapi 24_feb_22
+from rest_framework import routers #app
+# from myadmin import views
+from rest_framework.authtoken.views import obtain_auth_token
+
+from django.conf.urls.static import static
+from django.conf import settings
+
+from budget import views as m5
+from django.views.static import serve
+from django.urls import re_path
+
+from api import views as apiviews
+
+
+from inspects.views import LoginAPI
+
+# from knox import views as knox_views
+from einspect.views import *
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+ 
+urlpatterns = [
+
+    path('admin_checklistpdf', views.admin_checklistpdf, name='admin_checklistpdf'),
+     path('add_category/', views.add_category, name="add_category"),
+    path('add_category_type/', views.add_category_type, name="add_category_type"),
+    # path('admin/', admin.site.urls),
+    # path('', views.home,name='home'),
+    path('',views.loginUser,name='loginUser'),
+    path('login/',views.loginUser,name='loginUser'),
+    path('toggle_custom_menu/', views.toggle_custom_menu, name='toggle_custom_menu'),
+    path('forgotPassword/',views.forgotPassword,name='forgotPassword'),
+    # path('update_email/',views.update_email,name='update_email'),
+    path('railwaytype/',v2.railwaytype,name='railwaytype'),
+    path('divbyrly/',v2.divbyrly,name='divbyrly'),
+    path('cal_desig',v2.cal_desig,name='cal_desig'),
+    path('viewDetail/',views.viewDetail,name='viewDetail'),
+    path('editDetail/',views.editDetail,name='editDetail'),
+    path('editprofile_ajax/',views.editprofile_ajax,name='editprofile_ajax'),
+    path('show_empinfo/',views.show_empinfo,name='show_empinfo'),
+    path('show_detail/',views.show_detail,name='show_detail'),
+    path('saveData/',views.saveData,name='saveData'),
+    path('railwayMaster/',v2.railwayMaster,name='railwayMaster'),
+    path('savediv/',views.savediv,name='savediv'),
+    path('savehq/',views.savehq,name='savehq'),
+    path('able_rlyorg/',views.able_rlyorg,name='able_rlyorg'),
+    path('filter/',v2.filter,name='filter'),
+    path('filter_employee/',v2.filter_employee,name='filter_employee'),
+ 
+
+    #bharti start
+    path('created_checklist/',views.created_checklist,name="created_checklist"),
+    path('create_inspection_form/',views.create_inspection_form,name="create_inspection_form"),
+    path('save_draft_data/',views.save_draft_data,name="save_draft_data"),
+    path('draft_filterdata_ajax_inspection/',views.draft_filterdata_ajax_inspection,name='draft_filterdata_ajax_inspection'),
+    path('nominate_officer/',views.nominate_officer,name="nominate_officer"),
+    path('check_details/',views.check_details,name="check_details"),
+
+
+    path('compliance_form/',views.compliance_form,name="compliance_form"),
+    path('compliance_filterdata/',views.compliance_filterdata,name="compliance_filterdata"),
+    path('compliance_filterdata_ajax',views.compliance_filterdata_ajax,name="compliance_filterdata_ajax"),
+    path('admin_inspection_form/',views.admin_inspection_form,name='admin_inspection_form'),
+    path('compliance_forward/<int:inspection_no>/',views.compliance_forward,name="compliance_forward"),
+    path('signup/',views.signup,name="signup"),
+    path('fetch_emp/',views.fetch_emp,name="fetch_emp"),
+    path('fetch_email_id/',views.fetch_email_id,name="fetch_email_id"),
+    path('send_otp/',views.send_otp,name="send_otp"),
+    path('send_otp2/',views.send_otp2,name="send_otp2"),
+
+    path('employeeList/',v2.employeeList,name='employeeList'),
+    path('viewEmployee_Det/',v2.viewEmployee_Det,name='viewEmployee_Det'),
+    path('ajax/get_emp_detNew/',v2.get_emp_detNew,name='get_emp_detNew'),
+    path('assign_role/', v2.assign_role, name='assign_role'),
+    path('getDesigbyDepartment/',v2.getDesigbyDepartment,name='getDesigbyDepartment'),
+    path('getsection_byshop1/', v2.getsection_byshop1, name="getsection_byshop1"),
+    path('getrole_bydesig/', v2.getrole_bydesig, name="getrole_bydesig"),
+    path('get_parentdesig/', v2.get_parentdesig, name="get_parentdesig"),
+    path('getshopcode_bydept/', v2.getshopcode_bydept, name="getshopcode_bydept"),
+    path('empregistNew/',v2.empregistNew,name='empregistNew'),
+    path('ajax/get_emp_detNew/',v2.get_emp_detNew,name='get_emp_detNew'),
+
+    path('open_empregistNew/<int:empno>/',v2.open_empregistNew,name='open_empregistNew'),
+    path('add_designation/',v2.add_designation,name='add_designation'),
+    path('getsection_byshop/', v2.getsection_byshop, name="getsection_byshop"),
+    path('getshop_bydept/', v2.getshop_bydept, name="getshop_bydept"),
+    path('post_bydept/', v2.post_bydept, name="post_bydept"),
+    path('getpost_bydept/', v2.getpost_bydept, name="getpost_bydept"),
+    path('add_post/', v2.add_post, name="add_post"),
+    path('ajax/save_designation/',v2.save_designation,name='save_designation'),
+    path('shop_section/',v2.shop_section,name='shop_section'),
+    path('dept_data/', v2.dept_data, name="dept_data"),
+    path('shop_data/', v2.shop_data, name="shop_data"),
+    path('section_data/', v2.section_data, name="section_data"),
+    path('shop_bydept/', v2.shop_bydept, name="shop_bydept"),
+    path('section_bydept/',v2.section_bydept, name="section_bydept"),
+    path('RoleAdd/',RoleAdd,name='RoleAdd'),
+    path('division_by_rly/',v2.division_by_rly,name='division_by_rly'),
+    path('ajaxDeleteRoleUser/', v2.ajaxDeleteRoleUser, name='ajaxDeleteRoleUser'),
+    path('ajax/getDepartmentbyroles/',v2.getDepartmentbyroles,name='getDepartmentbyroles'),
+    path('getDesigbyDepartment/',v2.getDesigbyDepartment,name='getDesigbyDepartment'),
+    path('getshopcode_bydept/', v2.getshopcode_bydept, name="getshopcode_bydept"),
+    path('div_by_rly/', v2.div_by_rly, name="div_by_rly"),
+
+    path('home_page/',m7.home_page, name="home_page"),
+    # path('home_page1/',m7.home_page1, name="home_page1"),
+    path('my_edrishti/',m7.my_edrishti, name="my_edrishti"),
+    path('my_edrishti1/',m7.my_edrishti1, name="my_edrishti1"),
+    path('homepage/',m7.homepage, name="homepage"),
+    path('show_breakup/',m7.show_breakup, name="show_breakup"),
+    path('change_table/',m7.change_table, name="change_table"),
+    path('vip_reference_dir_pdf/',m7.vip_reference_dir_pdf, name="vip_reference_dir_pdf"),
+    path('vip_reference_bm_pdf/',m7.vip_reference_bm_pdf, name="vip_reference_bm_pdf"),
+    path('vip_reference_zpd_pdf/',m7.vip_reference_zpd_pdf, name="vip_reference_zpd_pdf"),
+    
+
+    path('ajaxRoleGen/', ajaxRoleGen, name='ajaxRoleGen'),
+    path('userHome/', views.userHome,
+         name="userHome"),
+    path('adminuserHome/', v2.adminuserHome,
+         name="adminuserHome"),
+    path('inspect_logout/',views.inspect_logout,
+         name="inspect_logout"),
+    path('admin_logout/',v2.admin_logout,
+         name="admin_logout"),
+    path('inspect_logout/',views.inspect_logout,
+         name="inspect_logout"),
+    path('admin_changePassword/',v2.admin_changePassword,
+        name="admin_changePassword"),
+    path('inspect_changePassword/',views.inspect_changePassword,
+    name="inspect_changePassword"),
+    path('getdiv_rly/',views.getdiv_rly,
+    name="getdiv_rly"),
+    # path('division_wise/',views.division_wise,
+    # name="division_wise"),
+    path('create_inspection_details/',views.create_inspection_details,
+    name="create_inspection_details"),
+    path('headqwise/',views.headqwise,
+    name="headqwise"),
+    path('division_by_rly1/',views.division_by_rly1,
+    name="division_by_rly1"),
+    path('save_data/',views.save_data,
+    name="save_data"),
+    path('fetch_forward_reply/',views.fetch_forward_reply,
+    name="fetch_forward_reply"),
+    #niyati_start
+    path('gm_list_officers/',views.gm_list_officers,name='gm_list_officers'),
+    path('drm_officers/',views.drm_officers,name='drm_officers'),
+    path('phod_officers/',views.phod_officers,name='phod_officers'),
+    path('headqwise/',views.headqwise,name='headqwise'),
+    path('getDesignation/',views.getDesignation,name='getDesignation'),
+    path('division_wise1/',views.division_wise1,name='division_wise1'),
+    path('division_by_rly1/',views.division_by_rly1,name='division_by_rly1'), 
+
+    path('rbmins/',m3.rbmins,name='rbmins'), 
+    path('filterdata_ajax_pr/',m3.filterdata_ajax_pr,name='filterdata_ajax_pr'), 
+    
+    path('do_dashboard/',m4.do_dashboard,name="do_dashboard"),
+
+    path('getdiv_rly/',views.getdiv_rly,name='getdiv_rly'), 
+    path('admin_inspection_form/',views.admin_inspection_form,name="admin_inspection_form"),
+#niyati_end
+    
+
+    #bharti end
+    path('view_inspection_draft/',views.view_inspection_draft,name="view_inspection_draft"),
+   
+
+    #amisha new
+    path('compliance_marked_forward/',views.compliance_marked_forward,name="compliance_marked_forward"),
+    path('board_officers/',views.board_officers,name="board_officers"),
+
+    #vishnu new
+
+    path('search_location/',views.search_location,name="search_location"),
+    path('search_desig_ajax/',views.search_desig_ajax, name='search_desig_ajax'),
+    path('search_desig_ajax1/',views.search_desig_ajax1, name='search_desig_ajax1'),
+    path('search_locat_ajax/',views.search_locat_ajax, name='search_locat_ajax'),
+    path('search_locat_ajax1/',views.search_locat_ajax1, name='search_locat_ajax1'),
+    path('search_des_loc_ajax/',views.search_des_loc_ajax, name='search_des_loc_ajax'),
+    path('keyword_location_search/',views.keyword_location_search,name="keyword_location_search"),
+
+    path('search_location_detail/<str:pk>/',views.search_location_detail,name="search_location_detail"),
+    path('fetch_desig_ajax',views.fetch_desig_ajax, name='fetch_desig_ajax'),
+    path('draft_inspection_form/',views.draft_inspection_form,name="draft_inspection_form"),
+    path('search_createchecklist/',views.search_createchecklist,name="search_createchecklist"),
+    path('search_editchecklist/<str:pk>/',views.search_editchecklist,name="search_editchecklist"),
+    path('search_list_created_checklist/',views.search_list_created_checklist,name="search_list_created_checklist"),
+    path('search_checklist_detail/<str:pk>/',views.search_checklist_detail,name="search_checklist_detail"),
+    path('search_delete_flag/<str:pk>/',views.search_delete_flag,name="search_delete_flag"),
+    path('search_delete_enable_flag/<str:pk>/',views.search_delete_enable_flag,name="search_delete_enable_flag"),
+    path('admin_checklist/',views.admin_checklist, name='admin_checklist'),
+    path('admin_checklist_final/',views.admin_checklist_final, name='admin_checklist_final'),
+    path('admin_checklist_update/',views.admin_checklist_update, name='admin_checklist_update'),
+    path('admin_checklist_final_update/',views.admin_checklist_final_update, name='admin_checklist_final_update'),
+    path('admin_checklistpdf/<int:activity_id>/',views.admin_checklistpdf, name='admin_checklistpdf'),
+    path('admin_checklist_version/',views.admin_checklist_version,name="admin_checklist_version"),
+
+    path('reset_data/', views.reset_data, name='reset_data'),
+    path('search_checklist_views/<str:pk>/',views.search_checklist_views,name="search_checklist_views"),
+    path("search_checklist_template/", views.search_checklist_template, name="search_checklist_template"),
+    path("search_checklist_template_report/<str:pk>/", views.search_checklist_template_report, name="search_checklist_template_report"),
+    path('search_checklist_template_ajax/', views.search_checklist_template_ajax , name='search_checklist_template_ajax' ),
+    path("search_checklist_template_submit_ajax/",views.search_checklist_template_submit_ajax, name="search_checklist_template_submit_ajax"),
+    path("checklist_locat_ajax/", views.checklist_locat_ajax, name="checklist_locat_ajax"),
+    path('checklist_autoFetchLocation_ajax', views.checklist_autoFetchLocation_ajax, name="checklist_autoFetchLocation_ajax"),
+    path('checklistReportPdf/<int:activity_id>/', views.checklistReportPdf, name="checklistReportPdf"),
+    path('search_checklist_ajax', views.search_checklist_ajax, name='search_checklist_ajax'),
+    path('designation_wise/',views.designation_wise,name="designation_wise"),
+    path('search_checklist_template_draft_update/', views.search_checklist_template_draft_update, name='search_checklist_template_draft_update'),
+    path('dept_wise_guides/', views.dept_wise_guides, name='dept_wise_guides'),
+    path('check_category_wise_all/', views.check_category_wise_all, name='check_category_wise_all'),
+    path('check_department_wise_all/', views.check_department_wise_all, name='check_department_wise_all'),
+    path('delete_checklist_ajax/', views.delete_checklist_ajax, name='delete_checklist_ajax'),
+
+
+    #vishnu end
+    path('zonaluserHome/', views.zonaluserHome,
+         name="zonaluserHome"),
+    path('Divisonrequests/',views.Divisonrequests,
+        name="Divisonrequests"),
+    path('requests111/',views.requests111,
+        name="requests111"),
+    path('Divisonrequests/',views.Divisonrequests,
+        name="Divisonrequests"),
+    
+
+    #furqn
+    path('dash_home/', views.dash_home, name='dash_home'),
+    path('railway_zone/', views.railway_zone, name='railway_zone'),
+    path('item_divsion/', views.item_divsion, name='item_divsion'),
+    path('item_detail_view', views.item_detail_view, name='item_detail_view'),
+    path('item_view_inspect/<str:item>/', views.item_view_inspect, name='item_view_inspect'),
+    path('schedular_form/', views.schedular_form, name='schedular_form'), 
+    path('schedular/',views.schedular, name='schedular'),
+    path('ajax/EditFunction/',views.EditFunction, name='EditFunction'),
+    path('ajax/saveFunction/',views.saveFunction, name='saveFunction'),   
+
+    # end furqan
+    path('forgotPassword/', views.forgotPassword,
+          name="forgotPassword"),
+    path('check/',views.check,
+        name="check"),
+    path('forgotPasswordVerification',
+        views.forgotPasswordVerification, name="forgotPasswordVerification"),
+    path('passwordVerification',
+        views.passwordVerification, name="passwordVerification"),
+    # Aman
+    path('dashboard/',views.dashboard,name="dashboard"),
+    path('get_data',views.get_data,name="get_data"),
+    path('get_data2',views.get_data2,name="get_data2"),
+    path('new_page/',views.new_page,name="new_page"),
+    path('new_page2/',views.new_page2,name="new_page2"),
+    path('new_data/',views.new_data,name="new_data"),
+    path('new_data1/',views.new_data1,name="new_data1"),
+    path('new_data2/',views.new_data2,name="new_data2"),
+    path('new_data3/',views.new_data3,name="new_data3"),
+    path('new_data20/',views.new_data20,name="new_data20"),
+    path('new_data21/',views.new_data21,name="new_data21"),
+    path('new_data22/',views.new_data22,name="new_data22"),
+    path('new_data23/',views.new_data23,name="new_data23"),
+    path('chartdata/',views.chartdata,name="chartdata"),
+    path('piedata/',views.piedata,name="piedata"),
+# Aman end 
+    path('headquarterMaster/',v2.headquarterMaster,
+        name="headquarterMaster"),
+    path('deleteHeadQuarter/',v2.deleteHeadQuarter,
+        name="deleteHeadQuarter"),
+    path('editHeadquarter/',v2.editHeadquarter,
+        name="editHeadquarter"), 
+    path('getParentZones/',v2.getParentZones,
+        name="getParentZones"),  
+    path('fetchStateCity/',v2.fetchStateCity,
+        name="fetchStateCity"),
+    path('ajax/fetchEmployee/',v2.fetchEmployee,
+        name="fetchEmployee"),
+
+    path('ajax/fetchData/',v2.fetchData,
+        name="fetchData"),
+    path('ajax/buildInstituteRly/',v2.buildInstituteRly,
+        name="buildInstituteRly"),
+    path('editDivison/',v2.editDivison,
+        name="editDivison"),
+    path('deleteDivison/',v2.deleteDivison,
+        name="deleteDivison"),
+    path('DivisonMaster/',v2.DivisonMaster,
+        name="DivisonMaster"),
+    path('divisonuserHome/', views.divisonuserHome,
+         name="divisonuserHome"),
+
+    #stuti
+    path('help/',views.help,name="help"),
+    
+    #tarun
+    path('upload_img/',views.upload_img,name='upload_img'), 
+    path('copy_get_marked_officers/',views.copy_get_marked_officers,name='copy_get_marked_officers'),
+
+    path('autoFetchLocation/',views.autoFetchLocation,name="autoFetchLocation"),
+    path('viewInspectionsDoneReport/<int:insp_id>/',views.viewInspectionsDoneReport,name="viewInspectionsDoneReport"),
+    path('update_draft_data/',views.update_draft_data,name="update_draft_data"),
+    path('inspectionReportPdf/<int:insp_id>/',views.inspectionReportPdf,name="inspectionReportPdf"),
+    path('inspectionReportHtml/<int:insp_id>/',views.inspectionReportHtml,name="inspectionReportHtml"),
+    path('inspectionReportReply/<int:insp_id>/',views.inspectionReportReply,name="inspectionReportReply"),
+    path('received_compliance_checklist/',views.received_compliance_checklist,name="received_compliance_checklist"),
+    path('reciveCompReportReply/<int:insp_id>/',views.reciveCompReportReply, name="reciveCompReportReply"),
+    path('actionBtnFunction_ajax',views.actionBtnFunction_ajax, name="actionBtnFunction_ajax"),
+    path('save_mark_reply_ajax',views.save_mark_reply_ajax, name="save_mark_reply_ajax"),
+    path('inspReminderSend_ajax/',views.inspReminderSend_ajax,name="inspReminderSend_ajax"),
+    path('close_compliance_checklist/',views.close_compliance_checklist,name="close_compliance_checklist"),
+    path('corrigendum_compliance_checklist/',views.corrigendum_compliance_checklist,name="corrigendum_compliance_checklist"),
+    path('corrigendumReportReply/<int:insp_id>/',views.corrigendumReportReply,name="corrigendumReportReply"),
+    path('saveCorrigendumOff/',views.saveCorrigendumOff,name="saveCorrigendumOff"),
+    path('corrigendum_data_list/',views.corrigendum_data_list,name="corrigendum_data_list"),
+    path('corrigendum_data_Pdf/<int:pk>/',views.corrigendum_data_Pdf,name="corrigendum_data_Pdf"),
+
+    path('inspection_doneby_list/',views.inspection_doneby_list,name="inspection_doneby_list"),
+    path('getSearchValue_ajax/',views.getSearchValue_ajax,name="getSearchValue_ajax"),
+     path('getSearchValuePending_ajax/',views.getSearchValuePending_ajax,name="getSearchValuePending_ajax"),
+    path('getSearchValueClose_ajax/',views.getSearchValueClose_ajax,name="getSearchValueClose_ajax"),
+    path('getSearchValueRecived_ajax/',views.getSearchValueRecived_ajax,name="getSearchValueRecived_ajax"),
+    path('getSearchValueCorrigendum_ajax/',views.getSearchValueCorrigendum_ajax,name="getSearchValueCorrigendum_ajax"),
+    path('accept_mark_reply_ajax/',views.accept_mark_reply_ajax,name="accept_mark_reply_ajax"),
+    
+    path('fetch_marked_officers/',views.fetch_marked_officers,name="fetch_marked_officers"),
+    path('dash_details_filterdata/',views.dash_details_filterdata,name="dash_details_filterdata"),
+    path('saveByOtp_ajax/',views.saveByOtp_ajax,name="saveByOtp_ajax"),
+    path('verify_my_otp_ajax/',views.verify_my_otp_ajax,name="verify_my_otp_ajax"),
+    path('delete_inspection_ajax/',views.delete_inspection_ajax,name="delete_inspection_ajax"),
+    path('fetchAccompany/',views.fetchAccompany,name="fetchAccompany"),
+    #gunjan
+    path('compliance_alterdata',views.compliance_alterdata,name="compliance_alterdata"),
+    path('compliance_form_send/',views.compliance_form_send,name="compliance_form_send"),
+    path('compliance_form_accept/',views.compliance_form_accept,name="compliance_form_accept"),
+    path('compliance_form_reject/',views.compliance_form_reject,name="compliance_form_reject"),
+    path('compliance_query',views.compliance_query,name="compliance_query"),
+    path('compliance_query_send',views.compliance_query_send,name="compliance_query_send"),
+    path('compliance_filterdata_ajax1',views.compliance_filterdata_ajax1,name="compliance_filterdata_ajax1"),
+    path('viewdate_ajax/',views.viewdate_ajax,name="viewdate_ajax"),
+    path('compliance_form_revert/',views.compliance_form_revert,name="compliance_form_revert"),
+    path('pending_byme/',views.pending_byme,name="pending_byme"),
+    path('pending_item_filterdata/',views.pending_item_filterdata,name="pending_item_filterdata"),
+    path('pending_forme/',views.pending_forme,name="pending_forme"),
+    path('reject_forward_reply/',views.reject_forward_reply,name="reject_forward_reply"),
+    path('compliance_filterdata1/',views.compliance_filterdata1,name="compliance_filterdata1"),
+
+      ########### swasti #################
+
+    path('filterReceivedata_ajax/',m3.filterReceivedata_ajax,name="filterReceivedata_ajax"),
+
+
+    path('designation_wise/',views.designation_wise,name="designation_wise"),
+    path('dash_details/',views.dash_details,name="dash_details"),
+    path('desig_changecode/',views.desig_changecode,name="desig_changecode"),
+
+    path('admin/', admin.site.urls),re_path(r'^', include('einspect.urls')),
+
+
+    ############################################################################
+    path('create_rbmom/',m3.create_rbmom,name="create_rbmom"),
+    path('create_rbmom_details/',m3.create_rbmom_details,name="create_rbmom_details"),
+    path('draft_rbmom_details/',m3.draft_rbmom_details,name="draft_rbmom_details"),
+    path('rbmins_doneby_list/',m3.rbmins_doneby_list,name="rbmins_doneby_list"),
+    path('rbmins_draft_doneby_list/',m3.rbmins_draft_doneby_list,name="rbmins_draft_doneby_list"),
+
+    #MOM-Gunjan
+    path('create_mom_form/',m3.create_mom_form,name="create_mom_form"),
+    path('create_mom_details/',m3.create_mom_details,name="create_mom_details"),
+    # path('mom_doneby_list/',m3.mom_doneby_list,name="mom_doneby_list"),
+    path('mom_reply_form/',m3.mom_reply_form,name="mom_reply_form"),
+    path('mom_reply_ajax/',m3.mom_reply_ajax,name="mom_reply_ajax"),
+    path('filterdata_ajax/',m3.filterdata_ajax,name="filterdata_ajax"),
+    path('mom_ReportPdf/<int:insp_no>/',m3.mom_ReportPdf,name="mom_ReportPdf"),
+    path('mom_pdf_ajax/',m3.mom_pdf_ajax,name="mom_pdf_ajax"),
+    path('filterdata_ajax/',m3.filterdata_ajax,name="filterdata_ajax"),
+    path('mom_received_action/',m3.mom_received_action,name="mom_received_action"),
+    path('receivemomreply/<int:insp_no>',m3.receivemomreply,name="receivemomreply"),
+    path('reject_action_data/',m3.reject_action_data,name="reject_action_data"),
+    path('reject_reply_ajax/',m3.reject_reply_ajax,name="reject_reply_ajax"),
+    path('mom_dash_ajax/',m3.mom_dash_ajax,name="mom_dash_ajax"),
+    path('chaser_view1/',m3.chaser_view1,name="chaser_view1"),
+    path('chaser_item_data1/',m3.chaser_item_data1,name="chaser_item_data1"),
+    path('chaser_view/',m3.chaser_view,name="chaser_view"),
+    path('mom_doneby_list1/',m3.mom_doneby_list1,name="mom_doneby_list1"),
+    path('mom_modal_ajax/',m3.mom_modal_ajax,name="mom_modal_ajax"),
+    path('mom_dash_ajax_recd/',m3.mom_dash_ajax_recd,name="mom_dash_ajax_recd"),
+
+
+    ##################################################################################
+
+    #DO_Letters-Apeksha
+   
+   path('upload_do',m4.upload_do, name='upload-do'),
+    path('reply_status',m4.reply_status, name='reply_status'),
+     path('reply_view', m4.reply_view, name='reply_view'),
+    path('view_all', m4.view_all, name='view_all'),
+    path('do_letter_modal_view',m4.do_letter_modal_view, name='do_letter_modal_view'),
+    path('view_ajax', m4.view_ajax, name="view_ajax"),
+    path('view_ajax2', m4.view_ajax2, name="view_ajax2"),
+    path('view_my', m4.view2, name='view_my'),
+    path('letters_marked' ,m4.letters_marked, name='letters_marked'),
+    path('do_details_ajax', m4.do_details_ajax, name='do_details_ajax'),
+    path('view_previous', m4.view_previous, name='view_previous'),
+     #DO_Letters-Apeksha end
+      #Copy To table Apeksha
+    #path('copyto_list', views.copyto_list, name='copyto_list'),
+    path('copyto_mails', m6.copyto_mails, name='copyto_mails'),
+    path('do_pdf/<int:do_id>/',m6.do_pdf,name="do_pdf"),
+    path('filter_data_ajax', m6.filter_data_ajax, name='filter_data_ajax'),
+    #Copy To table Apeksha end
+
+
+
+    path('checkifexist/',views.checkifexist,name="checkifexist"),  
+    path('fetch_name/',views.fetch_name,name="fetch_name"),
+    path('show_details/',views.show_details,name='show_details'),
+    path('fetch_Details/',views.fetch_Details,name='fetch_Details'),
+    path('fetch_Details1/',views.fetch_Details1,name='fetch_Details1'),
+    path('send_otp1/',views.send_otp1,name="send_otp1"),
+    path('email_request/',views.email_request,name="email_request"),
+    path('details_desig/', v2.details_desig, name="details_desig"),
+    path('details/', v2.details, name="details"),
+
+
+    path('help_menu/',views.help_menu,name="help_menu"),  
+    path('help_menu_videos/',views.help_menu_videos,name="help_menu_videos"),
+
+    path('indextest',m4.indextest, name='indextest'),
+    path('do_pdf_create/<int:id>/',m4.do_pdf_create,name="do_pdf_create"),
+
+
+
+
+#Budget Shubham
+
+    path('create_budget_form/',m5.create_budget_form,name="create_budget_form"),
+    path('create_budget_details/',m5.create_budget_details,name="create_budget_details"),
+    # path('summary_budget/',m5.summary_budget,name="summary_budget"),
+    path('budget_implementation/',m5.budget_implementation,name="budget_implementation"),
+    path('budget_dashboard/',m5.budget_dashboard,name="budget_dashboard"),
+    path('UpdateBudget/',m5.UpdateBudget,name="UpdateBudget"),
+    path('getPara/',m5.getPara,name="getPara"),
+    path('getOfficer/',m5.getOfficer,name="getOfficer"),
+    path('create_budget_draft_details/',m5.create_budget_draft_details,name="create_budget_draft_details"),
+    path('validatePara_ajax/',m5.validatePara_ajax,name="validatePara_ajax"),
+    path('budgetReportPdf/',m5.budgetReportPdf,name="budgetReportPdf"),
+    path('budgetReportExcel/',m5.budgetReportExcel,name="budgetReportExcel"),
+
+    path('updateStatus_budget_ajax/',m5.updateStatus_budget_ajax,name="updateStatus_budget_ajax"),
+    path('updateCompliance_ajax/',m5.updateCompliance_ajax,name="updateCompliance_ajax"),
+    path('updateCompliance_ajax1/',m5.updateCompliance_ajax1,name="updateCompliance_ajax1"),
+    path('draftCompliance_ajax/',m5.draftCompliance_ajax,name="draftCompliance_ajax"),
+    path('budgetReportPPT/',m5.budgetReportPPT,name="budgetReportPPT"),
+    path('budgetSaveOtp_ajax/',m5.budgetSaveOtp_ajax,name="budgetSaveOtp_ajax"),
+    path('budget_verify_my_otp_ajax/',m5.budget_verify_my_otp_ajax,name="budget_verify_my_otp_ajax"),
+
+    path('budget_draft/',m5.budget_draft,name="budget_draft"),
+    path('delete_budget_fun/',m5.delete_budget_fun,name="delete_budget_fun"),
+    path('budget_draft_submission/',m5.budget_draft_submission,name="budget_draft_submission"),
+    path('create_budget_draft_details/',m5.create_budget_draft_details,name="create_budget_draft_details"),
+
+
+    #sidhi start inspection schedule
+    path('getdiv_rly1/',views.getdiv_rly1,name="getdiv_rly1"),
+    path('form/',views.form,name="form"),
+    path('listofschedule/', views.listofschedule, name = 'listofschedule/'),
+    path('ScheduleInspection/', views.ScheduleInspection, name = 'ScheduleInspection/'),
+    path('Show1/',views.Show1,name="Show1"),
+    path('searchDetails1/', views.searchDetails1, name = 'searchDetails1'),
+    path('Show/',views.Show,name="Show"),
+    #path('Schedule_form/', v5.Schedule_form, name = 'Schedule_form/'),
+    path('railway_zone/', views.railway_zone, name='railway_zone'),
+    path('item_divsion/', views.item_divsion, name='item_divsion'),
+    path('delet/',views.delet,name='delet'),
+    path('upschedule/',views.upschedule,name='upschedule'),
+    path('update_schedule/',views.update_schedule,name="update_schedule"),
+    path('desig_changecode/',views.desig_changecode,name="desig_changecode"),
+    path('saveData1/',views.saveData1, name="saveData1"),
+    path('update/',views.update,name="update"),
+    path('Showpdf/',views.Showpdf,name="Showpdf"),
+    path('Showpdf1/',views.Showpdf1,name="Showpdf1"),
+    path('autoFetchLocation1/',views.autoFetchLocation1,name="autoFetchLocation1"),
+    path('saveDraftData/',views.saveDraftData, name="saveDraftData"),
+    path('draftschedule/', views.draftschedule, name = 'draftschedule/'),
+    path('deletionFunction', views.deletionFunction, name = 'deletionFunction'),
+    path('savedraft/', views.savedraft, name = 'savedraft'),
+    path('updatedraft/', views.updatedraft, name = 'updatedraft'),
+    path('message1/', views.message1, name = 'message1'),
+    path('notification/', views.notification, name = 'notification'),
+    path('searchDetails2/', views.searchDetails2, name = 'searchDetails2'),
+    path('searchDraft/', views.searchDraft, name = 'searchDraft'),
+    # SIDHI END inspection schedule
+
+    #Aryaman Start inspection schedule
+    path('delete_draft/',views.delete_draft, name="delete_draft"),
+
+    path('autofetchdesig/',views.autoFetchDesig,name="autoFetchDesig"),
+    path('accept_schedule/', views.accept_schedule, name="accept_schedule"),
+    path('reject_schedule/', views.reject_schedule, name="reject_schedule"),
+    path('forward_schedule/', views.forward_schedule, name="forward_schedule"),
+
+ 
+    path('autoFetchLocationForInspectionForm/',views.autoFetchLocationForInspectionForm,name="autoFetchLocationForInspectionForm"),
+
+    path('upload_doc/',views.upload_doc,name='upload_doc'),
+
+    path('tour/update/', views.tour_update, name='tour_update'),
+    path('tour/modify/', views.tour_modify, name='tour_modify'),
+    path('division_by_rly2/', views.division_by_rly2, name="division_by_rly2"),
+    #Aryaman ends inspection schedule
+
+    path('commanloginwithencode/',views.commanloginwithencode,name='commanloginwithencode'),  
+    path('fetchsql/',m7.fetchsql,name='fetchsql'),  
+
+    path('api/',include('api.urls')),
+
+    
+
+    path('compliance_filterdata_ajax_dash/',views.compliance_filterdata_ajax_dash,name="compliance_filterdata_ajax_dash"),
+
+
+# punctuality
+    # path('devinsapi/',views.devinsapi,name="devinsapi"),
+    path('selectPeriod123/',m7.selectPeriod123, name="selectPeriod123"),
+
+#railmadad
+    path('rail_madad',m7.rail_madad,name='rail_madad'),
+    path('change_period',m7.change_period, name="change_period"),
+    path('irpsm',m7.irpsm,name='irpsm'),
+
+
+
+
+
+
+    ###### palak vip parliament ###############
+   path('parliament/',m7.parliament, name="parliament"),
+   path('vip_references/',m7.vip_references, name="vip_references"),
+   path('getdata/',m7.getdata, name="getdata"),
+   path('getdata1/',m7.getdata1, name="getdata1"),
+   path('getparliadata/',m7.getparliadata, name="getparliadata"),
+   path('getvipdata/',m7.getvipdata, name="getvipdata"),
+   path('parlia_pdf',m7.parlia_pdf, name="parlia_pdf"),
+#    path('onfromdate/',m7.onfromdate, name="onfromdate"),
+#    path('ontodate/',m7.ontodate, name="ontodate"),
+    
+
+    re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),    
+    
+      
+    ########  paste your url above these
+
+    path('user_authenticate/',views.user_authenticate,name='user_authenticate'),       
+    path('user_authenticateprod/',views.user_authenticateprod,name='user_authenticateprod'), 
+    path('processAuthCodeAndGetToken',views.processAuthCodeAndGetToken,name='processAuthCodeAndGetToken'),   
+    path('postbackusername',views.postbackusername,name='postbackusername'),  
+    path('onetimepushback',views.onetimepushback,name='onetimepushback'),
+
+    path('get_sso_session/',views.get_sso_session,name='get_sso_session'), 
+    path('get_application_user/',views.get_application_user,name='get_application_user'),     
+    path('login_epramaan',views.login_epramaan,name='login_epramaan'),   
+
+
+    path('zone_get_marked_officers',views.zone_get_marked_officers,name='zone_get_marked_officers'),
+    path('zone_get_accompany_officers',views.zone_get_accompany_officers,name='zone_get_accompany_officers'),
+    path('get_station_names',views.get_station_names,name='get_station_names'),  
+
+    path('checkstationdetail/',views.checkstationdetail,name='checkstationdetail'),
+
+    # saud faisal
+    path('signup_hrms',views.signup_hrms,name='signup_hrms'),
+    path('getdiv_rly_hrms/',views.getdiv_rly_hrms,name="getdiv_rly_hrms"),
+    path('feedback_report/',feedback_report,name='feedback_report'),
+    path('CrisFeedbackReport/',CrisFeedbackReport,name='CrisFeedbackReport'),
+    path('inspection_report_details_view/<str:rly>/<str:datefrom>/<str:dateto>/<str:type>/',views.inspection_report_details_view,name='inspection_report_details_view'),
+    path('NewInspectionReportMarked/',views.NewInspectionReportMarked,name='NewInspectionReportMarked'), 
+    path('fetch_desig_ajax_officerwise_all_marked/',views.fetch_desig_ajax_officerwise_all_marked,name='fetch_desig_ajax_officerwise_all_marked'), 
+    #vivek mom
+    path('draft_mom_details/',m3.draft_mom_details,name="draft_mom_details"),
+    path('draft_mom_doneby_list/',m3.draft_mom_doneby_list,name="draft_mom_doneby_list"),
+    path('delete_mom_draft/<str:insp_no>',m3.delete_mom_draft,name="delete_mom_draft"),
+    path('drft_filterdata_ajax',m3.drft_filterdata_ajax, name="drft_filterdata_ajax"),
+    path('edit_mom_details/',m3.edit_mom_details,name="edit_mom_details"),
+
+    #pratibha
+    path('getdiv_rly_desig/',views.getdiv_rly_desig,name='getdiv_rly_desig'),
+
+    # SAUD FAISAL
+    
+    path('inspection_report/',views.inspection_report,name='inspection_report'), 
+    path('fetch_desig_ajax2/',views.fetch_desig_ajax2,name='fetch_desig_ajax2'), 
+    path('inspection_report_officerwise/',views.inspection_report_officerwise,name='inspection_report_officerwise'), 
+    path('fetch_desig_ajax_officerwise/',views.fetch_desig_ajax_officerwise,name='fetch_desig_ajax_officerwise'), 
+    path('inspection_report_divisionwise/',views.inspection_report_divisionwise,name='inspection_report_divisionwise'), 
+    path('fetch_desig_ajax_divwise/',views.fetch_desig_ajax_divwise,name='fetch_desig_ajax_divwise'), 
+
+
+    path('fetch_desig_ajax_search',views.fetch_desig_ajax_search,name='fetch_desig_ajax_search'), 
+    path('getdiv_div_desig',views.getdiv_div_desig,name='getdiv_div_desig'), 
+    path('compliance_filterdata_ajax_forwards/',views.compliance_filterdata_ajax_forwards,name="compliance_filterdata_ajax_forwards"),
+    path('search_locat_mom',m3.search_locat_mom,name='search_locat_mom'), 
+    path('fetch_mom_ajax_search',m3.fetch_mom_ajax_search,name='fetch_mom_ajax_search'),
+    path('get_panel_officers',views.get_panel_officers,name='get_panel_officers'), 
+    path('forward_officer',views.forward_officer,name='forward_officer'), 
+    path('noted_by',m6.noted_by,name='noted_by'), 
+    path('copyto_mails_send',m6.copyto_mails_send,name='copyto_mails_send'), 
+    path('filter_data_ajax_send',m6.filter_data_ajax_send,name='filter_data_ajax_send'), 
+    
+    #APEKSHA URLS
+    path('forwarded_already/',views.forwarded_already,name='forwarded_already'),
+    path('compliance_forward_all/',views.compliance_forward_all,name='compliance_forward_all'),
+    path('validate_zone_division/',views.validate_zone_division,name='validate_zone_division'),
+    path('guest_login',views.guest_login,name='guest_login'),
+    path('guest_func',views.guest_func,name='guest_func'),
+    path('generateTitle',views.generateTitle,name='generateTitle'),
+
+    
+    ###user_list
+    path('user_list/',v2.user_list,name='user_list'), 
+    path('designation_request/',v2.designation_request,name='designation_request'),
+    path('addPostAjax/',v2.addPostAjax,name='addPostAjax'),
+    
+    #TASK MODULE
+    path('pending_task_module/',views.pending_task_module,name='pending_task_module'),
+    path('pendingtasks_filterdata_ajax/',views.pendingtasks_filterdata_ajax,name='pendingtasks_filterdata_ajax'),
+    path('pending_reply_ajax/',views.pending_reply_ajax,name='pending_reply_ajax'),
+    path('assigned_task_module/',views.assigned_task_module,name='assigned_task_module'),
+    path('dashboard_assigned_by_me', views.dashboard_assigned_by_me, name='dashboard_assigned_by_me'),
+    path('dashboard_pending_on_me', views.dashboard_pending_on_me, name='dashboard_pending_on_me'),
+
+
+    path('NewInspectionReport/',views.NewInspectionReport,name='NewInspectionReport'), 
+    path('fetch_desig_ajax_officerwise_all/',views.fetch_desig_ajax_officerwise_all,name='fetch_desig_ajax_officerwise_all'), 
+    path('ClickedDataMarkedOfficer/',views.ClickedDataMarkedOfficer,name='ClickedDataMarkedOfficer'), 
+    path('SendMailMarked/',views.SendMailMarked,name='SendMailMarked'), 
+    path('branch_officers/',views.branch_officers,name="branch_officers"),     
+    path('panel_officers/',views.panel_officers,name="panel_officers"),
+    path('add_new_task/',views.add_new_task,name='add_new_task'),
+    path('ByPDFtorender/',views.ByPDFtorender,name='ByPDFtorender'),
+    path('ByPDFtorenderDivisionwise/',views.ByPDFtorenderDivisionwise,name='ByPDFtorenderDivisionwise'),
+
+    path('openForwardGraph/<str:for_no>',views.openForwardGraph,name='openForwardGraph'),
+    path('customizedPanel',views.customizedPanel, name='customizedPanel'),
+    path('August_safety_drive/',views.August_safety_drive,name='August_safety_drive'),
+    path('August_safety_drive_pdf/',views.August_safety_drive_pdf,name='August_safety_drive_pdf'),
+    path('autoFetch_augustSafety/',views.autoFetch_augustSafety,name='autoFetch_augustSafety'),
+
+    #hierarchy
+    path('Submitfn',views.Submitfn,name="Submitfn"),
+    path('changefunc/',views.changefunc,name="changefunc"),
+    path('hierarchy/',views.hierarchy,name="hierarchy"),
+
+    path('einspectionhrmslogin/',views.einspectionhrmslogin,name="einspectionhrmslogin"),
+
+
+    #combined dashboard
+    path('combined_dashboard/',views.combined_dashboard,name="combined_dashboard"),
+    path('forward_officer_phase2/',views.forward_officer_phase2,name="forward_officer_phase2"),
+    path('view_compliance_phase2/<str:insp_no>',views.view_compliance_phase2,name='view_compliance_phase2'),
+    path('corrigendumReportReply_phase2/<str:insp_no>',views.corrigendumReportReply_phase2,name='corrigendumReportReply_phase2'),
+
+
+
+    path('inspectionDetailsMap/',views.inspectionDetailsMap,name='inspectionDetailsMap'),
+    path('InspDashboardDetailView/', views.InspDashboardDetailView, name='InspDashboardDetailView'),
+
+
+
+    path('officertask/',views.officertask,name="officertask"),
+    path('officertask_mom/', m3.officertask_mom, name='officertask_mom'),
+    path('NewInspectionReportMarked/new_inspection_report_marked_pdf/', views.new_inspection_report_marked_pdf, name='new_inspection_report_marked_pdf'),
+
+    path('NewInspectionReport/generate_pdf_Inspection_report/', views.generate_pdf_Inspection_report, name='generate_pdf_Inspection_report'),
+    path('einspectionhrmslogin/',views.einspectionhrmslogin,name="einspectionhrmslogin"),
+    path('pendencyReport/',views.pendencyReport,name="pendencyReport"),
+    path('dashfunc/',views.dashfunc,name="dashfunc"),
+    path('DetailsViewOfData/', views.DetailsViewOfData, name='DetailsViewOfData'),
+    path('pendencyDashboard/', views.pendencyDashboard, name='pendencyDashboard'),
+    path('autoFetchAccompany', views.autoFetchAccompany, name='autoFetchAccompany'),
+    path('allinspectionreport', views.allinspectionreport, name='allinspectionreport'),
+    path('TableViewPendencyDashboard/', views.TableViewPendencyDashboard, name='TableViewPendencyDashboard'),
+    path('TableIcon/', views.TableIcon, name='TableIcon'),
+    path('IconData/', views.IconData, name='IconData'),
+
+
+
+    path('inspectionReportReply_pdf/<int:insp_id>/',views.inspectionReportReply_pdf,name="inspectionReportReply_pdf"),
+    path('view_compliance_phase2_pdf/<str:insp_no>',views.view_compliance_phase2_pdf,name='view_compliance_phase2_pdf'),
+
+
+    path('corrigendum_compliance_checklist_pdf/',views.corrigendum_compliance_checklist_pdf,name="corrigendum_compliance_checklist_pdf"),
+    path('draft_inspection_form_pdf/',views.draft_inspection_form_pdf,name="draft_inspection_form_pdf"),
+    path('inspection_doneby_list_pdf/',views.inspection_doneby_list_pdf,name="inspection_doneby_list_pdf"),
+    path('created_checklist_pdf/',views.created_checklist_pdf,name="created_checklist_pdf"),
+    path('close_compliance_checklist_pdf/',views.close_compliance_checklist_pdf,name="close_compliance_checklist_pdf"),
+
+    path('setChooseLocationData/',views.setChooseLocationData,name="setChooseLocationData"),
+    path('modalClick/',views.modalClick,name="modalClick"),
+
+    path('TableViewPendencyDashboard_excel/', views.TableViewPendencyDashboard_excel, name='TableViewPendencyDashboard_excel'),
+    path('pendency_dashboardAPI/', apiviews.pendency_dashboardAPI, name="pendency_dashboardAPI"),
+
+
+    path('GenerateToken/', apiviews.GenerateToken.as_view(), name="GenerateToken"),
+
+
+    path('VerifyToken/', apiviews.VerifyToken.as_view(), name="VerifyToken"),
+
+    path('allinspectionreport_excel', views.allinspectionreport_excel, name='allinspectionreport_excel'),
+    path('TableIcon_excel/', views.TableIcon_excel, name='TableIcon_excel'),
+    path('IconData_excel/', views.IconData_excel, name='IconData_excel'),
+
+    path('compliance_forward_samelist/',views.compliance_forward_samelist,name="compliance_forward_samelist"),
+    path('addendum_ajax/', views.addendum_ajax, name='addendum_ajax'),
+    path('addendum/', views.addendum, name='addendum'),
+
+
+    
+# PDF-----
+
+
+    path('TableViewPendencyDashboard_pdf/', views.TableViewPendencyDashboard_pdf, name='TableViewPendencyDashboard_pdf'),
+    path('allinspectionreport_pdf',views.allinspectionreport_pdf,name='allinspectionreport_pdf'),
+    path('TableIcon_pdf/', views.TableIcon_pdf, name='TableIcon_pdf'),
+    path('IconData_pdf/', views.IconData_pdf, name='IconData_pdf'),
+
+
+
+
+    ############ api
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),     # Token generation (Obtain token)
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),     # Token refreshing
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),            # Token verification (optional)
+    path('api/login/', LoginAPI.as_view(), name='login'),
+
+
+    path('user_preference/',views.user_preference,name="user_preference"),
+
+
+    path('item_no_details_phase1',views.item_no_details_phase1, name="item_no_details_phase1"),
+
+
+    path('compliance_form_pdf/',views.compliance_form_pdf,name="compliance_form_pdf"),
+    path('compliance_form_accept_pdf/',views.compliance_form_accept_pdf,name="compliance_form_accept_pdf"),
+    path('compliance_form_reject_pdf/',views.compliance_form_reject_pdf,name="compliance_form_reject_pdf"),
+    path('compliance_form_revert_pdf/',views.compliance_form_revert_pdf,name="compliance_form_revert_pdf"),
+    path('compliance_forward_all_pdf/',views.compliance_forward_all_pdf,name='compliance_forward_all_pdf'),
+    path('compliance_query_pdf',views.compliance_query_pdf,name="compliance_query_pdf"),
+    path('compliance_query_send_pdf',views.compliance_query_send_pdf,name="compliance_query_send_pdf"),
+
+
+    path('pendencyDashboard1/', views.pendencyDashboard1, name='pendencyDashboard1'),
+
+
+    path('overallPendencyReport/', views.overallPendencyReport, name='overallPendencyReport'),
+
+
+    path('pendencyDashboard2/', views.pendencyDashboard2, name='pendencyDashboard2'),
+    path('overallPendencyReport2/', views.overallPendencyReport2, name='overallPendencyReport2'),
+
+    
+     ###########################NIKITA PENDENCY DASHBOARD ########################################START
+    path('pendencyDashboard_excel',views.pendencyDashboard_excel,name='pendencyDashboard_excel'),
+    path('pendencyDashboard_pdf',views.pendencyDashboard_pdf,name='pendencyDashboard_pdf'),
+    path('fetchdata_firstCard_excel',views.fetchdata_firstCard_excel,name='fetchdata_firstCard_excel'),
+    path('fetchdata_firstCard_pdf',views.fetchdata_firstCard_pdf,name='fetchdata_firstCard_pdf'),
+    path('overallPendencyReport_pdf/', views.overallPendencyReport_pdf, name='overallPendencyReport_pdf'),
+    path('overallPendencyReport_excel/', views.overallPendencyReport_excel, name='overallPendencyReport_excel'),
+    path('fetchdata2_data_excel/', views.fetchdata2_data_excel, name='fetchdata2_data_excel'),
+    path('fetchdata2_data_pdf/', views.fetchdata2_data_pdf, name='fetchdata2_data_pdf'),
+    path('My_Card_data_firstCard_excel/', views.My_Card_data_firstCard_excel, name='My_Card_data_firstCard_excel'),
+    path('My_Card_data_firstCard_pdf/', views.My_Card_data_firstCard_pdf, name='My_Card_data_firstCard_pdf'),
+    path('fetchdata_firstCard_details_excel/', views.fetchdata_firstCard_details_excel, name='fetchdata_firstCard_details_excel'),
+    path('fetchCardData_insp_excel/', views.fetchCardData_insp_excel, name='fetchCardData_insp_excel'),
+    path('fetchdata_firstCard_details_pdf/', views.fetchdata_firstCard_details_pdf, name='fetchdata_firstCard_details_pdf'),
+    path('fetchCardData_insp_pdf/', views.fetchCardData_insp_pdf, name='fetchCardData_insp_pdf'),
+
+    ###########################NIKITA PENDENCY DASHBOARD ########################################END
+
+
+
+    
+path('delete_inspection_phase2_ajax/',views.delete_inspection_phase2_ajax,name="delete_inspection_phase2_ajax"),  
+
+
+
+    ### Non Railway Users
+    path('nonrly_signup/',v2.nonrly_signup,name='nonrly_signup'), 
+    path('nonrly_signup_accept/',v2.nonrly_signup_accept,name='nonrly_signup_accept'),   
+
+
+    path('Sept_safety_drive/',views.Sept_safety_drive,name='Sept_safety_drive'),
+    path('Sept_safety_drive_pdf/',views.Sept_safety_drive_pdf,name='Sept_safety_drive_pdf'),  
+    path('autoFetch_septSafety/',views.autoFetch_septSafety,name='autoFetch_septSafety'),
+
+    path('Safety_driveForm/',views.Safety_driveForm_view,name='Safety_driveForm'),
+
+    path('twoFactorAuthenticate/',views.twoFactorAuthenticate,name='twoFactorAuthenticate'),
+
+    path('fetchCoachData/',fetchCoachData,name="fetchCoachData"),
+    path('setAllDepartmentDesignation/',setAllDepartmentDesignation,name="setAllDepartmentDesignation"),
+
+    path('resetPassword/',views.resetPassword,name="resetPassword"),
+    path('cmm_getBpcDetailsByTrainNoAndStartDate/',cmm_getBpcDetailsByTrainNoAndStartDate,name="cmm_getBpcDetailsByTrainNoAndStartDate"),
+    path('fetchCoachDataInspect/',views.fetchCoachDataInspect,name="fetchCoachDataInspect"),
+
+    path('Safety_driveForm/',views.Safety_driveForm_view,name='Safety_driveForm'),
+    path('orderingDrives/',views.orderingDrives,name='orderingDrives'),
+    path('createGroup/',views.createGroup,name='createGroup'),
+    path('editGroup/',views.editGroup,name='editGroup'),
+
+    path('dashboard_scheduler/',views.dashboard_scheduler,name='dashboard_scheduler'),
+
+    path('create_inspection_form_new/',views.create_inspection_form_new,name='create_inspection_form_new'),
+
+    # Pooja
+    path('feedback_form/',v2.feedback_form,name="feedback_form"),
+    path('feedback_submit/',v2.feedback_submit, name='feedback_submit'),
+    path('feedback_dashbord/',v2.feedback_dashbord, name='feedback_dashbord'),
+    path('feedback_confirmation/', v2.feedback_confirmation, name='feedback_already_submit'),
+    path('feedback_chart_data/', v2.feedback_chart_data, name='feedback_chart_data'),
+    path('feedback_chart_load/', v2.feedback_chart_load, name='feedback_chart_load'),
+    # path('feedback_checklist/',v2.feedback_checklist, name='feedback_checklist'),
+    
+    # path('ajax/delete-flag/', views.ajax_delete_flag, name='ajax_delete_flag'),
+    # path('delete_flag/',views.delete_flag, name='delete_flag'),
+
+    path('ajax/delete-flag/',views.ajax_delete_flag, name='ajax_delete_flag'),
+    path('approval_page/',views.approval_page,name='approval_page'),
+    path('approve_deletion/<int:insp_id>/',views.approve_deletion,name='approve_deletion'),
+    path('reject_deletion/<int:insp_id>/',views.reject_deletion,name='reject_deletion'),
+    path('insert_deleted_data/<int:insp_id>/', views.insert_deleted_data, name='insert_deleted_data'),
+    path('getSearchValueAproval_ajax/',views.getSearchValueAproval_ajax,name="getSearchValueAproval_ajax"),
+
+    path('deleted_inspection_report_checklist/', views.deleted_inspection_report_checklist, name='deleted_inspection_report_checklist'),
+    path('deletedinspectionReportHtml/<int:insp_id>/',views.deletedinspectionReportHtml,name="deletedinspectionReportHtml"),    
+    path('deletedinspectionReportReply/<int:insp_id>/',views.deletedinspectionReportReply,name="deletedinspectionReportReply"),    
+    path('deletedinspectionReportReply_pdf/<int:insp_id>/',views.deletedinspectionReportReply_pdf,name="deletedinspectionReportReply_pdf"),    
+    path('deletedinspectionReportReply_pdf/<int:insp_id>/',views.deletedinspectionReportReply_pdf,name="deletedinspectionReportReply_pdf"),    
+    path('deletedinspectionReportHtml/<int:insp_id>/',views.deletedinspectionReportHtml,name="deletedinspectionReportHtml"),
+
+
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

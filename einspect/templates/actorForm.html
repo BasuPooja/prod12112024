@@ -1,0 +1,293 @@
+{% extends 'adminDash.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor Form</title>
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+    <script src="{% static '/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+
+
+</head>
+<style>
+    input {
+        border: 1px solid transparent;
+        background-color: #f1f1f1;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    input[type=text] {
+        background-color: #f1f1f1;
+        width: 100%;
+    }
+
+    .actor table,
+    th,
+    td {
+        border: 1px solid black;
+        width: 100%
+    }
+</style>
+
+
+<body>
+    <div>
+        <h3 id="h6" class="report_heading">Actor Form</h3>
+    </div>
+
+    <center>
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO%}
+        <div class="alert alert-primary" id="msg" role="alert">{{ message }}</div>
+        {%endif%}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+        <div class="alert alert-success" id="msg" role="alert">{{ message }}</div>
+        {%endif%}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+        <div class="alert alert-danger" id="msg" role="alert">{{ message }}</div>
+        {%endif%}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING%}
+        <div class="alert alert-warning" id="msg" role="alert">{{ message }}</div>
+        {%endif%}
+        {% endfor %}
+        {% endif %}
+    </center>
+
+    <div class="container-fluid">
+
+        <div class="main">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-lg-1 col-sm-4 col-md-2">
+                    <button class="btn btn-info btn-sm float-right btn-block"
+                        style="background-color:#ef7821;border:none; white-space: normal; word-wrap: break-word; "
+                        type="button" onclick="linkActorEntry()">Link Actor</button>
+                </div>
+                <div class="col-lg-1 col-sm-4 col-md-2">
+                    <button class="btn btn-info btn-sm float-right btn-block"
+                        style="background-color:#ef7821;border:none; white-space: normal; word-wrap: break-word; "
+                        type="button" onclick="addActorEntry()">Add Actor</button>
+                </div>
+            </div>
+
+            <div id="actor-div">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-4">
+                            <label for="issue" class="col-form-label">Inspection Type<sup class="text-danger"
+                                    style="margin-left:9px;"></label>
+                            <select id="inspType" name="inspType" class="form-control" style="width: 100%;" required>
+                                <option selected disabled hidden value=""> Select Inspection Type</option>
+                                {% for i in inspType %}
+                                <option value="{{i.instypeid}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="issue" class="col-form-label">Actor Type<sup class="text-danger"
+                                    style="margin-left:9px;"></label>
+                            <select id="actor" name="actor" class="form-control select1"
+                                style="width: 100%; height: 100px;" multiple required>
+                                {% for i in allActor %}
+                                <option value="{{i.actorId}}">{{i.actorName}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-4"></div>
+                        <div class="col-2">
+                            <button class="btn btn-info btn-sm btn-block"
+                                style="background-color:#2a9d8f;border:none; white-space: normal; word-wrap: break-word;"
+                                type="submit" name="submit" value="addActor">Add Actor</button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-1"></div>
+                        <div class="col-8">
+                            <table class="actor" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%;">Inspection Type</th>
+                                        <th style="width:80%;">Actor Involved</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in actorList %}
+                                    <tr>
+                                        <td style="width:20%;">{{i.inspType}}</td>
+                                        <td style="width:80%;">{{i.allActor}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="deficiency-div">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-4">
+                            <label for="issue" class="col-form-label">Inspection Type<sup class="text-danger"
+                                    style="margin-left:9px;"></label>
+                            <select id="inspTypeForDef" name="inspTypeForDef" class="form-control"
+                                onchange="getDeficiencyDetails(this.value)" style="width: 100%;" required>
+                                <option selected disabled hidden value=""> Select Inspection Type</option>
+                                {% for i in inspType %}
+                                <option value="{{i.instypeid}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div id="deficiency-details">
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-10">
+                                <table id="deficiencyDetailsTable">
+
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <div class="col-5"></div>
+                            <div class="col-2">
+                                <button class="btn btn-info btn-sm btn-block"
+                                    style="background-color:#2a9d8f;border:none; white-space: normal; word-wrap: break-word;"
+                                    type="submit" name="submit" value="addDeficiency">Add Deficiency</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- main end -->
+
+
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#deficiency-div').hide();
+            $('#deficiency-details').hide();
+        });
+        function linkActorEntry() {
+            $('#deficiency-div').show();
+            $('#actor-div').hide();
+        }
+        function addActorEntry() {
+            $('#deficiency-div').hide();
+            $('#actor-div').show();
+        }
+        $('.select1').select2({
+            placeholder: "Select Maximum of 4 Actor",
+            maximumSelectionLength: 4
+
+        });
+
+        function getDeficiencyDetails(val) {
+            const data = {
+                postType: 'deficiency-details',
+                inspId: val,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'actorForm' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    const actorDetails = response.actorDetails, presentDetails = response.presentDetails;
+                    const defDetails = response.defDetails, actorLen = actorDetails.length + 2;
+                    $('#deficiency-details').hide();
+                    if (defDetails.length == 0) {
+                        alert('Deficiency does not exist to link with Actor.');
+                    }
+                    else if (actorDetails.length == 0) {
+                        alert('Actor does not exist to link with Deficiency.');
+                    }
+                    else {
+                        let colWidth = parseInt(50 / actorDetails.length);
+                        $('#deficiency-details').show();
+                        var tHead = '';
+                        for (let i = 0; i < defDetails.length; i++) {
+                            if (defDetails[i].typ == 'cat') {
+                                tHead += `<tr style="text-align:center;background-color:#219ebc;color:white;"><th colspan="${actorLen}">${defDetails[i].name}</th></tr>`;
+                                tHead += `<tr style="text-align:center;background-color:#8ecae6;color:white;"><th style="text-align:center;width:10%;">Slno.</th><th style="text-align:center;width:40%;">Deficiency</th>`;
+                                for (let j = 0; j < actorDetails.length; j++) {
+                                    tHead += `<th style="text-align:center;width:${colWidth}%;">${actorDetails[j].actorId_id__actorName}</th>`;
+                                }
+                                tHead += '</tr>'
+                            }
+
+                            else {
+                                tHead += `<tr><td style="text-align:center;width:10%;">${defDetails[i].slno}</td><td style="text-align:center;width:40%;">${defDetails[i].name}</td>`;
+                                for (let j = 0; j < actorDetails.length; j++) {
+                                    tHead += `<td style="text-align:center; width:${colWidth}%;">`;
+                                    if (presentDetails.includes(String(defDetails[i].qid) + String(actorDetails[j].actorId_id__actorId)))
+                                        tHead += `<input checked style="zoom:1.5;" type="checkbox" id="def${defDetails[i].qid}${actorDetails[j].actorId_id__actorId}" name="def${defDetails[i].qid}${actorDetails[j].actorId_id__actorId}" value="${defDetails[i].qid}${actorDetails[j].actorId_id__actorId}">`
+                                    else
+                                        tHead += `<input style="zoom:1.5;" type="checkbox" id="def${defDetails[i].qid}${actorDetails[j].actorId_id__actorId}" name="def${defDetails[i].qid}${actorDetails[j].actorId_id__actorId}" value="${defDetails[i].qid}${actorDetails[j].actorId_id__actorId}">`
+
+                                    tHead += `</td>`;
+                                }
+                                tHead += '</tr>'
+                            }
+                        }
+                        $('#deficiencyDetailsTable tbody').empty();
+                        $('#deficiencyDetailsTable tbody').append(tHead);
+                    }
+                },
+                error: function (err) {
+                    alert('Some error occured');
+                }
+            });
+        }
+
+
+
+
+
+        setTimeout(function () {
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
+        }, 15000);
+    </script>
+
+</body>
+
+</html>
+{% endblock content %}

@@ -1,0 +1,96 @@
+{% block content %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+
+</head>
+<style>
+
+@font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+    
+     @page {
+        size: A4 portrait;
+        margin: 1cm;
+        }
+
+  body{
+    display: grid;
+  grid-template-columns: min-content 1fr;
+  }
+.botline{
+
+    padding-top: 40px;
+    padding-left: 5px;
+     
+}
+.headings{
+    border:0;
+}
+
+.data th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-top: 5px;
+    
+
+  }
+
+  /* tr:nth-child(even) {
+  background-color: #D6EEEE;
+} */
+</style>     
+<body>
+
+<div class="container">
+    <table class="table table-sm table-bordered table-data">
+        <tr>        
+            <td colspan="3" style="text-align :center; border: none; font-size:18px; font-weight: 600; text-decoration: underline;"> <h2>ANALYSIS REPORT</h2></td>  
+        </tr>
+    </table>
+</div>
+
+<table style="width: 30px;border:0.5px solid  black; margin-top: 20px;">
+    <thead>             
+        <b><tr style="text-align: left; font-size: 12px; ">           
+            <th scope="col" style="text-align:left; padding: 2px; margin: 2px;">SNo.</th>
+            <th scope="col" style="padding: 2px; margin: 2px; width: 60%;text-align: left;">Deficiency</th>
+            {% for i in date %}
+            <th scope="col" style="text-align:left; padding: 2px; margin: 2px;">{{i.created_on__date}}</th>
+            {%endfor%}
+        </tr>
+        </b> 
+    </thead>
+    <tbody id="tbody_IC">
+        {% for i,j in ans.items %}
+        <tr style="text-align: left; font-size: 10px; padding: 2px; margin: 2px;">            
+            <td>{{forloop.counter}}</td>
+            <td>{{i}}</td>
+            {% for a,b in j.items %}
+            <td>{{b}}</td>
+            {%endfor%}           
+        </tr>
+        {%endfor%}
+    </tbody>
+    
+</table>
+
+
+</div>
+
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,232 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+  <script type="text/javascript">
+    $(".sidebar").addClass('close');
+  </script> 
+</head>
+<body>
+    <h3 class="report_heading">COPY-TO SENT</h3>
+    <form action="" method="POST" id="filters">
+        {% csrf_token %}
+        <div class="container inpt-container"   id="adjustfilter" >
+        <div class="row" >
+            <div class="col">
+            <label for="location" class="lbl-caption">Date Range</label>
+            <input id="date_range" class="form-control" name="date_range" autocomplete="off" placeholder="dd/mm/yyyy - dd/mm/yyyy" value="">
+            
+            </div>
+            <div class="col">
+                <label for ='subject' class="lbl-caption">Document Type</label>
+                
+                <select id="subject" name="subject" class="form-control" >
+                    <option value="" id="subject_opt" selected disabled hidden>---Select---</option>
+                        {% for i in doc_list %}
+                            {% for key, value in i.items %}
+                                <option value="{{key}}">{{value}}</option>
+                            {% endfor %}
+                        {% endfor %}
+                </select> 
+            </div>
+            <div class="col">
+                <label for='action_by' class="lbl-caption">To (Receiver Designation)</label>
+                <div class="multi_select_box">
+                <input type="text" id="action_by_test" name="action_by_test" hidden>
+                <select id="action_by" name="action_by" class="form-control" data-live-search="true"  multiple placeholder="hello">
+    
+                    {% for i in receivers %}
+                    <option value="{{i.designation_code}}" data-tokens="{{i.designation_code}}">{{i.designation}}</option>
+                    {% endfor %}
+    
+                </select>
+                </div>
+            </div>
+            
+            
+            <div class="col">
+            <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                <div class="btn-group mr-2" role="group" >
+                
+                    <button type="button" id="submit" class="btn btn-warning btn-sm" onclick="filter_data_ajax()">Continue</button>
+                    <button type="button"class="btn btn-secondary btn-sm" id="insp_clear"><a href="{% url 'copyto_mails_send'  %}" style="color:white">Reset</a></button>
+                </div>
+            </div>
+            </div>
+            </div>
+
+        <br>
+        </div>
+        
+        </div>
+    </form>
+    <div class="container">
+        <table class="table  table-bordered table-data table-sm" id="copyto_list_table1" >
+            <thead>
+                <th >Date</th>
+                <th>Doc. Type</th>
+                <th >Note No.</th>
+                <th >Subject</th>
+                <th >Send To</th>
+                <th >View Doc</th>
+                <!-- <th >Noted By</th> -->
+                </thead>
+                    <tbody>
+                        {% if mails %}
+                        {% for i in mails %}
+                        <tr>
+                            <td style="width:8%">{{i.created_on}}</td>
+                            <td style="width:10%">{{i.subject}}</td>
+                            <td style="width:10%">{{i.note_no}}</td>
+                            <td style="width:55%">{{i.body}}</td>
+                            <td style="width:10%">
+                            {% for j in i.receiver_desigs %}
+                            {% if j.flag == 1 %}
+                            <p style="color: green;">{{j.desig_rcvd}}</p>
+                            {% else %}
+                            <p style="color: red;">{{j.desig_rcvd}}</p>
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                            {% if i.doc_table == 'i' %}
+                            <td style="width:2%">
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'inspectionReportPdf' i.doc_id %}" target="blank"><i class="far fa-file-alt">
+                                </i></a></td>
+                            {% elif i.doc_table == 'd' %}
+                            <td style="width:2%">
+                                <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'do_pdf' i.doc_id %}" target="blank" ><i class="far fa-file-alt">
+                                </i></a></td>
+                            {% elif i.doc_table == 'm' %}
+                            <td style="width:2%">
+                            <a type="button" class="btn btn-outline-primary btn-sm" href="{% url 'mom_ReportPdf' i.doc_id %}" target="blank"><i class="far fa-file-alt">
+                            </i></a></td>
+                            {% endif %}
+                            <!-- {% if i.noted_flag == 1 %}
+                            {% for j in i.officers %}
+                            <td style="width:10%">{{j}}</td>
+                            {% endfor %}
+                            {% else %}
+                            <td style="width:10%">{{i.officers}}</td>
+                            {% endif %} -->
+                          </tr>
+                        {% endfor %}
+                        {% endif %} 
+                    </tbody>
+                </table>
+            </div>
+        
+        </div>
+    </div>
+</body>
+<script>
+    
+
+    $('#action_by').select2({ placeholder: "Select Designation to Filter"})
+
+    $(document).ready(function () {
+    $('#submit').click(function () {
+        var selected = $("#action_by :selected").map((_, e) => e.value).get();
+        document.getElementById('action_by_test').value = selected;
+        });
+    });
+
+    $(function () {
+    $('input[name="date_range"]').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    maxDate: new Date(),
+    locale: {
+        cancelLabel: 'Clear'
+    }
+    });
+
+    $('input[name="date_range"]').on('apply.daterangepicker', function (ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+    $('.applyButtonClasses').click()
+    });
+
+    $('input[name="date_range"]').on('cancel.daterangepicker', function (ev, picker) {
+    $(this).val('');
+    });
+    });
+
+</script>
+<script>
+    var table =
+
+         $('#copyto_list_table1').DataTable({
+        "language": {
+            "search": "Keyword search:",
+        },
+        
+        });
+        table.$('tr').tooltip( {
+            placement : '',
+            html : true
+        })
+
+    function filter_data_ajax(){  
+    var selected = $("#action_by :selected").map((_, e) => e.value).get();
+    document.getElementById('action_by_test').value = selected;  
+    let data1 = {
+           date_range: $('#date_range').val(),
+           subject : $('#subject').val(),
+           sender : $('#action_by_test').val(),
+           csrfmiddlewaretoken: '{{ csrf_token }}',
+        }
+   
+       $.ajax({
+         type : 'POST',
+         url : "{% url 'filter_data_ajax_send' %}",
+         dataType : 'json',
+         data : data1,
+
+         success : function(res){
+           filtered_mails=res.mails;   
+           
+           table.destroy()
+           content=''
+           for(var i=0; i<filtered_mails.length; i++)
+           {
+            content+='<tr><td style="width:8%">'+filtered_mails[i]['created_on']+'</td>';
+            content+='<td style="width:10%">'+filtered_mails[i]['subject']+'</td>';
+            content+='<td style="width:10%">'+filtered_mails[i]['note_no']+'</td>';
+            content+='<td style="width:70%">'+filtered_mails[i]['body']+'</td>';
+
+            receiveddd=''
+            desigss=filtered_mails[i]['receiver_desigs']
+            for (var j=0; j<desigss.length; j++ ){
+                
+                if (desigss[j]['flag'] == 1)
+                    receiveddd+=` <p style="color: green;">`+desigss[j]['desig_rcvd']+`</p>`
+                else
+                receiveddd+=` <p style="color: red;">`+desigss[j]['desig_rcvd']+`</p>`
+            }
+            content+='<td>'+receiveddd+'</td>'
+                          
+            if (filtered_mails[i]['doc_table'] == 'i')
+                content+='<td style="width:2%"><a type="button" class="btn btn-outline-primary btn-sm"  href="/inspectionReportPdf/'+filtered_mails[i]['doc_id']+'" target="blank" ><i class="far fa-file-alt"></i></a></td>';
+            else if(filtered_mails[i]['doc_table'] == 'd')
+                content+='<td style="width:2%"><a type="button" class="btn btn-outline-primary btn-sm"  href="/do_pdf/'+filtered_mails[i]['doc_id']+'" target="blank" ><i class="far fa-file-alt"></i></a></td>';
+            else if(filtered_mails[i]['doc_table'] == 'm')
+                content+='<td style="width:2%"><a type="button" class="btn btn-outline-primary btn-sm"  href="/mom_ReportPdf/'+filtered_mails[i]['doc_id']+'" target="blank" ><i class="far fa-file-alt"></i></a></td>';
+              
+                content+='</tr>'            
+           }
+           $('#copyto_list_table1 tbody').empty()
+           $('#copyto_list_table1 tbody').append(content)
+           table = $('#copyto_list_table1').DataTable({
+                         "language": {
+               "search": "Keyword search:"
+             }
+             
+           });
+         }
+        });
+    }
+
+</script>
+{% endblock %}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<style>
+ 
+     @page {
+        size: A4 portrait;
+        margin: 0.5cm;
+        }
+
+  body{
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  }
+  
+.botline{
+
+    padding-top: 40px;
+    padding-left: 5px;
+     
+}
+
+.headings{
+    border:0;
+}
+
+.data th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-top: 3px;
+    
+
+ }
+
+ 
+</style>     
+<body>
+<table style="width: 30px;border:whitesmoke" id="Show1">
+    <tr> 
+       
+        <td colspan="3" style="text-align :center; font-size: 20px; border: none;"> <h1>Station Report</h1></td>
+  
+    </tr>
+</table>
+<br>
+<br>
+
+
+    <h4 style=" text-align: center; font-size: 1.5em;">Dated: ({{fromdate|date:'d/m/Y'}} - {{todate| date:'d/m/Y'}})</h4>
+    
+     <h4 style="margin-left: 650px;font-size: 1.1em;">As on: ({{todate| date:'d/m/Y'}})</h4>
+
+
+<table style="width: 30px;border:0.5px solid  black">
+
+    <thead>
+       
+           <b> <tr style="text-align: center; font-size: 10px; ">
+            
+
+            <th scope="col" style="text-align:center; width: 70px;">Station Name</th>
+            <th scope="col" style="text-align:center; width: 60px;">Station Category</th>
+            <th scope="col" style="text-align:center; width: 60px;">Inspection Count</th>
+            {% for i in header %}
+            <th colspan="2" style="text-align:center; width: 110px; padding: 2px;">{{i.name}} Score</th>
+            {%endfor%}
+            <th scope="col" style="text-align:center; width: 50px;">Total Score</th>
+            <th scope="col" style="text-align:center; width:45px">Avg Score</th>
+            
+           </b> 
+            </tr>
+           
+
+    </thead>
+    <tbody style="text-align: center;" id="tbody_IC">
+        {% for i in finalList %}
+        
+        <tr>
+            
+            <td>{{i.station_name}}</td>
+            <td>{{i.station_category}}</td>
+            <td >{{i.count}}</td>
+
+            {% for j in i.header %}
+            <td colspan="2">{{j}}</td> 
+            {%endfor%}
+
+            <td >{{i.total}}</td>
+            <td >{{i.average}}</td>
+        </tr>
+        {%endfor%}
+
+        
+    </tbody>
+    
+</table>
+
+</div>
+
+</body>
+</html>

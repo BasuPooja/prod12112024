@@ -1,0 +1,2359 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load convertoInt %}
+
+<head>
+
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+    />
+
+    <style>
+        .slash {
+        font-size: 1.5em; 
+        }
+        .backgroundImage {
+           
+            background-image:url('{% static "images/flag.jpg" %}');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+        #mapZone{
+            height: 75%;
+        }
+       
+        svg {
+
+            transform: scale(1.2);
+        }
+
+        .box {
+            border-style: solid;
+            border-color: darkred;
+            border-radius: 10px;
+            border-width: 8px;
+            background-color: beige;
+            color: #fff;
+        }
+
+    </style>
+    <style>
+        .row 
+        {
+            margin-top:10px;
+        }
+        .mainDiv{
+            margin-top: -1%;
+            /* background-color: aqua; */
+            height: 100%;
+            padding-top: 0%;
+            margin-left: 0.5%;
+        }
+        .headingRow{
+            /* background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500); */
+            background-color: #63a4ff;
+background-image: linear-gradient(315deg, #63a4ff 0%, #83eaf1 74%);
+            margin-left: 0%;
+            margin-top: 0%;
+            padding-left: 0%;
+            padding-right: 0%; 
+            /* height: 80px;; */
+        }
+        .Rcard{
+            width:100%;            
+            /* background-color: #fff; */
+            background-color: #e6f3ff;
+            color: #0a0a0a;
+            border:1px solid #aeaeae;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+            padding:5px;
+            /* border: 2px solid #17a2b8; */
+        }
+        .totalItems{
+            width:33%; 
+            background-color: #28a7455c;
+            /* border: 2px solid #28a745; */
+            color: #000000; 
+        }
+        .pendingItems{
+            width:34%; 
+            background-color: #ffc10754;
+            /* border: 2px solid #ffc107; */
+            color: #000000; 
+        }
+        .overdueItems{
+            width:33%; 
+            background-color: #dc354570;
+            /* border: 2px solid #dc3545; */
+            color: #000000; 
+        }
+        .cardsHeaders{
+            background-color: #e7eff9;
+            background-image: linear-gradient(315deg, #e7eff9 0%, #cfd6e6 74%);
+        }
+        
+    .card-body{
+        padding: 0%;
+    }
+    table{
+        width: 100%; 
+        text-align: center;
+    }
+    .summary-card{
+        height:100%;
+        /* overflow-y:scroll;
+        overflow: hidden; */
+        
+    }
+    .summary-card table td, .summary-card table th{
+       padding:2px;
+       width:33%;        
+    }
+    .summary-card .card-body{
+        background:#eee6ff;
+    }
+    .summary-card 
+    .list-group-item{
+        padding-top: 0%;
+        /* border: 2px solid #ffb27a; */
+        border-radius: 7px;
+        background-color: #ffe9d9
+    }
+    /* .col-md-4{
+        padding: 0%;
+    }
+    .col-md-6{
+        padding: 0%;
+    }
+    .col-12{
+        padding: 0%;
+    } */
+    
+    </style>
+    <style>
+        .cards2 {
+           
+          /* padding: 1px !important; */
+          text-align: center;
+          background-color: blanchedalmond;
+          margin-left: -20%;
+
+      }
+
+      .cards3 {
+          
+          /* padding: 1px !important; */
+          text-align: center;
+          background-color: rgb(188, 253, 188);
+          margin-left: 4%;
+      }
+
+      .cards4 {
+          
+          /* padding: 1px !important; */
+          text-align: center;
+          background-color: rgb(204, 235, 251);
+          margin-left: 4%;
+
+      }
+
+      .cards5 {
+          
+          /* padding: 1px !important; */
+          text-align: center;
+          background-color: rgb(251, 245, 192);
+          margin-left: 4%;
+      }
+
+      .cards6 {
+          
+          /* padding: 1px !important; */
+          text-align: center;
+          background-color: blanchedalmond;
+          margin-left: 4%;
+      }
+      .PendTable td{
+        padding: 0.5%;
+      }
+      .PendTable th{
+        padding: 0.5%;
+      }
+      .PendTable thead{
+        background: #b32400;
+        color:#fff;
+        font-weight:500;
+        text-transform:uppercase;
+      }
+     .entity{
+        text-align: left;
+        font-weight: 600;
+        /* background-color: #f7b4ac; */
+     }
+     .alertscard{
+        /* border: 2px solid #ffb27a; */
+        border-radius: 7px;
+        background-color: #ffe9d9
+     }
+     .card-caption
+     {
+        font-size:1.1rem;
+        color:#4d4d4d;
+        font-weight:600
+     }
+     .stats-val
+     {
+        font-size:1.5rem;
+        color:#000;
+        font-weight:600
+     }
+     .stats-val2
+     {
+        font-size:1.1rem;
+        color:#2b2b2b;
+        font-weight:500
+     }
+     .stats-head
+     {
+        font-weight:600;
+        text-transform:uppercase;
+        color:#000;
+        font-size:0.9rem;
+        text-align:left;
+     }
+     /* .overalStatsTable th
+     {
+        color:#595959;
+        font-size:0.9rem;
+        font-weight:500;
+     }*/
+     .overalStatsTable td
+     {
+        color:#000;
+        font-size:1.1rem;
+        font-weight:600;
+     } 
+     .overalStatsTable td a
+     {
+        font-weight:600;
+        color:#0059b3;
+        text-decoration:none;
+        cursor:pointer;
+     }
+     .overalStatsTable td a:hover
+     {
+        color:#ff6600;
+     }
+     .pendency-head
+     {
+        margin-bottom:0px;
+        font-weight:600;
+        width:100%;
+        text-align: left;
+        font-size:1rem;
+        position: relative;
+    padding-bottom: 3px;
+    padding-left:1rem;
+    color:#b32400;
+     }
+.custom-table
+{
+    margin-top:4px;
+}
+.custom-table th.days
+{
+   color:#4d4d4d;
+   font-size:1rem;
+   font-weight:500;
+   text-align:center;
+   /* padding-left:1rem; */
+}
+.custom-table td.count
+{
+   color:#000;
+   font-size:1.1rem;
+   font-weight:600;
+   padding:0%;
+}
+.lbl-caption
+{
+    font-weight:600;
+    color:#000;
+    font-size:14px;
+}
+.form-group {
+  margin-bottom: 10px !important;
+}
+    </style>
+    <style>
+        .badge{
+    font-size: 100%;
+}
+.overalStatsTable th
+     {
+        background-color: #cce6ff ;
+        color:#595959;
+        font-size:0.9rem;
+        font-weight:500;
+     }
+      .overalStatsTable th:nth-child(2) {
+        background-color: #ffffb3 ;
+    }
+
+    .overalStatsTable th:nth-child(3) {
+        background-color: #ffcccc;
+    }
+    </style>
+    <style>
+        .alert-card{
+        height:165px;
+        overflow-y:scroll;
+        overflow: hidden;
+        
+    }
+    .alert-card table td, .alert-card table th{
+       padding:2px;
+       width:33%;        
+    }
+    .alert-card .card-body{
+        background:#eee6ff;
+    }
+    .alert-card 
+    .list-group-item{
+        padding-top: 0%;
+        border-radius: 7px;
+        background-color: #d9ffda
+    }
+    </style>
+    <style>
+        /* The Modal */
+        .modal { 
+             display: none; 
+             /* position: fixed; 
+             width: 100%; 
+             height: 100%;  */
+             background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+            }
+           
+        /* Modal Content */
+        .modal-content {
+             background-color: #fefefe;
+             margin:  8%; 
+             margin-left: 12%;
+             margin-top: 5%;
+             padding: 20px;
+             border: 1px solid #888;
+             width: 80%; 
+             /* height:80%; */
+           }
+           
+           /* Close Button */
+           .close {
+             float: right;
+             font-size: 28px;
+             font-weight: bold;
+             cursor: pointer;
+           }
+           
+           .close:hover,
+           .close:focus {
+             color: red;
+           }
+           .box{
+            background-color: white;
+            border-width: 0px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding: 3px;
+           }
+           #modaldismis{
+            position:absolute;
+            float: left;
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>  
+
+    <input type="hidden" id="typeID" value="IR">
+    <input type="hidden" id="zoneID" value="">
+    <input type="hidden" id="divID" value="">
+    <div id="main">
+    <div class="container-fluid mainDiv">
+        <div class="row headingRow">
+            <div class="col-sm-12 col-md-12 col-lg-4"><h3 class="font-weight-bold text-black float-justify text-center" style="margin-top:2rem;font-size:1.5rem;font-weight:600;"> PENDENCY
+                DASHBOARD </h3></div>
+            <div class="col-lg-8">
+                <div class="" id="filterForm">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-2">
+                                <div class="form-group">
+                                    <label class="lbl-caption">From Date</label>
+                                    <input readonly type="text" autocomplete="off" placeholder="Select Start Date" style="background-color: white"
+                                        class="form-control" name="startDate" id="startDate" value="{{irStartDate}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-2">
+                                <div class="form-group">
+                                    <label class="lbl-caption">To Date</label>
+                                    <input readonly type="text" autocomplete="off" placeholder="Select End Date" style="background-color: white"
+                                        class="form-control" name="endDate" id="endDate" value="{{irEndDate}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Department</label>
+                                    
+
+
+
+                                    <select class="form-control" data-live-search="true" name="searchDepartment" onchange="getDataOfFilter('all')"
+                                        id="searchDepartment" data-actions-box="true" >   
+                                        <option value="All">All</option>
+                                        {% for i in allDepartment %}
+                                        
+                                        <option value="{{i.department_code}}" {% if irSearchDept == i.department_code %} selected {% endif %}>{{i.department_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Designation</label>
+                                    <select class="form-control" data-live-search="true" name="searchDesignation" onchange="getDataOfFilter('desig')"
+                                        id="searchDesignation" data-actions-box="true">
+                                        <option value="All">All</option>   
+                                        {% for i in allDesignation %}
+                                        <option value="{{i.designation_code}}" {% if irSearchDesig == i.designation_code %} selected {% endif %}>{{i.designation}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-2">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Level</label>
+                                    <select class="form-control" data-live-search="true" name="searchLevel" onchange="getDataOfFilter('level')"
+                                        id="searchLevel" data-actions-box="true">
+                                        <option value="All">All</option>  
+                                        <option value="BM">BM</option>
+                                        <option value="GM">GM</option>
+                                        <option value="DRM">DRM</option> 
+                                        <option value="SAG">HAG/SAG</option>
+                                        <option value="JAG">JAG</option>
+                                        <option value="SS/JS">SS/JS</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-sm-12 col-md-3" style="margin-top: 2%;">
+                                <div class="row text-center">
+                                    <div class="form-group mx-auto">
+                                        <div class="btn-toolbar mx-1" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-success btn-sm" name="submit" onclick="searchAllFunction('Search')"value="search">Continue</button>
+                                                <button type="button" class="btn btn-danger btn-sm" name="submit" onclick="searchAllFunction('Reset')" value="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row mainRow">
+            <div class="col-sm-12 col-md-4 col-lg-4 mt-2">
+                <div id="mapZone" class="card card-small p-2 mb-2 mapdiv clickable backgroundImage">
+
+                    <div style=" position: absolute ;left:10px; top: 5px;" class="d-md-none d-lg-block">
+
+                        <table style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span id="headerRailwayName2">
+                                            <a href="/pendencyDashboard" class="badge text-white"
+                                                style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;">IR</a>
+
+                                            <span class="badge text-white"
+                                            style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerZone">
+ 
+                                            </span> 
+                                            <span class="badge text-white"
+                                            style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerDivision">
+                                            
+                                            </span>
+
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style=" position: absolute ;right:5px; top: 5px;z-index:10;" class="d-md-none d-lg-block">
+                        
+                        <button type="button" class="badge text-white" value="PU"
+                        style="position:relative;z-index:20; background-color:#ff9900; border: 0;cursor: pointer;width: 50px;height: 25px;" id="PU"
+                        onclick="setBtnColor('PU')">PU</button>
+                        <button type="button" class="badge text-white"
+                        style="position:relative;z-index:20;  background-color:#ff9900; border: 0;cursor: pointer;width: 50px;height: 25px;" id="ZR"
+                        value="ZR" onclick="setBtnColor('ZR')">ZR</button>
+                        </div>
+
+                        <div style=" position: absolute ;right:5px; top: 40px;z-index:10;" class="d-md-none d-lg-block" >
+                            <button type="button" class="badge text-white buttonZrDetails"
+                            style=" background-color:#ff9900;  border: 0;cursor: pointer;width: 40px;height: 25px;" id="DIV" value="DIV"
+                            onclick="setBtnColor('DIV')">DIV</button>
+                            </br>
+                            <button type="button" class="badge text-white buttonZrDetails"
+                                style="margin-top: 5px;  background-color:#ff9900;  border: 0;cursor: pointer;width: 40px;height: 25px;" id="WS" value="WS"
+                                onclick="setBtnColor('WS')">WS</button>
+                            <br>
+                            <button type="button" class="badge text-white buttonZrDetails"
+                            style="margin-top: 5px;background-color:#ff9900; border: 0;cursor: pointer;width: 40px;height: 25px;" id="HQ" value="HQ"
+                            onclick="setBtnColor('HQ')">HQ</button>
+                        </div>
+                    
+                    <div id="zoneshowhide">
+                    <div style=" position: absolute ;right:10px; bottom: 5px; z-index:10;" class="d-md-none d-lg-block box" id="zoneDetails">
+                        <!-- <span style="color: #391a02; margin-left:10px;margin-right:10px;"><b>Divisions</b></span><br>
+                            {% for i in dataZoneWs %}
+                            <span class="badge" onclick="showDivision('{{i.location_code}}')" style="font-size: 1.063rem;color:#000080;">
+                                <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                <label style="cursor: pointer;" title="{{i.location_description}}">{{i.location_code}}</label>
+                            </span><br>
+                            {% endfor %} -->
+                    </div>
+                </div>
+
+                  
+
+                    {% include 'svgFile/IRDivisions.svg' %}
+                </div>
+                
+                <div class="card alert-card">
+                    <h6 class="cardsHeaders card-header" >Alerts</h6>
+                    <div class="card-body alertscard">
+                        <deque>
+                            <ul class="list-group list-group-flush" id="rotated">
+                                <li class="list-group-item"><b>PUNCTUALITY</b><br>
+                                    Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                    Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                    
+                                    <br><b>SECR (-15%)</b>
+                                </li>
+                                <li class="list-group-item"><b>EXPENDITURE</b><br>
+                                    Zones As per percentage variation in Revenue Expenditure(Current year vs Last year): YEAR TO DATE
+                                    Zones As per percentage variation in Revenue Expenditure(Current year vs Last year): YEAR TO DATE
+                                    <br><b>SWR (22.91%), WR (22.63%), NER (19.35%)</b>
+                                </li>
+                                <li class="list-group-item"><b>FREIGHT REVENUE</b><br>
+                                    Commodity with Highest Percentage increase in Revenue (current year vs. last year): YEAR TO DATE
+                                    Commodity with Highest Percentage increase in Revenue (current year vs. last year): YEAR TO DATE
+
+                                    <br><b>COAL AND COKE (30%)</b>
+                                </li>
+                                <li class="list-group-item"><b>PUNCTUALITY</b><br>
+                                    Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                    Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+
+                                    <br><b>SECR (-15%)</b>
+                                </li>
+                            </ul>
+                        </deque>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                
+                <div class="row subRow">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="card summary-card">
+                            <h6 class="cardsHeaders card-header" >Overall Pendency Summary (Inspections/Items)</h6>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th class="card-caption">Total </th>
+                                            <th class="card-caption">Pending </th>
+                                            <th class="card-caption">Overdue </th>
+                                        </tr>                                        
+                                        <tr>
+                                            <td><a href="#" ><span class="stats-val" id="overallInspection" onclick="allinspectionreport(this)" title="Total">{{overallInspection}}</span></a><span class="slash"> / </span>   <a href="#" ><span class="stats-val" onclick="allinspectionreport(this)" id="overallTotalCount" title="Total">{{overallTotalCount}}</span></a></td>
+                                            <td><a href="#" ><span class="stats-val" id="pendingInspection" onclick="allinspectionreport(this)" title="Pending">{{pendingInspection}}</span></a><span class="slash"> / </span> <a href="#" ><span class="stats-val" onclick="allinspectionreport(this)" id="overallPendingCount" title="Total pending">{{overallPendingCount}}</span></a></td>
+                                            <td><a href="#" ><span class="stats-val" id="overdueInspection" onclick="allinspectionreport(this)" title="Overdue">{{overdueInspection}}</span></a><span class="slash"> / </span> <a href="#" ><span class="stats-val" onclick="allinspectionreport(this)" id="overallOverdueCount" title="Total overdue">{{overallOverdueCount}}</span></a></td>
+                                        </tr>
+                                </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="card summary-card">
+                            <h6 class="cardsHeaders card-header" >For Future Reference</h6>
+                            <div class="card-body alertscard">
+                                <!-- <deque>
+                                    <ul class="list-group list-group-flush" id="rotated">
+                                        <li class="list-group-item"><b>PUNCTUALITY</b><br>
+                                            Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                            <br><b>SECR (-15%)</b>
+                                        </li>
+                                        <li class="list-group-item"><b>EXPENDITURE</b><br>
+                                            Zones As per percentage variation in Revenue Expenditure(Current year vs Last year): YEAR TO DATE
+                                            <br><b>SWR (22.91%), WR (22.63%), NER (19.35%)</b>
+                                        </li>
+                                        <li class="list-group-item"><b>FREIGHT REVENUE</b><br>
+                                            Commodity with Highest Percentage increase in Revenue (current year vs. last year): YEAR TO DATE
+                                            <br><b>COAL AND COKE (30%)</b>
+                                        </li>
+                                        <li class="list-group-item"><b>PUNCTUALITY</b><br>
+                                            Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                            <br><b>SECR (-15%)</b>
+                                        </li>
+                                    </ul>
+                                </deque> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subRow">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <div class="table-responsive">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th class="stats-head">Passenger Safety </th>
+                                    <th style="width: 30%;text-align: right;">
+                                       <i class="fas fa-table"></i>
+                                    </th>
+                                </tr>
+                            </table>
+                            </div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>              
+                                        <tr>
+                                            <td><span class="badge stats-val2" title="Total items"  id="passengertotal" ><a href="javascript:void(0)" onclick="fetchdata('Passenger Safety','Total')">{{firstRowAllData.0.10}}</a></span></td>
+                                            <td><span class="badge stats-val2" title="Pending items" id="passengerpending"><a href="#" onclick="fetchdata('Passenger Safety','Pending')">{{firstRowAllData.0.11}}</a></span></td>
+                                            <td><span class="badge stats-val2" title="Overdue items" id="passengeroverdue"><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">{{firstRowAllData.0.12}}</a></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <hr style="margin:10px;"/>
+                                <!-- <p class="pendency-head">Pendency</p> -->
+                                <div class="table-responsive">
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="days">D*</th>
+                                            <th class="days" id="date1_1">>7</th>
+                                            <th class="days" id="date2_1">>30</th>
+                                            <th class="days" id="date4_1">>90</th>
+                                            <th class="days" id="date5_1">>180</th>
+                                        </tr>                                        
+                                    </thead>
+                                    <tbody>
+                                        <tr> 
+                                            <th  class="days" >P.C*</th>
+                                            <!-- <td class="cards2 count" id="passenger7"><a href="pendency_url" title="More than 7 Days count">{{pendencyDataCard1.0.0}}</a></td>
+                                            <td class="cards3 count" id="passenger30"><a href="pendency_url" title="More than 30 Days count">{{pendencyDataCard1.0.1}}</a></td>
+                                            <td class="cards4 count" id="passenger90"><a href="pendency_url" title="More than 90 Days count">{{pendencyDataCard1.0.2}}</a></td>
+                                            <td class="cards6 count" id="passenger180"><a href="pendency_url" title="More than 180 Days count">{{pendencyDataCard1.0.3}}</a></td> -->
+
+                                            <td class="cards2 count" id="passenger7"><a href="javascript:void(0)" onclick="fetchdata('Passenger Safety','7')"  title="More than 7 Days count">{{pendencyDataCard1.0.0}}</a></td>
+                                            <td class="cards3 count" id="passenger30"><a href="javascript:void(0)" onclick="fetchdata('Passenger Safety','30')"  title="More than 30 Days count">{{pendencyDataCard1.0.1}}</a></td>
+                                            <td class="cards4 count" id="passenger90"><a href="javascript:void(0)" onclick="fetchdata('Passenger Safety','90')"  title="More than 90 Days count">{{pendencyDataCard1.0.2}}</a></td>
+                                            <td class="cards6 count" id="passenger180"><a href="javascript:void(0)" onclick="fetchdata('Passenger Safety','180')" title="More than 180 Days count">{{pendencyDataCard1.0.3}}</a></td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <div class="table-responsive">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th class="stats-head">Employee Safety</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        <i class="fas fa-table"></i>  
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>              
+                                        <tr>
+                                            <td><span class="badge stats-val2" title="Total items"  id="employeetotal">{{firstRowAllData.0.20}}</span></td>
+                                            <td><span class="badge stats-val2" title="Pending items"  id="employeepending">{{firstRowAllData.0.21}}</span></td>
+                                            <td><span class="badge stats-val2" title="Overdue items"  id="employeeoverdue">{{firstRowAllData.0.22}}</span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                    <hr style="margin:10px;" />
+                                    <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">D*</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" >P.C*</th>
+                                                <td class="cards2 count" id="employee7"><a href="javascript:void(0)" onclick="fetchdata('Employee Safety','7')"  title="More than 7 Days count">{{pendencyDataCard1.0.5}}</a></td>
+                                                <td class="cards3 count" id="employee30"><a href="javascript:void(0)" onclick="fetchdata('Employee Safety','30')"  title="More than 30 Days count">{{pendencyDataCard1.0.6}}</a></td>
+                                                <td class="cards4 count" id="employee90"><a href="javascript:void(0)" onclick="fetchdata('Employee Safety','90')"  title="More than 90 Days count">{{pendencyDataCard1.0.7}}</a></td>
+                                                <td class="cards6 count" id="employee180"><a href="javascript:void(0)" onclick="fetchdata('Employee Safety','180')" title="More than 180 Days count">{{pendencyDataCard1.0.8}}</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <div class="table-responsive">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Others</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        <i class="fas fa-table"></i>  
+                                    </th>
+                                </tr>
+                            </table>
+                            </div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>  
+                                        <tr>
+                                            <td><span class="badge stats-val2" title="Total items" id="otherstotal">{{firstRowAllData.0.0}}</span></td>
+                                            <td><span class="badge stats-val2" title="Pending items" id="otherspending">{{firstRowAllData.0.1}}</span></td>
+                                            <td><span class="badge stats-val2" title="Overdue items" id="othersoverdue">{{firstRowAllData.0.2}}</span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                    <hr style="margin:10px;" />
+                                    <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">D*</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>  
+                                                <th  class="days" >P.C*</th>
+                                                <td class="cards2 count" id="others7"><a href="javascript:void(0)" onclick="fetchdata('Others','7')"  title="More than 7 Days count">{{pendencyDataCard1.0.10}}</a></td>
+                                                <td class="cards3 count" id="others30"><a href="javascript:void(0)" onclick="fetchdata('Others','30')"  title="More than 30 Days count">{{pendencyDataCard1.0.11}}</a></td>
+                                                <td class="cards4 count" id="others90"><a href="javascript:void(0)" onclick="fetchdata('Others','90')"  title="More than 90 Days count">{{pendencyDataCard1.0.12}}</a></td>
+                                                <td class="cards6 count" id="others180"><a href="javascript:void(0)" onclick="fetchdata('Others','180')" title="More than 180 Days count">{{pendencyDataCard1.0.13}}</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subRow">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <div class="table-responsive">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Night Insp</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        <i class="fas fa-table"></i>  
+                                    </th>
+                                </tr>
+                            </table>
+                            </div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge stats-val2" title="Total inspection"  id="nighttotal">{{secondRowAllData.0.0}}</span></td>
+                                            <td><span class="badge stats-val2" title="Pending inspection"  id="nightpending">{{secondRowAllData.0.1}}</span></td>
+                                            <td><span class="badge stats-val2" title="Overdue inspection"  id="nightoverdue">{{secondRowAllData.0.2}}</span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                    <hr style="margin:10px;" />
+                                    <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">D*</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" >P.C*</th>
+                                                <td class="cards2 count" id="night7"><a href="javascript:void(0)" onclick="fetchdata('Night Inspection','7')"  title="More than 7 Days count">{{pendencyDataCard2.0.0}}</a></td>
+                                                <td class="cards3 count" id="night30"><a href="javascript:void(0)" onclick="fetchdata('Night Inspection','30')"  title="More than 30 Days count">{{pendencyDataCard2.0.1}}</a></td>
+                                                <td class="cards4 count" id="night90"><a href="javascript:void(0)" onclick="fetchdata('Night Inspection','90')"  title="More than 90 Days count">{{pendencyDataCard2.0.2}}</a></td>
+                                                <td class="cards6 count" id="night180"><a href="javascript:void(0)" onclick="fetchdata('Night Inspection','180')" title="More than 180 Days count">{{pendencyDataCard2.0.3}}</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <div class="table-responsive">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Surprise Insp</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        <i class="fas fa-table"></i>  
+                                    </th>
+                                </tr>
+                            </table>
+                            </div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge stats-val2" title="Total inspection"  id="suprisetotal">{{secondRowAllData.0.10}}</span></td>
+                                            <td><span class="badge stats-val2" title="Pending inspection" id="suprisepending">{{secondRowAllData.0.11}}</span></td>
+                                            <td><span class="badge stats-val2" title="Overdue inspection"  id="supriseoverdue">{{secondRowAllData.0.12}}</span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                    <hr style="margin:10px;" />
+                                    <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">D*</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" >P.C*</th>
+                                                <td class="cards2 count" id="suprise7"><a href="javascript:void(0)" onclick="fetchdata('Surprise Inspection','7')"  title="More than 7 Days count">{{pendencyDataCard2.0.5}}</a></td>
+                                                <td class="cards3 count" id="suprise30"><a href="javascript:void(0)" onclick="fetchdata('Surprise Inspection','30')"  title="More than 30 Days count">{{pendencyDataCard2.0.6}}</a></td>
+                                                <td class="cards4 count" id="suprise90"><a href="javascript:void(0)" onclick="fetchdata('Surprise Inspection','90')"  title="More than 90 Days count">{{pendencyDataCard2.0.7}}</a></td>
+                                                <td class="cards6 count" id="suprise180"><a href="javascript:void(0)" onclick="fetchdata('Surprise Inspection','180')" title="More than 180 Days count">{{pendencyDataCard2.0.8}}</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <div class="table-responsive">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head"> Spl Drive Insp</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        <i class="fas fa-table"></i>  
+                                    </th>
+                                </tr>
+                            </table>
+                            </div>
+                            <div class="card-body" >
+                                <div class="table-responsive">
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge stats-val2" title="Total inspection" id="drivetotal">{{secondRowAllData.0.20}}</span></td>
+                                            <td><span class="badge stats-val2" title="Pending inspection" id="drivepending">{{secondRowAllData.0.21}}</span></td>
+                                            <td><span class="badge stats-val2" title="Overdue inspection" id="driveoverdue">{{secondRowAllData.0.22}}</span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                            <hr style="margin:10px;" />
+                            <div class="table-responsive">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">D*</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" >P.C*</th>
+                                                <td class="cards2 count" id="drive7"><a href="pendency_url" title="More than 7 Days count">{{pendencyDataCard2.0.10}}</a></td>
+                                                <td class="cards3 count" id="drive30"><a href="pendency_url" title="More than 30 Days count">{{pendencyDataCard2.0.11}}</a></td>
+                                                <td class="cards4 count" id="drive90"><a href="pendency_url" title="More than 90 Days count">{{pendencyDataCard2.0.12}}</a></td>
+                                                <td class="cards6 count" id="drive180"><a href="pendency_url" title="More than 180 Days count">{{pendencyDataCard2.0.13}}</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subRow">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                        <table class="table table-data table-striped table-bordered PendTable">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Pendency Count</th>
+                                    <th colspan="3">Item Type Wise</th>
+                                    <th colspan="3">Inspection Type Wise</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 12%;">Pass Safety</th>
+                                    <th style="width: 12%;">Emp Safety</th>
+                                    <th style="width: 12%;">Others</th>
+                                    <th style="width: 12%;">Night</th>
+                                    <th style="width: 12%;">Surprise</th>
+                                    <th style="width: 12%;">Spl Drive</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr> 
+                                    <td class="entity">Station</td>
+                                    <td id="stationpassenger">{{thirdRowData.0.0}}</td>
+                                    <td id="stationemployee">{{thirdRowData.0.1}}</td>
+                                    <td id="stationothers">{{thirdRowData.0.2}}</td>
+                                    <td id="stationnight"> {{thirdRowData.0.3}}</td>
+                                    <td id="stationsuprise">{{thirdRowData.0.4}}</td>
+                                    <td id="stationdrive">{{thirdRowData.0.5}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="entity">Section</td>
+                                    <td id="sectionpassenger">{{thirdRowData.0.6}}</td>
+                                    <td id="sectionemployee">{{thirdRowData.0.7}}</td>
+                                    <td id="sectionothers">{{thirdRowData.0.8}}</td>
+                                    <td id="sectionnight"> {{thirdRowData.0.9}}</td>
+                                    <td id="sectionsuprise">{{thirdRowData.0.10}}</td>
+                                    <td id="sectiondrive">{{thirdRowData.0.11}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="entity">Train</td>
+                                    <td id="trainpassenger">{{thirdRowData.0.12}}</td>
+                                    <td id="trainemployee">{{thirdRowData.0.13}}</td>
+                                    <td id="trainothers">{{thirdRowData.0.14}}</td>
+                                    <td id="trainnight"> {{thirdRowData.0.15}}</td>
+                                    <td id="trainsuprise">{{thirdRowData.0.16}}</td>
+                                    <td id="traindrive">{{thirdRowData.0.17}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="entity">Others</td>
+                                    <td id="otherspassenger">{{thirdRowData.0.18}}</td>
+                                    <td id="othersemployee">{{thirdRowData.0.19}}</td>
+                                    <td id="othersothers">{{thirdRowData.0.20}}</td>
+                                    <td id="othersnight"> {{thirdRowData.0.20}}</td>
+                                    <td id="otherssuprise">{{thirdRowData.0.22}}</td>
+                                    <td id="othersdrive">{{thirdRowData.0.23}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+    <div  id="secondary" style="margin: auto;width: 10%;padding: 10px;z-index:100;">
+   
+        <center><img src="{% static 'images/maploading.gif' %}" style="width:200%;height:200%;"></center>
+      </div>
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <button id="modaldismis" type="button" class="btn btn-success btn-sm" data-dismiss="modal" aria-label="Close">
+            Close
+          </button>
+        <div class="heading" style="font-size: 20px;">
+        <center><p id = 'demo'>Rly: List of Night Inspection related items (Total)</p></center>
+        
+        <table id="table_id" class="table table-striped table-bordered table-sm">
+            <thead style="background-color: #2b7bea;white-space: nowrap; font-size: 1.2rem; color:white;" id = 'thead1'>
+             <tr>
+              <th style="width: 5%; text-align: center;">S.No.</th> 
+               <th style="width: 10%; text-align: center;"> Rly <br></th>
+              <th style="width: 10%; text-align: center;">Total <br></th>
+              <th style="width: 10%; text-align: center;">Pending <br></th>
+              <th style="width: 10%; text-align: center;">Overdue <br></th> 
+              <th style="width: 10%; text-align: center;">Closed <br></th>
+              
+          </tr>
+            </thead>
+            <tbody id = 'mydata'>
+                <tr>
+                    <td style="width: 5%; text-align: center;">S.No.</th> 
+               <td style="width: 10%; text-align: center;"> Rly <br> <input type="text" class="box" placeholder="Search"> </td>
+              <td style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></td>
+              <td style="width: 10%; text-align: center;">Pending <br><input type="text" class="box" placeholder="Search"></td>
+              <td style="width: 10%; text-align: center;">Overdue <br><input type="text" class="box" placeholder="Search"></td> 
+              <td style="width: 10%; text-align: center;">Closed <br><input type="text" class="box" placeholder="Search"></td>
+                </tr>
+            </tbody>
+        </div>
+          </table>
+        </div>
+           
+</div>
+<button type="button" id = 'btnmodal' class="btn btn-primary" data-toggle="modal" data-target="#modal" hidden></button>
+
+<!-- END MODAL -->
+</body>
+
+<script>
+
+var table =$('#table_id').DataTable({
+    "iDisplayLength": 10,
+                    
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [10,15, 30, 50, 75, 100],
+    dom: 'Blfrtip',
+         bSort: false,
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                if(irType == 'All'){
+                    var stre ='Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate
+                }
+                else{
+                    var stre=irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate
+                }
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+
+
+
+    $('#main').show();
+    $('#secondary').hide();
+    $(".sidebar").addClass('close');
+    $('#zoneshowhide').hide(); 
+    $('#headerZone').hide(); 
+    $('#headerDivision').hide(); 
+    var descType = ''
+    
+    $(document).ready(function(){
+            $('.buttonZrDetails').hide();
+     })
+    
+    function change(h) {
+        
+    const dataId = $(h).attr("data-id");
+    let svgclass = dataId+'CLASS';
+    $("."+svgclass).addClass('fillColorClassDesc');
+    }
+    function changeBack(h) {
+        
+        
+        $("path").removeClass('fillColorClassDesc');
+        // const dataId = $('#zoneID').val();
+        // let svgclass = dataId+'CLASS';
+        // $("."+svgclass).addClass('fillColorClass');
+    }
+    
+            function get_data(h) {
+
+                if($('#typeID').val()=='IR' || $('#typeID').val()=='PU')
+                {
+                    $('#typeID').val('ZR');
+                    $('.buttonZrDetails').show();
+                    $('#ZR').css('background-color', '#B74805');
+                    $('#PU').css('background-color', '#ff9900');
+                    $('#DIV').css('background-color', '#ff9900');
+                    $('#WS').css('background-color', '#ff9900');
+                    $('#HQ').css('background-color', '#ff9900');
+
+                }
+                
+                $("path").removeClass('fillColorClass');
+                const dataId = $(h).attr("data-id");
+                let svgclass = dataId+'CLASS';
+                $("."+svgclass).addClass('fillColorClass');
+                $('#zoneID').val(dataId);
+                $('#divID').val('');
+                $('#main').hide();
+                $('#secondary').show();
+                $('#zoneshowhide').hide();
+
+                $('#headerZone').hide(); 
+                $('#headerDivision').hide(); 
+
+                let data = {
+                    typ: 'allDetails',
+                    typeId: $('#typeID').val(),   
+                    zoneId: $('#zoneID').val(),
+                    divId: $('#divID').val(),
+                    searchDate : $('#startDate').val(),
+                    searchDateTo:$('#endDate').val(),
+                    searchDepartment : $('#searchDepartment').val(),
+                    searchDesignation : $('#searchDesignation').val(),
+                    searchLevel : $('#searchLevel').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                method: "POST",
+                url: "{% url 'pendencyDashboard' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    $('#headerZone').show(); 
+                    $('#headerDivision').empty();
+                    $('#headerZone').empty();
+                    let div = `<i class="fa fa-angle-right"></i> ${dataId}`;
+                    $('#headerZone').append(div);
+                           
+                   let dataZoneWs = response.dataZoneWs;
+                   let firstRowAllData = response.firstRowAllData;
+                   let secondRowAllData = response.secondRowAllData;
+                   let thirdRowData = response.thirdRowData;
+                   let pendencyDataCard1 = response.pendencyDataCard1;
+                   let pendencyDataCard2 = response.pendencyDataCard2;
+                   let overallTotalCount = response.overallTotalCount;
+                   let overallPendingCount = response.overallPendingCount;
+                   let overallOverdueCount = response.overallOverdueCount;
+                   let allDesignation = response.allDesignation;
+                   let overallInspection = response.overallInspection;
+                   let pendingInspection = response.pendingInspection;
+                   let overdueInspection = response.overdueInspection;
+                   let row='';
+                        if(dataZoneWs.length>0){
+                                 row = `<div style="color: #391a02; margin-left:10px;margin-right:10px;"><b><u>${descType}<u></b></div>`;
+                                for (let i = 0; i < dataZoneWs.length; i++) {
+                                    if(dataZoneWs[i].location_code == $('#zoneID').val())
+                                    {
+                                        row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                <span style="cursor: pointer;color:rgb(183, 72, 5)" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                </span></br>`
+                                    }
+                                    else{
+                                    row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                    <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                    <span style="cursor: pointer;" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                    </span></br>`;
+                                }
+
+
+                                
+                                
+                            }
+                            row += `</ul>`;
+                            $('#zoneshowhide').show();
+                            $('#zoneDetails').empty();
+                            $('#zoneDetails').append(row);
+                        }
+                        
+                        row = `<option value="All">All</option>`
+                        for(let i =0;i<allDesignation.length;i++)  
+                        {
+                            if(allDesignation[i].designation == $('#searchDesignation').val())
+                                row += `<option value="${allDesignation[i].designation_code}" selected >${allDesignation[i].designation}</option>`;
+                            else
+                                row += `<option value="${allDesignation[i].designation_code}" >${allDesignation[i].designation}</option>`;
+                        }
+                           $('#searchDesignation').empty();
+                           $('#searchDesignation').append(row);
+
+                           document.getElementById('overallTotalCount').innerHTML = overallTotalCount;
+                           document.getElementById('overallPendingCount').innerHTML = overallPendingCount;
+                           document.getElementById('overallOverdueCount').innerHTML = overallOverdueCount;
+                           document.getElementById('overallInspection').innerHTML = overallInspection;
+                           document.getElementById('pendingInspection').innerHTML = pendingInspection;
+                           document.getElementById('overdueInspection').innerHTML = overdueInspection;
+
+
+                           document.getElementById('otherstotal').innerHTML = firstRowAllData[0][0];
+                           document.getElementById('otherspending').innerHTML = firstRowAllData[0][1];
+                           document.getElementById('othersoverdue').innerHTML = firstRowAllData[0][2];
+                           document.getElementById('passengertotal').innerHTML = firstRowAllData[0][3];
+                           document.getElementById('passengerpending').innerHTML = firstRowAllData[0][4];
+                           document.getElementById('passengeroverdue').innerHTML = firstRowAllData[0][5];
+                           document.getElementById('employeetotal').innerHTML = firstRowAllData[0][6];
+                           document.getElementById('employeepending').innerHTML = firstRowAllData[0][7];
+                           document.getElementById('employeeoverdue').innerHTML = firstRowAllData[0][8];
+
+
+
+                           document.getElementById('stationpassenger').innerHTML = thirdRowData[0][0];
+                           document.getElementById('stationemployee').innerHTML = thirdRowData[0][1];
+                           document.getElementById('stationothers').innerHTML = thirdRowData[0][2];
+                           document.getElementById('stationnight').innerHTML = thirdRowData[0][3];
+                           document.getElementById('stationsuprise').innerHTML = thirdRowData[0][4];
+                           document.getElementById('stationdrive').innerHTML = thirdRowData[0][5];
+
+                           document.getElementById('sectionpassenger').innerHTML = thirdRowData[0][6];
+                           document.getElementById('sectionemployee').innerHTML = thirdRowData[0][7];
+                           document.getElementById('sectionothers').innerHTML = thirdRowData[0][8];
+                           document.getElementById('sectionnight').innerHTML = thirdRowData[0][9];
+                           document.getElementById('sectionsuprise').innerHTML = thirdRowData[0][10];
+                           document.getElementById('sectiondrive').innerHTML = thirdRowData[0][11];
+
+                           document.getElementById('trainpassenger').innerHTML = thirdRowData[0][12];
+                           document.getElementById('trainemployee').innerHTML = thirdRowData[0][13];
+                           document.getElementById('trainothers').innerHTML = thirdRowData[0][14];
+                           document.getElementById('trainnight').innerHTML = thirdRowData[0][15];
+                           document.getElementById('trainsuprise').innerHTML = thirdRowData[0][16];
+                           document.getElementById('traindrive').innerHTML = thirdRowData[0][17];
+
+                           document.getElementById('otherspassenger').innerHTML = thirdRowData[0][18];
+                           document.getElementById('othersemployee').innerHTML = thirdRowData[0][19];
+                           document.getElementById('othersothers').innerHTML = thirdRowData[0][20];
+                           document.getElementById('othersnight').innerHTML = thirdRowData[0][21];
+                           document.getElementById('otherssuprise').innerHTML = thirdRowData[0][22];
+                           document.getElementById('othersdrive').innerHTML = thirdRowData[0][23];
+
+                           document.getElementById('passenger7').innerHTML = pendencyDataCard1[0][0];
+                           document.getElementById('passenger30').innerHTML = pendencyDataCard1[0][1];
+                           document.getElementById('passenger90').innerHTML = pendencyDataCard1[0][2];
+                           document.getElementById('passenger180').innerHTML = pendencyDataCard1[0][3];
+                           document.getElementById('employee7').innerHTML = pendencyDataCard1[0][5];
+                           document.getElementById('employee30').innerHTML = pendencyDataCard1[0][6];
+                           document.getElementById('employee90').innerHTML = pendencyDataCard1[0][7];
+                           document.getElementById('employee180').innerHTML = pendencyDataCard1[0][8];
+                           document.getElementById('others7').innerHTML = pendencyDataCard1[0][10];
+                           document.getElementById('others30').innerHTML = pendencyDataCard1[0][11];
+                           document.getElementById('others90').innerHTML = pendencyDataCard1[0][12];
+                           document.getElementById('others180').innerHTML = pendencyDataCard1[0][13];
+
+                           document.getElementById('nighttotal').innerHTML = secondRowAllData[0][0];
+                           document.getElementById('nightpending').innerHTML = secondRowAllData[0][1];
+                           document.getElementById('nightoverdue').innerHTML = secondRowAllData[0][2];
+                           document.getElementById('suprisetotal').innerHTML = secondRowAllData[0][3];
+                           document.getElementById('suprisepending').innerHTML = secondRowAllData[0][4];
+                           document.getElementById('supriseoverdue').innerHTML = secondRowAllData[0][5];
+                           document.getElementById('drivetotal').innerHTML = secondRowAllData[0][6];
+                           document.getElementById('drivepending').innerHTML = secondRowAllData[0][7];
+                           document.getElementById('driveoverdue').innerHTML = secondRowAllData[0][8];
+                           
+                           document.getElementById('night7').innerHTML = pendencyDataCard2[0][0];
+                           document.getElementById('night30').innerHTML = pendencyDataCard2[0][1];
+                           document.getElementById('night90').innerHTML = pendencyDataCard2[0][2];
+                           document.getElementById('night180').innerHTML = pendencyDataCard2[0][3];
+                           document.getElementById('suprise7').innerHTML = pendencyDataCard2[0][5];
+                           document.getElementById('suprise30').innerHTML = pendencyDataCard2[0][6];
+                           document.getElementById('suprise90').innerHTML = pendencyDataCard2[0][7];
+                           document.getElementById('suprise180').innerHTML = pendencyDataCard2[0][8];
+                           document.getElementById('drive7').innerHTML = pendencyDataCard2[0][10];
+                           document.getElementById('drive30').innerHTML = pendencyDataCard2[0][11];
+                           document.getElementById('drive90').innerHTML = pendencyDataCard2[0][12];
+                           document.getElementById('drive180').innerHTML = pendencyDataCard2[0][13];
+                           $('#main').show();
+                            $('#secondary').hide();
+                           scrollCounter();
+                        },
+                        error: function(err){
+                            alert('Some error exists, please contact admin');
+                            $('#main').show();
+                            $('#secondary').hide();
+                        }
+                    });
+
+                
+
+               
+                
+            }
+        
+            function showDivision(divName) {
+                $('#divID').val(divName);
+                $('#main').hide();
+                $('#secondary').show();
+                $('#zoneshowhide').hide();
+                $('#headerDivision').hide(); 
+
+                let data = {
+                    typ: 'allDetails',
+                    typeId: $('#typeID').val(),   
+                    zoneId: $('#zoneID').val(),
+                    divId: $('#divID').val(),
+                    searchDate : $('#startDate').val(),
+                    searchDateTo:$('#endDate').val(),
+                    searchDepartment : $('#searchDepartment').val(),
+                    searchDesignation : $('#searchDesignation').val(),
+                    searchLevel : $('#searchLevel').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                method: "POST",
+                url: "{% url 'pendencyDashboard' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    $('#headerDivision').show(); 
+                    $('#headerDivision').empty();
+                    let div = `<i class="fa fa-angle-right"></i> ${divName}`;
+                    $('#headerDivision').append(div);
+                   let dataZoneWs = response.dataZoneWs;
+                   let firstRowAllData = response.firstRowAllData;
+                   let secondRowAllData = response.secondRowAllData;
+                   let thirdRowData = response.thirdRowData;
+                   let pendencyDataCard1 = response.pendencyDataCard1;
+                   let pendencyDataCard2 = response.pendencyDataCard2;
+                   let overallTotalCount = response.overallTotalCount;
+                   let overallPendingCount = response.overallPendingCount;
+                   let overallOverdueCount = response.overallOverdueCount;
+                   let allDesignation = response.allDesignation;
+                   let overallInspection = response.overallInspection;
+                   let pendingInspection = response.pendingInspection;
+                   let overdueInspection = response.overdueInspection;
+                   let row='';
+                        if(dataZoneWs.length>0){
+                                 row = `<div style="color: #391a02; margin-left:10px;margin-right:10px;"><b><u>${descType}<u></b></div>`;
+                                for (let i = 0; i < dataZoneWs.length; i++) {
+                                    if(dataZoneWs[i].location_code == $('#zoneID').val())
+                                    {
+                                        row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                <span style="cursor: pointer;color:rgb(183, 72, 5)" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                </span></br>`
+                                    }
+                                    else{
+                                    row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                    <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                    <span style="cursor: pointer;" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                    </span></br>`;
+                                }
+
+
+                                
+                                
+                            }
+                            row += `</ul>`;
+                            $('#zoneshowhide').show();
+                            $('#zoneDetails').empty();
+                            $('#zoneDetails').append(row);
+                        }
+                        
+                        row = `<option value="All">All</option>`
+                        for(let i =0;i<allDesignation.length;i++)  
+                        {
+                            if(allDesignation[i].designation == $('#searchDesignation').val())
+                                row += `<option value="${allDesignation[i].designation_code}" selected >${allDesignation[i].designation}</option>`;
+                            else
+                                row += `<option value="${allDesignation[i].designation_code}" >${allDesignation[i].designation}</option>`;
+                        }
+                           $('#searchDesignation').empty();
+                           $('#searchDesignation').append(row);
+
+                           document.getElementById('overallTotalCount').innerHTML = overallTotalCount;
+                           document.getElementById('overallPendingCount').innerHTML = overallPendingCount;
+                           document.getElementById('overallOverdueCount').innerHTML = overallOverdueCount;
+                           document.getElementById('overallInspection').innerHTML = overallInspection;
+                           document.getElementById('pendingInspection').innerHTML = pendingInspection;
+                           document.getElementById('overdueInspection').innerHTML = overdueInspection;
+
+
+                           document.getElementById('otherstotal').innerHTML = firstRowAllData[0][0];
+                           document.getElementById('otherspending').innerHTML = firstRowAllData[0][1];
+                           document.getElementById('othersoverdue').innerHTML = firstRowAllData[0][2];
+                           document.getElementById('passengertotal').innerHTML = firstRowAllData[0][3];
+                           document.getElementById('passengerpending').innerHTML = firstRowAllData[0][4];
+                           document.getElementById('passengeroverdue').innerHTML = firstRowAllData[0][5];
+                           document.getElementById('employeetotal').innerHTML = firstRowAllData[0][6];
+                           document.getElementById('employeepending').innerHTML = firstRowAllData[0][7];
+                           document.getElementById('employeeoverdue').innerHTML = firstRowAllData[0][8];
+
+
+
+                           document.getElementById('stationpassenger').innerHTML = thirdRowData[0][0];
+                           document.getElementById('stationemployee').innerHTML = thirdRowData[0][1];
+                           document.getElementById('stationothers').innerHTML = thirdRowData[0][2];
+                           document.getElementById('stationnight').innerHTML = thirdRowData[0][3];
+                           document.getElementById('stationsuprise').innerHTML = thirdRowData[0][4];
+                           document.getElementById('stationdrive').innerHTML = thirdRowData[0][5];
+
+                           document.getElementById('sectionpassenger').innerHTML = thirdRowData[0][6];
+                           document.getElementById('sectionemployee').innerHTML = thirdRowData[0][7];
+                           document.getElementById('sectionothers').innerHTML = thirdRowData[0][8];
+                           document.getElementById('sectionnight').innerHTML = thirdRowData[0][9];
+                           document.getElementById('sectionsuprise').innerHTML = thirdRowData[0][10];
+                           document.getElementById('sectiondrive').innerHTML = thirdRowData[0][11];
+
+                           document.getElementById('trainpassenger').innerHTML = thirdRowData[0][12];
+                           document.getElementById('trainemployee').innerHTML = thirdRowData[0][13];
+                           document.getElementById('trainothers').innerHTML = thirdRowData[0][14];
+                           document.getElementById('trainnight').innerHTML = thirdRowData[0][15];
+                           document.getElementById('trainsuprise').innerHTML = thirdRowData[0][16];
+                           document.getElementById('traindrive').innerHTML = thirdRowData[0][17];
+
+                           document.getElementById('otherspassenger').innerHTML = thirdRowData[0][18];
+                           document.getElementById('othersemployee').innerHTML = thirdRowData[0][19];
+                           document.getElementById('othersothers').innerHTML = thirdRowData[0][20];
+                           document.getElementById('othersnight').innerHTML = thirdRowData[0][21];
+                           document.getElementById('otherssuprise').innerHTML = thirdRowData[0][22];
+                           document.getElementById('othersdrive').innerHTML = thirdRowData[0][23];
+
+                           document.getElementById('passenger7').innerHTML = pendencyDataCard1[0][0];
+                           document.getElementById('passenger30').innerHTML = pendencyDataCard1[0][1];
+                           document.getElementById('passenger90').innerHTML = pendencyDataCard1[0][2];
+                           document.getElementById('passenger180').innerHTML = pendencyDataCard1[0][3];
+                           document.getElementById('employee7').innerHTML = pendencyDataCard1[0][5];
+                           document.getElementById('employee30').innerHTML = pendencyDataCard1[0][6];
+                           document.getElementById('employee90').innerHTML = pendencyDataCard1[0][7];
+                           document.getElementById('employee180').innerHTML = pendencyDataCard1[0][8];
+                           document.getElementById('others7').innerHTML = pendencyDataCard1[0][10];
+                           document.getElementById('others30').innerHTML = pendencyDataCard1[0][11];
+                           document.getElementById('others90').innerHTML = pendencyDataCard1[0][12];
+                           document.getElementById('others180').innerHTML = pendencyDataCard1[0][13];
+
+                           document.getElementById('nighttotal').innerHTML = secondRowAllData[0][0];
+                           document.getElementById('nightpending').innerHTML = secondRowAllData[0][1];
+                           document.getElementById('nightoverdue').innerHTML = secondRowAllData[0][2];
+                           document.getElementById('suprisetotal').innerHTML = secondRowAllData[0][3];
+                           document.getElementById('suprisepending').innerHTML = secondRowAllData[0][4];
+                           document.getElementById('supriseoverdue').innerHTML = secondRowAllData[0][5];
+                           document.getElementById('drivetotal').innerHTML = secondRowAllData[0][6];
+                           document.getElementById('drivepending').innerHTML = secondRowAllData[0][7];
+                           document.getElementById('driveoverdue').innerHTML = secondRowAllData[0][8];
+                           
+                           document.getElementById('night7').innerHTML = pendencyDataCard2[0][0];
+                           document.getElementById('night30').innerHTML = pendencyDataCard2[0][1];
+                           document.getElementById('night90').innerHTML = pendencyDataCard2[0][2];
+                           document.getElementById('night180').innerHTML = pendencyDataCard2[0][3];
+                           document.getElementById('suprise7').innerHTML = pendencyDataCard2[0][5];
+                           document.getElementById('suprise30').innerHTML = pendencyDataCard2[0][6];
+                           document.getElementById('suprise90').innerHTML = pendencyDataCard2[0][7];
+                           document.getElementById('suprise180').innerHTML = pendencyDataCard2[0][8];
+                           document.getElementById('drive7').innerHTML = pendencyDataCard2[0][10];
+                           document.getElementById('drive30').innerHTML = pendencyDataCard2[0][11];
+                           document.getElementById('drive90').innerHTML = pendencyDataCard2[0][12];
+                           document.getElementById('drive180').innerHTML = pendencyDataCard2[0][13];
+                           $('#main').show();
+                            $('#secondary').hide();
+                           scrollCounter();
+                        },
+                        error: function(err){
+                            alert('Some error exists, please contact admin');
+                            $('#main').show();
+                            $('#secondary').hide();
+                        }
+                    });
+
+                
+    
+            }
+            
+            function getDataOfFilter(val)
+            {
+                 $('#main').hide();
+                $('#secondary').show();
+                if(val=='desig')
+                {
+                    $('#searchLevel').val('All');
+                }
+                else if(val == 'level'){
+                    $('#searchDesignation').val('All');
+                }
+                let data = {
+                    typ: 'allDetails',
+                    typeId: $('#typeID').val(),   
+                    zoneId: $('#zoneID').val(),
+                    divId: $('#divID').val(),
+                    searchDate : $('#startDate').val(),
+                    searchDateTo:$('#endDate').val(),
+                    searchDepartment : $('#searchDepartment').val(),
+                    searchDesignation : $('#searchDesignation').val(),
+                    searchLevel : $('#searchLevel').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                method: "POST",
+                url: "{% url 'pendencyDashboard' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                   
+                   let dataZoneWs = response.dataZoneWs;
+                   let firstRowAllData = response.firstRowAllData;
+                   let secondRowAllData = response.secondRowAllData;
+                   let thirdRowData = response.thirdRowData;
+                   let pendencyDataCard1 = response.pendencyDataCard1;
+                   let pendencyDataCard2 = response.pendencyDataCard2;
+                   let overallTotalCount = response.overallTotalCount;
+                   let overallPendingCount = response.overallPendingCount;
+                   let overallOverdueCount = response.overallOverdueCount;
+                   let allDesignation = response.allDesignation;
+                   let overallInspection = response.overallInspection;
+                   let pendingInspection = response.pendingInspection;
+                   let overdueInspection = response.overdueInspection;
+                   let row='';
+                        if(dataZoneWs.length>0){
+                                 row = `<div style="color: #391a02; margin-left:10px;margin-right:10px;"><b><u>${descType}<u></b></div>`;
+                                for (let i = 0; i < dataZoneWs.length; i++) {
+                                    if(dataZoneWs[i].location_code == $('#zoneID').val())
+                                    {
+                                        row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                <span style="cursor: pointer;color:rgb(183, 72, 5)" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                </span></br>`
+                                    }
+                                    else{
+                                    row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                    <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                    <span style="cursor: pointer;" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                    </span></br>`;
+                                }
+
+
+                                
+                                
+                            }
+                            row += `</ul>`;
+                            $('#zoneshowhide').show();
+                            $('#zoneDetails').empty();
+                            $('#zoneDetails').append(row);
+                        }
+                        
+                        row = `<option value="All">All</option>`;
+                        
+                        for(let i =0;i<allDesignation.length;i++)  
+                        {
+                            if(allDesignation[i].designation_code == $('#searchDesignation').val())
+                                row += `<option value="${allDesignation[i].designation_code}" selected >${allDesignation[i].designation}</option>`;
+                            else
+                                row += `<option value="${allDesignation[i].designation_code}" >${allDesignation[i].designation}</option>`;
+                        }
+                           $('#searchDesignation').empty();
+                           $('#searchDesignation').append(row);
+
+                           document.getElementById('overallTotalCount').innerHTML = overallTotalCount;
+                           document.getElementById('overallPendingCount').innerHTML = overallPendingCount;
+                           document.getElementById('overallOverdueCount').innerHTML = overallOverdueCount;
+                           document.getElementById('overallInspection').innerHTML = overallInspection;
+                           document.getElementById('pendingInspection').innerHTML = pendingInspection;
+                           document.getElementById('overdueInspection').innerHTML = overdueInspection;
+
+
+                           document.getElementById('otherstotal').innerHTML = firstRowAllData[0][0];
+                           document.getElementById('otherspending').innerHTML = firstRowAllData[0][1];
+                           document.getElementById('othersoverdue').innerHTML = firstRowAllData[0][2];
+                           document.getElementById('passengertotal').innerHTML = firstRowAllData[0][3];
+                           document.getElementById('passengerpending').innerHTML = firstRowAllData[0][4];
+                           document.getElementById('passengeroverdue').innerHTML = firstRowAllData[0][5];
+                           document.getElementById('employeetotal').innerHTML = firstRowAllData[0][6];
+                           document.getElementById('employeepending').innerHTML = firstRowAllData[0][7];
+                           document.getElementById('employeeoverdue').innerHTML = firstRowAllData[0][8];
+
+
+
+                           document.getElementById('stationpassenger').innerHTML = thirdRowData[0][0];
+                           document.getElementById('stationemployee').innerHTML = thirdRowData[0][1];
+                           document.getElementById('stationothers').innerHTML = thirdRowData[0][2];
+                           document.getElementById('stationnight').innerHTML = thirdRowData[0][3];
+                           document.getElementById('stationsuprise').innerHTML = thirdRowData[0][4];
+                           document.getElementById('stationdrive').innerHTML = thirdRowData[0][5];
+
+                           document.getElementById('sectionpassenger').innerHTML = thirdRowData[0][6];
+                           document.getElementById('sectionemployee').innerHTML = thirdRowData[0][7];
+                           document.getElementById('sectionothers').innerHTML = thirdRowData[0][8];
+                           document.getElementById('sectionnight').innerHTML = thirdRowData[0][9];
+                           document.getElementById('sectionsuprise').innerHTML = thirdRowData[0][10];
+                           document.getElementById('sectiondrive').innerHTML = thirdRowData[0][11];
+
+                           document.getElementById('trainpassenger').innerHTML = thirdRowData[0][12];
+                           document.getElementById('trainemployee').innerHTML = thirdRowData[0][13];
+                           document.getElementById('trainothers').innerHTML = thirdRowData[0][14];
+                           document.getElementById('trainnight').innerHTML = thirdRowData[0][15];
+                           document.getElementById('trainsuprise').innerHTML = thirdRowData[0][16];
+                           document.getElementById('traindrive').innerHTML = thirdRowData[0][17];
+
+                           document.getElementById('otherspassenger').innerHTML = thirdRowData[0][18];
+                           document.getElementById('othersemployee').innerHTML = thirdRowData[0][19];
+                           document.getElementById('othersothers').innerHTML = thirdRowData[0][20];
+                           document.getElementById('othersnight').innerHTML = thirdRowData[0][21];
+                           document.getElementById('otherssuprise').innerHTML = thirdRowData[0][22];
+                           document.getElementById('othersdrive').innerHTML = thirdRowData[0][23];
+
+                           document.getElementById('passenger7').innerHTML = pendencyDataCard1[0][0];
+                           document.getElementById('passenger30').innerHTML = pendencyDataCard1[0][1];
+                           document.getElementById('passenger90').innerHTML = pendencyDataCard1[0][2];
+                           document.getElementById('passenger180').innerHTML = pendencyDataCard1[0][3];
+                           document.getElementById('employee7').innerHTML = pendencyDataCard1[0][5];
+                           document.getElementById('employee30').innerHTML = pendencyDataCard1[0][6];
+                           document.getElementById('employee90').innerHTML = pendencyDataCard1[0][7];
+                           document.getElementById('employee180').innerHTML = pendencyDataCard1[0][8];
+                           document.getElementById('others7').innerHTML = pendencyDataCard1[0][10];
+                           document.getElementById('others30').innerHTML = pendencyDataCard1[0][11];
+                           document.getElementById('others90').innerHTML = pendencyDataCard1[0][12];
+                           document.getElementById('others180').innerHTML = pendencyDataCard1[0][13];
+
+                           document.getElementById('nighttotal').innerHTML = secondRowAllData[0][0];
+                           document.getElementById('nightpending').innerHTML = secondRowAllData[0][1];
+                           document.getElementById('nightoverdue').innerHTML = secondRowAllData[0][2];
+                           document.getElementById('suprisetotal').innerHTML = secondRowAllData[0][3];
+                           document.getElementById('suprisepending').innerHTML = secondRowAllData[0][4];
+                           document.getElementById('supriseoverdue').innerHTML = secondRowAllData[0][5];
+                           document.getElementById('drivetotal').innerHTML = secondRowAllData[0][6];
+                           document.getElementById('drivepending').innerHTML = secondRowAllData[0][7];
+                           document.getElementById('driveoverdue').innerHTML = secondRowAllData[0][8];
+                           
+                           document.getElementById('night7').innerHTML = pendencyDataCard2[0][0];
+                           document.getElementById('night30').innerHTML = pendencyDataCard2[0][1];
+                           document.getElementById('night90').innerHTML = pendencyDataCard2[0][2];
+                           document.getElementById('night180').innerHTML = pendencyDataCard2[0][3];
+                           document.getElementById('suprise7').innerHTML = pendencyDataCard2[0][5];
+                           document.getElementById('suprise30').innerHTML = pendencyDataCard2[0][6];
+                           document.getElementById('suprise90').innerHTML = pendencyDataCard2[0][7];
+                           document.getElementById('suprise180').innerHTML = pendencyDataCard2[0][8];
+                           document.getElementById('drive7').innerHTML = pendencyDataCard2[0][10];
+                           document.getElementById('drive30').innerHTML = pendencyDataCard2[0][11];
+                           document.getElementById('drive90').innerHTML = pendencyDataCard2[0][12];
+                           document.getElementById('drive180').innerHTML = pendencyDataCard2[0][13];
+                           $('#main').show();
+                            $('#secondary').hide();
+                           scrollCounter();
+                        },
+                        error: function(err){
+                            alert('Some error exists, please contact admin');
+                            $('#main').show();
+                            $('#secondary').hide();
+                        }
+                    });
+            }
+    
+            function setBtnColor(val) {
+                $('#main').hide();
+                $('#secondary').show();
+                
+                $('#zoneshowhide').hide();
+                // $('#headerZone').hide(); 
+                $('#headerDivision').hide(); 
+                
+                if(val == 'PU'){
+                    $("path").removeClass('fillColorClass');
+                    descType='Production Unit';
+                    $('.buttonZrDetails').hide();
+                    $('#typeID').val(val);
+                    $('#zoneID').val('');
+                    $('#divID').val('');
+                    $('#headerZone').empty(); 
+                    $('#headerDivision').empty(); 
+                    $('#headerZone').hide(); 
+                    $('#headerDivision').hide(); 
+
+                    $('#ZR').css('background-color', '#ff9900');
+                    $('#PU').css('background-color', '#B74805');
+                    $('#DIV').css('background-color', '#ff9900');
+                    $('#WS').css('background-color', '#ff9900');
+                    $('#HQ').css('background-color', '#ff9900');
+                
+
+                }
+                else if(val == 'ZR')
+                {
+                    $('#zoneID').val('');
+                    $('#divID').val('');
+                    $('.buttonZrDetails').show();
+                    $('#typeID').val(val);
+                    $('#ZR').css('background-color', '#B74805');
+                    $('#PU').css('background-color', '#ff9900');
+                    $('#DIV').css('background-color', '#ff9900');
+                    $('#WS').css('background-color', '#ff9900');
+                    $('#HQ').css('background-color', '#ff9900');
+                }
+                else if(val == 'DIV')
+                {
+                    $('#divID').val('');
+                    descType='Division';
+                    $('.buttonZrDetails').show();
+                    $('#typeID').val(val);
+                    $('#ZR').css('background-color', '#B74805');
+                    $('#PU').css('background-color', '#ff9900');
+                    $('#DIV').css('background-color', '#B74805');
+                    $('#WS').css('background-color', '#ff9900');
+                    $('#HQ').css('background-color', '#ff9900');
+                }
+                else if(val == 'WS')
+                {
+                    $('#divID').val('');
+                    descType='WorkShop';
+                    $('.buttonZrDetails').show();
+                    $('#typeID').val(val);
+                    $('#ZR').css('background-color', '#B74805');
+                    $('#PU').css('background-color', '#ff9900');
+                    $('#DIV').css('background-color', '#ff9900');
+                    $('#WS').css('background-color', '#B74805');
+                    $('#HQ').css('background-color', '#ff9900');
+                }
+                else if(val == 'HQ')
+                {
+                    
+                    $('#divID').val('');
+                    $('.buttonZrDetails').show();
+                    $('#typeID').val(val);
+                    $('#ZR').css('background-color', '#B74805');
+                    $('#PU').css('background-color', '#ff9900');
+                    $('#DIV').css('background-color', '#ff9900');
+                    $('#WS').css('background-color', '#ff9900');
+                    $('#HQ').css('background-color', '#B74805');
+                }
+
+                let data = {
+                    typ: 'allDetails',
+                    typeId: $('#typeID').val(),   
+                    zoneId: $('#zoneID').val(),
+                    divId: $('#divID').val(),
+                    searchDate : $('#startDate').val(),
+                    searchDateTo:$('#endDate').val(),
+                    searchDepartment : $('#searchDepartment').val(),
+                    searchDesignation : $('#searchDesignation').val(),
+                    searchLevel : $('#searchLevel').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                method: "POST",
+                url: "{% url 'pendencyDashboard' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                   let dataZoneWs = response.dataZoneWs;
+                   let firstRowAllData = response.firstRowAllData;
+                   let secondRowAllData = response.secondRowAllData;
+                   let thirdRowData = response.thirdRowData;
+                   let pendencyDataCard1 = response.pendencyDataCard1;
+                   let pendencyDataCard2 = response.pendencyDataCard2;
+                   let overallTotalCount = response.overallTotalCount;
+                   let overallPendingCount = response.overallPendingCount;
+                   let overallOverdueCount = response.overallOverdueCount;
+                   let allDesignation = response.allDesignation;
+                   let overallInspection = response.overallInspection;
+                   let pendingInspection = response.pendingInspection;
+                   let overdueInspection = response.overdueInspection;
+                   let row='';
+                        if(dataZoneWs.length>0){
+                                 row = `<div style="color: #391a02; margin-left:10px;margin-right:10px;"><b><u>${descType}<u></b></div>`;
+                                for (let i = 0; i < dataZoneWs.length; i++) {
+                                    if(dataZoneWs[i].location_code == $('#zoneID').val())
+                                    {
+                                        row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                <span style="cursor: pointer;color:rgb(183, 72, 5)" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                </span></br>`
+                                    }
+                                    else{
+                                    row += `<span class="badge" onclick="showDivision('${dataZoneWs[i].location_code}')" style="font-size: 1.063rem;color:#000080;">
+                                    <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                    <span style="cursor: pointer;" title="${dataZoneWs[i].location_description}">${dataZoneWs[i].location_code}</span>
+                                    </span></br>`;
+                                }
+
+
+                                
+                                
+                            }
+                            row += `</ul>`;
+                            $('#zoneshowhide').show();
+                            $('#zoneDetails').empty();
+                            $('#zoneDetails').append(row);
+                        }
+                        
+                        row = `<option value="All">All</option>`
+                        for(let i =0;i<allDesignation.length;i++)  
+                        {
+                            if(allDesignation[i].designation == $('#searchDesignation').val())
+                                row += `<option value="${allDesignation[i].designation_code}" selected >${allDesignation[i].designation}</option>`;
+                            else
+                                row += `<option value="${allDesignation[i].designation_code}" >${allDesignation[i].designation}</option>`;
+                        }
+                           $('#searchDesignation').empty();
+                           $('#searchDesignation').append(row);
+
+                           document.getElementById('overallTotalCount').innerHTML = overallTotalCount;
+                           document.getElementById('overallPendingCount').innerHTML = overallPendingCount;
+                           document.getElementById('overallOverdueCount').innerHTML = overallOverdueCount;
+                           document.getElementById('overallInspection').innerHTML = overallInspection;
+                           document.getElementById('pendingInspection').innerHTML = pendingInspection;
+                           document.getElementById('overdueInspection').innerHTML = overdueInspection;
+
+
+                           document.getElementById('otherstotal').innerHTML = firstRowAllData[0][0];
+                           document.getElementById('otherspending').innerHTML = firstRowAllData[0][1];
+                           document.getElementById('othersoverdue').innerHTML = firstRowAllData[0][2];
+                           document.getElementById('passengertotal').innerHTML = firstRowAllData[0][3];
+                           document.getElementById('passengerpending').innerHTML = firstRowAllData[0][4];
+                           document.getElementById('passengeroverdue').innerHTML = firstRowAllData[0][5];
+                           document.getElementById('employeetotal').innerHTML = firstRowAllData[0][6];
+                           document.getElementById('employeepending').innerHTML = firstRowAllData[0][7];
+                           document.getElementById('employeeoverdue').innerHTML = firstRowAllData[0][8];
+
+
+
+                           document.getElementById('stationpassenger').innerHTML = thirdRowData[0][0];
+                           document.getElementById('stationemployee').innerHTML = thirdRowData[0][1];
+                           document.getElementById('stationothers').innerHTML = thirdRowData[0][2];
+                           document.getElementById('stationnight').innerHTML = thirdRowData[0][3];
+                           document.getElementById('stationsuprise').innerHTML = thirdRowData[0][4];
+                           document.getElementById('stationdrive').innerHTML = thirdRowData[0][5];
+
+                           document.getElementById('sectionpassenger').innerHTML = thirdRowData[0][6];
+                           document.getElementById('sectionemployee').innerHTML = thirdRowData[0][7];
+                           document.getElementById('sectionothers').innerHTML = thirdRowData[0][8];
+                           document.getElementById('sectionnight').innerHTML = thirdRowData[0][9];
+                           document.getElementById('sectionsuprise').innerHTML = thirdRowData[0][10];
+                           document.getElementById('sectiondrive').innerHTML = thirdRowData[0][11];
+
+                           document.getElementById('trainpassenger').innerHTML = thirdRowData[0][12];
+                           document.getElementById('trainemployee').innerHTML = thirdRowData[0][13];
+                           document.getElementById('trainothers').innerHTML = thirdRowData[0][14];
+                           document.getElementById('trainnight').innerHTML = thirdRowData[0][15];
+                           document.getElementById('trainsuprise').innerHTML = thirdRowData[0][16];
+                           document.getElementById('traindrive').innerHTML = thirdRowData[0][17];
+
+                           document.getElementById('otherspassenger').innerHTML = thirdRowData[0][18];
+                           document.getElementById('othersemployee').innerHTML = thirdRowData[0][19];
+                           document.getElementById('othersothers').innerHTML = thirdRowData[0][20];
+                           document.getElementById('othersnight').innerHTML = thirdRowData[0][21];
+                           document.getElementById('otherssuprise').innerHTML = thirdRowData[0][22];
+                           document.getElementById('othersdrive').innerHTML = thirdRowData[0][23];
+
+                           document.getElementById('passenger7').innerHTML = pendencyDataCard1[0][0];
+                           document.getElementById('passenger30').innerHTML = pendencyDataCard1[0][1];
+                           document.getElementById('passenger90').innerHTML = pendencyDataCard1[0][2];
+                           document.getElementById('passenger180').innerHTML = pendencyDataCard1[0][3];
+                           document.getElementById('employee7').innerHTML = pendencyDataCard1[0][5];
+                           document.getElementById('employee30').innerHTML = pendencyDataCard1[0][6];
+                           document.getElementById('employee90').innerHTML = pendencyDataCard1[0][7];
+                           document.getElementById('employee180').innerHTML = pendencyDataCard1[0][8];
+                           document.getElementById('others7').innerHTML = pendencyDataCard1[0][10];
+                           document.getElementById('others30').innerHTML = pendencyDataCard1[0][11];
+                           document.getElementById('others90').innerHTML = pendencyDataCard1[0][12];
+                           document.getElementById('others180').innerHTML = pendencyDataCard1[0][13];
+
+                           document.getElementById('nighttotal').innerHTML = secondRowAllData[0][0];
+                           document.getElementById('nightpending').innerHTML = secondRowAllData[0][1];
+                           document.getElementById('nightoverdue').innerHTML = secondRowAllData[0][2];
+                           document.getElementById('suprisetotal').innerHTML = secondRowAllData[0][3];
+                           document.getElementById('suprisepending').innerHTML = secondRowAllData[0][4];
+                           document.getElementById('supriseoverdue').innerHTML = secondRowAllData[0][5];
+                           document.getElementById('drivetotal').innerHTML = secondRowAllData[0][6];
+                           document.getElementById('drivepending').innerHTML = secondRowAllData[0][7];
+                           document.getElementById('driveoverdue').innerHTML = secondRowAllData[0][8];
+                           
+                           document.getElementById('night7').innerHTML = pendencyDataCard2[0][0];
+                           document.getElementById('night30').innerHTML = pendencyDataCard2[0][1];
+                           document.getElementById('night90').innerHTML = pendencyDataCard2[0][2];
+                           document.getElementById('night180').innerHTML = pendencyDataCard2[0][3];
+                           document.getElementById('suprise7').innerHTML = pendencyDataCard2[0][5];
+                           document.getElementById('suprise30').innerHTML = pendencyDataCard2[0][6];
+                           document.getElementById('suprise90').innerHTML = pendencyDataCard2[0][7];
+                           document.getElementById('suprise180').innerHTML = pendencyDataCard2[0][8];
+                           document.getElementById('drive7').innerHTML = pendencyDataCard2[0][10];
+                           document.getElementById('drive30').innerHTML = pendencyDataCard2[0][11];
+                           document.getElementById('drive90').innerHTML = pendencyDataCard2[0][12];
+                           document.getElementById('drive180').innerHTML = pendencyDataCard2[0][13];
+                           $('#main').show();
+                            $('#secondary').hide();
+                           scrollCounter();
+                        },
+                        error: function(err){
+                            alert('Some error exists, please contact admin');
+                            $('#main').show();
+                            $('#secondary').hide();
+                        }
+                    });
+
+                
+    
+            }
+    
+
+
+//  date range
+var currentdate = new Date();
+// Define the minimum allowed date
+var minDate = new Date('September 1, 2022');
+$("#startDate").daterangepicker({
+    minDate: minDate,
+    maxDate: currentdate,
+    autoApply: true,
+    autoUpdateInput: false,
+    autoclose: true,
+    dateFormat: "dd/mm/yy",
+    endDate: currentdate,
+    singleDatePicker: true,
+    showDropdowns: true,
+    changeMonth: true,
+    changeYear: true,
+    todayHighlight: true,
+    clearBtn: true
+});
+
+$("#startDate").on('apply.daterangepicker', function (ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YY'));
+    picker.hide();
+    getDataOfFilter('All');
+});
+
+$("#startDate").on('cancel.daterangepicker', function (ev, picker) {
+    $(this).val('');
+    
+});
+
+$("#endDate").daterangepicker({
+    maxDate: currentdate,
+    autoApply: true,
+    autoUpdateInput: false,
+    autoclose: true,
+    dateFormat: "dd/mm/yy",
+    endDate: currentdate,
+    singleDatePicker: true,
+    showDropdowns: true,
+    changeMonth: true,
+    changeYear: true,
+    todayHighlight: true,
+    clearBtn: true
+});
+
+$("#endDate").on('apply.daterangepicker', function (ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YY'));
+    picker.hide();
+    getDataOfFilter('All');
+});
+
+$("#endDate").on('cancel.daterangepicker', function (ev, picker) {
+    $(this).val('');
+});
+//  date ends
+        
+</script>
+    
+
+<script>
+
+
+
+    window.setInterval(run,1000);
+	function run() { 
+		var prev = $("#rotated li:first-child");
+		$.unique(prev).each(function(i) {
+		  $(this).delay(i*600).slideUp(function() {
+			$(this).appendTo(this.parentNode).slideDown();
+		  });
+		});
+	}
+    function scrollCounter()
+{
+	$('.stats-val').each(function () {
+	  $(this).prop('Counter', 0).animate({
+	    Counter: Number($(this).text()) },
+	  {
+	    duration: 3000,
+	    easing: 'swing',
+	    step: function (now) {
+	      $(this).text(Math.ceil(now));
+	  }
+	});
+	});
+}
+function scrollCounter2()
+{
+	$('.stats-val2').each(function () {
+	  $(this).prop('Counter', 0).animate({
+	    Counter: Number($(this).text()) },
+	  {
+	    duration: 3000,
+	    easing: 'swing',
+	    step: function (now) {
+	      $(this).text(Math.ceil(now));
+	  }
+	});
+	});
+}
+$(document).ready(function(){
+    scrollCounter();
+    scrollCounter2();
+})
+</script>
+
+<!-- Apeksha Scripts -->
+<script>
+   function allinspectionreport(e){
+    // overallTotalCount overallInspection pendingInspection overallPendingCount overdueInspection overallOverdueCount
+    var types=e.id
+    alert(types)
+    var startDate=$("#startDate").val()
+    var endDate=$("#endDate").val()
+    var Department=$("#searchDepartment").val()
+    var Designation=$("#searchDesignation").val()
+    var Level=$("#searchLevel").val()
+    var typeID=$("#typeID").val()
+    var zoneID=$("#zoneID").val()
+    var divID=$("#divID").val()
+    console.log(startDate,endDate,Department,Designation,Level,typeID,zoneID,divID, types)
+    data=
+        {
+            'startDate':startDate,
+            'endDate':endDate,
+            'Department':Department,
+            'Designation':Designation,
+            'Level':Level,
+            'typeID':typeID,
+            'zoneID':zoneID,
+            'divID':divID,
+            'types':types,            
+        }
+       window.location.href = "{% url 'allinspectionreport' %}?startDate="+startDate+"&endDate="+endDate+"&Department="+Department+"&Designation="+Designation+"&Level="+Level+"&typeID="+typeID+"&zoneID="+zoneID+"&divID="+divID+"&types="+types;
+        // $.ajax
+        //     ({
+        //         url: "{% url 'allinspectionreport' %}",
+        //         method: "GET",
+        //         dataType: "JSON",
+        //         async: false,
+        //         data: data,
+        //         success: function (response) 
+        //         {
+
+        //         }
+        //     });
+   }
+</script>
+<script>
+    
+    function fetchdata(card_type,card_data){
+    
+        let typeId= $('#typeID').val()   
+        let zoneId= $('#zoneID').val()
+        let divId= $('#divID').val()
+        let searchDate = $('#startDate').val()
+        let searchDateTo=$('#endDate').val()
+        let searchDepartment = $('#searchDepartment').val()
+        let searchDesignation = $('#searchDesignation').val()
+        let searchLevel = $('#searchLevel').val()
+        let data = {
+                        typ: 'allDetails',
+                        typeId: $('#typeID').val(),   
+                        zoneId: $('#zoneID').val(),
+                        divId: $('#divID').val(),
+                        searchDate : $('#startDate').val(),
+                        searchDateTo:$('#endDate').val(),
+                        searchDepartment : $('#searchDepartment').val(),
+                        searchDesignation : $('#searchDesignation').val(),
+                        searchLevel : $('#searchLevel').val(),
+                        card_type : card_type,
+                        card_data : card_data
+                        // csrfmiddlewaretoken: '{{ csrf_token }}'
+                    }
+            $.ajax({
+                method: "GET",
+                url: "{% url 'TableViewPendencyDashboard' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    // alert('success')
+                    console.log(response)
+                    // let tr = '<tr>'
+                    let td = ''
+                    // if(card_data == 'Total'){
+                        table.destroy()
+                        $("#thead1 tr").empty()
+                        $("#thead1 tr").append(`<th style="width: 10%; text-align: center;"> S.No  </th>
+                    <th style="width: 10%; text-align: center;">Insp. Date </th>
+                    <th style="width: 10%; text-align: center;">Insp. Note No. </th>
+                    <th style="width: 10%; text-align: center;">Insp. Observation </th>
+                    <th style="width: 10%; text-align: center;">Marked Officer </th>
+                    <th style="width: 10%; text-align: center;">Rly./org. </th>
+                    <th style="width: 10%; text-align: center;">Div./Unit </th>
+                    <th style="width: 10%; text-align: center;">Insp. Note </th>`)
+                        // for(let i = 0; i<response.data.length;i++){
+                        //     td += `<tr><td><a href = '#' onclick = "DetailsViewOfDataget('${response.data[i][0]}','${card_type}','${card_data}')">${response.data[i][0]}</a></td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td></tr>`
+                        // }
+                        
+                        $("#mydata").empty()
+                        console.log(response.wholedata)
+                        $("#mydata").append(response.wholedata)
+                    // }
+                    if(typeId == 'IR'){
+                    $("#demo").text('Rly/org : List of '+card_type+' related item ('+card_data+') From '+searchDate+' To '+searchDateTo)
+                    }
+                    else{
+                        $("#demo").text(typeId+' : List of '+card_type+' related item ('+card_data+ ') From '+searchDate+' To '+searchDateTo)
+                    }
+                    
+                    $("#btnmodal").click()
+                    table=$('#table_id').DataTable({
+                        "iDisplayLength": 10,
+                        
+                        // "ordering": false,
+                        "lengthChange": true,
+                        "lengthMenu": [10,15, 30, 50, 75, 100],
+                        dom: 'Blfrtip',
+                        
+                        buttons: [
+                        {
+                            extend: 'excel',
+                            title: function (e) {
+                                var e1 = $('#datefrom').val()
+                                console.log("datefrom",e1)
+                                var e2 = $('#dateto').val()
+                                if(typeId == 'All'){
+                                    var stre ='Rly/org : List of '+card_type+' related item ('+card_data+') From '+searchDate+' To '+searchDateTo
+                                }
+                                else{
+                                    var stre=typeId+' : List of '+card_type+' related item ('+card_data+ ') From '+searchDate+' To '+searchDateTo
+                                }
+                                return stre
+                            },
+                            // orientation: 'landscape',
+                            // pageSize: 'LEGAL',
+                            
+                        },
+                        {
+                            extend:'pdfHtml5',
+                            title: function (e) {
+                                var e1 = $('#datefrom').val()
+                                var e2 = $('#dateto').val()
+                                console.log("datefrom1",e1)
+                                console.log("datefrom1",datefrom)
+                                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                                console.log('insode inspection report',stre)
+                                return stre
+                            },
+                            exportOptions: {
+                                alignment: 'right',
+                                },
+                            customize: function ( doc ) {
+                                console.log("doc",doc)
+                                console.log("doc",doc.defaultStyle)
+                                console.log("doc2",doc.styles.tableBodyEven)
+                                console.log("doc3",doc.styles.tableBodyOdd)
+                                doc.content.splice(0,1);
+                                
+                                doc.styles.tableBodyEven.alignment = 'center';
+                                doc.styles.tableBodyOdd.alignment = 'center';
+                            },
+                            text :'Pdf',
+                            title:"Inspection Report ",
+                                        fontSize : 'LEGAL'
+                            
+                        },
+                        {
+                            extend: 'print',
+                            footer:true,
+                            title: function (e) {
+                                var s1 = $('#datefrom').val()
+                                var s2 = $('#dateto').val()
+                                var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                                return str
+                            },
+                            customize: function ( doc ) {
+                                $(doc.document.body).find('tableid').css('text-align', 'center');
+    
+                                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                                },
+                                "pagingType": "simple",
+                                "sEmptyTable": 'No data available in table',
+    
+                                // "bSort": true,
+    
+                                "oLanguage": {
+                                    "sInfoEmpty": "Page 0 of 0 ",
+                                },
+                                "language": {
+                                    "info": "Page _PAGE_ of _PAGES_",
+                                    "paginate": {
+                                        "previous": "Prev",
+                                    },
+                                },
+                        },
+                        ],
+                    });
+            
+                }
+            });
+    
+            return false;
+        // }
+        // alert('not go there')
+        // $.ajax({
+        //     method: "GET",
+        //     url: "{% url 'DetailsViewOfData' %}",
+        //     dataType: 'json',
+        //     data: {'searchDate':searchDate,'searchDepartment':searchDepartment,'searchDesignation':searchDesignation,
+        //             'irPath2':irPath2,'irTypeformodal':irTypeformodal,'irType':irTypeformodal,'irDetails':data1,'card_type':card_type,'card_data':card_data,
+        //             'irSearchDate':irSearchDate,'irSearchDept':irSearchDept,'irSearchDesig':irSearchDesig,"mydata":data1},
+        //     success: function (response) {
+        //         console.log(response)
+        //         // let tr = '<tr>'
+        //         let td = ''
+        //         // if(card_data == 'Total'){
+        //             $("#thead1 tr").empty()
+        //             $("#thead1 tr").append(`<th style="width: 10%; text-align: center;"> S.No > </th>
+        //             <th style="width: 10%; text-align: center;">Insp. Date </th>
+        //             <th style="width: 10%; text-align: center;">Insp. Note No. </th>
+        //             <th style="width: 10%; text-align: center;">Insp. Observation></th>
+        //             <th style="width: 10%; text-align: center;">Marked Officer </th>
+        //             <th style="width: 10%; text-align: center;">Rly./org. </th>
+        //             <th style="width: 10%; text-align: center;">Div./Unit </th>
+        //             <th style="width: 10%; text-align: center;">Insp. Note </th>`)
+        //             for(let i = 0; i<response.data1.length;i++){
+        //                 let date = response.data1[i][0].split('-')
+        //                 let url12 = parseInt(response.data1[i][1])
+        //                 date = date[2]+"-"+date[1]+'-'+date[0]
+        //                 td += `<tr><td>${i+1}</td><td>${date}</td><td>${response.data1[i][1]}</td><td>${response.data1[i][2]}</td>
+        //                    <td>${response.data1[i][3]}</td><td>${response.data1[i][4]}</td><td>${response.data1[i][5]}</td>`
+                           
+        //                    td += `<td><a href="/inspectionReportHtml/`+url12+`" >Action</a></td>`
+        //                    td += `</tr>`
+        //             }
+                    
+        //             $("#mydata").empty()
+        //             $("#mydata").append(td)
+        //         // }
+        //         if(irType == 'All'){
+        //             $("#demo").text('Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate)
+        //         }
+        //         else{
+        //             $("#demo").text(irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate)
+        //         }
+    
+        //     }
+        // });
+    
+    }
+    
+    </script>
+{% endblock %}

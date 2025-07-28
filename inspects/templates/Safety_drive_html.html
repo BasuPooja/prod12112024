@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<head>
+    <script type="text/javascript">
+      $(".sidebar").addClass('close');
+    </script> 
+    <title>DO letter upload</title>
+  
+    <script type="text/javascript">
+        if(self===top){
+          var antiClickjack = document.getElementById("antiClickjack");
+          antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else{
+          top.location= self.location;
+        }
+    </script>
+  
+    <style>
+        textarea{
+            height: 9.4rem;
+        }
+        @media screen and (min-width:500px) {
+            .myFormCard {
+                border: 1px solid rgb(236, 236, 236);
+                padding: 3%;
+                margin-top: 2%;
+                /* margin-left: 30%;
+                margin-right: 30%; */
+                border-radius: 10px;
+            }
+  
+            .myFormCard {
+                /* Add shadows to create the "card" effect */
+                box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+                transition: 0.3s;
+            }
+  
+            /* On mouse-over, add a deeper shadow */
+            .myFormCard:hover {
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+            }
+  
+  
+        }
+  
+        @media screen and (max-width:500px) {
+            .myFormCard {
+                padding: 10px;
+                margin: 10px;
+                box-sizing: border-box;
+            }
+        }
+  
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+  
+        .left-part {
+            width: 30%;
+            align-self: center;
+        }
+  
+        .right-part {
+            width: 60%;
+            align-self: center;
+        }
+        .my-heading {
+            font-family:Georgia;
+            margin-top:1rem;
+            font-weight : 500;
+            font-size : 2.5rem;
+            text-align : center;
+            Color : black;
+            font-weight: bold;
+  
+        }
+    </style>
+  </head>
+<body>
+    <div class="container-fluid">
+        <div class="flex-container">
+            <div class="my-heading ">
+                <div class="my-heading">
+                    <h3>Safety Drive 2024</h3>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                      <div class="alert alert-success">
+                        <strong>Success </strong>{{ message }}
+                      </div>
+                    {% elif message.tags == 'error' %}
+                      <div class="alert alert-danger">
+                        <strong>Error </strong>{{ message }}
+                      </div>
+                    {% elif message.tags == 'info' %}
+                      <div class="alert alert-info">
+                        <strong>Info </strong>{{ message }}
+                      </div>
+                    {% else %}
+                   
+                    {% endif %}
+                   
+               
+                {% endfor %}
+            {% endif %}
+          </div>
+        <form form action="" method="POST" class="form-group" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    <div class="myFormCard">
+                        
+                        <div class="container-fluid">
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='email' class="mr-sm-2">Email</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="email" class="form-control mb-2 mr-sm-2" name="email" placeholder="Enter E-mail" required>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='phone' class="mr-sm-2">Mobile Number <p style="font-size: 13px;">(preferably CUG)</p></label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="tel" maxlength="10" class="form-control mb-2 mr-sm-2" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter your 10 digit mobile number" required>
+                                        <p style="font-size: 13px;">Note: Please do not prefix anything to the number</p>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='officer_name' class="mr-sm-2">Name of the Officer</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type='text' maxlength="50" class="form-control mb-2 mr-sm-2" name="officer_name" placeholder="Name of the Officer conducting the inspection." required>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='officer_desig' class="mr-sm-2">Designation of Officer</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type='text' maxlength="50" class="form-control mb-2 mr-sm-2" name="officer_desig" placeholder="Enter complete Designation of Officer" required>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='officer_pg' class="mr-sm-2">Post Grade of Officer</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="officer_pg"  name ="officer_pg" class="form-control" data-placeholder="Search Post Grade of the Officer conducting the inspection. ">
+                                            <option  value="" ></option>
+                                            {% for i in post_grades %}
+                                                <option  value="{{i}}" >{{i}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='officer_posted_in' class="mr-sm-2">Posted in</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="officer_posted_in"  name ="officer_posted_in" class="form-control" data-placeholder="Search Posted in..">
+                                            <option  value="" ></option>
+                                            {% for i in posted_in %}
+                                                <option  value="{{i}}" >{{i}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='insp_date' class="mr-sm-2">Date of Inspection</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control mb-2 mr-sm-2" autocomplete="off" name="insp_date" style="background-color: #fff;" placeholder="Select Date" required readonly>
+                                        <p style="font-size: 13px;">Note:  (In case of overnight inspection covering two calendar
+                                            dates, please mention the starting date)</p>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='inspected_place' class="mr-sm-2">Name of the place</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type='text' maxlength="200" class="form-control mb-2 mr-sm-2" name="inspected_place" placeholder="Enter Name of the place/ unit/ section inspected" required>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='inspected_zone' class="mr-sm-2">Zone of place</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="inspected_zone"  name ="inspected_zone" class="form-control" data-placeholder="Search Zone of place/ unit/ section inspected" required>
+                                            <option  value="" ></option>
+                                            {% for i in zones %}
+                                                <option  value="{{i}}" >{{i}}</option>
+                                            {% endfor %}
+                                            <option  value="Others" >Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='inspected_div' class="mr-sm-2">Division of place</label>
+                                        <!-- <span style="color:red;font-weight:bold">*</span> -->
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="inspected_div"  name ="inspected_div" class="form-control" data-placeholder="Search Division of place/ unit/ section inspected" disabled="true">
+                                            <option  value="" ></option>
+                                            {% for i in divs %}
+                                                <option  value="{{i}}" >{{i}}</option>
+                                            {% endfor %}
+                                            <option  value="Others" >Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-4 " style="padding-top: 2%;">
+                                        <label for='inspected_type' class="mr-sm-2">Type of Inspection</label>
+                                        <span style="color:red;font-weight:bold">*</span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select id="inspected_type"  name ="inspected_type" class="form-control" data-placeholder="Search Type of inspection Done">
+                                            <option  value="" selected disabled>Search Type of inspection Done</option>
+                                            {% for i in type_of_insp %}
+                                                <option  value="{{i}}" >{{i}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="myFormCard">
+                        <div class="container-fluid">
+                            <div class="row ">
+                                <div class="col-md-12 " style="padding-top: 2%;">
+                                    <label for='Shortcomings' class="mr-sm-2">Shortcomings found during the Inspection</label>
+                                    <span style="color:red;font-weight:bold">*</span>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea maxlength="5000" class="form-control mb-2 mr-sm-2" name="Shortcomings" placeholder="Enter Shortcomings" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-md-12 " style="padding-top: 2%;">
+                                    <label for='Action_taken' class="mr-sm-2">Action taken for addressing the shortcomings</label>
+                                    <span style="color:red;font-weight:bold">*</span>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea maxlength="5000" class="form-control mb-2 mr-sm-2" name="Action_taken" placeholder="Enter Action taken" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-md-12 " style="padding-top: 2%;">
+                                    <label for='suggestion' class="mr-sm-2">Any other comment/ suggestion</label>
+                                    <span style="color:red;font-weight:bold">*</span>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea maxlength="2000" class="form-control mb-2 mr-sm-2" name="suggestion" placeholder="Enter Suggestion" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5"></div>
+                <div class="col-2" style="text-align: center;"><button type="submit" class="btn btn-primary mb-2 mt-4"  id="submit" onclick="upload_drive()">Submit</button></div>
+                <div class="col-5"></div>
+            </div>
+            <!-- <input type="submit" value=Submit> -->
+        </form>
+    </div>
+
+</body>
+<script>
+    $('#officer_pg').select2()
+    $('#officer_posted_in').select2()
+    $('#inspected_zone').select2()
+    $('#inspected_div').select2()
+
+    $('#inspected_zone').change(function() {
+        var rly=$('#inspected_zone').val();
+        const rly_data=[]
+        rly_data[0]=rly
+            data={
+                'rly_data': JSON.stringify(rly_data)
+              }
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_rly' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response){
+                  let division=response.division;
+                  
+                    $('#inspected_div').empty();
+                    $('#inspected_div').prop('disabled', false);
+                    $('#inspected_div').append(`<option value="">Select Division/ Workshop</option>`);
+                      for (let i = 0; i < division.length; i++) {
+                          $('#inspected_div').append(`<option value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+                      }
+                      $('#inspected_div').append(`<option  value="Others" >Others</option>`);
+                      $('#inspected_div').select2('destroy');
+                }
+              })
+      })
+    
+</script>
+<script>
+    $(function () {
+  
+      $('input[name="insp_date"]').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        autoApply: true,
+        maxDate: new Date(),
+        "opens": "left",
+        locale: {
+          cancelLabel: 'Clear'
+        }
+      });
+  
+      $('input[name="insp_date"]').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YY'));
+  
+  
+      });
+  
+  
+    });
+</script>
+
+<script>
+    function upload_drive() {
+  
+  data = {
+    csrfmiddlewaretoken: '{{csrf_token}}'
+  };
+  $.ajax
+    ({
+      url: "{% url 'Safety_driveForm' %}",
+      method: "POST",
+      dataType: "JSON",
+      async: false,
+      data: data,
+      success: function (response) {
+        alert("Drive uploaded Successfully!")
+      }
+    });
+
+}
+</script>
+
+{% endblock %}

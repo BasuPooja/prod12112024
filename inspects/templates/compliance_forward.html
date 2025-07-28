@@ -1,0 +1,1127 @@
+
+
+{% load static %}
+
+
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+  <style>
+      .wrap.active {
+      display: block;
+      visibility: visible;
+      box-shadow: 2px 3px 16px silver;
+      transition: all 600ms;
+      transform: translateY(0px);
+      transition: all 0.5s;
+  }
+  .wrap {
+      position: fixed;
+      overflow: hidden;
+      top: 10%;
+      right: 10%;
+      bottom: 85px;
+      left: 10%;
+      padding: 12px;
+      display: block !important;
+      border-radius: 4px;
+      transform: translateY(20px);
+      transition: all 0.5s;
+      visibility: hidden;
+      z-index: 9999;
+      height: 85vh;
+  }
+  
+  .wrap-1.active {
+      display: block;
+      visibility: visible;
+      box-shadow: 2px 3px 16px silver;
+      transition: all 600ms;
+      transform: translateY(0px);
+      transition: all 0.5s;
+  }
+  .wrap-1 {
+      position: fixed;
+      overflow: hidden;
+      top: 10%;
+      right: 10%;
+      bottom: 85px;
+      left: 10%;
+      padding: 12px;
+      display: block !important;
+      border-radius: 4px;
+      transform: translateY(20px);
+      transition: all 0.5s;
+      visibility: hidden;
+      z-index: 9999;
+      height: 85vh;
+  }
+  .wrap.active .content,.wrap-1.active .content  {
+      position: relative;
+      z-index: 1;
+      opacity: 1;
+      transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  .wrap .content, .wrap-1 .content {
+      opacity: 0;
+  }
+  .wrap.active:before, .wrap-1.active:before {
+      height: 2000px;
+      width: 2000px;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      margin-left: -1000px;
+      margin-top: -1000px;
+      display: block;
+      -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+      transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .wrap:before, .wrap-1:before {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      background: white;
+      content: "";
+      bottom: 10px;
+      left: 50%;
+      top: 95%;
+      color: #fff;
+      border-radius: 50%;
+      -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+      transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+      width: 10px;  /* Remove scrollbar space */
+      background: #dedede;
+  }
+  /* Optional: show position indicator in red */
+  .wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+      background: #FF0000;
+  }
+    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}"/> 
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'js/fontawesomev5.15.js' %}"></script>
+<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/quicksand.css' %} ">
+<link rel="stylesheet" type="text/css" href="{% static 'css/lato.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+<script src="{% static '/js/select2.min.js' %}"></script>
+
+<link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+<script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+
+<!-- date range -->
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+<link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+<!-- datepicker,datatable and jquery-ui all -->
+<link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.css' %}" />
+<script type="text/javascript" src="{% static 'DataTables/datatables.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'jquery-ui/jquery-ui.css' %}" />
+<script type="text/javascript" src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+
+<!-- timepicker -->
+<link rel="stylesheet" type="text/css" href="{% static 'timepicker/css/timepicker.css' %}" />
+</head>
+
+<body style="margin-top: 10px;">
+    <h3 class="report_heading">Forwarded Compliance</h3> 
+    <br>
+    <div class="container-fluid mt-0">
+      <div class="inpt-container" id="container1" style="padding-bottom:10px;" >
+        <div class="row" style="text-align: left; margin-left: 2em;margin-right: 1em;">
+          {% for i in details %}
+            <div class="col">
+              <label class="lbl-caption" style="margin-right:2%;text-align:left">Inspection Date</label>
+              <input type="text" value="{{i.inspected_on|date:'d/m/y'}}" id="ins_note_id" class="form-control lbl-caption" readonly/>
+            </div>
+            <div class="col">
+              <label class="lbl-caption" style="margin-right:2%;text-align:left">Inspection Note No.</label>
+              <input type="text" value="{{i.inspection_note_no}}" id="ins_note_id" class="form-control lbl-caption" readonly/>
+            </div>
+          {% endfor %}
+          <!-- {% for i in desigid %} -->
+            <div class="col">
+              <label class="lbl-caption" style="margin-right:2%;text-align:left">Inspecting Officer Designation</label>
+              <input type="text" value="{{i.officer_desig}}" id="ins_note_id" class="form-control lbl-caption" readonly/>
+            </div>
+          <!-- {% endfor %} -->
+            <div class="col">
+              <label class="lbl-caption" style="margin-right:2%;text-align:left">Inspecting Officer Name</label>
+              <input type="text" value="{{name}}" id="ins_note_id" class="form-control lbl-caption" readonly/>
+            </div>
+        </div>
+        <div class="row" style="text-align: left; margin-left: 2em;margin-right: 1em;">
+          {% for i in details %}
+            <div class="col">
+              <label class="lbl-caption" style="margin-right:2%;text-align:left">Inspection Title</label>
+              <input type="text" value="{{i.inspection_title}}" class="form-control lbl-caption" style="max-width: 100%;" id="ins_title" readonly/>
+            </div>
+          {% endfor %}
+        </div>
+        <input style="width:8%;text-align:center;background-color:aliceblue;" id="inspection_no" value="{{inspection_no}}" hidden></input>
+      </div>
+    </div>
+    
+    <div class="container-fluid mt-0" style="overflow-x: auto;">
+    <table id="mytable" class="table table-striped table-bordered table-data">
+      <thead>
+        <tr>
+          <th width="5%">Item No.</th>
+          <th width="45%">Insp. Para</th>
+          <th width="10%">Forward On</th>
+          <th width="20%">Marked Officer</th>
+          <th width="10%">Status</th>
+          <th width="10%">Action</th>
+        </tr>
+      </thead>
+      <tbody id="mytablebody">
+          {% for i in final_list %}
+            {% if i.chk == 'YES' %}
+              {% if i.type == 'H' %}
+                <tr>
+                  <td>{{i.item_no}}</td>
+                  <td>{{i.item_title}}</td>
+                  <td><table>
+                    {% for j in i.marked %}
+                        <tr><td>{{j.created_on_forward|date:'d/m/y'}}</td></tr>
+                    {% endfor %}   
+                  </table></td>
+                  <td><table>
+                      {% for j in i.marked %}
+                          <tr><td>{{j.marked_to_forward__designation}}</td></tr>
+                      {% endfor %}   
+                  </table></td>
+                  <td><table>
+                    {% for j in i.marked %}
+                      {% if j.status_flag == 1 %}
+                        <tr><td style="color:red">Pending</td></tr>
+                      {% elif j.status_flag == 2 %}
+                        <tr><td style="color:green">Received</td></tr>
+                      {% elif j.status_flag == 3 %}
+                        <tr><td style="color:red">Rejected</td></tr>
+                      {% else %}
+                      {% endif %}
+                    {% endfor %}   
+                  </table></td>
+                  <td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-dismiss="modal" data-target="#ForwardModal" id="{{i.item_db}}" name="get_data" onclick="fetch_forward_reply(this)"><i class="far fa-edit"></i></button></td>
+                </tr>
+              {% elif i.type == 'SH' %}
+                <tr>
+                  <td>{{i.item_no}}</td>
+                  <td>{{i.observation}}</td>
+                  <td><table>
+                    {% for j in i.marked %}
+                        <tr><td>{{j.created_on_forward|date:'d/m/y'}}</td></tr>
+                    {% endfor %}   
+                  </table></td>
+                  <td><table>
+                      {% for j in i.marked %}
+                          <tr><td>{{j.marked_to_forward__designation}}</td></tr>
+                      {% endfor %}   
+                  </table></td>
+                  <td><table>
+                    {% for j in i.marked %}
+                      {% if j.status_flag == 1 %}
+                        <tr><td style="color:red">Pending</td></tr>
+                      {% elif j.status_flag == 2 %}
+                        <tr><td style="color:green">Received</td></tr>
+                      {% elif j.status_flag == 3 %}
+                        <tr><td style="color:red">Rejected</td></tr>
+                      {% else %}
+                      {% endif %}
+                    {% endfor %}   
+                  </table></td>
+                  <td><button type="button" class="btn btn-outline-primary" data-toggle="modal" data-dismiss="modal" data-target="#ForwardModal" id="{{i.item_db}}" name="get_data" onclick="fetch_forward_reply(this)"><i class="far fa-edit"></i></button></td>
+                </tr>
+              {% else %}
+              {% endif %}
+            {% else %}
+            {% endif %}
+          {% endfor %}
+          {% for l in listgrid %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+              <td>{{l.question}} <br>
+                Observation: {{l.value}}<br>
+                  Remarks: {{l.report_act}}
+              </td>
+              <td>
+                <table>
+                  {% for x in l.forwardss %}
+                  <tr><td>{{x.forward_on}}</td></tr>
+                  {% endfor %}
+                </table>
+              </td>
+              <td>
+                <table>
+                  {% for x in l.forwardss %}
+                  <tr><td>{{x.designationTo}}</td></tr>
+                  {% endfor %}
+                </table>
+              </td>
+              <td>
+                <table>
+                  {% for x in l.forwardss %}
+                    {% if x.forwardStatus == 2 %}
+                    <tr><td style="color: green;">{{x.stts}}</td></tr>
+                    {% else %}
+                    <tr><td style="color: red;">{{x.stts}}</td></tr>
+                    {% endif %}
+                  {% endfor %}
+                </table>
+              </td>
+              <td><button type="button" class="btn btn-outline-primary" id="{{l.marked_no}}" name="get_data" onclick="fetch_forward_reply(this,'2')"><i class="far fa-edit"></i></button></td>
+          </tr>
+          
+          {% endfor %}
+      </tbody>
+    </table>
+    </div>
+
+    <!-- Wrap for phase2-->
+    <div class="wrap mt-0">
+      <div class="content mt-0">
+        <button class="btn btn-danger" onclick="closePpln();">&times;</button>
+        <iframe src="" style="width:100%;height:82vh;border:0px;" id="frmDash"></iframe>
+      </div>
+    </div>
+    
+    <!-- Modal for forwarded compliance-->
+    
+    <div class="modal fade" id="ForwardModal" tabindex="-1" role="dialog" aria-labelledby="ForwardModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable" role="document">
+        <div class="modal-content modal-content-full-width">
+          <div class="modal-header modal-header-full-width">
+            <h3 class="report_heading" id="ForwardModalLabel">List of Replies/Forwards</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          </div><!--  Modal Header -->
+          <div class="modal-body" style="height:350px;overflow-y:scroll;">
+
+            <div class="inpt-container p-2" id="container1" style="margin-bottom:5%;" >
+    
+              <label  class=" lbl-caption" >Rly./Org. Wise</label>
+              <select class="form-control  lbl-caption" name="rly_id" id="rly_id1"  data-placeholder="Select zone.."  style=" width:15%;height:3em" >
+                  <option value="" selected disabled>All</option>
+                  {% for z in zone %}
+                  <!-- <option value="{{z}}">{{z}}AA</option> -->
+                  <option value="{{z}}" {% if rly_code == z %} selected {%endif%}>{{z}}</option>
+                  {% endfor %}
+              </select> &nbsp;
+             
+              <label for="division" class="lbl-caption"  >Div./Unit Wise</label>
+              <select class="form-control custom-select lbl-caption" name="div_id" id="div_id1" class="custom-select" data-placeholder="Select division.."  style="width:10%;height:3em" > 
+                  <option value="all" >Select Division..</option>
+                  {% for d in division %}
+                  <option value="{{d.location_code}}" {% if div_code == d %} selected {%endif%}>{{d.location_code}}-{{d.location_type}}</option>
+                  {% endfor %}
+              </select>   &nbsp;
+
+              <label class ="lbl-caption" >Forward To</label>
+              
+              <select id="desig_for" name="desig_for" class="form-control custom-select lbl-caption" style="width:20%;height:2em" class="custom-select"  data-placeholder="Select Designation.." multiple>
+                  <option value=""  disabled>Select</option>
+                  <!-- <option value="" selected disabled>All</option> -->
+                  {% for z in designation %}
+                  <option value="{{z.designation}}">{{z.designation}}</option>
+                  {% endfor %}
+              </select> &nbsp;
+              <label class ="lbl-caption" > Forward To Panel</label>
+              <!-- <input type="checkbox" name="panel" id ="panel" value="panel" onclick="showPanel()" data-toggle="modal" data-target="#PanelModal"> -->
+              <button type="button" class="btn btn-outline-secondary btn-sm " data-toggle="modal" data-target="#PanelModal" onclick="showPanel()"><i class="fa fa-address-book" aria-hidden="true"></i></button>
+
+              &nbsp;&nbsp;
+
+              <label class ="lbl-caption" >Item No</label>
+              <input type="textarea" style="width:5%;text-align: center;background-color:aliceblue;height: 2.2em; width: 15%;" id="item" value="" disabled></input>
+              <input class =" form-control lbl-caption" id="inspection_no" value="{{inspection_no}}" hidden></input>
+              <input type="textarea" class ="lbl-caption" id="item_no" value="{{item_no}}" hidden></input>
+              &nbsp;&nbsp;&nbsp;
+              <button type="button" id="submit_filter" style="width:5%;border: 1px solid #ccc; margin-left: 2%;" class="btn btn-success btn-sm float-right" onclick="compliance_forward111(this);" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button>  
+          </div>
+
+
+            <div>
+                <table id="mytable2" class="table table-striped table-bordered table-data">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Forwarded On</th>
+                            <th>Forward Offiecr</th>
+                            <!-- <th>Marked Officer</th> -->
+                            <th>Reply Received</th>
+                            <th>Recieved On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>                        
+                    <tbody>
+                    </tbody>
+                </table>
+                <br>
+                <div for="edit" style="text-align:left;">Edit Section</div>
+                <div class="row">
+                  <div class="col-11">
+                      <textarea class="form-control lbl-caption word-wrap h-100" row="5"  id="textAreaExample1" style="background-color: aliceblue;" disabled></textarea>
+                  </div>
+                  <div class="col-1">
+                      <button style="margin:2%" type="button" class="btn btn-warning savebtn"  id="save_item_no" style="height:7%;" onclick="save_reply()" disabled>Save</button>
+                  </div>
+              </div>
+            </div>
+          </div><!-- modal-body -->
+
+          <div class="modal-footer modal-footer-full-width">
+            <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+              <div class="btn-group mr-2" role="group" >
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" id="closeforward">Close</button>
+              </div>
+            </div>
+          </div>
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+    <!-- Modal for panel compliance-->
+    <div class="modal fade" id="PanelModal" tabindex="-1" role="dialog" aria-labelledby="PanelModallabel" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h3 class="report_heading" id="PanelModalLabel">Select Designations</h3>
+                  <button type="button"  class="close"  data-dismiss="modal" >
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+
+              <div class="modal-body" style="overflow-y:scroll; height: 300px;">
+                  <table id="mytablepanel" class="table table-striped table-bordered table-data ">
+                      <thead>
+                          <tr>
+                              <th>Mark</th>
+                              <th>Designation</th>
+                              <th>Name</th>
+                          </tr>
+                      </thead>                        
+                      <tbody>
+                      </tbody>
+                  </table>
+                  
+              </div>
+              <div class="modal-footer">
+                  <div class="btn-toolbar" role="toolbar" >
+                      <div class="btn-group mr-2" role="group" >
+                          <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-dismiss="modal" onclick="save_panel(this)" >Save</button>
+                          <!-- <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" id="closeforward">Close</button> -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- modal -->
+    
+</body>
+<!-- 
+<script>
+  
+  $( document ).ready
+  (
+    function() 
+    {
+      $('#mytable').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+      $('#mytable2').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+    });
+    
+    $("#desig").select2(
+      {dropdownParent:$('#ForwardModal')}
+    );
+
+    function fetch_forward_reply(e)
+    {
+        var item_no=(e.id);
+        // alert(item_no)
+        var table = $('#mytable2').DataTable();
+        table.destroy();
+        $('#mytable2').hide();
+        data={'item_no':item_no,}
+        $.ajax
+        ({
+            url: "{% url 'fetch_forward_reply' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                // $('#item_no_hidden').val(response.item_no);
+                // alert(response.item_list[0]['count'])
+                $('#item_no').val(response.item_no);
+                $('#inspection_no').val(response.inspection_no);
+                $('#item').val(response.item);
+                forwardreplydata=response.list1;
+                let row = "";
+                // <th>Recieved On</th>
+                // <th>Status</th>
+                let head = 
+                    `<thead>
+                        <tr align="left">
+                            <th>Sr.No.</th>
+                            <th>Forward On</th>
+                            <th>Forward Officer</th>
+                            <th>Received Reply</th>
+                            <th>Rejected Remark</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>`;
+                // <td width=12% align="left">${forwardreplydata[i]['marked_to_forward']}</td>
+                // <td width=8%>${forwardreplydata[i]['compliance_recieved_on_forward']}</td>
+                for (let i = 0; i < forwardreplydata.length; i++) 
+                {
+                    // <td width=5% style="color:red">Pending</td>
+                    // <td width=5%; style="color:red">Rejected</td>
+                    // <td width=5% style="color:green">Received</td>
+                    row += "<tr>";    
+                    row += `<td width=5%>${i+1}</td>
+                            <td width=10%>${forwardreplydata[i]['recieved_on']}</td>`;
+                    if(forwardreplydata[i]['status_flag']==1)
+                    {
+                        row += `<td width=15% align="left" style="color:red">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                <td width=26%>
+                                    <textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>-</textarea>
+                                </td>
+                                <td width=14%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Move</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                </td>`;
+                                
+                    }
+                    else if(forwardreplydata[i]['status_flag']==3)
+                    {
+                        row += `<td width=15% align="left" style="color:red">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                <td width=26%>
+                                    <textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea>
+                                </td>
+                                <td width=14%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Move reply to edit Section" onclick="merge(this)">Move</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                </td>`;
+                        document.getElementById('textAreaExample1').disabled=false;
+                        document.getElementById(item_no).disabled=false;
+                    }
+                    else if(forwardreplydata[i]['status_flag']==2)
+                    {
+                        row += `<td width=15% align="left" style="color:green">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                <td width=26%>
+                                    <textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200">${forwardreplydata[i]['remark']}</textarea>
+                                </td>
+                                <td width=14%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Move reply to edit Section">Move</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" onclick="reject_forward_reply(this);">Reject</button>
+                                </td>`;
+                        document.getElementById('textAreaExample1').disabled=false;
+                        document.getElementById(item_no).disabled=false;
+                    }
+                    row += "</tr>"; 
+                }
+                $('#mytable2 thead').remove();
+                $('#mytable2 tr').remove();
+                $('#mytable2').append(head);
+                $('#mytable2 tbody').append(row);
+                $('#mytable2').show();
+                $('#mytable2').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+                desig=response.desig;
+                $('#desig').empty();
+                $('#desig').append(`<option value="" disabled>Select</option>`);
+                for (let i = 0; i < desig.length; i++) 
+                {
+                    $('#desig').append(`<option value="${desig[i]['designation']}">${desig[i]['designation']}</option>`);
+                }
+            }
+        })
+    }
+    
+    function reject_forward_reply(e)
+    {
+        var forward=e.id;
+        var remark=$('#remark_id'+forward).val()
+        // alert(remark);
+        data={'forward':forward,'remark':remark}
+        $.ajax
+        ({
+            url: "{% url 'reject_forward_reply' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+             
+                alert('Reject Successful');
+                window.location.reload();
+                id='remark_id';
+                id1='closeforward';
+                document.getElementById(forward).disabled = true;
+                document.getElementById(id).style.backgroundColor = "lightred";
+                document.getElementById(id1).click();
+                // window.location.reload();
+            }
+        })
+    }
+
+  function compliance_forward()
+    {
+        item_no=$('#item_no').val()
+        inspection_no=$('#inspection_no').val()
+        data=
+        {
+            'item_no':item_no,
+            'inspection_no': inspection_no,
+            forward_to:JSON.stringify($('#desig').val()),
+            'str':'filter-desig',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_marked_forward' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+               
+                    alert('Forwarded Successfully');
+                    window.location.reload();
+                // }
+            }
+        })
+    }
+    
+            
+      
+    
+
+</script> -->
+
+<script>
+  
+  $( document ).ready
+  (
+    function() 
+    {
+      $('#mytable').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+      $('#mytable2').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+    });
+    
+    $("#desig").select2(
+      {dropdownParent:$('#ForwardModal')}
+    );
+    function closePpln()
+  {
+      $(".wrap").toggleClass('active');
+      window.location.reload();
+  }
+    function fetch_forward_reply(e, phase)
+    {
+        if (phase == '2'){
+          var marked_no=(e.id);
+          var inspection_id=document.getElementById("inspection_no").value;
+          data={'marked_no':marked_no,}
+          urls='/compliance_phase2/'+"?inspection_id=" + inspection_id + "&type=Forward&status=F&marked_no="+marked_no
+          $("#frmDash").attr("src",urls);
+          $(".wrap").toggleClass('active');
+        }
+        items=[]
+        var item_no=(e.id);
+        items.push(item_no)
+        item_no=JSON.stringify(items)
+        forwarded_already= already_for(item_no);
+        var table = $('#mytable2').DataTable();
+        table.destroy();
+        $('#mytable2').hide();
+        data={'item_no':item_no,}
+        $.ajax
+        ({
+            url: "{% url 'fetch_forward_reply' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                // $('#item_no_hidden').val(response.item_no);
+                // alert(response.item_list[0]['count'])
+                $('#item_no').val(response.item_no);
+                $('#inspection_no').val(response.inspection_no);
+                $('#item').val(response.item);
+                forwardreplydata=response.list1;
+                let row = "";
+                // <th>Recieved On</th>
+                // <th>Status</th>
+                let head = 
+                    `<thead>
+                        <tr align="left">
+                            <th>Sr.No.</th>
+                            <th>Forward On</th>
+                            <th>Forward Officer</th>
+                            <th>Received Reply</th>
+                            <th>Rejected Remark</th>
+                            <th>Rejected On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>`;
+                // <td width=12% align="left">${forwardreplydata[i]['marked_to_forward']}</td>
+                // <td width=8%>${forwardreplydata[i]['compliance_recieved_on_forward']}</td>
+                for (let i = 0; i < forwardreplydata.length; i++) 
+                {
+                    // <td width=5% style="color:red">Pending</td>
+                    // <td width=5%; style="color:red">Rejected</td>
+                    // <td width=5% style="color:green">Received</td>
+                    row += "<tr>";    
+                    row += `<td width=5%>${i+1}</td>
+                            <td width=10%>${forwardreplydata[i]['recieved_on']}</td>`;
+                    if(forwardreplydata[i]['status_flag']==1)
+                    {
+                        row += `<td width=15% align="left" style="color:red">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                <td width=18%>`
+                                  if (forwardreplydata[i]['remark']){
+                                    row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea></td> 
+                                    <td width=8%>${forwardreplydata[i]['daterej']}</td>`
+                                  }
+                                    else{
+                                    row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled></textarea></td> 
+                                    <td width=8%></td>`
+                                    }
+                                  
+                                row+=`  
+                                <td width=14%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Move</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                </td>`;
+                                
+                    }
+                    else if(forwardreplydata[i]['status_flag']==3)
+                    {
+                        row += `<td width=15% align="left" style="color:red">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                <td width=18%>`
+                                  if (forwardreplydata[i]['remark']){
+                                    row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea></td> 
+                                    <td width=8%>${forwardreplydata[i]['daterej']}</td>`
+                                  }
+                                    else{
+                                    row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled></textarea></td> 
+                                    <td width=8%></td>`
+                                    }
+                                  
+                                row+=`  
+                                <td width=14%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Move reply to edit Section" onclick="merge(this)" disabled>Move</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                </td>`;
+                        document.getElementById('textAreaExample1').disabled=false;
+                        document.getElementById('save_item_no').disabled=false;
+                    }
+                    else if(forwardreplydata[i]['status_flag']==2)
+                    {
+                        row += `<td width=15% align="left" style="color:green">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                <td width=18%>`
+                                  if (forwardreplydata[i]['remark']){
+                                    row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea></td> 
+                                    <td width=8%>${forwardreplydata[i]['daterej']}</td>`
+                                  }
+                                    else{
+                                    row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled></textarea></td> 
+                                    <td width=8%></td>`
+                                    }
+                                  
+                                row+=`  
+                                <td width=14%>
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Move reply to edit Section" onclick="merge(this)">Move</button>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" onclick="reject_forward_reply(this);">Reject</button>
+                                </td>`;
+                        document.getElementById('textAreaExample1').disabled=false;
+                        document.getElementById('save_item_no').disabled=false;
+                    }
+                    row += "</tr>"; 
+                }
+                $('#mytable2 thead').remove();
+                $('#mytable2 tr').remove();
+                $('#mytable2').append(head);
+                $('#mytable2 tbody').append(row);
+                $('#mytable2').show();
+                $('#mytable2').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+                desig=response.desig;
+                $('#desig_for').empty();
+                $('#desig_for').append(`<option value="" disabled>Select</option>`);
+                for (let i = 0; i < desig.length; i++)
+                {
+                    if (  forwarded_already.includes(desig[i]['designation'])){
+                        
+                        $('#desig_for').append(`<option value="${desig[i]['designation']}" disabled>${desig[i]['designation']}</option>`);
+
+                    }
+                    else
+                    $('#desig_for').append(`<option value="${desig[i]['designation']}" >${desig[i]['designation']}</option>`);
+
+                }
+            }
+        })
+    }
+    
+    function reject_forward_reply(e)
+    {
+        var forward=e.id;
+        var remark=$('#remark_id'+forward).val()
+        // alert(remark);
+        data={'forward':forward,'remark':remark}
+        $.ajax
+        ({
+            url: "{% url 'reject_forward_reply' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+             
+                alert('Reject Successful');
+                window.location.reload();
+                id='remark_id';
+                id1='closeforward';
+                document.getElementById(forward).disabled = true;
+                document.getElementById(id).style.backgroundColor = "lightred";
+                document.getElementById(id1).click();
+                // window.location.reload();
+            }
+        })
+    }
+
+  function compliance_forward111()
+    {
+        item_no=$('#item_no').val()
+        inspection_no=$('#inspection_no').val()
+        data=
+        {
+          'item_no':JSON.stringify(item_no),
+            'inspection_no': inspection_no,
+            'forward_to':JSON.stringify($('#desig_for').val()),
+            'str':'filter-desig',
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_marked_forward' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+               
+                    alert('Forwarded Successfully');
+                    window.location.reload();
+                // }
+            }
+        })
+    }
+  
+</script>
+
+<script>
+    $("#rly_id1").select2();
+    $("#div_id1").select2();
+    $('#desig_for').select2();
+
+    function merge(e)
+    {
+        var val=e.id;
+        if(document.getElementById(val)) 
+        {
+            var textval=$('#textAreaExample1').val()+' '+val;
+            $('#textAreaExample1').val(textval);
+        }
+    }
+    
+    $('#rly_id1').change(function() {
+        var rly=$('#rly_id1').val();
+        var desigss=$('#desig_for').val();
+        // desigss=JSON.stringify(desigss)
+        // alert(desigss)
+        forwarded_already= already_for(1);
+    
+            data={  
+                'rly_data_hrms': JSON.stringify(rly),
+
+              }
+    
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_rly_desig' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response)
+                {
+                    if(response.desig){
+                      $('#desig_for').empty()
+                      $('#desig_for').append(`<option value="">Select Designation</option>`);
+                      for (let j=0; j<desigss.length;j++){
+                        $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                      }
+                      for (let i = 0; i < response.desig.length; i++) {
+                        if (  forwarded_already.includes(response.desig[i]['designation']))
+                            $('#desig_for').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                        else
+                        $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+                    let division=response.division;
+                    $('#div_id1').empty()
+                    $('#div_id1').append(`<option value="all">Select Division..</option>`);
+                    for (let i = 0; i < division.length; i++) {
+                        $('#div_id1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+
+                        // $('#div_id1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                    }
+            
+                    }
+
+    
+                }
+                
+    
+              });
+      });
+      
+    $('#div_id1').change(function() {
+        var rly=$('#rly_id1').val();
+        var div=$('#div_id1').val();
+        var desigss=$('#desig_for').val();
+        forwarded_already= already_for(1);
+        data={  
+            'rly_data_hrms': JSON.stringify(rly),
+            'div_data_hrms': JSON.stringify(div),
+              }
+    
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_div_desig' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response)
+                {
+                    if(response.desig){
+                      $('#desig_for').empty()
+                      $('#desig_for').append(`<option value="">Select Designation</option>`);
+                      for (let j=0; j<desigss.length;j++){
+                        $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                      }
+                      for (let i = 0; i < response.desig.length; i++) {
+                        if (  forwarded_already.includes(response.desig[i]['designation']))
+                            $('#desig_for').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                        else
+                            $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+            
+                    }
+
+    
+                }
+                
+    
+              });
+      
+            });
+
+function showPanel(){
+    forwarded_already= already_for(1);
+    $.ajax({
+                type : 'GET',
+                url : "{% url 'get_panel_officers' %}",
+                dataType : 'json',
+    
+                success : function(response)
+                {
+                    $('#mytablepanel tbody').empty();
+                    // alert("yaay")
+                    if(response.desig){
+                      row=''
+                      for(var i=0;i<response.desig.length;i++){
+                        if (  forwarded_already.includes(response.desig[i]['designation'])){
+                            row+=`<tr disabled>
+                            <td><input class="pan_checks" type="checkbox" disabled id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                            <td>${response.desig[i]['designation']}</td>
+                            <td>${response.desig[i]['name']}</td>
+                            </tr>`
+                        }
+                        else{
+                        row+=`<tr>
+                            <td><input class="pan_checks" type="checkbox" id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                            <td>${response.desig[i]['designation']}</td>
+                            <td>${response.desig[i]['name']}</td>
+                            </tr>`
+                        }
+                      }
+                      $('#mytablepanel tbody').append(row);
+
+                        // elements=document.getElementsByClassName("pan_checks");
+                        // for(i=0;i<elements.length;i++){
+                        //     var dd=elements[i].id
+                        //     document.getElementById(dd).checked = true
+                        // }
+                    }
+
+    
+                }
+                
+    
+              });
+   
+}
+
+function save_panel(){
+    var desigss=$('#desig_for').val();
+    elements=document.getElementsByClassName("pan_checks");
+    new_desig=[]
+    for(i=0;i<elements.length;i++){
+        var dd=elements[i].id
+        // alert(dd)
+        if (document.getElementById(dd).checked == true){
+            var x='#'+dd;
+            var valdd= $(x).val();
+            new_desig.push(valdd)
+        }
+    }
+    // alert(new_desig)
+    $('#desig_for').empty()
+    $('#desig_for').append(`<option value="">Select Designation</option>`);
+    for (let j=0; j<desigss.length;j++)
+            $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+    for (let i = 0; i < new_desig.length; i++) 
+            $('#desig_for').append(`<option value="${new_desig[i]}" selected> ${new_desig[i]}</option>`);
+
+    var rly=$('#rly_id1').val();
+    var div=$('#div_id1').val();
+    data={  
+            'rly_data_hrms': JSON.stringify(rly),
+            'div_data_hrms': JSON.stringify(div),
+              }
+    
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_div_desig' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response)
+                {
+                    if(response.desig){
+                      for (let i = 0; i < response.desig.length; i++) 
+                        $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+                }
+            });
+}
+
+function already_for(item_no){
+    var val =0
+    if (item_no == 1){
+        var item_no=$('#item_no').val();
+        item_no=JSON.stringify(item_no);
+        val=1
+    }
+    data={'item_no':item_no,'val':val}
+    // alert(data['item_no'], )
+    // alert(data['val'])
+    var forwarofc;
+        $.ajax
+        ({
+            url: "{% url 'forward_officer' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response)
+            {
+                forwarofc =response.for_desigs;
+                // console.log(forwarofc);
+                
+            }
+        })
+        return forwarofc
+}
+
+let $modal = $("#PanelModal");
+$modal.draggable({
+        handle: ".modal-header",
+        // containment: "parent",
+        // backdrop: false, show: true
+        });
+</script>
+
+<!-- <div class="col-xl-2 col-lg-6" id="mm">
+        <div class="card shadow" style="height:100%;">
+          <div class="card-header">
+            <h6 class="font-weight-bold text-center text-black">
+              Weekly Meeting
+            </h6>
+          </div>
+          <div class="card-body" style="padding: 0.25rem;">
+            <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="flamingo-tab">
+              <p class="show-read-more">&#x25CF;<a href="" target="_blank">17-08-2022</a>
+              </p>
+              <p class="show-read-more readmore">&#x25CF;<a href="" target="_blank"> 16-08-2022</a>
+              </p>
+              <p class="show-read-more readmore">&#x25CF;<a href="" target="_blank"> 15-08-2022 </a>
+              </p>
+              <button class="button3">View All</button>
+            </div>
+          </div>
+        </div>
+      </div> -->

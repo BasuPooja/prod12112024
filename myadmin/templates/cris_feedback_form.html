@@ -1,0 +1,1266 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<head>
+  <title>Feedback Report</title>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js"
+  integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap-grid.min.css"
+  integrity="sha512-Aa+z1qgIG+Hv4H2W3EMl3btnnwTQRA47ZiSecYSkWavHUkBF2aPOIIvlvjLCsjapW1IfsGrEO3FU693ReouVTA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="{% static '/css/forms_common.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="{% static '/css/forms_common.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static '/css/datatables/jquery.dataTables.min.css' %}"
+  />
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+  />
+  <style>
+    h3 {
+      text-align: center;
+    }
+    #submit {
+      position: "absolute";
+      right: 50%;
+    }
+    @media only screen and (max-width: 200px) {
+    #images {
+        width: 200px;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <h3>Reply Of Feedback Report</h3>
+  <br /><br />
+
+  <!-- TABLIST -->
+<div class="container">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a
+        class="nav-link active"
+        id="nav-home-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-home"
+        type="button"
+        role="tab"
+        aria-controls="nav-home"
+        aria-selected="true"
+        >Pending</a
+      >
+      <a
+        class="nav-link"
+        id="nav-accept-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-accept"
+        type="button"
+        role="tab"
+        aria-controls="nav-accept"
+        aria-selected="false"
+        >Resolved</a>
+        <a
+        class="nav-link"
+        id="nav-home1-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-home1"
+        type="button"
+        role="tab"
+        aria-controls="nav-home1"
+        aria-selected="true"
+        >In Progress</a
+      >
+      <a
+        class="nav-link"
+        id="nav-accept1-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#nav-accept1"
+        type="button"
+        role="tab"
+        aria-controls="nav-accept1"
+        aria-selected="false"
+        >Not Feasible</a>
+
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div
+      class="tab-pane fade show active"
+      id="nav-home"
+      role="tabpanel"
+      aria-labelledby="nav-home-tab"
+    >
+      <br />
+      <!-- FILTER FOR RLY, DIVISION, CATEGORY, AND DATA -->
+      <div class="row" style="margin-left: 1em; margin-right: 5em">
+        <div class="col-2 form-group">
+          <label for="location_code" class="lbl-caption">Rly./Org. Wise</label>
+          <select
+            class="form-control self-control"
+            id="location_code"
+            name="location_code"
+            class="custom-select"
+            data-placeholder="Rly/Org..."
+            required
+          >
+            <option value="" disabled selected >Select</option>
+            {% for z in zone %}
+            <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-2 form-group">
+          <label for="location_type" class="lbl-caption">Div./Unit Wise</label>
+
+          <select
+            class="form-control self-control"
+            id="location_type"
+            name="location_type"
+            class="custom-select"
+            data-placeholder="Div/Unit..."
+          >
+            <option value="" disabled selected>Select</option>
+            {% for d in division %}
+            <option value="{{d.rly_unit_code}}">
+              {{d.location_code}}-{{d.location_type}}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-2 form-group">
+          <label for="category" class="lbl-caption">Category</label>
+          <select
+            class="form-control sel-control"
+            id="category"
+            name="category"
+            class="custom-select"
+            data-placeholder="Designation..."
+          >
+            <option value="" disabled selected>Select</option>
+            {% for d in category %}
+            <option value="{{d.0}}">{{d.0}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-2 form-group">
+          <label for="created_on" class="lbl-caption">Date Range</label>
+          <input
+            class="form-control"
+            id="created_on"
+            name="created_on"
+            value="{{new_date}}"
+            autocomplete="off"
+            placeholder="Select Daterange"
+            style="margin-top: 0em; background-color: #fff"
+            readonly
+          />
+        </div>
+
+        <div class="col-4">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group" role="group">
+              <button
+                type="button"
+                onclick="Continue()"
+                style="margin-top: 30%"
+                class="btn btn-warning btn-sm"
+                id="search_ob"
+              >
+                Continue
+              </button>
+
+              <a
+                class="btn btn-secondary btn-sm"
+                href="/CrisFeedbackReport/"
+                style="margin-top: 30%"
+                >Reset</a
+              >
+            </div>
+          </div>
+          <br />
+        </div>
+      </div>
+      <!-- END FILTER -->
+      <div class="row">
+          <div class="column">
+          <h3>Pending</h3>
+            
+          <table
+          id="pending"
+          name="pending"
+          class="table table-data table-bordered"
+          cellspacing="0"
+        >
+          <thead style="background-color: #d85c64; text-align: left">
+            <tr>
+              <th>S.NO.</th>
+              <th>Designation</th>
+              <th>Feedback Type</th>
+              <th>Category</th>
+              <th>Sub Category</th>
+              <th>Remarks</th>
+              <th>Document Attached</th>
+              <th>CRIS Remarks</th>
+              <th>Report On</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            {% for i in pending_feedback_data %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{i.level_desig__designation}}</td>
+              <td>{{i.feedback_type}}</td>
+              <td>{{i.category}}</td>
+              <td>{{i.sub_category}}</td>
+              <td>{{i.description}}</td>
+              <td>
+                {% if i.images %}
+                <a href="/media/{{i.images}}" target="_blank">Reported Images</a>
+                {% else %}
+                <a>Not Uploaded</a>
+                {% endif %}
+              </td>
+              <td>{{i.cris_remarks|default:''}}</td>
+              <td>{{i.reported_date|date:'d-m-Y'}}</td>
+              {% if i.status == 0 %}
+              <td>Pending</td>
+              {% elif i.status == 1 %}
+              <td>Resolved</td>
+              {% elif i.status == 2 %}
+              <td>In Progress</td>
+              {% elif i.status == 3 %}
+              <td>Not Feasible</td>
+              {%endif%}
+              <td>
+                <button
+                  class="btn btn-success" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" 
+                  onclick="viewFeedback('{{i.id}}')"
+                >
+                  Action
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+          </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="nav-accept"
+      role="tabpanel"
+      aria-labelledby="nav-accept-tab"
+    >
+      <br />
+      <div class="row">
+          <div class="column">
+          <h3>Resolved</h3>
+          <table
+            id="resolved"
+            name="resolved"
+            class="table table-data table-bordered"
+            cellspacing="0"
+          >
+            <thead style="background-color: #d85c64; text-align: left">
+              <tr>
+                <th>S.NO.</th>
+                <th>Designation</th>
+                <th>Feedback Issue</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>Remarks</th>
+                <th>Document Attached</th>
+                <th>CRIS Remarks</th>
+                <th>Report On</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for i in resolved_feedback_data %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.level_desig__designation}}</td>
+                <td>{{i.feedback_type}}</td>
+                <td>{{i.category}}</td>
+                <td>{{i.sub_category}}</td>
+                <td>{{i.description}}</td>
+                <td>
+                  {% if i.images %}
+                  <a href="/media/{{i.images}}" target="_blank">Reported Images</a>
+                  {% else %}
+                  <a>Not Uploaded</a>
+                  {% endif %}
+                </td>
+                <td>{{i.cris_remarks|default:''}}</td>
+                <td>{{i.reported_date|date:'d-m-Y'}}</td>
+                {% if i.status == 0 %}
+                <td>Pending</td>
+                {% elif i.status == 1 %}
+                <td>Resolved</td>
+                {% elif i.status == 2 %}
+                <td>In Progress</td>
+                {% elif i.status == 3 %}
+                <td>Not Feasible</td>
+                {%endif%}
+                <td>
+                  <button
+                    class="btn btn-success" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" 
+                    onclick="viewFeedback('{{i.id}}')"
+                  >
+                    Action
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+          </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade show"
+      id="nav-home1"
+      role="tabpanel"
+      aria-labelledby="nav-home1-tab"
+    >
+      <br />
+      <div class="row">
+          <div class="column">
+          <h3>In Progress</h3>
+            
+          <table
+          id="inprogress"
+          name="inprogress"
+          class="table table-data table-bordered"
+          cellspacing="0"
+        >
+          <thead style="background-color: #d85c64; text-align: left">
+            <tr>
+              <th>S.NO.</th>
+              <th>Designation</th>
+              <th>Feedback Issue</th>
+              <th>Category</th>
+              <th>Sub Category</th>
+              <th>Remarks</th>
+              <th>Document Attached</th>
+              <th>CRIS Remarks</th>
+              <th>Report On</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            {% for i in inprogress_feedback_data %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{i.level_desig__designation}}</td>
+              <td>{{i.feedback_type}}</td>
+              <td>{{i.category}}</td>
+              <td>{{i.sub_category}}</td>
+              <td>{{i.description}}</td>
+              <td>
+                {% if i.images %}
+                <a href="/media/{{i.images}}" target="_blank">Reported Images</a>
+                {% else %}
+                <a>Not Uploaded</a>
+                {% endif %}
+              </td>
+              <td>{{i.cris_remarks|default:''}}</td>
+              <td>{{i.reported_date|date:'d-m-Y'}}</td>
+              {% if i.status == 0 %}
+              <td>Pending</td>
+              {% elif i.status == 1 %}
+              <td>Resolved</td>
+              {% elif i.status == 2 %}
+              <td>In Progress</td>
+              {% elif i.status == 3 %}
+              <td>Not Feasible</td>
+              {%endif%}
+              <td>
+                <button
+                  class="btn btn-success" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" 
+                  onclick="viewFeedback('{{i.id}}')"
+                >
+                  Action
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot></tfoot>
+        </table>
+          </div>
+      </div>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="nav-accept1"
+      role="tabpanel"
+      aria-labelledby="nav-accept1-tab"
+    >
+      <br />
+      <div class="row">
+          <div class="column">
+          <h3>Not Feasible</h3>
+          <table
+            id="notfeasible"
+            name="notfeasible"
+            class="table table-data table-bordered"
+            cellspacing="0"
+          >
+            <thead style="background-color: #d85c64; text-align: left">
+              <tr>
+                <th>S.NO.</th>
+                <th>Designation</th>
+                <th>Feedback Issue</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>Remarks</th>
+                <th>Document Attached</th>
+                <th>CRIS Remarks</th>
+                <th>Report On</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for i in notfeasible_feedback_data %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.level_desig__designation}}</td>
+                <td>{{i.feedback_type}}</td>
+                <td>{{i.category}}</td>
+                <td>{{i.sub_category}}</td>
+                <td>{{i.description}}</td>
+                <td>
+                  {% if i.images %}
+                  <a href="/media/{{i.images}}" target="_blank">Reported Images</a>
+                  {% else %}
+                  <a>Not Uploaded</a>
+                  {% endif %}
+                </td>
+                <td>{{i.cris_remarks|default:''}}</td>
+                <td>{{i.reported_date|date:'d-m-Y'}}</td>
+                {% if i.status == 0 %}
+                <td>Pending</td>
+                {% elif i.status == 1 %}
+                <td>Resolved</td>
+                {% elif i.status == 2 %}
+                <td>In Progress</td>
+                {% elif i.status == 3 %}
+                <td>Not Feasible</td>
+                {%endif%}
+                <td>
+                  <button
+                    class="btn btn-success" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" 
+                    onclick="viewFeedback('{{i.id}}')"
+                  >
+                    Action
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END TABLIST -->
+ 
+
+  <div class="modal fade" id="Insp_Modal" role="dialog" aria-labelledby="Insp_Modal">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+			<div class="modal-content">
+			
+			  <!-- Modal Header -->
+			  <div class="modal-header">
+				<h5 class="modal-title" >Reply Of Feedback Report</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  </div>
+			  
+			  <!-- Modal body -->
+			  <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Railway</label>
+                          <input type="text" class="form-control" id="Railway" value = '' readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Division</label>
+                          <input type="text" class="form-control" id="Division" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Email</label>
+                          <input type="text" class="form-control" id="Email" value = '' readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Contact Number</label>
+                            <input type="text" class="form-control" id="contactNo" value = '' readonly>
+                          </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Designation</label>
+                            <input type="text" class="form-control" id="Designation" value="" readonly>
+                            <!-- <input type="hidden" class="form-control" id="Designation1" name="desig" value="{{desig_code}}" readonly> -->
+                          </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Date Of Complain</label>
+                          <input type="text" class="form-control" id="dateOfComp" value="" readonly>
+                          <!-- <input type="hidden" class="form-control" id="Designation1" name="desig" value="{{desig_code}}" readonly> -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                          <label for="inputState">Feedback Type</label>
+                          <input type="text" class="form-control" id="feedback_type" value="" readonly>
+                          <!-- <input type="hidden" class="form-control" id="Designation1" name="desig" value="{{desig_code}}" readonly> -->
+                        </div>
+                      <div class="form-group col-md-6">
+                      </div>
+                  </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Category</label>
+                        <input type="text" class="form-control" id="Category" value="" readonly>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Sub Category</label>
+                        <input type="text" class="form-control" id="sub_Category" value="" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAddress">Remarks</label>
+                      <textarea class="form-control" name="issue_detials" id="issue_detials" cols="30" rows="5" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="images">Image</label>
+                        <img src="" alt="" height="300" width="762" id="images">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Cris Remarks</label>
+                        <textarea class="form-control" name="cris_remarks" id="cris_remarks" cols="30" rows="5"></textarea>
+                      </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputCity">Images</label>
+                        <input type="file" class="form-control" id="image" name = 'image' accept="image/jpeg,">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputCity">Update Status</label>
+                        <select id="category" class="form-control" name="status" required>
+                            <option value="" selected disabled>Choose...</option>
+                            <option value="0">Pending</option>
+                            <option value="1">Resolved</option>
+                            <option value="2">In Progress</option>
+                            <option value="3">Not Feasible</option>
+                          </select>
+                      </div>
+                    </div>
+                    <input type="hidden" id="hiddenId" name="hiddenId" class="btn btn-primary">
+                    <button id = 'submit' style="margin-left: 50%;" type="submit" class="btn btn-primary">Update</button>
+                  </form>
+				</div>
+                <div class="modal-footer modal-footer-full-width">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+                </div>
+			</div>
+		</div>
+		
+	  </div> 
+  <script>
+// DATERANGEPICKER FOR FILTER
+
+$(function () {
+    $('input[name="created_on"]').daterangepicker({
+      autoUpdateInput: false,
+      autoApply: true,
+      maxDate: new Date(),
+      opens: "left",
+      locale: {
+        cancelLabel: "Clear",
+      },
+    });
+    
+
+    $('input[name="created_on"]').on(
+      "apply.daterangepicker",
+      function (ev, picker) {
+        $(this).val(
+          picker.startDate.format("DD/MM/YY") +
+            " to " +
+            picker.endDate.format("DD/MM/YY")
+        );
+
+        if (
+          picker.startDate.format("DD/MM/YY") ==
+          picker.endDate.format("DD/MM/YY")
+        ) {
+          $(this).val(picker.startDate.format("DD/MM/YY"));
+        } else {
+          $(this).val(
+            picker.startDate.format("DD/MM/YY") +
+              " to " +
+              picker.endDate.format("DD/MM/YY")
+          );
+        }
+
+        $(".applyButtonClasses").click();
+      }
+    );
+
+    $('input[name="created_on"]').on(
+      "cancel.daterangepicker",
+      function (ev, picker) {
+        $(this).val("");
+      }
+    );
+  });
+
+  
+// GET DIVISIONS FOR RAILWAYS
+
+$("#location_code").change(function () {
+    var group = [$("#location_code").val()];
+  //alert(group);
+    data = {
+      group: JSON.stringify(group),
+    };
+    $.ajax({
+      type: "GET",
+      url: "{% url 'search_locat_ajax1' %}",
+      dataType: "json",
+      data: data,
+      success: function (response) {
+        $("#location_type option").remove();
+        console.log(response.ins)
+        let option = ``;
+        option +='<option value = "" selected >Select</option>'
+        for (i = 0; i < response.ins.length; i++) {
+          option += `<option value="${response.ins[i]["rly_unit_code"]}" >${response.ins[i]["location_code"]}-${response.ins[i]["location_type"]}</option>`;
+        }
+        $("#location_type").append(option);
+      },
+    });
+  });
+
+
+// AJAX TO SHOW THE DETAILS OF THE FEEDBACK  
+    function viewFeedback(id){
+    $.ajax({
+      url: "{% url 'CrisFeedbackReport' %}",
+      method: "GET",
+      dataType: "JSON",
+      data: {
+        'ajaxname': 'viewfeedback',
+        'id':id,
+      },
+      async: false,
+      success: function (response) {
+        console.log(response)
+        $('#hiddenId').val(response.data[0].id)
+        if(response.data[0].images == ''){
+          $('#images').attr('src','/media/feedback_images/notfound.png')
+        }
+        else{
+          $('#images').attr('src','/media/'+response.data[0].images)
+        }
+        
+        $('#Email').val(response.data[0].level_desig__official_email_ID)
+        $('#Designation').val(response.data[0].level_desig__designation)
+        $('#Railway').val(response.rly)
+        $('#Division').val(response.div)
+        $('#Category').val(response.data[0].category)
+        $('#sub_Category').val(response.data[0].sub_category)
+        $('#issue_detials').val(response.data[0].description)
+        $('#contactNo').val(response.data[0].level_desig__contactnumber)
+        $('#feedback_type').val(response.data[0].feedback_type)
+        let date = response.data[0].reported_date.split('T')[0].split('-')
+        date = date[2]+'-'+date[1]+'-'+date[0]
+        console.log(date)
+
+        $('#dateOfComp').val(date)
+        if(response.data[0].status == 1){
+          $("#submit").prop('disabled',true)
+        }
+        else{
+          $("#submit").prop('disabled',false)
+        }
+      }
+    });
+
+    }
+  
+
+    var table1=$('#pending').DataTable({
+        "iDisplayLength": 15,
+        'order':[
+          [0,'asc']
+        ],
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [15, 30, 50, 75, 100],
+        dom: 'Blfrtip',
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                console.log("datefrom",e1)
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            // orientation: 'landscape',
+            // pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                console.log("datefrom1",e1)
+                console.log("datefrom1",datefrom)
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                console.log('insode inspection report',stre)
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+              },
+              text :'Pdf',
+              title:"Inspection Report ",
+                        fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            footer:true,
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+
+                // "bSort": true,
+
+                "oLanguage": {
+                    "sInfoEmpty": "Page 0 of 0 ",
+                },
+                "language": {
+                    "info": "Page _PAGE_ of _PAGES_",
+                    "paginate": {
+                        "previous": "Prev",
+                    },
+                },
+        },
+        ],
+      });
+    
+    var table=$('#resolved').DataTable({
+        "iDisplayLength": 15,
+        'order':[
+          [0,'asc']
+        ],
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [15, 30, 50, 75, 100],
+        dom: 'Blfrtip',
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                console.log("datefrom",e1)
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            // orientation: 'landscape',
+            // pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                console.log("datefrom1",e1)
+                console.log("datefrom1",datefrom)
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                console.log('insode inspection report',stre)
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+              },
+              text :'Pdf',
+              title:"Inspection Report ",
+                        fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            footer:true,
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+
+                // "bSort": true,
+
+                "oLanguage": {
+                    "sInfoEmpty": "Page 0 of 0 ",
+                },
+                "language": {
+                    "info": "Page _PAGE_ of _PAGES_",
+                    "paginate": {
+                        "previous": "Prev",
+                    },
+                },
+        },
+        ],
+      });
+     
+    var table=$('#inprogress').DataTable({
+        "iDisplayLength": 15,
+        'order':[
+          [0,'asc']
+        ],
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [15, 30, 50, 75, 100],
+        dom: 'Blfrtip',
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                console.log("datefrom",e1)
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            // orientation: 'landscape',
+            // pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                console.log("datefrom1",e1)
+                console.log("datefrom1",datefrom)
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                console.log('insode inspection report',stre)
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+              },
+              text :'Pdf',
+              title:"Inspection Report ",
+                        fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            footer:true,
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+
+                // "bSort": true,
+
+                "oLanguage": {
+                    "sInfoEmpty": "Page 0 of 0 ",
+                },
+                "language": {
+                    "info": "Page _PAGE_ of _PAGES_",
+                    "paginate": {
+                        "previous": "Prev",
+                    },
+                },
+        },
+        ],
+      });
+     
+    var table=$('#notfeasible').DataTable({
+        "iDisplayLength": 15,
+        'order':[
+          [0,'asc']
+        ],
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [15, 30, 50, 75, 100],
+        dom: 'Blfrtip',
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                console.log("datefrom",e1)
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            // orientation: 'landscape',
+            // pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                console.log("datefrom1",e1)
+                console.log("datefrom1",datefrom)
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                console.log('insode inspection report',stre)
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+              },
+              text :'Pdf',
+              title:"Inspection Report ",
+                        fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            footer:true,
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+
+                // "bSort": true,
+
+                "oLanguage": {
+                    "sInfoEmpty": "Page 0 of 0 ",
+                },
+                "language": {
+                    "info": "Page _PAGE_ of _PAGES_",
+                    "paginate": {
+                        "previous": "Prev",
+                    },
+                },
+        },
+        ],
+      });
+     
+// AJAX TO FILTER THE DATA FOR PENDING
+function Continue(){
+  let location_code =  $('#location_code').val()
+  let location_type =  $('#location_type').val()
+  // alert(location_type)
+  let category =  $('#category').val()
+  let created_on =  $('#created_on').val()
+  $.ajax({
+      url: "{% url 'CrisFeedbackReport' %}",
+      method: "GET",
+      dataType: "JSON",
+      data: {
+        'ajaxname': 'filterpending',
+        'location_code':location_code,
+        'location_type':location_type,
+        'category':category,
+        'created_on':created_on,
+      },
+      async: false,
+      success: function (response) {
+       console.log(response)
+        table1.destroy();
+        let myhtml2 = "";
+        let status = {0:'Pending',1:'Resolved',2:'In Progress',3:'Not Feasible'}
+        for (i = 0; i < response.filter_data.length; i++) {
+          myhtml2 += "<tr>";
+          myhtml2 += " <td>" +(i+1)+ "</td>";
+          myhtml2 +=
+            " <td>" + response.filter_data[i]["level_desig__designation"] + "</td>";
+          myhtml2 += " <td>" + response.filter_data[i]["feedback_type"] + "</td>";
+          myhtml2 += " <td>" + response.filter_data[i]["category"] + "</td>";
+          myhtml2 += " <td>" + response.filter_data[i]["sub_category"] + "</td>";
+          myhtml2 +=
+            " <td>" + response.filter_data[i]["description"] + "</td>";
+          if(response.filter_data[i]["images"] == '' || response.filter_data[i]["images"] == null){
+            myhtml2 +=" <td>" + 'Not Uploaded' + "</td>";
+          }
+          else{
+            myhtml2 +=" <td><a href = '/media/"+response.filter_data[i]["images"] +"' >Reported Images</td>";
+          }
+          
+          myhtml2 +=
+            " <td>" + response.filter_data[i]["cris_remarks"] + "</td>";
+
+          let traverse_date = response.filter_data[i]["reported_date"].split('T')[0].split('-')
+
+          myhtml2 += " <td>" + traverse_date[2] + '-' +traverse_date[1] +'-'+traverse_date[0] + "</td>";
+
+          myhtml2 +=
+            " <td>" + status[response.filter_data[i]["status"]] + "</td>";
+          myhtml2 +=
+            " <td><button class='btn btn-success' data-toggle='modal' data-target='#Insp_Modal' class='stretched-link' onclick=viewFeedback("+response.filter_data[i]["id"]+")>Action</button></td>";
+
+          myhtml2 += "</tr>";
+        }
+
+        $('#pending tbody').empty()
+        $('#pending').append(myhtml2)
+        
+         table1=$('#pending').DataTable({
+        "iDisplayLength": 15,
+        'order':[
+          [0,'asc']
+        ],
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [15, 30, 50, 75, 100],
+        dom: 'Blfrtip',
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                console.log("datefrom",e1)
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            // orientation: 'landscape',
+            // pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                console.log("datefrom1",e1)
+                console.log("datefrom1",datefrom)
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                console.log('insode inspection report',stre)
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+              },
+              text :'Pdf',
+              title:"Inspection Report ",
+                        fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            footer:true,
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+
+                // "bSort": true,
+
+                "oLanguage": {
+                    "sInfoEmpty": "Page 0 of 0 ",
+                },
+                "language": {
+                    "info": "Page _PAGE_ of _PAGES_",
+                    "paginate": {
+                        "previous": "Prev",
+                    },
+                },
+        },
+        ],
+      });
+   
+      }
+    });
+}
+
+
+  </script>
+</body>
+
+{% endblock content %}

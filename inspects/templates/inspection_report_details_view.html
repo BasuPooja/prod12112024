@@ -1,0 +1,836 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+
+<style>
+  .modal-lg{
+    max-width: 48%;
+  }
+  .modal.left .modal-dialog,
+    .modal.right .modal-dialog {
+      position: fixed;
+      margin: auto;
+      width: 80%;
+      height: 100%;
+      -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+      -o-transform: translate3d(0%, 0, 0);
+      transform: translate3d(0%, 0, 0);
+    }
+
+    .modal.left .modal-content,
+    .modal.right .modal-content {
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .modal.left .modal-body,
+    .modal.right .modal-body {
+      padding: 15px 15px 80px;
+    }
+
+    /*Left*/
+    .modal.left.fade .modal-dialog {
+      left: -320px;
+      -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+      -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+      -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+      transition: opacity 0.3s linear, left 0.3s ease-out;
+    }
+
+    .modal.left.fade.show .modal-dialog {
+      left: 0;
+    }
+    
+  * {
+  box-sizing: border-box;
+}
+body {
+        font-family: 'Quicksand', sans-serif;;
+        height: 100%;
+        margin: 0;
+        }
+
+
+    
+      input[type=text]
+      {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: block;
+              /* border: 1.5px solid rgb(14, 12, 12); */
+              border-radius: 4px;
+              box-sizing: border-box;
+      }
+    
+      input[type=submit] {
+              width: 40%;
+              text-align: center;
+              background-color: #4CAF50;
+             
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=submit]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+    
+    
+      input[type=button]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    
+      .inputtag{
+        height:20px;
+      }
+      .button {
+  padding: 15px 25px;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 2em;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #04AA6D;
+  border: none;
+  border-radius: 15px;
+ 
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+    </style>
+  <style>
+    
+    
+#viewbtn {
+margin-left: 1200px;
+margin-right: 10px;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+from {top:-300px; opacity:0} 
+to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+from {top:-300px; opacity:0}
+to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+color: white;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+/* #tableid thead tr td{
+  word-wrap: break-word;
+} */
+/* #tableid tbody tr td:last-child {
+ position: sticky; 
+ top: 0px;
+} */
+
+.close:hover,
+.close:focus {
+color: #000;
+text-decoration: none;
+cursor: pointer;
+}
+
+.inpt-container {
+    background-image: linear-gradient(#cce3fc,#FFFFFF);
+    border-bottom: 2px solid #b0d8f5;
+    margin-bottom: 1rem;
+}
+
+.dataTables_filter {
+        position: relative;
+    }
+
+    .dataTables_filter input {
+        width: 250px;
+        height: 32px;
+        background: #fcfcfc;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+        text-indent: 10px;
+    }
+.table-stats td {
+        padding: 8px !important;
+    }
+
+    td.progress-stats {
+        padding: 0px !important;
+        background: #fff !important;
+    }
+
+    td.progress-stats table tr td {
+        padding: 6px;
+        background: #fff;
+        border: 0px;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+
+    .table-stats {
+        margin-bottom: 0px !important;
+    }
+
+    .table-entry tr th {
+        /* background: #b32400; */
+        background: #d85c64;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: white;
+        padding: 5px;
+    }
+
+    .table-entry tr td {
+        font-size: 13px;
+        color: #000;
+        padding: 5px;
+        font-weight: 500;
+        border-bottom: 1px solid rgb(182, 179, 179);
+    }
+
+    .table-entry tr :nth-child(even) {
+        /* background-color: #fcdcdc; */
+        /* border-bottom: 1px solid black; */
+    }
+
+    th.sorting_asc {
+        background-color: #888;
+    }
+
+    .heading-title {
+        position: relative;
+        padding-bottom: 8px;
+        font-weight: 600;
+        color: #262626 !important;
+        /* text-transform: uppercase; */
+        font-size: 18px;
+        /* font-family: 'Josefin Sans', sans-serif; */
+        margin-top: 0.5rem;
+        margin-bottom: 0.8rem;
+        margin-left: 0.5rem;
+        /* margin-left: 2rem; */
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .heading-title::after {
+        position: absolute;
+        content: "";
+        background: #C20E39;
+        height: 2px;
+        width: 230px;
+        left: 42%;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+    }
+
+    .dt-button {
+        margin-top: 31px;
+        padding: 5px 20px 5px 20px;
+    }
+
+    table.dataTable thead th,
+    table.dataTable thead td {
+        /* padding: 10px 18px; */
+        border-bottom: none;
+        text-align: center;
+    }
+    table.dataTable tbody th,
+    table.dataTable tbody td {
+        /* padding: 10px 18px; */
+        border-bottom: none;
+        /* text-align: center; */
+    }
+.loader{
+        display: none;
+        position: sticky;
+        left: 45%;
+        top: 45%;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        z-index: 999;
+        --webkit-animation:spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+    @-webkit-keyframes spin{
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin{
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+  .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: inherit;
+    margin-top: 2.2rem;
+    margin-left: 10px;
+}
+     
+</style>
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+  <link rel="stylesheet" type="text/css" href="{% static '/css/datatables/jquery.dataTables.min.css' %}" />
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"/>
+  
+</head>
+<style>
+  table.dataTable tfoot th,
+    table.dataTable tfoot td {
+        /* padding: 10px 18px; */
+        border-bottom: none;
+        text-align: center;
+    }
+</style>
+  <h3 class="report_heading">Inspection Report Of {{rly}}</h3>     
+
+
+<div class="container-fluid">
+ 
+  {% if type == 'CINOTE' or type == 'FCINOTE' or type == 'PCINOTE' %}
+  <div id="tablediv" class="box-body no-padding" >
+    <table id="tableid" name="tableid" class="table table-data table-bordered" cellspacing="0">
+        <thead style="color:white; background-color:#d85c64; text-align: left;">
+          
+        <tr>
+            <th>S.No</th>
+            <th>Inspected On</th>
+            <th>Inspection Note Number</th>
+            <th>Inspection Title</th>
+            <th>Railway</th>
+           
+            
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in insp_data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.0|date:'d-m-Y'}}</td>
+                <td>{{i.1}}</td>
+                <td>{{i.2}}</td>
+                <td>{{rly}}</td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+  </table>
+
+    <!-- /.box-body -->
+
+  </div>
+  {% elif type == 'TIPOINT' or type == 'PIPOINT' or type == 'OIPOINT' %}
+  <div id="tablediv" class="box-body no-padding" >
+    <table id="tableitem" name="tableitem" class="table table-data table-bordered" cellspacing="0">
+        <thead style="color:white; background-color:#d85c64; text-align: left;">
+          
+        <tr>
+            <th width = '10px'>S.No</th>
+            <th width = '20px'>Insp Note No.</th>
+            <th width = '15px'>Item No.</th>
+            <th width = '15px'>Date Of Inspection</th>
+            <th width = '40px'>Observation</th>
+        
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in insp_data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.0}}</td>
+                <td>{{i.1}}</td>
+                <td>{{i.2|date:'d-m-Y'}}</td>
+                <td>{{i.3}}</td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+  </table>
+
+    <!-- /.box-body -->
+
+  </div>
+  {% elif type == 'MOMISSUED' %}
+  <div id="tablediv" class="box-body no-padding" >
+    <table id="momtable" name="momtable" class="table table-data table-bordered" cellspacing="0">
+        <thead style="color:white; background-color:#d85c64; text-align: left;">
+          
+        <tr>
+            <th>S.No</th>
+            <th>Meeting Date</th>
+            <th>MOM Note No.</th>
+            <th>MOM Title</th>
+            <th>MOM Date</th>
+            <th>Meeting Type</th>
+        
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in insp_data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.created_on|date:'d-m-Y'}}</td>
+                <td>{{i.mom_note_no}}</td>
+                <td>{{i.mom_title}}</td>
+                <td>{{i.mom_date|date:'d-m-Y'}}</td>
+                <td>{{i.meeting_type}}</td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+  </table>
+
+    <!-- /.box-body -->
+
+  </div>
+
+  {% elif type == 'DOISSUED' %}
+  <div id="tablediv" class="box-body no-padding" >
+    <table id="dotable" name="dotable" class="table table-data table-bordered" cellspacing="0">
+        <thead style="color:white; background-color:#d85c64; text-align: left;">
+          
+        <tr>
+            <th>S.No</th>
+            <th>D.O Date </th>
+            <th>Letter No.</th>
+            <th>Subject</th>
+            <th>Marked To</th>
+        
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in insp_data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.do_letter_date|date:'d-m-Y'}}</td>
+                <td>{{i.do_letter_no}}</td>
+                <td>{{i.subject}}</td>
+                <td>{{i.desig_id__designation}}</td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+  </table>
+  </div>
+
+  {% elif type == 'TTASSIGNED' or type == 'TTCOMPLETED' %}
+  <div id="tablediv" class="box-body no-padding" >
+    <table id="tasktrackertable" name="tasktrackertable" class="table table-data table-bordered" cellspacing="0">
+        <thead style="color:white; background-color:#d85c64; text-align: left;">
+          
+        <tr>
+            <th>S.No</th>
+            <th>Task</th>
+            <th>Assigned To</th>
+            <th>Intimation Date</th>
+            <th>Deadline</th>
+            <th>Type Of Task</th>
+        
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in insp_data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.task_descp}}</td>
+                <td>{{i.assigned_by__rly_unit__location_code}}</td>
+                <td>{{i.init_date|date:'d-m-Y'}}</td>
+                <td>{{i.target_date|date:'d-m-Y'}}</td>
+                <td>{{i.task_type}}</td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+  </table>
+  </div>
+  {% endif %}
+</div>
+<script>
+
+     var table=$('#tableid').DataTable({
+    dom: 'Blfrtip',
+        
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+  var tableitem=$('#tableitem').DataTable({
+    dom: 'Blfrtip',
+        
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableitem').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+  var dotable=$('#dotable').DataTable({
+    dom: 'Blfrtip',
+        
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('dotable').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+
+  var momtable=$('#momtable').DataTable({
+    dom: 'Blfrtip',
+        
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('momtable').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+  
+  var tasktrackertable=$('#tasktrackertable').DataTable({
+    dom: 'Blfrtip',
+        
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('momtable').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+</script>
+{% endblock %}  

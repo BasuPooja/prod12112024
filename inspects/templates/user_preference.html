@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+
+<body>
+    <h3 class="report_heading">Set Your Preferences</h3>
+    <br>
+    <div class="container" id="container1">
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+      <div class="alert alert-success">
+        <strong>Success </strong>{{ message }}
+      </div>
+      {% elif message.tags == 'error' %}
+      <div class="alert alert-danger">
+        <strong>Error </strong>{{ message }}
+      </div>
+      {% elif message.tags == 'info' %}
+      <div class="alert alert-info">
+        <strong>Info </strong>{{ message }}
+      </div>
+      {% else %}
+  
+      {% endif %}
+  
+  
+      {% endfor %}
+      {% endif %}
+    </div>
+
+    <form method="POST"> 
+        {% csrf_token %}
+    <div class="container">
+        <div class="inpt-container" id="container1" style="padding-bottom: 10px;">
+          <div class="row" style="text-align: left; margin-left: 2em;">
+            
+            <div class="col">
+              <label for="preference_for" class="lbl-caption">Preference For</label>
+              <select class="form-control" name="preference_for" required id="preference_for" class="custom-select" data-placeholder="Select zone.."
+                style="max-width:100%;height:3em;" onchange="getPreferenceValue(this.value)">
+                {% for z in for_u %}
+                {% if z.id == '1' %}
+                <option selected value="{{z.id}}">{{z.value}}</option>
+                {% else %}
+                <option value="{{z.id}}">{{z.value}}</option>
+                {% endif %}
+                
+                {% endfor %}
+                
+              </select>
+            </div>
+
+
+            <div class="col">
+              <label for="preference_value" class="lbl-caption">Preference Value</label>
+              <select class="form-control" required name="preference_value" id="preference_value" class="custom-select" data-placeholder="Select zone.."
+                style="max-width:100%;height:3em;">
+                <option value="" selected disabled hidden>Select Preference Value</option>
+                {% for z in for_value %}
+                <option value="{{z.id}}">{{z.value}}</option>
+                {% endfor %}
+                
+              </select>
+            </div>
+           
+            
+
+            <div class="col">
+              <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                <div class="btn-group mr-2" role="group">
+                  <button type="submit" value="set" name="submit" style="height:3em;" class="btn btn-warning btn-sm">Set Preference</button> &nbsp;
+                  <button type="submit" value="reset" name="submit" style="height:3em;" class="btn btn-secondary btn-sm" >Delete</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+</form>
+
+<div class="container" style="font-family:'Lato', sans-serif">
+    <table id="mytable" class="table table-striped table-bordered table-sm table-data">
+      <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+        <tr>
+          <th>S.No.</th>
+          <th>Preference For</th>
+          <th>Preference Value</th>
+          <th>Modified Date</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in data %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{i.for_id.value}}</td>
+          <td>{{i.value_id.value}}</td>
+          <td>{{i.lastmodified | date:'d-m-Y'}}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+          </table>
+          </div>
+          
+      <script>
+        $('#mytable').DataTable();
+        function getPreferenceValue(for_id)
+        {
+        $.ajax({
+        url: '{% url "user_preference" %}',
+        method: 'GET',
+        dataType: 'JSON',
+        async: false,
+        data: { for_id },
+        success: function (res) {
+            $('#preference_value').empty();
+            let row = '<option value="" selected disabled hidden>Select Preference Value</option>';
+            console.table(res)
+            for(let i=0; i<res.length; i++)
+            {
+                row += `<option value="${res[i]['id']}">${res[i]['value']}</option>`;
+            }
+            $('#preference_value').append(row);
+        }
+      })
+        }
+      </script>
+    </body>
+
+{% endblock %}

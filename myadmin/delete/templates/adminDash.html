@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" style="margin-top:-2%;">
+{% load static %}
+
+
+<head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'inspects_staticProvider.html' %}
+
+    
+
+
+
+    <style>
+        @media only screen and (max-width: 400px) and (min-width: 300px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 17px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 450px) and (min-width: 401px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 20px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 700px) and (min-width: 451px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 25px;
+                padding-left: 0;
+                margin-left: 0;
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+
+        @media only screen and (max-width: 299px) and (min-width: 200px) {
+
+            .row h3 {
+                color: whitesmoke;
+                font-size: 10px;
+                padding-left: 0;
+                margin-left: 0;
+
+
+            }
+
+            .Container {
+                width: 100%;
+            }
+
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+        .t2{
+     font-size: 100%;
+     color: white!important;
+        }
+        .t2:hover{
+            background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+            text-transform: uppercase; 
+            font-weight: bold;
+            color:black!important;
+        }
+        .t2:hover #menu_icon{
+            color:black!important;
+        }
+        .dropdown:hover{
+            /* background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white); */
+            /* text-transform: uppercase; */
+        }
+        .dropdown:hover .dropdown-toggle{
+            font-weight: bold;
+            color:white!important;
+        }
+        .dropdown:hover .dropdown-menu{
+            display: block;
+            text-transform: none;
+        }
+        .dropdown-menu .dropdown-item:hover{
+            background-image: linear-gradient(to bottom right, rgb(98, 132, 245), white);
+            /* text-transform: uppercase; */
+        }
+        .dropdown-menu{
+            margin-top: 0;
+        }
+        
+        .menu li{
+          display:inline-block;
+          font-family: Arial;
+          padding-right: 0%;
+        }
+
+        .menu
+        {
+          /* padding:0%; */
+          margin-bottom: 0%;
+        }
+
+        .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    color: white;
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+        
+          
+    </style>
+     <script>
+        $(document).ready(function(){
+            $(".dropdown").hover(function(){
+                var dropdownMenu = $(this).children(".dropdown-menu");
+                if(dropdownMenu.is(":visible")){
+                    dropdownMenu.parent().toggleClass("open");
+                }
+            });
+        });     
+</script>
+</head>
+
+<body id="wholebody">
+    <!-- <div class=" navbar-dark bg-dark" style="margin:0 auto ;">
+
+            <font color="white"><h3 style="margin:0 auto ;height: 1em; font-family:quicksand, sans-serif; text-align: center;"><b>e-Nireekshan</b></h3></font>
+            <font color="white" align="right"><h6 style="margin-right:0 ; height: 20px; padding-right: 10px; font-family:quicksand, sans-serif">{{request.session.designation|safe}}</h6></font>
+
+</div> -->
+
+
+
+            
+           
+    
+    <style>
+
+        .sidebar{
+          position: fixed;
+          left: 0;
+          top:0;
+          height: 100%;
+          width: 240px;
+          /* background: #11101d; */
+          background: #2c3e50;
+          /* background: #12161D; */
+          z-index: 100;
+          margin-top: 3rem;
+          background: #4072CC;
+background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+        }
+        .sidebar.close{
+          width: 78px;
+        }
+        .sidebar .logo-details{
+          height: 60px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+        }
+        .sidebar .logo-details i{
+          font-size: 30px;
+          color: #fff;
+          height: 50px;
+          min-width: 78px;
+          text-align: center;
+          line-height: 50px;
+        }
+        .sidebar .logo-details .logo_name{
+          font-size: 22px;
+          color: #fff;
+          font-weight: 600;
+          transition: 0.3s ease;
+          transition-delay: 0.1s;
+        }
+        .sidebar.close .logo-details .logo_name{
+          transition-delay: 0s;
+          opacity: 0;
+          pointer-events: none;
+        }
+        .sidebar .nav-links{
+          height: 100%;
+          padding: 30px 0 150px 0;
+          overflow: auto;
+        }
+        .sidebar.close .nav-links{
+          overflow: visible;
+        }
+        .sidebar .nav-links::-webkit-scrollbar{
+          display: none;
+        }
+        .sidebar .nav-links li{
+          position: relative;
+          list-style: none;
+          transition: all 0.4s ease;
+          
+        }
+
+        .sidebar .nav-links li a i{
+          /* color: #1c81d9; */
+          color: white;
+        }
+        .sidebar .nav-links li:hover{
+          background: #1d1b31;
+        }
+        .sidebar .nav-links li .iocn-link{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          
+        }
+        .sidebar.close .nav-links li .iocn-link{
+          display: block
+        }
+        
+        .sidebar .nav-links li i{
+          height: 50px;
+          min-width: 48px;
+          text-align: center;
+          line-height: 50px;
+          color: #fff;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .sidebar.close .nav-links li i{
+          
+          min-width: 70px;
+          
+        }
+        .sidebar .nav-links li.showMenu i.arrow{
+          transform: rotate(-180deg);
+        }
+        .sidebar.close .nav-links i.arrow{
+          display: none;
+        }
+        .sidebar .nav-links li a{
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+        }
+        .sidebar .nav-links li a .link_name{
+          font-size: 14px;
+          font-weight: 400;
+          color: #fff;
+          transition: all 0.4s ease;
+        }
+        .sidebar.close .nav-links li a .link_name{
+          opacity: 0;
+          pointer-events: none;
+        }
+        .sidebar .nav-links li .sub-menu{
+          padding: 6px 6px 14px 30px;
+          margin-top: -10px;
+          background: #1d1b31;
+          display: none;
+        }
+        .sidebar .nav-links li.showMenu .sub-menu{
+          display: block;
+        }
+        .sidebar .nav-links li .sub-menu a{
+          color: #fff;
+          font-size: 15px;
+          padding: 5px 0;
+          white-space: nowrap;
+          opacity: 0.6;
+          transition: all 0.3s ease;
+        }
+        .sidebar .nav-links li .sub-menu a:hover{
+          opacity: 1;
+        }
+        .sidebar.close .nav-links li .sub-menu{
+          position: absolute;
+          left: 100%;
+          top: -10px;
+          margin-top: 0;
+          padding: 10px 20px;
+          border-radius: 0 6px 6px 0;
+          opacity: 0;
+          display: block;
+          pointer-events: none;
+          transition: 0s;
+        }
+        .sidebar.close .nav-links li:hover .sub-menu{
+          top: 0;
+          opacity: 1;
+          pointer-events: auto;
+          transition: all 0.4s ease;
+        }
+        .sidebar .nav-links li .sub-menu .link_name{
+          display: none;
+        }
+        .sidebar.close .nav-links li .sub-menu .link_name{
+          font-size: 18px;
+          opacity: 1;
+          display: block;
+        }
+        .sidebar .nav-links li .sub-menu.blank{
+          opacity: 1;
+          pointer-events: auto;
+          padding: 3px 20px 6px 16px;
+          opacity: 0;
+          pointer-events: none;
+        }
+        .sidebar .nav-links li:hover .sub-menu.blank{
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        .sidebar .profile-details{
+          position: fixed;
+          bottom: 0;
+          width: 260px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: #1d1b31;
+          padding: 12px 0;
+          transition: all 0.5s ease;
+        }
+        .sidebar.close .profile-details{
+          background: none;
+        }
+        .sidebar.close .profile-details{
+          width: 78px;
+        }
+        .sidebar .profile-details .profile-content{
+          display: flex;
+          align-items: center;
+        }
+        .sidebar .profile-details img{
+          height: 52px;
+          width: 52px;
+          object-fit: cover;
+          border-radius: 16px;
+          margin: 0 14px 0 12px;
+          background: #1d1b31;
+          transition: all 0.5s ease;
+        }
+        .sidebar.close .profile-details img{
+          padding: 10px;
+        }
+        .sidebar .profile-details .profile_name,
+        .sidebar .profile-details .job{
+          color: #fff;
+          font-size: 18px;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+        .sidebar.close .profile-details i,
+        .sidebar.close .profile-details .profile_name,
+        .sidebar.close .profile-details .job{
+          display: none;
+        }
+        .sidebar .profile-details .job{
+          font-size: 12px;
+        }
+        .home-section{
+          position: relative;
+          height: 100vh;
+          left: 260px;
+          top:48px;
+          width: calc(100% - 260px);
+          transition: all 0.5s ease;
+        }
+        .sidebar.close ~ .home-section{
+          left: 78px;
+          width: calc(100% - 78px);
+        }
+        .home-section .home-content .bx-menu,
+        .home-section .home-content .text{
+          color: #11101d;
+          font-size: 35px;
+        }
+        .home-section .home-content .bx-menu{
+          margin: 0 0%;
+          cursor: pointer;
+        }
+        .home-section .home-content .text{
+          font-size: 26px;
+          font-weight: 600;
+        }
+        @media (max-width: 400px) {
+          
+          .sidebar{
+            width: 100%;
+            height:auto;
+          }
+          .sidebar.close{
+            width: 0;
+          }
+          .home-section{
+            left: 78px;
+            width: calc(100% - 78px);
+            
+          }
+          /* .sidebar.close ~ .home-section{
+            width: 100%;
+            left: 0;
+          }*/
+        } 
+        nav ul{
+          list-style: none;
+        }
+        .listRight {
+    left: auto !important;
+    right: 0 !important;
+}
+
+.colornav{
+background-color: #3f51b5;
+background-image: -webkit-linear-gradient(left,#3f51b5,#03a9f4);
+background-image: linear-gradient(to right,#3f51b5,#03a9f4);
+}
+        
+        </style>
+        <div class=" navbar-dark bg-dark mb-2 sticky-top colornav" style="margin:0 auto ;">
+          <ul class="navbar" style="list-style: none;padding: 0rem 1rem;">
+            
+            <ul style="padding: 0 !important;">
+              <li style="display:inline-block;">
+                
+                <i class='bx bx-menu' style="color: #fff; "></i>
+                
+            </li>
+              <li style="display:inline-block;"> <h2 style="color:#fff; font-family:quicksand, sans-serif; padding-left: 0%;text-align: Left;font-size: 1.2rem;font-weight: 500;">e-Inspection</h2>
+              </li>
+              
+              <li style="display:inline-block;">
+                
+              </li>
+              <!-- <li class="nav-item dropdown" style="display:inline-block;">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class='bx bxs-help-circle ml-2' style="color: #fff;"></i> </a>
+                <div class="dropdown-menu dropdown-menu-left">
+                    <a href="/help_menu" class="dropdown-item">Document</a>
+                    <a href="/help_menu_videos" class="dropdown-item">Videos</a>
+                    
+            </li> -->
+            </ul>
+            
+            
+            <ul style="padding: 0 !important;float: right;">
+            <!-- <li style="display:inline-block;">
+              <h4 style="margin:0%;color:#fff; font-family:quicksand,font-weight-bold, sans-serif">{{request.session.designation|safe}}</h4>
+           </li> -->
+           </ul>
+           <ul>
+            <li style="display:inline-block;">
+              <h4 style="margin:0%;color:#fff; font-family:quicksand,font-weight-bold, sans-serif;font-size:16px;font-weight:600;">Welcome&nbsp; 
+                {% if request.user.last_name == null %}
+                {{request.user.first_name}}
+                {% else %}
+                {{request.user.first_name}} {{request.user.last_name}}
+                {% endif %}</h4>
+           </li>
+           <li class="nav-item dropdown" style="display:inline-block;">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img src="/static/images/profile2.webp" class="rounded-circle" style="width: 2.00rem;"
+              alt="Profile" style="padding: 0 !important;"/></a>
+            <div class="dropdown-menu dropdown-menu-left" style="padding-right: 50%;">
+                <!-- <a href="/viewDetail" class="dropdown-item">View Profile</a>
+                <a href="/inspect_changePassword" class="dropdown-item">Change Password</a>
+                <div class="dropdown-divider"></div>
+                <a href='/inspect_logout'  onclick='logoutConfirm();' class="dropdown-item">Logout</a> -->
+
+                <a href="{% url 'masterTable' %}" class="dropdown-item"><i
+                  class="fa fa-fire"></i>E-Inspection</a>
+                  <a href="{% url 'roster' %}" class="dropdown-item"><i
+                      class="fa-calender"></i>Roster</a>
+                      <a  href="{% url 'adminuserHome' %}" class="dropdown-item" style="text-decoration: none;">Inspection
+                      </a>
+              <a href="{% url 'admin_changePassword' %}" class="dropdown-item"><i
+                      class="fas fa-key my-icon-left"></i>Change Password</a>
+              <a href="{% url 'admin_logout' %}" class="dropdown-item" style="text-decoration: none;"
+                  onclick="return logoutConfirm();"><i class="fas fa-sign-out-alt my-icon-left"></i>
+                  Logout</a>
+
+
+            </div>
+        </li></ul>
+           
+ 
+          </ul>
+      
+          <!-- <font color="white">
+          <h2 style="margin:0 auto ;height: 1em; font-family:quicksand, sans-serif; padding-left: 5%;text-align: Left;">
+          e-Inspection</h2>
+            
+          </font>
+          <font color="white" align="right">
+            <h4 style="margin-right:0 ; height: 3%; padding-right: 1%; font-family:quicksand, sans-serif">{{request.session.designation|safe}}</h4>
+          </font>
+         -->
+        </div>
+        <div class="sidebar" style="top:48px; margin:0%;">
+          
+          <!-- <div class="logo-details">
+            <i class='bx bx-menu' ></i>
+            <span class="logo_name">{{request.session.designation|safe}}</span>
+          </div> -->
+          <ul class="nav-links">
+          {% if request.session.phase == '3' %}
+            {{request.session.nav1|safe}} 
+          {% else %}
+            {{request.session.nav|safe}} 
+          {% endif %}
+          
+            
+          </ul>
+        </div>
+        <section class="home-section">
+          <div class="home-content">
+            {% block content%}      
+            
+  
+            {% endblock content%}'
+            
+            <div class="row"><br><br></div>
+            <div id="loading-modal" class="modal fade">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+              <div class="modal-body" align="center">
+              <img src="loading_data1.gif" class="img img-responsive img-fluid" />
+              <p style="font-size:12px;font-weight:600;margin-bottom:2px;margin-top:1rem;">Please wait, while we're processing your request..</p>
+              </div>
+              </div>
+              </div>
+              </div>
+            <div class="row">
+              <!-- <div class="navbar-dark bg-dark sticky-bottom" style="position:fixed ;left: 0;bottom: 0;width: 100%;text-align: center;">
+              
+                {% if request.session.d_level == 'CRB' %}
+                <div class="menu" id="xyz">
+                  <ul>
+                    <li ><a style="color: white;" href="https://railmadad.indianrailways.gov.in/madad/final/home.jsp"> Rail Madad | </a></li>
+                    <li><a style="color: white;"  href=""> Parliament Reference | </a></li>
+                    <li><a style="color: white;"  href="">VIP Reference | </a></li>
+                    <li><a style="color: white;"  href="https://edrishti.indianrailways.gov.in/eDrishti/login.jsp"> E-drishti </a></li><br>
+                    
+              
+                </div>
+                {% endif %}
+                <div >
+                  
+                  <center><span style="color:white; font-size: 12px;">Designed and Developed by Centre for Railway Information Systems, Ministry of Railways
+                  </span></center>
+    
+                </div>
+              </div>  -->
+            </div>
+  
+          </div>
+          </section>
+        <script>
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+          arrow[i].addEventListener("click", (e)=>{
+         let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+         arrowParent.classList.toggle("showMenu");
+          });
+        }
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", ()=>{
+          sidebar.classList.toggle("close");
+        });
+        </script>    
+    
+   
+    
+    <!-- <br> -->
+    <!-- <input type="text" id="userrole" name="userrole" value="{{userrole}}" hidden> -->
+
+    <!-- <br>
+    <br> -->
+
+    <!-- <div class="navbar-dark bg-dark mt-5 sticky-bottom" style="position:fixed ;left: 0;bottom: 0;width: 100%;text-align: center;">
+      
+      {% if request.session.d_level == 'CRB' %}
+      <div class="menu" id="xyz">
+        <ul>
+          <li ><a style="color: white;" href="https://railmadad.indianrailways.gov.in/madad/final/home.jsp"> Rail Madad | </a></li>
+          <li><a style="color: white;"  href=""> Parliament Reference | </a></li>
+          <li><a style="color: white;"  href="">VIP Reference | </a></li>
+          <li><a style="color: white;"  href="https://edrishti.indianrailways.gov.in/eDrishti/login.jsp"> E-drishti </a></li><br>
+          
+     
+      </div>
+      {% endif %}
+      <div >
+        
+        <center><span style="color:white;">This Website Developed and Maintained by: Centre For Railway Information Systems, An Organization Of The
+            Ministry Of Railways.
+        </span></center>
+    </div>
+  </div>  -->
+    <script>
+    function logoutConfirm() {
+      var user_choice = window.confirm('Would you like to Logout?');
+      if (user_choice == true) {
+
+        $.ajax({
+          type: 'POST',
+          url: '/inspect_logout/',
+          dataType: 'json',
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+          },
+          success: function (json) {
+            window.location = '/';
+          },
+          error: function (data, err) { }
+        });
+      } else { }
+    }
+
+
+    $(document).ready(function () {
+      StartTimers();
+    });
+
+    var sdig = 0;
+    var timoutWarning = 2700000;
+    var timoutNow = 3500000;
+    var warningTimer;
+    var timeoutTimer;
+    // Start timers.
+    function StartTimers() {
+      warningTimer = setTimeout("IdleWarning()", timoutWarning);
+      timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
+    }
+    // Reset timers.
+    function ResetTimers() {
+      clearTimeout(warningTimer);
+      clearTimeout(timeoutTimer);
+      StartTimers();
+
+    }
+    // Show idle timeout warning dialog.
+    function IdleWarning() {
+      alert('Session about to get over, Refresh to stay logged in');
+    }
+    // Logout the user.
+    function IdleTimeout() {
+        $.ajax({
+            type: 'POST',
+            url: '/inspect_logout/',
+            dataType: 'json',
+            data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (json) {
+              window.location = '/';
+            },
+            error: function (data, err) { }
+          });
+    }
+    $(document).click(function () {
+      ResetTimers();
+    });
+    $(document).mousemove(function () {
+      ResetTimers();
+    });
+    $(document).keypress(function (event) {
+      ResetTimers();
+      });
+
+    $(window).scroll(function (event) {
+      ResetTimers();
+    });
+
+
+    </script>
+</body>
+
+</html>

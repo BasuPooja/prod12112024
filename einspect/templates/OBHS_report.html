@@ -1,0 +1,539 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBHS Report</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}" ></script>
+    <script src="{% static '/js/popper.min.js' %}" ></script>
+    <script src="{% static '/js/Chart.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}" ></script>
+    <script src="{% static '/js/bootstrap.min.js' %}" ></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+    <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+    <script src="{% static '/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+    <script src="{% static '/js/moment.min.js' %}"></script>
+
+    <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static '/js/sweetalert.min.js' %}"></script>
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+    <script src="{% static '/js/jquery.min1.js' %}"></script>
+    <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+    <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}"  />
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}"  />
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}"  />
+    
+    <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+<script src="{% static '/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+    
+  <!-- swasti link -->
+
+  <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+ <link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+ <script type="text/javascript" src="{% static '/js/dataTables.fixedColumns.min.js' %}"></script>
+ <link rel="stylesheet" type="  text/css" href="{% static '/css/dataTables.fixedColumns.min.css' %}" />
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+ <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+
+ <!-- <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}"> -->
+
+ <!-- datatable pdf links -->
+
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"/>  
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css"/> -->
+  
+  
+<style>
+
+th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        /* width: 800px; */
+        margin: 0 auto;
+    }
+
+    .inpt-container
+{
+    background-image: linear-gradient(#cce3fc,#FFFFFF);
+    border-bottom:2px solid #b0d8f5;
+    margin-bottom:1rem;
+}
+
+h3.report_heading
+    {
+    position: relative;
+    padding-bottom: 10px;
+    font-weight: 600;
+    color: #262626 !important;
+    text-transform: uppercase;
+    font-size: 18px;
+    /* margin-left: 2rem; */
+    text-align: center;
+}
+.report_heading::after {
+    position: absolute;
+    content: "";
+    background: #C20E39;
+    height: 3px;
+    width: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+}
+
+
+</style>
+</head>
+
+<body>
+
+    <div>
+        <h3 id="h6" class="report_heading">Train OBHS Performance Rating Search</h3>
+    </div>
+    
+    <div class="container">
+        
+        <div class="container inpt-container mt-5" id="filterForm">
+            <form method="POST"  id="filter">
+                {%csrf_token%}
+                <div class="row">
+
+                    <div class="col-lg-3">
+                        <label class="lbl-caption" for="exampleFormControlSelect1">Train</label>
+                        <select class="form-control select2" id="tr" data-live-search="true" data-actions-box="true">
+                        <option>Select Train</option>
+                        {% for i in tr %}
+                        <option value="{{i.train_no}}">{{i.train_no}} {{i.train_name}}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label class="lbl-caption">From Date</label>
+                            <input type="text" autocomplete="off" placeholder="Select Date" class="form-control" id="dateofInsp1" name="dateofInsp" readonly style="height: 3vh; font-size: 14px;">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="lbl-caption" >To Date</label>
+                                <br>
+                                <input type="text" autocomplete="off" placeholder="Select Date" class="form-control" id="dateofInsp2" name="dateofInsp" readonly style="height: 3vh; font-size: 14px;">
+                            </div>
+                    </div>
+                    
+                    <div class="col-lg-5">
+                        <div class="btn-toolbar float-right" role="toolbar" style="margin-top:30px;">
+                            <div class="btn-group mr-2" role="group">
+                                <button type="button" class="btn btn-warning btn-sm" id="search_filter"onclick="searchOBHS()">Continue</button>           
+                                <button type="button" class="btn btn-secondary btn-sm" type="reset" id="btnReset" onclick="resetEntries(this)" value="submit">Reset</button>
+                            </div> 
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    
+        <div class="container mt-5">
+            <div class="row" style="background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);  color: black ;font-weight: bold;height: 40px; vertical-align: middle;">
+              <div class="col-lg-6 my-1">
+                <div class="row ml-1">
+                  Show      
+                  <div class="col-lg-5">
+                    <select name="category" class="form-control-sm" id="selectedCategory" style="width:100%;">
+                      <option value="" selected="selected" disabled>Select</option>
+                      <option>10</option>
+                      <option>50</option>
+                    </select>
+                  </div>
+                  Entries
+                </div>
+              </div>       
+          
+              <div class="col-lg-6 my-1">
+                <div class="row float-right mr-2">
+                    <button class="btn btn-sm bg-white mr-2" style="height:30px; margin-top: 2px;" type="button" id="filterButton" value="filter" onclick="show_filters(this.val)" >
+                      <i class="fa fa-filter fa-sm"></i>
+                      Toggle Filter
+                    </button>
+                            
+                    <div class="form-inline float-right">         
+                      <div>
+                        <input type="text" class="form-control form-control-sm" id="myInput" placeholder="Search Text..." >
+                      </div>
+                      <div>
+                        <i class="fa-solid fa-print my-2 mx-2" onclick="window.print();"></i>
+                      </div>          
+                    </div>
+                  </div>
+                </div>
+              </div> 
+          </div>  
+    
+            
+        <table class="table table-bordered table-sm table-hover table-data" id="tableshow" cellspacing="0" >
+            <thead id="thead_IC " style="font-size:0.95em; background-color: #f7f1e8; "> </thead>        
+            <tbody id="tbody_IC" style="font-size:0.9em;  ">  </tbody>    
+        </table>
+        
+    </div>
+    
+
+
+</body>
+
+<script>
+  $('.select2').select2();
+</script>
+
+<script>
+    $(document).ready(function() {
+
+
+        $('#filterForm').show();
+
+        $("#myInput").on("keyup", function(){
+        var value = $(this).val().toLowerCase();
+        $("#tbody_IC tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+    });
+
+    });
+      
+      var currentdate=new Date();
+      var startdate=moment().subtract(7, 'days')
+      var enddate=moment()
+      $("#dateofInsp1").val(startdate.format('DD-MM-YYYY'))
+      $("#dateofInsp2").val(enddate.format('DD-MM-YYYY'))
+      $( "#dateofInsp1" ).datepicker({ 
+        maxDate: currentdate,
+        enddate:"currentdate",
+        dateFormat: "dd-mm-yy",
+        changeMonth : true, 
+        changeYear : true,
+        todayHighlight: true,
+        clearBtn:true
+     
+      });
+
+      $('#dateofInsp1').change(function(){
+        var dateofInsp1 = $('#dateofInsp1').val();
+        console.log("hii",dateofInsp1)
+        var currentdate=new Date();
+        $("#dateofInsp2").val(currentdate.getDate() + "-" + parseInt(currentdate.getMonth() + 1) + "-" + currentdate.getFullYear())
+        $( "#dateofInsp2" ).datepicker({ 
+        maxDate: currentdate,
+        minDate: dateofInsp1,
+        // startDate: dateofInsp1,
+        dateFormat: "dd-mm-yy",
+        changeMonth : true,
+        changeYear : true,
+        todayHighlight: true 
+      });
+      })
+
+var fromdate=$('#dateofInsp1').val();
+var todate=$('#dateofInsp2').val();
+var tr=$('#tr').val();
+      data={
+          'fromdate':fromdate,
+          'todate':todate,
+          'tr':tr,
+      }
+
+      $.ajax({
+        
+        url: '{% url "searchOBHS" %}',
+        dataType: 'json',
+        type: 'GET',
+        data: data,
+        success: function(response)
+        {
+          ans=response.ans
+          bo1=response.bo1
+          abn1=response.abn
+          console.log(response)
+          let header=response.ans
+          console.log(header)
+
+          $('#tableshow thead').empty();
+          $('#tableshow tbody').empty();
+          var ro='';
+          var row='';
+          var ctr=0;
+
+          ro += `<tr style="border:1px solid black;">`;
+                    ro += `
+                        
+                        <th style="border:1px solid black;" scope="col">Abnormality</th>;`
+                    for (const [key, value] of Object.entries(header)) {
+                        for (const [key1, value1] of Object.entries(value))
+                            ro += `<th scope="col">${key1}</th>`;
+                    break;
+                 }
+          ro += `</tr>`;
+          $('#tableshow thead').append(ro);
+          var table = $("#tableshow").DataTable()
+          table.destroy()
+          $('#tableshow tbody').empty();
+
+          
+
+         
+
+
+          for (const [key, value] of Object.entries(header)) {
+             
+
+              row += `<tr style="border:1px solid black;>`;
+              row += `<td style="border:1px solid black;" scope="col" >${++ctr}</td>`;
+              row += `<td style="border:1px solid black;" scope="col">${key}</td>`;
+              console.log(key)
+              for (const [key1, value1] of Object.entries(value)) {
+                  row +=`<td style="border:1px solid black;" scope="col">${value1}</td>`;
+              }
+              row += `</tr>`;
+          }
+          //table.destroy();
+  
+          
+          $('#tableshow tbody').append(row);
+          // document.getElementById("ctr").innerHTML = ctr;
+
+          table=$('#tableshow').DataTable({
+           
+                pageLength : 10,
+                "lengthChange": false,
+                searching: false, 
+                pagingType: "simple",
+                "language": {
+               "info": "Page _PAGE_ of _PAGES_",
+
+                },
+         
+     
+            });
+
+        }
+
+      })
+      
+    });
+
+$(':input[readonly]').css({'background-color':'white'});
+
+// $('#btnReset').click(function(){
+//   $('#tr').val('');
+//   $('#dateofInsp1').val('');
+//   $('#dateofInsp2').val('');
+//   $('#tableshow').dataTable().fnClearTable();
+
+//   $('#tableshow').dataTable().fnDestroy();
+//   var table=$('#tableshow').DataTble({
+//     searching:false,
+//     paging:false,
+//   });
+
+//   document.getElementById("ctr").innerHTML=0;
+
+// })
+
+
+//   var table; 
+   
+ function show_filters(val){
+    $('#filterForm').toggle();
+ }
+ 
+  function searchOBHS(){
+  
+    // if(table instanceof $.fn.DataTable.Api)
+    // {
+    //   table.destroy();
+    // }
+    // $('#tableshow thead').empty();
+    // $('#tableshow tbody').empty();
+
+    // $('#tableshow').empty();
+
+      var fromdate=$('#dateofInsp1').val();
+      var todate=$('#dateofInsp2').val();
+      var tr=$('#tr').val()
+      $('#tableshow tbody').empty();
+      data={
+          'fromdate':fromdate,
+          'todate':todate,
+          'tr':tr,
+      }
+
+      $.ajax({
+        
+        url: '{% url "searchOBHS" %}',
+        dataType: 'json',
+        type: 'GET',
+        data: data,
+        success: function(response)
+        {
+          ans=response.ans
+          bo1=response.bo1
+          abn1=response.abn
+          console.log(response)
+          let header=response.ans
+          console.log(header)
+          $('#tableshow thead').empty();
+          var ro='';
+          var row='';
+         
+
+          ro += `<tr style="border:1px solid black;">`;
+                    ro += `
+                        
+                        <th style="border:1px solid black;" scope="col">Abnormality</th>;`
+                    for (const [key, value] of Object.entries(header)) {
+                        for (const [key1, value1] of Object.entries(value))
+                            ro += `<th style="border:1px solid black; scope="col">${key1}</th>`;
+                    break;
+                 }
+          ro += `</tr>`;
+
+          $('#tableshow thead').append(ro);
+
+          var table = $("#tableshow").DataTable()
+          table.destroy()
+          $('#tableshow tbody').empty();
+                  
+
+          var ctr=0;
+          for (const [key, value] of Object.entries(header)) {
+             
+
+              row += `<tr style="border:1px solid black;>`;
+           
+              row += `<td style="border:1px solid black;" scope="col" >${++ctr}</td>`;
+              row += `<td style="border:1px solid black;" scope="col">${key}</td>`;
+              console.log(key)
+              for (const [key1, value1] of Object.entries(value)) {
+                  row +=`<td style="border:1px solid black;" scope="col">${value1}</td>`;
+              }
+              row += `</td>`;
+
+              
+          }
+
+          $('#tableshow tbody').append(row);
+          //table.destroy();
+  
+          // $('#tableshow thead').append(ro);
+   
+          // document.getElementById("ctr").innerHTML = ctr;
+          table=$('#tableshow').DataTable({
+                pageLength : 10,
+                "lengthChange": false,
+                searching: false, 
+                pagingType: "simple",
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",             
+                },
+
+            });
+        }
+      })
+      
+    }
+
+    function resetEntries(e){
+      $('#tr').val('')
+      var currentdate=new Date();
+      var startdate=moment().subtract(7, 'days')
+      var enddate=moment()
+      $("#dateofInsp1").val(startdate.format('DD-MM-YYYY'))
+      $("#dateofInsp2").val(enddate.format('DD-MM-YYYY'))
+      $( "#dateofInsp1" ).datepicker({ 
+        maxDate: currentdate,
+        enddate:"currentdate",
+        dateFormat: "dd-mm-yy",
+        changeMonth : true, 
+        changeYear : true,
+        todayHighlight: true,
+        clearBtn:true
+     
+      });
+      $('#dateofInsp1').change(function(){
+        var dateofInsp1 = $('#dateofInsp1').val();
+        console.log("hii",dateofInsp1)
+        var currentdate=new Date();
+        $("#dateofInsp2").val(currentdate.getDate() + "-" + parseInt(currentdate.getMonth() + 1) + "-" + currentdate.getFullYear())
+        $( "#dateofInsp2" ).datepicker({ 
+        maxDate: currentdate,
+        minDate: dateofInsp1,
+        // startDate: dateofInsp1,
+        dateFormat: "dd-mm-yy",
+        changeMonth : true,
+        changeYear : true,
+        todayHighlight: true 
+      });
+      })
+      table=$('#tableshow').DataTable({
+                pageLength : 10,
+                "lengthChange": false,
+                searching: false, 
+                pagingType: "simple",
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",             
+                },
+
+            });
+
+      table.destroy()
+     
+      searchOBHS()
+}
+
+
+
+  </script>
+  
+</html>
+{% endblock content %}

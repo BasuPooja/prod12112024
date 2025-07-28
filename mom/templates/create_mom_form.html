@@ -1,0 +1,1419 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<head>
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script> 
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+            
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">	
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+  
+  </head>
+  
+  <style>
+   .bootstrap-select.btn-group .dropdown-menu.inner,	
+  .dropdown-menu.open {	
+    min-height: 70vh !important;} 
+  
+    .btn-save {	
+    align-items: center;	
+    background-clip: padding-box;	
+    background-color: #fa6400;	
+    border: 1px solid transparent;	
+    border-radius: .25rem;	
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;	
+    box-sizing: border-box;	
+    color: #fff;	
+    cursor: pointer;	
+    display: inline-flex;	
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;	
+    font-size: 16px;	
+    font-weight: 600;	
+    justify-content: center;	
+    line-height: 1.25;	
+    margin: 0;	
+    min-height: 3rem;	
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);	
+    position: relative;	
+    text-decoration: none;	
+    transition: all 250ms;	
+    user-select: none;	
+    -webkit-user-select: none;	
+    touch-action: manipulation;	
+    vertical-align: baseline;	
+    width: auto;	
+  }	
+  .btn-save:hover,	
+  .btn-save:focus {	
+    background-color: #fb8332;	
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;	
+  }	
+  .btn-save:hover {	
+    transform: translateY(-1px);	
+  }	
+  .btn-save:active {	
+    background-color: #c85000;	
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;	
+    transform: translateY(0);	
+  }	
+  .btn-draft {	
+    align-items: center;	
+    background-clip: padding-box;	
+    background-color: #666699;	
+    border: 1px solid transparent;	
+    border-radius: .25rem;	
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;	
+    box-sizing: border-box;	
+    color: #fff;	
+    cursor: pointer;	
+    display: inline-flex;	
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;	
+    font-size: 16px;	
+    font-weight: 600;	
+    justify-content: center;	
+    line-height: 1.25;	
+    margin: 0;	
+    min-height: 3rem;	
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);	
+    position: relative;	
+    text-decoration: none;	
+    transition: all 250ms;	
+    user-select: none;	
+    -webkit-user-select: none;	
+    touch-action: manipulation;	
+    vertical-align: baseline;	
+    width: auto;	
+  }	
+  .btn-draft:hover,	
+  .btn-draft:focus {	
+    background-color: #666699;	
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;	
+  }	
+  .btn-draft:hover {	
+    transform: translateY(-1px);	
+  }	
+  .btn-draft:active {	
+    background-color: #666699;	
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;	
+    transform: translateY(0);	
+  }	
+  .modal-title	
+  {	
+    font-size:1rem;	
+    font-weight:600;	
+  }	
+  .copy-link	
+  {	
+    cursor:pointer;	
+    text-decoration: none;	
+    font-weight:600;	
+    color:#0059b3;	
+    font-size:13px;	
+  }	
+  .table-inpt-fields td {padding:0px;border:0px;padding-left:10px;}
+  
+  
+    * {
+    box-sizing: border-box;
+  }
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Style the search field */
+  form.example input[type=text] {
+    padding: 8px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 60%;
+    background: #f1f1f1;
+  }
+  
+  /* Style the submit button */
+  form.example button {
+    float: left;
+    width: 15%;
+    padding: 8px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+  }
+  
+  form.example button:hover {
+    background: #0b7dda;
+  }
+  
+  /* Clear floats */
+  form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+  }        
+  </style>
+  
+  <style>
+   
+   
+  #s2id_desig .select2-default {
+    color: rgb(89, 255, 0) !important;
+  }
+  
+  .autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+  }
+  
+  .autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
+  .autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9;
+  }
+  .autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+  }
+  
+  .select2-selection__choice__remove{
+    border: none;
+  }
+  
+  .multi_select_box{
+    width: 150px;
+    margin: 1px auto;
+  }
+  .multi_select_box select{
+    width: 100%;
+  }
+  .multi_select_box button{
+    background-color: darkslategray !important;
+    color: #fff !important;
+  }
+  
+  .home-section .home-content .text{
+      font-size: 15px;
+      font-weight: 400;
+    }
+  
+   
+    .bootstrap-select.form-control-sm .dropdown-toggle {
+      height: 2.8em;
+    }
+  
+    .select2-search--inline {
+      display: contents; /*this will make the container disappear, making the child the one who sets the width of the element*/
+  }
+  
+  .select2-search__field:placeholder-shown {
+      width: 100% !important; /*makes the placeholder to be 100% of the width while there are no options selected*/
+  }
+  
+    .mycls{
+      display: inline-flex;
+    }
+      
+  
+   .strikeout  {
+    text-decoration: line-through;
+    text-decoration-color: red;
+  }
+  .strikeoutbg  {
+    background-color: lightyellow;
+  }
+  
+  </style>
+
+<body>
+    <div class="container">
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div class="alert alert-success">
+            <strong>Success: </strong>{{ message }}
+        </div>
+        {% elif message.tags == 'error' %}
+        <div class="alert alert-danger">
+            <strong>Error: </strong>{{ message }}
+        </div>
+        {% elif message.tags == 'info' %}
+        <div class="alert alert-info">
+            <strong>Info: </strong>{{ message }}
+        </div>
+        {% else %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <h3 class="report_heading">Create Minutes Of Meetings</h3><br>
+
+    <div class="container">
+
+        <div class="container inpt-container" id="container1" style="margin-bottom:3% ; padding-bottom: 10px; ">
+            <input id="dis_id" value="{{str}}" hidden>
+            {% if str == 'NoRB' %}
+            <div class="row">
+
+                <div class="col-lg-10">
+                    <label for="mdate" class="lbl-caption">MOM Title<span
+                            style="color:red;font-weight:bold">*</span></label>
+                    <textarea class="form-control " maxlength="500"
+                        placeholder="Enter title without date within 500 characters" id="titleMOM" name="titleMOM"
+                        required></textarea>
+                    <!-- <input type='text' style="background-color: #fff;" id='mdate' name="mdate" placeholder="dd/mm/yyyy" class="form-control" readonly required> -->
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+                <div class="col-lg-2">
+                    <label for="type" class="lbl-caption">Meeting Type<span
+                            style="color:red;font-weight:bold">*</span></label>
+                    <select class="form-control" name="type" id="type" class="custom-select" required >
+                        <option value="" selected disabled>Select Meeting Type</option>
+                        {% for t in meeting %}
+                        <option value="{{t.meeting_type}}">{{t.meeting_type}}</option>
+                        {% endfor %}
+                        <!-- <option value="other">Other</option> -->
+                    </select>
+                    <p style="font-size: 12px;">Note: To add a new Meeting Type, type the value in the search box and enter.</p>
+                    <!-- <textarea class="form-control " maxlength="50"
+                        placeholder="Enter Meeting Type" id="typenew" name="typenew"
+                        required style="margin-top:1% ; height: 35px;"></textarea> -->
+                </div>
+
+                <div class="col-lg-10">
+                    <label for="officer" class="lbl-caption">Member(s) Present<span
+                            style="color:red;font-weight:bold">*</span></label><br>
+                    <select class="form-control" id="officer" name="officer" multiple required>
+                        {% for o in officer %}
+                        <option value="{{o.designation}}">{{o.designation}}</option>
+                        {% endfor %}
+                    </select>
+                    <p style="font-size: 12px;">Note: To add a new member, type the Designation in the search box and enter.</p>
+
+                </div>
+
+                <div class="col-lg-2">
+                    <label for="mdate" class="lbl-caption">Date of Meeting<span
+                            style="color:red;font-weight:bold">*</span></label>
+                    <input type='text' style="background-color: #fff;" id='mdate' name="mdate" placeholder="dd/mm/yyyy"
+                        class="form-control" readonly required>
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="row">
+
+                <div class="col-lg-8">
+                    <label for="officer" class="lbl-caption">Member(s) Present<span
+                            style="color:red;font-weight:bold">*</span></label><br>
+                    <select class="form-control" id="officer" name="officer" multiple required>
+                        {% for o in officer %}
+                        <option value="{{o.designation}}">{{o.designation}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <label for="mdate" class="lbl-caption">Date of Meeting<span
+                            style="color:red;font-weight:bold">*</span></label>
+                    <input type='text' style="background-color: #fff;" id='mdate' name="mdate" placeholder="dd/mm/yyyy"
+                        class="form-control" readonly required>
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- <div class="container inpt-container" id="container1" style="margin-bottom:5%;">
+            <input id="dis_id" value="{{str}}" hidden>
+            {% if str == 'NoRB' %}
+            <div class="row" style="padding-left:10%;padding-right:10%">
+                <div class="col" style="max-width:30%">
+                    <label for="type" class="lbl-caption">Meeting Type<span style="color:red;font-weight:bold">*</span></label>
+                    <select class="form-control" name="type" id="type" class="custom-select" required>
+                    {% for t in meeting %}
+                        <option value="{{t.meeting_type}}">{{t.meeting_type}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col" style="max-width:50%">
+                    <label for="officer" class="lbl-caption">Member(s) Present<span style="color:red;font-weight:bold">*</span></label><br>
+                    <select class="form-control" id="officer" name="officer" style="max-width: 60%;" multiple required>
+                    {% for o in officer %}
+                        <option value="{{o.designation}}">{{o.designation}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col" style="max-width:20%">
+                    <label for="mdate" class="lbl-caption">Date of Meeting<span style="color:red;font-weight:bold">*</span></label>
+                    <input type='text' id='mdate' name="mdate" placeholder="dd/mm/yyyy" class="form-control" readonly required>
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            {% else %}
+            <div class="row" style="padding-left:20%;">
+                <div class="col">
+                    <label for="officer" class="lbl-caption">Member(s) Present<span style="color:red;font-weight:bold">*</span></label><br>
+                    <select class="form-control" id="officer" style="max-width:60%;" name="officer" multiple required>
+                    {% for o in officer %}
+                    <option value="{{o.designation}}">{{o.designation}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="mdate" class="lbl-caption" >Date of Meeting<span style="color:red;font-weight:bold">*</span></label>
+                    <input type='text' id='mdate' name="mdate" style="max-width:50%;" placeholder="dd/mm/yyyy" class="form-control" readonly required>
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+        </div> -->
+
+        <form action="{% url 'create_mom_form' %}" method="POST">
+            {% csrf_token %}
+
+            <table id="createTable" class="table table-striped table-bordered center table-input">
+                <thead>
+                    <tr style="margin-left: 5em;">
+                        <th
+                            style="text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">
+                            S.No.</th>
+                        <th
+                            style="text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 45%">
+                            Minutes Of Meeting<span style="color: red;">*</span></th>
+                        <th
+                            style="text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 30%;">
+                            Dealt By</th>
+                        <th
+                            style="text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">
+                            Target Date</th>
+                        <th
+                            style="text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">
+                            Priority</th>
+                    </tr>
+                </thead>
+                <tbody id="addworkmech">
+                </tbody>
+            </table>
+            <div>
+                <button type="button" class="btn btn-primary" name="addH" onclick="changeColorBtn(this);" id="addH">Add
+                    Para</button>
+                <button type="button" class="btn btn-primary" name="addSH" onclick="changeColorBtn(this);"
+                    id="addSH">Add Sub Para</button>
+                <button type="button" class="btn btn-primary" name="addD" onclick="changeColorBtn(this);" id="addD">Add
+                    Sub Subpara</button>
+                <button type="button" class="btn btn-danger btn-md" id="delete">Delete</button>
+            </div>
+        </form>
+    </div><br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <label for="copyto">Copy To</label>
+                <select class="form-control " id="copyto" name="copyto" multiple required>
+                    {% if type == 'RB' %}
+                    {% for c1 in copy1 %}
+                    <option value="{{c1.designation_code}}" selected>{{c1.designation}}</option>
+                    {% endfor %}
+                    {% for c in copy %}
+                    <option value="{{c.designation_code}}">{{c.designation}}</option>
+                    {% endfor %}
+                    {% else %}
+                    {% for c1 in copy1 %}
+                    <option value="{{c1.designation_code}}">{{c1.designation}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+        <div>
+            <div style="text-align: right;">
+                <button type="button" id="draft_submit" name="draft_submit" value="Draft Submit"
+                    class="btn btn-draft btn-sm mt-4" onclick="draft_Submit_mom();">Save as Draft</button>
+                <button type="button" id="submit" name="submit" value="Submit" class="btn btn-save btn-sm "
+                    onclick="Submit_mom();" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button>
+
+                
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <br><br>
+</body>
+
+<!-- script to add Para, Sub Para, desicion -->
+<script>
+    $(function () {
+        
+        $('#mdate').daterangepicker
+            ({
+                autoclose: true,
+                // clearBtn: true,
+                singleDatePicker: true,
+                showDropdowns: true,
+                // format: 'dd/mm/yyyy',
+                minDate: '0' ,
+                autodateOnStart: false,
+                singleClasses: "",
+                maxDate: new Date(),
+                "drops": "down",
+                "autoApply": true,
+                locale: {
+                    format: 'DD/MM/YYYY',
+                }
+            },)
+    });
+
+    $("#officer").select2({
+        tags: true,
+    tokenSeparators: [','],
+    maximumInputLength: 15
+    });
+    $("#copyto").select2();
+    $("#type").select2(
+        {
+            tags: true,
+    tokenSeparators: [','],
+    maximumInputLength: 10
+        }
+    );
+
+    $('#officer.select2-search__field').on('input', function(event) {
+        
+  if (event.target.value.length === 3) {
+    window.alert('You have reached the maximum input length.');
+  }
+});
+
+    function changeColorBtn(el) {
+        let val = el.id
+        if (val == 'addH') {
+            document.getElementById('addH').style.backgroundColor = "#3333ff";
+            document.getElementById('addSH').style.backgroundColor = "#337AB7";
+            document.getElementById('addD').style.backgroundColor = "#337AB7";
+        }
+        else if (val == 'addSH') {
+            document.getElementById('addH').style.backgroundColor = "#337AB7";
+            document.getElementById('addSH').style.backgroundColor = "#3333ff";
+            document.getElementById('addD').style.backgroundColor = "#337AB7";
+        }
+        else if (val == 'addD') {
+            document.getElementById('addH').style.backgroundColor = "#337AB7";
+            document.getElementById('addSH').style.backgroundColor = "#337AB7";
+            document.getElementById('addD').style.backgroundColor = "#3333ff";
+        }
+    }
+
+    var Nlist = 0
+    var Hlist = []
+    var SHlist = []
+    var Dlist = []
+    var full_array = []
+    var dealt = JSON.parse('{{dealt|safe}}')
+
+    $(document).ready
+        (
+            function () {
+                // to add Para in MOM
+                $("#addH").click(function (e) {
+                    var table = document.getElementById("addworkmech");
+                    e.preventDefault();
+                    var row1 = table.insertRow();
+                    var row1Count = 1;
+                    Nlist++;
+                    Hlist.push(0)
+                    // columns in create MOM
+                    var cell1 = row1.insertCell(0);
+                    var cell2 = row1.insertCell(1);
+                    var cell3 = row1.insertCell(2);
+                    var cell4 = row1.insertCell(3);
+                    var cell5 = row1.insertCell(4);
+                    full_array.push(String(Nlist))
+                    // id's for all the columns
+                    var heading = 'heading' + Nlist
+                    var remarks = 'remarks' + Nlist
+                    var Hofficer = 'Hofficer' + Nlist
+                    var divofficer = 'divofficer' + Nlist
+                    var Hpriority = 'Hpriority' + Nlist
+                    var divpriority = 'divpriority' + Nlist;
+                    var Htargetdate = 'Htargetdate' + Nlist
+                    console.log(typeof (dealt));
+                    cell1.innerHTML =
+                        '<div style="text-align: center; width:5px font-family:verdana;">' + Nlist + '</div>'
+                    cell2.innerHTML =
+                        '<td><textarea maxlength="5000" id=' + heading + ' placeholder="Add Para (Maximum Character Limit 5000)" style="height:2em;" class="form-control"/></textarea></td>';
+                    str = '<td><div id=' + divofficer + '><select class="form-control" style="height:2em" id=' + Hofficer + ' name="mofficer" multiple>'
+                    for (var i = 0; i < dealt.length; i++) { str += '<option value="' + dealt[i]['designation'] + '">' + dealt[i]['designation'] + '</option>' }
+                    str += '</select>  <textarea maxlength="500" id=' + remarks + ' placeholder="Add Remarks (Maximum Character Limit 500)" style="height:2em;" class="form-control mt-1"/></textarea></div></td>'
+                    cell3.innerHTML = str
+                    cell4.innerHTML =
+                        '<td><input type="text" class="form-control datepker" placeholder="dd/mm/yy" style="height:2em; width: 130px; background-color:white;" id=' + Htargetdate + ' readonly/></td>';
+                    $('.datepker').datepicker({
+                      showOn: 'focus',
+                      dateFormat: 'dd/mm/y',
+                      showButtonPanel: true,
+                      closeText: 'Clear', 
+                      minDate: 0,
+                      onClose: function () {
+                        var event = arguments.callee.caller.caller.arguments[0];
+                        // If "Clear" gets clicked, then really clear it
+                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                            $(this).val('');
+                        }
+                      }
+                  });
+                    // cell5.innerHTML =
+                    //     '<td><div><input type="radio" name='+Hpriority+' value="H" id="H"><label for="H">High</label><input type="radio" name='+Hpriority+' value="L" id="L"><label for="L">Low</label></div></td>';
+                    cell5.innerHTML = '<td><div id=' + divpriority + '><input type="checkbox"  id=' + Hpriority + '>High</div></td>'
+                    $("textarea").each(function () { this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;"); }).on("input", function () {
+                        this.style.height = "auto";
+                        this.style.height = (this.scrollHeight) + "px";
+                    }
+                    );
+                    $('#Hofficer' + Nlist).select2();
+                });
+
+                // to add Sub Para in MOM
+                $("#addSH").click(function (e) {
+                    if (Hlist.length == 0) {
+                        alert('Please Add Para!')
+                        return false;
+                    }
+                    var table = document.getElementById("addworkmech");
+                    e.preventDefault();
+                    var row = table.insertRow();
+                    Hlist[Nlist - 1] = Hlist[Nlist - 1] + 1
+                    let item = Nlist + '.' + String(Hlist[Nlist - 1])
+                    SHlist.push(0)
+                    // hide previous Para's dropdown, priority, targetdate
+                    let Hofficer = 'Hofficer' + Nlist;
+                    let divofficer = 'divofficer' + Nlist;
+                    let Hpriority = 'Hpriority' + Nlist;
+                    let divpriority = 'divpriority' + Nlist;
+                    let Htargetdate = 'Htargetdate' + Nlist;
+                    
+                    // $('#'+Hofficer).empty();
+                    // $('#'+divpriority).empty();
+                    // $('#'+Htargetdate).empty();
+                    $('#' + divofficer).hide();
+                    $('#' + divpriority).hide();
+                    $('#' + Htargetdate).hide();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    full_array.push(item)
+                    item1 = Nlist + String(Hlist[Nlist - 1])
+                    var itemno = 'itemno' + item
+                    var SHofficer = 'SHofficer' + item1
+                    var subheading = 'subheading' + item
+                    var SHpriority = 'SHpriority' + item1
+                    var SHtargetdate = 'SHtargetdate' + item
+                    var description = 'description' + item
+                    var remarks = 'shremarks' + item
+                    // var desc='desc'+item 
+                    // var divid = 'divid'+item
+                    console.log(typeof (dealt));
+                    cell1.innerHTML =
+                        '<td><div style="text-align: center; width:5px font-family:verdana;" id=' + itemno + '>' + item + '</div></td>';
+                    // cell2.innerHTML =
+                    //     '<td><textarea maxlength="100" id='+subheading+'  placeholder="Add Sub Para.." style="height:3em;" class="form-control"/></textarea></div><div id="'+divid +'"><br><button align="right" type="button" onclick="add_description(this);" class="btn btn-primary" name="addSHD" id='+item+'>Add Description</button></div><br><div id='+desc+'></div></td>'; 
+                    cell2.innerHTML =
+                        '<td><textarea maxlength="5000" id=' + subheading + '  placeholder="Add Sub Para (Maximum Character Limit 5000)" style="height:3em;" class="form-control"/></textarea></div><br><textarea maxlength="5000"  placeholder="Add Sub Para Description (Optional).." style="height:5em;" id=' + description + ' class="form-control"/></textarea></td>';
+                    str = '<td><div><select class="form-control" style="height:2em" id=' + SHofficer + ' name="mofficer" multiple>'
+                    for (var i = 0; i < dealt.length; i++) { str += '<option value="' + dealt[i]['designation'] + '">' + dealt[i]['designation'] + '</option>' }
+                    str += '</select><textarea maxlength="500" id=' + remarks + ' placeholder="Add Remarks (Maximum Character Limit 500)" style="height:2em;" class="form-control mt-1"/></textarea></div></td>'
+                    cell3.innerHTML = str
+                    cell4.innerHTML =
+                        '<td><input type="text" class="form-control datepker" placeholder="dd/mm/yy" style="height:2em;background-color:white; width: 130px;" id=' + SHtargetdate + ' readonly/></td>';
+                        $('.datepker').datepicker({
+                      showOn: 'focus',
+                      dateFormat: 'dd/mm/y',
+                      showButtonPanel: true,
+                      closeText: 'Clear', 
+                      minDate: 0,
+                      onClose: function () {
+                        var event = arguments.callee.caller.caller.arguments[0];
+                        // If "Clear" gets clicked, then really clear it
+                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                            $(this).val('');
+                        }
+                      }
+                  });
+                    // cell5.innerHTML =
+                    //     '<td><div><input type="radio" name='+SHpriority+' value="H" id="H"><label for="H">High</label><input type="radio" name='+SHpriority+' value="L" id="L"><label for="L">Low</label></div></td>'; 
+                    cell5.innerHTML = '<td><div><input type="checkbox"  id=' + SHpriority + '>High</div></td>'
+                    $("textarea").each(function () { this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;"); }).on("input", function () {
+                        this.style.height = "auto";
+                        this.style.height = (this.scrollHeight) + "px";
+                    }
+                    );
+                    $("#SHofficer" + item1).select2();
+                });
+
+                // to add Sub Subpara in MOM
+                $("#addD").click(function (e) {
+                    if (Nlist == 0) {
+                        alert('Please Add Para and Sub Para!')
+                        return false;
+                    }
+                    if (Hlist[Nlist - 1] == 0) {
+                        alert('Please Add Sub Para!')
+                        return false;
+                    }
+                    var table = document.getElementById("addworkmech");
+                    e.preventDefault();
+                    var row2 = table.insertRow();
+                    var row2Count = 1;
+                    SHlist[SHlist.length - 1] = SHlist[SHlist.length - 1] + 1
+                    let item = Nlist + '.' + String(Hlist[Nlist - 1])
+                    let item2 = item + '.' + String(SHlist[SHlist.length - 1])
+                    Dlist.push(0)
+                    var cell1 = row2.insertCell(0);
+                    var cell2 = row2.insertCell(1);
+                    var cell3 = row2.insertCell(2);
+                    var cell4 = row2.insertCell(3);
+                    var cell5 = row2.insertCell(4);
+                    full_array.push(item2)
+                    item3 = Nlist + String(Hlist[Nlist - 1]) + String(SHlist[SHlist.length - 1])
+                    var itemno = 'itemno' + item2
+                    var Dofficer = 'Dofficer' + item3
+                    var remarks = 'remarks' + item2
+                    var decision = 'decision' + item2
+                    var Dpriority = 'Dpriority' + item3
+                    var Dtargetdate = 'Dtargetdate' + item2
+                    console.log(typeof (dealt));
+                    cell1.innerHTML =
+                        '<td><div style="text-align: center; width:5px font-family:verdana;" id=' + item2 + '>' + item2 + '</div></td>';
+                    // '<div style="text-align: center;  height:50px; width:5px; font-family:verdana;"></div>'
+                    cell2.innerHTML =
+                        '<td><textarea maxlength="5000"  placeholder="Add Sub Subpara (Maximum Character Limit 5000)" id=' + decision + ' style="height:2em;" class="form-control"/></textarea></div></td>';
+                    str = '<td><div><select class="form-control" style="height:2em" id=' + Dofficer + ' name="mofficer" multiple>'
+                    for (var i = 0; i < dealt.length; i++) { str += '<option value="' + dealt[i]['designation'] + '">' + dealt[i]['designation'] + '</option>' }
+                    str += '</select><textarea maxlength="500" id=' + remarks + ' placeholder="Add Remarks (Maximum Character Limit 500)" style="height:2em;" class="form-control mt-1"/></textarea></div></td>'
+                    cell3.innerHTML = str
+                    cell4.innerHTML =
+                        '<td><input type="text" class="form-control datepker" placeholder="dd/mm/yy" style="height:2em;background-color:white; width: 130px;" id=' + Dtargetdate + ' readonly/></td>';
+                        $('.datepker').datepicker({
+                      showOn: 'focus',
+                      dateFormat: 'dd/mm/y',
+                      showButtonPanel: true,
+                      closeText: 'Clear', 
+                      minDate: 0,
+                      onClose: function () {
+                        var event = arguments.callee.caller.caller.arguments[0];
+                        // If "Clear" gets clicked, then really clear it
+                        if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+                            $(this).val('');
+                        }
+                      }
+                  });
+                    // cell5.innerHTML =
+                    //     '<td><div><input type="radio" name='+Dpriority+' value="H" id="H"><label for="H">High</label><input type="radio" name='+Dpriority+' value="L" id="L"><label for="L">Low</label></div></td>'; 
+                    cell5.innerHTML = '<td><div><input type="checkbox"  id=' + Dpriority + '>High</div></td>'
+                    $("textarea").each(function () { this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;"); }).on("input", function () {
+                        this.style.height = "auto";
+                        this.style.height = (this.scrollHeight) + "px";
+                    }
+                    );
+                    $('#Dofficer' + item3).select2();
+                });
+
+                // to delete the item
+                $('#delete').click(function (e) {
+                    r = confirm('Are you sure you want to Delete the row!')
+                    if (r == true) {
+
+                        e.preventDefault();
+                        var rowCount = $('#addworkmech tr').length;
+                        var table = document.getElementById("addworkmech");
+                        let val_id = table.rows[rowCount - 1].cells[0].innerText;
+                        if (val_id != '') {
+                            let val_split = val_id.split('.');
+                            if (val_split.length > 1) {
+                                let del_id = val_split[0] + '.' + '1';
+                                if (del_id == val_id) {
+                                    console.log(dealt);
+                                    let Hofficer = 'Hofficer' + val_split[0];
+                                    let divofficer = 'divofficer' + val_split[0];
+                                    let Hpriority = 'Hpriority' + val_split[0];
+                                    let divpriority = 'divpriority' + val_split[0];
+                                    let Htargetdate = 'Htargetdate' + val_split[0];
+                                    $('#' + divofficer).show();
+                                    $('#' + Hofficer).show();
+                                    $('#' + Hpriority).show();
+                                    $('#' + divpriority).show();
+                                    $('#' + Htargetdate).show();
+                                    $("textarea").each(function () { this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;"); }).on("input", function () {
+                                        this.style.height = "auto";
+                                        this.style.height = (this.scrollHeight) + "px";
+                                    });
+                                }
+                            }
+                        }
+                        j1 = rowCount;
+                        if (j1 > 0) {
+                            full_array.pop()
+                            document.getElementById("addworkmech").deleteRow(-1);
+                            if (Nlist > 0 && Hlist[Nlist - 1] != 0) {
+                                if (SHlist[SHlist.length - 1] == 0) {
+                                    SHlist.pop()
+                                    if (Hlist[Nlist - 1] == 0) {
+                                        Hlist.pop()
+                                        Nlist--;
+                                    }
+                                    else { Hlist[Nlist - 1] = Hlist[Nlist - 1] - 1 }
+                                }
+                                else { SHlist[SHlist.length - 1] = SHlist[SHlist.length - 1] - 1 }
+                            }
+                            else if (Nlist > 0 && Hlist[Nlist - 1] == 0) {
+                                if (Hlist[Nlist - 1] == 0) {
+                                    Hlist.pop()
+                                    Nlist--;
+                                }
+                                else {
+                                    Nlist
+                                    Hlist[Nlist - 1] = Hlist[Nlist - 1] - 1
+                                }
+                            }
+                            j1--;
+                        }
+                    }
+                });
+
+            }
+        );
+
+    // function add_description(el)
+    // {
+    //     let id = el.id
+    //     let description='description'+id
+    //     document.getElementById('divid'+id).innerHTML=''
+    //     document.getElementById('desc'+id).innerHTML='<textarea maxlength="500"  placeholder="Add Sub Para Description.." style="height:5em;" id='+description+' class="form-control"/></textarea>'
+    // }
+
+</script>
+
+<!-- for creating MOM -->
+<script>
+    function Submit_mom() {
+
+        var present = $('#officer').val();
+        var mom_date = $('#mdate').val();
+        var copyto = $('#copyto').val();
+        let ar1 = {}
+        let myarr2 = {}
+
+
+        if (present == '' || present == null) {
+            alert("Please Select Officer's present in MOM!")
+            return false;
+        }
+
+        if (mom_date == '' || mom_date == undefined) {
+            alert("Please fill Date of MOM!")
+            return false;
+        }
+
+        if ($('#dis_id').val() == 'NoRB') {
+            var titleMOM = $('#titleMOM').val();
+            var type = $('#type').val();
+            if (type == '' || type == null) {
+                alert("Please Select Type of MOM!")
+                return false;
+            }
+            if (titleMOM == '' || titleMOM == null) {
+                alert("Please enter title for this MOM!")
+                return false;
+            }
+        }
+        else {
+            var type = ''
+            var titleMOM = ''
+        }
+
+        if (full_array.length == 0) {
+            alert('Please Enter Details for Minutes of Meeting!')
+            return false;
+        }
+
+        for (let i = 1; i <= Nlist; i++) {
+            let ar = {}
+            let myar1 = []
+            for (let j = 0; j < full_array.length; j++) {
+                if ((String(i) + '.') == ((String(full_array[j]).split('.'))[0]) + '.') {
+                    let temp = full_array[j].split('.')
+                    myar1.push(String(full_array[j]))
+                    // for Para
+                    if (temp.length == 1) {
+                        // alert('For Para')
+                        let hid = 'heading' + full_array[j];
+                        var head = document.getElementById(hid).value;
+                        if (head == '') {
+                            alert('Please fill-in some information!')
+                            return false;
+                        }
+                        head=encryptWithAES(head)
+                        // console.log(head)
+                        // if(full_array.includes(String(full_array[j]+'.1')))
+                        // {
+                        //     a=1;           
+                        // }
+                        // else
+                        // {
+                        let td = 'Htargetdate' + full_array[j];
+                        let mf = 'Hofficer' + full_array[j];
+                        let pr = 'Hpriority' + full_array[j];
+                        let rem = 'remarks' + full_array[j];
+                        var tddate = document.getElementById(td).value;
+                        var remark = document.getElementById(rem).value;
+                        if (remark != '')
+                            remark=encryptWithAES(remark)
+                        var options = document.getElementById(mf).selectedOptions;
+                        var values = Array.from(options).map(({ value }) => value);
+                        var officer_val = document.getElementById(mf).innerHTML = values;
+                        // alert(officer_val)
+                        // if(document.querySelector('input[name='+pr+']:checked'))
+                        // {   var priority = document.querySelector('input[name='+pr+']:checked').id;   }
+                        // else
+                        // {   var priority = ''   }
+                        if (document.querySelector('input[id=' + pr + ']:checked')) { var priority = 1 }
+                        else { var priority = 0 }
+                        ar[hid] = head
+                        ar[td] = tddate
+                        ar[mf] = officer_val
+                        ar[pr] = priority
+                        ar[rem] = remark
+                        // }  
+                    }
+                    //  for Sub Para
+                    else if (temp.length == 2) {
+                        // alert('For Sub Para')
+                        x = (String(full_array[j]).split('.'))[0]
+                        y = (String(full_array[j]).split('.'))[1]
+                        Pitem = x + y
+                        let shid = 'subheading' + full_array[j];
+                        let shdid = 'description' + full_array[j];
+                        var subhead = document.getElementById(shid).value;
+                        var description = document.getElementById(shdid).value;
+                        if (subhead == '') {
+                            alert('Please add Sub Para!')
+                            return false;
+                        }
+                        
+                        // if(document.getElementById(shdid))
+                        // {   var description=document.getElementById(shdid).value;  }
+                        // else{ var description='' }
+                        let td = 'SHtargetdate' + full_array[j];
+                        let mf = 'SHofficer' + Pitem;
+                        let pr = 'SHpriority' + Pitem;
+                        let prm = 'shremarks' + full_array[j];
+                        // let pr = 'SHpriority' + full_array[j];
+                        var tddate = document.getElementById(td).value;
+                        var options = document.getElementById(mf).selectedOptions;
+                        var values = Array.from(options).map(({ value }) => value);
+                        var officer_val = document.getElementById(mf).innerHTML = values;
+                        var remarksss = document.getElementById(prm).value;
+                        if (subhead != '')
+                            subhead=encryptWithAES(subhead)
+                        if (description != '')
+                            description=encryptWithAES(description)
+                        if (remarksss != '')
+                            remarksss=encryptWithAES(remarksss)
+                        // console.log(subhead)
+                        // alert(remarksss)
+                        // if(document.querySelector('input[name='+pr+']:checked'))
+                        // {   var priority = document.querySelector('input[name='+pr+']:checked').id;   }
+                        // else
+                        // {   var priority = ''   }
+                        if (document.querySelector('input[id=' + pr + ']:checked')) { var priority = 1 }
+                        else { var priority = 0 }
+                        ar[shid] = subhead
+                        ar[td] = tddate
+                        ar[mf] = officer_val
+                        ar[pr] = priority
+                        ar[shdid] = description
+                        ar[prm] = remarksss
+                    }
+                    // for Sub Subpara   
+                    else {
+                        // alert('For Sub Subpara')
+                        x = (String(full_array[j]).split('.'))[0]
+                        y = (String(full_array[j]).split('.'))[1]
+                        z = (String(full_array[j]).split('.'))[2]
+                        Pitem = x + y + z
+                        let did = 'decision' + full_array[j];
+                        var decision = document.getElementById(did).value;
+                        if (decision == '') {
+                            alert('Please add Sub Subpara!')
+                            return false;
+                        }
+                        let td = 'Dtargetdate' + full_array[j];
+                        let mf = 'Dofficer' + Pitem;
+                        let pr = 'Dpriority' + Pitem;
+                        let drem = 'remarks' + full_array[j];
+                        var tddate = document.getElementById(td).value;
+                        var options = document.getElementById(mf).selectedOptions;
+                        var values = Array.from(options).map(({ value }) => value);
+                        var officer_val = document.getElementById(mf).innerHTML = values;
+                        var remark = document.getElementById(drem).value;
+                        if (decision != '')
+                            decision=encryptWithAES(decision)
+                        if (remark != '')
+                            remark=encryptWithAES(remark)
+                        // alert(remark)
+                        // alert(officer_val)
+                        // if(document.querySelector('input[name='+pr+']:checked'))
+                        // {   var priority = document.querySelector('input[name='+pr+']:checked').id;   }
+                        // else
+                        // {   var priority = ''    }
+                        if (document.querySelector('input[id=' + pr + ']:checked')) { var priority = 1 }
+                        else { var priority = 0 }
+                        ar[did] = decision
+                        ar[td] = tddate
+                        ar[mf] = officer_val
+                        ar[pr] = priority
+                        ar[drem] = remark
+                    }
+                }
+            }
+            ar1[String(i)] = ar
+            myarr2[String(i)] = myar1
+        }
+
+        var final_p = JSON.stringify(ar1)
+        var id_final = JSON.stringify(myarr2)
+        $("#submit").attr("disabled", true);
+
+
+        let data =
+        {
+            present: JSON.stringify($('#officer').val()),
+            mdate: $('#mdate').val(),
+            final_partinspected: final_p,
+            id_partinspected: id_final,
+            // copyto: document.getElementById('copyto').getAttribute('custom-offic'),
+            copyto: JSON.stringify($('#copyto').val()),
+            type: type,
+            titleMOM: titleMOM,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+
+        console.log(data)
+
+        $.ajax
+            ({
+                type: 'POST',
+                url: "{% url 'create_mom_details' %}",
+                dataType: 'json',
+                data: data,
+                success: function (response) {
+                    alert("Record Saved with MOM Note No: " + response.note_no);
+                    $("#submit").attr("disabled", false);
+                    // window.location.reload();
+                    // window.location.href = '{% url "rbmins_doneby_list" %}';
+                },
+                error: function (exception) {
+                    alert("An error occured while saving the record!");
+                    $("#submit").attr("disabled", false);
+                    window.location.reload();
+                }
+            });
+    }
+</script>
+
+<script>
+    function draft_Submit_mom() {
+
+
+
+        var present = $('#officer').val();
+        var mom_date = $('#mdate').val();
+        var copyto = $('#copyto').val();
+        let ar1 = {}
+        let myarr2 = {}
+
+
+        if (present == '' || present == null) {
+            alert("Please Select Officer's present in MOM!")
+            return false;
+        }
+
+        if (mom_date == '' || mom_date == undefined) {
+            alert("Please fill Date of MOM!")
+            return false;
+        }
+
+        if ($('#dis_id').val() == 'NoRB') {
+            var titleMOM = $('#titleMOM').val();
+            var type = $('#type').val();
+            if (type == '' || type == null) {
+                alert("Please Select Type of MOM!")
+                return false;
+            }
+            // else if (type=='other'){
+            //     type=$('#typenew').val();
+            // }
+            if (titleMOM == '' || titleMOM == null) {
+                alert("Please enter title for this MOM!")
+                return false;
+            }
+        }
+        else {
+            var type = ''
+            var titleMOM = ''
+        }
+
+        if (full_array.length == 0) {
+            alert('Please Enter Details for Minutes of Meeting!')
+            return false;
+        }
+
+        for (let i = 1; i <= Nlist; i++) {
+            let ar = {}
+            let myar1 = []
+            for (let j = 0; j < full_array.length; j++) {
+                if ((String(i) + '.') == ((String(full_array[j]).split('.'))[0]) + '.') {
+                    let temp = full_array[j].split('.')
+                    myar1.push(String(full_array[j]))
+                    // for Para
+                    if (temp.length == 1) {
+                        // alert('For Para')
+                        let hid = 'heading' + full_array[j];
+                        var head = document.getElementById(hid).value;
+                        if (head == '') {
+                            alert('Please fill-in some information!')
+                            return false;
+                        }
+                        // if(full_array.includes(String(full_array[j]+'.1')))
+                        // {
+                        //     a=1;           
+                        // }
+                        // else
+                        // {
+                        let td = 'Htargetdate' + full_array[j];
+                        let mf = 'Hofficer' + full_array[j];
+                        let pr = 'Hpriority' + full_array[j];
+                        let rem = 'remarks' + full_array[j];
+                        var tddate = document.getElementById(td).value;
+                        var remark = document.getElementById(rem).value;
+                        var options = document.getElementById(mf).selectedOptions;
+                        var values = Array.from(options).map(({ value }) => value);
+                        var officer_val = document.getElementById(mf).innerHTML = values;
+                        // alert(officer_val)
+                        // if(document.querySelector('input[name='+pr+']:checked'))
+                        // {   var priority = document.querySelector('input[name='+pr+']:checked').id;   }
+                        // else
+                        // {   var priority = ''   }
+                        if (document.querySelector('input[id=' + pr + ']:checked')) { var priority = 1 }
+                        else { var priority = 0 }
+                        ar[hid] = head
+                        ar[td] = tddate
+                        ar[mf] = officer_val
+                        ar[pr] = priority
+                        ar[rem] = remark
+                        // }  
+                    }
+                    //  for Sub Para
+                    else if (temp.length == 2) {
+                        // alert('For Sub Para')
+                        x = (String(full_array[j]).split('.'))[0]
+                        y = (String(full_array[j]).split('.'))[1]
+                        Pitem = x + y
+                        let shid = 'subheading' + full_array[j];
+                        let shdid = 'description' + full_array[j];
+                        var subhead = document.getElementById(shid).value;
+                        var description = document.getElementById(shdid).value;
+                        if (subhead == '') {
+                            alert('Please add Sub Para!')
+                            return false;
+                        }
+                        // if(document.getElementById(shdid))
+                        // {   var description=document.getElementById(shdid).value;  }
+                        // else{ var description='' }
+                        let td = 'SHtargetdate' + full_array[j];
+                        let mf = 'SHofficer' + Pitem;
+                        let pr = 'SHpriority' + Pitem;
+                        let prm = 'shremarks' + full_array[j];
+                        // let pr = 'SHpriority' + full_array[j];
+                        var tddate = document.getElementById(td).value;
+                        var options = document.getElementById(mf).selectedOptions;
+                        var values = Array.from(options).map(({ value }) => value);
+                        var officer_val = document.getElementById(mf).innerHTML = values;
+                        var remarksss = document.getElementById(prm).value;
+                        // alert(remarksss)
+                        // if(document.querySelector('input[name='+pr+']:checked'))
+                        // {   var priority = document.querySelector('input[name='+pr+']:checked').id;   }
+                        // else
+                        // {   var priority = ''   }
+                        if (document.querySelector('input[id=' + pr + ']:checked')) { var priority = 1 }
+                        else { var priority = 0 }
+                        ar[shid] = subhead
+                        ar[td] = tddate
+                        ar[mf] = officer_val
+                        ar[pr] = priority
+                        ar[shdid] = description
+                        ar[prm] = remarksss
+                    }
+                    // for Sub Subpara   
+                    else {
+                        // alert('For Sub Subpara')
+                        x = (String(full_array[j]).split('.'))[0]
+                        y = (String(full_array[j]).split('.'))[1]
+                        z = (String(full_array[j]).split('.'))[2]
+                        Pitem = x + y + z
+                        let did = 'decision' + full_array[j];
+                        var decision = document.getElementById(did).value;
+                        if (decision == '') {
+                            alert('Please add Sub Subpara!')
+                            return false;
+                        }
+                        let td = 'Dtargetdate' + full_array[j];
+                        let mf = 'Dofficer' + Pitem;
+                        let pr = 'Dpriority' + Pitem;
+                        let drem = 'remarks' + full_array[j];
+                        var tddate = document.getElementById(td).value;
+                        var options = document.getElementById(mf).selectedOptions;
+                        var values = Array.from(options).map(({ value }) => value);
+                        var officer_val = document.getElementById(mf).innerHTML = values;
+                        var remark = document.getElementById(drem).value;
+                        // alert(remark)
+                        // alert(officer_val)
+                        // if(document.querySelector('input[name='+pr+']:checked'))
+                        // {   var priority = document.querySelector('input[name='+pr+']:checked').id;   }
+                        // else
+                        // {   var priority = ''    }
+                        if (document.querySelector('input[id=' + pr + ']:checked')) { var priority = 1 }
+                        else { var priority = 0 }
+                        ar[did] = decision
+                        ar[td] = tddate
+                        ar[mf] = officer_val
+                        ar[pr] = priority
+                        ar[drem] = remark
+                    }
+                }
+            }
+            ar1[String(i)] = ar
+            myarr2[String(i)] = myar1
+        }
+
+        console.log(ar1)
+        console.log(myarr2)
+
+        var final_p = JSON.stringify(ar1)
+        var id_final = JSON.stringify(myarr2)
+        $("#draft_submit").attr("disabled", true);
+
+
+
+        let data =
+        {
+            presentDt: JSON.stringify($('#officer').val()),
+            mdateDt: $('#mdate').val(),
+            final_partinspectedDt: final_p,
+            id_partinspectedDt: id_final,
+            // copyto: document.getElementById('copyto').getAttribute('custom-offic'),
+            copytoDt: JSON.stringify($('#copyto').val()),
+            typeDt: type,
+            titleMOMDt: titleMOM,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+
+        console.log(data)
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'draft_mom_details' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                alert("Draft save");
+                $("#draft_submit").attr("disabled", false);
+                window.location.reload();
+                window.location.href = '{% url "rbmins_draft_doneby_list" %}';
+            },
+            error: function (exception) {
+                alert("An error occured while saving the record!");
+                $("#draft_submit").attr("disabled", false);
+                window.location.reload();
+            }
+        });
+    }
+</script>
+<!-- Changes Apeksha -->
+<!-- <script>
+    $("#officer").select2({
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function() {
+              return 'Search Designation';
+            }
+          },
+        tags: [],
+        ajax: {
+            url: '{% url "fetchAccompany" %}',
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (term) {
+                return {
+                    last_val: term.term
+                };
+              
+            },
+            processResults: function (data) {
+              return {
+                    results: $.map(data, function (item) {
+                   
+                        return{
+                          text: item.designation,
+                          
+                          id: item.designation,
+                        }
+                    })
+                };
+              },
+            
+            
+        }
+   
+    });
+    
+    function meet_type(){
+        var types = $('#type').val();
+        if (types=="other"){
+            $('#typenew').show();
+        }
+        else{
+            $('#typenew').hide();
+        }
+    }
+
+    $(document).ready(function () {
+        $('#typenew').hide();
+    });
+</script> -->
+<script>
+        
+    $(document).ready(function () {
+  $("#submit").on("click", function() {
+    // $(this).attr("disabled", "disabled");
+    $(this).attr("hidden", "hidden");
+    doWork(); //this method contains your logic
+  });
+  });
+  
+  
+  function doWork() {
+  // alert("doing work");
+  //actually this function will do something and when processing is done the button is enabled by removing the 'disabled' attribute
+  //I use setTimeout so you can see the button can only be clicked once, and can't be clicked again while work is being done
+  setTimeout('$("#submit").removeAttr("hidden")', 15000);
+  }
+  </script>
+<script>
+    // encrypt and decrypt without library
+    
+    var encDecKey = '1d185320041a1b0f14';
+    
+    function encrypt(text, key){
+        return [...text].map((x, i) => 
+        (x.codePointAt() ^ key.charCodeAt(i % key.length) % 255)
+         .toString(16)
+         .padStart(2,"0")
+       ).join('')
+    }
+    
+    function decrypt(text, key){
+        return String.fromCharCode(...text.match(/.{1,2}/g)
+         .map((e,i) => 
+           parseInt(e, 16) ^ key.charCodeAt(i % key.length) % 255)
+         )
+    }
+    
+    
+    
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+    // encrypt and decrypt with library hindi font supported
+    // var message = 'हिन्दी जिसके मानकीकृत रूप को मानक हिन्दी कहा जाता है, विश्व की एक प्रमुख भाषा है और भारत की एक राजभाषा है। केन्द्रीय स्तर पर भारत में सह-आधिकारिक भाषा अंग्रेजी है।';
+    // var encrypted ='XC+Yr0mjaMzHkI64OrlYncDTLZIEdsaOxz18cMxBw/9sUk1O9gUji1wQpJW35WSpwTaGiAZv+VjQmVe3g/VYHdV3GU/Qy7UjXzIc9510P7SRIaaDlOSTZp40MmpU0H3y1n/VDzZupy+yKobSbUTVb5x47INnMR7PFHdh9ZFe6FGwqRX8lkwztARMNYMdjxtPDU9uZAPH2fJ7GdqTQecbIx9cpBVep/ezutSB9OI+gnPpdo1msPHXGsrRKxxe5LhpBO775dzKjiAy6sHfoL/7Gr6vPQ8eCXnmsp2FqQZtmTsec535xQE3xurTr0RuJ5g+bwrUqjKWwAupaytKsSjvZktDH6ZOTXo+u5214ebsyDDbtdU0a1TVaVs0IRCjwnhgZuR+SQj2mW8RQRsqVTpco1gvg9npueJ6GAbM9AFuK9XTGysRw1Mr5b43H5X9p+uNrwPorbPZzfg5vci455QmJj5vhlTdst6sh/1WpIJi7Z1Z/uufNGeOaKapAJ9cgxB5Fp4cTvsqw3U9XJsJv2K7wU6g7DxwLLXx20j/8DIEPrVjden1Y7wqY1DLJC7Mr0CQ'; //python is base64 ECB
+    
+    var key ='AAAAAAAAAAAAAAAA';
+    function encryptWithAES(message)
+    {
+        key = CryptoJS.enc.Utf8.parse(key);
+        var encrypted = CryptoJS.AES.encrypt(message, key, {mode: CryptoJS.mode.ECB});
+        encrypted =encrypted.toString();
+        console.log('encrypted ',encrypted, message);
+        return (encrypted)
+    }
+    function decryptWithAES(encrypted)
+    {
+        key = CryptoJS.enc.Utf8.parse(key); 
+        var decrypted =  CryptoJS.AES.decrypt(encrypted, key ,{mode:CryptoJS.mode.ECB});
+        decrypted = decrypted.toString(CryptoJS.enc.Utf8);
+        console.log('decrypted ',decrypted );
+        return (decrypted);
+    
+    }
+    </script>
+{% endblock %}

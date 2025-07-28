@@ -1,0 +1,1159 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+<script src="jquery.dropdown.js"></script>
+<!-- Include the plugin's CSS and JS: -->
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css'%}">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+
+<link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+<script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+
+<link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+
+<script src="{% static 'js/timepicker.js' %}"></script>
+<!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<!-- Select2 CSS -->
+
+<!-- jQuery -->
+<script src="{% static '/js/jquery.min4.js' %}"></script>
+
+<!-- Select2 JS -->
+<script src="{% static '/js/select2.min.js' %}"></script>
+<!-- Load icon library -->
+<link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+<!-- multiple selesct marked officer -->
+
+<link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+<script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+<link href="{% static '/css/jquery.dataTables.min.css' %}" rel="stylesheet" />
+<!-- Sheets for datepicker for target date -->
+
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="{% static '/js/jquery-ui.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/lato.css' %} ">
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" /> 
+
+
+<!-- Makes problem in marked officer field -->
+<!-- Pagination Link -->
+<!-- <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com//ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Quicksand', sans-serif;
+        ;
+        height: 100%;
+        margin: 0;
+    }
+
+
+
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    
+
+
+    /* #viewbtn{
+ margin-left:1050px;
+ } */
+
+    .inputtag {
+        height: 20px;
+    }
+
+    .button {
+        padding: 15px 25px;
+        font-size: 12px;
+        text-align: center;
+        margin-left: 2em;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: #04AA6D;
+        border: none;
+        border-radius: 15px;
+
+    }
+
+    .button:hover {
+        background-color: #3e8e41
+    }
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+</style>
+<style>
+
+.btn-save {	
+  align-items: center;	
+  background-clip: padding-box;	
+  background-color: #fa6400;	
+  border: 1px solid transparent;	
+  border-radius: .25rem;	
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;	
+  box-sizing: border-box;	
+  color: #fff;	
+  cursor: pointer;	
+  display: inline-flex;	
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;	
+  font-size: 16px;	
+  font-weight: 600;	
+  justify-content: center;	
+  line-height: 1.25;	
+  margin: 0;	
+  min-height: 3rem;	
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);	
+  position: relative;	
+  text-decoration: none;	
+  transition: all 250ms;	
+  user-select: none;	
+  -webkit-user-select: none;	
+  touch-action: manipulation;	
+  vertical-align: baseline;	
+  width: auto;	
+}	
+.btn-save:hover,	
+.btn-save:focus {	
+  background-color: #fb8332;	
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;	
+}	
+.btn-save:hover {	
+  transform: translateY(-1px);	
+}	
+.btn-save:active {	
+  background-color: #c85000;	
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;	
+  transform: translateY(0);	
+}	
+.btn-draft {	
+  align-items: center;	
+  background-clip: padding-box;	
+  background-color: #666699;	
+  border: 1px solid transparent;	
+  border-radius: .25rem;	
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;	
+  box-sizing: border-box;	
+  color: #fff;	
+  cursor: pointer;	
+  display: inline-flex;	
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;	
+  font-size: 16px;	
+  font-weight: 600;	
+  justify-content: center;	
+  line-height: 1.25;	
+  margin: 0;	
+  min-height: 3rem;	
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);	
+  position: relative;	
+  text-decoration: none;	
+  transition: all 250ms;	
+  user-select: none;	
+  -webkit-user-select: none;	
+  touch-action: manipulation;	
+  vertical-align: baseline;	
+  width: auto;	
+}	
+.btn-draft:hover,	
+.btn-draft:focus {	
+  background-color: #666699;	
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;	
+}	
+.btn-draft:hover {	
+  transform: translateY(-1px);	
+}	
+.btn-draft:active {	
+  background-color: #666699;	
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;	
+  transform: translateY(0);	
+}	
+    #viewbtn {
+        margin-left: 1200px;
+        margin-right: 10px;
+    }
+
+    .row {
+        display: grid;
+        grid-auto-flow: column;
+    }
+
+
+    /*modal styling*/
+
+    .modal.right .modal-dialog {
+        position: fixed;
+        /* display: grid;
+        column-gap: 50px; */
+
+        margin: auto;
+        width: 80%;
+        height: 100%;
+        -webkit-transform: translate3d(0%, 0, 0);
+        -ms-transform: translate3d(0%, 0, 0);
+        -o-transform: translate3d(0%, 0, 0);
+        transform: translate3d(0%, 0, 0);
+    }
+
+    .modal.right .modal-content {
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .modal.right .modal-body {
+        max-height: 100%;
+        padding: 10px 10px 10px;
+    }
+
+    .modal.right.fade .modal-dialog {
+        right: -320px;
+        -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    .modal.right.fade.show .modal-dialog {
+        right: 0;
+    }
+
+    .modal-content {
+        border: solid !important;
+        border-width: 1px !important;
+        border-radius: 0;
+        border: none;
+    }
+
+    .modal-header {
+        background-color: #343A40 !important;
+        color: #fff;
+        border-radius: inherit;
+        border-bottom-color: #EEEEEE;
+        background-color: #FAFAFA;
+    }
+
+    .modal-lg {
+        max-width: 70% !important;
+    }
+
+
+
+    /* Add Animation */
+    @-webkit-keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    /* The Close Button */
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+
+<body>
+    <h3 class="report_heading">Budget Pronouncement Implementation</h3>
+    <br>
+    <div class="container">
+        <div class="inpt-container" id="container1" style="padding-bottom:10px;">
+            <form method="POST"> {% csrf_token %}
+                <div class="row" id="row1" style="font-family: 'Lato', sans-serif;font-size: 1em; margin-left: 2em;">
+                    <div class="col">
+                        <label class="lbl-caption" for="action">Action</label>
+                        <select class="form-control" name="action" id="action" class="custom-select"
+                            data-placeholder="Select year.." style="max-width:100%;height:2em;">
+                            <option value="" selected>Select</option>
+
+                            <option value="Dropped">Dropped</option>
+                            <option value="Action Initiated">Action Initiated</option>
+                            <option value="Action Not Initiated">Action Not Initiated</option>
+                            <option value="Implemented">Implemented</option>
+                            <option value="Needs Monitoring">Needs Monitoring</option>
+                            <option value="Substantially Implemented">Substantially Implemented</option>
+                            <option value="Under Reconsideration">Under Reconsideration</option>
+                            {% for a in action %}
+                            <option value="{{a.action_point}}">{{a.action_point}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label class="lbl-caption" for="year_id">Financial Year</label>
+                        <select class="form-control" name="year_id" id="year_id" class="custom-select"
+                            data-placeholder="Select year.." style="max-width:100%;height:2em;">
+                            <option selected disabled="true">Select</option>
+                            {% for f in fin_year %}
+                            <option value="{{f.financial_year}}">{{f.financial_year}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <div class="col">
+                        <label class="lbl-caption" for="para_id">Para No.</label>
+                        <select class="form-control" name="para_id" id="para_id" class="custom-select"
+                            data-placeholder="Select Para.." style="max-width:100%;height:2em;">
+                            <option value="" selected disabled="true">Select</option>
+                            {% for p in para_no %}
+                            <option value="{{p.para_no}}">{{p.para_no}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <div class="col">
+                        <label class="lbl-caption" for="marked_officer">Marked Officer</label><br>
+                        <select class="form-control" id="officer" style="max-width:100%;height:2em;" name="officer" multiple>
+                            {% for o in officer %}
+                            <option value="{{o.marked_officer__designation}}">{{o.marked_officer__designation}}</option>
+                            {% endfor %}
+                        </select>
+
+                        </select>
+                    </div>
+
+                
+                    <div class="col">
+                        <div class="btn-toolbar" role="toolbar" >
+                        <div class="btn-group mr-2" role="group" style="margin-top:30px;" >
+                            
+                        <button type="submit"  class="btn btn-warning btn-sm" id='search_ob'
+                            name="search_ob">Continue</button>&nbsp;&nbsp;
+                        <!-- &nbsp;&nbsp;&nbsp; -->
+                        <a class="btn btn-secondary" href="/budget_implementation/">Reset</a>&nbsp;&nbsp;
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="export_to" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Export to
+                        </button>&nbsp;
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'budgetReportPdf'%}" target="blank">PDF</a>
+                            <a class="dropdown-item" href="{% url 'budgetReportExcel'%}" target="blank">Excel</a>
+                            <a class="dropdown-item" href="{% url 'budgetReportPPT'%}"   target="blank">PPT</a>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </form>
+        </div>      
+    </div>
+    <br>
+
+
+
+    <div class="modal right fade" id="paramodal" tabindex="-1" role="dialog" aria-labelledby="paramodal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="width: 60%;">
+            <div class="modal-content">
+                <div class="modal-header" style=" background-color: #3269a8 !important">
+                    <h5 class="modal-title" id="paramodal">Summary Of Budget Para</h5>
+                    <!-- <a href="/budget_implementation/"><button class="btn btn-secondary">Close</button> -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+
+                <div class="modal-body" style="width: 100%;">
+                    <div class="row">
+                        <div class="col pull-right" style="float: right;">
+                            <button type="button"
+                                style="width: 20%; font-size: 11px; white-space: normal;text-overflow: ellipsis; height: 3.7em; "
+                                class="btn btn-primary .word-wrap:break-word " onclick="funshowhide()">Update
+                                Compliance</button>
+                            <button type="button"
+                                style="width: 20%; font-size: 11px; white-space: normal;text-overflow: ellipsis; height: 3.7em; "
+                                class="btn btn-secondary .word-wrap:break-word" onclick="funshowhide1()">Update
+                                Status</button>
+                            <button type="button"
+                                style="width: 20%; font-size: 11px; white-space: normal;text-overflow: ellipsis; height: 3.7em; "
+                                class="btn btn-success .word-wrap:break-word" onclick="funshowhide2()">Update Physical
+                                Target</button>
+                            <button type="button"
+                                style="width: 18%; font-size: 11px; white-space: normal;text-overflow: ellipsis; height: 3.8em; "
+                                class="btn btn-warning .word-wrap:break-word" onclick="funshowhide3()">Update Financial
+                                Target</button>
+                            <button type="button"
+                                style="width: 18%; font-size: 11px; white-space: normal;text-overflow: ellipsis; height: 3.8em; "
+                                class="btn btn-info .word-wrap:break-word" onclick="funshowhide4()">Update Overall
+                                Outcome</button>
+
+                        </div>
+                    </div>
+                    <br><br>
+
+
+                    <div class="row">
+                        <div class="col pl-5 ">
+                            <label>Budget Para</label>
+                            <textarea class="form-control " id="fin_year" name="fin_year" readonly></textarea>
+                            <br>
+                            <label>Action Point</label>
+                            <textarea class="form-control" style="height: 45%;" id="specific_action" name="specific_action" readonly></textarea>
+                            {% for s in specific_action %}
+                            <option value="{{s.specific_action}}">{{s.specific_action}}</option>
+                            {% endfor %}
+                            <br>
+                            <label>Latest Compliance</label>
+                            <textarea class="form-control" style="height: 45%;" id="latest_compliance"
+                                name="latest_compliance" readonly></textarea>
+                            <br>
+                        </div>
+
+                        <div class="modal-body" style="width: 100%;">
+                            <div class="col">
+                                <div class="row pt-4">
+                                    <div id="view1" style="width: 90%;">
+                                        <h5 class="modal-title" id="paramodalLabel" style="text-align: center;">Update
+                                            Post Compliance</h5>
+                                            <form>
+
+                                                <label class="container">
+    
+    
+                                                      <div class="col">
+                                                        <!-- <label for="comp_id">Update Compliance</label> -->
+                                                        <input type="text" class="form-control " maxlength="500" id="comp_id" name="comp_id"
+                                                           style="max-width:auto;height:2.5em;" onkeyup="draftchange()">
+                                                     </div>
+    
+                                                    <br>
+                                                    <div class="container" style="text-align: center;">
+                                                        <button type="button" class="btn btn-draft btn-sm" id="btSubmit" onclick="draftCompliance(this);" disabled >Save as Draft</button>
+                                                        <button type="button" class="btn btn-save btn-sm" id="submit2" onclick="updateCompliance(this);" hidden>Submit</button>
+                                                        <button type="button" id="submit1" name="submit1" value="Submit1"  class="btn btn-save btn-sm " data-toggle="modal" data-target="#otpModalCenter" onclick="saveByOtp(this);">Submit</button>
+                                                        <!-- <button type="button" id="submit2" class="btn btn-primary btn-md" onclick="chkvalidation();">Submit</button> -->
+                                                    </div>
+    
+                                                    <br>
+                                                    <br>
+                                                    <div class="col" id="draft_field" hidden>
+                                                        <label>Draft Compliance</label>
+                                                        <textarea class="form-control" rows="4"  id="draft_compliance" class="draft_compliance"
+                                                            name="draft_compliance"></textarea><br>
+                                                            <div class="container" style="text-align: center;">
+                                                                <!-- <button type="button" class="btn btn-primary" onclick="updateCompliance1(this);">Update</button> -->
+                                                                <button type="button" class="btn btn-primary" id="submit2" onclick="updateCompliance(this);" hidden>Submit</button>
+                                                                <button type="button" id="submit1" name="submit1" value="Submit1"  class="btn btn-save" data-toggle="modal" data-target="#otpModalCenter" onclick="saveByOtp(this);">Submit</button>
+                                                        
+                                                            </div>
+                                                     </div>
+                                                     <br>
+                                                     
+                                                </label>
+                                            </form>
+                                        </div>
+    
+                                    <div id="view2" name="view2" style="width: 90%;">
+                                        <h5 class="modal-title" id="paramodalLabel" style="text-align: center;">Update
+                                            Status</h5><br>
+                                        <form style="margin-left:7em;">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline1" name="customRadioInline1"
+                                                    value="Action Not Initiated" onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input" checked="checked">
+                                                <label class="custom-control-label" for="customRadioInline1">Action Not
+                                                    Initiated</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline2" name="customRadioInline1"
+                                                    value="Action Initiated" onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadioInline2">Action
+                                                    Initiated</label>
+                                            </div>
+
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline3" name="customRadioInline1"
+                                                    value="Needs Monitoring" onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadioInline3">Needs
+                                                    Monitoring</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline4" name="customRadioInline1"
+                                                    value="Subtantially Implemented"
+                                                    onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label"
+                                                    for="customRadioInline4">Subtantially
+                                                    Implemented</label>
+                                            </div>
+
+
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline5" name="customRadioInline1"
+                                                    value="Under Reconsideration"
+                                                    onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadioInline5">Under
+                                                    Reconsideration</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline6" name="customRadioInline1"
+                                                    value="Dropped" onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label"
+                                                    for="customRadioInline6">Dropped</label>
+                                            </div>
+
+
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadioInline7" name="customRadioInline1"
+                                                    value="Implemented" onclick="setstatus_budget(this.value);"
+                                                    class="custom-control-input">
+                                                <label class="custom-control-label"
+                                                    for="customRadioInline7">Implemented</label>
+                                            </div>
+                                            <input type="text" class="form-control" id="budget_id" hidden>
+                                            <div>
+                                                <br>
+                                                <button type="button" class="btn btn-save" style="margin-left: 7em;"
+                                                    onclick="updateStatus_budget(this);">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Button - 3 code -->
+                                    <div id="view3" style="width: 90%;">
+                                        <h5 class="modal-title" id="paramodalLabel" style="text-align: center;">Physical
+                                            Target Given</h5><br>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="archieve-name">
+                                        </div>
+                                        <br>
+                                        <button type="button" class="btn btn-save"
+                                            style="margin-left: 7em;">Submit</button>
+                                    </div>
+
+                                    <div id="view4" style="width: 90%;">
+                                        <h5 class="modal-title" id="paramodalLabel" style="text-align: center;">
+                                            Financial Target Given</h5><br>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="archieve-name">
+                                        </div>
+                                        <br>
+                                        <button type="button" class="btn btn-save"
+                                            style="margin-left: 7em;">Submit</button>
+                                    </div>
+
+                                    <div id="view5" style="width: 90%;">
+                                        <h5 class="modal-title" id="paramodalLabel" style="text-align: center;">Update
+                                            Overall Outcome</h5><br>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="archieve-name">
+                                        </div>
+                                        <br>
+                                        <button type="button" class="btn btn-save"
+                                            style="margin-left: 7em;">Submit</button>
+                                    </div>
+                                    <!-- Button - 3 code end -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="font-family:'Lato', sans-serif; overflow-x: auto;">
+        <table id="createTable" class="table table-striped table-bordered center table-data"
+            >
+            <thead>
+                <tr >
+                    <th>
+                        S.No.
+                    </th>
+                    <th>
+                        Budget
+                        Para</th>
+                    <th>
+                        Action Point</th>
+
+                    <th>
+                        Concerned
+                        Officer</th>
+                    <th>
+                        Action
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Remark</th> -->
+                </tr>
+            </thead>
+            <tbody id="addworkpara">
+                <!-- </tbody> -->
+                {% for i in data %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.title}} [{{i.financial_year}}/{{i.para_no}}]</td>
+                    <td>{{i.specific_action}}</td>
+                    <td>
+                        {% for j in i.marked_officer %}
+
+                        {% for k in j %}
+                        {{k}}
+                        {% endfor %}
+                        {% endfor %}
+                    </td>
+                    <td>{{i.action}}</td>
+
+                    
+                    <td>
+                        
+                        {% for j in i.sub_specific_action %}
+
+                        {% for k in j %}
+                        <button type="button" class="btn btn-outline-primary btn-sm" href="" data-spec="{{i.specific_action}}" data-title="{{i.title}} [{{i.financial_year}}/{{i.para_no}}]"  id="{{k}}" name="{{i.budget_id}}"  data-toggle="modal"data-target="#paramodal"
+                            onclick="fun_getdata(this)"><i class="far fa-edit"></i></button>
+
+                        {% endfor %}
+                        {% endfor %}
+                    </td>
+
+                </tr>
+                {% empty %}
+                <td colspan="7" style="text-align: center;"> No Data Found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <br><br>
+
+
+<!-- otp Modal -->
+<div class="modal fade" id="otpModalCenter" tabindex="-1" role="dialog" aria-labelledby="otpModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="otpModalLongTitle">Verify Your budget Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            
+            <div class="row">
+              <div id="otpcurrent"></div>
+              <div id="count_down">
+                <div>Time left : <span id="timer"></span></div>
+              </div>
+              <br>
+              <div class="col-8">
+                <input style="background-color: #fff;" autocomplete="off" placeholder="- - - -" type="text" name="" id="your_otp" class="form-control" maxlength="4">
+              </div>
+              <div class="col-4">
+                <button class="btn btn-info" data-dismiss="modal" id="verify_otp" onclick="verify_my_otp()">Verify</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+</div>
+  
+</body>
+
+
+
+
+<script>
+
+
+
+    // Pagination Second Way
+    $('#createTable').show();
+
+    table = $('#createTable').DataTable({
+        lengthMenu: [10, 25, 50, 100],
+        dom: '<"search"f><"top"l>rt<"bottom"ip><"clear">',
+    });
+
+    $(document).ready
+        (
+            function () {
+                document.getElementById('view1').hidden = true;
+                document.getElementById('view2').hidden = true;
+                document.getElementById('view3').hidden = true;
+                document.getElementById('view4').hidden = true;
+                document.getElementById('view5').hidden = true;
+            }
+        )
+
+    $('#officer').select2()
+
+    $('#div1').hide();
+    $('#div2').hide();
+    $('#div3').hide();
+
+
+    function fun_getdata(el) {
+        id=el.name
+        // alert(id)
+        let title = el.dataset.title
+        let spec = el.dataset.spec
+        x=(el.name).split('@#$@#$');
+        
+        $('#budget_id').val(el.name)
+        var budget_id = $('#budget_id').val()
+        // alert(el)
+        // data = {
+        //     'budget_id': id,
+        // }
+        $('#fin_year').val(title)
+        
+        $('#specific_action').val(spec +'\n'+ el.id)
+        
+        // $('#sub_specific_action').val(th.id)
+
+
+    }
+
+    function funshowhide() {
+        document.getElementById('view1').hidden = false;
+        document.getElementById('view2').hidden = true;
+        document.getElementById('view3').hidden = true;
+        document.getElementById('view4').hidden = true;
+        document.getElementById('view5').hidden = true;
+
+        $('#div3').hide();
+    }
+    function funshowhide1() {
+        document.getElementById('view1').hidden = true;
+        document.getElementById('view2').hidden = false;
+        document.getElementById('view3').hidden = true;
+        document.getElementById('view4').hidden = true;
+        document.getElementById('view5').hidden = true;
+
+        $('#div3').hide();
+    }
+    function funshowhide2() {
+        document.getElementById('view1').hidden = true;
+        document.getElementById('view2').hidden = true;
+        document.getElementById('view3').hidden = false;
+        document.getElementById('view4').hidden = true;
+        document.getElementById('view5').hidden = true;
+
+        $('#div3').hide();
+    } function funshowhide3() {
+        document.getElementById('view1').hidden = true;
+        document.getElementById('view2').hidden = true;
+        document.getElementById('view3').hidden = true;
+        document.getElementById('view4').hidden = false;
+        document.getElementById('view5').hidden = true;
+
+        $('#div3').hide();
+    } function funshowhide4() {
+        document.getElementById('view1').hidden = true;
+        document.getElementById('view2').hidden = true;
+        document.getElementById('view3').hidden = true;
+        document.getElementById('view4').hidden = true;
+        document.getElementById('view5').hidden = false;
+
+        $('#div3').hide();
+    }
+
+    $('#year_id').change(function () {
+        year_id = $('#year_id').val();
+        data = {
+            'year_id': year_id,
+        }
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            data: data,
+            url: '{% url "getPara" %}',
+            success: function (response) {
+                $('#para_id').empty();
+                let row = '<option selected disabled hidden>--Select Para Number--</option>';
+                console.log('response.length', response.length);
+                for (let i = 0; i < response.length; i++) {
+                    row += '<option value="' + response[i].para_no + '">' + response[i].para_no + ' </option>';
+                }
+                $('#para_id').append(row);
+
+            }
+        })
+    })
+
+    $('#para_id').change(function () {
+
+        para_id = $('#para_id').val();
+        data = {
+            'para_id': para_id,
+        }
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            data: data,
+            url: '{% url "getOfficer" %}',
+            success: function (response) {
+                $('#officer').empty();
+                let row;
+                console.log('response.length', response.length);
+                for (let i = 0; i < response.length; i++) {
+                    row += '<option value="' + response[i].marked_officer__designation + '">' + response[i].marked_officer__designation + ' </option>';
+                }
+                $('#officer').append(row);
+
+            }
+        })
+    })
+
+    // Modal Update Status
+
+    var GLOBALRADIOBUTTON = 'Action Not Initiated'
+    function setstatus_budget(val) {
+        GLOBALRADIOBUTTON = val
+    }
+
+    function updateStatus_budget(e) {
+        let view2 = e.value;
+
+        view2 = GLOBALRADIOBUTTON;
+        budget_id = $('#budget_id').val();
+        //alert(budget_id+ 'Testing')
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'updateStatus_budget_ajax' %}",
+            dataType: 'json',
+            data: { view2, budget_id },
+            success: function (response) {
+                window.location.reload();
+
+
+                //  if(response == 'True'){
+                //      alert('Para Number already exist')
+                //  }else{
+
+                //  }
+            },
+            error: function (exception) {
+
+            }
+
+        });
+    }
+
+
+    function updateCompliance(e) {
+    let comp_id = $('#comp_id').val();
+    budget_id=$('#budget_id').val();
+    $('#latest_compliance').val(comp_id);
+    // alert(comp_id)
+    // $("#submit").attr("disabled", true);
+
+    
+ $.ajax({
+       type: 'GET',
+       url: "{% url 'updateCompliance_ajax' %}",
+       dataType: 'json',
+       data: {comp_id,budget_id},
+       success: function (response) {
+        // window.location.reload();
+        console.log(response.result[0]['new_compliance'].length)
+        // var xx=''
+        for(var i=0;i<response.result[0]['new_compliance'].length;i++)
+        {
+            if(i==0)
+            {
+                var xx=response.result[0]['new_compliance'][i] + '\r';
+            }
+            else
+            {
+                xx+=response.result[0]['new_compliance'][i] + '\r';
+            }
+            
+        }
+        $('#latest_compliance').val(xx);
+       },
+       error: function (exception) {
+         
+       }
+ 
+    });
+ }
+
+    function updateCompliance1(e) {
+    let comp_id1 = $('#comp_id').val();
+    budget_id1=$('#budget_id').val();
+    $('#latest_compliance').val(comp_id);
+    // alert(comp_id)
+    // $("#submit").attr("disabled", true);
+
+    
+ $.ajax({
+       type: 'GET',
+       url: "{% url 'updateCompliance_ajax1' %}",
+       dataType: 'json',
+       data: {comp_id1,budget_id1},
+       success: function (response) {
+        // window.location.reload();
+        console.log(response.result[0]['new_compliance'].length)
+        // var xx=''
+        for(var i=0;i<response.result[0]['new_compliance'].length;i++)
+        {
+            if(i==0)
+            {
+                var xx=response.result[0]['new_compliance'][i] + '\r';
+            }
+            else
+            {
+                xx+=response.result[0]['new_compliance'][i] + '\r';
+            }
+        }
+        $('#latest_compliance').val(xx);
+       },
+       error: function (exception) {
+         
+       }
+ 
+    });
+ }
+
+
+//  Draft Compliance
+
+function draftCompliance(e) {
+    let comp_id = $('#comp_id').val();
+    budget_id=$('#budget_id').val();
+    $('#draft_compliance').val(comp_id);
+    document.getElementById('draft_field').hidden=false
+    document.getElementById('comp_id').value='';
+    // $("#submit").attr("disabled", true);
+
+    
+ $.ajax({
+       type: 'GET',
+       url: "{% url 'draftCompliance_ajax' %}",
+       dataType: 'json',
+       data: {comp_id,budget_id},
+       success: function (response) {
+        // window.location.reload();
+        
+        console.log(response.result[0]['draft_compliance'].length)
+        // var xx=''
+        for(var i=0;i<response.result[0]['draft_compliance'].length;i++)
+        {
+            if(i==0)
+            {
+                var xx=response.result[0]['draft_compliance'][i] + '\r'
+            }
+            else
+            {
+                xx+=response.result[0]['draft_compliance'][i] + '\r'
+            }
+            
+        }
+        $('#draft_compliance').val(xx);
+       
+
+       },
+       error: function (exception) {
+         
+       }
+ 
+    });
+ }
+ 
+
+
+</script>
+
+<script>
+    function draftchange()
+    {
+        bt = document.getElementById('comp_id').value;
+        if (bt != '') {
+            document.getElementById('btSubmit').disabled = false;
+        }
+        else {
+            document.getElementById('btSubmit').disabled = true;
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function(){
+    $('#submit2').hide()
+  })
+  
+  let timerOn = true;
+  function timer(remaining) {
+    var m = Math.floor(remaining / 60);
+    var s = remaining % 60;
+    
+    m = m < 10 ? '0' + m : m;
+    s = s < 10 ? '0' + s : s;
+    document.getElementById('timer').innerHTML = m + ':' + s;
+    remaining -= 1;
+    
+    if(remaining >= 0 && timerOn) {
+      abc = setTimeout(function() {
+          timer(remaining);
+      }, 1000);
+      return;
+    }
+  
+    if(!timerOn) {
+      // Do validate stuff here
+      return;
+    }
+    
+    // Do timeout stuff here
+    alert('Timeout for otp');
+  }
+
+  function saveByOtp(el){
+    
+    $.ajax({
+          type : 'GET',
+          url : "{% url 'budgetSaveOtp_ajax' %}",
+          dataType : 'json',
+          success : function(response){
+           //OTP SENDED TO DATA BASE
+            let time_count =  parseInt(response.timer)
+            alert(response.newotp)
+            timer(time_count);
+           
+  
+           
+          }
+    });
+  
+  }
+  
+  function verify_my_otp(){
+    const myotp = document.getElementById('your_otp').value;
+    // $("#verify_otp").attr("disabled", true);
+    $.ajax({
+          type : 'POST',
+          url : "{% url 'budget_verify_my_otp_ajax' %}",
+          dataType : 'json',
+          data: {'myotp': myotp, csrfmiddlewaretoken: '{{csrf_token}}'},
+          success : function(response){
+            if(response.ret == 'True'){
+              $('#submit2').click();
+              let html = `<div class="alert alert-success" role="alert">
+                Form submited
+              </div>`
+              $('#otpcurrent').html(html)
+              clearInterval(abc)
+            }else if(response.ret == 'False'){
+              let html = `<div class="alert alert-danger" role="alert">
+                OTP didn't match
+              </div>`
+              $('#otpcurrent').html(html)
+              
+            }
+            
+           
+          }
+    });
+  }
+  
+  var digitPeriodRegExp = new RegExp('\\d|\\.');
+  var input1 = document.getElementById('your_otp');
+  var input2 = document.getElementById('input2');
+  
+  input1.addEventListener('keydown', function(event) {
+      if(event.ctrlKey // (A)
+      || event.altKey // (A)
+      || typeof event.key !== 'string' // (B)
+      || event.key.length !== 1) { // (C)
+          return;
+      }
+      if(!digitPeriodRegExp.test(event.key)) {
+          console.log(1);
+          event.preventDefault();
+      }
+  }, false);
+  
+</script>
+
+{% endblock %}

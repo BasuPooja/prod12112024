@@ -1,0 +1,665 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <style>
+        .wrap.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    
+    .wrap-1.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap-1 {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    .wrap.active .content,.wrap-1.active .content  {
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    .wrap .content, .wrap-1 .content {
+        opacity: 0;
+    }
+    .wrap.active:before, .wrap-1.active:before {
+        height: 2000px;
+        width: 2000px;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        margin-left: -1000px;
+        margin-top: -1000px;
+        display: block;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap:before, .wrap-1:before {
+        position: fixed;
+        width: 1px;
+        height: 1px;
+        background: white;
+        content: "";
+        bottom: 10px;
+        left: 50%;
+        top: 95%;
+        color: #fff;
+        border-radius: 50%;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+        width: 10px;  /* Remove scrollbar space */
+        background: #dedede;
+    }
+    /* Optional: show position indicator in red */
+    .wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+        background: #FF0000;
+    }
+      </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}"/> 
+ <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+ <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+ <script src="{% static 'js/fontawesomev5.15.js' %}"></script>
+ <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+ 
+ 
+ <link rel="stylesheet" type="text/css" href="{% static 'css/quicksand.css' %} ">
+ <link rel="stylesheet" type="text/css" href="{% static 'css/lato.css' %}">
+ <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+ <script src="{% static '/js/select2.min.js' %}"></script>
+ 
+ <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+ <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+ 
+ <!-- date range -->
+ <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+ <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+ <link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+ 
+ <!-- datepicker,datatable and jquery-ui all -->
+ <link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.css' %}" />
+ <script type="text/javascript" src="{% static 'DataTables/datatables.js' %}"></script>
+ <link rel="stylesheet" type="text/css" href="{% static 'jquery-ui/jquery-ui.css' %}" />
+ <script type="text/javascript" src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+ 
+  
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+ 
+ <!-- timepicker -->
+ <link rel="stylesheet" type="text/css" href="{% static 'timepicker/css/timepicker.css' %}" />
+</head>
+
+
+<body>
+    <div class="container-fluid mt-0">        
+        <h3 class="report_heading">List of Replies/Forwards</h3> 
+        <br>
+        <div class="inpt-container p-2">
+            <div class="row">
+                <div class="col">
+                    <label  class=" lbl-caption" >Rly./Org. Wise</label>
+                    <select class="form-control  lbl-caption" name="rly_id" id="rly_id1"  data-placeholder="Select zone.." >
+                        <option value="" selected disabled>All</option>
+                        {% for z in zone %}
+                        <!-- <option value="{{z}}">{{z}}AA</option> -->
+                        <option value="{{z}}" {% if rly_code == z %} selected {%endif%}>{{z}}</option>
+                        {% endfor %}
+                    </select> &nbsp;
+                </div>
+                
+               <div class="col">
+                    <label for="division" class="lbl-caption"  >Div./Unit Wise</label>
+                    <select class="form-control custom-select lbl-caption" name="div_id" id="div_id1" class="custom-select" data-placeholder="Select division.." > 
+                        <option value="all" >Select Division..</option>
+                        {% for d in division %}
+                        <option value="{{d.location_code}}" {% if div_code == d.location_code %} selected {%endif%}>{{d.location_code}}-{{d.location_type}}</option>
+                        {% endfor %}
+                    </select>   &nbsp;
+               </div>
+                
+               <div class="col">
+                    <label class ="lbl-caption" >Forward To</label>
+                    
+                    <select id="desig_for" name="desig_for" class="form-control custom-select lbl-caption" class="custom-select"  data-placeholder="Select Designation.." multiple >
+                        <option value=""  disabled>Select</option>
+                        <!-- <option value="" selected disabled>All</option> -->
+                        {% for z in designation %}
+                        <option value="{{z.designation}}">{{z.designation}}</option>
+                        {% endfor %}
+                    </select> &nbsp;
+               </div>
+                <div class="col">
+                    <label class ="lbl-caption" > Forward To Panel</label>
+                    <!-- <input type="checkbox" name="panel" id ="panel" value="panel" onclick="showPanel()" data-toggle="modal" data-target="#PanelModal"> -->
+                    <button type="button" class="btn btn-outline-secondary btn-sm " data-toggle="modal" data-target="#PanelModal" onclick="showPanel()"><i class="fa fa-address-book" aria-hidden="true"></i></button>
+    
+                    &nbsp;&nbsp;
+                </div>
+                <div class="col">
+                    <label class ="lbl-caption" >Item No</label>
+                    <input type="textarea" style="text-align: center;background-color:aliceblue;" id="item" value="" disabled></input>
+                    <input class =" form-control lbl-caption" id="inspection_no" value="{{inspection_no}}" hidden></input>
+                    <input type="textarea" class ="lbl-caption" id="marked_no" value="{{marked_no}}" hidden></input>
+                    <input type="textarea" class ="lbl-caption" id="furtherFwd" value="{{furtherFwd}}" hidden></input>
+                    &nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="col">
+                    <button type="button" id="submit_filter" style="border: 1px solid #ccc; margin-left: 2%;" class="btn btn-success btn-sm float-right" onclick="compliance_forward(this);" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button>  
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <table id="mytable2" class="table table-striped table-bordered table-data ">
+                <thead>
+                    <tr align="left">
+                        <th>Sr.No.</th>
+                        <th>Insp. Para</th>
+                        <th>Forward On</th>
+                        <th>Forward Officer</th>
+                        <th>Received Reply</th>
+                        <th>Rejected Remark</th>
+                        <th>Rejected On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>                        
+                <tbody>
+                    {% for x in listgrid %}
+                        {% for l in x.forwardss %}
+                            <tr>
+                                <td>{{x.sr_no}}</td>
+                                <td>Question: {{x.question}} <br>
+                                    Answer: {{x.value}}<br>
+                                    Remarks: {{x.report_act}}
+                                </td>
+                                
+                            <td>{{l.forward_on}}</td>
+                            <td>{{l.designationTo}}</td>
+                            <td>{% if l.forwardStatus == 0  %}NA{% else %}{{l.compliance_forward}}{% endif %}</td>    
+                            <td><textarea class="form-control" name="remark_id" id="remark_id{{l.forwardId}}" rows="2" maxlength="200" {% if l.forwardStatus != 2 %} disabled {% endif %}>{{l.remarks_forward}}</textarea></td>
+                            <td>{{l.rejected_on_fwd}}</td>  
+                            <td>
+                                    {% if l.forwardStatus != 2  %}
+                                    <button type="button" class="btn btn-primary" id="{{l.compliance_forward}}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Move</button>
+                                    {% else %}
+                                    <button type="button" class="btn btn-primary" id="{{l.compliance_forward}}"  >Move</button>
+                                    {% endif %}
+                                    &nbsp;
+                                    <br>
+                                    {% if l.forwardStatus == 2 %}
+                                    <button type="button" class="btn btn-primary" id="{{l.forwardId}}" onclick="reject_forward_reply(this);">Reject</button>
+                                    {% else %}
+                                    <button type="button" class="btn btn-primary" id="{{l.forwardId}}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                    {% endif %}
+                                </td>  
+                            </tr>
+                            {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br><br>
+
+            <div for="edit" style="text-align:left;">Edit Section</div>
+            <div class="row">
+                <div class="col-11">
+                    <textarea  class="form-control lbl-caption word-wrap" rows="2"  id="textAreaExample1" onkeyup="expandarea(this)" style="background-color: aliceblue;" disabled></textarea>
+                </div>
+                <div class="col-1">
+                    <button style="margin:2%" type="button" class="btn btn-warning savebtn" data-dismiss="modal" id="save_btn_frwd" style="height:7%;" onclick="save_replied()" disabled>Save</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- <div class="wrap mt-0" id="inside_wrap">
+        <div class="content mt-0">
+          <button class="btn btn-danger" onclick="closePpln(this);" id="close_wrap">&times;</button>
+          <iframe src="" style="width:100%;height:82vh;border:0px;" id="frmDash1"></iframe>
+        </div>
+    </div> -->
+     <!-- Modal for panel compliance-->
+     <div class="modal fade" id="PanelModal" tabindex="-1" role="dialog" aria-labelledby="PanelModallabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="report_heading" id="PanelModalLabel">Select Designations</h3>
+                    <button type="button"  class="close"  data-dismiss="modal" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" style="overflow-y:scroll; height: 300px;">
+                    <table id="mytablepanel" class="table table-striped table-bordered table-data ">
+                        <thead>
+                            <tr>
+                                <th>Mark <input class="pan_checks_all" type="checkbox"  id ="panel_checks_all" value="all" onclick="pan_checks_all_fun()"></th>
+                                <th>Designation</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>                        
+                        <tbody>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-toolbar" role="toolbar" >
+                        <div class="btn-group mr-2" role="group" >
+                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-dismiss="modal" onclick="save_panel(this)" >Save</button>
+                            <!-- <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" id="closeforward">Close</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+      
+</body>
+
+<script>
+    $("#rly_id").select2();
+    $("#div_id").select2();
+    $("#rly_id1").select2();
+    $("#div_id1").select2();
+    $('#desig').select2();
+    $('#desig_for').select2();
+
+    function closePpln()
+  {
+      $("#inside_wrap").toggleClass('active');
+      window.location.reload();
+  }
+
+</script>
+
+<script>
+    function expandarea(element){
+        element.style.height = "1px";
+        element.style.height = (15+element.scrollHeight)+"px";
+    }
+
+    $('#rly_id1').change(function() {
+        var rly=$('#rly_id1').val();
+        var desigss=$('#desig_for').val();
+        // desigss=JSON.stringify(desigss)
+        // alert(desigss)
+        forwarded_already= already_for(1);
+    
+            data={  
+                'rly_data_hrms': JSON.stringify(rly),
+
+              }
+    
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_rly_desig' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response)
+                {
+                    if(response.desig){
+                      $('#desig_for').empty()
+                      $('#desig_for').append(`<option value="">Select Designation</option>`);
+                      for (let j=0; j<desigss.length;j++){
+                        $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                      }
+                      for (let i = 0; i < response.desig.length; i++) {
+                        if (  forwarded_already.includes(response.desig[i]['designation']))
+                            $('#desig_for').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                        else
+                        $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+                    let division=response.division;
+                    $('#div_id1').empty()
+                    $('#div_id1').append(`<option value="all">Select Division..</option>`);
+                    for (let i = 0; i < division.length; i++) {
+                        $('#div_id1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+
+                        // $('#div_id1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                    }
+            
+                    }
+
+    
+                }
+                
+    
+              });
+      });
+      
+    $('#div_id1').change(function() {
+        var rly=$('#rly_id1').val();
+        var div=$('#div_id1').val();
+        var desigss=$('#desig_for').val();
+        forwarded_already= already_for(1);
+        data={  
+            'rly_data_hrms': JSON.stringify(rly),
+            'div_data_hrms': JSON.stringify(div),
+              }
+    
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_div_desig' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response)
+                {
+                    if(response.desig){
+                      $('#desig_for').empty()
+                      $('#desig_for').append(`<option value="">Select Designation</option>`);
+                      for (let j=0; j<desigss.length;j++){
+                        $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                      }
+                      for (let i = 0; i < response.desig.length; i++) {
+                        if (  forwarded_already.includes(response.desig[i]['designation']))
+                            $('#desig_for').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                        else
+                            $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+            
+                    }
+
+    
+                }
+                
+    
+              });
+      
+            });
+
+function showPanel(){
+    forwarded_already= already_for(1);
+    $.ajax({
+        type : 'GET',
+        url : "{% url 'get_panel_officers' %}",
+        dataType : 'json',
+
+        success : function(response)
+        {
+            $('#mytablepanel tbody').empty();
+            console.log(response.desig)
+            if(response.desig){
+                row=''
+                for(var i=0;i<response.desig.length;i++){
+                if (  forwarded_already.includes(response.desig[i]['designation'])){
+                    row+=`<tr disabled>
+                    <td><input class="pan_checks" type="checkbox" disabled id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                    <td>${response.desig[i]['designation']}</td>
+                    <td>${response.desig[i]['name']}</td>
+                    </tr>`
+                }
+                else{
+                row+=`<tr>
+                    <td><input class="pan_checks" type="checkbox" id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                    <td>${response.desig[i]['designation']}</td>
+                    <td>${response.desig[i]['name']}</td>
+                    </tr>`
+                }
+                }
+                $('#mytablepanel tbody').append(row);
+
+                // elements=document.getElementsByClassName("pan_checks");
+                // for(i=0;i<elements.length;i++){
+                //     var dd=elements[i].id
+                //     document.getElementById(dd).checked = true
+                // }
+            }
+        }
+    }); 
+}
+
+function save_panel(){
+    var desigss=$('#desig_for').val();
+    elements=document.getElementsByClassName("pan_checks");
+    new_desig=[]
+    for(i=0;i<elements.length;i++){
+        var dd=elements[i].id
+        if (document.getElementById(dd).checked == true){
+            var x='#'+dd;
+            var valdd= $(x).val();
+            new_desig.push(valdd)
+        }
+    }
+    $('#desig_for').empty()
+    $('#desig_for').append(`<option value="">Select Designation</option>`);
+    for (let j=0; j<desigss.length;j++)
+    {
+        if (!(new_desig.includes(response.desig[i]['designation'])))
+        $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+    }
+            
+    for (let i = 0; i < new_desig.length; i++) 
+            $('#desig_for').append(`<option value="${new_desig[i]}" selected> ${new_desig[i]}</option>`);
+
+    var rly=$('#rly_id1').val();
+    var div=$('#div_id1').val();
+    data={  
+            'rly_data_hrms': JSON.stringify(rly),
+            'div_data_hrms': JSON.stringify(div),
+              }
+    
+              $.ajax({
+                type : 'GET',
+                url : "{% url 'getdiv_div_desig' %}",
+                dataType : 'json',
+                data : data,
+    
+                success : function(response)
+                {
+                    if(response.desig){
+                      for (let i = 0; i < response.desig.length; i++) {
+                      if (  (desigss.includes(response.desig[i]['designation'])) || (new_desig.includes(response.desig[i]['designation'])))
+                      continue;
+                      else
+                        $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+                }
+                }
+            });
+}
+
+function already_for(item_no){
+    var val =0
+    var furtherFwd=$('#furtherFwd').val()
+    if (item_no == 1){
+        var marked_no=$('#marked_no').val();
+        marked_no=JSON.stringify(marked_no);
+        val=1
+    }
+    else{
+        var marked_no=$('#marked_no').val();
+        val=marked_no.length()
+        marked_no=JSON.stringify(marked_no);
+    }
+        
+    data={
+        'marked_no':marked_no,
+        'val':val,
+        'furtherFwd':furtherFwd
+    }
+    // alert(data['item_no'], )
+    // alert(data['val'])
+    // alert(marked_no)
+    var forwarofc;
+        $.ajax
+        ({
+            url: "{% url 'forward_officer_phase2' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response)
+            {
+                forwarofc =response.for_desigs;
+                // console.log(forwarofc);
+                
+            }
+        })
+        return forwarofc
+}
+
+
+    // to forward query successfully (multiselect)
+    function compliance_forward()
+    {
+        marked_no=JSON.stringify($('#marked_no').val())
+        // alert(marked_no+"shafgashfgashf")
+        
+        inspection_no=$('#inspection_no').val()
+        var furtherFwd=$('#furtherFwd').val()
+        data=
+        {
+            // 'marked_no':JSON.stringify(marked_no),
+            'inspection_no': inspection_no,
+            'forwardToId':JSON.stringify($('#desig_for').val()),
+            'id':marked_no,
+            'byOthersAction':'forward',
+            'furtherFwd':furtherFwd
+        }
+        $.ajax({
+      url: "{% url 'updateEinspUser' %}",
+      type: 'GET',
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        alert(response);
+        // window.location.reload();
+        window.parent.closePpln();
+      }
+    })
+    }
+
+    function reject_forward_reply(e)
+    {
+        marked_no=$('#marked_no').val()
+        inspection_no=$('#inspection_no').val()
+        var forward=e.id;
+        var remark=$('#remark_id'+forward).val()
+        data=
+        {
+            // 'marked_no':JSON.stringify(marked_no),
+            'inspection_no': inspection_no,
+            // 'forwardToId':JSON.stringify($('#desig_for').val()),
+            'id':marked_no,
+            'forward_id':forward,
+            'byOthersAction':'reject_forward',
+            'forwardToRemarks':remark,
+        }
+        $.ajax({
+      url: "{% url 'updateEinspUser' %}",
+      type: 'GET',
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        alert(response);
+      }
+    })
+    }
+  
+    function merge(e)
+    {
+        var val=e.id;
+        // // alert(val)
+        // var item_no=$('#item_no').val();
+        // if (prev_item_no==-1){
+        //     prev_item_no=item_no;
+            
+        // }
+        // else if (prev_item_no==item_no)
+        //     {}
+        // else{
+        //     prev_item_no=item_no;
+        //     document.getElementById('textAreaExample1').value='';
+        //     document.getElementById('save_btn_frwd').disabled = true;
+        // }
+
+        
+        if(document.getElementById(val)) 
+        {
+            expandarea(document.getElementById('textAreaExample1'))
+            var textval=$('#textAreaExample1').val()+'\n'+val;
+            $('#textAreaExample1').val(textval);
+            document.getElementById('textAreaExample1').disabled = false;
+            document.getElementById('save_btn_frwd').disabled = false;
+        }
+    }
+    
+    // for forwarded reply (merged)
+    function save_replied()   
+    {
+        var marked_no=$('#marked_no').val();
+        var item_no_id='//'+item_no;
+        var compliance=$('#textAreaExample1').val();
+        var com_id=item_no+'/';
+        data=
+        {
+            'marked_no':marked_no,
+            'byOthersAction':'close',
+            'compliance':compliance,
+        }
+        $.ajax({
+            url: "{% url 'updateEinspUser' %}",
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                alert(response);
+                // document.getElementById(com_id).readOnly = true;
+                // document.getElementById(com_id).style.backgroundColor = "lightblue";
+                // // document.getElementById(date_id).style.backgroundColor = "lightblue";
+                // document.getElementById(marked_no_id).disabled = true;
+                // // document.getElementById(revert_id).disabled = true;
+                // document.getElementById(edit_id).disabled = false;
+                // // document.getElementById(marked_no_id).style.backgroundColor = "lightblue";
+            }
+    }) 
+    }
+
+</script>

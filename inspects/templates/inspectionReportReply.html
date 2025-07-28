@@ -1,0 +1,774 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+  
+  <style>
+    .wrap.active {
+    display: block;
+    visibility: visible;
+    box-shadow: 2px 3px 16px silver;
+    transition: all 600ms;
+    transform: translateY(0px);
+    transition: all 0.5s;
+}
+.wrap {
+    position: fixed;
+    overflow: hidden;
+    top: 10%;
+    right: 10%;
+    bottom: 85px;
+    left: 10%;
+    padding: 12px;
+    display: block !important;
+    border-radius: 4px;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    visibility: hidden;
+    z-index: 9999;
+    height: 85vh;
+}
+
+.wrap-1.active {
+    display: block;
+    visibility: visible;
+    box-shadow: 2px 3px 16px silver;
+    transition: all 600ms;
+    transform: translateY(0px);
+    transition: all 0.5s;
+}
+.wrap-1 {
+    position: fixed;
+    overflow: hidden;
+    top: 10%;
+    right: 10%;
+    bottom: 85px;
+    left: 10%;
+    padding: 12px;
+    display: block !important;
+    border-radius: 4px;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    visibility: hidden;
+    z-index: 9999;
+    height: 85vh;
+}
+.wrap.active .content,.wrap-1.active .content  {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+.wrap .content, .wrap-1 .content {
+    opacity: 0;
+}
+.wrap.active:before, .wrap-1.active:before {
+    height: 2000px;
+    width: 2000px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    margin-left: -1000px;
+    margin-top: -1000px;
+    display: block;
+    -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.wrap:before, .wrap-1:before {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    background: white;
+    content: "";
+    bottom: 10px;
+    left: 50%;
+    top: 95%;
+    color: #fff;
+    border-radius: 50%;
+    -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+    width: 10px;  /* Remove scrollbar space */
+    background: #dedede;
+}
+/* Optional: show position indicator in red */
+.wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+  </style>
+  <style>
+    
+  .modal-content {
+    border: solid !important;
+    border-width: 1px !important;
+  }
+
+  .modal-header {
+    background-color: #2f7ac5 !important;
+    color: #fff;
+    border-radius: inherit;
+  }
+
+  .close span {
+    color: #fff !important;
+  }
+
+  .close span:hover {
+    color: #fff !important;
+  }
+
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 1200px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+
+  .modal.right.fade.show .modal-dialog {
+    right: 0;
+  }
+
+  /* ----- MODAL STYLE ----- */
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+  }
+
+  .modal-lg {
+    max-width: 70% !important;
+  }
+
+  .modal {
+    pointer-events: none;
+  }
+
+  </style>
+</head>
+
+
+<body>
+
+  <h3 class="report_heading">Reply of {% for ab in ins_title %} {{ab.inspection_note_no}}  dtd.{{ab.inspected_on|date:'d/m/y'}} {% endfor %}</h3>
+   
+  
+<br>
+
+
+<form method="POST"> 
+{% csrf_token %}
+
+
+</div>   
+<br>
+
+
+
+
+{% for i in ins_title %}
+
+<div class="container">
+  <div class="col-lg-12 form-group">
+    <label for="start" >Title</label>
+    <textarea class="form-control" maxlength="150"   id="titleinsp"  name="titleinsp" readonly>{{i.inspection_title}}</textarea>
+  </div>
+</div> 
+{% endfor %}
+<!-- <br> -->
+
+<div class="container"> 
+  <table  style="width: 100%; text-align: left;font-size: 0.7em; ">
+    <tr style=" text-align: left; ">
+      <th style=" text-align: left; width: 9%; font-size: 1em; font-weight: 800;"><u>Index for the below table:</u></th>
+      <th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#208200; width:40px"> <br></span>Reply Received</th>
+      <th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#FE9200; width:40px"> <br></span>Reverted Reply</th>
+      <th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#00DCFE; width:40px"> <br></span>Forwrded Item</th>
+      <th style=" text-align: left; width: 9%;"><span class="badge" style="background-color:#FE0000; width:40px"> <br></span>Pending/Rejected Reply</th>
+    </tr>
+  </table>
+  <br>
+  
+  <table id="table1" class="table table-striped table-bordered center table-data " >
+      <thead >
+          <tr style="margin-left: 5em;">
+            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Item No.</th>
+            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 30%;"> Inspection Para</th>
+            <th  style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black; width: 50%;">
+              <table width="100%" style="border: none;">
+                <th style= "text-align: left;border-top: 1px solid #0066cc; border-bottom: 1px solid #0066cc;border-left: 1px solid #0066cc;border-right: 1px solid #0066cc; width: 20%;">Action By</th>
+                <th style= "text-align: left;border-top: 1px solid #0066cc; border-bottom: 1px solid #0066cc;border-left: 1px solid #0066cc;border-right: 1px solid #0066cc; width: 40%;">Reply Received</th>
+                <th style= "text-align: left;border-top: 1px solid #0066cc; border-bottom: 1px solid #0066cc;border-left: 1px solid #0066cc;border-right: 1px solid #0066cc; width: 10%;">Target </th>
+                <th style= "text-align: left;border-top: 1px solid #0066cc; border-bottom: 1px solid #0066cc;border-left: 1px solid #0066cc;border-right: 1px solid #0066cc; width: 10%;">Days Taken</th>
+                <th style= "text-align: left;border-top: 1px solid #0066cc; border-bottom: 1px solid #0066cc;border-left: 1px solid #0066cc;border-right: 1px solid #0066cc; width: 10%;">Priority</th>
+                <th style= "text-align: center;border-top: 1px solid #0066cc; border-bottom: 1px solid #0066cc;border-left: 1px solid #0066cc;border-right: 1px solid #0066cc; width: 10%;">Reject </th>
+              </table>
+            </th>
+            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">% Compliance</th>
+            <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Priority</th> -->
+          </tr>
+      </thead>
+
+      <tbody  id="addworkmech">
+        {% for j in item_details1 %}
+        {% if j.type == 'S' %}
+        <tr>
+          <td><div style="text-align: center; width:5px; font-family: verdana;"><a href="{{j.item_no}}">{{j.des_id}}</a></div></td>
+          <td><div><b><p id='heading{{j.des_id}}'>{{j.item_title}}</p></b></div></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% elif j.type == 'H' and j.chk_cts == 'YES' %}
+          <tr>
+            <td><div style="text-align: center; width:5px; font-family: verdana;"><a href="#" title="Click to View item Details" data-toggle="modal" data-target="#showDetailsOfItemNo" onclick="openrightmodal('{{j.item_no}}','{{j.des_id}}')">{{j.des_id}}</a></div></td>
+            <td><div><b><p id='heading{{j.des_id}}'>{{j.item_title}}</p></b></div></td>
+            {% if j.chk_cts == 'YES' %}
+              <td>
+                <table width="100%" class="table">
+                  {% for z in j.mrkoffi %}
+                      {% if z.status_flag == 3 or z.status_flag == 4 %}
+                      <tr>
+                            
+                            <td style="line-height: 2.42857143; width: 20%;">{% if z.status_flag == 3 %}<span style="color: green;"> {% else %}<span style="color: rgb(255, 173, 80);">{% endif %} {{z.marked_to__designation}}</span></td>
+                            {% if z.compliance != null %}
+                            <td style="line-height: 2.42857143;width: 40%;">{{z.compliance}}</td>
+                            <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                            {% else %}
+                            <td style="line-height: 2.42857143;width: 35%;">-</td>
+                            <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                            {% endif %}
+                            {% now "Y-m-d" as todays_dt %}
+                            {% if todays_dt > z.target_date|date:'Y-m-d' %}
+                              <td style="line-height: 2.42857143;width: 10%;"><span style="color: red;">{{z.days}}</span></td>
+                            {% else %}
+                              <td style="line-height: 2.42857143;width: 10%;"><span style="color: green;">{{z.days}}</span></td>
+                            {% endif %}
+                            <td style="line-height: 2.4857143;width: 10%;" >{{z.priority}}</td>
+                            <td style="line-height: 2.4857143;width: 10%;" >
+                              {% if z.status_flag == 3 %}
+                              <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: green;"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                              </div>
+                              {% elif z.status_flag == 4  %}
+                              <div style="text-align: center;"><a href="{% url 'corrigendumReportReply' insp_number %}"><span style="font-weight: bold; color: rgb(255, 173, 80);"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                              </div>
+                              {% else %}
+                                  -
+                              {% endif %}
+                            </td>
+                      </tr>
+                      {% else %}
+                        <tr>
+                          {% if z.forwrd_ofcs != 0 %}
+                            <td style="line-height: 2.42857143;width: 20%;" title="Forwarded Further. Click to view Details" >
+                              <a class="sidebar-link waves-effect waves-dark sidebar-link active" id={{z.marked_no}}
+                              href="javascript:void(0)" aria-expanded="false" onclick="openForwardGraph(this)">{{z.marked_to__designation}}</a></td>
+                            {% else %}
+                            <td style="line-height: 2.42857143;width: 20%;"><span style="color: red;">{{z.marked_to__designation}}</span></td>
+                          {% endif %}
+                          {% if z.compliance != null %}
+                              <td style="line-height: 2.42857143;width: 40%;">{{z.compliance}}</td>
+                              <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                          {% else %}
+                              <td style="line-height: 2.42857143;width: 40%;">-</td>
+                              <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                          {% endif %}
+
+                          {% now "Y-m-d" as todays_dt %}
+                  
+                          {% if todays_dt > z.target_date|date:'Y-m-d' %}
+                            <td style="line-height: 2.42857143;width: 10%;"><span style="color: red;">{{z.days}}</span></td>
+                          {% else %}
+                            <td style="line-height: 2.42857143;width: 10%;"><span style="color: green;">{{z.days}}</span></td>
+                          {% endif %}
+                          <td style="line-height: 2.4857143;width: 10%;" >{{z.priority}}</td>
+                          <td style="line-height: 2.4857143;width: 10%;" >
+                            {% if z.status_flag == 3 %}
+                            <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: green;"><i class="fas fa-dot-circle fa-2x"></i></span></a></div>
+                            {% elif z.status_flag == 1 and z.status == 'R' %}
+                            <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: #ff6961;"><i class="fas fa-dot-circle fa-2x"></i></span></a></div>
+                            {% else %}
+                                -
+                            {% endif %}
+                          </td>
+                        </tr>
+                      {% endif %}
+                  
+                  {% endfor %}
+                  
+                
+                </table>
+              
+              </td>
+              <td>
+                {{j.percentage}}
+              </td>
+           
+            {% endif %}
+          </tr>
+        {% elif j.type == 'SH' %}
+          <tr>
+              <td><p style="text-align: center; width:5px; font-family: verdana;" ><a href="#" title="Click to View item Details" data-toggle="modal" data-target="#showDetailsOfItemNo" onclick="openrightmodal('{{j.item_no}}','{{j.des_id}}')">{{j.des_id}}</a></p></td>
+              <td ><p id='observation{{j.des_id}}'>{{j.observation}}</p></td>
+              <td>
+                <table width="100%" class="table">
+                  {% for z in j.mrkoffi %}
+                      {% if z.status_flag == 3 or z.status_flag == 4 %}
+                        <tr>
+                          <td style="line-height: 2.42857143; width: 20%;">{% if z.status_flag == 3 %}<span style="color: green;"> {% else %}<span style="color: rgb(255, 173, 80);">{% endif %} {{z.marked_to__designation}}</span></td>
+                          {% if z.compliance != null %}
+                          <td style="line-height: 2.42857143;width:40%;">{{z.compliance}}</td>
+                          <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                          {% else %}
+                          <td style="line-height: 2.42857143;width:40%;">-</td>
+                          <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                          {% endif %}
+                          {% now "Y-m-d" as todays_date %}
+                          {% if todays_date > z.target_date|date:'Y-m-d' %}
+                            <td style="line-height: 2.42857143;width:10%;"><span style="color: red;">{{z.days}}</span></td>
+                          {% else %}
+                            <td style="line-height: 2.42857143;width:10%;"><span style="color: green;">{{z.days}}</span></td>
+                          {% endif %}
+                          <td style="line-height: 2.42857143;width:10%;" >{{z.priority}}</td>
+                          <td style="line-height: 2.42857143;width:10%;" >
+                            {% if z.status_flag == 3 %}
+                            <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: green;"><i class="fas fa-dot-circle fa-2x"></i></span></a></div>
+                            {% elif z.status_flag == 4  %}
+                            <div style="text-align: center;"><a href="{% url 'corrigendumReportReply' insp_number %}"><span style="font-weight: bold; color: rgb(255, 173, 80);"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                            </div>
+                            {% else %}
+                                -
+                            {% endif %}
+                          </td>
+
+                        </tr>
+                      {% else %}
+                        <tr>
+                          {% if z.forwrd_ofcs != 0 %}
+                          <td style="line-height: 2.42857143;width: 20%;" title="Forwarded Further. Click to view Details" >
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link active" id={{z.marked_no}}
+                            href="javascript:void(0)" aria-expanded="false" onclick="openForwardGraph(this)">{{z.marked_to__designation}}</a></td>                          {% else %}
+                          <td style="line-height: 2.42857143;width: 20%;"><span style="color: red;">{{z.marked_to__designation}}</span></td>
+                          {% endif %}
+                          <!-- <td style="line-height: 2.42857143;width:20%;"><span style="color: red;">{{z.marked_to__designation}}</span></td> -->
+                          {% if z.compliance != null %}
+                          <td style="line-height: 2.42857143;width:40%;">{{z.compliance}}</td>
+                          <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                          {% else %}
+                          <td style="line-height: 2.42857143;width:40%;">-</td>
+                          <td style="line-height: 2.42857143;width: 10%;">{{z.tgt_date}}</td>
+                          {% endif %}
+                          {% now "Y-m-d" as todays_date %}
+                          {% if todays_date > z.target_date|date:'Y-m-d' %}
+                            <td style="line-height: 2.42857143;width:10%;"><span style="color: red;">{{z.days}}</span></td>
+                          {% else %}
+                            <td style="line-height: 2.42857143;width:10%;"><span style="color: green;">{{z.days}}</span></td>
+                          {% endif %}
+                          <td style="line-height: 2.42857143;width:10%;" >{{z.priority}}</td>
+                          <td style="line-height: 2.42857143;width:10%;" >
+                            {% if z.status_flag == 3 %}
+                            <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: green;"><i class="fas fa-dot-circle fa-2x"></i></span></a></div>
+                            {% elif z.status_flag == 1 and z.status == 'R' %}
+                            <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: #ff6961;"><i class="fas fa-dot-circle fa-2x"></i></span></a></div>
+                            {% else %}
+                                -
+                            {% endif %}
+                          </td>
+                        </tr>
+                      {% endif %}
+                  
+
+                  {% endfor %}
+                </table>
+              
+              </td>
+
+                <td>
+                  {{j.percentage}}
+                </td>
+          </tr>
+              
+
+          {% endif  %}  
+        {% endfor %}
+        
+      </tbody>
+          
+      </table>
+    
+  </div>
+
+</form>
+<br>
+<br>
+
+<!-- item details Modal -->
+<div class="modal right " id="showDetailsOfItemNo" tabindex="-1" role="dialog" aria-labelledby="showDetailsOfItemNo">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-left"><b>Details of Item No:- <label id="showDetailsOfItemNoModalLabel"></label></b></h5>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" >Close
+          <!-- <span aria-hidden="true" style="color: red;">&times;</span> -->
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <table id="showDetailsOfItemNoModalTable" class="table table-striped table-bordered center table-data " >
+            <thead >
+                <tr style="margin-left: 5em;">
+                  <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">Item No.</th>
+                  <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 90%;"> Inspection Para</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+
+         </table>
+        </div>
+      </div><!-- modal-body -->
+      <div class="modal-footer modal-footer-full-width">
+        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" >Close</button>
+      </div><!-- Modal Footer-->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
+   
+
+
+<!-- action Modal -->
+<div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="report_heading " id="exampleModalLabel">Action</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="containar">
+
+          <div class="row">
+              <table id="m_table" class="table table-data table-sm">
+                  <thead>
+                      <tr>
+                          <th>S.No</th>
+                          <th>Remark</th>
+                          <th>Reply On</th>
+                          
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+
+              </table>
+              <div class="col text-id">
+                
+              </div>
+          </div>
+
+          <div class="row">
+              <input type="text" id="marked_no" hidden>
+              
+              <div class="col">
+                  
+
+                  <div>
+                      <label for="remark_id"><b>Add Remark</b></label>
+                      <textarea class="form-control" placeholder="Max length 200 character" style="height: 50px;" name="remark_id" id="remark_id" cols="30" rows="10" maxlength="200"></textarea>
+                  </div>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+       
+        <button type="button" class="btn btn-secondary" id="m_close" data-dismiss="modal" >Close</button>
+        
+        <button type="button" class="btn btn-primary" id="save_btn_id" onclick="saveActionForm();" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Save & Revert</button>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+<div class="wrap">
+  <div class="content">
+    <button class="btn btn-danger" onclick="closePpln();">&times;</button>
+    <iframe src="" style="width:100%;height:82vh;border:0px;" id="frmDash"></iframe>
+  </div>
+</div>
+
+
+<input type="text" id="insp_number" value="{{insp_number}}" hidden>
+
+
+<br>
+<br>
+</body>
+
+<script>
+
+function actionBtnFunction(el){
+  
+  let insp_number = $('#insp_number').val()
+  let mark_officer_id = el.id
+      $('#marked_no').val(mark_officer_id)
+
+      $('#m_table tbody').empty()
+
+
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'actionBtnFunction_ajax' %}",
+      dataType : 'json',
+      data : {insp_number, mark_officer_id},
+      success : function(response){
+          
+          for(let y in response.obj){
+            if(response.obj[y].status == 'R' && response.obj[y].status_flag == 1){
+                  document.getElementById('save_btn_id').disabled = true;
+                  document.getElementById('remark_id').disabled = true;
+                }
+                else{
+                  document.getElementById('save_btn_id').disabled = false;
+                  document.getElementById('remark_id').disabled = false;
+                }
+          }
+          if(response.rem_obj.length > 0){
+            let content = ''
+            
+            for(i in response.rem_obj){
+                $('#m_table tbody').empty()
+                let sno = parseInt(i+1)
+                content += '<tr>'
+                        +'<td>'+sno+'</td>'
+                        +'<td>'+response.rem_obj[i].remark+'</td>'
+                        
+                        +'<td>'+ formatDate(response.rem_obj[i].rejected_on)+'</td>'
+                        +'<td>'+ response.rem_obj[i].status +'</td>'
+            
+                content +=  '</tr>'
+                
+            }
+            $('#m_table tbody').append(content)
+          }else{
+            $('.text-id').html('<div style="text-align: center;"><h6>No Remark</h6></div>')
+          }
+
+          
+      }
+ });
+}
+
+
+
+
+function saveActionForm(){
+  // let action_option = $('#action_option').val()
+  
+  let mark_num= $('#marked_no').val()
+  let remark_id= $('#remark_id').val()
+  let insp_number= $('#insp_number').val()
+  if(remark_id == ''){
+      alert('Please add some remark')
+      return false;
+  }
+      
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'save_mark_reply_ajax' %}",
+      dataType : 'json',
+      data : {mark_num, remark_id, insp_number},
+      success : function(response){
+    
+          $('#m_close').click()
+
+          window.location.reload()
+          
+        
+      }
+ })
+}
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day,month,newyear].join('/');
+}
+
+</script>
+<script>
+  function openForwardGraph(e){
+    // alert(e.id)
+    urls='/openForwardGraph/'+String(e.id)
+    // alert(urls)
+    $("#frmDash").attr("src",urls);
+    $(".wrap").toggleClass('active');
+  }
+  function closePpln()
+{
+    $(".wrap").toggleClass('active');
+    window.location.reload();
+}
+$( document ).ready
+  (
+    function() 
+    {
+      $('#table1').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+              });
+
+</script>
+
+<script>
+
+
+  function openrightmodal(itemNo, desId)
+  {
+
+    let data = {
+      item_no : itemNo
+    }
+    $.ajax({
+      type : 'GET',
+      url : "{% url 'item_no_details_phase1' %}",
+      dataType : 'json',
+      data : data,
+      success : function(response){
+        document.getElementById('showDetailsOfItemNoModalLabel').innerHTML = desId;
+        let replydata = response.final_data, row='';
+        for(let i=0;i<replydata.length;i++)
+        {
+          row += `<tr>
+            <td>${replydata[i]['des_id']}</td><td>${replydata[i]['item_title']}`;
+                        
+                
+                  
+                  if(replydata[i]['tbl_data'] != '[]')
+                                {
+                                    row += `<br> <table  border="1"  style="width:100%">`
+                                        tbl_data = replydata[i]['tbl_data']
+                                    for(jk = 0; jk<tbl_data.length;jk++)
+                                    {
+                                        row += ` <tr>`
+                                    for(ik in tbl_data[jk])
+                                    {
+                                        row += `<td>${ik}</td>`
+                                    }
+                                    
+                                   
+                                    row += ` </tr>`
+                                
+                                 
+
+                                    }
+                                
+                                    
+                           
+                                    row += ` </table>`
+                                }
+                                if(replydata[i]['target_date'] != null)
+                                {
+                                    row += `<br>Target Date: ${formatDate(replydata[i]['target_date'])}`
+                                }
+                                    if(replydata[i]['priority'] == 1)
+                                {
+                                    row += `<br>on Priority`
+                                }
+                                if(replydata[i]['link_image'] != null)
+                                {
+                                    imdata = replydata[i]['link_image'];
+                                    
+                                    for(img in imdata)
+                                    {
+                                        
+                                        row += `<br><img src="/${imdata[img]}" class="center" width="350px" height="250px" style="border: 1px solid #555;margin-top: 5px;">`
+                                    }
+                                }
+                                
+                                row +=  `</td></tr>`;
+
+        }
+       
+        $('#showDetailsOfItemNoModalTable tbody').empty();
+        $('#showDetailsOfItemNoModalTable tbody').append(row);
+
+        
+      }
+
+    });
+  }
+</script>
+{% endblock %}  

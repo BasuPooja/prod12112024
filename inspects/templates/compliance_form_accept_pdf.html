@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>compliances</title>
+
+ <style>
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;        
+    }
+        h3 {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 0px;
+            color: darkblue;
+            margin-bottom: 5px;
+        } 
+        table {
+        margin-top: 10px;
+    }
+ 
+.header {
+        display: flex;
+        align-items: center;
+    }
+
+    .header img:first-child {
+        margin-right: auto;
+    }
+
+    .header img:last-child {
+        margin-left: auto;
+    }
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{abs_path}}" width="1200px" height="140px">
+        <br>
+        <b><h3 style="text-align: center; font-size: 18px; padding-top: 0px;">SENT REPLY OF INSPECTION NOTES MARKED TO ME </h3></b> 
+    </div>
+
+   <b><h3 style="text-align: center; font-size: 18px; padding-top: 0px;"></h3></b>
+    <div>
+        <div align="right" style="font-size: 12px;">Dated: {{Ondate}}</div>
+        <table border="0.7">
+            <thead>
+                <tr>
+                    <th style="width:6%;text-align: center; background-color:#0066cc ;color:#fff; padding-top:8px;">S.No</th>
+                    <th style="width:9%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp. Date </th>
+                    <th style="width:26%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp. Note No.</th>
+                    <th style="width:41%;text-align: center;background-color:#0066cc;color:#fff; padding-top:8px;">Insp. Title </21th>
+                    <th style="width:16%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp. Officer</th>
+                    <th style="width:8%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Rly./Org.</th>
+                    <th style="width:8%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Div./Unit</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for i in listgrid %}
+                <tr >
+                    <td >{{forloop.counter}}</td>
+                    <td style="display:none;">{{i.inspected_on_date}}</td>
+                    <td >{{i.inspected_on}}</td>
+                    <td >{{i.inspection_note_no}}</td>
+                    <td ><span class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='{{i.inspection_title}}'>{{i.inspection_title}}</span></td>
+                    <td>{{i.inspection_officer}}</td>
+                    <td style="width:8%">{% for z in i.zone %}<p>{{z}}</p>{% endfor %}</td>
+                    <td style="width:8%">{% for z in i.div %}<p>{{z}}</p>{% endfor %}</td>
+                </tr>
+            {% endfor %}  
+            {% for i in phase2_accept %}
+                <tr>
+                    <td >{{i.sr_no}}</td>
+                    <td style="display:none;">{{i.eitemid__einspno__inspected_on}}</td>
+                    <td >{{i.eitemid__einspno__inspected_on | date:'d/m/y'}}</td>
+                    <td >{{i.eitemid__einspno__inspection_note_no}}</td>
+                    <td ><span class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.eitemid__einspno__inspection_title}}'>{{i.eitemid__einspno__inspection_title}}</span></td>
+                    <td >{{i.eitemid__einspno__designation__designation}}</td>
+                    <td>{{i.eitemid__einspno__rly_id_id__location_code}}</td>
+                    <t>{{i.eitemid__einspno__div_id_id__location_code}}</td>
+                </tr>
+            {% endfor %} 
+            </tbody>
+    </table> 
+       
+  </div>  
+</body>
+</html>

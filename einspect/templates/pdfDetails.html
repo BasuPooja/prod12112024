@@ -1,0 +1,196 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        @font-face {
+            font-family: 'NotoSansDevanagari';
+            src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+         }
+    
+        body {
+          font-family: 'NotoSansDevanagari', sans-serif;
+         }
+    
+        @page {
+            size: A4 portrait;
+            margin: 1.5cm;
+        }
+    
+        body {
+            display: grid;
+            grid-template-columns: min-content 1fr;
+        }
+    
+        .botline {
+    
+            padding-top: 40px;
+            padding-left: 5px;
+    
+        }
+    
+        .headings {
+            border: 0;
+            
+        }
+    
+        .data th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding-top: 5px;
+            
+    
+        }
+    </style>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+</head>
+
+<body>
+    <div style="text-align :center; border: none; font-size:18px; font-weight: 600; text-decoration: underline;">
+        <h2>{{l1.0.inspection_title}}</h2>
+    </div>
+
+    <table  width="100%" style="border:0.5px solid  black; margin-top: 20px;">
+        <tr  width="5%" style="text-align: left; padding: 2px; margin: 2px;font-size: 12px;">
+            <!-- <td colspan="4" style="font-size: 12px;">From Station : {{fromstation.0.station_name}}</td>
+            <td colspan="4" style="font-size: 12px;">To Station : {{tostation.0.station_name}}</td> -->
+            <td colspan="6" style="font-size: 12px;"><strong>Inspection-Type</strong> : {{l1.0.instypeid_id__name}}</td>
+            <td colspan="6" style="font-size: 12px;"><strong>Date of Inspection</strong> :
+                {{l1.0.inspected_on|date:'d/m/Y'}}</td>
+        </tr>
+        <tr width="40%" style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="6" style="font-size: 12px;"><strong>Designation</strong> : {{l1.0.designation_id__designation}}
+            </td>
+            <td colspan="6" style="font-size: 12px;"><strong>Inspected By</strong> : {{name.0.empname}} {{name.0.empmname | default:'' }} {{name.0.emplname  | default:'' }}</td>
+        </tr>
+        <tr width="35%" style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="6" style="font-size: 12px;"><strong>{{f1}}</strong>{{first}}  </td>
+            <td colspan="6" style="font-size: 12px;"><strong>{{f2}}</strong>{{second}}   </td>
+        </tr>
+        <tr width="20%" style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="6" style="font-size: 12px;"><strong>Start Date & Time</strong> :
+                {{l1.0.start_date|date:'d/m/Y'}} {{start_time }}</td>
+            <td colspan="6" style="font-size: 12px;"><strong>End Date & Time</strong> : 
+                {{l1.0.end_date|date:'d/m/Y' | default:'' }} {{end_time}}</td>
+        </tr>
+    </table>
+    <br>
+
+    {% for i in actorData %}
+    <div style="margin-top: 30px; text-transform:uppercase; font-size: 14px;" class="text-justify text-uppercase">
+        <u> {{i.actor}} </u>
+    </div>
+    <table width="100%" style="border:0.5px solid  black;">
+        <thead>
+            <tr style="text-align:center; padding: 2px; margin: 2px;font-size: 12px;">
+                {% for j in i.head %}
+                <th>{{j}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for j in i.data %}
+            <tr style="text-align:center; padding: 2px; margin: 2px;font-size: 12px;">
+                {% for k in j%}
+                <td >{% if k != '' %}{{k}}{% else %} - {% endif %}</td>
+                {% endfor %}
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+
+    {% for i in question %}
+    <div style="margin-top: 30px; text-transform:uppercase; font-size: 14px;" class="text-justify text-uppercase">
+        <strong>{{i.alphNum}}</strong>. <u>{{i.category}}</u>
+    </div>
+    <table width="100%" style="border:0.5px solid  black;">
+        <thead>
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                <th style="width:5%">Item No.</th>
+                <th style="width:35%">Description</th>
+                <th style="width:40%">Observation</th>
+                <th style="width:20%">Action by</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for k in i.answer %}
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                <td style="width:5%;text-align: left;">{{forloop.counter}}</td>
+                <td style="width:35%;text-align: left;">{{k.activity}}</td>
+                <td style="width:40%;text-align: left;">
+                    {% if k.choicetype == 8 %}
+                        {% for i1 in k.rRem %}
+                            {% if i1 == 1 %}
+                                <label style="font-size: 25px;" >★</label>
+                            {% else %}
+                            <label style="font-size: 25px;" >✩</label>
+                            {% endif %}
+                        {% endfor %}
+                    {% elif k.choicetype == 6 %}
+                    
+                    <img src="{{urlData}}{{k.value}}" alt="{{k.activity}}" width="250" height="200">
+                    
+                    {% else %}
+                    
+                        {{k.value}}
+                        {% if k.loc != None %}
+                        <br>
+                        Location: {{k.loc}}
+                        <br>
+                        {% endif %}
+                    {% endif %}
+                    <br>
+                    {% if k.remarks != '' %}
+                        <strong>Remarks </strong>- {{k.remarks}}
+                    {% endif %}
+                </td>
+                <td style="width:20%; text-align: left ;" >{{k.mark}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {%endfor%}
+    <br>
+    <label style="font-size: 14px;"> Any other Abnormality:- {% if remark == '' %} {{"No"}} {% else %} {{remark}} {% endif %}</label>
+    <BR><BR>
+    </BR></BR>
+    <h5 align="left" style="font-size: 14px; white-space: nowrap;" >Note No: {{l1.0.inspection_note_no}} </h5>
+    </BR>
+    <h3 align="right" style="font-size: 18px">
+        ({{name.0.empname}} {{name.0.empmname | default:'' }} {{name.0.emplname  | default:'' }})
+        <br>
+        {{l1.0.designation_id__designation}}
+    </h3>
+    <br>
+    <h3 align="right" style="font-size: 18px;">Dated:{{l1.0.inspected_on|date:'d/m/Y'}}</h3>
+
+                    {% if copy_to_details %}
+                    <h4 align="left" style="font-size: 14px;" ><b>Copy to:</b></h4>
+                    
+                        <table style="border-collapse: collapse;border-spacing: 0px !important;" >
+                            {% for i in copy_to_details %}
+                            <tr>
+                                <td style="width:5%; text-align:left;font-size: 12px;"><strong>{{ forloop.counter }}</strong></td>
+                                <td style="width:95%; text-align:left;font-size: 12px;"><strong>{{i}}</strong></td>
+                            </tr>
+                            {% endfor %}
+                        
+                    </table>
+                    {% endif %}
+
+</body>
+
+</html>
+{% endblock content %}

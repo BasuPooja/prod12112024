@@ -1,0 +1,109 @@
+data-dropup-auto="false" data-live-search="true" data-actions-box="true"
+
+                        {% endif %}
+                        <td style= "text-align: left;">{{i.mom_title}}</td>
+                        <td style="text-align:left">{{i.meeting_type}}</td>
+                        {% if i.status_flag == 1 %}
+                            <td style="text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">Pending</a></td>
+                        {% elif i.status_flag == 2 %}
+                            <td style="text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">Partial</a></td>
+                        {% elif i.status_flag == 3 %}
+                            <td style="text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">Completed</a></td>
+                        {% elif i.status_flag == 4 %}
+                            <td style="text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">Closed</a></td> 
+                        {% else %}
+                        {% endif %}
+
+
+
+
+
+                <!-- receivemomreply -->
+                        #for heading
+                        # if(m3.Item_details.objects.filter(item_no=i['item_no_id'],type='H')):
+                        #     list_item=m3.Item_details.objects.filter(item_no=i['item_no_id'],type='H').values()
+                        #     temp={}
+                        #     temp['item_db']=i['item_no_id']
+                        #     temp['type']=list_item[0]['type']
+                        #     temp['item_no']=list_item[0]['des_id']
+                        #     temp['item_heading']=list_item[0]['item_heading']
+                        #     temp['marked_no']=i['marked_no']
+                        #     if(i['marked_to_id']):
+                        #         temp['chk']='YES'
+                        #         temp['marked']=m3.Marked_Members.objects.filter(item_no_id=i['item_no_id'],status_flag=3).values('marked_to__designation','reply_text','reply_file','reply_on')
+                        #         # temp['marked_to']=models.Level_Desig.objects.filter(designation_code=i['marked_to_id'])[0].designation
+                        #     else:
+                        #         temp['chk']='NO'
+                        #     temp['mdate']=mom_title[0]['mom_date'].strftime("%d/%m/%y")
+                    
+                    #for sub-heading
+                        # elif(m3.Item_details.objects.filter(item_no=i['item_no_id'],type='SH')):
+                        #     list_item=m3.Item_details.objects.filter(item_no=i['item_no_id'],type='SH').values()
+                        #     temp={}
+                        #     temp['item_db']=i['item_no_id']
+                        #     temp['type']=list_item[0]['type']
+                        #     temp['item_no']=list_item[0]['des_id']
+                        #     temp['item_subheading']=list_item[0]['item_subheading']
+                        #     temp['item_description']=list_item[0]['item_description']
+                        #     temp['marked_no']=i['marked_no']
+                        #     if(i['marked_to_id']):
+                        #         temp['chk']='YES'
+                        #         temp['marked']=m3.Marked_Members.objects.filter(item_no_id=i['item_no_id'],status_flag=3).values('marked_to__designation','reply_text','reply_file','reply_on')
+                        #         # temp['marked_to']=models.Level_Desig.objects.filter(designation_code=i['marked_to_id'])[0].designation
+                        #     else:
+                        #         temp['chk']='NO'
+                        #     temp['mdate']=mom_title[0]['mom_date'].strftime("%d/%m/%y")
+                    
+                    #for decision
+                        # elif(m3.Item_details.objects.filter(item_no=i['item_no_id'],type='D')):
+                        #     list_item=m3.Item_details.objects.filter(item_no=i['item_no_id'],type='D').values()
+                        #     temp={}
+                        #     temp['item_db']=i['item_no_id']
+                        #     temp['type']=list_item[0]['type']
+                        #     temp['item_no']=list_item[0]['des_id']
+                        #     temp['item_decision']=list_item[0]['item_decision']
+                        #     temp['marked_no']=i['marked_no']
+                        #     if(i['marked_to_id']):
+                        #         temp['chk']='YES'
+                        #         temp['marked']=m3.Marked_Members.objects.filter(item_no_id=i['item_no_id'],status_flag=3).values('marked_to__designation','reply_text','reply_file','reply_on')
+                        #         # temp['marked_to']=models.Level_Desig.objects.filter(designation_code=i['marked_to_id'])[0].designation
+                        #     else:
+                        #         temp['chk']='NO'
+                        #     temp['mdate']=mom_title[0]['mom_date'].strftime("%d/%m/%y")
+
+
+
+
+                <!-- reject status -->
+                        # item_count=m3.Marked_Members.objects.filter(item_no=item_no).count()
+                        # item_status=m3.Item_details.objects.filter(item_no=item_no)[0].status_flag
+                        # print(item_count,'____',item_status)
+                        # if item_status==4 and item_count>1:
+                        #     print('1i1')
+                        #     m3.Item_details.objects.filter(item_no=item_no).update(status_flag=3)
+                        # elif item_status==4 and item_count==1:
+                        #     print('2i2')
+                        #     m3.Item_details.objects.filter(item_no=item_no).update(status_flag=1)
+                        # elif item_status==3 and item_count>1:
+                        #     print('3i3')
+                        #     m3.Item_details.objects.filter(item_no=item_no).update(status_flag=2)
+                        # elif item_status==3 and item_count==1:
+                        #     print('4i4')
+                        #     m3.Item_details.objects.filter(item_no=item_no).update(status_flag=1)
+                
+                        # insp_count=m3.Item_details.objects.filter(insp_no=insp_no).count()
+                        # insp_status=m3.Insp_details.objects.filter(insp_no=insp_no)[0].status_flag
+                        # print(insp_count,'____',insp_status)
+                        # if insp_status==4 and insp_count>1:
+                        #     print('11i11')
+                        #     m3.Insp_details.objects.filter(insp_no=insp_no).update(status_flag=3)
+                        # elif insp_status==4 and insp_count==1:
+                        #     print('22i22')
+                        #     m3.Insp_details.objects.filter(insp_no=insp_no).update(status_flag=1)
+                        # elif insp_status==3 and insp_count>1:
+                        #     print('33i33')
+                        #     m3.Insp_details.objects.filter(insp_no=insp_no).update(status_flag=2)
+                        # elif insp_status==3 and insp_count==1:
+                        #     print('44i44')
+                        #     m3.Insp_details.objects.filter(insp_no=insp_no).update(status_flag=1)
+                    

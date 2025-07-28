@@ -1,0 +1,71 @@
+{% block content %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    <style>
+    @page {
+    size: A4 portrait;
+    margin: 1cm;
+    }
+    .botline{
+        padding-top: 40px;
+        padding-left: 5px;     
+    }
+    .headings{
+        border:0;
+    }
+    .data th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding-top: 4px;  
+    }
+    tr:nth-child(even) {
+    background-color: #D6EEEE;
+    }
+    </style> 
+
+<body>
+    <div class="container">
+        <table class="table table-sm table-bordered table-data">
+            <tr>        
+                <td colspan="3" style="text-align :center; border: none; font-size:18px; font-weight: 600; text-decoration: underline;"> <h2>{{div}} Station Inspection Review</h2></td>  
+            </tr>
+        </table>
+    </div>
+
+    <table  style="width: 30px;border:0.5px solid  black; margin-top: 20px;">
+        <thead>
+            <b> <tr style=" font-size: 13px; ">             
+                    <th style="padding: 2px; margin: 2px;">Station Category</th>
+                    <th style="padding: 2px; margin: 2px;">Total Inspections</th>
+                    <th style="padding: 2px; margin: 2px;">Max. Inspected</th>
+                    <th style="padding: 2px; margin: 2px;">Min. Inspected</th>
+                    <th style="padding: 2px; margin: 2px;">Improving</th>
+                    <th style="padding: 2px; margin: 2px;">Best Station</th>
+                </tr>
+            </b>           
+        </thead>
+
+        <tbody id="tbody_IC">
+            {% for i,j in details.items %}
+            <tr class="p-2" style="margin: 5px;">        
+                <td >{{i}}({{j.cnt}})</td>
+                <td>{{j.tot}}</td>
+                <td >{{j.mxins}}{{j.mx}}</td>
+                <td >{{j.mnins}}{{j.mn}}</td>
+                <td >{{j.improving}}</td>
+                <td >{{j.best}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>  
+
+    </table>
+
+</body>
+</html>
+{% endblock content %}

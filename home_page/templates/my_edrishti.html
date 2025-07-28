@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include 'inspects_staticProvider.html' %}
+        <style>
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                border: 0px;
+                background-color:rgb(255,255,255,0) !important;
+                color: #007bff !important;
+                
+            }
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                border: 0px;
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                background-color: rgba(23.32, 77, 77, 0) !important;
+                color: #007bff !important;
+                
+            }
+            
+            
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+                border: 0px;
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                color: rgba(51, 51, 51, 0) !important;
+                border: 1px solid rgba(0, 0, 0, 0);
+                background-color: rgba(23.32, 77, 77, 0);
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255,255,255,0)), color-stop(100%, rgba(0, 0, 0, 0)));
+                /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* Chrome10+,Safari5.1+ */
+                background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* FF3.6+ */
+                background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* IE10+ */
+                background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* Opera 11.10+ */
+                background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+              /* W3C */
+            }
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                color: #007bff !important;
+                border: 1px solid rgba(17, 17, 17, 0);
+                background-color: #58585800;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+                /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* Chrome10+,Safari5.1+ */
+                background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* FF3.6+ */
+                background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* IE10+ */
+                background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* Opera 11.10+ */
+                background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+              /* W3C */
+            }
+            
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+                border: 0px;
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                outline: none;
+                background-color: #2b2b2b00;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+                /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* Chrome10+,Safari5.1+ */
+                background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* FF3.6+ */
+                background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* IE10+ */
+                background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* Opera 11.10+ */
+                background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* W3C */
+                box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+            }
+            
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+            
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                border: 0px;
+                background-color:rgb(255,255,255,0) !important;
+                color: #007bff !important;
+                
+            }
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                border: 0px;
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                background-color: rgba(23.32, 77, 77, 0) !important;
+                color: #007bff !important;
+                
+            }
+            
+            
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+                border: 0px;
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                color: #333 !important;
+                border: 1px solid rgba(0, 0, 0, 0);
+                background-color: rgba(23.32, 77, 77, 0);
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255,255,255,0)), color-stop(100%, rgba(0, 0, 0, 0)));
+                /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* Chrome10+,Safari5.1+ */
+                background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* FF3.6+ */
+                background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* IE10+ */
+                background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+                /* Opera 11.10+ */
+                background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+              /* W3C */
+            }
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                color: #007bff !important;
+                border: 1px solid rgba(17, 17, 17, 0);
+                background-color: #58585800;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+                /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* Chrome10+,Safari5.1+ */
+                background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* FF3.6+ */
+                background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* IE10+ */
+                background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* Opera 11.10+ */
+                background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+                /* W3C */
+            }
+            
+            .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+                border: 0px;
+                padding-left : 0px;
+                padding-right : 0px;
+                padding-bottom : 0px;
+                margin-left: 0.25rem;
+                margin-right: 0.5rem;
+                outline: none;
+                background-color: #2b2b2b00;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+                /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* Chrome10+,Safari5.1+ */
+                background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* FF3.6+ */
+                background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* IE10+ */
+                background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* Opera 11.10+ */
+                background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+                /* W3C */
+                box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+            }
+            table.dataTable tbody th, table.dataTable tbody td {
+                padding: 5px 10px;
+            }
+        </style>
+        <style>
+            @media only screen and (max-width: 400px) and (min-width: 300px) {
+        
+                .row h3 {
+                    color: whitesmoke;
+                    font-size: 17px;
+                    padding-left: 0;
+                    margin-left: 0;
+        
+                }
+        
+                .Container {
+                    width: 100%;
+                }
+        
+                #notificationContainer {
+                    margin-left: 1%;
+                }
+            }
+        
+            @media only screen and (max-width: 450px) and (min-width: 401px) {
+        
+                .row h3 {
+                    color: whitesmoke;
+                    font-size: 20px;
+                    padding-left: 0;
+                    margin-left: 0;
+        
+                }
+        
+                .Container {
+                    width: 100%;
+                }
+        
+                #notificationContainer {
+                    margin-left: 1%;
+                }
+            }
+        
+            @media only screen and (max-width: 700px) and (min-width: 451px) {
+        
+                .row h3 {
+                    color: whitesmoke;
+                    font-size: 25px;
+                    padding-left: 0;
+                    margin-left: 0;
+        
+                }
+        
+                .Container {
+                    width: 100%;
+                }
+        
+                #notificationContainer {
+                    margin-left: 1%;
+                }
+            }
+        
+            @media only screen and (max-width: 299px) and (min-width: 200px) {
+        
+                .row h3 {
+                    color: whitesmoke;
+                    font-size: 10px;
+                    padding-left: 0;
+                    margin-left: 0;
+        
+        
+                }
+        
+                .Container {
+                    width: 100%;
+                }
+        
+                #notificationContainer {
+                    margin-left: 1%;
+                }
+            }
+            .t2{
+         font-size: 100%;
+         color: white!important;
+            }
+            .t2:hover{
+                background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+                text-transform: uppercase; 
+                font-weight: bold;
+                color:black!important;
+            }
+            .t2:hover #menu_icon{
+                color:black!important;
+            }
+            .dropdown:hover{
+                /* background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white); */
+                /* text-transform: uppercase; */
+            }
+            .dropdown:hover .dropdown-toggle{
+                font-weight: bold;
+                color:white!important;
+            }
+            .dropdown:hover .dropdown-menu{
+                display: block;
+                text-transform: none;
+            }
+            .dropdown-menu .dropdown-item:hover{
+                background-image: linear-gradient(to bottom right, rgb(98, 132, 245), white);
+                /* text-transform: uppercase; */
+            }
+            .dropdown-menu{
+                margin-top: 0;
+            }
+            
+            .menu li{
+                display:inline-block;
+                font-family: Arial;
+                padding-right: 0%;
+            }
+        
+            .menu
+            {
+              /* padding:0%; */
+                margin-bottom: 0%;
+            }
+        
+            .dropdown-toggle::after {
+                display: inline-block;
+                margin-left: .255em;
+                vertical-align: .255em;
+                content: "";
+                color: white;
+                border-top: .3em solid;
+                border-right: .3em solid transparent;
+                border-bottom: 0;
+                border-left: .3em solid transparent;
+            } 
+        </style>
+        <style>
+        
+            .sidebar{
+                position: fixed;
+                left: 0;
+                top:0;
+                height: 100%;
+                width: 15%;
+                /* background: #11101d; */
+                background: #2c3e50;
+                /* background: #12161D; */
+                z-index: 100;
+                margin-top: 3rem;
+                background: #4072CC;
+                background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+                background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+                background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+            }
+            .sidebar.close{
+                width: 78px;
+            }
+            .sidebar .logo-details{
+                height: 60px;
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+            .sidebar .logo-details i{
+                font-size: 30px;
+                color: #fff;
+                height: 50px;
+                min-width: 78px;
+                text-align: center;
+                line-height: 50px;
+            }
+            .sidebar .logo-details .logo_name{
+                font-size: 22px;
+                color: #fff;
+                font-weight: 600;
+                transition: 0.3s ease;
+                transition-delay: 0.1s;
+            }
+            .sidebar.close .logo-details .logo_name{
+                transition-delay: 0s;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .sidebar .nav-links{
+                height: 100%;
+                padding: 30px 0 150px 0;
+                overflow: auto;
+            }
+            .sidebar.close .nav-links{
+                overflow: visible;
+            }
+            .sidebar .nav-links::-webkit-scrollbar{
+                display: none;
+            }
+            .sidebar .nav-links li{
+                position: relative;
+                list-style: none;
+                transition: all 0.4s ease;
+            }
+        
+            .sidebar .nav-links li{
+              /* color: #1c81d9; */
+                color: white;
+            }
+            .sidebar .nav-links li:hover{
+                background: #1d1b31;
+            }
+            .sidebar .nav-links li .iocn-link{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .sidebar.close .nav-links li .iocn-link{
+                display: block
+            }
+            
+            .sidebar .nav-links li {
+                height: 50px;
+                padding-left:8%;
+                min-width: 48px;
+                text-align: left;
+                line-height: 50px;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .sidebar.close .nav-links li i{
+                min-width: 70px;
+            }
+            .sidebar .nav-links li.showMenu i.arrow{
+                transform: rotate(-180deg);
+            }
+            .sidebar.close .nav-links i.arrow{
+                display: none;
+            }
+            .sidebar .nav-links li a{
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+            }
+            .sidebar .nav-links li a .link_name{
+                font-size: 14px;
+                font-weight: 400;
+                color: #fff;
+                transition: all 0.4s ease;
+            }
+            .sidebar.close .nav-links li a .link_name{
+                opacity: 0;
+                pointer-events: none;
+            }
+            .sidebar .nav-links li .sub-menu{
+                padding: 6px 6px 14px 30px;
+                margin-top: -10px;
+                background: #1d1b31;
+                display: none;
+            }
+            .sidebar .nav-links li.showMenu .sub-menu{
+                display: block;
+            }
+            .sidebar .nav-links li .sub-menu a{
+                color: #fff;
+                font-size: 15px;
+                padding: 5px 0;
+                white-space: nowrap;
+                opacity: 0.6;
+                transition: all 0.3s ease;
+            }
+            .sidebar .nav-links li .sub-menu a:hover{
+                opacity: 1;
+            }
+            .sidebar.close .nav-links li .sub-menu{
+                position: absolute;
+                left: 100%;
+                top: -10px;
+                margin-top: 0;
+                padding: 10px 20px;
+                border-radius: 0 6px 6px 0;
+                opacity: 0;
+                display: block;
+                pointer-events: none;
+                transition: 0s;
+            }
+            .sidebar.close .nav-links li:hover .sub-menu{
+                top: 0;
+                opacity: 1;
+                pointer-events: auto;
+                transition: all 0.4s ease;
+            }
+            .sidebar .nav-links li .sub-menu .link_name{
+                display: none;
+            }
+            .sidebar.close .nav-links li .sub-menu .link_name{
+                font-size: 18px;
+                opacity: 1;
+                display: block;
+            }
+            .sidebar .nav-links li .sub-menu.blank{
+                opacity: 1;
+                pointer-events: auto;
+                padding: 3px 20px 6px 16px;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .sidebar .nav-links li:hover .sub-menu.blank{
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            .sidebar .profile-details{
+                position: fixed;
+                bottom: 0;
+                width: 260px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: #1d1b31;
+                padding: 12px 0;
+                transition: all 0.5s ease;
+            }
+            .sidebar.close .profile-details{
+                background: none;
+            }
+            .sidebar.close .profile-details{
+                width: 78px;
+            }
+            .sidebar .profile-details .profile-content{
+                display: flex;
+                align-items: center;
+            }
+            .sidebar .profile-details img{
+                height: 52px;
+                width: 52px;
+                object-fit: cover;
+                border-radius: 16px;
+                margin: 0 14px 0 12px;
+                background: #1d1b31;
+                transition: all 0.5s ease;
+            }
+            .sidebar.close .profile-details img{
+                padding: 10px;
+            }
+            .sidebar .profile-details .profile_name,
+            .sidebar .profile-details .job{
+                color: #fff;
+                font-size: 18px;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+            .sidebar.close .profile-details i,
+            .sidebar.close .profile-details .profile_name,
+            .sidebar.close .profile-details .job{
+                display: none;
+            }
+            .sidebar .profile-details .job{
+                font-size: 12px;
+            }
+            .home-section{
+                position: relative;
+                height: 100vh;
+                left: 260px;
+                top:48px;
+                width: calc(100% - 260px);
+                transition: all 0.5s ease;
+            }
+            .sidebar.close ~ .home-section{
+                left: 78px;
+                width: calc(100% - 78px);
+            }
+            .home-section .home-content .bx-menu,
+            .home-section .home-content .text{
+                color: #11101d;
+                font-size: 35px;
+            }
+            .home-section .home-content .bx-menu{
+                margin: 0 0%;
+                cursor: pointer;
+            }
+            .home-section .home-content .text{
+                font-size: 26px;
+                font-weight: 600;
+            }
+            @media (max-width: 400px) {
+                .sidebar{
+                    width: 100%;
+                    height:auto;
+                }
+                .sidebar.close{
+                    width: 0;
+                }
+                .home-section{
+                    left: 78px;
+                    width: calc(100% - 78px);
+                    
+                }
+                /* .sidebar.close ~ .home-section{
+                    width: 100%;
+                    left: 0;
+                }*/
+            } 
+            nav ul{
+                list-style: none;
+            }
+            .listRight {
+                left: auto !important;
+                right: 0 !important;
+            }
+        </style>
+
+        <style>
+            
+            h3{
+                font-family: "Playfair Display";
+                font-size: 20px;
+                font-weight: 700;
+                /* text-shadow: rgba(0, 0, 0, 0.5) 0 10px 10px; */
+            }
+            h2{
+                font-family: "Playfair Display";
+                font-size: 20px;
+                font-weight: 700;
+            }
+            .back{
+                cursor: pointer;
+            }
+            .btn btn-warning active {
+                background-color: #5F0587;
+                color: white;
+            }
+            
+            .colornav{
+            background-color: #3f51b5;
+            background-image: -webkit-linear-gradient(left,#3f51b5,#03a9f4);
+            background-image: linear-gradient(to right,#3f51b5,#03a9f4);
+            }
+
+            /* Apeksha Styles */
+            .earnings_body tr:nth-child(4n + 1){
+                background-color: #e5b1fd ;
+            }
+    
+                .earnings_body tr:nth-child(4n + 2){
+                background-color: #D39BEA ;
+                    }
+                .earnings_body tr:nth-child(4n + 3){
+                background-color: #AFF2F3 ;
+                }    
+                .earnings_body tr:nth-child(4n + 4){
+                background-color: #95D9DA ;
+                }
+                .owe_body tr:nth-child(4n + 3){
+                background-color: #98EF99  ;
+            }
+            .owe_body tr:nth-child(4n + 1){
+                background-color: #F7DC6F  ;
+            }
+            .owe_body tr:nth-child(4n + 2){
+                background-color: #FCF3CF  ;
+            }
+            .owe_body tr:nth-child(4n + 4){
+                background-color: #d0f0d1  ;
+            }
+    
+            .nav-item{
+                    background-color: #f2ecf5;
+                    
+                }
+        </style>
+    </head>
+    <body>
+        <div class=" navbar-dark bg-dark mb-2 sticky-top colornav" style="margin:0 auto ;">
+            <ul class="navbar" style="list-style: none;padding: 0rem 1rem;">
+                <ul style="padding: 0 !important;width:40%;">
+                    <li style="display:inline-block;width:30%"> <h2 style="color:#fff; font-family:quicksand, sans-serif; padding-left: 5%;text-align: Left;font-size: 1.6rem;font-weight: 600;">My e-&#x2060;Drishti</h2>
+                    </li>
+                    {% if request.session.designation == 'CRB & CEO' %}
+                    <li style="width:3%;display:inline-block;margin-left: 5%;" class="back">
+                        <a href="/home_page" ><img src="/static/images/home.png" class="img img-responsive img-fluid"/></a>
+                    </li>
+                    {% endif %} 
+                </ul>
+                <ul>
+                    <li style="display:inline-block;">
+                        <h4 style="margin:0%;color:#fff; font-family:quicksand,font-weight-bold, sans-serif;font-size:16px;font-weight:600;">Welcome&nbsp; {{request.session.designation|safe}}</h4>
+                    </li>
+                    <li class="nav-item dropdown" style="display:inline-block;background-color:#03a9f4">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img src="/static/images/profile2.webp" class="rounded-circle" style="width: 2.00rem;" alt="Profile" style="padding: 0 !important;"/></a>
+                        <div class="dropdown-menu dropdown-menu-left" style="left:-90px !important;">
+                            <a href="/viewDetail" class="dropdown-item">View Profile</a>
+                            <a href="/inspect_changePassword" class="dropdown-item">Change Password</a>
+                            <div class="dropdown-divider"></div>
+                            <a href='/inspect_logout'  onclick='logoutConfirm();' class="dropdown-item">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+        <div class="sidebar" style="top:48px; margin:0%;">
+            <img src="/static/images/myed.jpeg" class="img img-responsive img-fluid" style="height:22%;margin-top:12px;width:100%"/>
+            <ul class="nav-links" style="padding-top: 5px;">
+                <li onclick="table_view('1'); return false;">Safety</li>
+                <li onclick="table_view('2'); return false;">Loading</li>
+                <li onclick="table_view('3'); return false;">Punctuality</li>
+                <li onclick="table_view('4'); return false;">Earnings & Owe</li>
+                <li onclick="table_view('5'); return false;">Capex</li>
+                <li onclick="table_view('6'); return false;">Infrastructure Creation</li>
+                <li onclick="table_view('7'); return false;">Rolling Stock Production</li>
+                <li onclick="table_view('8'); return false;">Asset Reliability</li>
+            </ul> 
+        </div>
+        <div class="container-fluid">
+            <div class="row" style="margin: 0;">
+                <div class="col-2">
+                </div>
+                <div class="col-10"  style="margin-top: 1%;">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 id="title" style="text-align:center;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);padding-top:5px;padding-bottom:5px;"></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="safetyrow">
+                            <table class="table table-bordered table-striped table-sm" id="safety" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <h6>(In Nos.)</h6>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:22%; text-align: center;">Type of Accident</th>
+                                    <!-- <th style="width:13%; text-align: center;">2019 - 20</th>
+                                    <th style="width:13%; text-align: center;" >2020 - 21</th>
+                                    <th style="width:13%; text-align: center;" >2021 - 22</th>
+                                    <th style="width:13%; text-align: center;" >April 21 - Oct 22</th>
+                                    <th style="width:13%; text-align: center;" >April 22 - Oct 22</th> -->
+                                    {% if safety_heads %}
+                                    {% for i in safety_heads %}
+                                     <th style="width:13%; text-align: center;">{{i.col1}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col2}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col3}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col4}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col5}}</th>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <th style="width:13%; text-align: center;" >Variation</th>  
+                                </thead>
+                                <tbody>
+                                    {% if safety %}
+                                    {% for i in safety %}
+                                    {% if i.type_of_accident == 'Total' %}
+                                    <tr style="background-color: #FBEFBE; color:black; text-align: center;">
+                                        {% else %}
+                                        <tr style="text-align: center;">
+                                        {% endif %}
+                                        <td style="width:22%; text-align: left;">{{i.type_of_accident}}</td>
+                                        <td style="width:13%">{{i.col1}}</td>
+                                        <td style="width:13%">{{i.col2}}</td>
+                                        <td style="width:13%">{{i.col3}}</td>
+                                        <td style="width:13%">{{i.col4 | default:'-' }}</td>
+                                        <td style="width:13%">{{i.col5 | default:'-' }}</td>
+                                        <!-- <td style="width:13%">{{i.change | default:'-' }}</td> -->
+                                         {% if i.change == 'None' %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.change}}</td>
+                                        {% endif %} 
+                                        <!-- {% if i.col4 is None %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.col4}}</td>
+                                        {% endif %}
+                                        {% if i.col5 is None %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.col5}}</td>
+                                        {% endif %}-->
+                                        <!-- {% if i.change == 'None' %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        {% if i.value == 'positive' and i.type_of_accident != 'Total' %}
+                                        <td style="width:13%; color: green">{{i.change}}</td>
+                                        {% elif i.value == 'negative' and i.type_of_accident != 'Total' %}
+                                        <td style="width:13%; color: red">{{i.change}}</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.change}}</td>
+                                        {% endif %} 
+                                        {% endif %}  -->
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="col-12"  id="loadingrow" >
+                            <ul class="nav nav-pills nav-fill mb-2"  style="border: #566573; border-width: 10px;">
+                                <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#B3">Overall Loading</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Commodity_Wise">Commodity Wise</a>
+                                    </li>
+                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#Zone_Wise">Zone Wise</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="Commodity_Wise" class="container-fluid tab-pane ">
+                                    <h6 style="text-align: center;">Cummulative (upto {{prev_month}}) (MT)</h6>
+                                    <table class="table table-bordered table-striped table-sm" id="loading_commodity_wise" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:20%; text-align: center;">Commodity</th>
+                                            {% if loading_heads %}
+                                            {% for i in loading_heads %}
+                                            <th style="width:16%; text-align: center;">Target upto {{i.col1}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col2}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col3}}</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <th style="width:16%; text-align: center;" >% Var over LY</th>  
+                                            <th style="width:16%; text-align: center;" >% Var over Tgt</th>  
+                                        </thead>
+                                        <tbody>
+                                            {% if loading_commodity_wise %}
+                                            {% for i in loading_commodity_wise %}
+                                            {% if i.commodity == "Total" %}
+                                            <tr style="background-color: #FBEFBE; color:black; text-align: center;">
+                                            {% else %}
+                                            <tr style="text-align: center;">
+                                            {% endif %}
+                                                <td style="width:20%; text-align: left;">{{i.commodity}}</td>
+                                                <td style="width:16%">{{i.targets}}</td>
+                                                <td style="width:16%">{{i.actuals}}</td>
+                                                <td style="width:16%">{{i.actuals_current_month}}</td>
+                                                <td style="width:16%">{{i.var_over_ly}}</td>
+                                                {% if i.sint > 0 %}
+                                                <td style="width:16%; color:green">+{{i.var_over_target}}</td>
+                                                {% else %}
+                                                <td style="width:16%; color:red">{{i.var_over_target}}</td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="Zone_Wise" class="container-fluid tab-pane">
+                                    <h6 style="text-align: center;">Cummulative (upto {{prev_month}}) (MT)</h6>
+                                    <table class="table table-bordered table-striped table-sm" id="loading_zone_wise" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:20%; text-align: left;">Rly</th>
+                                            {% if loading_heads %}
+                                            {% for i in loading_heads %}
+                                            <th style="width:16%; text-align: center;">Target upto {{i.col1}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col2}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col3}}</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <th style="width:16%; text-align: center;" >% Var over LY</th>
+                                            <th style="width:16%; text-align: center;" >% Var over Tgt</th>  
+                                        </thead>
+                                        <tbody>
+                                            {% if loading_zone_wise %}
+                                            {% for i in loading_zone_wise %}
+                                            {% if i.zone == "TOTAL" %}
+                                            <tr style="background-color: #FBEFBE; color:black; text-align: center;">
+                                            {% else %}
+                                            <tr style="text-align: center;">
+                                            {% endif %}
+                                                <td style="width:20%; text-align: left;">{{i.zone}}</td>
+                                                <td style="width:16%">{{i.targets}}</td>
+                                                <td style="width:16%">{{i.actuals}}</td>
+                                                <td style="width:16%">{{i.actuals_current_month}}</td>
+                                                <td style="width:16%">{{i.var_over_ly}}</td>
+                                                {% if i.sint > 0 %}
+                                                <td style="width:16%; color:green">{{i.var_over_target}}</td>
+                                                {% else %}
+                                                <td style="width:16%; color:red">{{i.var_over_target}}</td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="B3" class="container-fluid tab-pane active">
+                                    <table class="table table-bordered table-striped table-sm" id="loading_b3" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if loading_b3_heads %}
+                                            {% for i in loading_b3_heads %}
+                                            <th style="width:12%; text-align: center;">{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;" >Budget Target <br>{{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >Actual upto <br>{{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BP upto <br>{{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >Actual upto <br>{{i.col5}}</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <th style="width:12%; text-align: center;" >Increase/Decrease</th>  
+                                            <th style="width:12%; text-align: center;" >% Over COPPY</th>
+                                        </thead>
+                                        <tbody>
+                                            {% if loading_b3 %}
+                                            {% for i in loading_b3 %}
+                                            <tr style="text-align: center;">
+                                                <td style="width:16%; text-align: left;">{{i.description}}</td>
+                                                <td style="width:12%">{{i.se_dte}}</td>
+                                                <td style="width:12%">{{i.budget_targets}}</td>
+                                                <td style="width:12%">{{i.actuals}}</td>
+                                                <td style="width:12%">{{i.bp}}</td>
+                                                <td style="width:12%">{{i.approx}}</td>
+                                                <td style="width:12%">{{i.variation}}</td>
+                                                {% if i.sint > 0 %}
+                                                <td style="width:12%; color:green">+{{i.increase}}</td>
+                                                {% else %}
+                                                <td style="width:12%; color:red">{{i.increase}}</td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" id="punctualityrow">
+                            <ul class="nav nav-pills nav-fill mb-2"  style="border: #566573; border-width: 10px;">
+                                <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#zone">Zone Wise</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Department_Wise">Department Wise</a>
+                                    </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="zone" class="container-fluid tab-pane active show">                            
+                                     <table class="table table-bordered table-striped table-sm" id="punctuality" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                    <thead style="text-align: center; color: white; background-color: #566573;">
+                                        <th style="width:3%; text-align: center;">Zone</th>
+                                        <th style="width:3%; text-align: center;">Train Count</th>
+                                        <th style="width:2%; text-align: center;" >PP%</th>
+                                        <th style="width:5%; text-align: center;" >Total Delay (Min)</th>
+                                        <th style="width:5%; text-align: center;" >Delay per Train (Min)</th>
+                                        <th style="width:5%; text-align: center;" >Path</th>  
+                                        <th style="width:5%; text-align: center;" >INC</th>
+                                        <th style="width:5%; text-align: center;" >ENG</th>
+                                        <th style="width:5%; text-align: center;" >TFC</th>
+                                        <th style="width:5%; text-align: center;" >PBOL</th>
+                                        <th style="width:5%; text-align: center;" >ORL</th>
+                                        <th style="width:5%; text-align: center;" >WEA</th>
+                                        <th style="width:5%; text-align: center;" >CNST</th>
+                                        <th style="width:5%; text-align: center;" >CONNI</th>
+                                        <th style="width:5%; text-align: center;" >ST</th>
+                                        <th style="width:5%; text-align: center;" >RUNO</th>
+                                        <th style="width:5%; text-align: center;" >ACP</th>
+                                        <th style="width:5%; text-align: center;" >ACC</th>
+                                        <th style="width:5%; text-align: center;" >IELC</th>
+                                        <th style="width:5%; text-align: center;" >LC</th>
+                                        <th style="width:5%; text-align: center;" >DCW</th>
+                                        <th style="width:5%; text-align: center;" >Others</th>
+                                    </thead>
+                                    <tbody>
+                                        {% if punctuality %}
+                                        {% for i in punctuality %}
+                                        <tr style="text-align: center;">
+                                            <td style="width:3%; text-align: left;">{{i.zone}}</td>
+                                            <td style="width:5%">{{i.train_count}}</td>
+                                            <td style="width:2%">{{i.pp}}</td>
+                                            <td style="width:5%">{{i.total_delay}}</td>
+                                            <td style="width:5%">{{i.delay_per_train}}</td>
+                                            <td style="width:5%">{{i.cause1 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause2 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause3 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause4 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause5 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause6 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause7 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause8 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause9 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause10 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause11 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause12 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause13 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause14 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause15 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause16 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.others | default:'0' }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table> 
+                            </div>
+                                <div id="Department_Wise" class="container-fluid tab-pane ">
+                                    <!-- <table class="table table-bordered table-striped table-sm" id="punctuality_dept" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:3%; text-align: center;">Department</th>
+                                            <th style="width:3%; text-align: center;">Train Count</th>
+                                            <th style="width:2%; text-align: center;" >PP%</th>
+                                            <th style="width:5%; text-align: center;" >Total Delay (Minutes)</th>
+                                            <th style="width:5%; text-align: center;" >Delay per Train (Minutes)</th>
+                                            <th style="width:5%; text-align: center;" >Path</th>  
+                                            <th style="width:5%; text-align: center;" >INC</th>
+                                            <th style="width:5%; text-align: center;" >ENG</th>
+                                            <th style="width:5%; text-align: center;" >TFC</th>
+                                            <th style="width:5%; text-align: center;" >PBOL</th>
+                                            <th style="width:5%; text-align: center;" >ORL</th>
+                                            <th style="width:5%; text-align: center;" >WEA</th>
+                                            <th style="width:5%; text-align: center;" >CNST</th>
+                                            <th style="width:5%; text-align: center;" >CONNI</th>
+                                            <th style="width:5%; text-align: center;" >ST</th>
+                                            <th style="width:5%; text-align: center;" >RUNO</th>
+                                            <th style="width:5%; text-align: center;" >ACP</th>
+                                            <th style="width:5%; text-align: center;" >ACC</th>
+                                            <th style="width:5%; text-align: center;" >IELC</th>
+                                            <th style="width:5%; text-align: center;" >LC</th>
+                                            <th style="width:5%; text-align: center;" >DCW</th>
+                                            <th style="width:5%; text-align: center;" >Others</th>
+                                        </thead>
+                                        <tbody>
+                                            {% if punctuality_dept %}
+                                            {% for i in punctuality_dept %}
+                                            <tr style="text-align: center;">
+                                                <td style="width:3%; text-align: left;">{{i.dept}}</td>
+                                                <td style="width:5%">{{i.train_count}}</td>
+                                                <td style="width:2%">{{i.pp}}</td>
+                                                <td style="width:5%">{{i.total_delay}}</td>
+                                                <td style="width:5%">{{i.delay_per_train}}</td>
+                                                <td style="width:5%">{{i.cause1 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause2 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause3 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause4 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause5 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause6 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause7 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause8 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause9 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause10 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause11 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause12 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause13 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause14 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause15 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause16 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.others | default:'0' }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" id="earningsrow">
+                            <table class="table table-bordered table-sm" id="earnings" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <h6>(Rs. in cr.)</h6>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                                <th style="width:16%; text-align: center;">Description</th>
+                                                {% if loading_b3_heads %}
+                                                {% for i in loading_b3_heads %}
+                                                <th style="width:12%; text-align: center;">{{i.col1}}</th>
+                                                <th style="width:12%; text-align: center;" >Budget Target <br>{{i.col2}}</th>
+                                                <th style="width:12%; text-align: center;" >Actual upto <br>{{i.col3}}</th>
+                                                <th style="width:12%; text-align: center;" >BP upto <br>{{i.col4}}</th>
+                                                <th style="width:12%; text-align: center;" >Actual upto <br>{{i.col5}}</th>  
+                                                <th style="width:12%; text-align: center;" >Variation over <br>BP</th>  
+                                                <th style="width:12%; text-align: center;" >Increase/Decrease <br>over {{i.col3}}</th>
+                                                {% endfor %}
+                                                {% endif %}
+                                </thead>
+                                <tbody class="earnings_body">
+                                    {% if earnings %}
+                                    {% for i in earnings %}
+                                    {% if i.description == 'Growth' %}
+                                                <tr style="text-align: left; font-style: italic;">
+                                                    <td style="width:16%; text-align: left;">% Growth over last year</td>
+                                                {% else %}
+                                                <tr style="text-align: left; ">
+                                                    <td style="width:16%; text-align: left;">{{i.description}}</td>
+                                                {% endif %}
+                                        <!-- <td style="width:16%; text-align: left;">{{i.description}}</td> -->
+                                        <td style="width:12%; padding-left: 3%;">{{i.year}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.budget_targets}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.actuals}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.bp}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.approx}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.variation}}</td>
+                                        {% if i.sint > 0 %}
+                                                <td style="width:12%;padding-left: 3%; ">+{{i.increase | default:'-' }}</td>
+                                                {% else %}
+                                                <td style="width:12%;padding-left: 3%;">{{i.increase | default:'-' }}</td>
+                                                {% endif %}
+                                        <!-- <td style="width:12%; padding-left: 3%;">{{i.increase}}</td> -->
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                </table>
+                                <table class="table table-bordered table-sm" id="owe" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                    <thead></thead>
+                                    <tbody class="owe_body">
+                                    {% if owe %}
+                                    {% for i in owe %}
+                                    {% if i.description == 'Growth' or i.description == 'Growth.' %}
+                                                <tr style="text-align: left; font-style: italic;">
+                                                    <td style="width:16%; text-align: left;">% Growth over last year</td>
+                                                {% else %}
+                                                <tr style="text-align: left;">
+                                                    <td style="width:16%; text-align: left;"><b>{{i.description}}</b></td>
+                                                {% endif %}
+                                        <!-- <td style="width:16%; text-align: left;"><b>{{i.description}}</b></td> -->
+                                        <td style="width:12%; padding-left: 3%;">{{i.year}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.budget_targets}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.actuals}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.bp}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.approx}}</td>
+                                        <td style="width:12%; padding-left: 3%;">{{i.variation}}</td>
+                                        {% if i.sint > 0 %}
+                                                <td style="width:12%; padding-left: 3%;">+{{i.increase | default:'-' }}</td>
+                                                {% else %}
+                                                <td style="width:12%;padding-left: 3%;">{{i.increase | default:'-' }}</td>
+                                                {% endif %}
+                                        <!-- <td style="width:12%; padding-left: 3%;">{{i.increase}}</td> -->
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        
+                        <!-- <table class="table table-bordered table-striped table-sm" id="capex" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                            <thead style="text-align: center; color: white; background-color: #566573;">
+                                <th style="width:16%; text-align: center;">Description</th>
+                                <th style="width:12%; text-align: center;">Annual Exp. <br>2021-22</th>
+                                <th style="width:12%; text-align: center;">Exp. Sept <br>2021</th>
+                                <th style="width:12%; text-align: center;" >% Utilizn.</th>
+                                <th style="width:12%; text-align: center;" >BE 2022-23</th>
+                                <th style="width:12%; text-align: center;" >BE Mod 2022-23</th>
+                                <th style="width:12%; text-align: center;" >Exp. Sept 2022</th>
+                                <th style="width:12%; text-align: center;" >%Utilizn. (BE Mod)</th>
+                               
+                            </thead>
+                            <tbody>
+                                {% if capex %}
+                                {% for i in capex %}
+                                {% if i.item == 'Total Capex' %}
+                                <tr style="text-align: center; background-color: #566573; ">
+                                    {% else %}
+                                    <tr style="text-align: center; ">
+                                    {% endif %}  
+                                    <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                    <td style="width:12%">{{i.actual_exp}}</td>
+                                    <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                    <td style="width:12%">{{i.utilization}}</td>
+                                    <td style="width:12%">{{i.be}}</td>
+                                    <td style="width:12%">{{i.be_mod}}</td>
+                                    <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                    <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table> -->
+                        <div class="col-12"  id="capex" >
+                            <ul class="nav nav-pills nav-fill mb-2">
+                                <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#itemrow">Head Wise</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#headrow">Source of Fund Wise</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#resourcerow">Overall</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="itemrow" class="container-fluid tab-pane active">
+                                    <table class="table table-bordered table-striped table-sm" id="item" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <h6>(Rs. in Cr.)</h6>
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if capex_heads %}
+                                            {% for i in capex_heads %}
+                                            <th style="width:12%; text-align: center;">Actual Exp <br>{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;">Exp upto {{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >% Utilizn</th>
+                                            <th style="width:12%; text-align: center;" >BE {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BE Mod {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >Exp upto {{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >%Utilizn (BE Mod)</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </thead>
+                                        <tbody>
+                                            {% if capex_item_wise %}
+                                            {% for i in capex_item_wise %}
+                                                {% if i.item == 'Total Capex' %}
+                                                <tr style="background-color: #FBEFBE; color:black; text-align: center;">
+                                                {% else %}
+                                                <tr style="text-align: center; ">
+                                                {% endif %}  
+                                                <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                                <td style="width:12%">{{i.actual_exp}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                                <td style="width:12%">{{i.utilization}}</td>
+                                                <td style="width:12%">{{i.be}}</td>
+                                                <td style="width:12%">{{i.be_mod}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                                <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="headrow" class="container-fluid tab-pane">
+                                    <table class="table table-bordered table-striped table-sm" id="head" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <h6>(Rs. in Cr.)</h6>
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if capex_heads %}
+                                            {% for i in capex_heads %}
+                                            <th style="width:12%; text-align: center;">Actual Exp <br>{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;">Exp upto {{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >% Utilizn</th>
+                                            <th style="width:12%; text-align: center;" >BE {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BE Mod {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >Exp upto {{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >%Utilizn (BE Mod)</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </thead>
+                                        <tbody>
+                                            {% if capex_head_wise %}
+                                            {% for i in capex_head_wise %}
+                                                {% if i.item == 'Total Capex' %}
+                                                <tr style="background-color: #FBEFBE; color:black; text-align: center;">
+                                                {% else %}
+                                                <tr style="text-align: center; ">
+                                                {% endif %}  
+                                                <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                                <td style="width:12%">{{i.actual_exp}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                                <td style="width:12%">{{i.utilization}}</td>
+                                                <td style="width:12%">{{i.be}}</td>
+                                                <td style="width:12%">{{i.be_mod}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                                <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>  
+                                </div>
+                                <div id="resourcerow" class="container-fluid tab-pane">
+                                    <table class="table table-bordered table-striped table-sm" id="resource" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                        <h6>(Rs. in Cr.)</h6>
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if capex_heads %}
+                                            {% for i in capex_heads %}
+                                            <th style="width:12%; text-align: center;">Actual Exp <br>{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;">Exp upto {{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >% Utilizn.</th>
+                                            <th style="width:12%; text-align: center;" >BE {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BE Mod {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >Exp upto {{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >%Utilizn (BE Mod)</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                           
+                                        </thead>
+                                        <tbody>
+                                            {% if capex_resource_wise %}
+                                            {% for i in capex_resource_wise %}
+                                            {% if i.item == 'Total Capex' %}
+                                            <tr style="background-color: #FBEFBE; color:black; text-align: center;">
+                                                {% else %}
+                                                <tr style="text-align: center; ">
+                                                {% endif %}  
+                                                <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                                <td style="width:12%">{{i.actual_exp}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                                <td style="width:12%">{{i.utilization}}</td>
+                                                <td style="width:12%">{{i.be}}</td>
+                                                <td style="width:12%">{{i.be_mod}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                                <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" id="infrastructurerow">
+                            <table class="table table-bordered table-striped table-sm" id="infrastructure_creation" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                               <h6>(KM)</h6>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:20%; text-align: center;">Infrastructure Works</th>
+                                    <th style="width:20%; text-align: center;">Annual Target</th>
+                                    
+                                    {% if infrastructure_heads %}
+                                    {% for i in infrastructure_heads %}
+                                    <th style="width:20%; text-align: center;" >Cum Target<br>(upto {{i.col1}})</th>
+                                    <th style="width:20%; text-align: center;" >Cum Achieved<br> (upto {{i.col1}})</th>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <th style="width:20%; text-align: center;" >% Variation <br>(w.r.t Cum Target)</th>  
+                                </thead>
+                                <tbody>
+                                    {% if infrastructure_creation %}
+                                    {% for i in infrastructure_creation %}
+                                    <tr style="text-align: center;">
+                                        <td style="width:20%; text-align: left;">{{i.infrastructure_works}}</td>
+                                        <td style="width:20%">{{i.annual_target}}</td>
+                                        <td style="width:20%">{{i.cum_targets}}</td>
+                                        <td style="width:20%">{{i.cummulative_achieved}}</td>
+                                        {% if i.sint >= 0 %}
+                                        <td style="width:16%; color:green">+{{i.variation}}</td>
+                                        {% else %}
+                                        <td style="width:16%; color:red">{{i.variation}}</td>
+                                        {% endif %}
+                                        <!-- <td style="width:20%">{{i.variation}}</td> -->
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12" id="rolling_stockrow">
+                            <table class="table table-bordered table-striped table-sm" id="rolling_stock_production" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <h6>(Nos.)</h6>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:20%; text-align: center;">Description</th>
+                                    <th style="width:20%; text-align: center;">Total Previous Year</th>
+                                    {% if asset_reliabilty_heads %}
+                                    {% for i in asset_reliabilty_heads %}
+                                    <th style="width:20%; text-align: center;" >Cummulative upto<br>{{i.col2}}</th>
+                                    <th style="width:20%; text-align: center;" >{{i.col1}}</th>
+                                    <th style="width:20%; text-align: center;" >{{i.col2}}</th>
+                                    {% endfor %}
+                                    {% endif %}  
+                                </thead>
+                                <tbody>
+                                    {% if rolling_stock_production %}
+                                    {% for i in rolling_stock_production %}
+                                    <tr style="text-align: center;">
+                                        <td style="width:20%; text-align: left;">{{i.item}}</td>
+                                        <td style="width:20%">{{i.total_previous_year | default:'0' }}</td>
+                                        <td style="width:20%">{{i.progressive_current_year | default:'0' }}</td>
+                                        <td style="width:20%">{{i.same_month_of_previous_year | default:'0' }}</td>
+                                        <td style="width:20%">{{i.progressive_current_month | default:'0' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12" id="asset_reliabiltyrow">
+                            <table class="table table-bordered table-striped table-sm" id="asset_reliabilty" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                                <h6>(No. of failures)</h6>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:16%; text-align: center;">Description</th>
+                                    {% if asset_reliabilty_heads %}
+                                    {% for i in asset_reliabilty_heads %}
+                                    <th style="width:14%; text-align: center;">Cummulative LY upto <br>{{i.col1}}</th>
+                                    <th style="width:14%; text-align: center;">Cummulative upto<br> {{i.col2}}</th>
+                                    <th style="width:14%; text-align: center;" >{{i.col1}}</th>
+                                    <th style="width:14%; text-align: center;" >{{i.col2}}</th>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <!-- <th style="width:14%; text-align: center;">Cummulative for Previous Year <br> Till Oct.'21</th>
+                                    <th style="width:14%; text-align: center;">Cummulative for Current Year <br> Oct'22</th>
+                                    <th style="width:14%; text-align: center;" >Same month of Previous Year</th>
+                                    <th style="width:14%; text-align: center;" >Current Month</th> -->
+                                    <!-- <th style="width:14%; text-align: center;" >Same day of Previous Year</th>
+                                    <th style="width:14%; text-align: center;" >Yesterday</th> -->
+                                </thead>
+                                <tbody>
+                                    {% if asset_reliabilty %}
+                                    {% for i in asset_reliabilty %}
+                                    <tr style="text-align: center;">
+                                        <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                        <td style="width:14%">{{i.targets}}</td>
+                                        <td style="width:14%">{{i.progressive_current_month}}</td>
+                                        <td style="width:14%">{{i.today_forecast}}</td>
+                                        <td style="width:14%">{{i.targets_current_month}}</td>
+                                        <!-- <td style="width:14%">{{i.y_day_actual}}</td>
+                                        <td style="width:14%">{{i.today_forecast}}</td> -->
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table> 
+                        </div>
+                         
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </body>
+        <script>
+            $(document).ready(function() {
+ 
+                $('#safetyrow').hide();
+                $('#loadingrow').hide();
+                $('#punctualityrow').hide();
+                $('#earningsrow').hide();
+                $('#owerow').hide();
+                $('#capex').hide();
+                $('#infrastructurerow').hide();
+                $('#rolling_stockrow').hide();
+                $('#asset_reliabiltyrow').hide();
+                $('#owerow').hide();
+               
+                
+               
+               });
+               function table_view(id) {
+                   elements=document.getElementsByClassName("btn btn-warning");
+                           for(i=0;i<elements.length;i++){
+                               elements[i].style.backgroundColor='#B3A5B9';
+                               elements[i].style.color='#FDFDFE';
+                           }
+                           // document.getElementById("safety").hidden=true;
+                           // document.getElementById("loading").hidden=true;
+                           // document.getElementById("punctuality").hidden=true;
+                           // document.getElementById("earnings").hidden=true;
+                           // document.getElementById("owe").hidden=true;
+                           // document.getElementById("cr").hidden=true;
+                           // document.getElementById("capex").hidden=true;
+                           // document.getElementById("infrastructure_creation").hidden=true;
+                           // document.getElementById("rolling_stock_production").hidden=true;
+                           // document.getElementById("asset_reliabilty").hidden=true;
+               
+                           $('#safetyrow').hide();
+                           $('#loadingrow').hide();
+                           $('#punctualityrow').hide();
+                           $('#earningsrow').hide();
+                           $('#owerow').hide();
+                           $('#crrow').hide();
+                           $('#capex').hide();
+                           $('#infrastructurerow').hide();
+                           $('#rolling_stockrow').hide();
+                           $('#asset_reliabiltyrow').hide();
+               
+                           if(id==1){
+                               //document.getElementById("safety").hidden=false;
+                               // $('#safety').DataTable();
+                               $('#safetyrow').show();
+                               document.getElementById("title").innerHTML = "Consequential Accidents";
+                               document.getElementById("btn1").style.backgroundColor='#7A04AD';
+                               document.getElementById("btn1").style.color='#FDFDFE';
+                           }  
+                           else if(id==2){
+                               //document.getElementById("loading").hidden=false;
+                               $('#loadingrow').show();
+                               document.getElementById("title").innerHTML = "Loading Performance";
+                               document.getElementById("btn2").style.backgroundColor='#7A04AD';
+                               document.getElementById("btn2").style.color='#FDFDFE';
+                           }
+                              
+                           else if(id==3)
+                               {
+                                   $('#punctualityrow').show();
+                                   //document.getElementById("punctuality").hidden=false;
+                                   document.getElementById("title").innerHTML = "Punctuality";
+                                   document.getElementById("btn3").style.backgroundColor='#7A04AD';
+                                   document.getElementById("btn3").style.color='#FDFDFE';
+                               }
+                           else if(id==4)
+                               {
+                                   $('#earningsrow').show();
+                                   document.getElementById("title").innerHTML = "Earnings & OWE";
+                                   document.getElementById("earnings").hidden=false;
+                                   document.getElementById("owe").hidden=false;
+                                   document.getElementById("cr").hidden=false;
+                                  
+                                   document.getElementById("btn4").style.backgroundColor='#7A04AD';
+                                   document.getElementById("btn4").style.color='#FDFDFE';
+                               }
+                           else if(id==5){
+                               $('#capex').show();
+                               document.getElementById("title").innerHTML = "Capex";  
+                               document.getElementById("btn5").style.backgroundColor='#7A04AD';
+                               document.getElementById("btn5").style.color='#FDFDFE';
+                           }
+                           else if(id==6)
+                           {
+                               $('#infrastructurerow').show();
+                               //document.getElementById("infrastructure_creation").hidden=false;
+                               document.getElementById("title").innerHTML = "Infrastructure Creation";
+                               document.getElementById("btn6").style.backgroundColor='#7A04AD';
+                               document.getElementById("btn6").style.color='#FDFDFE';
+               
+                           }
+                           else if(id==7){
+                               $('#rolling_stockrow').show();
+                               document.getElementById("rolling_stock_production").hidden=false;
+                               document.getElementById("title").innerHTML = "Rolling Stock Production";
+                               document.getElementById("btn7").style.backgroundColor='#7A04AD';
+                               document.getElementById("btn7").style.color='#FDFDFE';
+                           }
+                           else if(id==8){
+                               $('#asset_reliabiltyrow').show();
+                               document.getElementById("asset_reliabilty").hidden=false;
+                               document.getElementById("title").innerHTML = "Asset Reliability";
+                               document.getElementById("btn8").style.backgroundColor='#7A04AD';
+                               document.getElementById("btn8").style.color='#FDFDFE';
+                           }      
+                       }
+        </script>
+        <script>
+            $(document).ready(function(){
+                $(".dropdown").hover(function(){
+                    var dropdownMenu = $(this).children(".dropdown-menu");
+                    if(dropdownMenu.is(":visible")){
+                        dropdownMenu.parent().toggleClass("open");
+                    }
+                });
+            });     
+        </script>

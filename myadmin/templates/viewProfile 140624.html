@@ -1,0 +1,176 @@
+
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+</head>
+<style>
+  form {
+    text-align: left;
+    margin: 20px 20px 20px 20px;
+    border: 1px solid #ced4da;
+    padding: 10px 20px;
+}
+form label {
+    font-size: 19px;
+}
+@media (max-width: 576px) {
+    .main-content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+.form-box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+.nav-item a {
+    display: inline-block;
+    margin-right: 10px; 
+}
+.dopending1 {
+    display: inline-block;
+    margin-right: 10px;
+}
+body {
+  overflow: hidden; /* Prevent scrolling on the entire page */
+}
+.container {
+  width: 100%;
+  background-color: #6495ED; 
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.container h4 {
+  margin-bottom: 10px;
+}
+
+.link-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link-list li {
+  display: inline-block;
+  margin: 0 10px; 
+}
+
+.link-list li a {
+  text-decoration: none; 
+  color: #fff; 
+  font-size: 16px; 
+}
+
+.link-list li a:hover {
+  color: #ffd700; 
+  text-decoration: underline; 
+}
+
+</style>
+<body>
+<form action="POST">{%csrf_token%}
+    <h3 class="report_heading" style="font-size: 24px;" >{{request.session.designation | safe}}</h3><br>
+                <div class="row">
+                    <div class="col-md-3 "><label><b>Employee Number</b></label></div>
+                    <div class="col-md-3"><label id="empid"></label>{{obj.empno_id__empno}}</div>
+                   <div class="col-md-3"><label><b>Employee Name</b></label></div>
+                   <div class="col-md-3"><label id="empname">
+                    {% if obj.empno_id__emplname == null and obj.empno_id__empmname == null %}
+                    {{obj.empno_id__empname}}
+                    {% elif obj.empno_id__empmname == null %}
+                    {{obj.empno_id__empname}} {{obj.empno_id__emplname}}
+                    {% elif obj.empno_id__emplname == null %}
+                    {{obj.empno_id__empname}} {{obj.empno_id__empmname}}
+                    {% else %}
+                    {{obj.empno_id__empname}} {{obj.empno_id__empmname}} {{obj.empno_id__emplname}}
+                    {% endif %}
+                </label></div>
+                </div>
+              <div class="row">
+                <div class="col-md-3"><label><b>Station Destination</b></label></div>
+                <div class="col-md-3"><label id="station_des">{{obj.empno_id__station_des}}</label></div>
+                <div class="col-md-3"><label><b>Gender</b></label></div>
+                <div class="col-md-3"><label id="empsex">{{obj.empno_id__gender}}</label></div>    
+            </div> 
+             <div class="row">
+                <div class="col-md-3"><label><b>Railway/Org.</b></label></div>
+                <div class="col-md-3"><label id="railway">{{obj.empno_id__currentzone}}</label></div>
+                <div class="col-md-3"><label><b>Division/Unit</b></label></div>
+                <div class="col-md-3"><label id="division">{{obj.empno_id__currentunitdivision}}</label></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"><label><b>Department</b></label></div>
+                <div class="col-md-3"><label id="empdepartment">{{obj.department}}</label></div>
+                <div class="col-md-3"><label><b>Designation</b></label></div>
+                <div class="col-md-3"><label id="designation">{{obj.designation}}</label></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"><label><b>Appointment Date</b></label></div>
+                <div class="col-md-3"><label id="appointment_date">{{obj.empno_id__appointmentdate}}</label></div>
+                <div class="col-md-3"><label><b>Superannuation Date</b></label></div>
+                <div class="col-md-3"><label id="superannuation_date">{{obj.empno_id__superannuation_date}}</label></div> 
+            </div>
+               <div class="row">  
+                   <div class="col-md-3"><label><b>Pay Level</b></label></div>
+                   <div class="col-md-3"><label id="paylevel">{{obj.empno_id__pc7_level}}</label></div>
+                   <div class="col-md-3"><label><b>Service Status</b></label></div>
+                   <div class="col-md-3"><label id="service_status">{{obj.empno_id__service_status}}</label></div>
+               </div>
+               <div class="row">
+                <div class="col-md-3"><label><b>Official Contact Number</b></label></div>
+                <div class="col-md-3"><label id="Official_contact">{{obj.contactnumber}}</label></div>
+                  <div class="col-md-3"><label><b>Official Email</b></label></div>
+                  <div class="col-md-3"><label id="Official_email">{{obj.official_email_ID}}</label></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"><label><b>Reporting Officer</b></label></div>
+                    <div class="col-md-3"><label id="Reporting_Officer">{{reporting_ofc}}</label></div>
+                </div>                       
+</form>     
+ <div>
+    <a href="{% url 'editDetail' %}"><button type="button" class="btn btn-success" style="margin-left: 85%;">Raise Change Request</button></a> 
+ </div>
+<br>
+<br>
+  <div class="container text-center">
+    <h4>Quick Links</h4>
+  <div class="row justify-content-center">
+      <div class="col-7">
+          <ul class="link-list">
+              <li>
+                  <a id="docreate1" href="/create_inspection_form" title="CREATE MY INSPECTION NOTES" class="nav-link act"  onclick="docreatelink()" target="_blank" style="font-size: 19px;"><b> Create New INSP </b></a>
+              </li>
+              <li>
+                  <a id="doissued1" href="/view_previous" title="View Previous D.O. Letters" class="nav-link ac" onclick="doissuedlink()" target="_blank" style="font-size: 19px;"><b> Issued INSP </b></a>
+              </li>
+              <li>
+                  <a id="dodraft1" class="nav-link vetted" href="/draft_inspection_form" title="View Draft"  onclick="dodraftlink()" target="_blank" style="font-size: 19px;"><b> Draft  </b> </a>
+              </li>
+              <li>
+                  <a id="dopending1" class="nav-link unvetted" href="/created_checklist" title="View Pending"  onclick="dopendlink()" target="_blank" style="font-size: 19px;"><b> Pending  </b> </a>
+              </li>
+              <li>
+                  <a id="doforward1" class="nav-link forward" href="/compliance_forward_all" title="View Forwarded" onclick="doforwlink()"  target="_blank" style="font-size: 19px;"><b> Forwarded  </b> </a>
+              </li>
+          </ul>
+      </div>
+  </div>
+</div>
+
+</body>
+<script  type="text/javascript">
+  
+
+</script>
+{% endblock content %}

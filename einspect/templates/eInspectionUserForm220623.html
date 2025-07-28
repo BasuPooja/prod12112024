@@ -1,0 +1,3625 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- CSS only -->
+<link rel="stylesheet" type="text/css" href="{% static '/accordian/bootstrap.min.css' %}" />
+<script src="{% static '/accordian/bootstrap.bundle.min.js' %}"></script>
+    
+
+
+<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static '/js/popper.min.js' %}"></script>
+<script src="{% static '/js/Chart.min.js' %}"></script>
+<script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static '/js/jquery-ui.js' %}"></script>
+<script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+
+<script src="{% static '/js/select2.min.js' %}"></script>
+<script src="{% static '/js/moment.min.js' %}"></script>
+
+
+<script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+<script src="{% static '/js/sweetalert.min.js' %}"></script>
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.min1.js' %}"></script>
+<script src="{% static '/js/jquery.min1.js' %}"></script>
+<script src="{% static '/js/jquery-ui.min.js' %}"></script>
+<script src="{% static '/js/jspdf.min.js' %}"></script>
+
+<script src="{% static '/DataTables/datatables.min.js' %}"></script>
+<script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+<script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}" />
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+<link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+<script type="text/javascript" src="{% static '/js/jquery.mask.js'%}"></script>
+
+
+<link rel="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="{% static '/js/select2.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+<script type="text/javascript">
+    $(".sidebar").addClass('close');
+</script>
+
+        
+<title>Einspection | Inspection Form</title>
+<style>
+    .accordion-button::after {
+        background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+        background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+        background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+    }
+
+    .accordion-button:not(.collapsed) {
+        background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+        background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+        background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+        color: white;
+        border: white;
+    }
+
+
+
+    .accordion-button::after {
+        background-color: white;
+        color: white;
+        border-radius: 20px;
+    }
+    .accordion-button{
+        background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+        background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+        background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+        color: white;
+        border: white;
+    }
+
+
+    label {
+        font-weight: bold;
+    }
+
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+
+
+    .rating>input {
+        display: none;
+    }
+
+    .rating>label {
+        position: relative;
+        width: 1em;
+        font-size: 2vw;
+        color: #FFD700;
+        cursor: pointer;
+    }
+
+    .rating>label::before {
+        content: "\2605";
+        position: absolute;
+        opacity: 0;
+    }
+
+    .rating>label:hover:before,
+    .rating>label:hover~label:before {
+        opacity: 1 !important;
+    }
+
+    .rating>input:checked~label:before {
+        opacity: 1;
+    }
+
+    .rating:hover>input:checked~label:before {
+        opacity: 0.4;
+    }
+
+    .progress{
+        width: 30px;
+        height: 30px;
+        /* line-height: 20px; */
+        background: none;
+        margin: 0 auto;
+        box-shadow: none;
+        position: relative;
+    }
+    .progress:after{
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 12px solid #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .progress > span{
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+    }
+    .progress .progress-left{
+        left: 0;
+    }
+    .progress .progress-bar{
+        width: 100%;
+        height: 100%;
+        background: none;
+        border-width: 12px;
+        border-style: solid;
+        position: absolute;
+        top: 0;
+    }
+    .progress .progress-left .progress-bar{
+        left: 100%;
+        border-top-right-radius: 80px;
+        border-bottom-right-radius: 80px;
+        border-left: 0;
+        -webkit-transform-origin: center left;
+        transform-origin: center left;
+    }
+    .progress .progress-right{
+        right: 0;
+    }
+    .progress .progress-right .progress-bar{
+        left: -100%;
+        border-top-left-radius: 80px;
+        border-bottom-left-radius: 80px;
+        border-right: 0;
+        -webkit-transform-origin: center right;
+        transform-origin: center right;
+        animation: loading-1 1.8s linear forwards;
+    }
+    .progress .progress-value{
+        width: 90%;
+        height: 90%;
+        border-radius: 50%;
+        background: #44484b;
+        font-size: 24px;
+        color: #fff;
+        line-height: 135px;
+        text-align: center;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+    }
+
+    .progress.yellow .progress-bar{
+        border-color: #ef7821;
+    }
+    .progress.yellow .progress-left .progress-bar{
+        animation: loading-3 1s linear forwards 1.8s;
+    }
+    .progress.pink .progress-bar{
+        border-color: #ed687c;
+    }
+    .progress.pink .progress-left .progress-bar{
+        animation: loading-4 0.4s linear forwards 1.8s;
+    }
+    .progress.green .progress-bar{
+        border-color: #1abc9c;
+    }
+    .progress.green .progress-left .progress-bar{
+        animation: loading-5 1.2s linear forwards 1.8s;
+    }
+
+.tags {
+  display: inline;
+  position: relative;
+}
+
+.tags:hover:after {
+  background: #f5f1f1;
+  background: rgba(250, 245, 245, 0.8);
+  border-radius: 5px;
+  bottom: -34px;
+  color: #2e1cf0;
+  content: attr(data-gloss);
+  left: 20%;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 98;
+  width: 350px;
+}
+
+.tags:hover:before {
+  border: solid;
+  border-color: #f1e0e0 transparent;
+  border-width: 0 6px 6px 6px;
+  bottom: -4px;
+  content: "";
+  left: 50%;
+  position: absolute;
+  z-index: 99;
+}
+
+.ClassEmpty{
+    color: red;
+}
+
+.pointerActor:hover {cursor: pointer;}
+
+    @keyframes loading-1{
+        0%{
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100%{
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+    }
+    @keyframes loading-2{
+        0%{
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100%{
+            -webkit-transform: rotate(144deg);
+            transform: rotate(144deg);
+        }
+    }
+    @keyframes loading-3{
+        0%{
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100%{
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+    }
+    @keyframes loading-4{
+        0%{
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100%{
+            -webkit-transform: rotate(36deg);
+            transform: rotate(36deg);
+        }
+    }
+    @keyframes loading-5{
+        0%{
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100%{
+            -webkit-transform: rotate(126deg);
+            transform: rotate(126deg);
+        }
+    }
+    @media only screen and (max-width: 990px){
+        .progress{ margin-bottom: 20px; }
+    }
+
+</style>
+
+
+
+<!-- Style for wrap class -->
+
+<style>
+    .wrap.active {
+    display: block;
+    visibility: visible;
+    box-shadow: 2px 3px 16px silver;
+    transition: all 600ms;
+    transform: translateY(0px);
+    transition: all 0.5s;
+  }
+  .wrap {
+    position: fixed;
+    overflow: hidden;
+    top: 10%;
+    right: 10%;
+    bottom: 85px;
+    left: 10%;
+    padding: 12px;
+    display: block !important;
+    border-radius: 4px;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    visibility: hidden;
+    z-index: 9999;
+    height: 85vh;
+  }
+  
+  .wrap-1.active {
+    display: block;
+    visibility: visible;
+    box-shadow: 2px 3px 16px silver;
+    transition: all 600ms;
+    transform: translateY(0px);
+    transition: all 0.5s;
+  }
+  .wrap-1 {
+    position: fixed;
+    overflow: hidden;
+    top: 10%;
+    right: 10%;
+    bottom: 85px;
+    left: 10%;
+    padding: 12px;
+    display: block !important;
+    border-radius: 4px;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    visibility: hidden;
+    z-index: 9999;
+    height: 85vh;
+  }
+  .wrap.active .content,.wrap-1.active .content  {
+    position: relative;
+    z-index: 1;
+    opacity: 1;
+    transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  .wrap .content, .wrap-1 .content {
+    opacity: 0;
+  }
+  .wrap.active:before, .wrap-1.active:before {
+    height: 2000px;
+    width: 2000px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    margin-left: -1000px;
+    margin-top: -1000px;
+    display: block;
+    -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .wrap:before, .wrap-1:before {
+    position: fixed;
+    width: 1px;
+    height: 1px;
+    background: white;
+    content: "";
+    bottom: 10px;
+    left: 50%;
+    top: 95%;
+    color: #fff;
+    border-radius: 50%;
+    -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  .wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+    width: 10px;  /* Remove scrollbar space */
+    background: #dedede;
+  }
+  /* Optional: show position indicator in red */
+  .wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+    background: #FF0000;
+  }
+
+
+  .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+  </style>
+
+
+</head>
+
+<body style="overflow-x:hidden;">
+
+<div id="main" >
+<form method="POST" enctype="multipart/form-data" onsubmit="return checkvalidation()">
+        {%csrf_token%} 
+        <input type="text" id="inspectionId" name="inspectionId" value="{{inspectionId}}" hidden>
+        <input type="text" id="supnight" name="supnight" hidden>
+        <input type="text" id="finalizeStart" name="finalizeStart" value="No" hidden>
+        <input type="text" id="finalizeEnd" name="finalizeEnd" value="No" hidden>
+<input type="text" id="d_levelCheck" value="{{userRailways.d_level}}" hidden>
+<div class="row mx-5">
+
+    <h2 class="mb-5 mt-2" style="font-size:24px; font-weight: 600; text-transform: uppercase; text-decoration: underline; text-align: center;">
+        <div class="row">
+            <div class="col-lg-11">
+                <span id="inspectionTypeE" value=""></span> 
+                {{name.name}} Inspection by {{designations1}} on  <span id="dateTitle" style="text-decoration: underline;">{{dateNo}}</span> at  
+                <span id="divisionE" value=" {{userDivision.location_description}}">{{userDivision.location_code}}</span> , 
+                <span id="railwaysE" value="{{divisionParent.location_code}}">{{divisionParent.location_code}}</span >
+            </div>
+            <div class="col-lg-1 col-sm-4 col-md-2">
+                <button class="btn btn-info btn-sm float-right btn-block" id="responsePlay" style="background-color:#ef7821;border:none; white-space: normal; word-wrap: break-word; " type="button" onclick="responsePlayFun()">Edit</button>
+            </div>
+        </div>
+    </h2>
+
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item" id="Accordion">
+            <h2 class="accordion-header font-weight-bold" id="headingOne">
+                <button class="accordion-button font-weight-bold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="staticAccordion">
+                    1. Inspection Detail
+                </button>
+                
+            </h2>
+            <input name="id" id="id" value="{{id}}" hidden>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    
+
+
+                    <!-- Railways and Division changing Div -->
+                    <div class="form-row" id="playBetweenRD">
+
+                        <div class="form-group col-md-6 col-lg-6 col-sm-12" id="">
+                            <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold"
+                                name="userLabel">Railways
+                                <sup class="text-danger">*</sup>
+                            </label><br>
+
+                            <select  id="userdata0" name="userdata0" class="form-control select2" onchange="getZoneEinsp()"  style="width: 100%;">
+                                <option value="{{divisionParent.rly_unit_code}}" selected>
+                                    {{divisionParent.location_description}}</option>
+                                {% for i in railwayZone %}
+                                <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group col-md-6 col-lg-6 col-sm-12">
+                            <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold"
+                                name="userLabel">Division
+                                <sup class="text-danger">*</sup>
+                            </label><br>
+                            <select id="userdata1" name="userdata1" class="form-control select2" 
+                                 onchange="getSectionDash(this)" style="width: 100%;" >
+                                <option selected value="{{userDivision.rly_unit_code}}">{{userDivision.location_description}}</option>
+                                {% for i in newdivision %}
+                                <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 mx-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="is_scheduled" id="superiseInsp"
+                                    value="Surprise" checked>
+                                <label class="form-check-label" for="inlineRadio1">Surprise Inspection</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="is_scheduled" id="nightInsp"
+                                    value="Night">
+                                <label class="form-check-label" for="inlineRadio2">Night Inspection</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <input type="text" hidden value="{{name.entity.dmaster}}" id="entitylbl" name="entitylbl">
+                
+                <div class="row">
+
+                <div {% if defaultEntityLength == 0 %} hidden {% endif %} class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="row">
+                       
+                        <div  class="col-lg-11 col-md-11 col-sm-11" >
+                            <label for="fromstation" class="col-form-label  font-weight-bold"
+                            name="userLabel">{{name.entity.dmaster}}{{' Details'}}
+                            <sup class="text-danger">*</sup>
+                        </label>    
+                        <select id="userdata9" name="userdata9" class="form-control select2"
+                             style="width:100% ;" >
+                            <option selected disabled hidden value="">----Select {{name.entity.dmaster}} Details----</option>
+                           
+                                {% for i in defaultEntity %}
+                                    <option value="{{i.id}}">{{i.id}} - {{i.desc}}</option>
+                                {% endfor %}
+                        </select>
+                        </div>
+                    
+                        <div class="col-lg-1 col-md-1 col-sm-1 p-0 m-0">
+                            {% if name.entity.dmaster == 'Train' or name.entity.dmaster == 'Loco' %}
+                            <div class="btn btn-sm btn-secondary rounded-circle mt-3" onclick="getDataEntity()" style="font-family:'Courier New', Courier, monospace;" >
+                            <i class="fa fa-info"></i>
+                            </div>
+                            <div hidden class="btn btn-sm btn-secondary rounded-circle mt-3" data-target="#entityModal" data-toggle="modal" id="train_entity_id" style="font-family:'Courier New', Courier, monospace;" >
+                                <i class="fa fa-info"></i>
+                            </div>                                       
+                        {% endif %}
+                        </div>
+                    </div>                                                                               
+                </div>
+
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="fromstation" class="col-form-label font-weight-bold"
+                            name="userLabel">Section
+                            <sup class="text-danger">*</sup>
+                        </label>
+                        <select id="userdata17" name="userdata17" class="form-control select2" style="width:100% ;" >
+                            <option selected disabled hidden value="">----- Select Section -----</option>
+                            {% for i in defaultSection %}
+                            <option value="{{i.secid}}">{{i.section_name}} ({{i.section_code}})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>  
+
+            </div>
+
+                       
+
+                    
+
+
+
+                    <div class="form-row">
+                        <div class="form-group col-lg-4">
+                            <label for="fromstation" class=" col-form-label  font-weight-bold"
+                                name="userLabel">Common Department
+                                
+                            </label><br>
+                            <select class="form-control mb-2 select23" id="commanDepartment" name = "commanDepartment"
+                                        onchange="setAllDepartment(this.id)" style="width: 100%;" multiple>
+                                        {% for i in departmentsAllComman %}
+                                        <option value="{{i.department_code}}">{{i.department_name}}</option>
+                                        {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label for="fromstation" class=" col-form-label  font-weight-bold"
+                                name="userLabel">Start Date
+                                <sup class="text-danger">*</sup>
+                            </label><br>
+                            <input type="text" name="userdata4" id="userdata4" placeholder="Select Start Date"
+                                onchange="changedate()" readonly class="form-control"
+                                value="{{dateNo2}}"  />
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label for="fromstation" class=" col-form-label  font-weight-bold"
+                                name="userLabel">Start Time
+                                <sup class="text-danger">*</sup>
+                            </label><br>
+                            <input type="text" name="userdata5" id="userdata5" onfocus="settime()" class="form-control" 
+                                    value="{{startTime}}" placeholder="Select Start Time" onchange="validatedate(this.value)" readonly />
+                                    
+                                    <input type="text" name="name1" id="userdatashow5" 
+                                class="form-control" value=""  
+                                readonly />
+                        </div>
+                    
+                        <div class="form-group col-lg-2">
+                            <label for="fromstation" class=" col-form-label  font-weight-bold"
+                                name="userLabel">End Date
+                                <!-- <sup class="text-danger">*</sup> -->
+                            </label><br>
+                            <input type="text" name="userdata6" id="userdata6" placeholder="Select End Date"  readonly
+                                class="form-control"  value=""  />
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label for="fromstation" class="col-form-label  font-weight-bold"
+                                name="userLabel">End Time
+                                <!-- <sup class="text-danger">*</sup> -->
+                            </label><br>
+                            <input type="text" name="userdata7" id="userdata7" onfocus="validatetime()"
+                                class="form-control" value=""  placeholder="Select End Time" 
+                                readonly />
+                                <input type="text" name="name1" id="userdatashow7" 
+                                class="form-control" value=""  
+                                readonly />
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        {% for ia in actorDetailsData %}
+                        <div class="form-group col-lg-3">
+                            <label for="actor{{ia.actor}}" class="col-form-label  font-weight-bold"
+                                name="userLabel">Select Actor For {{ia.actor}}( 
+                                    <a class="pointerActor" title="click to View All Related Question " onclick="getAllQuestions('actor{{ia.actor}}','{{name.name}}')"><i class="fa fa-circle" aria-hidden="true" style="font-size:16px;{% if ia.use_color == 'Y' %}  color:{{ia.color_code}} {% else %} color:rgb(238, 19, 37) {% endif %}" ></i></a> )
+                                     &nbsp;&nbsp;
+                                     <a class="pointerActor" title="click to View Actor details" onclick="getActorDetails('{{ia.actor}}','actor{{forloop.counter}}')"><i class="fa fa-info-circle" style="font-size:24px;color:rgb(98, 81, 251)"></i></a>
+                                
+                            </label><br>
+                            <select class="form-control mb-2 select24" id="actor{{forloop.counter}}" name = "actor{{ia.actor}}"
+                                         style="width: 100%;" multiple>
+                                        {% for i1 in ia.data %}
+                                        <option value="{{i1}}">{{i1}}</option>
+                                        {% endfor %}
+                            </select>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <large id="requiredFields" class="text-danger">
+                        Note: 1. '*' required field &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        2. End date and End time are compulsary while finalizing inspection Notes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        3. For Performance Rating Select Actor
+                    </large>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        {% for i in sideMenu %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">                    
+                <button class="accordion-button font-weight-bold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo{{forloop.counter}}" aria-expanded="false" 
+                    aria-controls="collapseTwo" id="dynamicAccordion{{i.instypeid_id.instypeid}}" onclick="showhideaccordian('{{i.instypeid_id.instypeid}}');">
+                    <label class="tags" data-gloss="{{i.instypeid_id.desc | default:'' }}"> {{forloop.counter|add:1}}. {{i.instypeid_id.name}} </label>
+                </button>
+            </h2>
+            <div id="collapseTwo{{forloop.counter}}" class="accordion-collapse collapse"
+                aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="table-responsive" >
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:3%;">                                    
+                                       Select All <input type="checkbox" style="zoom:1.5;margin-top: 2px;" onclick="checkOrUncheckAll(this.name);" id="check@{{i.instypeid_id.instypeid}}@{{name.instypeid}}" name="check@{{i.instypeid_id.instypeid}}@{{name.instypeid}}">
+                                    </th>
+                                    <th style="width:3%;">S.No.</th>
+                                    <th style="width:34%;">Observation</th>
+                                    <th style="width:15%;">Select Value 
+                                       <label hidden> (Select All +VE Value)<input type="checkbox"  style="zoom:1.5;position: absolute;margin-top: 2px;" onclick="checkOrUncheckPositive(this.name);" id="positive@{{i.instypeid_id.instypeid}}@{{name.instypeid}}" name="positive@{{i.instypeid_id.instypeid}}@{{name.instypeid}}"></label>
+                                    </th>
+                                    <th style="width:15%;">Location</th>
+                                    <th style="width:10%;">Kind Attention To</th>
+                                    <th style="width:20%;">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for j in questions %}
+                                {% if i.instypeid_id.name == j.instypeid_id__name %}
+                                <th>
+                                    {% if j.compulsary %}
+                                    <input type="checkbox" style="pointer-events: none;zoom:1.5;" checked id="tick@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" name="tick@{{i.instypeid_id.instypeid}}@{{forloop.counter}}">
+                                    
+                                    {% else %}
+                                    <input type="checkbox" style="zoom:1.5;" id="tick@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" name="tick@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" onclick="funcSetDisplay(this.id);">
+                                    
+                                    {% endif %}
+                                </th>
+                                <th scope="row">{{j.questionNo}}</th>
+                                <td>
+                                    <label  class="chkClassEmpty" id="label{{i.instypeid_id.instypeid}}{{forloop.counter}}" class="tags" data-gloss="{{j.desc | default:'' }}">{{j.activity}}
+                                    {% if j.compulsary %}
+                                    <sup class="text-danger">*</sup>
+                                    {% endif %}
+                                    </label>
+                                    &nbsp;&nbsp;
+                                    {% for color in j.colorLst %}
+                                    <a title="{{color.actionId_id__actorName}}"><i class="fa fa-circle" aria-hidden="true" style="font-size:16px; color:{{color.actionId_id__color_code}};" ></i></a>
+                                    {% endfor %}
+                                </td>
+
+                                <th>
+                                    <div id="observation@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" {% if j.compulsary %} style="display:block;" {%else%} style="display:none;" {%endif%}>
+                                   
+
+                                        {% if j.choicetype__cid == 1 %}    
+                                        <!-- Text -->  
+                                        
+                                        {% if j.dependent_ques %} 
+                                        <span id="dependentspan{{forloop.counter}}" name="dependentspan{{j.qid}}">
+                                            <textarea rows="1" class="userinput{{j.qid}} form-control" type="text" name="userinput{{forloop.counter}}" id="userinput{{forloop.counter}}" placeholder="Dependent Field" class="form-control" autocomplete="off" readonly></textarea>                                        </span>
+                                            <!-- <textarea class="userinput{{j.qid}} form-control" type="text" name="userinput{{j.qid}}" id="userinput{{forloop.counter}}" placeholder="{{j.activity}}" class="form-control" autocomplete="off" readonly></textarea>
+                                             -->
+                                        {% else %} 
+                                            <textarea rows="1" type="text" name="userinput{{forloop.counter}}" id="userinput{{forloop.counter}}" placeholder="{{j.activity}}" class="form-control"  autocomplete="off"></textarea>
+                                                    
+                                        {% endif %}     
+                                        {% elif j.choicetype__cid == 2 %}    
+                                        <!-- Radio -->
+                                            <div class="row" >
+                                                <div class="col-12">
+ 
+                                                    <input class="form-check-input" type="radio" id="roption3{{forloop.counter}}"
+                                                    name="roption{{forloop.counter}}" value="Null" checked hidden>
+                                                    <label class="form-check-label" for="roption3"></label> 
+    
+
+                                                    <label class="radio-inline form-check-label col-lg-12" for="roption1">
+                                                        <input class="form-check-input" type="radio" id="roption1{{forloop.counter}}" {% if j.roption1_id__rscore == 0 %} checked {% endif %}
+                                                        name="roption{{forloop.counter}}" value="{{j.roption1_id__rlabel}}" onclick="checkFillOfDepartment(this.id,this.value)">{{j.roption1_id__rlabel}}
+                                                    </label> 
+                                                </div>
+                                            </div>
+                                                <div class="row" >
+                                                <div class="col-12">
+                                                    <label class="form-check-label col-lg-12" for="roption2">
+                                                        <input class="form-check-input" type="radio" id="roption2{{forloop.counter}}" {% if j.roption2_id__rscore == 0 %} checked {% endif %}
+                                                        name="roption{{forloop.counter}}" value="{{j.roption2_id__rlabel}}" onclick="checkFillOfDepartment(this.id,this.value)">{{j.roption2_id__rlabel}}    
+                                                    </label>
+                                                </div>
+
+                                               
+                                            </div>                                  
+
+                                  
+                                            
+                                        <!-- Dropdown -->
+                                        {% elif j.choicetype__cid == 3 %}
+                                            
+                                        {% if j.dependent_ques %} 
+                                        <span id="dependentspan{{forloop.counter}}" name="dependentspan{{j.qid}}">
+                                            {% if j.data_len_type == 'text' %}
+
+                                       
+                                        <input type="text" id="doption{{forloop.counter}}" name="doption{{forloop.counter}}" abc="{{j.qid}}" onchange="getDependentData(this.id,'{{j.qid}}',this.value)"  style="width:100%;" list="productName{{forloop.counter}}" autocomplete="off" placeholder="Enter Data To search">
+                                                <datalist id="productName{{forloop.counter}}">
+                                                            <option selected disabled hidden value=""></option>
+                                                            {% for k in j.data %}
+                                                            <option value="{{k}}">{{k}}</option>
+                                                            {% endfor %}
+
+                                        {% else %}
+                                            <select class="select2 my-1 mx-auto form-control-sm"  id="doption{{forloop.counter}}" name="doption{{forloop.counter}}" abc="{{j.qid}}" onchange="getDependentData(this.id,'{{j.qid}}',this.value)"  style="width:100%;">
+                                                <option selected disabled="true" value="">----- Select Answer Choice -----</option>
+                                                  
+                                                {% for k in j.data %}
+                                                <option value="{{k}}">{{k}}</option>
+                                                {% endfor %}
+                                                  
+                                            </select> 
+                                        {% endif %} 
+                                        {% else %} 
+                                        {% if j.data_len_type == 'text' %}
+
+                                       
+                                        <input type="text" id="doption{{forloop.counter}}" name="doption{{forloop.counter}}" abc="{{j.qid}}" onchange="getDependentData(this.id,'{{j.qid}}',this.value)"  style="width:100%;" list="productName{{forloop.counter}}" autocomplete="off" placeholder="Enter Data To search">
+                                                <datalist id="productName{{forloop.counter}}">
+                                                            <option selected disabled hidden value=""></option>
+                                                            {% for k in j.data %}
+                                                            <option value="{{k}}">{{k}}</option>
+                                                            {% endfor %}
+
+                                        {% else %}
+                                            <select class="select2 my-1 mx-auto form-control-sm"  id="doption{{forloop.counter}}" name="doption{{forloop.counter}}" abc="{{j.qid}}" onchange="getDependentData(this.id,'{{j.qid}}',this.value)"  style="width:100%;">
+                                                <option selected disabled="true" value="">----- Select Answer Choice -----</option>
+                                                  
+                                                {% for k in j.data %}
+                                                <option value="{{k}}">{{k}}</option>
+                                                {% endfor %}
+                                                  
+                                            </select> 
+                                        {% endif %}       
+                                        {% endif %}  
+
+
+                                        
+                                                                                
+
+                                        {% elif j.choicetype__cid == 4 %}
+                                        <!-- Date -->
+                                            <input class="form-control form-control-sm" type="date" id="date{{forloop.counter}}" name="date{{forloop.counter}}"  />
+                                            
+                                        {% elif j.choicetype__cid == 5 %}
+                                        <!-- Time -->
+                                            <input class="form-control form-control-sm" type="time" id="time{{forloop.counter}}" name="time{{forloop.counter}}"  />
+                                            
+                                        {% elif j.choicetype__cid == 6 %}
+                                        <!-- File -->
+                                            <input onchange="checkImageData('{{forloop.counter}}')" accept="image/png, image/jpg, image/jpeg" class="form-control form-control-sm" name="file{{forloop.counter}}" id="file{{forloop.counter}}" type="file"  />
+                                           
+                                            <small id="update_HelpInline1{{forloop.counter}}" class="text-muted"
+                                            value="Maximum Size: 50KB">Maximum Size:
+                                            50KB</small>&nbsp;
+                                            <small id="update_HelpInline2{{forloop.counter}}" class="text-muted"
+                                                value="Allowed File Type: .png, .jpg, .jpeg">Allowed
+                                                File Type: .png, .jpg, .jpeg</small>&nbsp;
+                                            <small id="update_HelpInline3{{forloop.counter}}" class="text-muted"
+                                            value="File Ratio: 2x1">File Ratio:
+                                            2x1</small>&nbsp;
+
+                                            <i class="fa fa-eye" aria-hidden="true"
+                                            style="color:blue;" onclick="update_preview_img('{{forloop.counter}}')"
+                                            title="Click to Preview Image"></i>
+                                            <label id="uploaded{{forloop.counter}}" style="color:#fa5c47;" class="uploadedlable" >uploaded...</label>
+                                            <span id="update_preview_image{{forloop.counter}}" style="display: none;">
+                                                <img alt="{{j.activity}} Image"
+                                                    id="update_setPreviewImage{{forloop.counter}}" height="100%"
+                                                    width="100%" />
+                                            </span>
+                                            
+
+                                        {% elif j.choicetype__cid == 7 %} 
+                                        <!-- List -->
+                                        <select size="5" class="form-control form-control-sm" name="userinput{{forloop.counter}}" id="userinput{{forloop.counter}}">
+                                            {% for c9 in j.mixedChoices %}
+                                            <option value="{{c9}}"> {{c9}} </option>
+                                            {% endfor %}
+                                        </select>
+
+                                            <!-- <input class="form-control form-control-sm" type="text" name="userinput{{forloop.counter}}" id="userinput{{forloop.counter}}" autocomplete="off"/> -->
+                                        
+                                        {% elif j.choicetype__cid == 8 %}
+                                        <!-- Rating -->
+                                            <!-- <input class="form-control form-control-sm" type="text" name="userinput{{forloop.counter}}" id="userinput{{forloop.counter}}" autocomplete="off"/> -->
+                                            <div class="rating">
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="10" id="userinput{{forloop.counter}}10"
+                                            ><label for="userinput{{forloop.counter}}10">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="9" id="userinput{{forloop.counter}}9"
+                                                ><label for="userinput{{forloop.counter}}9">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="8" id="userinput{{forloop.counter}}8"
+                                                ><label for="userinput{{forloop.counter}}8">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="7" id="userinput{{forloop.counter}}7"
+                                                ><label for="userinput{{forloop.counter}}7">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="6" id="userinput{{forloop.counter}}6"
+                                                ><label for="userinput{{forloop.counter}}6">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="5" id="userinput{{forloop.counter}}5"
+                                            ><label for="userinput{{forloop.counter}}5">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="4" id="userinput{{forloop.counter}}4"
+                                                ><label for="userinput{{forloop.counter}}4">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="3" id="userinput{{forloop.counter}}3"
+                                                ><label for="userinput{{forloop.counter}}3">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="2" id="userinput{{forloop.counter}}2"
+                                                ><label for="userinput{{forloop.counter}}2">☆</label>
+                                            <input type="radio" name="userinput{{forloop.counter}}" value="1" id="userinput{{forloop.counter}}1"
+                                                ><label for="userinput{{forloop.counter}}1">☆</label>
+                                            </div>
+                                       
+                                            {% elif j.choicetype__cid == 9 %}
+                                        <!-- #choices -->
+                                            {% for c9 in j.mixedChoices %}
+                                            <input type="checkbox" id="checkbox#{{j.qid}}{{forloop.counter}}" name="checkbox#{{j.qid}}" value="{{c9}}" class="classname#{{j.qid}}{{forloop.counter}}">
+                                            <label for="checkbox{{c9}}">{{c9}}</label><br>
+                                            {% endfor %}
+                                       
+                                            {% elif j.choicetype__cid == 10  %}
+                                        <!-- Checkbox -->
+                                            {% for c9 in j.mixedChoices %}
+                                            <input type="checkbox" id="checkbox{{j.qid}}{{forloop.counter}}" name="checkbox{{j.qid}}" value="{{c9}}" class="classname{{j.qid}}{{forloop.counter}}">
+                                            <label for="checkbox{{c9}}">{{c9}}</label><br>
+                                            {% endfor %}                                        
+                                        
+                                        {% endif %}
+                                    </div>
+                                </th>
+                                <!-- Location -->
+                                <td>
+                                    <div id="location@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" {% if j.compulsary %} style="display:block;" {%else%} style="display:none;" {%endif%}>
+                                        <!-- Pole Location -->
+                                        {% if j.location_id__lmaster == 'Pole Location' %}
+                                        <div id="location12345">
+                                            <select type="text" style="width:100%;" name="location1{{forloop.counter}}" placeholder=" ____ /__-__ " class="location121 form-control" size="8" id="location1{{forloop.counter}}" minlength="8" maxlength="8"  autocomplete="off" multiple="true">
+                                            </select>
+                                            
+                                        </div>
+                                        <!-- Direction -->
+                                        {% elif j.location_id__lmaster == 'Direction' %}
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label class="radio-inline form-check-label col-lg-12" for="location1">
+                                                        <input class="form-check-input" type="radio" id="location1{{forloop.counter}}"
+                                                        name="location{{forloop.counter}}" value="Left" checked>Left
+                                                    </label> 
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label class="form-check-label col-lg-12" for="location2">
+                                                        <input class="form-check-input" type="radio" id="location1{{forloop.counter}}"
+                                                        name="location{{forloop.counter}}" value="Rigth">Right    
+                                                    </label>
+                                                </div>
+                                            </div>                                  
+                                        <!-- Number -->
+                                        {% elif j.location_id__lmaster == 'Number' %}
+                                        <div id="location1234">
+                                            <select style="width:100%;" type="number"  name="location1{{forloop.counter}}" class="location111 form-control" id="location1{{forloop.counter}}" placeholder="Enter Number(Max 6 Digit)" multiple="true" >
+                                            </select>
+                                            
+                                        </div>
+                                            
+                                            
+                                        <!-- Coach -->
+                                        {% elif j.location_id__lmaster == 'Coach Number' %}
+                                            <input style="width:100%;" type="text" class="form-control " name="location1{{forloop.counter}}" placeholder="Enter Coach No." size="5" id="location1{{forloop.counter}}" minlength="1" maxlength="5" autocomplete="off" >
+                                            
+                                            {% endif %}
+                                        
+                                    </div>
+                                </td>
+                                <td  style="width: 10%;"> 
+                                    
+                                    <div {% if j.actionBy == 'No' %} hidden {% endif %} id="marked@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" {% if j.compulsary %} style="display:block;" {%else%} style="display:none;" {%endif%}>
+                                                    <div class="row">
+                                                    <div class="col-12">
+                                                    <select class="form-control mb-2 select2 set_comman_department" id="department1{{forloop.counter}}" name = "department1{{forloop.counter}}"
+                                                        onchange="getConcernedOfficer(this.id,this.value)"  style="width: 200px;">
+                                                        <option selected disabled hidden value="">Select Concerned Dept.</option>
+                                                        <option value="showAll">Show All</option>
+                                                        {% for i in departmentsAll %}
+                                                        <option value="{{i.department_code}}">{{i.department_name}}</option>
+                                                        {% endfor %}
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <select class="form-control mb-2 select2  " id="officer11{{forloop.counter}}" name = "officer11{{forloop.counter}}"
+                                                    style="width: 200px;">
+                                                        <option selected disabled hidden value="">Select Concerned Officer</option>
+                                                    
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                    <div class="row">
+                                                        <div class="col-12">   
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                </td>
+                               
+                                <td>
+                                    <div id="remarks@{{i.instypeid_id.instypeid}}@{{forloop.counter}}" {% if j.compulsary %} style="display:block;" {%else%} style="display:none;" {%endif%}>
+                                    <textarea class="form-control" name="remarks{{forloop.counter}}"  id="remarks{{forloop.counter}}" rows="3" placeholder="Please Give Remarks"></textarea>
+                                    </div>
+                                </td>
+                                {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+        {% endfor %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button font-weight-bold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="staticAccordion1">
+                    {{sideMenu|length|add:2}}. Inspection Conclusion
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+
+                    <div class="form-row">
+                        <label for="priority" class="col-form-label font-weight-bold">Any Other Abnormality Noticed?
+                            (if Yes, enter remarks.)<sup class="text-danger"> *</sup></label>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="abnormal" id="userdata13" value="no" checked>
+                            <label class="form-check-label" for="inlineRadio1">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="abnormal" id="userdata13" value="yes">
+                            <label class="form-check-label" for="inlineRadio2">Yes</label>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12" >
+                        <input type="text" name="userdata15" id="userdata15" class="form-control  form-control-sm" placeholder="Please Enter Remarks" />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="docUpload" class="col-sm-12 col-form-label font-weight-bold">Upload Document</label>
+                        <div class="custom-file input-group-prepend" >
+                            <input type="file" class="form-control form-control-sm" id="userdata14" name="userdata14">
+                            <!-- <label class="custom-file-label col-11" for="userdata14"  >Choose file</label>   -->
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <small id="HelpInline1" class="text-muted" value="Maximum Size: 50KB">Maximum Size:
+                            5000KB</small>&nbsp;
+                        <small id="HelpInline2" class="text-muted"
+                            value="Allowed File Type: .png, .jpg, .jpeg">Allowed File Type: .png, .jpg, .jpeg, .pdf,
+                            .docx, .xlsx</small>&nbsp;
+                        <!-- <small id="HelpInline3" class="text-muted" value="File Ratio: 2x1">File Ratio: 2x1</small>&nbsp; -->
+                    </div>
+
+                    <div class="form-row">
+                        <label for="priority" class="col-sm-12 col-form-label font-weight-bold">Overall Rating</label>
+                        <div class="rating col-2">
+
+                            <input type="radio" name="ratings1" value="5" id="5"
+                                onchange="checker(this.id,this.value)"><label for="5">☆</label>
+                            <input type="radio" name="ratings1" value="4" id="4"
+                                onchange="checker(this.id,this.value)"><label for="4">☆</label>
+                            <input type="radio" name="ratings1" value="3" id="3"
+                                onchange="checker(this.id,this.value)"><label for="3">☆</label>
+                            <input type="radio" name="ratings1" value="2" id="2"
+                                onchange="checker(this.id,this.value)"><label for="2">☆</label>
+                            <input type="radio" name="ratings1" value="1" id="1"
+                                onchange="checker(this.id,this.value)"><label for="1">☆</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="width: 90%; padding-left: 25px;">
+                        <input type="text" id="userinputlength" value="{{queslen}}" class="form-control" hidden>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 d-block float-center mx-auto">
+                    <button type="button" id="useradd" name="useradd" value="useradd"
+                    class=" btn btn-secondary float-center btn-block" hidden>Save</button>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-row">
+            <div class="col-12">
+                <input type="button" onclick="setStartTime()" id="btnSetStartTime" {% if starttime %} disabled {% endif %} value="Finalize Start Date/Time" class="btn btn-primary">
+                <input type="button" onclick="setEndTime()" id="btnSetEndTime" {% if endtime %} disabled {% endif %} value="Finalize End Date/Time" class="btn btn-primary">
+                <input type="submit" name="submit" value="Save as Draft" class="btn btn-success" onclick="return setbuttonvalue('Draft')" >
+                <input type="submit" name="submit" value="Save and Finalize" class="btn" style="background-color: rgb(245, 116, 42);color: white;" onclick="return setbuttonvalue('Final')">
+                <input type="button"  value="Back" class="btn btn-secondary"  onclick="backButtonAccordian()">
+        
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</form>
+<div class="col-lg-6 col-md-6 col-sm-12" id="entitymodal12">
+    <!-- <button class="btn btn-secondary" type="button" data-target="#entityModal" data-toggle="modal" onclick="getDataEntity()"><i class="fa fa-info"></i></button>&nbsp; -->
+    <div id="entityModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="text-align: center; font-weight: bold; color: black;">
+                        {{name.entity.dmaster}} Details</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                        id="closeupdate" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12 shadow">
+                        <form action="" method="GET" id="entityDetails"
+                            class="form-group bg-light font-weight-bold"
+                            value="entityDetails" name="entityDetails">
+                            <div class="form-group">
+                                {% if name.entity.dmaster == 'Train' %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Train No.
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata1" readonly />
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Train Type
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata3" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Train Name
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata2"
+                                            class="form-control" value="" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Source
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata4" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Destination
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata5"
+                                            class="form-control" value="" readonly />
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Coaches
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata6" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Owning Railways
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata7" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Primary Maintenance
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata8"
+                                            class="form-control" value="" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Secondary Maintenance
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata9" readonly />
+                                    </div>
+                                </div>
+
+                                {% elif name.entity.dmaster == 'Loco' %}
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Loco No.
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata1" readonly />
+                                    </div>
+                                    <div class="form-group col-md-8">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Loco Type
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata3" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Manufacturer's Name
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata2"
+                                            class="form-control" value="" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Loco Shed
+                                        </label><br>
+                                        <input type="text" name="name1"
+                                            class="forsm-control" id="formdata4" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Gauge
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata5"
+                                            class="form-control" value="" readonly />
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Wheel Array
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata6" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Quantity Built
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata7" readonly />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Built Year
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata8"
+                                            class="form-control" value="" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Turned Out Date
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata9" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Power
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata10"
+                                            class="form-control" value="" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Running Status
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata11" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Maximum Capacity
+                                        </label><br>
+                                        <input type="text" name="name1" id="formdata12"
+                                            class="form-control" value="" readonly />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="fromstation"
+                                            class="col-sm-12 col-form-label  font-weight-bold"
+                                            name="userLabel">Maximum Speed
+                                        </label><br>
+                                        <input type="text" name="name1" class="form-control"
+                                            id="formdata13" readonly />
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="row col-4 mx-auto">
+                                <input type="button"
+                                    class="btn btn-secondary mx-auto btn-sm "
+                                    data-dismiss="modal"  id="closebtn1" value="Close">
+                            </div>&nbsp;
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<div  id="secondary" style="  margin: auto;
+width: 10%;
+padding: 10px;">
+   
+    <div class="loader"></div>
+  </div>
+</body>
+
+
+<script>
+     $('#main').hide();
+        $('#secondary').show();
+        $(document).ready(function() {        
+        $('#main').show();
+        $('#secondary').hide();
+       
+    });
+const txHeight = 16;
+const tx = document.getElementsByTagName("textarea");
+
+for (let i = 0; i < tx.length; i++) {
+  if (tx[i].value == '') {
+    tx[i].setAttribute("style", "height:" + txHeight + "px;overflow-y:hidden;");
+  } else {
+    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+  }
+  tx[i].addEventListener("input", OnInput, false);
+}
+
+function OnInput(e) {
+  this.style.height = 0;
+  this.style.height = (this.scrollHeight) + "px";
+}
+
+var global_div_id,global_entity,global_section, steofficer = 0, setdynamicvalue;
+let inspType = '{{inspType|safe}}';
+function setbuttonvalue(val)
+{
+    setdynamicvalue = val;
+}
+
+function funsetdata()
+{
+    division=$('#userdata1').val()
+    let entity = document.getElementById('entitylbl').value;
+    
+    data={
+        'division':division,
+        'entity':entity,
+    }
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'changeEntityData' %}",
+        data: data,
+        success: function (response) {
+            $('#userdata9').empty();
+            let row = '<option selected disabled hidden>--Select '+ entity +' --</option>';
+            if (response.length == 0) {
+                row += '<option selected disabled hidden>--No '+ entity +'--</option>';
+            }
+            for (let i = 0; i < response.length; i++) {
+               
+            row += '<option value = ' + response[i].id + '>'  + response[i].id + '-' +  response[i].desc + "</option>";
+                
+            }
+            $('#userdata9').append(row);
+
+            if(inspType == 'Edit')
+            {
+                $("#userdata9").val(global_entity).trigger('change');
+            }
+        }
+    })
+}
+
+
+var countEinspection = 0;
+var ratingsEinpection = 5;
+var countPlay = 0;
+var timeCheck=0;
+var idString = [];
+
+$('#userdatashow7').hide();
+$('#userdatashow5').hide();
+
+function setStartTime()
+{
+    const startdate=$('#userdata4').val();
+    const starttime=$('#userdata5').val();
+    if(startdate == '')
+    {
+        alert('Select Start Date');
+        $('#userdata4').focus();
+        return false;
+    }
+    if(starttime == '')
+    {
+        alert('Select Start Time');
+        $('#userdata5').focus();
+        return false;
+    }
+    if(confirm('Are you Sure to Finalize Start Time & Date, Once Done cannot be changed'))
+    {
+    document.getElementById('btnSetStartTime').disabled = true;
+    $("#userdata4").datepicker("destroy");
+    $('#userdatashow5').val($('#userdata5').val());
+    $('#userdatashow5').show();
+    $('#userdata5').hide();
+    $('#finalizeStart').val('Yes');
+
+    }
+}
+function setEndTime()
+{
+    const startdate=$('#userdata6').val();
+    const starttime=$('#userdata7').val();
+    if(startdate == '')
+    {
+      
+        alert('Select End Date');
+        //$('#userdata6').focus();
+        return false;
+    }
+    if(starttime == '')
+    {
+      
+        alert('Select End Time');
+        //$('#userdata7').focus();
+        return false;
+    }
+    if(confirm('Are you Sure to Finalize End Time & Date, Once Done cannot be changed'))
+    {
+    document.getElementById('btnSetStartTime').disabled = true;
+    $("#userdata4").datepicker("destroy");  
+    $('#userdatashow5').val($('#userdata5').val());
+    $('#userdatashow5').show();
+    $('#userdata5').hide();
+
+    document.getElementById('btnSetEndTime').disabled = true;
+    $("#userdata6").datepicker("destroy");   
+    $('#userdatashow7').val($('#userdata7').val());
+    $('#userdatashow7').show();
+    $('#userdata7').hide();
+    $('#finalizeEnd').val('Yes');
+    }
+}
+
+
+function setAllDepartment(id)
+{
+     let val = $('#'+id).select2("val");
+     if(inspType == 'Edit' && steofficer == 1)
+     {
+        return false;
+     }
+    if(val == null)
+        val =''
+    let data = {val:val};
+     $.ajax({
+        type: 'GET',
+        url: "{% url 'setAllDepartment' %}",
+        data: data,
+        success: function(response){
+            var idArray = [];
+            $('.set_comman_department').each(function () {
+                idArray.push(this.id);
+            });
+            
+            for(let j=0;j<idArray.length;j++)
+            {
+                let selectedData = $('#'+idArray[j]).val(),selCount =0;
+                let selectedText = $("#"+idArray[j]+" option:selected").text();
+              
+                let row='<option selected disabled hidden value="">Select Concerned Dept.</option>';
+                row+=`<option value="showAll">Show All</option>`;
+                for (let i = 0; i < response.length; i++) 
+                {
+                    if(selectedData == response[i].department_code)
+                    {
+                        row+=`<option selected value="${response[i].department_code}">${response[i].department_name}</option>`;
+                        selCount++;
+
+                    }
+                    else
+                        row+=`<option value="${response[i].department_code}">${response[i].department_name}</option>`;
+                }
+                if(selCount == 0 && selectedData != null)
+                {
+                    row+=`<option selected value="${selectedData}">${selectedText}</option>`;
+                }
+                
+                $('#'+idArray[j]).empty();
+                $('#'+idArray[j]).append(row);
+            }
+        }
+    })
+}
+
+
+$(document).ready(function () {
+    if($('#d_levelCheck').val() == 'GM'){
+        $('#playBetweenRD').show();
+    }
+    else{
+        $('#playBetweenRD').hide();
+    }
+    $("#card1").show();
+    $("#menu1").show();
+
+    $(".select2").select2();
+
+    
+    $('.location111').select2({
+        placeholder: "Max 6 Digit",
+        tags: true,
+        tokenSeparators: [',', ' '],
+        minimumInputLength: 1,    
+        maximumInputLength: 6, 
+        maximumSelectionLength:50,
+        
+    })
+
+    $('.location121').select2({
+        placeholder: "0000/00-00",
+        tags: true,
+        tokenSeparators: [',', ' '],
+        minimumInputLength: 10,    
+        maximumInputLength: 10, 
+        maximumSelectionLength:50,
+    })
+
+    $('.select23').select2({
+        placeholder: "Select Common Department",
+        
+    })
+    $('.select24').select2({
+        placeholder: "Select Actor",
+        maximumSelectionLength:2,
+        
+    })
+
+    
+
+
+    // ADD AND REMOVE FIELD FUNCTION
+    var max_fields = 5; //maximum input boxes allowed
+    var wrapper = $("#fieldAdd"); //Fields wrapper
+    var add_button = $("#btnFieldAdd"); //Add button ID
+
+    var x = 1; //initlal text box count
+    $(add_button).click(function (e) { //on add input button click
+        e.preventDefault();
+        if (x < max_fields) { //max input box allowed
+            x++; //text box increment
+            $(wrapper).append(
+                '<div class="col-lg-10" style="padding-left: 25px;"><input placeholder="Remarks" type="text" name="name1" class="form-control input-sm"><div class="col-md-1"><button class="btn btn-secondary btn-block float-right btn-sm remove_field" type="button"><i class="fa fa-minus"></i></button></div></div>'
+            ); //add input box
+        }
+    });
+
+    $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+        e.preventDefault(); $(this).parent('div').parent('div').remove(); x--;
+    })
+
+    $('#userdata14').change(function (userdata14) {
+        if (userdata14 != null || userdata14 != '') {
+            let userdata14 = $("#userdata14").val();
+            let extension = userdata14.split('.').pop().toUpperCase();
+            let sizeKB = this.files[0].size
+            // let height = $(this).height()
+            // let width = $(this).width()
+            // ratio=Math.floor(height/width)
+            sizeKB = Math.round(sizeKB / (1024))
+            // Image Size Validations
+            if (sizeKB > 5000) {
+                document.getElementById('userdata14').value = null;
+                $('#HelpInline1').prop('class', 'text-danger');
+                $('#HelpInline2').prop('class', 'text-muted');
+                // $('#HelpInline3').prop('class', 'text-muted');
+                // alert('Please select image size less than 50 KB');
+            }
+
+            // Image Type Validations
+            else if (extension != "PNG" && extension != "JPG" && extension != "JPEG" && extension != "PDF" && extension != "DOCX" && extension != "XLSX") {
+                document.getElementById('userdata14').value = null;
+                userdata14 = 0;
+                $('#HelpInline2').prop('class', 'text-danger');
+                $('#HelpInline1').prop('class', 'text-muted');
+                // $('#HelpInline3').prop('class', 'text-muted');
+            }
+            //  Image Ratio of height and width Validations
+            // else if(ratio>2){
+            //     document.getElementById('userdata14').value = null;
+            //     $('#HelpInline3').prop('class', 'text-danger');
+            //     $('#HelpInline2').prop('class', 'text-muted');
+            //     $('#HelpInline1').prop('class', 'text-muted');
+            // }
+            else {
+                $('#HelpInline1').prop('class', 'text-muted');
+                $('#HelpInline2').prop('class', 'text-muted');
+                // $('#HelpInline3').prop('class', 'text-muted');
+            }
+        }
+
+    })
+
+});
+
+$(document).on('keypress', '#location1234 .select2-search__field ', function () {
+
+    $(this).val($(this).val().replace(/[^\d].+/, ""));
+    if ((event.which < 48 || event.which > 57)) {
+    event.preventDefault();
+    }
+});
+
+$(document).on('keypress', '#location12345 .select2-search__field ', function () {
+$(this).mask('0000/00-00');
+//$(this).id($(this).mask('0000/00-00'));
+});
+
+
+
+
+function checkFillOfDepartment(id,value){
+    if(id.substring(0, 8) == 'roption1'){
+        checkDepartmet = 'department1' + String(id.substring(8))
+        checkRemarks = 'remarks' + String(id.substring(8))
+        departmentValue = document.getElementById(checkDepartmet).value;
+        remarkValue = document.getElementById(checkRemarks).value;
+        if(departmentValue=='' || departmentValue==null || departmentValue=='Concerned Dept.' || remarkValue=='' || remarkValue==null){
+            
+            if(idString.indexOf(id.substring(8))== -1){
+                idString.push(id.substring(8))
+            }
+            
+        }
+        else if(departmentValue !='' || departmentValue !=null || departmentValue !='Concerned Dept.' || remarkValue !='' || remarkValue !=null){
+            
+            var removeItem = id.substring(8);
+            idString = jQuery.grep(idString, function(value) {
+                return value != removeItem;
+            });
+        }    
+        
+    }
+    else{
+            var removeItem = id.substring(8);
+            idString = jQuery.grep(idString, function(value) {
+                return value != removeItem;
+            });
+
+        }
+
+    }
+
+
+
+
+function locationChecker(id){
+    $(id).mask('0000/00-00');
+  
+}
+var chkAllData = JSON.parse('{{allData|safe}}');
+function getDependentData(id,name,value){
+    
+    data={
+        'qsid':id,
+        'name':name,
+        'value':value,
+    }
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'getDependentData' %}",
+        data: data,
+        success: function(response){
+            let no = id.substring(7,id.length);
+            if(response.length>0)
+            {
+                
+                for (let i = 0; i < response.length; i++) {
+                    let row='';
+                    let qid = response[i].qid;
+                    let typ = response[i].type;
+                    let val1 = response[i].value;
+                    let key = response[i].key,selectval_prev='',did;
+                    let forloop = String(document.getElementsByName('dependentspan'+qid)[0].id);
+                    
+                    
+                    let forloop1 = forloop.substring(13,forloop.length);
+                    if(typ != 'TEXT' && inspType == 'Edit')
+                    {
+                        
+                        selectval_prev = chkAllData[forloop1-1]['datavalue'];
+                    }
+                    $('#'+forloop).empty();
+                    if(typ == 'TEXT')
+                    {
+                        
+                        row += `<textarea rows="1" class="userinput${qid} form-control" type="text" value="${val1}" name="userinput${forloop1}" id="userinput${forloop1}" placeholder="Dependent Field"  autocomplete="off" readonly>${val1}</textarea>`;
+                    
+                    }
+                    else
+                    {
+                            row +=`<select class=" select3" name="doption${forloop1}" id="doption${forloop1}" class="form-control" style="width:100%;">
+                                        <option selected disabled hidden value="">Select Data</option>`;
+                            for(let j=0;j<val1.length;j++)
+                            {
+                                if (selectval_prev == val1[j])
+                                    row +=`<option selected value="${val1[j]}">${val1[j]}</option>`;
+                                else
+                                    row +=`<option value="${val1[j]}">${val1[j]}</option>`;
+
+                            }
+
+                    }
+                    
+                    $('#'+forloop).append(row);
+                    $(".select3").select2();
+                    
+
+
+                }
+              
+                
+            }
+           
+        }
+    })
+}
+
+function responsePlayFun() {
+    inspectionType = document.getElementsByName('is_scheduled');         
+    if(countPlay%2==0){
+        
+        //console.log('Play Request Received')
+        $('#playBetweenRD').show();
+        countPlay++
+        $('#responsePlay').css("background-color", "green");
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+        $('#staticAccordion').click(); 
+    }
+        
+    }
+    else{
+        //console.log('Play Cancel Request Received')
+        $('#playBetweenRD').hide();
+        
+        countPlay++
+        $('#responsePlay').css("background-color", "#ef7821");
+        var xx=''
+        for (var r1 of inspectionType) {
+            if (r1.checked) {
+                xx += ' ' + r1.value;
+            }
+        }
+        $('#inspectionTypeE').text(xx)
+        
+    }
+    
+        
+}
+
+
+$('#userdata1').change(function () {
+    railways = $('#userdata0').val();
+    division = $('#userdata1').val();
+    inspectionType = document.getElementsByName('is_scheduled');  
+    //console.log('railways: ', railways, 'division: ', division)
+    data = {
+        'railways': railways,
+        'division': division,
+    }
+    var xx=''
+    for (var r1 of inspectionType) {
+        if (r1.checked) {
+            xx += ' ' + r1.value;
+        }
+    }
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'palyResponse' %}",
+        data: data,
+        success: function (response) {
+            var rail = response.railways
+            var div = response.division
+
+            $('#railwaysE').text(rail)
+            $('#divisionE').text(div)
+            $('#inspectionTypeE').text(xx)
+
+            // $('#playBetweenRD').hide();
+            // countPlay++;
+        }
+    })
+
+})
+
+
+$('#userdata1').change(function(){
+    division=$('#userdata1').val()
+    let entity = document.getElementById('entitylbl').value;
+    
+    data={
+        'division':division,
+        'entity':entity,
+    }
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'changeEntityData' %}",
+        data: data,
+        success: function (response) {
+            $('#userdata9').empty();
+            let row = '<option selected disabled hidden>--Select '+ entity +' --</option>';
+            if (response.length == 0) {
+                row += '<option selected disabled hidden>--No '+ entity +'--</option>';
+            }
+            for (let i = 0; i < response.length; i++) {
+                row += '<option value = ' + response[i].id + '>'  + response[i].id + '-' +  response[i].desc + "</option>";
+            }
+            $('#userdata9').append(row);
+
+            if(inspType == 'Edit')
+            {
+                $("#userdata9").val(global_entity).trigger('change');
+            }
+        }
+    })
+
+
+})
+
+
+
+function getSectionDash(val) {
+    // alert(val)
+    division = $('#userdata1').val()
+    data = {
+        'division': division,
+    }
+    // alert(division)
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'getSectionDash' %}",
+        data: data,
+        success: function (response) {
+            $('#userdata17').empty();
+            let row = '<option selected disabled hidden>--Select Section--</option>';
+            if (response.length == 0) {
+                row += '<option selected disabled hidden>--No Section--</option>';
+            }
+            for (let i = 0; i < response.length; i++) {
+                row += '<option value = ' + response[i].secid + '>' + response[i].section_name + "</option>";
+            }
+            $('#userdata17').append(row);
+
+            if(inspType == 'Edit')
+            {
+                $("#userdata17").val(global_section).trigger('change');
+            }
+ 
+ 
+
+
+        }
+    })
+}
+
+
+
+
+$('#userdata17').change(function () {
+    section = $('#userdata17').val();
+    data = {
+        'section': section,
+    }
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'getStationSectionWise' %}",
+        data: data,
+        success: function (response) {
+            $('#userdata10').empty();
+            $('#userdata11').empty();
+            let row = '<option selected disabled hidden>--Select Start Station--</option>';
+            let row1 = '<option selected disabled hidden>--Select End Station--</option>';
+
+            if (response.length == 0) {
+                row += '<option selected disabled hidden>--No Start Station--</option>';
+                row1 += '<option selected disabled hidden>--No End Station--</option>';
+
+            }
+            
+            for (let i = 0; i < response.length; i++) {
+                row += '<option value = ' + response[i].stnshortcode + '>' + response[i].station_name + "</option>";
+                row1 += '<option value = ' + response[i].stnshortcode + '>' + response[i].station_name + "</option>";
+            }
+
+            $('#userdata10').append(row);
+            $('#userdata11').append(row1);
+        }
+    })
+
+})
+
+
+function getDataEntity() {
+    let entity = document.getElementById('entitylbl').value;
+    let entityNo = $('#userdata9').val();
+    data = {
+        'entity': entity,
+        'entityNo': entityNo,
+    }
+    if (entityNo == '' || entityNo == null) {
+        alert('Select The '+entity+' First')
+        return false;
+    }
+    else {
+        $('#train_entity_id').click()
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'getDataEntity' %}",
+            data: data,
+            success: function (response) {
+                
+                if (entity == 'Train') {
+                    document.getElementById('formdata1').value = response[0]['train_no'];
+                    document.getElementById('formdata2').value = response[0]['train_name'];
+                    document.getElementById('formdata3').value = response[0]['tn_category'] == '' || response[0]['tn_category'] == null ? 'NA' : response[0]['tn_category'];
+                    document.getElementById('formdata4').value = response[0]['stnsource_code_id'] == '' || response[0]['stnsource_code_id'] == null ? 'NA' : response[0]['stnsource_code_id__station_name'];
+                    document.getElementById('formdata5').value = response[0]['stndest_code_id'] == '' || response[0]['stndest_code_id'] == null ? 'NA' : response[0]['stndest_code_id__station_name'];
+                    document.getElementById('formdata6').value = response[0]['total_coach'] == '' || response[0]['total_coach'] == null ? 'NA' : response[0]['total_coach'];
+                    document.getElementById('formdata7').value = response[0]['trainowngrly2_id'] == '' || response[0]['trainowngrly2_id'] == null ? 'NA' : response[0]['trainowngrly2_id__station_name'];
+                    document.getElementById('formdata8').value = response[0]['primary_maint_depot'] == '' || response[0]['primary_maint_depot'] == null ? 'NA' : response[0]['primary_maint_depot'];
+                    document.getElementById('formdata9').value = response[0]['secondary_maint_depot'] == '' || response[0]['secondary_maint_depot'] == null ? 'NA' : response[0]['secondary_maint_depot'];
+                }
+
+                else if (entity == 'Loco') {
+                    document.getElementById('formdata1').value = response[0]['loco_no'];
+                    document.getElementById('formdata2').value = response[0]['mfg_full_name'] == '' || response[0]['mfg_full_name'] == null ? 'NA' : response[0]['mfg_full_name'];
+                    document.getElementById('formdata3').value = response[0]['loco_type'] == '' || response[0]['loco_type'] == null ? 'NA' : response[0]['loco_type'];
+                    document.getElementById('formdata4').value = response[0]['loco_shed'] == '' || response[0]['loco_shed'] == null ? 'NA' : response[0]['loco_shed'];
+                    document.getElementById('formdata5').value = response[0]['gauge'] == '' || response[0]['gauge'] == null ? 'NA' : response[0]['gauge'];
+                    document.getElementById('formdata6').value = response[0]['wheel_arr'] == '' || response[0]['wheel_arr'] == null ? 'NA' : response[0]['wheel_arr'];
+                    document.getElementById('formdata7').value = response[0]['qty_built'] == '' || response[0]['qty_built'] == null ? 'NA' : response[0]['qty_built'];
+                    document.getElementById('formdata8').value = response[0]['built_year'] == '' || response[0]['built_year'] == null ? 'NA' : response[0]['built_year'];
+                    document.getElementById('formdata9').value = response[0]['turned_out_date'] == '' || response[0]['turned_out_date'] == null ? 'NA' : response[0]['turned_out_date'];
+                    document.getElementById('formdata10').value = response[0]['power'] == '' || response[0]['power'] == null ? 'NA' : response[0]['power'];
+                    document.getElementById('formdata11').value = response[0]['running_status'] == '' || response[0]['running_status'] == null ? 'NA' : response[0]['running_status'];
+                    document.getElementById('formdata12').value = response[0]['max_capacity'] == '' || response[0]['max_capacity'] == null ? 'NA' : response[0]['max_capacity'];
+                    document.getElementById('formdata13').value = response[0]['max_speed'] == '' || response[0]['max_speed'] == null ? 'NA' : response[0]['max_speed'];
+                }
+
+                else if (entity == 'Running Room') {
+                    document.getElementById('formdata1').value = response[0]['rr_code'];
+                    document.getElementById('formdata2').value = response[0]['rr_name'] == '' || response[0]['rr_name'] == null ? 'NA' : response[0]['rr_name'];
+                    document.getElementById('formdata3').value = response[0]['stnshortcode_id'] == '' || response[0]['stnshortcode_id'] == null ? 'NA' : response[0]['stnshortcode'];
+
+                }
+
+                else if (entity == 'Station') {
+                    document.getElementById('formdata1').value = response[0]['stnshortcode'];
+                    document.getElementById('formdata2').value = response[0]['station_cat'] == '' || response[0]['station_cat'] == null ? 'NA' : response[0]['station_cat'];
+                    document.getElementById('formdata3').value = response[0]['secid'] == '' || response[0]['secid'] == null ? 'NA' : response[0]['secid'];
+
+                }
+
+                else if (entity == 'Section') {
+                    document.getElementById('formdata1').value = response[0]['section_code'];
+                    document.getElementById('formdata2').value = response[0]['secstart_code'] == '' || response[0]['secstart_code'] == null ? 'NA' : response[0]['secstart_code'];
+                    document.getElementById('formdata3').value = response[0]['secend_code'] == '' || response[0]['secend_code'] == null ? 'NA' : response[0]['secend_code'];
+                    document.getElementById('formdata4').value = response[0]['via'] == '' || response[0]['via'] == null ? 'NA' : response[0]['via'];
+                    document.getElementById('formdata5').value = response[0]['startkm'] == '' || response[0]['startkm'] == null ? 'NA' : response[0]['startkm'];
+                    document.getElementById('formdata6').value = response[0]['endkm'] == '' || response[0]['endkm'] == null ? 'NA' : response[0]['endkm'];
+
+                }
+
+
+            }
+        })
+    }
+}
+
+
+function endStation(value) {
+    data = {
+        'start_station': value,
+    }
+    let entity = document.getElementById('entitylbl').value;
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'endStation' %}",
+        data: data,
+        success: function (response) {
+            let row = '<option selected value ="' + response[0].stnshortcode + '">' + response[0].station_name + ' </option>';
+            $('#userdata11').append(row);
+            document.getElementById("userdata11").addEventListener("change", checkFillofStation(entity));
+        }
+    })
+}
+
+function checker(id, value) {
+    ratingsEinpection = value;
+}
+
+
+function getConcernedOfficer(id, value) {
+    let departmentId = id.split('department1')
+    department = departmentId[1];
+    let officer = 'officer11' + department;
+    let division = $('#userdata1').val();
+    data = {
+        'department': value,
+        'officer': officer,
+        'division': division,
+    }
+  
+    if (value == 'showAll')
+        {
+            $.ajax({
+            type: 'GET',
+            url: "{% url 'getAllDepartment' %}",
+            data: {},
+            success: function (response) {
+                let row='<option selected disabled hidden value="">Select Concerned Dept.</option>';
+                row+=`<option value="showAll">Show All</option>`;
+                for (let i = 0; i < response.length; i++) 
+                {
+                    row+=`<option  value="${response[i].department_code}">${response[i].department_name}</option>`;
+                }
+                
+                $('#'+id).empty();
+                $('#'+id).append(row);
+                $('#' + officer).empty();
+                row = '<option selected disabled hidden value="">--Select Concerned Officer--</option>';
+                $('#' + officer).append(row);
+                $('#'+id).select2('open');
+            }
+        });
+    
+            }
+    else
+    if (division == '' || division == null) {
+        alert('Please Select Railways and Division First')
+        document.getElementById("userdata0").focus();
+        document.getElementById("userdata1").focus();
+    }
+    else {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'getConcernedOfficer' %}",
+            data: data,
+            success: function (response) {
+
+                $('#' + officer).empty();
+                let row = '<option selected disabled hidden value="">--Select Concerned Officer--</option>';
+                if (response.length == 0) {
+                    row += '<option selected disabled hidden value="">--No Officer--</option>';
+                }
+                for (let i = 0; i < response.length; i++) {
+                    row += '<option value="' + response[i].designation_code + '">' + response[i].designation + ' </option>';
+                }
+                $('#' + officer).append(row);
+            }
+        })
+    }
+}
+
+
+function getSatrtEndStation() {
+    var rail = $("#userdata1").val();
+    // alert(rail)
+    data1 = { "rail": rail };
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        data: data1,
+        url: '{% url "getstations" %}',
+        success: function (response) {
+            $('#userdata10').empty();
+            $('#userdata11').empty();
+            let row = '<option selected disabled hidden>--Select Start Station--</option>';
+            let row1 = '<option selected disabled hidden>--Select End Station--</option>';
+
+            if (response.length == 0) {
+                row += '<option selected disabled hidden>--No Start Station--</option>';
+                row1 += '<option selected disabled hidden>--No End Station--</option>';
+
+            }
+            for (let i = 0; i < response.length; i++) {
+                row += '<option value = ' + response[i].stnshortcode + '>' + response[i].station_name + "</option>";
+                row1 += '<option value = ' + response[i].stnshortcode + '>' + response[i].station_name + "</option>";
+            }
+
+            $('#userdata10').append(row);
+            $('#userdata11').append(row1);
+        }
+    })
+
+}
+
+
+function getZoneEinsp() {
+    let zone = $('#userdata0').val();
+    let division = $('#userdata1').val();
+    data = {
+        'zone': zone,
+        'division': division,
+    }
+    $.ajax({
+        type: 'GET',
+        url: "{% url 'getZoneEinsp' %}",
+        data: data,
+        success: function (response) {
+            $('#userdata1').empty();
+            $('#userdata9').empty();
+            let row = '<option selected disabled hidden>--Select Division--</option>';
+            if (response.length == 0) {
+                row += '<option selected disabled hidden>--No Division--</option>';
+            }
+
+            for (let i = 0; i < response.length; i++) {
+                row += '<option value="' + response[i].rly_unit_code + '">' + response[i].location_description + ' </option>';
+            }
+            $('#userdata1').append(row);
+            if(inspType == 'Edit')
+            {
+                $("#userdata1").val(global_div_id).trigger('change');
+            }
+            $('#userdata9').append('<option selected disabled hidden>----Select '+ document.getElementById('entitylbl').value +' Details----</option>');
+            
+        }
+    })
+}
+
+
+function abnormality(value) {
+    if (value = "yes" && countEinspection == 0) {
+        let v = ''
+        v += '<div class="col-lg-12" style="width: 90%; padding-left: 2.5%;">'
+        v += '<input type="text" name="userdata15" id="userdata15" class="form-control" placeholder="Please Enter Remarks" style="width: 91%" />'
+        v += '</div>'
+        $('#abnormality11').append(v)
+        countEinspection = countEinspection + 1
+    }
+
+}
+
+
+function reset(id) {
+
+    document.getElementById('id').reset();
+}
+
+
+
+function checkFillofStation(entity) {
+    entity = document.getElementById('entitylbl').value;
+    var start_station = $('#userdata10').val();
+    var end_station = $('#userdata11').val();
+    if (start_station == '' || start_station == null) {
+        document.getElementById("userdata10").focus();
+        alert('Start Station not Choosen!!')
+    }
+    else if (end_station == '' || end_station == null) {
+        document.getElementById("userdata11").focus();
+        alert('End Station not Choosen!!')
+    }
+    else {
+        data = {
+            'start_station': start_station,
+            'end_station': end_station,
+            'entity': entity,
+        }
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            data: data,
+            url: '{% url "checkFillofStation" %}',
+            success: function (response) {
+                $('#userdata9').empty();
+                let row = '<option selected disabled hidden>--Select Data--</option>';
+                for (let i = 0; i < response.length; i++) {
+                    if (entity == 'Train') {
+                        row += '<option value="' + response[i].train_no + '">' + response[i].train_no + ' </option>';
+                    }
+                    else if (entity == 'Running Room') {
+                        row += '<option value="' + response[i].rr_code + '">' + response[i].rr_name + ' </option>';
+                    }
+                    else if (entity == 'Station') {
+                        row += '<option value="' + response[i].stnshortcode + '">' + response[i].station_name + ' </option>';
+                    }
+                    else if (entity == 'Loco') {
+                        row += '<option value="' + response[i].loco_id + '">' + response[i].loco_no + ' </option>';
+                    }
+                }
+                $('#userdata9').append(row);
+                if(inspType == 'Edit')
+                {
+                    $("#userdata9").val(global_entity).trigger('change');
+                }
+ 
+            }
+
+        })
+    }
+}
+
+function checkvalidation()
+{
+    chkaccordian = '';
+var data = JSON.parse('{{ ajaxdata | safe }}');
+var insp_sideMenu1 = JSON.parse('{{insp_sideMenu|safe}}');
+var id = $('#id').val();
+var id1 = $('#id').val();
+var commanDepartment = $('#commanDepartment').select2("val"); // added
+var railways = $('#userdata0').val();
+var division = $('#userdata1').val();
+var start_date = $('#userdata4').val();
+var start_time = $('#userdata5').val();
+var end_date = $('#userdata6').val();
+var end_time = $('#userdata7').val();
+
+var detail = $('#userdata9').val();
+let entity = document.getElementById('entitylbl').value;
+var radios2 = document.getElementsByName('abnormal');
+
+var is_scheduled = 'Surprise';
+var abnormal = 'no';
+var remarks11 = $('#userdata15').val();
+var section = $('#userdata17').val();
+var inspectionType = document.getElementsByName('is_scheduled');  
+
+var xx=''
+    for (var r1 of inspectionType) {
+        if (r1.checked) {
+            xx += ' ' + r1.value;
+        }
+    }
+
+    for (var r2 of radios2) {
+    if (r2.checked) {
+        abnormal = r2.value;
+    }
+}
+
+document.getElementById('supnight').value=xx;
+    for(let i =0;i<insp_sideMenu1.length;i++)
+        {
+            id1 = 'dynamicAccordion'+String(insp_sideMenu1[i]);
+            $('#'+id1).show();
+        }
+    $('#staticAccordion').show();
+    $('#staticAccordion1').show();
+    $(".accordion-collapse.collapse").removeClass('show');
+
+if (start_date == '' || start_date == null) {
+        document.getElementById("userdata4").focus();
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        alert('Start Date not Choosen!!')
+        return false;
+    }
+    else if ((end_date == '' || end_date == null) && setdynamicvalue == 'Final') {
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata6").focus();
+        alert('End Date not Choosen!!')
+        return false;
+    }
+    else if (start_time == '' || start_time == null) {
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata5").focus();
+        alert(' Start Time not Choosen!!')
+        return false;
+    }
+    else if ((end_time == '' || end_time == null) && setdynamicvalue == 'Final') {
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata7").focus();
+        alert(' End Time not Choosen!!')
+        return false;
+    }
+    else if (railways == '' || railways == null) {
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata0").focus();
+        alert(' Railway Zone not Choosen!!')
+        return false;
+    }
+    else if (division == '' || division == null) {
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata1").focus();
+        alert(' Railway Division not Choosen!!')
+        return false;
+    }
+    else if (section == '' || section == null) {
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata17").focus();
+        alert('Section not Choosen!!')
+        return false;
+    }
+    else if(entity !='' && (detail == '' || detail == null)){
+        if($('#staticAccordion').attr('aria-expanded') == 'false'){
+            $('#staticAccordion').click(); 
+        }
+        document.getElementById("userdata9").focus();
+        alert(entity + ' not Choosen!!')
+        return false;
+    }
+    else if(abnormal == 'yes' && (! $('#userdata15').val())){
+        document.getElementById("userdata15").focus();
+        alert('Please Enter Remarks!!')
+        return false;
+    }
+
+    for (let i = 0; i < data.length; i++) {
+    let a = data[i].split('@#@'), val;
+    
+    let compulsaryField = a[4];
+    let compquestion = decryptWithAES(a[5]);
+    let comploc = a[6],complocvalue='',neg_val = a[9];
+    let idloc = 'location1' + String(i + 1);
+    let tid = 'tick@'+a[7]+'@'+String(i + 1);
+    let lblId= 'label'+a[7]+''+String(i + 1);
+    
+    $(".chkClassEmpty").removeClass('ClassEmpty');
+    
+    
+   
+    if(document.getElementById(tid).checked == true)
+    {
+       
+
+    if(comploc != 'None')
+    {
+    if(comploc == 'Pole Location')
+    {
+        complocvalue = $('#'+idloc).select2("val")
+    }
+    else 
+    if(comploc == 'Number')
+    {
+        complocvalue = $('#'+idloc).select2("val")
+    }
+    else 
+    if(comploc == 'Coach Number')
+    {
+        complocvalue = $('#'+idloc).val();
+    }
+    else
+    if(comploc == 'Direction')
+    {
+        idloc = 'location' + String(i + 1);
+        complocvalue = document.querySelector('input[name=' + idloc + ']:checked').value;
+    }
+
+}
+
+    if (a[2] == 'C') {
+        fdid = i + 1;
+    }
+    
+
+    if (a[0] == '1') {
+        id = 'userinput' + String(i + 1);
+        val = document.getElementById(id).value;
+        if(val == '')
+        {
+                alert('Enter/Select  Observation:- '+compquestion);
+                chkaccordian = '';
+                id1 = 'dynamicAccordion'+String(a[7]);
+                document.getElementById(id1).click();
+                $('#'+lblId).addClass('ClassEmpty');
+                return false;
+        
+        }
+        
+        // departmentId = 'department1' + String(i + 1);
+        // officer = 'officer11' + String(i + 1);
+        // remarks = 'remarks' + String(i + 1);
+        // departmentId = document.getElementById(departmentId).value;
+        // officer = document.getElementById(officer).value;
+        // remarks = document.getElementById(remarks).value;
+      
+
+        // if(val != '' && (departmentId == '' || departmentId == null))
+        // {
+        //     alert('Select department for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // if(val != '' && (officer == '' || officer == null))
+        // {
+        //     alert('Select Concerned Officer for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // // if(val != '' && (remarks == '' || remarks == null))
+        // // {
+        // //     alert('Enter Remarks for Question:- '+compquestion);
+        // //     return false;
+
+        // // }
+        // if(val != '' && (complocvalue == '' || complocvalue == null) && comploc != 'None')
+        // {
+        //     alert('Enter Location for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+    }
+
+    else if (a[0] == '2') {
+        id = 'roption' + String(i + 1)
+        val = document.querySelector('input[name=' + id + ']:checked').id;
+        val2 = document.querySelector('input[name=' + id + ']:checked').value;
+        if(val2 == 'Null')
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+
+     
+        departmentId = 'department1' + String(i + 1);
+        officer = 'officer11' + String(i + 1);
+        remarks = 'remarks' + String(i + 1);
+        departmentId = document.getElementById(departmentId).value;
+        officer = document.getElementById(officer).value;
+        remarks = document.getElementById(remarks).value;
+      
+
+        if(val2 == neg_val && (departmentId == '' || departmentId == null))
+        {
+            alert('Select department for Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+
+        }
+        if(val2 == neg_val && (officer == '' || officer == null))
+        {
+            alert('Select Concerned Officer for Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+
+        }
+        // if(val2 != 'Null' && (remarks == '' || remarks == null))
+        // {
+        //     alert('Enter Remarks for Question:- '+compquestion);
+        //     return false;
+
+        // }
+        if(val2 == neg_val && (complocvalue == '' || complocvalue == null) && comploc != 'None')
+        {
+            alert('Enter Location for Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+
+        }
+       
+    }
+    
+    
+    else if (a[0] == '3') {
+        id = 'doption' + String(i + 1);
+        val = document.getElementById(id).value;
+        if((val == '' || val == null))
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+        // departmentId = 'department1' + String(i + 1);
+        // officer = 'officer11' + String(i + 1);
+        // remarks = 'remarks' + String(i + 1);
+        // departmentId = document.getElementById(departmentId).value;
+        // officer = document.getElementById(officer).value;
+        // remarks = document.getElementById(remarks).value;
+      
+
+        // if((val != '') && (departmentId == '' || departmentId == null))
+        // {
+        //     alert('Select department for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // if((val != '') && (officer == '' || officer == null))
+        // {
+        //     alert('Select Concerned Officer for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // // if((val != '') && (remarks == '' || remarks == null))
+        // // {
+        // //     alert('Enter Remarks for Question:- '+compquestion);
+        // //     return false;
+
+        // // }
+        // if((val != '') && (complocvalue == '' || complocvalue == null) && comploc != 'None')
+        // {
+        //     alert('Enter Location for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        
+       
+    }
+    else if (a[0] == '4') {
+        id = 'date' + String(i + 1);
+        val = document.getElementById(id).value;
+        if((val == '' || val == null))
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+
+        // departmentId = 'department1' + String(i + 1);
+        // officer = 'officer11' + String(i + 1);
+        // remarks = 'remarks' + String(i + 1);
+        // departmentId = document.getElementById(departmentId).value;
+        // officer = document.getElementById(officer).value;
+        // remarks = document.getElementById(remarks).value;
+      
+
+        // if((val != '' ) && (departmentId == '' || departmentId == null))
+        // {
+        //     alert('Select department for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // if((val != '' ) && (officer == '' || officer == null))
+        // {
+        //     alert('Select Concerned Officer for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // // if((val != '' ) && (remarks == '' || remarks == null))
+        // // {
+        // //     alert('Enter Remarks for Question:- '+compquestion);
+        // //     return false;
+
+        // // }
+        // if((val != '' ) && (complocvalue == '' || complocvalue == null) && comploc != 'None')
+        // {
+        //     alert('Enter Location for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+       
+    }
+    else if (a[0] == '5') {
+        id = 'time' + String(i + 1);
+        val = document.getElementById(id).value;
+        if((val == '' || val == null))
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+       
+        // departmentId = 'department1' + String(i + 1);
+        // officer = 'officer11' + String(i + 1);
+        // remarks = 'remarks' + String(i + 1);
+        // departmentId = document.getElementById(departmentId).value;
+        // officer = document.getElementById(officer).value;
+        // remarks = document.getElementById(remarks).value;
+      
+
+        // if((val != '' ) && (departmentId == '' || departmentId == null))
+        // {
+        //     alert('Select department for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // if((val != '' ) && (officer == '' || officer == null))
+        // {
+        //     alert('Select Concerned Officer for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+        // // if((val != '' ) && (remarks == '' || remarks == null))
+        // // {
+        // //     alert('Enter Remarks for Question:- '+compquestion);
+        // //     return false;
+
+        // // }
+        // if((val != '' ) && (complocvalue == '' || complocvalue == null) && comploc != 'None')
+        // {
+        //     alert('Enter Location for Observation:- '+compquestion);
+        //     chkaccordian = '';
+        //     id1 = 'dynamicAccordion'+String(a[7]);
+        //     document.getElementById(id1).click();
+        //     $('#'+lblId).addClass('ClassEmpty');
+        //     return false;
+
+        // }
+    }
+    else if (a[0] == '6') {
+
+        id = 'file' + String(i + 1);
+        val = $('#update_setPreviewImage'+ String(i + 1)).attr('src');
+        if((val == '' || val == null))
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+    }
+
+    else if (a[0] == '7') {
+        
+        id = 'userinput' + String(i + 1);
+        val = document.getElementById(id).value;
+        if((val == '' || val == null))
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+    }
+    else if (a[0] == '8') {
+        
+        id = 'userinput' + String(i + 1);
+        try {
+                val = document.querySelector('input[name=' + id + ']:checked').value;
+            }
+            catch(err) {
+                alert('Enter/Select  Observation:- '+compquestion);
+                chkaccordian = '';
+                id1 = 'dynamicAccordion'+String(a[7]);
+                document.getElementById(id1).click();
+                $('#'+lblId).addClass('ClassEmpty');
+                return false;
+            }
+    }
+    
+    else if (a[0] == '9') {
+        let mixedCho = decryptWithAES(a[10]).split('$')
+        id = 'checkbox#' + String(a[1]);
+        var yourArray=[];
+        $("input[name='"+id+"']:checked").each(function(){
+            yourArray.push($(this).val());
+        });
+        if(yourArray.length == 0)
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+
+     
+        departmentId = 'department1' + String(i + 1);
+        officer = 'officer11' + String(i + 1);
+        remarks = 'remarks' + String(i + 1);
+        departmentId = document.getElementById(departmentId).value;
+        officer = document.getElementById(officer).value;
+        remarks = document.getElementById(remarks).value;
+      
+
+        if( departmentId == '' || departmentId == null)
+        {
+            alert('Select department for Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+
+        }
+        if(officer == '' || officer == null)
+        {
+            alert('Select Concerned Officer for Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+
+        }
+        if( (complocvalue == '' || complocvalue == null) && comploc != 'None')
+        {
+            alert('Enter Location for Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+
+        }
+       
+    }
+    
+    else if (a[0] == '10') {
+        let mixedCho = decryptWithAES(a[10]).split('$')
+        id = 'checkbox' + String(a[1]);
+        var yourArray=[];
+        $("input[name='"+id+"']:checked").each(function(){
+            yourArray.push($(this).val());
+        });
+        if(yourArray.length == 0)
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }  
+    }
+    
+    
+    else{
+        id = 'userinput' + String(i + 1);
+        val = document.getElementById(id).value;
+        if((val == '' || val == null))
+        {
+            alert('Enter/Select  Observation:- '+compquestion);
+            chkaccordian = '';
+            id1 = 'dynamicAccordion'+String(a[7]);
+            document.getElementById(id1).click();
+            $('#'+lblId).addClass('ClassEmpty');
+            return false;
+        }
+    }
+}
+}
+
+document.getElementById('userdata4').disabled = false;
+document.getElementById('userdata6').disabled = false;
+return true;
+
+}
+
+</script>
+
+
+<script>
+var timeCheck2=0
+
+
+function settime() {
+    $('#userdata5').daterangepicker({
+        autoApply: false,
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 1,
+        timePickerSeconds: false,
+        singleDatePicker: true,
+        locale: {
+            format: 'HH:mm'
+        },
+        
+    }).on('show.daterangepicker', function (ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+    $("#userdata7").empty()
+}
+
+$('#userdata5').change(function(){
+    if(timeCheck2==0){
+        timeCheck2=1
+    }
+    else{
+        starttime=$('#userdata5').val()
+                //   $('#tdate').datepicker('option', 'minDate',startDate );
+        const date = new Date(chkdate);
+
+                    //xyz=date.getDate() + 7;
+        xyz=date.setTime(date.getTime() + 10);
+        xyz=new Date(xyz)
+                    //var enddate = date.addDays(7); 
+                    
+                    //alert(xyz)
+        $('#tdate').datepicker('option', 'maxDate',xyz );
+        $('#tdate').val(xyz)
+
+    }
+    
+})
+
+
+function validatetime() {
+    var starttime = $("#userdata5").val();
+    var startdate = $("#userdata4").val();
+    var enddate = $("#userdata6").val();
+    // if(startdate == enddate){
+            
+    // }
+    $('#userdata7').daterangepicker({
+        minDate: starttime,
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 1,  
+        timePickerSeconds: false,
+        singleDatePicker: true,
+        locale: {
+            format: 'HH:mm'
+        }
+    }).on('show.daterangepicker', function (ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+}
+
+</script>
+<script>
+function validatedate(value) {
+if(timeCheck==0){
+    timeCheck = 1
+}   
+else{
+    var cardId = $('#id').val();
+    var startdate = document.getElementById('userdata4').value
+    if(startdate){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            data: {
+                // "value": value,
+                'cardId':cardId,
+                'startdate':startdate,
+                'starttime':value,
+            },
+            url: '{% url "ValidateDateOfInsp" %}',
+            success: function (response) {
+                if (response.status == 1) {
+                    alert('Inspection Already Done On ' + startdate + ' Before ' + value);
+                    $("#userdata4").val('');
+                    $("#userdata4").focus();
+
+                }
+            }
+        });
+    }
+    else{
+        alert("Please Select Start Date First");
+        $("#userdata4").focus()
+        $("#userdata5").val('');
+        timeCheck = 0
+    }
+} 
+}
+
+
+startDate=$('#userdata4').val();
+var parts =String(startDate).split('-');
+chkdate=parts[2]+'-'+parts[1]+'-'+parts[0]       
+const date = new Date(chkdate);
+xyz=date.setDate(date.getDate() - 31);
+xyz=new Date(xyz)
+                        
+xyz=formatDate(xyz)
+$('#userdata4').datepicker('option', 'minDate',xyz );
+$('#userdata4').val(startDate)
+
+
+function formatDate(date) {
+var d = new Date(date),
+month = '' + (d.getMonth() + 1),
+day = '' + d.getDate(),
+year = d.getFullYear();
+
+if (month.length < 2) 
+    month = '0' + month;
+if (day.length < 2) 
+    day = '0' + day;
+let newyear = String(year).slice(0, 4)
+return [day,month,newyear].join('-');
+}
+
+
+var currentdate = new Date();
+$("#userdata4").datepicker({
+    minDate:xyz,
+    maxDate: currentdate,
+    autoclose: true,
+    dateFormat: "dd-mm-yy",
+    endDate: "currentdate",
+    changeMonth: true,
+    changeYear: true,
+    todayHighlight: true,
+    clearBtn: true,
+    
+})
+
+$("#userdata6").datepicker({
+    minDate: $('#userdata4').val(),
+    //maxDate: "currentdate",
+    autoclose: true,
+    dateFormat: "dd-mm-yy",
+    //endDate: "currentdate",
+    changeMonth: true,
+    changeYear: true,
+    todayHighlight: true,
+    clearBtn: true,
+});
+
+function changedate() {
+    $("#userdata6").val('')
+    $("#userdata5").val('')
+    timeCheck=0
+    let startdate = $("#userdata4").val();
+    if (startdate == '' || startdate == null ) {
+        alert("Please Select Start Date First");
+        $("#userdata4").focus()
+    }
+    else {
+        var date1 = $('#userdata4').val();
+        $("#userdata6").datepicker("option", "minDate", date1);
+        document.getElementById('dateTitle').innerHTML=startdate;
+
+    }
+    
+}
+
+</script>
+
+
+<!-- edit part script -->
+<script>
+var chkaccordian = '';
+var insp_sideMenu = JSON.parse('{{insp_sideMenu|safe}}');
+
+function backButtonAccordian()
+{
+    
+    for(let i =0;i<insp_sideMenu.length;i++)
+        {
+            id = 'dynamicAccordion'+String(insp_sideMenu[i]);
+            $('#'+id).show();
+        }
+        $('#staticAccordion').show();
+        $('#staticAccordion1').show();
+    $(".accordion-collapse").collapse("hide");
+       
+}
+function showhideaccordian(val)
+{
+    let id;
+    if(chkaccordian != val)
+    {
+        for(let i =0;i<insp_sideMenu.length;i++)
+        {
+            id = 'dynamicAccordion'+String(insp_sideMenu[i]);
+            $('#'+id).hide();
+        }
+        id = 'dynamicAccordion'+String(val);
+        $('#'+id).show();
+        $('#staticAccordion').hide();
+        $('#staticAccordion1').hide();
+        chkaccordian = val;
+    }
+    else
+    {
+        for(let i =0;i<insp_sideMenu.length;i++)
+        {
+            id = 'dynamicAccordion'+String(insp_sideMenu[i]);
+            $('#'+id).show();
+        }
+        $('#staticAccordion').show();
+        $('#staticAccordion1').show();
+        chkaccordian = val;
+    }
+}
+$(document).ready(function()
+{
+   
+    
+   
+    
+    if(inspType == 'Edit')
+    {
+        steofficer = 1;
+        let allData = JSON.parse('{{allData|safe}}');
+        let einspDetails = JSON.parse('{{einspDetails|safe}}');
+        let ajaxdata = JSON.parse('{{ ajaxdata | safe }}');
+        let actorPresent = JSON.parse('{{ actorPresent | safe }}');
+        $("#userdata0").val(einspDetails[0]['rly_id_id']).trigger('change');
+        global_div_id = einspDetails[0]['div_id_id'];
+        global_entity = einspDetails[0]['entityid'];
+        global_section = einspDetails[0]['section_id'];
+        let commanDepartment = einspDetails[0]['commanDepartment'];
+        for(let i=0;i<actorPresent.length;i++)
+        {
+            // let actId = 'actor'+actorPresent[i]['actor'];
+            let actId = 'actor'+String(i+1);
+            $("#"+actId).val(actorPresent[i]['data']).trigger('change.select2');
+
+        }
+        //console.log(allData)
+        if(commanDepartment != null)
+        {
+            commanDepartment = commanDepartment.split(';');
+            $("#commanDepartment").val(commanDepartment).trigger('change.select2');
+
+        }
+       
+        $('#userdata4').val(einspDetails[0]['start_date']);
+        $('#userdata5').val(einspDetails[0]['start_time']);
+        $('#userdata6').val(einspDetails[0]['end_date']);
+        $('#userdata7').val(einspDetails[0]['end_time']);
+
+        if(einspDetails[0]['finalizeStart'] == 'Yes')
+        {
+            document.getElementById('btnSetStartTime').disabled = true;
+            $("#userdata4").datepicker("destroy");  
+            $('#userdatashow5').val($('#userdata5').val());
+            $('#userdatashow5').show();
+            $('#userdata5').hide();
+            $('#finalizeStart').val('Yes');
+        }
+        if(einspDetails[0]['finalizeEnd'] == 'Yes')
+        {
+            document.getElementById('btnSetStartTime').disabled = true;
+            $("#userdata4").datepicker("destroy");  
+            $('#userdatashow5').val($('#userdata5').val());
+            $('#userdatashow5').show();
+            $('#userdata5').hide();
+
+            document.getElementById('btnSetEndTime').disabled = true;
+            $("#userdata6").datepicker("destroy");   
+            $('#userdatashow7').val($('#userdata7').val());
+            $('#userdatashow7').show();
+            $('#userdata7').hide();
+            $('#finalizeEnd').val('Yes');
+        }
+
+        if(einspDetails[0]['inspection_type'] == 1)
+        {
+            document.getElementById('superiseInsp').checked = true;
+            document.getElementById('nightInsp').checked=false;
+        }
+        else if(einspDetails[0]['inspection_type'] == 2)
+        {
+            document.getElementById('superiseInsp').checked = false;
+            document.getElementById('nightInsp').checked=true;
+        }
+        else if(einspDetails[0]['inspection_type'] == 3)
+        {
+            document.getElementById('superiseInsp').checked = true;
+            document.getElementById('nightInsp').checked=true;
+        }
+        else if(einspDetails[0]['inspection_type'] == 4)
+        {
+            document.getElementById('superiseInsp').checked = false;
+            document.getElementById('nightInsp').checked=false;
+        }
+        let abnorm = einspDetails[0]['abnormal'].split('/');
+      
+        if(abnorm[0]=='no')
+        {
+            $("input[name=abnormal][value=no]").prop('checked', true);
+        }
+        else
+        {
+            $("input[name=abnormal][value=yes]").prop('checked', true);
+            $('#userdata15').val(abnorm[1]);
+        }
+        let rati = einspDetails[0]['ratings'];
+        if(rati != null)
+        {
+            
+            $("input[name=ratings1][value="+rati+"]").prop('checked', true);
+        }
+
+        for(let i=0;i<allData.length;i++)
+        {
+            let chk = allData[i]['chk'];
+
+            if(chk == 'N')
+            {
+                continue;
+            }
+            else
+            {
+                let a = ajaxdata[i].split('@#@');
+                let departmentId = 'department1' + String(i + 1);
+                if(a[4] != 'True')
+                {
+                    let tid = 'tick@'+a[7]+'@'+String(i + 1);
+                    document.getElementById(tid).click();
+                    
+                }
+                $("#"+departmentId).select2('destroy');
+
+                let selectT1 = document.querySelector('#'+departmentId);
+                
+                let optionLabelsT1 = Array.from(selectT1.options).map((opt) => opt.value);
+                
+                if(optionLabelsT1.includes(allData[i]['departmentId']) == false)
+                {
+                    let rowDataT1 = `<option  value="${allData[i]['departmentId']}">${allData[i]['departmentName']}</option>`;
+                    $("#"+departmentId).append(rowDataT1);
+
+                }
+                document.getElementById(departmentId).value=allData[i]['departmentId'];
+                $("#"+departmentId).select2();
+                let officer = 'officer11' + String(i + 1);
+                let remarks = 'remarks' + String(i + 1);
+                if (a[0] == '1') {
+                    id = 'userinput' + String(i + 1);
+                    $("#"+id).val(decryptWithAES(allData[i]['datavalue']));
+                }
+                else if (a[0] == '2') {
+                    id = 'roption' + String(i + 1);
+                    radios = document.getElementsByName(id);
+                    if (radios[1].value == decryptWithAES(allData[i]['datavalue'])) {
+                        radios[1].checked = true;
+                        }else if(radios[2].value == decryptWithAES(allData[i]['datavalue'])){
+                        radios[2].checked = true;
+                        }
+                    //$("input[name="+id+"][value="+allData[i]['datavalue']+"]").prop('checked', true);
+                }
+                else if (a[0] == '3') {
+                    id = 'doption' + String(i + 1);
+                    $("#"+id).val(decryptWithAES(allData[i]['datavalue'])).trigger('change');
+
+                }
+                else if (a[0] == '4') {
+                    id = 'date' + String(i + 1);
+                    $("#"+id).val(decryptWithAES(allData[i]['datavalue']));
+                }
+                else if (a[0] == '5') {
+                    id = 'time' + String(i + 1);
+                    $("#"+id).val(decryptWithAES(allData[i]['datavalue']));
+                }
+                else if (a[0] == '6') {
+                    id = 'file' + String(i + 1);
+                    $('#uploaded'+String(i + 1)).show();
+                    
+                    $('#update_setPreviewImage'+ String(i + 1)).prop('src', '/media/' + decryptWithAES(allData[i]['datavalue']));
+                    
+                    
+                }
+                else if (a[0] == '7') {
+                    id = 'userinput' + String(i + 1);
+                    $("#"+id).val(decryptWithAES(allData[i]['datavalue']));
+                }
+                else if (a[0] == '8') {
+                    id = 'userinput' + String(i + 1);
+                    $('input[name="'+id+'"][value="'+decryptWithAES(allData[i]['datavalue'])+'"]').prop('checked', true);
+                    
+                }
+                else if (a[0] == '9') {
+                    id = 'checkbox#' + String(a[1]);
+                    let checkboxVal = String(decryptWithAES(allData[i]['datavalue'])).split('$');
+                    for(ikj in checkboxVal)
+                    {
+                        $('input[name="'+id+'"][value="'+checkboxVal[ikj]+'"]').prop('checked', true);
+                    }
+                }
+                else if (a[0] == '10') {
+                    id = 'checkbox' + String(a[1]);
+                    let checkboxVal = String(decryptWithAES(allData[i]['datavalue'])).split('$');
+                    for(ikj in checkboxVal)
+                    {
+                        $('input[name="'+id+'"][value="'+checkboxVal[ikj]+'"]').prop('checked', true);
+                    }
+                }
+                else {
+                    id = 'userinput' + String(i + 1);
+                    $("#"+id).val(decryptWithAES(allData[i]['datavalue']));
+                }
+                
+
+             
+
+                $("#"+remarks).val(decryptWithAES(allData[i]['remarks'])); 
+           
+                
+               let all_off = allData[i]['officer_list'];
+               
+                $('#' + officer).empty();
+                let row = '<option selected disabled hidden value="">--Select Concerned Officer--</option>';
+                
+               for(let j=0;j<all_off.length;j++)
+               {
+                    row += '<option value="' + all_off[j]['designation_code'] + '">' + all_off[j]['designation'] + ' </option>';    
+               }
+               $('#' + officer).append(row);
+               $('#' + officer).val(allData[i]['officer']).trigger('change');
+                let comploc = allData[i]['loc_type'];
+               
+               if (comploc == 'Pole Location' || comploc == 'Number')
+               {
+                    let idloc = 'location1' + String(i + 1);
+                    locdata =   allData[i]['location'].split(';') ;
+                    row = '';
+                    for(k=0;k<locdata.length;k++)
+                    {
+                        row+='<option value="'+locdata[k]+'">'+locdata[k]+'</option>';
+                    }
+                    $('#'+idloc).append(row);
+                    $("#"+idloc).val(locdata).trigger('change');     
+                    
+               }
+               else if(comploc == 'Coach Number')
+               {
+                let idloc = 'location1' + String(i + 1);
+                $('#'+idloc).val(allData[i]['location'])
+               }
+               else if(comploc == 'Direction'){
+                let idloc = 'location' + String(i + 1);
+                $("input[name="+idloc+"][value="+allData[i]['location']+"]").prop('checked', true);
+               }             
+            }
+        }
+
+        steofficer = 0;
+    }
+})
+funsetdata();
+
+
+
+function funcSetDisplay(id)
+{
+    let idArray = id.split('@');
+    let observationId = 'observation@'+String(idArray[1])+'@'+String(idArray[2]);
+    let locationId = 'location@'+String(idArray[1])+'@'+String(idArray[2]);
+    let markedId = 'marked@'+String(idArray[1])+'@'+String(idArray[2]);
+    let remarksId = 'remarks@'+String(idArray[1])+'@'+String(idArray[2]);
+    if(document.getElementById(id).checked == true)
+    {
+         document.getElementById(observationId).style.display = 'block';
+         document.getElementById(locationId).style.display = 'block';
+         document.getElementById(markedId).style.display = 'block';
+         document.getElementById(remarksId).style.display = 'block';
+    }
+    else
+    {
+        document.getElementById(observationId).style.display = 'none';
+         document.getElementById(locationId).style.display = 'none';
+         document.getElementById(markedId).style.display = 'none';
+         document.getElementById(remarksId).style.display = 'none';
+    }
+}
+
+function checkOrUncheckAll(name)
+{
+    let name1 = name.split('@'),count = 0;
+    let data = JSON.parse('{{ ajaxdata | safe }}');
+    let data1 = data.filter( x => x.split('@#@')[7] == name1[1]);
+    for(let i=0;i<data.length;i++)
+    {
+        if(data1[count] == data[i])
+        {
+            
+        let a = data1[count].split('@#@');
+        if(document.getElementById(name).checked == true)
+        {
+            id = 'tick@' + name1[1] + '@' + String(i+1);
+            if(a[4] == 'False')
+            {
+                if(document.getElementById(id).checked == false)
+                {
+                    document.getElementById(id).click();
+                }
+            }
+        }
+        else{
+            id = 'tick@' + name1[1] + '@' + String(i+1);
+            
+            if(a[4] == 'False')
+            {
+                if(document.getElementById(id).checked == true)
+                {
+                    document.getElementById(id).click();
+                }
+            }
+        }
+        count++;
+    }
+    }
+}
+
+function checkOrUncheckPositive(name)
+{
+    let name1 = name.split('@'),id,id1,count=0;
+    let data = JSON.parse('{{ ajaxdata | safe }}');
+    let data1 = data.filter( x => x.split('@#@')[7] == name1[1]);
+    for(let i=0;i<data.length;i++)
+    {
+        if(data1[count] == data[i])
+        {
+            
+        let a = data1[count].split('@#@');
+        if(document.getElementById(name).checked == true)
+        {
+            id = 'tick@' + name1[1] + '@' + String(i+1);
+            id1 = 'roption' + String(i+1);
+            
+            if(a[0] == '2')
+            {
+                if(document.getElementById(id).checked == false)
+                {
+                    if(a[4] == 'False')
+                        {
+                            document.getElementById(id).click();
+                        }
+                    $("input[name="+id1+"][value="+a[8]+"]").prop('checked', true);
+                }
+                if(document.getElementById(id).checked == true)
+                {
+                    $("input[name="+id1+"][value="+a[8]+"]").prop('checked', true);
+                }
+            }
+        }
+        else{
+            id = 'tick@' + name1[1] + '@' + String(i+1);
+            id1 = 'roption' + String(i+1);
+            
+            if(a[0] == '2')
+            {
+                if(document.getElementById(id).checked == true)
+                {
+                    if(a[4] == 'False')
+                        {
+                            document.getElementById(id).click();
+                        }
+                    $("input[name="+id1+"][value="+a[8]+"]").prop('checked', false);
+                }
+                if(document.getElementById(id).checked == false)
+                {
+                    $("input[name="+id1+"][value="+a[8]+"]").prop('checked', false);
+                }
+            }
+        }
+
+        count++;
+        }
+        
+    }
+}
+
+
+
+function getAllQuestions(id,insp)
+{
+    let actor = id.substring(5,id.length)
+    urls='/openAllQuestions/'+String(actor)+'/'+String(insp)
+    
+    $("#frmDash").attr("src",urls);
+    $(".wrap").toggleClass('active');
+}
+function getActorDetails(actor,id)
+{
+    let val = $('#'+id).select2("val");
+    if( val == null)
+    {
+        alert('select Actor to see Details');
+        return false;
+    }
+    let data = '';
+    for(let i=0; i<val.length;i++)
+    {
+        let a = val[i].split('-');
+        if(i!=0)
+            data = data + '$$$';
+        data = data + a[0].trim();
+    }
+    urls='/openActorDetails/'+String(actor)+'/'+String(data)
+    
+    $("#frmDash").attr("src",urls);
+    $(".wrap").toggleClass('active');
+}
+
+function closePpln()
+    {
+        $(".wrap").toggleClass('active');
+        window.location.reload();
+    }
+</script>
+
+
+<div class="wrap">
+    <div class="content">
+      <button class="btn btn-danger" onclick="closePpln();">&times;</button>
+      <iframe src="" style="width:100%;height:82vh;border:0px;" id="frmDash"></iframe>
+    </div>
+  </div>
+  
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+
+
+
+function update_preview_img(id) {
+        let id1 = 'update_preview_image'+id;
+        var x = document.getElementById(id1);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    function checkImageData(id) {
+        update_inspection_imageId = 'file'+id;
+       
+            let update_inspection_image = $("#"+update_inspection_imageId).val();
+            let extension = update_inspection_image.split('.').pop().toUpperCase();
+            let sizeKB = $("#"+update_inspection_imageId)[0].files[0].size
+            let height = $("#"+update_inspection_imageId).height()
+            let width = $("#"+update_inspection_imageId).width()
+            ratio = Math.floor(height / width)
+            sizeKB = Math.round(sizeKB / (1024))
+            //console.log('Size in KB', sizeKB, ' Height: ', height, ' Width: ', width, ' Ratio: ', ratio, ' Extension: ', extension)
+            // Image Size Validations
+            if (sizeKB > 50) {
+                document.getElementById(update_inspection_imageId).value = null;
+                $('#update_HelpInline1'+id).prop('class', 'text-danger');
+                $('#update_HelpInline2'+id).prop('class', 'text-muted');
+                $('#update_HelpInline3'+id).prop('class', 'text-muted');
+                document.getElementById('update_setPreviewImage'+id).src = "";
+                $('#uploaded'+id).hide();
+                // alert('Please select image size less than 50 KB');
+            }
+
+            // Image Type Validations
+            else if (extension != "PNG" && extension != "JPG" && extension != "JPEG") {
+                document.getElementById(update_inspection_imageId).value = null;
+                update_inspection_image = 0;
+                $('#update_HelpInline2'+id).prop('class', 'text-danger');
+                $('#update_HelpInline1'+id).prop('class', 'text-muted');
+                $('#update_HelpInline3'+id).prop('class', 'text-muted');
+                document.getElementById('update_setPreviewImage'+id).src = "";
+                $('#uploaded'+id).hide();
+            }
+            //  Image Ratio of height and width Validations
+            else if (ratio > 2) {
+                document.getElementById(update_inspection_imageId).value = null;
+                $('#update_HelpInline3'+id).prop('class', 'text-danger');
+                $('#update_HelpInline2'+id).prop('class', 'text-muted');
+                $('#update_HelpInline1'+id).prop('class', 'text-muted');
+                document.getElementById('update_setPreviewImage'+id).src = "";
+                $('#uploaded'+id).hide();
+            }
+            else {
+                $('#update_HelpInline1'+id).prop('class', 'text-muted');
+                $('#update_HelpInline2'+id).prop('class', 'text-muted');
+                $('#update_HelpInline3'+id).prop('class', 'text-muted');
+                document.getElementById('update_setPreviewImage'+id).src = URL.createObjectURL(event.target.files[0]);
+                $('#uploaded'+id).show();
+
+            }
+   
+
+    };
+
+$('.uploadedlable').hide();
+
+
+
+function encryptWithAES(message)
+{
+    var key ='AAAAAAAAAAAAAAAA'
+    key = CryptoJS.enc.Utf8.parse(key);
+    var iv = CryptoJS.enc.Utf8.parse('BBBBBBBBBBBBBBBB')
+    var encrypted = CryptoJS.AES.encrypt(message, key, { iv: iv, mode: CryptoJS.mode.CBC});
+    encrypted =encrypted.toString();
+    return (encrypted)
+}
+
+function decryptWithAES(Base64CBC)
+{
+    var iv = CryptoJS.enc.Utf8.parse('BBBBBBBBBBBBBBBB');
+    var key ='AAAAAAAAAAAAAAAA'
+    key = CryptoJS.enc.Utf8.parse(key);
+    var decrypted =  CryptoJS.AES.decrypt(Base64CBC, key, { iv: iv, mode: CryptoJS.mode.CBC});
+    decrypted = decrypted.toString(CryptoJS.enc.Utf8);
+    return (decrypted);   
+}
+
+
+
+</script>
+</html>
+
+{% endblock content %}

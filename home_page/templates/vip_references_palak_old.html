@@ -1,0 +1,1290 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}" ></script>
+   <script src="{% static '/js/popper.min.js' %}" ></script>
+   <script src="{% static '/js/Chart.min.js' %}"></script>
+   <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}" ></script>
+   <script src="{% static '/js/bootstrap.min.js' %}" ></script>
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+   <script src="{% static '/js/jquery-ui.js' %}"></script>
+   <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+   <script src="{% static '/js/select2.min.js' %}"></script>
+   <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+   <script src="{% static '/js/moment.min.js' %}"></script>
+
+   <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+   <script src="{% static '/js/sweetalert.min.js' %}"></script>
+   <script src="{% static '/js/jquery.min.js' %}"></script>
+   <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+   <script src="{% static '/js/jquery.min1.js' %}"></script>
+   <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+   <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+   <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+   <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+   <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}"  />
+
+
+   <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}"  />
+   <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}"  />
+   
+   <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+   <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}"  />
+
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+
+<link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" /> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+
+    <title>VIP References</title>
+</head>
+<head>
+ 
+    {% include 'inspects_staticProvider.html' %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/daterangepicker.css' %}" />
+    <!-- <link rel="stylesheet" href="parliament.css"> -->
+    <style>
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            border: 0px;
+            background-color: rgb(255, 255, 255, 0) !important;
+            color: #007bff !important;
+ 
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            background-color: rgba(23.32, 77, 77, 0) !important;
+            color: #007bff !important;
+ 
+        }
+ 
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            color: rgba(51, 51, 51, 0) !important;
+            border: 1px solid rgba(0, 0, 0, 0);
+            background-color: rgba(23.32, 77, 77, 0);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* W3C */
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            color: #007bff !important;
+            border: 1px solid rgba(17, 17, 17, 0);
+            background-color: #58585800;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* W3C */
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            outline: none;
+            background-color: #2b2b2b00;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* W3C */
+            box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+ 
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            border: 0px;
+            background-color: rgb(255, 255, 255, 0) !important;
+            color: #007bff !important;
+ 
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            background-color: rgba(23.32, 77, 77, 0) !important;
+            color: #007bff !important;
+ 
+        }
+ 
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            color: #333 !important;
+            border: 1px solid rgba(0, 0, 0, 0);
+            background-color: rgba(23.32, 77, 77, 0);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* W3C */
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            color: #007bff !important;
+            border: 1px solid rgba(17, 17, 17, 0);
+            background-color: #58585800;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* W3C */
+        }
+ 
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            outline: none;
+            background-color: #2b2b2b00;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* W3C */
+            box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+        }
+ 
+        table.dataTable tbody th,
+        table.dataTable tbody td {
+            padding: 5px 10px;
+        }
+    </style>
+    <style>
+        @media only screen and (max-width: 400px) and (min-width: 300px) {
+ 
+            .row h3 {
+                color: whitesmoke;
+                font-size: 17px;
+                padding-left: 0;
+                margin-left: 0;
+ 
+            }
+ 
+            .Container {
+                width: 100%;
+            }
+ 
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+ 
+        @media only screen and (max-width: 450px) and (min-width: 401px) {
+ 
+            .row h3 {
+                color: whitesmoke;
+                font-size: 20px;
+                padding-left: 0;
+                margin-left: 0;
+ 
+            }
+ 
+            .Container {
+                width: 100%;
+            }
+ 
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+ 
+        @media only screen and (max-width: 700px) and (min-width: 451px) {
+ 
+            .row h3 {
+                color: whitesmoke;
+                font-size: 25px;
+                padding-left: 0;
+                margin-left: 0;
+ 
+            }
+ 
+            .Container {
+                width: 100%;
+            }
+ 
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+ 
+        @media only screen and (max-width: 299px) and (min-width: 200px) {
+ 
+            .row h3 {
+                color: whitesmoke;
+                font-size: 10px;
+                padding-left: 0;
+                margin-left: 0;
+ 
+ 
+            }
+ 
+            .Container {
+                width: 100%;
+            }
+ 
+            #notificationContainer {
+                margin-left: 1%;
+            }
+        }
+ 
+        .t2 {
+            font-size: 100%;
+            color: white !important;
+        }
+ 
+        .t2:hover {
+            background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+            text-transform: uppercase;
+            font-weight: bold;
+            color: black !important;
+        }
+ 
+        .t2:hover #menu_icon {
+            color: black !important;
+        }
+ 
+        .dropdown:hover {
+            /* background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white); */
+            /* text-transform: uppercase; */
+        }
+ 
+        .dropdown:hover .dropdown-toggle {
+            font-weight: bold;
+            color: white !important;
+        }
+ 
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            text-transform: none;
+        }
+ 
+        .dropdown-menu .dropdown-item:hover {
+            background-image: linear-gradient(to bottom right, rgb(98, 132, 245), white);
+            /* text-transform: uppercase; */
+        }
+ 
+        .dropdown-menu {
+            margin-top: 0;
+        }
+ 
+        .menu li {
+            display: inline-block;
+            font-family: Arial;
+            padding-right: 0%;
+        }
+ 
+        .menu {
+            /* padding:0%; */
+            margin-bottom: 0%;
+        }
+ 
+        .dropdown-toggle::after {
+            display: inline-block;
+            margin-left: .255em;
+            vertical-align: .255em;
+            content: "";
+            color: white;
+            border-top: .3em solid;
+            border-right: .3em solid transparent;
+            border-bottom: 0;
+            border-left: .3em solid transparent;
+        }
+    </style>
+    <style>
+       
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 15%;
+            /* background: #11101d; */
+            background: #2c3e50;
+            /* background: #12161D; */
+            z-index: 100;
+            margin-top: 3rem;
+            background: #4072CC;
+            /* background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+                background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+                background: linear-gradient(to bottom right, #4072CC, #7C72EA); */
+        }
+ 
+        .sidebar.close {
+            width: 78px;
+        }
+ 
+        .sidebar .logo-details {
+            height: 60px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+ 
+        .sidebar .logo-details i {
+            font-size: 30px;
+            color: #fff;
+            height: 50px;
+            min-width: 78px;
+            text-align: center;
+            line-height: 50px;
+        }
+ 
+        .sidebar .logo-details .logo_name {
+            font-size: 22px;
+            color: #fff;
+            font-weight: 600;
+            transition: 0.3s ease;
+            transition-delay: 0.1s;
+        }
+ 
+        .sidebar.close .logo-details .logo_name {
+            transition-delay: 0s;
+            opacity: 0;
+            pointer-events: none;
+        }
+ 
+        .sidebar .nav-links {
+            height: 100%;
+            padding: 30px 0 150px 0;
+            overflow: auto;
+        }
+ 
+        .sidebar.close .nav-links {
+            overflow: visible;
+        }
+ 
+        .sidebar .nav-links::-webkit-scrollbar {
+            display: none;
+        }
+ 
+        .sidebar .nav-links li {
+            position: relative;
+            list-style: none;
+            transition: all 0.4s ease;
+        }
+ 
+        .sidebar .nav-links li {
+            /* color: #1c81d9; */
+            color: white;
+        }
+ 
+        .sidebar .nav-links li:hover {
+            background: #1d1b31;
+        }
+ 
+        .sidebar .nav-links li .iocn-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+ 
+        .sidebar.close .nav-links li .iocn-link {
+            display: block
+        }
+ 
+        .sidebar .nav-links li {
+            height: 50px;
+            padding-left: 8%;
+            min-width: 48px;
+            text-align: left;
+            line-height: 50px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+ 
+        .sidebar.close .nav-links li i {
+            min-width: 70px;
+        }
+ 
+        .sidebar .nav-links li.showMenu i.arrow {
+            transform: rotate(-180deg);
+        }
+ 
+        .sidebar.close .nav-links i.arrow {
+            display: none;
+        }
+ 
+        .sidebar .nav-links li a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+ 
+        .sidebar .nav-links li a .link_name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #fff;
+            transition: all 0.4s ease;
+        }
+ 
+        .sidebar.close .nav-links li a .link_name {
+            opacity: 0;
+            pointer-events: none;
+        }
+ 
+        .sidebar .nav-links li .sub-menu {
+            padding: 6px 6px 14px 30px;
+            margin-top: -10px;
+            background: #1d1b31;
+            display: none;
+        }
+ 
+        .sidebar .nav-links li.showMenu .sub-menu {
+            display: block;
+        }
+ 
+        .sidebar .nav-links li .sub-menu a {
+            color: #fff;
+            font-size: 15px;
+            padding: 5px 0;
+            white-space: nowrap;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+ 
+        .sidebar .nav-links li .sub-menu a:hover {
+            opacity: 1;
+        }
+ 
+        .sidebar.close .nav-links li .sub-menu {
+            position: absolute;
+            left: 100%;
+            top: -10px;
+            margin-top: 0;
+            padding: 10px 20px;
+            border-radius: 0 6px 6px 0;
+            opacity: 0;
+            display: block;
+            pointer-events: none;
+            transition: 0s;
+        }
+ 
+        .sidebar.close .nav-links li:hover .sub-menu {
+            top: 0;
+            opacity: 1;
+            pointer-events: auto;
+            transition: all 0.4s ease;
+        }
+ 
+        .sidebar .nav-links li .sub-menu .link_name {
+            display: none;
+        }
+ 
+        .sidebar.close .nav-links li .sub-menu .link_name {
+            font-size: 18px;
+            opacity: 1;
+            display: block;
+        }
+ 
+        .sidebar .nav-links li .sub-menu.blank {
+            opacity: 1;
+            pointer-events: auto;
+            padding: 3px 20px 6px 16px;
+            opacity: 0;
+            pointer-events: none;
+        }
+ 
+        .sidebar .nav-links li:hover .sub-menu.blank {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+ 
+        .sidebar .profile-details {
+            position: fixed;
+            bottom: 0;
+            width: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1d1b31;
+            padding: 12px 0;
+            transition: all 0.5s ease;
+        }
+ 
+        .sidebar.close .profile-details {
+            background: none;
+        }
+ 
+        .sidebar.close .profile-details {
+            width: 78px;
+        }
+ 
+        .sidebar .profile-details .profile-content {
+            display: flex;
+            align-items: center;
+        }
+ 
+        .sidebar .profile-details img {
+            height: 52px;
+            width: 52px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin: 0 14px 0 12px;
+            background: #1d1b31;
+            transition: all 0.5s ease;
+        }
+ 
+        .sidebar.close .profile-details img {
+            padding: 10px;
+        }
+ 
+        .sidebar .profile-details .profile_name,
+        .sidebar .profile-details .job {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+ 
+        .sidebar.close .profile-details i,
+        .sidebar.close .profile-details .profile_name,
+        .sidebar.close .profile-details .job {
+            display: none;
+        }
+ 
+        .sidebar .profile-details .job {
+            font-size: 12px;
+        }
+ 
+        .home-section {
+            position: relative;
+            height: 100vh;
+            left: 260px;
+            top: 48px;
+            width: calc(100% - 260px);
+            transition: all 0.5s ease;
+        }
+ 
+        .sidebar.close~.home-section {
+            left: 78px;
+            width: calc(100% - 78px);
+        }
+ 
+        .home-section .home-content .bx-menu,
+        .home-section .home-content .text {
+            color: #11101d;
+            font-size: 35px;
+        }
+ 
+        .home-section .home-content .bx-menu {
+            margin: 0 0%;
+            cursor: pointer;
+        }
+ 
+        .home-section .home-content .text {
+            font-size: 26px;
+            font-weight: 600;
+        }
+ 
+        @media (max-width: 400px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+ 
+            .sidebar.close {
+                width: 0;
+            }
+ 
+            .home-section {
+                left: 78px;
+                width: calc(100% - 78px);
+ 
+            }
+ 
+            /* .sidebar.close ~ .home-section{
+                    width: 100%;
+                    left: 0;
+                }*/
+        }
+ 
+        /* nav ul {
+            list-style: none;
+        } */
+ 
+        .listRight {
+            left: auto !important;
+            right: 0 !important;
+        }
+    </style>
+    <style>
+        h3 {
+            font-family: "Playfair Display";
+            font-size: 20px;
+            font-weight: 700;
+            /* text-shadow: rgba(0, 0, 0, 0.5) 0 10px 10px; */
+        }
+ 
+        h2 {
+            font-family: "Playfair Display";
+            font-size: 20px;
+            font-weight: 700;
+        }
+ 
+        .back {
+            cursor: pointer;
+        }
+ 
+ 
+        .colornav {
+            background-color: #3f51b5;
+            background-image: -webkit-linear-gradient(left, #3f51b5, #03a9f4);
+            background-image: linear-gradient(to right, #3f51b5, #03a9f4);
+        }
+ 
+        /* Apeksha Styles */
+        th {
+            text-align: center;
+        }
+ 
+        tr {
+            text-align: center;
+        }
+ 
+        thead {
+            color: black;
+            background-color: #bfccf0;
+        }
+ 
+       
+ 
+        /* .nav-item {
+            background-color: #f2ecf5;
+ 
+        } */
+       
+    </style>
+</head>
+
+
+<body>
+    <div class=" navbar-dark bg-dark mb-2 sticky-top colornav" style="margin:0 auto ;">
+        <ul class="navbar" style="list-style: none;padding: 0rem 1rem;">
+            <ul style="padding: 0 !important;width:40%;">
+                <li style="display:inline-block;width:60%">
+                    <h2
+                        style="color:#fff; font-family:quicksand, sans-serif; padding-left: 5%;text-align: Left;font-size: 1.6rem;font-weight: 600;">
+                        <a onClick="window.location.reload()"> My VIP References</a></h2>
+                </li>
+                {% if request.session.designation == 'CRB & CEO' %}
+                <li style="width:3%;display:inline-block;" class="back">
+                    <!-- <a href="/home_page"><img src="/static/images/home.png" class="img img-responsive img-fluid" /></a> -->
+                    <a href="/home_page" id="notificationLink1" style="color:white;font-size: 23px;" data-toggle="tooltip" title="Home"><i class="bx bxs-home"
+                        aria-hidden="true"></i></a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul>
+                <li style="display:inline-block;">
+                    <h4
+                        style="margin:0%;color:#fff; font-family:quicksand,font-weight-bold, sans-serif;font-size:16px;font-weight:600;">
+                        Welcome&nbsp; {{request.session.designation|safe}}</h4>
+                </li>
+                <li class="nav-item dropdown" style="display:inline-block;background-color:#03a9f4">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img
+                            src="/static/images/profile2.webp" class="rounded-circle" style="width: 2.00rem;"
+                            alt="Profile" style="padding: 0 !important;" /></a>
+                    <div class="dropdown-menu dropdown-menu-left" style="left:-90px !important;">
+                        <a href="/viewDetail" class="dropdown-item">View Profile</a>
+                        <a href="/inspect_changePassword" class="dropdown-item">Change Password</a>
+                        <div class="dropdown-divider"></div>
+                        <a href='/inspect_logout' onclick='logoutConfirm();' class="dropdown-item">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </ul>
+    </div>
+    <!-- <br>
+    <h3 class="report_heading" style="text-align: center;"><b>VIP References Indian Railways</b></h3>
+   <br> -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-6">
+             <div class="card-body">
+                <div class="div card border-dark text-dark " style="height:250px;  background-color: #fff3d4">
+                    <div class="card-header" style="color: black; text-align: center; background-color: #fff;"> <a href="javascript:void(0);" style="color: #016b36;" id="RBwise" role="button" onclick="RBwise()"><b>Pendency status references recieved in railway board</b></a></div>
+                   
+                              <!-- inside cards  -->              
+                <div class="row">                
+                    <div class="col-lg-3">
+        
+                        <div class="card-body px-0 pl-2">
+                            
+                            <div class="div card border-dark text-dark " style="height:120px; margin-left: 2vw;  background-color: #fc9381">
+                            <h6 style="text-align: center;">Total pending</h6>
+                            <h3 style="color:whitesmoke; text-align: center;" >{{viprbdata.total}}</h3>
+                            </div>
+                        
+                        </div>
+                
+                    </div>
+                    <div class="col-lg-3">
+        
+                        <div class="card-body px-0">
+                            
+                            <div class="div card border-dark text-dark " style="height:120px; background-color: #76de93">
+                                <h6 style="text-align: center;">With Directorates</h6>
+                                <h3 style="color:whitesmoke; text-align: center;" >{{viprbdata.withdir}}</h3>
+                            </div>
+                        </div>
+                
+                    </div>
+                    <div class="col-lg-3">
+        
+                        <div class="card-body px-0">
+                            
+                            <div class="div card border-dark text-dark " style="height:120px;  background-color:#fab743;">
+                                <h6 style="text-align: center;">Submitted</h6>
+                                <h3 style="color:whitesmoke; text-align: center;" >{{viprbdata.draftreply}}</h3>
+                            </div>
+                        </div>
+                
+                    </div>
+                    <div class="col-lg-3">
+        
+                        <div class="card-body px-0 pr-2">
+                            
+                            <div class="div card border-dark text-dark " style="height:120px; margin-right: 2vw;  background-color: #7a90fa">
+                                <h6 style="text-align: center;">Forwarded to RLYs</h6>
+                                <h3 style="color:whitesmoke; text-align: center;" >{{viprbdata.withzone}}</h3>
+                            </div>
+                        </div>
+                
+                    </div>
+                    </div>
+             </div>
+            </div>
+            </div>
+            <div class="col-6">
+                <div class="card-body">
+                    <div class="div card border-dark text-dark " style="height:250px;  background-color: rgb(186, 231, 239);">
+                        <div class="card-header" style="color: #505251; text-align: center; border: none ;background-color: #fff;"><a href="javascript:void(0);"  style="color:#505251 ;" id="RBwise" role="button" onclick="zone_pu_divwise()"><b>Pendency status references recieved in Zone/PU/Division</b></a></div>
+                       
+                        <div class="row">
+                            <div class="col-lg-4">
+  
+                                <div class="card-body">
+                                    
+                                    <div class="div card border-dark text-dark " style="height:120px; background-color:#fc9381;">
+                                        <h6 style="text-align: center;">Total pending</h6>
+                                        <h3 style="color:whitesmoke; text-align: center;" >{{vip_zone_pu_div.total}}</h3>
+                                    </div>
+                                </div>
+                           
+                             </div>
+                             <div class="col-lg-4">
+  
+                                <div class="card-body">
+                                    
+                                    <div class="div card border-dark text-dark " style="height:120px;  background-color: #76de93">
+                                        <h6 style="text-align: center;">Zone/PU</h6>
+                                        <h3 style="color:whitesmoke; text-align: center;" >{{vip_zone_pu_div.zone}}</h3>
+                                    </div>
+                                </div>
+                           
+                             </div>
+                             <div class="col-lg-4">
+  
+                                <div class="card-body">
+                                    
+                                    <div class="div card border-dark text-dark " style="height:120px;  background-color:#7a90fa">
+                                        <h6 style="text-align: center;">Division</h6>
+                                        <h3 style="color:whitesmoke; text-align: center;" >{{vip_zone_pu_div.div}}</h3>
+                                    </div>
+                                </div>
+                           
+                             </div>
+                        </div>
+                        </div>
+                </div> 
+            </div>
+        </div>
+        <br>
+        
+        <div class="row" id="on_firstcard">
+            <div class="col-12">
+             <div class="card-body">
+                <div class="div card border-dark text-dark " style=" background-color:#fff3d4">
+                    <div class="card-header" style="color: black; text-align: center; background-color: #fff; "><b>Pendency status references recieved in railway board (Directorate/Board Member Wise)</b></div>
+ 
+                     <!-- <div class="row  flex-row" style="margin-bottom: 5%;">
+                        <ul class="nav nav-tabs ml-4">
+                            <li class="nav-item">
+                              <a class="nav-link active style=text-dark" aria-current="page"  href="#">Table Display</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link"  href="#">Graphical Display</a>
+                            </li>
+                            
+                         </ul>
+                             </div>  -->
+                             <div class="row">
+                                <div class="col md-3 pb-2">
+                                    <button type="button" id="btn1" class="btn btn-danger" style="margin-left: 45vw;width:9vw; background-color: #20038a;color: white;border: 2px solid #20038a;" onclick="directorate()">Directorate</button>
+                                  </div>
+                                <div class="col md-3 pb-2">
+                                    <button type="button" id="btn2" class="btn btn-danger " style="background-color: transparent;border: 2px solid #20038a; color: #20038a; "  onclick="boardmember()">Board Member</button>
+                                </div>
+                             </div>
+                             <!-- <canvas id="myChartdir" style="width:100%; "></canvas> -->
+                       
+               <div class="table_class" id="table_iddir">
+                <table  style="width: 100%; background-color: #fff;"class="table table-bordered table-sm table-hover table-striped" cellspacing="0"  id="show_details1">
+                    <thead  style="font-size:0.95em;">
+
+                     <tr>
+                        <th scope="col" style="width: 15px;"><center>Directorate</center></th>
+                        <th scope="col" style="width: 15px;"><center>With Directorate</center></th>
+                        <th scope="col" style="width: 15px;"><center>Forwarded to Rlys</center></th>
+                        <th scope="col" style="width: 15px;"><center>Submitted</center></th>
+                        <th scope="col" style="width: 15px;"><center>Total</center></th>
+                        <th scope="col" style="width: 15px;"><center>0-3 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>3-6 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>6-12 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>>12 months</center></th>
+                       
+                     </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in vip_dir %}
+                        <tr>
+                              
+                              <!-- <td>{{i.unitcode}}</td> 
+                              <td>{{i.pendcountdir}}</td>
+                              <td>{{i.pendcountzone}}</td>
+                              <td>{% if i.counterdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</td>
+                              <td>{{i.counttotal}}</td>
+                              <td>{{i.pendcount0_3}}</td>
+                              <td>{{i.pendcount3_6}}</td>
+                              <td>{{i.pendcount6_12}}</td>
+                              <td>{{i.pendcount12}}</td> -->
+
+                              <td>{% if i.unitcode %}{{i.unitcode}} {% else %}{{0}} {%endif%}</td> 
+                              <td>{% if i.pendcountdir %}{{i.pendcountdir}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcountzone %}{{i.pendcountzone}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.counterdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.counttotal %}{{i.counttotal}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</td>
+                        </tr>
+                        {%endfor%}
+                   
+                    </tbody>
+                   </table>
+               </div>
+               <!-- <canvas id="myChartbm" style="width:100%; "></canvas>       -->
+               <div class="table_class" id="table_idbm">
+                <table  style="width: 100%; background-color: #fff;"class="table table-bordered table-sm table-hover table-striped" cellspacing="0"  id="show_details11">
+                    <thead  style="font-size:0.95em;">
+
+                     <tr>
+                        <th scope="col" style="width: 15px;"><center>Board Member</center></th>
+                        <th scope="col" style="width: 15px;"><center>With Board member</center></th>
+                        <th scope="col" style="width: 15px;"><center>Forwarded to Rlys</center></th>
+                        <th scope="col" style="width: 15px;"><center>Submitted</center></th>
+                        <th scope="col" style="width: 15px;"><center>Total</center></th>
+                        <th scope="col" style="width: 15px;"><center>0-3 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>3-6 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>6-12 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>>12 months</center></th>
+                       
+                     </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in vip_bm %}
+                        <tr>
+                            <td>{% if i.unitcode %}{{i.unitcode}} {% else %}{{0}} {%endif%}</td> 
+                            <td>{% if i.pendcountdir %}{{i.pendcountdir}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.pendcountzone %}{{i.pendcountzone}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.counterdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.counttotal %}{{i.counttotal}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</td>
+                            <td>{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</td>
+                              <!-- <td>{{i.unitcode}}</td> 
+                              <td>{{i.pendcountdir}}</td>
+                              <td>{{i.pendcountzone}}</td>
+                              <td>{{i.countdraft}}</td>
+                              <td>{{i.counttotal}}</td>
+                              <td>{{i.pendcount0_3}}</td>
+                              <td>{{i.pendcount3_6}}</td>
+                              <td>{{i.pendcount6_12}}</td>
+                              <td>{{i.pendcount12}}</td> -->
+                        </tr>
+                        {%endfor%}
+                   
+                    </tbody>
+                   </table>
+               </div>
+
+             </div>
+            </div>
+            </div>
+            
+        </div>
+
+        <div class="row" id="on_secondcard">
+            <div class="col-12">
+             <div class="card-body">
+                <div class="div card border-dark text-dark " style="height:500px; background-color:#fff3d4">
+                    <div class="card-header" style="color: #505251; text-align: center; background-color: #fff; "><b>Pendency status references recieved in Zone/PU/Division</b></div>
+ 
+                     <div class="row" >
+                        <ul class="nav nav-tabs ml-4">
+                            <li class="nav-item">
+                              <a class="nav-link active style=text-dark" aria-current="page" href="#">Zone/PU</a>
+                            </li>
+                            
+                            <select class="form-control" id="dropd" data-live-search="true" data-actions-box="true" style="max-width:20%; height:3em; margin-left: 2%;">
+                                <option>ALL</option>
+                               
+                                <option value="metro">METRO</option>
+                                <option value="SECR">SECR</option>
+                                <option value="RWP">RWP</option>
+                                <option value="RCF">RCF</option>
+                                <option value="ICF">ICF</option>
+                                <option value="DLW">DLW</option>
+                                <option value="DMW">DMW</option>
+                                <option value="NER">NER</option>
+                                <option value="NFR">NFR</option>
+                                <option value="MCF">MCF</option>
+                                <option value="NR">NR</option>
+                                <option value="CR">CR</option>
+                                <option value="NWR">NWR</option>
+                                <option value="metro">ECOR</option>
+                                <option value="metro">ECR</option>
+                                <option value="metro">SCR</option>
+                                <option value="metro">ER</option>
+                                <option value="metro">NCR</option>
+                                <option value="metro">SR</option>
+                                <option value="metro">SWR</option>
+                                <option value="metro">WCR</option>
+                                <option value="metro">CORE</option>
+                                <option value="metro">KR</option>
+                                <option value="metro">RDSO</option>
+                                <option value="metro">NFCON</option>
+
+                            </select>
+                            
+                           </ul>
+                        </div> 
+
+                       
+               <div class="table_class2" id="table_id2">
+                <table  style="width: 100%;background-color: #fff"class="table table-bordered table-sm table-hover table-column table-striped" cellspacing="0"  id="show_details2" >
+                    <thead  style="font-size:0.95em;">
+
+                     <tr>
+                        <th scope="col" style="width: 15px;"><center>Zone/PU</center></th>
+                        <th scope="col" style="width: 15px;"><center>Pending with zonal HQ</center></th>
+                        <th scope="col" style="width: 15px;"><center>Pending with division</center></th>
+                        <th scope="col" style="width: 15px;"><center>Total</center></th>
+                        <th scope="col" style="width: 15px;"><center>0-3 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>3-6 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>6-12 months</center></th>
+                        <th scope="col" style="width: 15px;"><center>>12 months</center></th>
+
+                       
+                     </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in vip_zone_div %}
+                        <tr>
+                              
+                              <td>{% if i.zoneunitcode %}{{i.zoneunitcode}} {% else %}{{0}} {%endif%}</td> 
+                              <td>{% if i.zonecountpend %}{{i.zonecountpend}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.divcountpend %}{{i.divcountpend}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.zonecountall %}{{i.zonecountall}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</td>
+                              <td>{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                   </table>
+               </div>
+             </div>
+            </div>
+            </div>
+            
+        </div>
+
+    </div>
+</body>
+
+
+<script>
+
+
+
+
+// const ctx1 = document.getElementById('myChartdir').getContext('2d');
+
+// let dir_count={{dir_count|safe}}  
+// let dir_ford_rlys={{dir_ford_rlys|safe}}
+// let dir_submitted={{dir_submitted|safe}}  
+// let dir_names={{dir_names | safe}}   // X axis
+// const myChartdir = new Chart(ctx1, {
+//   // plugins:[mchart],
+//     type: 'bar',
+//     data: {
+//         labels: dir_names,
+//         datasets: [
+//           {
+//             label:'with directorate',
+//             data:dir_count,
+//             backgroundColor:['yellow'],
+//             // backgroundColor:color => {
+//             //             var r = Math.floor(Math.random() * 255);
+//             //             var g = Math.floor(Math.random() * 255);
+//             //             var b = Math.floor(Math.random() * 255);
+//             //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+//             //         },
+//         },
+//         {
+//             label:'forwarded with rly',
+//             data:dir_ford_rlys,
+//             backgroundColor:['blue'],
+          
+//         },
+//         {
+//             label:'submitted',
+//             data:dir_submitted,
+//             backgroundColor:['red'],
+           
+//         },
+//       ]
+//     },
+
+//     options: {
+
+
+//       layout:{
+//         padding:{
+//           right:20.5,
+//         }
+//       },
+
+//       plugins:{
+//             legend:{
+//               display:true,
+//             },
+//             tooltip: {
+//               display: false,
+//             }
+//         },
+//         scales: {
+
+//             x:{
+//               stacked:true,
+//               display: true,
+//                 max:5,
+//                 min:0,
+
+//             },
+
+//             y: {
+//               stacked:true,
+//               display:true,
+//                 min:0,
+//                 // max:10000,
+//                 beginAtZero: true,
+//                 ticks:{
+//                 stepSize:5,
+//             }
+//         }
+//     },
+//   },
+
+// });
+
+    function zone_pu_divwise(){
+        // alert('zone_pu_divwise called' )
+        $('#on_firstcard').hide();
+        $('#on_secondcard').show();
+        
+    //  var dropdownvalue=$('#dropd').val();
+
+    }
+    function RBwise(){
+        // alert('rbwise called')
+        $('#on_firstcard').show();
+        $('#on_secondcard').hide();
+      
+    }
+
+    function directorate(){
+        // alert('directorate clicked')
+        $('#table_idbm').hide();  // board member vala table
+        $('#table_iddir').show();
+    }
+
+    function boardmember(){
+        // alert('board member clicked')
+        $('#table_iddir').hide(); // hide directorate vala table
+        $('#table_idbm').show();
+        
+    }
+   
+     $(document).ready(function(){
+        $('#on_secondcard').hide();
+        $('#table_idbm').hide();
+        // $('#mychartdir').hide()
+ });
+ $('#show_details2').DataTable({
+    dom: 'Bfrtip',
+    "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+                "bSort": false,
+                pageLength:10,
+                // lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+                "lengthChange":false,
+                "searching":false,
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                "previous": "Prev",},}
+       
+        // "lengthChange":false,
+        // searching:true,
+        // // scrollX:true,
+        // // scrollY:true,
+        // paging:true,
+        // pageLength:4,
+        // scrollCollapse:true,
+        // // pagingType:"simple",
+       
+     } )
+ $('#show_details11').DataTable({
+    dom: 'Bfrtip',
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+                "bSort": false,
+                pageLength:10,
+                // lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+                "lengthChange":false,
+                "searching":false,
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                "previous": "Prev",},}
+       
+       
+     })
+ $('#show_details1').DataTable({
+    dom: 'Bfrtip',
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+                "bSort": false,
+                pageLength:10,
+                // lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+                "lengthChange":false,
+                "searching":false,
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                "previous": "Prev",},}
+       
+     })
+</script>
+</html>

@@ -1,0 +1,161 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+</head>
+
+<body>
+    <div style="text-align :center; border: none; font-size:18px; font-weight: 600; text-decoration: underline;">
+        <h2>{{l1.0.inspection_title}}</h2>
+    </div>
+
+    <table style="border:0.5px solid  black; margin-top: 20px;">
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <!-- <td colspan="4" style="font-size: 12px;">From Station : {{fromstation.0.station_name}}</td>
+            <td colspan="4" style="font-size: 12px;">To Station : {{tostation.0.station_name}}</td> -->
+            <td colspan="6" style="font-size: 12px;"><strong>Inspection-Type</strong> : {{l1.0.instypeid_id__name}}</td>
+            <td colspan="6" style="font-size: 12px;"><strong>Date of Inspection</strong> :
+                {{l1.0.inspected_on|date:'d/m/Y'}}</td>
+        </tr>
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="6" style="font-size: 12px;"><strong>Designation</strong> : {{l1.0.designation_id__designation}}
+            </td>
+            <td colspan="6" style="font-size: 12px;"><strong>Inspected By</strong> : {{name.0.empname}}</td>
+        </tr>
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="6" style="font-size: 12px;"><strong>{{f1}}</strong>{{first}}</td>
+            <td colspan="6" style="font-size: 12px;"><strong>{{f2}}</strong>{{second}}</td>
+        </tr>
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="6" style="font-size: 12px;"><strong>Start Date & Time</strong> :
+                {{l1.0.start_date|date:'d/m/Y'}} {{start_time }}</td>
+            <td colspan="6" style="font-size: 12px;"><strong>End Date & Time</strong> : 
+                {{l1.0.end_date|date:'d/m/Y' | default:'' }} {{end_time}}</td>
+        </tr>
+    </table>
+    <br>
+
+    {% for i in actorData %}
+    <div style="margin-top: 30px; text-transform:uppercase; font-size: 14px;" class="text-justify text-uppercase">
+        <u>Details of {{i.actor}} </u>
+    </div>
+    <table style="border:0.5px solid  black;">
+        <thead>
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                {% for j in i.head %}
+                <th>{{j}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for j in i.data %}
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                {% for k in j%}
+                <td>{{k}}</td>
+                {% endfor %}
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+
+    {% for i in question %}
+    <div style="margin-top: 30px; text-transform:uppercase; font-size: 14px;" class="text-justify text-uppercase">
+        <u>{{i.category}}</u>
+    </div>
+    <table style="border:0.5px solid  black;">
+        <thead>
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                <th style="width:10%">SNo.</th>
+                <th style="width:35%">Observation</th>
+                <th style="width:40%">Response</th>
+                <th style="width:10%">Action by</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for k in i.answer %}
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                <td style="width:10%">{{forloop.counter}}</td>
+                <td style="width:35%">{{k.activity}}</td>
+                <td style="width:40%">
+                    {% if k.choicetype == 8 %}
+                        {% for i1 in k.rRem %}
+                            {% if i1 == 1 %}
+                                <label style="font-size: 25px;" >★</label>
+                            {% else %}
+                            <label style="font-size: 25px;" >✩</label>
+                            {% endif %}
+                        {% endfor %}
+                    {% elif k.choicetype == 6 %}
+                    
+                    <img src="{{urlData}}{{k.value}}" alt="{{k.activity}}" width="250" height="200">
+                    
+                    {% else %}
+
+                    <strong>Reply </strong>- {{k.value}}
+                    {% endif %}
+                    <br><br>
+                    {% if k.remarks != '' %}
+                        <strong>Remarks </strong>- {{k.remarks}}
+                    {% endif %}
+                </td>
+                <td style="width:15%">{{k.mark}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {%endfor%}
+<!-- 
+    <div style="margin-top: 30px; text-transform:uppercase; font-size: 14px;" class="text-justify text-uppercase">
+        <u>Inspection Conclusion</u>
+    </div>
+    <table style="border:0.5px solid  black;">
+        <thead>
+            <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+                <th colspan="1">SNo.</th>
+                <th colspan="3">Parameter</th>
+                <th colspan="8">Value</th>
+            </tr>
+        </thead>
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="1">1</td>
+            <td colspan="3" style="font-size: 12px;">Any other Abnormality</td>
+            <td colspan="8">{{abn}}</td>
+        </tr>
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="1">2</td>
+            <td colspan="3" style="font-size: 12px;">Remarks</td>
+            <td colspan="8">{{remark}}</td>
+        </tr>
+        <tr style="text-align:left; padding: 2px; margin: 2px;font-size: 12px;">
+            <td colspan="1">3</td>
+            <td colspan="3" style="font-size: 12px;">Ratings</td>
+            <td colspan="8">{{rating | default:''}}</td>
+        </tr>
+    </table> -->
+
+<br><br>
+
+<div style="margin-top: 30px; text-transform:uppercase; font-size: 14px;" class="text-justify text-uppercase">
+    Any other Abnormality :- {% if remark == '' %} {{abn}} {% else %} {{remark}} {% endif %}
+</div>
+                    
+<h3 align="right" style="font-size: 16px">({{name.0.empname}})<br>{{l1.0.designation_id__designation}}
+   </h3>
+<h3 align="right" style="font-size: 16px;">Dated:{{l1.0.inspected_on|date:'d/m/Y'}}</h3>
+
+
+</body>
+
+</html>
+{% endblock content %}

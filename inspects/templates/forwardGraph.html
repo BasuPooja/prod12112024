@@ -1,0 +1,264 @@
+{% load static %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+  <!-- <script src="{% static '/js/jquery-3.4.1.min.js' %}" ></script>
+    <script src="{% static '/js/popper.min.js' %}" ></script>
+    <script src="{% static '/js/Chart.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}" ></script>
+    <script src="{% static '/js/bootstrap.min.js' %}" ></script> -->
+  <style>
+
+* {margin: 0; padding: 0;}
+.tree{
+    overflow: auto;
+}
+.tree ul {
+    padding-top: 20px; 
+    position: relative;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+.tree li {
+	float: left; 
+    text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 20px 5px 0 5px;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.tree li::before, .tree li::after{
+	content: '';
+	position: absolute; 
+    top: 0; 
+    right: 50%;
+	border-top: 3px solid #754444;
+	width: 50%; height: 20px;
+}
+.tree li::after{
+	right: auto; 
+    left: 50%;
+	border-left: 1px solid #754444;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
+}
+
+/*Remove space from the top of single children*/
+.tree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.tree li:last-child::before{
+	border-right: 1px solid #754444;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+.tree ul ul::before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #754444;
+	width: 0; height: 20px;
+}
+
+.tree li a{
+	border: 2px solid #ccc;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #000000;
+	font-family: arial, verdana, tahoma;
+	font-size: 13px;
+	display: inline-block;
+	background-color: #ddd3fa;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+/* .tree li a:hover, .tree li a:hover+ul li a {
+	background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+} */
+/*Connector styles on hover*/
+/* .tree li a:hover+ul li::after, 
+.tree li a:hover+ul li::before, 
+.tree li a:hover+ul::before, 
+.tree li a:hover+ul ul::before{
+	border-color:  #94a0b4;
+} */
+  </style>
+</head>
+<body>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+<!-- <div class="container">
+    <div class="row">
+        <div class="col" style="background-color:#4000ff;">
+            <div class="row">
+                <div class="col">
+                    <input disabled style="background-color:#ddd3fa; width: 30px;"><label class="lbl-caption">Inspecting officer</label>
+                </div>
+                <div class="col">
+                    <input disabled style="background-color:#FFB5D0; width: 30px;"><label class="lbl-caption">Marked officer by Inspecting officer</label>
+                </div>
+                <div class="col">
+                    <input disabled style="background-color:#FCED84; width: 30px;"><label class="lbl-caption">Forwarded to Officers, Not yet replied</label>
+                </div>
+                <div class="col">
+                    <input disabled style="background-color:#FE8080; width: 30px;"><label class="lbl-caption">Not Forwarded and Not yet replied</label>
+                </div>
+                <div class="col">
+                    <input disabled style="background-color:#84FCF8; width: 30px;"><label class="lbl-caption">Forwarded to Officers and replied</label>
+                </div>
+                <div class="col">
+                    <input disabled style="background-color:#80FE9F; width: 30px;"><label class="lbl-caption">Not Forwarded to Officers and replied</label>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="tree" style="width: 100%;">
+                    <ul>
+                        <li>
+                            <a href="#">{{insp_officer}}</a>
+                            <ul>
+                                <li>
+                                    <a href="#" style="background-color:#FFB5D0">{{node_ofc}}</a>
+                                        <ul id="graph_dyn"></ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container">
+    <h3 class="report_heading">Forward Graph </h3>
+
+    <div class="row">
+        <table style="width: 100%;">
+            <tr>
+                <td colspan="3">
+                    <div class="row" style="overflow-y: auto; height: 40vh; align-content: center;">
+                        <div class="tree" style="text-align: center;">
+                            <ul>
+                                <li>
+                                    <a href="#">{{insp_officer}}</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#" style="background-color:#FFB5D0">{{node_ofc}}</a>
+                                                <ul id="graph_dyn"></ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 30px;"></tr>
+            <tr style="background-color:#e3f4f6;">
+                <td><input disabled style="background-color:#ddd3fa; width: 30px; margin-right: 3px;"><label class="lbl-caption">Inspecting officer</label></td>
+                <td><input disabled style="background-color:#FFB5D0; width: 30px; margin-right: 3px;"><label class="lbl-caption">Marked officer by Inspecting officer</label></td>        
+                <td><input disabled style="background-color:#FCED84; width: 30px; margin-right: 3px;"><label class="lbl-caption">Forwarded to Officers, Not yet replied</label></td>    
+            </tr>
+            <tr style="background-color:#e3f4f6;">
+                <td><input disabled style="background-color:#FE8080; width: 30px; margin-right: 3px;"><label class="lbl-caption">Not Forwarded and Not yet replied</label></td>
+                <td><input disabled style="background-color:#84FCF8; width: 30px; margin-right: 3px;"><label class="lbl-caption">Forwarded to Officers and replied</label></td>       
+                <td><input disabled style="background-color:#80FE9F; width: 30px; margin-right: 3px;"><label class="lbl-caption">Not Forwarded to Officers and replied</label></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+
+<script>
+    let for_graph_ol = {{ for_graph_all | safe}};
+    let forward_graphs = {{ forward_graph | safe}};
+    let forward_id_all = {{ forward_ids | safe}};
+    let row=''
+    const done_list=[]
+
+    function createGraph(forward_ids){
+        // alert(forward_ids)
+        for (let i =0; i<forward_ids.length;i++){
+            if (done_list.includes(forward_ids[i])){
+                continue
+            }
+            else{
+                if (forward_graphs[forward_ids[i]]['status_flag']!=3){
+                    if (for_graph_ol[forward_ids[i]].length){
+                        row+=`<li >
+                        <a href="#" style="background-color:#FCED84" title="Pending since ${forward_graphs[forward_ids[i]]['pending_since']} days">${forward_graphs[forward_ids[i]]['forwarded_to']}</a>`
+                        row+=`<ul>`
+                            createGraph(for_graph_ol[forward_ids[i]])
+                        row+=`</ul>`
+                    }
+                    else{
+                        row+=`<li>
+                            <a href="#"  style="background-color:#FE8080" title="Pending since ${forward_graphs[forward_ids[i]]['pending_since']} days">${forward_graphs[forward_ids[i]]['forwarded_to']}</a>` 
+                    }
+                }
+                    
+                else{
+                    if (for_graph_ol[forward_ids[i]].length){
+                        row+=`<li >
+                        <a href="#" style="background-color:#84FCF8" >${forward_graphs[forward_ids[i]]['forwarded_to']}</a>`
+                        row+=`<ul>`
+                            createGraph(for_graph_ol[forward_ids[i]])
+                        row+=`</ul>`
+                    }
+                    else{
+                        row+=`<li>
+                            <a href="#"  style="background-color:#80FE9F">${forward_graphs[forward_ids[i]]['forwarded_to']}</a>` 
+                    }
+                }
+                
+                row+=`</li>`
+                done_list.push(forward_ids[i])
+            }
+            
+                // alert(for_graph_ol[forward_ids[i]])
+        }
+        // console.log(row)
+        return(row)
+    }
+    $(document).ready(function(){
+        spans=createGraph(forward_id_all)
+        document.getElementById("graph_dyn").innerHTML = spans;
+    })
+</script>

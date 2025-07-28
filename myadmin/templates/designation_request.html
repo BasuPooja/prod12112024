@@ -1,0 +1,1859 @@
+{% extends 'adminDash.html' %} {% block content %}
+{% load static %}
+
+<head>
+    <title>Designation Change Request</title>
+    <script src="{% static '/js/autosize.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+    <style>
+        .my-heading {
+            font-family: Sans-serif;
+            margin-top: 1rem;
+            font-weight: 500;
+            font-size: 2.5rem;
+            text-align: center;
+            Color: black;
+            font-weight: bold;
+        }
+
+
+        .zonetable-show-hide {
+            display: none;
+        }
+
+
+
+        .request_to_me-show-hide {
+            display: none;
+        }
+
+        hr {
+            width: 5%;
+            border-top: 3px dotted rgb(132, 127, 127);
+
+        }
+
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+            border-radius: 4px !important;
+
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+
+        }
+
+        .fa-check:hover {
+            color: red !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+   
+        $(document).ready(function() {
+        $('#zonetable').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                 'excel', 'pdf', 'print'
+            ]
+        } );    
+        } );
+        </script>
+
+
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static '/css/datatables/jquery.dataTables.min.css' %}" />
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"/>
+    
+  </head>
+
+<body>
+    <div class="container-fluid">
+        <input type="hidden" class="form-control" id="globalDesignation">
+        <input type="hidden" class="form-control" id="globalRecordId">
+        <div class="my-heading">
+            <h3>Designation Change Request</h3>
+        </div>
+
+        <div id="div_list">
+            {% if rolelist != 'admin_super' %}
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#all_designation">All Designation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#new_joining">Add Designation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#request_by_me">Request By Me</a>
+                </li>
+            </ul>
+            {% else %}
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#pending">Pending</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#action">Action Taken</a>
+                </li>
+
+            </ul>
+            {% endif %}
+            <div class="container-fluid">
+                <div class="tab-content">
+                    {% if rolelist != 'admin_super' %}
+                    <div id="all_designation" class="container-fluid  tab-pane active"><br>
+                        <div id="div-all-desig">
+                            <table class="table table-striped table-bordered table-sm" id="zonetable">
+                                <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Employee Name</th>
+                                        <th>Railway Type </th>
+                                        <th>Railway Unit </th>
+                                        <th>Department </th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for i in details_data %}
+                                    <tr>
+                                        <td>{{i.designation}}</td>
+                                        <td>{{i.empno_id | default:'' }}</td>
+                                        <td>{{i.empno_id__empname | default:'' }} {{i.empno_id__empmname | default:'' }}
+                                            {{i.empno_id__emplname | default:'' }}</td>
+
+                                        <td>{{i.rly_unit_id__location_type}}</td>
+                                        <td>{{i.rly_unit_id__location_code}}</td>
+                                        <td>{{i.department_code_id__department_name}}</td>
+                                        <td>{{i.contactnumber | default:'' }}</td>
+                                        <td>{{i.official_email_ID | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="{{i.empno_id}}" name="{{i.designation}}"
+                                                onclick="expand_all_designation(this.name);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="div-all-desig-details" class="zonetable-show-hide">
+                            <table class="table table-striped table-bordered table-sm" id="emp-details">
+                                <thead>
+                                    <tr>
+                                        <th colspan="10" style="text-align: center;color: rgb(85, 134, 241);">
+                                            Designation Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Post</th>
+                                        <th>Department</th>
+                                        <th>Reporting Officer</th>
+                                        <th>Railway Unit </th>
+                                        <th>Railway Type </th>
+                                        <th>Station</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_department">Department</Label>
+                                        <select id="pre_department" required class="form-control">
+                                            {% for i in all_department %}
+                                            <option value="{{i.department_code}}">{{i.department_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_place">Railway/ Division</Label>
+                                        <select id="pre_place" required class="form-control"
+                                            onchange="getstationName(this.value)">
+                                            {% for i in all_railway %}
+                                            <option value="{{i.rly_unit_code}}">{{i.location_code}}/
+                                                {{i.location_description}}/ {{i.location_type}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_station">Station</Label>
+                                        <select class="form-control" id="pre_station" style="width:100%;"
+                                            placeholder="Select Station">
+                                            <option value="" selected disabled hidden>Select Station</option>
+                                            {%for j in all_station%}
+                                            <option value="{{j.station_name}}">{{j.station_name}} </option>
+                                            {%endfor%}
+                                        </select>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_reporting_officer">Reporting Officer</Label>
+                                        <select class="form-control" id="pre_reporting_officer" style="width:100%;"
+                                            placeholder="Select Reporting Officer">
+                                            <option value="" selected disabled hidden>Select Reporting Officer</option>
+                                            {%for j in rly_emp_designation%}
+                                            <option value="{{j}}">{{j}} </option>
+                                            {%endfor%}
+                                        </select>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_maxlevel">Pay level(Max)</Label>
+                                        <select class="form-control" id="pre_maxlevel" style="width:100%;"
+                                            onchange="chkLevel(this.id)">
+                                            <option value="" selected disabled hidden>Select Max Level</option>
+                                            {%for j in level%}
+                                            <option value="{{j}}">{{j}} </option>
+                                            {%endfor%}
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_minlevel">Pay level(Min)</Label>
+                                        <select class="form-control" id="pre_minlevel" style="width:100%;"
+                                            onchange="chkLevel(this.id)">
+                                            <option value="" selected disabled hidden>Select Min Level</option>
+                                            {%for j in level%}
+                                            <option value="{{j}}">{{j}} </option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_contact">Mobile Number</Label>
+                                        <input class="form-control" type="text" id="pre_contact" autocomplete="off"
+                                            onkeypress="return isNumber(event)" placeholder="Enter Contact number"
+                                            maxlength="10">
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="pre_email">e-Mail Address</Label>
+                                        <input class="form-control" type="text" id="pre_email" autocomplete="off"
+                                            placeholder="Enter e-mail address" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <Label for="pre_remarks">Remarks</Label>
+                                        <input class="form-control" maxlength="100" type="text" id="pre_remarks"
+                                            autocomplete="off" placeholder="Give Remarks">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <button name="button" onclick="saveEditData()" class="btn btn-outline-success"
+                                            style="margin-left: 30%;">Forward Request</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="new_joining" class="container-fluid  tab-pane"><br>
+                        <div class="row">
+                            <div class="col-1"></div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_post">Post</Label>
+                                    <select id="new_post" required class="form-control"
+                                        onchange="getPostDetails(this.value);createDesignation();similarDesignation();" style="width:100%;">
+                                        <option value="" selected disabled hidden>Select Post</option>
+                                        {% for i in post %}
+                                        <option value="{{i.post_code}}">{{i.post_code}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_department">Department</Label>
+                                    <input type="text" class="form-control" readonly id="new_department">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_category">Category</Label>
+                                    <input type="text" class="form-control" readonly id="new_category">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_minlevel">Pay level(Min)</Label>
+                                    <input type="text" class="form-control" readonly id="new_minlevel">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_maxlevel">Pay level(Max)</Label>
+                                    <input type="text" class="form-control" readonly id="new_maxlevel">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_workArea">Work Area1(if required)</Label>
+                                    <input type="text" class="form-control" value="" maxlength="20" id="new_workArea1"
+                                        onkeyup="createDesignation()">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_place">Railway/ Division</Label>
+                                    <select id="new_place" required class="form-control"
+                                        onchange="getstationNameNew(this.value);createDesignation()">
+                                        <option value="" selected disabled hidden>Select Railway/ Division</option>
+                                        {% for i in all_railway %}
+                                        <option value="{{i.rly_unit_code}}">{{i.location_code}}/
+                                            {{i.location_description}}/ {{i.location_type}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_station">Station</Label>
+                                    <select class="form-control" id="new_station" style="width:100%;"
+                                        placeholder="Select Station">
+                                        <option value="" selected disabled hidden>Select Station /Enter Station</option>
+                                        {%for j in all_station%}
+                                        <option value="{{j.station_name}}">{{j.station_name}} </option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_reporting_officer">Reporting Officer</Label>
+                                    <select class="form-control" id="new_reporting_officer" style="width:100%;"
+                                        placeholder="Select Reporting Officer">
+                                        <option value="" selected disabled hidden>Select Reporting Officer</option>
+                                        {%for j in rly_emp_designation%}
+                                        <option value="{{j}}">{{j}} </option>
+                                        {%endfor%}
+                                    </select>
+
+
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_workArea">Work Area2(if required)</Label>
+                                    <input type="text" class="form-control" value="" maxlength="20" id="new_workArea"
+                                        onkeyup="createDesignationWork()">
+                                </div>
+                            </div>
+                           
+                        </div>
+
+                        <div class="row">
+                            <div class="col-1"></div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_designation">Designation</Label>
+
+                                    <input type="text" class="form-control" value="" readonly id="new_designation">
+                                    <span id="checkAvailable"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_contact">Mobile Number</Label>
+                                    <input class="form-control" type="text" id="new_contact" autocomplete="off"
+                                        onkeypress="return isNumber(event)" placeholder="Enter Contact number"
+                                        maxlength="10">
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <Label for="new_email">e-Mail Address</Label>
+                                    <input class="form-control" type="text" id="new_email" autocomplete="off"
+                                        placeholder="Enter e-mail address" maxlength="50" onkeyup="emailToLowerCase();">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <Label for="new_remarks">Remarks</Label>
+                                    <input class="form-control" maxlength="100" type="text" id="new_remarks"
+                                        autocomplete="off" placeholder="Give Remarks">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <center>
+                                    <button name="button" onclick="resetNew()" class="btn btn-outline-success"
+                                        hidden>Reset</button>
+                                    <button name="button" id="savenewid" onclick="saveNew()"
+                                        class="btn btn-outline-success">Save and Forward</button>
+
+                                </center>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <Label for="new_similar_designation">Similar Designation</Label>
+                                    <textarea rows="4" class="form-control"  id="new_similar_designation" readonly
+                                    autocomplete="off" placeholder="Similar Designations"></textarea>
+                                  
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+
+                    <div id="request_by_me" class="container-fluid  tab-pane"><br>
+                        <div id="request_by_me-desig">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_table">
+                                <thead>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Request Type</th>
+                                        <th>Status</th>
+                                        <th>Request Remarks</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in request_data %}
+                                    <tr>
+                                        <td>{{i.record_id}}</td>
+                                        <td>{{i.request_date | date:'d-m-Y' }}</td>
+                                        <td>{{i.desigination}}</td>
+                                        <td>{{i.request_type | default:'' }}</td>
+                                        <td>{{i.status | default:'' }}</td>
+                                        <td>{{i.request_remarks | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="request{{i.record_id}}" name="{{i.record_id}}"
+                                                onclick="expandRequested(this.name);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="request_by_me-desig-details" class="zonetable-show-hide">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_details">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Request
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Request By</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Request Type</th>
+                                        <th>Status</th>
+                                        <th>Request Remarks</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_prev">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Previous
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Railway/Division</th>
+                                        <th>Station</th>
+                                        <th>Reporting officer</th>
+                                        <th>Pay level(Min)</th>
+                                        <th>Pay level(Max)</th>
+                                        <th>Contact No.</th>
+                                        <th>e-Mail Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_curr">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Current
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Railway/Division</th>
+                                        <th>Station</th>
+                                        <th>Reporting officer</th>
+                                        <th>Pay level(Min)</th>
+                                        <th>Pay level(Max)</th>
+                                        <th>Contact No.</th>
+                                        <th>e-Mail Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_accrej">
+                            </table>
+                            <div class="row" id="divRemarksByMe">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" maxlength="100" id="pullBackRemark"
+                                        placeholder="Enter Pull Back Remarks">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <center>
+                                        <button name="button" onclick="requestedBack()"
+                                            class="btn btn-outline-success">Back</button>
+                                        <button name="button" id="pullbackid" onclick="pullBack()"
+                                            class="btn btn-outline-success">Pull Back</button>
+
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div id="pending" class="container-fluid  tab-pane active"><br>
+                        <div id="request_by_me-desig">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_table">
+                                <thead>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Request Type</th>
+                                        <th>Status</th>
+                                        <th>Request Remarks</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in pending %}
+                                    <tr>
+                                        <td>{{i.record_id}}</td>
+                                        <td>{{i.request_date | date:'d-m-Y' }}</td>
+                                        <td>{{i.desigination}}</td>
+                                        <td>{{i.request_type | default:'' }}</td>
+                                        <td>{{i.status | default:'' }}</td>
+                                        <td>{{i.request_remarks | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="request{{i.record_id}}" name="{{i.record_id}}"
+                                                onclick="expandRequested(this.name);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="request_by_me-desig-details" class="zonetable-show-hide">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_details">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Request
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Request By</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Request Type</th>
+                                        <th>Status</th>
+                                        <th>Request Remarks</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_prev">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Previous
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Railway/Division</th>
+                                        <th>Station</th>
+                                        <th>Reporting officer</th>
+                                        <th>Pay level(Min)</th>
+                                        <th>Pay level(Max)</th>
+                                        <th>Contact No.</th>
+                                        <th>e-Mail Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_curr">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Current
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Railway/Division</th>
+                                        <th>Station</th>
+                                        <th>Reporting officer</th>
+                                        <th>Pay level(Min)</th>
+                                        <th>Pay level(Max)</th>
+                                        <th>Contact No.</th>
+                                        <th>e-Mail Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_accrej">
+                            </table>
+                            <div class="row" id="divRemarksByMe">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" maxlength="100" id="accrejRemark" placeholder="Enter Remarks">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <center>
+                                        <button name="button" onclick="requestedBack()"
+                                            class="btn btn-outline-success">Back</button>
+                                        <button name="button" onclick="acceptRequest()"
+                                            class="btn btn-outline-success">Accept</button>
+                                        <button name="button" onclick="rejectRequest()"
+                                            class="btn btn-outline-success">Reject</button>
+
+
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="action" class="container-fluid  tab-pane"><br>
+                        <div id="request_by_me-desig1">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_table1">
+                                <thead>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Request Type</th>
+                                        <th>Status</th>
+                                        <th>Request Remarks</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in action_taken %}
+                                    <tr>
+                                        <td>{{i.record_id}}</td>
+                                        <td>{{i.request_date | date:'d-m-Y' }}</td>
+                                        <td>{{i.desigination}}</td>
+                                        <td>{{i.request_type | default:'' }}</td>
+                                        <td>{{i.status | default:'' }}</td>
+                                        <td>{{i.request_remarks | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="request{{i.record_id}}1" name="{{i.record_id}}"
+                                                onclick="expandRequested1(this.name);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="request_by_me-desig-details1" class="zonetable-show-hide">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_details1">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Request
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Request By</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Request Type</th>
+                                        <th>Status</th>
+                                        <th>Request Remarks</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_prev1">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Previous
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Railway/Division</th>
+                                        <th>Station</th>
+                                        <th>Reporting officer</th>
+                                        <th>Pay level(Min)</th>
+                                        <th>Pay level(Max)</th>
+                                        <th>Contact No.</th>
+                                        <th>e-Mail Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_curr1">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8" style="text-align: center;color: rgb(85, 134, 241);">Current
+                                            Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Department</th>
+                                        <th>Railway/Division</th>
+                                        <th>Station</th>
+                                        <th>Reporting officer</th>
+                                        <th>Pay level(Min)</th>
+                                        <th>Pay level(Max)</th>
+                                        <th>Contact No.</th>
+                                        <th>e-Mail Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;"
+                                id="request_by_me_request_accrej1">
+                            </table>
+
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <center>
+                                        <button name="button" onclick="requestedBack1()"
+                                            class="btn btn-outline-success">Back</button>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            let rolelist = "{{rolelist|safe}}";
+            if (rolelist != 'admin_super') {
+                $('#first_new_joining').hide();
+                $('#second_new_joining').hide();
+                $('#div_new_joining').hide();
+                $('#zonetable').DataTable();
+                $('#request_by_me_table').DataTable({ 'ordering': false });
+                $('#pre_reporting_officer').select2();
+                $('#pre_station').select2({ tags: true });
+            }
+            else {
+                $('#request_by_me_table').DataTable({ 'ordering': false });
+            }
+
+            $('#new_reporting_officer').select2();
+            $('#new_post').select2();
+            $('#new_station').select2({ tags: true });
+        });
+        function acceptRequest() {
+            let pullBackRemark = $('#accrejRemark').val();
+            if (pullBackRemark == '') {
+                alert('Give Remark');
+                $('#accrejRemark').focus();
+                return false;
+            }
+            if (confirm('Are You sure to Accept, once done cannot be reverted')) {
+
+                let record_id = $('#globalRecordId').val();
+                let data = {
+                    post_type: 'accept',
+                    record_id: record_id,
+                    pullBackRemark: pullBackRemark,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        alert(response);
+                        if(response != 'Maximum limit Reached for adding supervisor.')
+                            window.location.reload();
+                    },
+                    error: function (err) {
+                        alert('Some error occured');
+                    }
+                });
+            }
+        }
+        function rejectRequest() {
+            let pullBackRemark = $('#accrejRemark').val();
+            if (pullBackRemark == '') {
+                alert('Give Remark');
+                $('#accrejRemark').focus();
+                return false;
+            }
+            if (confirm('Are You sure to Reject, once done cannot be reverted')) {
+
+                let record_id = $('#globalRecordId').val();
+                let data = {
+                    post_type: 'reject',
+                    record_id: record_id,
+                    pullBackRemark: pullBackRemark,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        alert(response);
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        alert('Some error occured');
+                    }
+                });
+            }
+        }
+
+        function chkLevel(id) {
+            let val = $('#' + id).val();
+            let min = $('#pre_minlevel').val();
+            let max = $('#pre_maxlevel').val();
+
+            if (min != '' && max != '') {
+                min = parseInt(min);
+                max = parseInt(max);
+                if (min > max) {
+                    alert('Min Level Cannot Be Greater Then Max Level');
+                    $('#pre_minlevel').val('');
+                    $('#pre_maxlevel').val('');
+                    $('#' + id).val(val);
+                }
+            }
+
+        }
+        function expand_all_designation(designation) {
+            $('#globalDesignation').val(designation);
+            let data = {
+                post_type: 'emp_details',
+                designation: designation,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'designation_request' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    var row = '';
+                    let emp_details = response.emp_details;
+                    if (emp_details.length) {
+
+
+                        row += `<tr><td>${emp_details[0].designation}</td>`;
+                        row += `<td>${emp_details[0].d_level}</td>`;
+                        row += `<td>${emp_details[0].department_code__department_name}</td>`;
+                        row += `<td>${response.reporting_officer}</td>`;
+                        row += `<td>${emp_details[0].rly_unit_id__location_code}</td>
+                                <td>${emp_details[0].rly_unit_id__location_type}</td>`;
+                        row += `<td>${emp_details[0].station_name}</td>`;
+                        if (emp_details[0].contactnumber == null) {
+                            row += `<td></td> `;
+                        }
+                        else {
+                            row += `<td>${emp_details[0].contactnumber}</td> `;
+                        }
+                        if (emp_details[0].official_email_ID == null) {
+                            row += `<td></td> `;
+                        }
+                        else {
+                            row += `<td>${emp_details[0].official_email_ID}</td>`;
+                        }
+                        row += `<td>
+                                    <button type="button" onclick="shrink_all_designation();"
+                                        style="border-style: none; margin-left: 30%;">
+                                        <i class="fas fa-angle-double-up"
+                                            style="font-size:24px;color:rgb(105, 174, 238)"
+                                            title="Click To Expand/Shrink Details"></i>
+                                    </button>
+                                        </td>
+                                    </tr>`;
+                        $('#emp-details tbody').empty();
+                        $('#emp-details tbody').append(row);
+
+                        document.getElementById('div-all-desig').classList.toggle('zonetable-show-hide');
+                        document.querySelector('#div-all-desig-details').classList.toggle('zonetable-show-hide');
+                        funcGetDesignationDetails(designation)
+                    }
+
+                    else {
+                        alert('selected designation data not exist, please contact superadmin')
+                    }
+
+                },
+                error: function (data) {
+                    alert('Some error occured')
+                }
+            })
+
+        }
+        function shrink_all_designation() {
+            document.getElementById('div-all-desig').classList.toggle('zonetable-show-hide');
+            document.querySelector('#div-all-desig-details').classList.toggle('zonetable-show-hide');
+        }
+        function funcGetDesignationDetails(designation) {
+            let data = {
+                post_type: 'desig_search',
+                designation: designation,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "{% url 'designation_request' %}",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    let lev_desig_details = response.lev_desig_details;
+                    let rep_officer = response.rep_officer;
+                    let row = '<option value="" selected disabled hidden>Select Reporting Officer</option>';
+                    $('#pre_reporting_officer').empty();
+                    for (let i = 0; i < rep_officer.length; i++) {
+                        row += `<option value="${rep_officer[i]}">${rep_officer[i]}</option>`;
+                    }
+                    $('#pre_reporting_officer').append(row);
+                    let all_station = response.all_station;
+                    row = '<option value="" selected disabled hidden>Select Station</option>';
+                    $('#pre_station').empty();
+                    for (let i = 0; i < all_station.length; i++) {
+                        row += `<option value="${all_station[i].station_name}">${all_station[i].station_name}</option>`;
+                    }
+                    $('#pre_station').append(row);
+                    if (lev_desig_details.length > 0) {
+                        $('#pre_department').val(lev_desig_details[0].department_code);
+                        $('#pre_place').val(lev_desig_details[0].rly_unit_id);
+                        $('#pre_reporting_officer').val(lev_desig_details[0].reporting_officer);
+
+                        $("#pre_reporting_officer").trigger('change');
+                        $('#pre_contact').val(lev_desig_details[0].contactnumber);
+                        $('#pre_email').val(lev_desig_details[0].official_email_ID);
+                        $('#pre_station').val(lev_desig_details[0].station_name);
+                        $('#pre_minlevel').val(lev_desig_details[0].pc7_levelmin);
+                        $('#pre_maxlevel').val(lev_desig_details[0].pc7_levelmax);
+                        $("#pre_station").trigger('change');
+
+                    }
+                    else {
+                        alert('Designation not exist');
+                    }
+                },
+                error: function (err) {
+                    alert('Some Error Occured')
+                }
+            })
+
+        }
+        function getstationName(val) {
+            let data = {
+                post_type: 'station',
+                val: val,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'designation_request' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+
+                    if (response.length > 0) {
+                        let row = '<option value="" selected disabled hidden>Select station</option>';
+                        $('#pre_station').empty();
+                        for (let i = 0; i < response.length; i++) {
+                            row += `<option value="${response[i].station_name}">${response[i].station_name}</option>`;
+                        }
+                        $('#pre_station').append(row);
+                    }
+                    else {
+                        alert('Station is not present in master')
+                    }
+                },
+                error: function (err) {
+                    alert('Some error occured');
+                }
+            });
+        }
+        function saveEditData() {
+
+            //designation,pre_email,pre_contact,pre_minlevel,pre_maxlevel,pre_station,pre_place,pre_department,pre_reporting_officer,pre_remarks
+
+            let designation = $("#globalDesignation").val();
+            let pre_email = $("#pre_email").val();
+            let pre_contact = $("#pre_contact").val();
+            let pre_minlevel = $("#pre_minlevel").val();
+            let pre_maxlevel = $("#pre_maxlevel").val();
+            let pre_station = $("#pre_station").val();
+            let pre_place = $("#pre_place").val();
+            let pre_department = $("#pre_department").val();
+            let pre_reporting_officer = $("#pre_reporting_officer").val();
+            let pre_remarks = $("#pre_remarks").val();
+
+            if (designation == '') {
+                alert('Some Error Occured, Please Reload Page');
+                return false;
+            }
+
+            if (pre_station == '' || pre_station == null) {
+                alert('Station Name Should not be blank');
+                $("#pre_station").focus();
+                return false;
+
+            }
+            if (pre_maxlevel == '') {
+                alert('Max level cannot not be blank');
+                $("#pre_maxlevel").focus();
+                return false;
+
+            }
+            if (pre_minlevel == '' || pre_minlevel == null) {
+                alert('Min level cannot not be blank');
+                $("#pre_minlevel").focus();
+                return false;
+
+            }
+            if (pre_contact == '') {
+                alert('Enter Mobile number');
+                $("#pre_contact").focus();
+                return false;
+            }
+            if (pre_contact.length < 10) {
+                alert('Mobile number should contain 10 digits');
+                $("#pre_contact").focus();
+                return false;
+            }
+            var mailformat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (!pre_email.match(mailformat)) {
+                alert("Invalid email address.");
+                $("#pre_email").focus();
+                return false;
+            }
+            if (pre_remarks == '') {
+                alert("Please Enter Remarks ");
+                $("#pre_remarks").focus();
+                return false;
+            }
+            if (designation == pre_reporting_officer) {
+                alert('designation and reporting officer cannot be same');
+                $("#pre_reporting_officer").val('');
+                $("#pre_reporting_officer").focus();
+                return false;
+            }
+            if (pre_reporting_officer == '') {
+                if (!confirm('Reporting officer is not selected, are you sure to proceed')) {
+                    $("#pre_reporting_officer").focus();
+                    return false;
+                }
+            }
+            if (confirm('Are you sure to proceed')) {
+                let data = {  //designation,pre_email,pre_contact,pre_minlevel,pre_maxlevel,pre_station,pre_place,pre_department,pre_reporting_officer
+                    post_type: 'saveDataChanged',
+                    designation: designation,
+                    pre_email: pre_email,
+                    pre_contact: pre_contact,
+                    pre_minlevel: pre_minlevel,
+                    pre_maxlevel: pre_maxlevel,
+                    pre_station: pre_station,
+                    pre_place: pre_place,
+                    pre_department: pre_department,
+                    pre_reporting_officer: pre_reporting_officer,
+                    pre_remarks: pre_remarks,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'designation_request' %}",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        if (response == 'success') {
+                            alert('Request forwarded to superadmin');
+                            window.location.reload();
+                        }
+                        else {
+                            alert(response);
+                        }
+
+
+                    }, error: function (err) {
+                        alert('Some error occured');
+                    }
+                });
+            }
+        }
+        function expandRequested(record_id) {
+            $('#globalRecordId').val(record_id);
+            let data = {
+                post_type: 'getRecord',
+                record_id: record_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "{% url 'designation_request' %}",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    if (response.length > 0) {
+                        let row = '<tr>', date;
+                        row += `<td>${response[0].record_id}</td>`;
+                        row += `<td>${response[0].request_by}</td>`;
+                        date = String(response[0].request_date).split('T');
+                        date = date[0].split('-');
+                        date = date[2] + '-' + date[1] + '-' + date[0];
+                        row += `<td>${date}</td>`;
+
+
+                        row += `<td>${response[0].desigination}</td>`;
+                        row += `<td>${response[0].request_type}</td>`;
+                        row += `<td>${response[0].status}</td>`;
+                        row += `<td>${response[0].request_remarks}</td>`;
+                        row += `<td> <button type="button" onclick="requestedBack();"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-up"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td></td>`;
+
+                        row += '</tr>';
+                        $('#request_by_me_request_details tbody').empty();
+                        $('#request_by_me_request_details tbody').append(row);
+                        $('#request_by_me_request_prev').hide();
+                        $('#request_by_me_request_accrej').hide();
+                        $('#divRemarksByMe').hide();
+                        $('#pullbackid').hide();
+                        if (response[0].prev_official_email_ID != null) {
+                            $('#request_by_me_request_prev').show();
+                            row = '<tr>';
+                            row += `<td>${response[0].prev_department_code__department_name}</td>`;
+                            row += `<td>${response[0].prev_rly_unit__location_code}/${response[0].prev_rly_unit__location_description}/${response[0].prev_rly_unit__location_type}</td>`;
+                            row += `<td>${response[0].prev_station_name}</td>`;
+                            row += `<td>${response[0].prev_parent_desig_code}</td>`;
+                            row += `<td>${response[0].prev_minlevel}</td>`;
+                            row += `<td>${response[0].prev_maxlevel}</td>`;
+                            row += `<td>${response[0].prev_contactnumber}</td>`;
+                            row += `<td>${response[0].prev_official_email_ID}</td>`;
+                            row += '</tr>';
+
+                            $('#request_by_me_request_prev tbody').empty();
+                            $('#request_by_me_request_prev tbody').append(row);
+                        }
+
+                        row = '<tr>';
+                        row += `<td>${response[0].current_department_code__department_name}</td>`;
+                        row += `<td>${response[0].current_rly_unit__location_code}/${response[0].current_rly_unit__location_description}/${response[0].current_rly_unit__location_type}</td>`;
+                        row += `<td>${response[0].current_station_name}</td>`;
+                        row += `<td>${response[0].current_parent_desig_code}</td>`;
+                        row += `<td>${response[0].current_minlevel}</td>`;
+                        row += `<td>${response[0].current_maxlevel}</td>`;
+                        row += `<td>${response[0].current_contactnumber}</td>`;
+                        row += `<td>${response[0].current_official_email_ID}</td>`;
+                        row += '</tr>';
+
+                        $('#request_by_me_request_curr tbody').empty();
+                        $('#request_by_me_request_curr tbody').append(row);
+                        if (response[0].action_remarks != null) {
+                            $('#request_by_me_request_accrej').show();
+                            row = '<thead><tr><th colspan="3" style="text-align: center;color: rgb(85, 134, 241);">Action Taken</th></tr><tr>';
+                            row += `<th>${response[0].status} By</th>`;
+                            row += `<th>${response[0].status} On</th>`;
+                            row += `<th>${response[0].status} Remark</th>`;
+                            row += '</tr></thead><tbody><tr>';
+                            row += `<td>${response[0].action_by}</td>`;
+                            date = String(response[0].action_date).split('T');
+                            date = date[0].split('-');
+                            date = date[2] + '-' + date[1] + '-' + date[0];
+                            row += `<td>${date}</td>`;
+                            row += `<td>${response[0].action_remarks}</td>`;
+                            row += '</tr></tbody>';
+                            $('#request_by_me_request_accrej').empty();
+                            $('#request_by_me_request_accrej').append(row);
+                        }
+                        if (response[0].status == 'Forwarded') {
+                            $('#divRemarksByMe').show();
+                            $('#pullbackid').show();
+                        }
+                    }
+                    else {
+                        alert('Record Not Found')
+                    }
+
+                },
+                error: function (err) {
+                    alert('Some Error Occured')
+                }
+            })
+
+            document.getElementById('request_by_me-desig').classList.toggle('zonetable-show-hide');
+            document.querySelector('#request_by_me-desig-details').classList.toggle('zonetable-show-hide');
+        }
+        function requestedBack() {
+            document.getElementById('request_by_me-desig').classList.toggle('zonetable-show-hide');
+            document.querySelector('#request_by_me-desig-details').classList.toggle('zonetable-show-hide');
+        }
+
+        function expandRequested1(record_id) {
+            $('#globalRecordId').val(record_id);
+            let data = {
+                post_type: 'getRecord',
+                record_id: record_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "{% url 'designation_request' %}",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    if (response.length > 0) {
+                        let row = '<tr>', date;
+                        row += `<td>${response[0].record_id}</td>`;
+                        row += `<td>${response[0].request_by}</td>`;
+                        date = String(response[0].request_date).split('T');
+                        date = date[0].split('-');
+                        date = date[2] + '-' + date[1] + '-' + date[0];
+                        row += `<td>${date}</td>`;
+
+
+                        row += `<td>${response[0].desigination}</td>`;
+                        row += `<td>${response[0].request_type}</td>`;
+                        row += `<td>${response[0].status}</td>`;
+                        row += `<td>${response[0].request_remarks}</td>`;
+                        row += `<td> <button type="button" onclick="requestedBack1();"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-up"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td></td>`;
+
+                        row += '</tr>';
+                        $('#request_by_me_request_details1 tbody').empty();
+                        $('#request_by_me_request_details1 tbody').append(row);
+                        $('#request_by_me_request_prev1').hide();
+                        $('#request_by_me_request_accrej1').hide();
+                        if (response[0].prev_official_email_ID != null) {
+                            $('#request_by_me_request_prev1').show();
+                            row = '<tr>';
+                            row += `<td>${response[0].prev_department_code__department_name}</td>`;
+                            row += `<td>${response[0].prev_rly_unit__location_code}/${response[0].prev_rly_unit__location_description}/${response[0].prev_rly_unit__location_type}</td>`;
+                            row += `<td>${response[0].prev_station_name}</td>`;
+                            row += `<td>${response[0].prev_parent_desig_code}</td>`;
+                            row += `<td>${response[0].prev_minlevel}</td>`;
+                            row += `<td>${response[0].prev_maxlevel}</td>`;
+                            row += `<td>${response[0].prev_contactnumber}</td>`;
+                            row += `<td>${response[0].prev_official_email_ID}</td>`;
+                            row += '</tr>';
+
+                            $('#request_by_me_request_prev1 tbody').empty();
+                            $('#request_by_me_request_prev1 tbody').append(row);
+                        }
+
+                        row = '<tr>';
+                        row += `<td>${response[0].current_department_code__department_name}</td>`;
+                        row += `<td>${response[0].current_rly_unit__location_code}/${response[0].current_rly_unit__location_description}/${response[0].current_rly_unit__location_type}</td>`;
+                        row += `<td>${response[0].current_station_name}</td>`;
+                        row += `<td>${response[0].current_parent_desig_code}</td>`;
+                        row += `<td>${response[0].current_minlevel}</td>`;
+                        row += `<td>${response[0].current_maxlevel}</td>`;
+                        row += `<td>${response[0].current_contactnumber}</td>`;
+                        row += `<td>${response[0].current_official_email_ID}</td>`;
+                        row += '</tr>';
+
+                        $('#request_by_me_request_curr1 tbody').empty();
+                        $('#request_by_me_request_curr1 tbody').append(row);
+                        if (response[0].action_remarks != null) {
+                            $('#request_by_me_request_accrej1').show();
+                            row = '<thead><tr><th colspan="3" style="text-align: center;color: rgb(85, 134, 241);">Action Taken</th></tr><tr>';
+                            row += `<th>${response[0].status} By</th>`;
+                            row += `<th>${response[0].status} On</th>`;
+                            row += `<th>${response[0].status} Remark</th>`;
+                            row += '</tr></thead><tbody><tr>';
+                            row += `<td>${response[0].action_by}</td>`;
+                            date = String(response[0].action_date).split('T');
+                            date = date[0].split('-');
+                            date = date[2] + '-' + date[1] + '-' + date[0];
+                            row += `<td>${date}</td>`;
+                            row += `<td>${response[0].action_remarks}</td>`;
+                            row += '</tr></tbody>';
+                            $('#request_by_me_request_accrej1').empty();
+                            $('#request_by_me_request_accrej1').append(row);
+                        }
+
+                    }
+                    else {
+                        alert('Record Not Found')
+                    }
+
+                },
+                error: function (err) {
+                    alert('Some Error Occured')
+                }
+            })
+
+            document.getElementById('request_by_me-desig1').classList.toggle('zonetable-show-hide');
+            document.querySelector('#request_by_me-desig-details1').classList.toggle('zonetable-show-hide');
+        }
+        function requestedBack1() {
+            document.getElementById('request_by_me-desig1').classList.toggle('zonetable-show-hide');
+            document.querySelector('#request_by_me-desig-details1').classList.toggle('zonetable-show-hide');
+        }
+
+
+        function pullBack() {
+            let pullBackRemark = $('#pullBackRemark').val();
+            if (pullBackRemark == '') {
+                alert('Give Remark');
+                $('#pullBackRemark').focus();
+                return false;
+            }
+            if (confirm('Are You sure to pull back, once done cannot be reverted')) {
+
+                let record_id = $('#globalRecordId').val();
+                let data = {
+                    post_type: 'pullback',
+                    record_id: record_id,
+                    pullBackRemark: pullBackRemark,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        alert(response);
+                        window.location.reload();
+                    },
+                    error: function (err) {
+                        alert('Some error occured');
+                    }
+                });
+            }
+        }
+
+
+        function getPostDetails(post) {
+            let data = {
+                post_type: 'getPostDetails',
+                post: post,
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            }
+            $.ajax({
+                method: "POST",
+                url: "{% url 'designation_request' %}",
+                dataType: "JSON",
+                data: data,
+                success: function (res) {
+                    if (res.length > 0) {
+                        $('#new_category').val(res[0].category);
+                        $('#new_minlevel').val(res[0].pc7_levelmin);
+                        $('#new_maxlevel').val(res[0].pc7_levelmax);
+                        $('#new_department').val(res[0].department_code_id__department_name);
+                    }
+                    else
+                        alert('Post Details does not exists in master, contact Superadmin')
+                }, error: function (err) {
+                    alert('Some error occured')
+                }
+            })
+        }
+        function getstationNameNew(val) {
+            let data = {
+                post_type: 'station',
+                val: val,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'designation_request' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+
+                    if (response.length > 0) {
+                        let row = '<option value="" selected disabled hidden>Select Station /Enter Station</option>';
+                        $('#new_station').empty();
+                        for (let i = 0; i < response.length; i++) {
+                            row += `<option value="${response[i].station_name}">${response[i].station_name}</option>`;
+                        }
+                        $('#new_station').append(row);
+                    }
+                    else {
+                        alert('Station is not present in master')
+                    }
+                },
+                error: function (err) {
+                    alert('Some error occured');
+                }
+            });
+        }
+
+function similarDesignation()
+{
+    let post = $('#new_post').val();
+
+                let data = {
+                    post_type: 'similar',
+                    post: post,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        let data = response.rep_officer;
+                        $('#new_similar_designation').val(data);
+                    },
+                    error: function (err) {
+                        alert('Error in Designation Creationqqq');
+                    }
+                });
+}
+
+        function createDesignation() {
+            let designation = '';
+            let post = $('#new_post').val();
+            let rly = $('#new_place').val();
+            let work = $('#new_workArea').val();
+            let work1 = $('#new_workArea1').val().trim();
+            if (post == null || post == '') {
+                alert('Select Post First');
+                $('#new_post').focus();
+                $('#new_workArea1').val('');
+                return false;
+            }
+
+            if(work1 != '')
+            {
+                post = post + '/' + work1;
+            }
+            designation = post;
+            
+
+            if (rly != null) {
+                let data = {
+                    post_type: 'checkRlyType',
+                    rly: rly,
+                    post: post,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        
+                        response = response.createdDesignation;
+                        if (work != '') {
+                            response = response + work;
+                        }
+                        //new_similar_designation
+                        
+                        $('#new_designation').val(response);
+                        designationAvailability();
+                    },
+                    error: function (err) {
+                        alert('Error in Designation Creation');
+                    }
+                });
+            }
+            else {
+                if (work != '') {
+                    designation = designation + work;
+                }
+                $('#new_designation').val(designation);
+            }
+        }
+
+        function createDesignationWork() {
+            let post = $('#new_post').val();
+            let rly = $('#new_place').val();
+            let work = $('#new_workArea').val();
+            
+            if (post == null || post == '') {
+                alert('Select Post First');
+                $('#new_post').focus();
+                $('#new_workArea').val('');
+                return false;
+            }
+            if (rly == null || rly == '') {
+                alert('Select Railway/Division First');
+                $('#new_place').focus();
+                $('#new_workArea').val('');
+                return false;
+            }
+            createDesignation();
+        }
+
+        function designationAvailability() {
+            let designation = $('#new_designation').val();
+            if (designation != '') {
+                let data = {
+                    post_type: 'checkAvailability',
+                    designation: designation,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+
+                        let message = response.msg;
+                        let colorCode = response.color;
+                        let row;
+                        if (colorCode == '1') {
+                            row = `<label style="color:green">${message}</label>`;
+                        }
+                        else {
+                            row = `<label style="color:red">${message}</label>`;
+                        }
+                        $('#checkAvailable').empty();
+                        $('#checkAvailable').append(row);
+                    },
+                    error: function (err) {
+                        alert('Error in Designation Creation');
+                    }
+                });
+            }
+        }
+        function resetNew() {
+            $('#new_post').val('');
+            $('#new_place').val('');
+            $('#new_station').val('');
+            $('#new_reporting_officer').val('');
+            $('#new_designation').val('');
+            $('#new_contact').val('');
+            $('#new_email').val('');
+            $('#new_remarks').val('');
+        }
+
+        function saveNew() {
+            let new_post = $('#new_post').val();
+            let new_place = $('#new_place').val();
+            let new_station = $('#new_station').val();
+            let new_reporting_officer = $('#new_reporting_officer').val();
+            let new_designation = $('#new_designation').val();
+            let new_contact = $('#new_contact').val();
+            let new_email = $('#new_email').val();
+            let new_remarks = $('#new_remarks').val();
+
+
+
+            if (new_post == '' || new_post == null) {
+                alert('Select Post');
+                $("#new_post").focus();
+                return false;
+
+            }
+            if (new_place == '' || new_place == null) {
+                alert('Select Railway/Division');
+                $("#new_place").focus();
+                return false;
+
+            }
+            if (new_station == '' || new_station == null) {
+                alert('Select Station');
+                $("#new_station").focus();
+                return false;
+
+            }
+            if (new_contact == '') {
+                alert('Enter Mobile number');
+                $("#new_contact").focus();
+                return false;
+            }
+            if (new_contact.length < 10) {
+                alert('Mobile number should contain 10 digits');
+                $("#new_contact").focus();
+                return false;
+            }
+            var mailformat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (!new_email.match(mailformat)) {
+                alert("Invalid email address.");
+                $("#new_email").focus();
+                return false;
+            }
+            if (new_remarks == '') {
+                alert("Please Enter Remarks ");
+                $("#new_remarks").focus();
+                return false;
+            }
+            if (new_designation == new_reporting_officer) {
+                alert('designation and reporting officer cannot be same');
+                $("#new_reporting_officer").val('');
+                $("#new_reporting_officer").focus();
+                return false;
+            }
+            if (new_reporting_officer == '' || new_reporting_officer == null) {
+                if (!confirm('Reporting officer is not selected, are you sure to proceed')) {
+                    $("#new_reporting_officer").focus();
+                    return false;
+                }
+            }
+            if (confirm('Are you sure to proceed')) {
+                let data = {
+                    // new_post,new_place,new_station,new_reporting_officer,new_designation,new_contact,new_email,new_remarks
+                    post_type: 'saveNewDesignation',
+                    new_post: new_post,
+                    new_place: new_place,
+                    new_station: new_station,
+                    new_reporting_officer: new_reporting_officer,
+                    new_designation: new_designation,
+                    new_contact: new_contact,
+                    new_email: new_email,
+                    new_remarks: new_remarks,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'designation_request' %}",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        if (response == 'success') {
+                            alert('Request forwarded to superadmin');
+                            window.location.reload();
+                        }
+                        else {
+                            alert(response);
+                        }
+
+
+                    }, error: function (err) {
+                        alert('Some error occured, please contact admin');
+                    }
+                });
+            }
+        }
+
+        function emailToLowerCase() {
+            let email = $('#new_email').val();
+            email = email.toLowerCase();
+            $('#new_email').val(email);
+
+        }
+
+        $("#new_reporting_officer").on('select2:opening', function () {
+
+            let new_place = $('#new_place').val();
+            if (new_place == '' || new_place == null) {
+                alert('Select Railway/Division First');
+                $("#new_place").focus();
+                return false;
+            }
+
+
+            let data = {
+                    post_type: 'reportingOfficer',
+                    new_place: new_place,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'designation_request' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                    let row ='<option value="" selected disabled hidden>Select Reporting Officer</option>';
+                    $('#new_reporting_officer').empty();
+                    for(let i=0;i<response.length;i++)
+                    {
+                        row +=`<option value="${response[i]}">${response[i]}</option>`;
+                    }
+                    $('#new_reporting_officer').append(row);
+                    },
+                    error: function (err) {
+                        alert('some Error occured');
+                    }
+                });
+
+        });
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        setTimeout(function () {
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
+        }, 5000);
+
+
+    </script>
+</body>
+
+
+{% endblock content %}

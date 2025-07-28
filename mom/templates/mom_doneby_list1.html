@@ -1,0 +1,714 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>   
+</head>
+
+<style>
+    .modal-content{
+    border: solid !important;
+    border-width: 1px !important;
+    }
+    .modal-header{
+    background-color: #0066cc!important;
+    color: #fff;
+    border-radius: inherit;
+    }
+    .close span{
+    color: #fff !important;
+    }
+    .close span:hover{
+    color: #fff !important;
+    }
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 1500px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+
+  .modal.right.fade.show .modal-dialog {
+    right: 0;
+  }
+
+  /* ----- MODAL STYLE ----- */
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+  }
+
+  .modal-lg {
+    max-width: 70% !important;
+  }
+
+</style>
+
+<style>
+  * {
+      box-sizing: border-box;
+    }
+    .input,
+    input[type=text]
+    {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 2px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        resize: vertical;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=submit] 
+    {
+        width: 40%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: rgb(15, 12, 12);
+        padding: 14px 20px;
+        margin: 2px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=submit]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    input[type=button] 
+    {
+        width: 30%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: white;
+        padding: 6px 6px;
+        margin: 2px 2px 2px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=button]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    .inputtag
+    {
+        height:20px;
+    }
+    .container
+    {
+        width:1500px;
+    }
+
+    input[type="radio"]
+    {   margin: 0 5px 0 5px;    }
+
+    div.bold-selected 
+    {   font-weight: bold;  }
+
+    tr.row_selected td{background-color:lightgrey !important;}
+
+
+    
+
+
+
+
+</style>
+
+<body>
+
+    
+    <h3 class="report_heading"> Completed Minutes of Meeting</h3>
+    <br>
+    <div class="container-fluid">
+        <div class="row ">
+              <div class="col-1">
+              </div>
+              <div class="col-10">
+              
+                <input id="dis_id" value="{{str}}" hidden>
+                {% if str == 'NoRB' %}
+                <div class="inpt-container p-2">
+                    <div class="row">
+                        
+                        <div class="col-3" >
+                            <label for="type" class="lbl-caption">Meeting Type</label>
+                            <select class="form-control" name="type" id="type" class="custom-select" required>
+                                <option value="All" selected>All</option>
+                                {% for t in meeting %}
+                                    <option value="{{t.meeting_type}}">{{t.meeting_type}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-3" >
+                            <label for="status" class="lbl-caption" >Status</label>
+                            <select class="form-control p-0"  name="status" id="status" class="custom-select" style="height:30px; font-size:14px;">
+                                <option value="0" selected>All</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Partial</option>
+                                <!-- <option value="3">Completed</option> -->
+                                <option value="4">Closed</option>
+                                <!-- <option value="R">Rejected</option> -->
+                            </select>
+                        </div>
+
+                        <div class="col-3" >
+                            <label for="mdate" class="lbl-caption" >Date of Meeting</label>
+                            <input type="text" style="background-color: #fff;" class="form-control p-0 pl-1"  style="height:30px; font-size:14px;" id="filterdate" name="filterdate" placeholder="Select Range.." class="form-control" readonly>                    
+                        </div>
+                        
+                        <div class="col-3">
+                            <div class="btn-toolbar float-right" role="toolbar"  >
+                                <div class="btn-group " role="group" style="height:30px; font-size:14px;margin-top: 30px;">                           
+                                    <button type="button" id="momdone_filter" class="btn btn-warning btn-sm" onclick="momdone_filter(this);">Continue</button>
+                                    <button type="button" id="clear" class="btn btn-secondary btn-sm" onclick="clear_filter();">Reset</button>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    <br>
+                <!-- </div> -->
+                    <table id="doneTable" class="table table-bordered table-data table-sm" style="width: 100%;">
+                        <thead>
+                            <tr style="margin-left: 5em;">
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">S.No.</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">Meeting Date</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 20%">MOM Note No.</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 45%;">MOM Title</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">MOM Date</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">Meeting Type</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Reply Recv'd</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in mom_data %}
+                            <tr>
+                                <td style= "text-align: left;">{{forloop.counter}}</td>
+                                <td style= "text-align: left;">{{i.mom_date|date:"d/m/y"}}</td>
+                                {% if i.status_flag == 1 %}
+                                    <td style= "text-align: left;"><a  class="stretched-link"
+                                title="Click to view details" href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{i.mom_note_no}}</a></td>
+                                {% elif i.status_flag == 2 %}
+                                    <td style= "text-align: left;"><a  class="stretched-link"
+                                title="Click to view details" href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{i.mom_note_no}}</a></td>
+                                {% elif i.status_flag == 3 %}
+                                    <td style= "text-align: left;"><a  class="stretched-link"
+                                title="Click to view details" href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{i.mom_note_no}}</a></td>
+                                {% elif i.status_flag == 4 %}
+                                    <td style= "text-align: left;"><a  class="stretched-link"
+                                title="Click to view details" href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{i.mom_note_no}}</a></td>
+                                {% else %}
+                                {% endif %}
+                                <td style= "text-align: left;">{{i.mom_title}}</td>
+                                <td style= "text-align: left;">{{i.created_on|date:"d/m/y"}}</td>
+                                <td style="text-align:left">{{i.meeting_type}}</td>
+                                {% for x in list_mom_details %}
+                                    {% if x.insp == i.insp_no %}
+                                        {% if i.status_flag == 1 %}
+                                            <td style="text-align: center;"><a  class="stretched-link"
+                                title="Officers Replied/Officers Marked" href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{x.reply_status}}/{{x.total_status}}</a></td>
+                                        {% elif i.status_flag == 2 %}
+                                            <td style="text-align: center;"><a  class="stretched-link"
+                                title="Officers Replied/Officers Marked" href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{x.reply_status}}/{{x.total_status}}</a></td>
+                                        {% elif i.status_flag == 3 %}
+                                            <td style="text-align: center;"><a class="stretched-link"
+                                title="Officers Replied/Officers Marked"  href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{x.reply_status}}/{{x.total_status}}</a></td>
+                                        {% elif i.status_flag == 4 %}
+                                            <td style="text-align: center;"><a class="stretched-link"
+                                title="Officers Replied/Officers Marked"  href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{x.reply_status}}/{{x.total_status}}</a></td> 
+                                        {% else %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>   
+                    </table> 
+
+                {% else %}
+
+                
+
+
+                <div class="inpt-container">
+                    <div class="row">
+                    <div class="col" style="margin-left:2%;">
+                            <label for="status" class="lbl-caption" style="margin-left:31%">Status</label>
+                            <select class="form-control p-0" name="status" id="status" style="max-width: 60%;height:30px; margin-left:30%" >
+                                <option value="0" selected>All</option>
+                            <option value="1">Pending</option>
+                                <option value="2">Partial</option>
+                                <!-- <option value="3">Completed</option> -->
+                                <option value="4">Closed</option>
+                                <!-- <option value="R">Rejected</option> -->
+                            </select>
+
+                            
+                    </div>
+                    <div class="col">
+                        <label for="mdate" class="lbl-caption">Date of Meeting</label>
+                        <input type='text' class="form-control " style="background-color: #fff;margin-top: 0%; max-width: 60%; height:30px;" id='filterdate' name="filterdate" placeholder="Select Range.." readonly>
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <div class="btn-toolbar" role="toolbar" style="margin-top:28px;">
+                            <div class="btn-group mr-2" role="group" >
+                            
+                        <button type="button" id="momdone_filter" class="btn btn-warning btn-sm" onclick="momdone_filter(this);">Continue</button>
+                        <button type="button" id="clear"  class="btn btn-secondary btn-sm" onclick="clear_filter();">Reset</button>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>&nbsp;
+                
+                <br>
+                    <table id="doneTable" class="table table-bordered table-data table-sm" style="width: 100%;">
+                        <thead>
+                            <tr style="margin-left: 5em;">
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">S.No.</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">Meeting Date</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 20%">MOM Note No.</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 55%;">MOM Title</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">MOM Date</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in mom_data %}
+                            <tr>
+                                <td style= "text-align: left;">{{forloop.counter}}</td>
+                                <td style= "text-align: left;">{{i.mom_date|date:"d/m/y"}}</td>
+                                {% if i.status_flag == 1 %}
+                                    <td style= "text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{i.mom_note_no}}</a></td>
+                                {% elif i.status_flag == 2 %}
+                                    <td style= "text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{i.mom_note_no}}</a></td>
+                                {% elif i.status_flag == 3 %}
+                                    <td style= "text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{i.mom_note_no}}</a></td>
+                                {% elif i.status_flag == 4 %}
+                                    <td style= "text-align: left;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{i.mom_note_no}}</a></td>
+                                {% else %}
+                                {% endif %}
+                                <td style= "text-align: left;">{{i.mom_title}}</td>
+                                <td style= "text-align: left;">{{i.created_on|date:"d/m/y"}}</td>
+                                {% for x in list_mom_details %}
+                                    {% if x.insp == i.insp_no %}
+                                        {% if i.status_flag == 1 %}
+                                            <td style="text-align: center;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{x.reply_status}}/{{x.total_status}}</a></td>
+                                        {% elif i.status_flag == 2 %}
+                                            <td style="text-align: center;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:crimson">{{x.reply_status}}/{{x.total_status}}</a></td>
+                                        {% elif i.status_flag == 3 %}
+                                            <td style="text-align: center;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{x.reply_status}}/{{x.total_status}}</a></td>
+                                        {% elif i.status_flag == 4 %}
+                                            <td style="text-align: center;"><a href="" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal('{{i.insp_no}}'); return false;" style="color:green">{{x.reply_status}}/{{x.total_status}}</a></td> 
+                                        {% else %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>   
+                    </table>   
+                {% endif %}
+
+            
+                
+
+                <div class="modal right fade" id="StatusModal" tabindex="-1" role="dialog" aria-labelledby="StatusModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title w-100 text-left" id="StatusModalLabel"><b>Details of MOM Letter No. <label id="note_no"></label></b></h4>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" >Close
+                                <!-- <span aria-hidden="true" style="color: red;">&times;</span> -->
+                              </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col" id="preiew_report_pdf" style="max-width: 100%; max-height: 100%;">
+                                        <!-- <div id="preiew_report_pdf"> -->
+                                            <iframe id="iframepreview1"  style="width:500px; height:740px;" frameborder="0"></iframe>
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="col">
+                                        <table class="table table-striped  table-data table-bordered center" id="remarksTable" style="max-width: 100%; ">
+                                            <thead style="white-space: nowrap; text-align: left;">
+                                                <tr>
+                                                    <th style="width: 10%">Item No.</th>
+                                                    <th style="width: 15%">Dealt By</th>
+                                                    <th style="width: 15%;">Reply Date</th>
+                                                    <th style="width: 55%;">Remarks</th>
+                                                    <th style="width: 5%;">File</th> 
+                                                </tr>
+                                                 
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table> 
+                                        <div id="preiew_reply_pdf">
+                                            <iframe id="iframepreview2"  style="width:500px; height:700px;" frameborder="0"></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- modal-body -->
+                    
+                    </div><!-- modal-content -->
+                    </div><!-- modal-dialog -->
+                </div><!-- modal -->
+              </div>
+        </div>
+        <div class="col-1">
+        </div>
+   </div>
+</body>
+
+<!-- script for datepicker -->
+<script>
+    $(function() 
+    {
+        $('input[name="filterdate"]').daterangepicker
+        ({
+            autoUpdateInput: false,
+            defaultDate: null,
+            maxDate: new Date(),
+            locale: {   cancelLabel: 'Clear'    }
+        });
+    
+        $('input[name="filterdate"]').on('apply.daterangepicker', function(ev, picker) 
+        {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));
+            if(picker.startDate.format('DD/MM/YYYY') == picker.endDate.format('DD/MM/YYYY'))
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY'))  }
+            else
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));  }
+            $('.applyButtonClasses').click()
+        });
+    
+        $('input[name="filterdate"]').on('cancel.daterangepicker', function(ev, picker) 
+        {   $(this).val('');    });
+    });
+
+</script>
+
+<script>
+    
+    $( document ).ready
+    (
+       function() 
+       {
+            $('#doneTable').DataTable();
+            $('#remarksTable').DataTable();
+            $('#type').select2();
+       }
+    )
+
+    function clear_filter(e)
+    {
+        window.location.reload();
+        // window.location.href='{% url "mom_doneby_list1" %}'
+    }
+ 
+    $("#doneTable tbody tr").on('click',function(event) 
+    {
+        $("#doneTable tbody tr").removeClass('row_selected');
+        $(this).addClass('row_selected');
+    });
+
+    function momdone_filter(e)
+    {
+        var table = $('#doneTable').DataTable();
+        table.destroy();
+        $('#doneTable').hide();
+        str=e.id;
+        // alert(str)
+        var status=$('#status').val();
+        var date_mom=$('#filterdate').val();
+        if(date_mom=='' || date_mom==undefined)
+        {
+            startDate=''
+            endDate=''
+        }
+
+        else{
+            var d=$('#filterdate').data('daterangepicker').startDate;
+            var startDate = new Date(d);
+            startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+            d=$('#filterdate').data('daterangepicker').endDate;
+            var endDate = new Date(d);
+            endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+        }
+       
+        if($('#dis_id').val()=='NoRB')
+        {
+            var type=$('#type').val();
+            // alert(type)
+            data={
+                'str':str,
+                'meeting_type':type,
+                'status':status,
+                'startDate':startDate,
+                'endDate': endDate
+            }
+        }
+        else
+        {
+            data={
+            'str':str,
+            'meeting_type':'Board Meeting',
+            'status':status,
+            'startDate':startDate,
+            'endDate': endDate
+            }
+        }
+        // console.log(data)
+        $.ajax
+        ({
+            url: "{% url 'filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success:function (response)
+            {
+                let list_filter = response.list_filter;
+                console.log(list_filter)
+                let row = "";
+                if($('#dis_id').val()=='NoRB'){
+                    // alert("hey")
+                    for (let i = 0; i < list_filter.length; i++) 
+                    {
+                        row += "<tr align=left>";
+                        row += `<td>${list_filter[i]['sr_no']}</td>
+                            <td>${list_filter[i]['mom_date']}</td>`;
+                        
+                        if(list_filter[i]['status']=='Pending')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['mom_note_no']}</a></td>`;
+                        else if(list_filter[i]['status']=='Partial')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['mom_note_no']}</a></td>`;
+                        else if(list_filter[i]['status']=='Completed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['mom_note_no']}</a></td>`;
+                        else if(list_filter[i]['status']=='Closed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['mom_note_no']}</a></td>`;
+                        
+                        row += `<td>${list_filter[i]['mom_title']}</td>`;
+                        row += `<td>${list_filter[i]['created_on']}</td>`;
+                        row += `<td>${list_filter[i]['meeting_type']}</td>`;
+        
+                        if(list_filter[i]['status']=='Pending')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        else if(list_filter[i]['status']=='Partial')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        else if(list_filter[i]['status']=='Completed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        else if(list_filter[i]['status']=='Closed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        row+=`</tr>`
+                    }
+                }
+                else{
+                    // alert("heya",row)
+                    for (let i = 0; i < list_filter.length; i++) 
+                    {
+                        row += "<tr align=left>";
+                        row += `<td>${list_filter[i]['sr_no']}</td>
+                            <td>${list_filter[i]['mom_date']}</td>`;
+                        
+                        if(list_filter[i]['status']=='Pending')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['mom_note_no']}</a></td>`;
+                        else if(list_filter[i]['status']=='Partial')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['mom_note_no']}</a></td>`;
+                        else if(list_filter[i]['status']=='Completed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['mom_note_no']}</a></td>`;
+                        else if(list_filter[i]['status']=='Closed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['mom_note_no']}</a></td>`;
+                        
+                        row += `<td>${list_filter[i]['mom_title']}</td>`;
+                        row += `<td>${list_filter[i]['created_on']}</td>`;
+        
+                        if(list_filter[i]['status']=='Pending')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        else if(list_filter[i]['status']=='Partial')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:crimson">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        else if(list_filter[i]['status']=='Completed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                        else if(list_filter[i]['status']=='Closed')
+                            row += `<td><a href="#" id="${list_filter[i]['insp_no']}" data-toggle="modal" data-target="#StatusModal" onclick="mom_modal(this.id); " style="color:green">${list_filter[i]['reply_status']}/${list_filter[i]['total_status']}</a></td>`;
+                    }
+                
+                }
+                
+                // $('#doneTable thead').remove();
+                // $('#doneTable tr').remove();
+                // $('#doneTable').append(head);
+                $('#doneTable tbody').empty();
+                $('#doneTable tbody').append(row);
+                $('#doneTable').show();
+                $('#doneTable').DataTable();
+            }
+
+        })
+    }
+
+    function mom_modal(e)
+    {
+        var table = $('#remarksTable').DataTable();
+        table.destroy();
+        $('#remarksTable').hide();
+        $('#iframepreview2').hide();
+        data=
+        {
+          'insp_no':e
+        }
+        $.ajax
+        ({
+            url: "{% url 'mom_modal_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                document.getElementById('note_no').innerHTML = response.note_no;
+                reply_details=response.item_details;
+                let row = "";
+                let head = 
+                    `<thead>
+                        <tr align="left">
+                            <th style="width: 10%">Item No.</th>
+                            <th style="width: 15%">Dealt By</th>
+                            <th style="width: 15%;">Reply Date</th>
+                            <th style="width: 55%;">Remarks</th>
+                            <th style="width: 5%;">File</th> 
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < reply_details.length; i++) 
+                {
+                    row += "<tr>";
+                    row += 
+                        `<td width=10%>${reply_details[i]['item_no']}</td>
+                        <td width=15%>${reply_details[i]['marked_to']}</td>
+                        <td align="left" width=10%>${reply_details[i]['reply_on']}</td>`;
+                    // if(reply_details[i]['status_flag']==1)
+                    // {
+                    //     row +=
+                    //         `<td width=15% style="color:red">${reply_details[i]['marked_to']}</td>
+                    //         <td align="left" width=10%>-</td>`;
+                    // }
+                    // else
+                    // {
+                    //     row +=
+                    //         `<td width=15% style="color:green">${reply_details[i]['marked_to']}</td>
+                    //         <td align="left" width=10% style="color:green">${reply_details[i]['reply_on']}</td>`;
+                    // }
+                    if(reply_details[i]['text']!='' && reply_details[i]['file']!='')
+                    {
+                        row+=`<td width=55%>${reply_details[i]['text']}</td>
+                        <td width=5%><a href="#" onclick="show_reply_file('${reply_details[i]['file']}')"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;
+                    }
+                    else if(reply_details[i]['text']!='' && reply_details[i]['file']=='')
+                    {
+                        row+=`<td width=55%>${reply_details[i]['text']}</td>
+                        <td width=5%>-</td>`;
+                    }
+                    else if(reply_details[i]['text']=='' && reply_details[i]['file']!='')
+                    {
+                        row+=`<td width=55%>-</td>
+                        <td width=5%><a href="#" onclick="show_reply_file('${reply_details[i]['file']}')" ><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;;
+                    }
+                    else if(reply_details[i]['text']=='' && reply_details[i]['file']=='')
+                    {
+                        row+=`<td width=55%>-</td>   
+                        <td width=5%>-</td>`;
+                    }
+                    row += "</tr>";
+                } 
+                $('#remarksTable thead').remove();
+                $('#remarksTable tr').remove();
+                $('#remarksTable').append(head);
+                $('#remarksTable tbody').append(row);
+                $('#remarksTable').show();
+                $('#remarksTable').DataTable();
+            }
+        })
+        pdf='preiew_report_pdf';
+        file = "/mom_ReportPdf/"+e;
+        $('#iframepreview1').attr('src', file);
+    }
+
+    function show_reply_file(e)
+    {
+        // alert(e)
+        $('#iframepreview2').show();
+        pdf='preiew_reply_pdf';
+        file = e;
+        $('#iframepreview2').attr('src', file);
+    }
+
+</script>
+
+{% endblock %}
+                
+
+
+                
+            

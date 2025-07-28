@@ -1,0 +1,676 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Einspection | Not Authorize</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+    </script>
+    <style>
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid" style="width:95%">
+        <form id="partcard" method="POST"> {% csrf_token %}
+            <!-- {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-success text-center" id="msg" role="alert">{{ message }}</div>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger text-center" id="msg" role="alert">{{ message }}</div>
+            {% endif %}
+            {% endfor %} -->
+
+
+            <h3 class="report_heading">Non Railway User</h3>
+
+
+            <br><br>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#pending">Pending</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#rejected">Rejected</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#accepted">Accepted</a>
+                </li>
+            </ul>
+
+
+            <div class="tab-content">
+
+                <div id="pending" class="container-fluid  tab-pane active"><br>
+                    <div id="pendingtable">
+                        <div class="table-responsive">
+                        <table id="tblpending" class="table table-striped table-bordered">
+                            <thead
+                                style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+                                <tr>
+                                    <th>Ref. No.</th>
+                                    <th>Emp No.</th>
+                                    <th>Emp Name</th>
+                                    <th>Email</th>
+                                    <th>Contact NO.</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Zone</th>
+                                    <th>Division</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in pending %}
+                                <tr>
+                                    <td>{{i.ref_no}}</td>
+                                    <td>{{i.empno}}</td>
+                                    <td>{{i.empname}} {{i.empmname | default:'' }} {{i.emplname | default:'' }}</td>
+                                    <td>{{i.email}}</td>
+                                    <td>{{i.contactno}}</td>
+                                    <td>{{i.designation}}</td>
+                                    <td>{{i.dept_desc}}</td>
+                                    <td>{{i.currentzone}}</td>
+                                    <td>{{i.currentunitdivision}}</td>
+                                    <td>{{i.profile_modified_on | date:'d-m-y'}}</td>
+                                    <td>
+                                        <button type="button" id="pending{{i.ref_no}}" name="{{i.ref_no}}"
+                                            onclick="expandRequested1(this.name);"
+                                            style="border-style: none; margin-left: 30%;">
+                                            <i class="fas fa-angle-double-down"
+                                                style="font-size:24px;color:rgb(105, 174, 238)"
+                                                title="Click To Expand Details"></i>
+                                        </button>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <div id="pendingdetails">
+                        <h4 style="text-align: center;color:brown"> Employee Details</h4>
+                        <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Ref. No.</th>
+                                    <th>Emp No.</th>
+                                    <th>Emp Name</th>
+                                    <th>Order Number</th>
+                                    <th>Email</th>
+                                    <th>Contact No.</th>
+                                    <th>Department</th>
+                                    <th>Station</th>
+                                    <th>Back</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tblbody1">
+                            </tbody>
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Railway group</th>
+                                    <th>Zone</th>
+                                    <th>Division</th>
+                                    <th>Railway Type</th>
+                                    <th>Designation(Short)</th>
+                                    <th>Designation(Long)</th>
+                                    <th>Level</th>
+                                    <th>Date Applied</th>
+                                    <th>Service status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tblbody2">
+                            </tbody>
+                        </table>
+                        </div>
+                        <h4 style="text-align: center;color:brown; margin-top: 50px;"> Acceptance Details</h4>
+                        <div class="row mt-3">
+                            <div class="col-lg-2 col-md-12 col-sm-12 form-group">
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+                                <label for="designation" style="font-size: 20px;">Designation(short)</label><sup
+                                    style="font-size: 20px; color:red;">*</sup>
+                                <select id="designation" class="custom-select select2" name="designation" required
+                                    style="width:100%;">
+                                    <option selected disabled hidden value="">Select Designation</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+                                <label for="remarks" style="font-size: 20px;">Remarks</label><sup
+                                    style="font-size: 20px; color:red;">*</sup>
+                                <textarea id="remarks" name="remarks" style="width:100%;" maxlength="300"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-lg-4 col-md-6 col-sm-12 form-group"></div>
+                            <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+                                <button type="button" id="generateButton" class="btn btn-success"
+                                    style="width:120px; height:50px;" onclick="acceptrequest();">Accept</button>
+                                <button type="button" class="btn btn-danger" style="width:120px; height:50px;"
+                                    onclick="rejectrequest();">Reject</button>
+                                <button type="button" id="submitsave" class="btn btn-primary"
+                                    style="width:120px; height:50px;" onclick="requestedBack1();">Back</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="rejected" class="container-fluid  tab-pane"><br>
+                    <div class="table-responsive">
+                    <table id="tblrejected" class="table table-striped table-bordered">
+                        <thead
+                            style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+                            <tr>
+                                <th>Ref. No.</th>
+                                <th>Emp No.</th>
+                                <th>Emp Name</th>
+                                <th>Email</th>
+                                <th>Contact NO.</th>
+                                <th>Designation</th>
+                                <th>Department</th>
+                                <th>Zone</th>
+                                <th>Division</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in rejected %}
+                            <tr>
+                                <td>{{i.ref_no}}</td>
+                                <td>{{i.empno}}</td>
+                                <td>{{i.empname}} {{i.empmname | default:'' }} {{i.emplname | default:'' }}</td>
+                                <td>{{i.email}}</td>
+                                <td>{{i.contactno}}</td>
+                                <td>{{i.designation}}</td>
+                                <td>{{i.dept_desc}}</td>
+                                <td>{{i.currentzone}}</td>
+                                <td>{{i.currentunitdivision}}</td>
+                                <td>{{i.profile_modified_on | date:'d-m-y'}}</td>
+                                <td>
+                                    <button type="button" id="rejected{{i.ref_no}}" name="{{i.ref_no}}"
+                                        onclick="showmodal(this.name);" style="border-style: none; margin-left: 30%;">
+                                        <i class="fas fa-angle-double-down"
+                                            style="font-size:24px;color:rgb(245, 95, 95)"
+                                            title="Click To Expand Details"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <div id="accepted" class="container-fluid  tab-pane"><br>
+                    <div class="table-responsive">
+                    <table id="tblaccepted" class="table table-striped table-bordered">
+                        <thead
+                            style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+                            <tr>
+                                <th>Ref. No.</th>
+                                <th>Emp No.</th>
+                                <th>Emp Name</th>
+                                <th>Email</th>
+                                <th>Contact NO.</th>
+                                <th>Designation</th>
+                                <th>Department</th>
+                                <th>Zone</th>
+                                <th>Division</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in accepted %}
+                            <tr>
+                                <td>{{i.ref_no}}</td>
+                                <td>{{i.empno}}</td>
+                                <td>{{i.empname}} {{i.empmname | default:'' }} {{i.emplname | default:'' }}</td>
+                                <td>{{i.email}}</td>
+                                <td>{{i.contactno}}</td>
+                                <td>{{i.designation}}</td>
+                                <td>{{i.dept_desc}}</td>
+                                <td>{{i.currentzone}}</td>
+                                <td>{{i.currentunitdivision}}</td>
+                                <td>{{i.profile_modified_on | date:'d-m-y'}}</td>
+                                <td>
+                                    <button type="button" id="accepted{{i.ref_no}}" name="{{i.ref_no}}"
+                                    onclick="showmodal(this.name);" style="border-style: none; margin-left: 30%;">
+                                    <i class="fas fa-angle-double-down"
+                                        style="font-size:24px;color:rgb(245, 95, 95)"
+                                        title="Click To Expand Details"></i>
+                                </button>
+                                    </button>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="globalRecordId" name="globalRecordId">
+        </form>
+
+
+
+        <button type="button" id="btnopenmodal" data-toggle="modal" data-target="#detailsmodal" hidden></button>
+        <div class="modal" tabindex="-1" id="detailsmodal" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleModalLabel"><b> User Details</b></h4>
+                        <button type="button" class="btn btn-light  btn-sm" id="closeofficermodal"
+                            data-dismiss="modal">&times;</button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Ref. No.</th>
+                                    <th>Emp No.</th>
+                                    <th>Emp Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym1"></tbody>
+
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Order Number</th>
+                                    <th>Email</th>
+                                    <th>Contact No.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym2"></tbody>
+
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Department</th>
+                                    <th colspan="2">Station</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym3"></tbody>
+
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Railway group</th>
+                                    <th>Zone</th>
+                                    <th>Division</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym4">
+                            </tbody>
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+
+                                    <th>Railway Type</th>
+                                    <th>Designation(Short)</th>
+                                    <th>Designation(Long)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym5"></tbody>
+
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Date Applied</th>
+                                    <th>Service status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym6"></tbody>
+
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th>Accepted/Rejected By</th>
+                                    <th>Accepted/Rejected Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym7"></tbody>
+
+                            <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;">
+                                <tr>
+                                    <th colspan="3">Remarks</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tblbodym8">
+                            </tbody>
+                           
+                        </table>
+                    </div>
+                        <div class="mt-4" id="linkdesignation" style="color:red;">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+
+
+</body>
+<script>
+
+    $('#pendingdetails').hide();
+    $('#tblpending').DataTable();
+    $('#tblrejected').DataTable();
+    $('#tblaccepted').DataTable();
+    $('#designation').select2();
+
+    function rejectrequest() {
+        let remarks = document.getElementById('remarks').value;
+        if (remarks.length === 0) {
+            alert('Please Give Remarks');
+            $('#remarks').focus();
+            return false;
+        }
+        let data = {
+            post_type: 'reject',
+            ref_no: $('#globalRecordId').val(),
+            remarks: remarks,
+            csrfmiddlewaretoken: '{{csrf_token}}'
+        }
+        if(confirm('Are you sure to Reject'))
+        {
+        $.ajax({
+            type: 'POST',
+            url: '{% url "nonrly_signup_accept" %}',
+            dataType: 'JSON',
+            data: data,
+            success: function (response) {
+                alert(response);
+                window.location.reload();
+            },
+            error : function(error)
+            {
+                alert('Some error exist')
+            }
+        });
+    }
+    }
+
+    function expandRequested1(record_id) {
+        $('#globalRecordId').val(record_id);
+        $('#pendingdetails').show();
+        $('#pendingtable').hide();
+        let data = {
+            post_type: 'getDetails',
+            ref_no: record_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+        $.ajax({
+            type: "POST",
+            url: "{% url 'nonrly_signup_accept' %}",
+            dataType: "JSON",
+            data: data,
+            success: function (context) {
+                let row = '';
+                let response = context.data;
+                if (response.length > 0) {
+
+                    row = `<tr>
+                            <td>${response[0].ref_no}</td>
+                            <td>${response[0].empno}</td>
+                            <td>${response[0].empname}</td>
+                            <td>${response[0].orderid}</td>
+                            <td>${response[0].email}</td>
+                            <td>${response[0].contactno}</td>
+                            <td>${response[0].dept_desc}</td>
+                            <td>${response[0].station_des}</td>
+                            <td><button type="button" onclick="requestedBack1();"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-up"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Shrink Details"></i>
+                                            </button>
+                                            </td>
+                            </tr>`;
+
+                    $('#tblbody1').empty();
+                    $('#tblbody1').append(row);
+
+                    row = `<tr>
+                            <td>${response[0].railwaygroup}</td>
+                            <td>${response[0].currentzone}</td>
+                            <td>${response[0].currentunitdivision}</td>
+                            <td>${response[0].rl_type}</td>
+                            <td>${response[0].designation}</td>
+                            <td>${response[0].desig_longdesc}</td>
+                            <td>${response[0].pc7_level}</td>
+                            <td>${formatDate(response[0].profile_modified_on)}</td>
+                            <td>${response[0].service_status}</td>
+                            </tr>`;
+
+                    $('#tblbody2').empty();
+                    $('#tblbody2').append(row);
+
+                    let designation = context.designation;
+                    row = '<option selected disabled hidden value="">Select Designation</option>';
+                
+                    for(let i = 0; i < designation.length; i++)
+                    {
+                        row += `<option value="${designation[i].designation_code}">${designation[i].designation}</option>`;
+                    }
+                    $('#designation').empty();
+                    $('#designation').append(row);
+                }
+                
+            
+            },
+            error: function (error) {
+                alert('Some error exist')
+            }
+        })
+
+    }
+    function requestedBack1() {
+        $('#pendingdetails').hide();
+        $('#pendingtable').show();
+    }
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        let newyear = String(year).slice(2, 5)
+        return [day, month, newyear].join('/');
+    }
+
+    function showmodal(ref_no) {
+        document.getElementById('btnopenmodal').click();
+        let data = {
+            post_type: 'showmodal',
+            ref_no: ref_no,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+        $.ajax({
+            type: "POST",
+            url: "{% url 'nonrly_signup_accept' %}",
+            dataType: "JSON",
+            data: data,
+            success: function (context) {
+                let row = '';
+                let response = context.data;
+                
+                if (response.length > 0) {
+
+                    row = `<tr>
+                            <td>${response[0].ref_no}</td>
+                            <td>${response[0].empno}</td>
+                            <td>${response[0].empname}</td>
+                        </tr>`;
+
+                    $('#tblbodym1').empty();
+                    $('#tblbodym1').append(row);
+
+                    row = `<tr>
+                            <td>${response[0].orderid}</td>
+                            <td>${response[0].email}</td>
+                            <td>${response[0].contactno}</td>
+                        </tr>`;
+
+                    $('#tblbodym2').empty();
+                    $('#tblbodym2').append(row);
+
+                    row = `<tr>
+                            <td>${response[0].dept_desc}</td>
+                            <td colspan="2">${response[0].station_des}</td>
+                            
+                            </tr>`;
+
+                    $('#tblbodym3').empty();
+                    $('#tblbodym3').append(row);
+
+                    row = `<tr>
+                            <td>${response[0].railwaygroup}</td>
+                            <td>${response[0].currentzone}</td>
+                            <td>${response[0].currentunitdivision}</td>
+                        </tr>`;
+
+                    $('#tblbodym4').empty();
+                    $('#tblbodym4').append(row);
+
+                    row = `<tr>
+                            <td>${response[0].rl_type}</td>
+                            <td>${response[0].designation}</td>
+                            <td>${response[0].desig_longdesc}</td>
+                        </tr>`;
+
+                    $('#tblbodym5').empty();
+                    $('#tblbodym5').append(row);
+
+                    row = `<tr>
+                            <td>${response[0].pc7_level}</td>
+                            <td>${formatDate(response[0].profile_modified_on)}</td>
+                            <td>${response[0].service_status}</td>
+                            </tr>`;
+
+                    $('#tblbodym6').empty();
+                    $('#tblbodym6').append(row);
+                        let status = response[0].status;
+                        if(status == '1')
+                        {
+                            status = 'Registered, No action Taken';
+                            $('#linkdesignation').hide();
+                        }
+                        else if(status == '2')
+                        {
+                            status = 'Rejected by admin';
+                            $('#linkdesignation').hide();
+                        }
+                        else if(status == '3')
+                        {
+                            status = 'Accepted by admin';
+                            $('#linkdesignation').show();
+                            let finaldata = 'Accepted as designation:- '+response[0].link_designation
+                            $('#linkdesignation').html(finaldata);
+
+                        }
+                            row = `<tr>
+                            <td >${response[0].profile_accepted_by}</td>
+                            <td >${status}</td>
+                            <td >${formatDate(response[0].profile_accepted_on)}</td>
+                            
+                            </tr>`;
+
+                    $('#tblbodym7').empty();
+                    $('#tblbodym7').append(row);
+
+                    
+                    row = `<tr>
+                            <td colspan="3">${response[0].remarks}</td>
+                            
+                            </tr>`;
+
+                    $('#tblbodym8').empty();
+                    $('#tblbodym8').append(row);
+                }
+            },
+            error: function (error) {
+                alert('Some error exist')
+            }
+        })
+
+    }
+
+    function acceptrequest()
+    {
+        let designation = document.getElementById('designation').value;
+        if (designation == null || designation == '') 
+        {
+            alert('Please Select Designation');
+            $('#designation').focus();
+            return false;
+        }
+        let remarks = document.getElementById('remarks').value;
+        if (remarks.length === 0) 
+        {
+            alert('Please Give Remarks');
+            $('#remarks').focus();
+            return false;
+        }
+        let data = {
+            post_type: 'accept',
+            ref_no: $('#globalRecordId').val(),
+            remarks: remarks,
+            designation : designation,
+            csrfmiddlewaretoken: '{{csrf_token}}'
+        }
+        if(confirm('Are you sure to Accept'))
+        {
+        $.ajax({
+            type: 'POST',
+            url: '{% url "nonrly_signup_accept" %}',
+            dataType: 'JSON',
+            data: data,
+            success: function (response) {
+                alert(response);
+                window.location.reload();
+            },
+            error : function(error)
+            {
+                alert('Some error exist')
+            }
+        });
+    }
+}
+
+</script>
+
+</html>
+{% endblock content %}

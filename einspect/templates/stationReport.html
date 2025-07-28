@@ -1,0 +1,826 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stationReport</title>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+
+
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+
+
+  <!-- swasti link -->
+
+  <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+  <link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <script rel="stylesheet" href="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> -->
+
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"> -->
+
+  <style>
+
+   /* #thead_IC {
+      word-wrap: break-word;
+    } */
+
+    
+th, td {  word-wrap: break-word; }
+    div.dataTables_wrapper {
+        /* width: 800px; */
+        margin: 0 auto;
+        
+    }
+
+.inpt-container
+{
+    background-image: linear-gradient(#cce3fc,#FFFFFF);
+    border-bottom:2px solid #b0d8f5;
+    margin-bottom:1rem;
+}
+
+h3.report_heading
+    {
+    position: relative;
+    padding-bottom: 10px;
+    font-weight: 600;
+    color: #262626 !important;
+    text-transform: uppercase;
+    font-size: 18px;
+    /* margin-left: 2rem; */
+    text-align: center;
+}
+.report_heading::after {
+    position: absolute;
+    content: "";
+    background: #C20E39;
+    height: 3px;
+    width: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+}
+
+
+  </style>
+
+</head>
+
+<body>
+
+  <br>
+    <h3 class="report_heading">STATION REPORT</h3>
+  <br>
+
+
+  <!-- <form id="form">
+    <div class="container" id="container" style="font-family:'Lato', sans-serif">
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label style="width:10em">From Date</label>
+            <br>
+            <input type="text" autocomplete="off" maxlength="10" placeholder="Select Date" class="form-control"
+              id="dateofInsp1" name="dateofInsp" readonly>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label style="width:10em">To Date</label>
+            <br>
+            <input type="text" autocomplete="off" maxlength="10" placeholder="Select Date" class="form-control"
+              id="dateofInsp2" name="dateofInsp" readonly>
+          </div>
+        </div>
+
+    
+        <div class="col-md-2">
+          <div class="form-group">
+            <button type="button" class="btn btn-primary mb-2" id="search_filter"
+              style="margin-left:5em; margin-top:2em" onclick="stationInspect()" >Search</button>
+          </div>
+        </div>
+
+        <div class="col-md-1">
+          <div class="form-group">
+
+            <button type="submit" class="btn btn-secondary mb-2" type="reset" id="btnReset" value="submit"
+              style="margin-top: 2em;">Reset</button>
+          </div>
+
+        </div>
+
+
+       
+        <div class="form-group">
+
+          <button type="button" name="submitpdf" id="submitpdf" class="btn btn-danger submitpdf" value="PDF" style="margin-left:1em; margin-top:16%" onclick="pdfShow()">PDF <i class="fa fa-file-pdf"></i></button>
+          <button type="button" name="submitpdf" id="submitexcel" class="btn btn-success submitpdf" value="excel" style="margin-left:1.5em; margin-top:16%" onclick="excelShow()">Excel <i class="fa fa-file-excel"></i></button>
+        
+        </div>
+      
+      </div>
+
+    </div>
+  </form> -->
+
+
+  <div class="container">
+
+    <!-- <h4 style="color:rgb(143, 25, 25);">All Stations List <i class="fa-solid fa-thumbtack" style="margin-top:3px; margin-left:10px ; color: rgb(143, 25, 25);"></i></h4> -->
+
+    <!-- <button type="button" id="filterButton" style="margin-left: 93%; font-size: medium; border-radius: 4px; border: 2px solid #e7e7e7;background-color: white; margin-bottom: 7px;" value="filter" onclick="show_filters(this.val)"><i class="fa fa-filter" style="margin-right:3px;"></i>Filter</button> -->
+
+
+
+    <div class="col-lg-12 card shadow my-2 inpt-container" id="filterForm">
+
+      <form method="POST" id="filter">{%csrf_token%}
+
+        <div class="container" id="container">
+          <div class="row">
+
+          
+            <div class="col">
+              <!-- <div class="form-group"> -->
+                <label class="lbl-caption">From Date</label>
+                <br>
+                <input type="text" autocomplete="off" maxlength="10" placeholder="Select Date" class="form-control"
+                  id="dateofInsp1" name="dateofInsp" readonly>
+              <!-- </div> -->
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="lbl-caption">To Date</label>
+                <br>
+                <input type="text" autocomplete="off" maxlength="10" placeholder="Select Date" class="form-control"
+                  id="dateofInsp2" name="dateofInsp" readonly>
+              </div>
+            </div>
+
+
+            <div class="col">
+              <div class="btn-toolbar" role="toolbar" style="margin-top:30px ;white-space: normal; word-wrap: break-word;">
+                <div class="col-sm-6">
+
+                      <button type="button" class="btn btn-warning btn-sm"  id="search_filter"
+                        onclick="stationInspect('normal')">Continue</button>
+
+                      <button type="reset" class="btn btn-secondary btn-sm mr-2" id="btnReset" value="reset" 
+                      onclick="stationInspect('reset')">Reset</button>
+
+               </div>
+
+         
+                <div>
+                    <a onclick="pdfShow()" target="_blank"><button type="button" name="submitpdf" id="submitpdf"
+                      class="btn btn-danger submitpdf btn-sm" value="PDF" >PDF <i
+                        class="fa fa-file-pdf"></i></button></a>
+
+                    <button type="button" name="submitpdf" id="submitexcel" class="btn btn-success btn-sm submitpdf"  value="excel"
+                      onclick="excelShow()">Excel <i class="fa fa-file-excel"></i></button>
+                </div>
+
+            </div>
+
+
+            </div>
+           
+
+
+
+
+            <!-- <div class="form-group"> -->
+
+              
+            <!-- </div> -->
+
+            <div class="col-lg-12">
+
+              <div class="form-group">
+
+
+                <input type="radio" class="radio" name="stn" value="AllStation" id="station" checked />
+                <label for=" station" style="margin-right: 10%;">All Station</label>
+                <input type="radio" class="radio" name="stn" value="SelectedStation" id="selStation" onclick="enable_disable1()" />
+                <label for="selStation" style="margin-right: 10%;">Selected Station</label>
+
+                <select name="station" id="selectedStation" style="width:20% ;"  disabled>
+
+                  <option value="" selected>---Select Station---</option>
+
+                  {% for i in stns %}
+
+                    <option value="{{i}}">{{i}}</option>
+
+                  {% endfor %}
+
+                </select><br>
+
+                <input type="radio" class="radio" name="cat" value="AllStationCat" id="cat" checked />
+                <label for="cat" style="margin-right: 3.2%;   ">All Station Category</label>
+
+                <input type="radio" class="radio" name="cat" value="SelectedStationCat" id="selCat"  onclick="enable_disable2()"/>
+
+                <label for="selCat" style="margin-right: 3.3%;">Selected Station Category</label>
+
+                <select name="category" id="selectedCategory" style="width:20%;" disabled>
+                  <option value="" selected="selected" disabled>---Select Category---</option>
+
+                  {% for j in category %}
+
+                  <option value="{{j}}">{{j}}</option>
+
+                  {% endfor %}
+
+                </select><br>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+    
+      
+      </form>
+    </div>
+
+    <!-- <div class="container mt-5">
+      <div class="row" style="background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);  color: black ;font-weight: bold;height: 40px; vertical-align: middle;">
+        <div class="col-lg-6 my-1">
+          <div class="row ml-1">
+            Show      
+            <div class="col-lg-5">
+              <select name="category" class="form-control-sm" id="selectedCategory" style="width:100%;">
+                <option value="" selected="selected" disabled>Select</option>
+                <option>10</option>
+                <option>50</option>
+              </select>
+            </div>
+            Entries
+          </div>
+        </div>       
+    
+        <div class="col-lg-6 my-1">
+          <div class="row float-right mr-2">
+              <button class="btn btn-sm bg-white mr-2" style="height:30px; margin-top: 2px;" type="button" id="filterButton" value="filter" onclick="show_filters(this.val)" >
+                <i class="fa fa-filter fa-sm"></i>
+                Toggle Filter
+              </button>
+                      
+              <div class="form-inline float-right">         
+                <div>
+                  <input type="text" class="form-control form-control-sm" id="myInput" placeholder="Search Text..." >
+                </div>
+                <div>
+                  <i class="fa-solid fa-print my-2 mx-2" onclick="window.print();"></i>
+                </div>          
+              </div>
+            </div>
+          </div>
+    </div> 
+    </div>  -->
+
+    <div class="container mt-5">
+      <div class="row" style="background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);  color: black ;font-weight: bold;height: 40px; vertical-align: middle;">
+        <div class="col-lg-6 my-1">
+          <div class="row ml-1">
+            Show      
+            <div class="col-lg-5">
+              <select name="category" class="form-control-sm" id="selectedCategory" style="width:100%;">
+                <option value="" selected="selected" disabled>Select</option>
+                <option>10</option>
+                <option>50</option>
+              </select>
+            </div>
+            Entries
+          </div>
+        </div>       
+    
+        <div class="col-lg-6 my-1">
+          <div class="row float-right mr-2">
+              <button class="btn btn-sm bg-white mr-2" style="height:30px; margin-top: 2px;" type="button" id="filterButton" value="filter" onclick="show_filters(this.val)" >
+                <i class="fa fa-filter fa-sm"></i>
+                Toggle Filter
+              </button>
+                      
+              <div class="form-inline float-right">         
+                <div>
+                  <input type="text" class="form-control form-control-sm" id="myInput" placeholder="Search Text..." >
+                </div>
+                <div>
+                  <i class="fa-solid fa-print my-2 mx-2" onclick="window.print();"></i>
+                </div>          
+              </div>
+            </div>
+          </div>
+    </div> 
+    </div> 
+
+
+  <!-- <div class="container">
+    <div class="row"
+      style="background-color:#426fcf;  color: white ;font-weight: bold; vertical-align: middle; padding-top: 5px;  padding-bottom: 5px; height: 40px; margin-left: 0.2%; margin-bottom: 3px; width:103% ; margin-top: 4%;">
+      <i class="fa-solid fa-thumbtack" style="margin-top:3px; margin-left:10px ;"></i>&nbsp;
+      Show Entries &nbsp;
+
+      <select name="category" id="selectedCategory" style="height:25px; border-radius:3% ;">
+        <option value="" selected="selected" disabled>Select</option>
+        <option>1</option>
+        <option>2</option>
+      </select>&nbsp;(No. of records:&nbsp;<span id="num"></span>)
+
+
+      <button type="button" id="filterButton"
+        style="margin-left:3%; font-size: medium; border-radius: 4px; border: 2px solid #e7e7e7;background-color: white; margin-bottom: 7px; height: 25px;"
+        value="filter" onclick="show_filters(this.val)"><i class="fa fa-filter"
+          style="margin-right:3px;"></i>Filter</button>
+
+      <i class="fa-solid fa-magnifying-glass" style="margin-top:3px; margin-left:37% ;"></i>
+      <input id="myInput" type="text" placeholder="Search Text..."
+        style="margin-left: 1%; margin-bottom: 9px; border-radius: 5px; height: 25px;">&nbsp;
+
+      <i class="fa-solid fa-print" style="margin-top:3px; cursor: pointer;" onclick="window.print();"></i>
+
+    </div>
+  </div> -->
+
+
+    <table class="table table-bordered table-sm table-hover" width="90%" id="tableshow" cellspacing="0">
+
+      <thead id="thead_IC " style="font-size:0.95em;background-color: #f7f1e8; ">
+
+
+      </thead>
+
+      <tbody id="tbody_IC" style="font-size:0.9em;  ">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</body>
+
+<script>
+  $(document).ready(function () {
+    $('#filterForm').show();
+    var stationCatCh = {{ category | safe }}
+    var stationCh = {{ stns | safe }}
+
+
+
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#tbody_IC tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+      });
+
+    });
+
+    var currentdate = new Date();
+    var startdate = moment().subtract(7, 'days')
+    var enddate = moment()
+    $("#dateofInsp1").val(startdate.format('DD-MM-YYYY'))
+    $("#dateofInsp2").val(enddate.format('DD-MM-YYYY'))
+    $("#dateofInsp1").datepicker({
+      maxDate: currentdate,
+      enddate: "currentdate",
+      dateFormat: "dd-mm-yy",
+      changeMonth: true,
+      changeYear: true,
+      todayHighlight: true,
+      clearBtn: true
+
+    });
+
+
+    $('#dateofInsp1').change(function () {
+      var dateofInsp1 = $('#dateofInsp1').val();
+      console.log("hii", dateofInsp1)
+      // var currentdate = new Date();
+      // $("#dateofInsp2").val(currentdate.getDate() + "/" + parseInt(currentdate.getMonth() + 1) + "/" + currentdate.getFullYear())
+      $("#dateofInsp2").val(enddate.format('DD-MM-YYYY'))
+      $("#dateofInsp2").datepicker({
+        maxDate: currentdate,
+        minDate: dateofInsp1,
+        dateFormat: "dd-mm-yy",
+        changeMonth: true,
+        changeYear: true,
+        todayHighlight: true
+      });
+    })
+
+    var fromdate = $('#dateofInsp1').val();
+    var todate = $('#dateofInsp2').val();
+    
+    data = {
+      'fromdate': fromdate,
+      'todate': todate,
+      'stationCh':stationCh,
+      'stationCatCh':stationCatCh,
+      'check':'normal',
+    }
+
+    $.ajax({
+      url: '{% url "stationInspect" %}',
+      dataType: 'json',
+      type: 'GET',
+      data: data,
+      success: function (response) {
+
+        console.log(response.header)
+        header = response.header;
+
+        $('#tableshow thead').empty();
+
+        var ro = '';
+        var num = 0;
+
+
+        ro += `<tr style="border:1px solid black;">`
+        ro += `<th style="border:1px solid black;" scope="col">Sr.No.</th>`
+        ro += `<th style="border:1px solid black;" scope="col">Station Name</th>`
+        ro += `<th style="border:1px solid black;" scope="col">Station Category</th>`
+        ro += `<th style="border:1px solid black;" scope="col">Inspection Count</th>`
+
+
+        for (let i = 0; i < header.length; i++) {
+          ro += `<th style="border:1px solid black;" scope="col">${header[i]['name']} Score</th>`
+        }
+        ro += `<th style="border:1px solid black;" scope="col">Total Score</th>`
+        ro += `<th style="border:1px solid black;" scope="col">Avg Score</th>`
+        ro += '</tr>'
+
+        $('#tableshow thead').append(ro);
+
+        var table = $("#tableshow").DataTable()
+        table.destroy()
+        $('#tableshow tbody').empty();
+
+        // var row1=''
+
+        body = response.finalList;
+        console.log('body', body)
+
+
+        for (let i1 = 0; i1 < body.length; i1++) {
+          if(body[i1]['station_name']){
+
+            var row1 = ''
+            row1 += `<tr style="border:1px solid black;">`;
+            console.log('dfsad', body[i1]['startstn_id__station_name'])
+            row1 += `<td style="border:1px solid black;" scope="col" >${++num}</td>`;
+            row1 += `<td style="border:1px solid black;" scope="col">${body[i1]['station_name']}</td>`;
+            row1 += `<td style="border:1px solid black;" scope="col">${body[i1]['station_category']}</td>`;
+            row1 += `<td style="border:1px solid black;" scope="col">${body[i1]['count']}</td>`;
+            for (let i2 = 0; i2 < header.length; i2++) {
+              row1 += `<td style="border:1px solid black; " scope="col">${body[i1][header[i2]['name']]}</td>`;
+            }
+            row1 +=
+              `<td style="border:1px solid black; font-weight: bold;" scope="col">${body[i1]['total']}</td>`;
+            row1 +=
+              `<td style="border:1px solid black; font-weight: bold;" scope="col">${body[i1]['average']}</td>`;
+            row1 += `</tr>`;
+          }
+
+
+
+          $('#tableshow tbody').append(row1);
+          console.log(row1)
+
+        }
+
+
+        // document.getElementById("num").innerHTML = num;
+
+        var table = $('#tableshow').DataTable({
+
+          // scrollX: true,
+          // scrollY:true,
+          // scrollCollapse: true,
+          // paging: true,
+          // bFilter: false,
+          // dom: rtip,
+
+
+          // "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+          pageLength: 10,
+          "lengthChange": false,
+          searching: false,
+          pagingType: "simple",
+          "language": {
+            "info": "Page _PAGE_ of _PAGES_",
+
+          }
+
+        });
+
+
+
+      }
+
+
+
+
+    })
+
+
+
+
+
+  });
+
+
+  $(':input[readonly]').css({
+    'background-color': 'white'
+  });
+
+  
+  function stationInspect(check) {
+
+// alert('showing table')
+var fromdate = $('#dateofInsp1').val();
+var todate = $('#dateofInsp2').val();
+var stationCh = []
+var stationCatCh = []
+var stn = document.getElementsByName('stn');
+var cat = document.getElementsByName('cat');
+console.log('iuytres',stn)
+console.log('jhgfds',cat)
+for (var r1 of stn) {
+  if (r1.checked) {
+    stn = r1.value;
+    break;
+  }
+  else{
+    stn=''
+  }
+}
+
+for (var r2 of cat) {
+  if (r2.checked) {
+    cat = r2.value;
+    break;
+  }
+  else{
+    cat=''
+  }
+}
+
+if(stn=='SelectedStation'){
+  var xx = $('#selectedStation').val();
+  stationCh.push(xx)
+  
+}
+else{
+  var stationCh = {{ stns | safe }}
+}
+
+if(cat=='SelectedStationCat'){
+  var xx = $('#selectedCategory').val();
+
+  stationCatCh.push(xx)
+  
+}
+else{
+  var stationCatCh = {{ category | safe }}
+  
+}
+
+console.log('Stn: ', stationCh)
+console.log('Cat: ', stationCatCh)
+data = {
+  'stn':stn,
+  'cat':cat,
+  'fromdate': fromdate,
+  'todate': todate,
+  'stationCh':stationCh,
+  'stationCatCh':stationCatCh,
+  'check':check,
+  
+
+}
+
+
+
+$.ajax({
+  url: '{% url "stationInspect" %}',
+  dataType: 'json',
+  type: 'GET',
+  data: data,
+  success: function (response) {
+
+    console.log(response.header)
+    header = response.header;
+
+    $('#tableshow thead').empty();
+
+    var ro = '';
+
+    ro += '<tr style="border:1px solid black;">'
+    ro += `<th style="border:1px solid black;" scope="col">Sr.No.</th>`
+    ro += `<th style="border:1px solid black;" scope="col">Station Name</th>`
+    ro += `<th style="border:1px solid black;" scope="col">Station Category</th>`
+    ro += `<th style="border:1px solid black;" scope="col">Inspection Count</th>`
+
+    for (let i = 0; i < header.length; i++) {
+      ro += `<th style="border:1px solid black;" scope="col">${header[i]['name']} Score</th>`
+    }
+    ro += `<th style="border:1px solid black;" scope="col">Total Score</th>`
+    ro += `<th style="border:1px solid black;" scope="col">Avg Score</th>`
+    ro += '</tr>'
+
+    $('#tableshow thead').append(ro);
+
+    var table = $("#tableshow").DataTable()
+    table.destroy()
+    $('#tableshow tbody').empty();
+
+    // var row1=''
+    var num = 0;
+    body = response.finalList;
+    console.log('body', body)
+
+    for (let i1 = 0; i1 < body.length; i1++) {
+      var row1 = ''
+
+      row1 += `<tr style="border:1px solid black;">`;
+      console.log('dfsad', body[i1]['station_name'])
+      row1 += `<td style="border:1px solid black;" scope="col" >${++num}</td>`;
+      row1 += `<td style="border:1px solid black;" scope="col">${body[i1]['station_name']}</td>`;
+      row1 += `<td style="border:1px solid black;" scope="col">${body[i1]['station_category']}</td>`;
+      row1 += `<td style="border:1px solid black;" scope="col">${body[i1]['count']}</td>`;
+
+      for (let i2 = 0; i2 < header.length; i2++) {
+        row1 += `<td style="border:1px solid black; " scope="col">${body[i1][header[i2]['name']]}</td>`;
+      }
+      row1 += `<td style="border:1px solid black; font-weight: bold;" scope="col">${body[i1]['total']}</td>`;
+      row1 +=
+      `<td style="border:1px solid black; font-weight: bold;" scope="col">${body[i1]['average']}</td>`;
+      row1 += `</tr>`;
+
+      $('#tableshow tbody').append(row1);
+      // console.log(row1)
+
+    }
+
+    // document.getElementById("num").innerHTML = num;
+
+    var table = $('#tableshow').DataTable({
+
+      pageLength: 10,
+      "lengthChange": false,
+      searching: false,
+      pagingType: "simple",
+      "language": {
+        "info": "Page _PAGE_ of _PAGES_",
+      }
+
+    });
+
+
+    if(check=='reset'){
+      var currentdate = new Date();
+      var startdate = moment().subtract(7, 'days')
+      var enddate = moment()
+      $("#dateofInsp1").val(startdate.format('DD-MM-YYYY'))
+      $("#dateofInsp2").val(enddate.format('DD-MM-YYYY'))
+      $('#station').prop('checked', true);
+      $('#selStation').prop('checked', false);
+      $('#selectedStation').prop('disabled', true);;
+      $('#cat').prop('checked', true);
+      $('#selCat').prop('checked', false);
+      $('#selectedCategory').prop('disabled', true);
+      
+    }
+
+  },
+
+
+  error: function (request, error) {
+    // alert('Please Select To-date and From-date')
+    $("#dateofInsp1").focus();
+    $("#dateofInsp2").focus();
+  }
+});
+}
+  
+
+
+
+  function pdfShow() {
+    var fromdate = $('#dateofInsp1').val();
+    var todate = $('#dateofInsp2').val();
+    var station=$('#selectedStation').val()
+    var category=$('#selectedCategory').val()
+    // alert(category)
+    submitbtn = $('#submitpdf').val();
+    // alert(submitbtn)
+    if(fromdate!='' && todate!=''){
+      window.open("{% url 'stationReportPdf' %}" + "?fromdate=" + fromdate + "&todate=" + todate + '&submitbtn=' +submitbtn+'&station='+station+'&category='+category, "_blank")
+    }else{
+      alert('No data available')
+    }
+
+    // window.location.href="{% url 'stationReportPdf' %}"+"?fromdate="+fromdate+"&todate="+todate+'&submitbtn='+submitbtn;
+  }
+
+  function excelShow() {
+    var fromdate = $('#dateofInsp1').val();
+    var todate = $('#dateofInsp2').val();
+    submitbtn = $('#submitexcel').val();
+    // alert(submitbtn)
+    if(fromdate!='' && todate!=''){
+      window.location.href = "{% url 'stationReportPdf' %}" + "?fromdate=" + fromdate + "&todate=" + todate +'&submitbtn=' + submitbtn;
+    }else{
+      alert('No data available')
+    }
+  }
+
+  function show_filters(val) {
+
+    $('#filterForm').toggle();
+
+  }
+
+  function enable_disable1() {
+
+    var isChecked = document.getElementById("selStation").checked;
+    console.log(isChecked);
+    if (document.getElementById("selStation").checked) {
+
+      $("#selectedStation").prop('disabled', false);
+    } 
+  }
+
+  function enable_disable2() {
+
+  var isChecked = document.getElementById("selCat").checked;
+  console.log(isChecked);
+  if (document.getElementById("selCat").checked) {
+
+    $("#selectedCategory").prop('disabled', false);
+  } 
+}
+
+  
+
+
+</script>
+
+
+
+</html>
+{% endblock content %}

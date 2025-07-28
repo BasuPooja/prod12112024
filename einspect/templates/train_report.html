@@ -1,0 +1,127 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>train report</title>
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static '/js/popper.min.js' %}"></script>
+    <script src="{% static '/js/Chart.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+    <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+    <script src="{% static '/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+    <script src="{% static '/js/moment.min.js' %}"></script>
+
+    <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static '/js/sweetalert.min.js' %}"></script>
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+    <script src="{% static '/js/jquery.min1.js' %}"></script>
+    <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+    <!-- <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script> -->
+    <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+    <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+    <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+    <link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+    <script type="text/javascript" src="{% static '/js/dataTables.fixedColumns.min.js' %}"></script>
+    <link rel="stylesheet" type="  text/css" href="{% static '/css/dataTables.fixedColumns.min.css' %}" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+</head>
+<body>
+    <h2 class="text-center"> Train Report: </h2>
+    
+    <div class="container-fluid col-lg-8">
+        <div class="row">
+            <label for="mytrain">Trains</label>
+            <select class="form-control" data-live-search="true" id="trainn" data-actions-box="true" width="50%">
+              <option value="" selected>Select</option>
+              {% for i in trains %}
+              <option value="{{i.train_no}}">{{i.train_name}}</option>
+              {% endfor %}
+              </select>
+              <button type="button" class="btn btn-primary" onclick="searchfun()">Search</button>
+        </div>
+       <canvas id="myChart" style="width:50%; "></canvas>
+        </div>
+    
+</body>
+</html>
+<script>
+    $('#trainn').select2();
+
+    function searchfun(){
+     var selectedtrain = $('#trainn').val()
+     alert(selectedtrain)
+     window.location.href="{% url 'train_repo' %}"+"?selectedtrain="+selectedtrain;
+    //  $('#trainval').val(selectedtrain)
+    }
+    
+  const ctx = document.getElementById('myChart').getContext('2d');
+    let inspected_on={{inspected_on | safe}}
+    let total={{total | safe}}
+    const myChart = new Chart(ctx, {
+        // plugins:[mchart],
+        type: 'line',
+        data: {
+            labels: inspected_on,
+            datasets: [
+              {
+                data: total,
+                backgroundColor:['red'],
+                 },
+             ]
+        },
+        
+    options: {
+layout:{
+  padding:{
+    right:20.5,
+  }
+},
+
+
+  scales: {
+      x:{
+        display: true,
+          max:10,
+          min:0,
+      },
+      y: {
+        display:true,
+          min:0,
+          max:100,
+          beginAtZero: true,
+          ticks:{
+          stepSize:5,
+      }
+  }
+}
+},
+
+
+    });
+
+</script>
+{% endblock content %}
+
+--------------------------------------------------------

@@ -1,0 +1,2521 @@
+{% extends 'adminDash.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Card Categories</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="{% static '/jquery-ui/jquery-ui.js' %}"></script>
+
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.css' %}" />
+  <script type="text/javascript" src="{% static '/DataTables/datatables.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/jquery-ui/jquery-ui.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/select2/select2.css' %}" />
+  <script type="text/javascript" src="{% static '/select2/select2.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/timepicker/css/timepicker.css' %}" />
+  <script type="text/javascript" src="{% static '/timepicker/js/timepicker.js' %}"></script>
+
+  <style>
+    /* .updateIcon{
+      color:white;
+    } */
+
+    /* h4 {
+      text-align: center;
+      width: 100%;
+      height: 25%;
+      box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+      color: red;
+      justify-content: center;
+      margin-top: 5px;
+      opacity: 1;
+      transition: 500ms;
+
+
+    } */
+    
+.errorMessage {
+width: 143px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 5px;
+padding-bottom: 5px;
+margin-left: 107px;
+visibility: hidden;
+border-radius: 10px;
+position: relative;
+float:left;
+}
+.errorMessage.top-arrow:after {
+content: " ";
+position: absolute;
+right: 90px;
+top: -15px;
+border-top: none;
+border-right: 10px solid transparent;
+border-left: 10px solid transparent;
+font-family: sans-serif;
+font-style: italic;
+font-size:0% ;
+
+}
+  
+</style>
+
+
+
+
+</head>
+
+
+
+
+
+<body style="overflow-x: hidden;">
+
+  {% for message in messages %}
+            <div class="alert alert-{{message.tags}} alert-dismissible fade show " role="alert">
+                <strong>{{message}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+  {% endfor %}
+
+  <div class="row">
+    <div class="col-sm-4 fixed-left" style="overflow-y:hidden;">
+      <div class="container" style="height:600px; overflow-y:auto">
+
+        <br>
+        <div class="stationCard" style="width:300px; border:groove;border-radius: 10px;  ">
+          <img class="card-img-top" src="../static/images/station6.jpg" alt="Card image"
+            style=" padding: 10px ; width:100%; height: 100%; ">
+
+          <div class="card-body">
+
+            <button class="btn btn-info" id="addStation" value="station" style="margin-right:5px"
+              onclick="showData(this.value);">Add Station</button>&nbsp;
+            <button class="btn btn-warning" id="viewStation" value="viewStation"
+              onclick="showTable('viewStation');">View Station</button>
+
+
+          </div>
+
+        </div><br>
+
+
+        <div class="trainCard" style="width:300px; border:groove; border-radius: 10px;">
+          <img class="card-img-top" src="../static/images/train.jpg" alt="Card image"
+            style=" padding:10px; width:100%; height: 100%;">
+
+          <div class="card-body">
+
+            <button class="btn btn-info" id="trainid" value="train"
+              style="padding-right:30px; margin-right:10px;padding-left:20px" onclick="showData(this.value);  ">Add
+              Train</button>
+            <button class="btn btn-warning" id="viewTrain" value="viewTrain"
+              style="padding-right:15px; padding-left:15px" value="viewTrain" onclick="showTable('viewTrain');">View
+              Train</button>
+          </div>
+
+        </div><br>
+
+
+
+        <div class="sectionCard" style="width:300px; border:groove;border-radius: 10px;">
+          <img class="card-img-top" src="../static/images/section1.jpg" alt="Card image"
+            style=" padding:10px; width:100%; height: 100%;">
+
+          <div class="card-body">
+
+            <button class="btn btn-info" id="sectionid" value="section" style="margin-right:10px"
+              onclick="showData(this.value);">Add Section</button>
+            <button class="btn btn-warning" id="viewSection" value="viewSection"
+              style="padding-right:15px; padding-left:15px" value="viewSection" onclick="showTable('viewSection');">View
+              Section</button>
+          </div>
+
+        </div><br>
+
+        <div class="runningroomCard" style="width:300px; border:groove; border-radius: 10px;">
+          <img class="card-img-top" src="../static/images/running room.jpg" alt="Card image"
+            style=" padding:10px; width:100%; height: 70%;">
+
+          <div class="card-body">
+
+            <button class="btn btn-info" id="runningRoom" value="runningRoom"
+              style="margin-right:10px; padding-left: 30px; padding-right: 30px;" onclick="showData(this.value);">Add
+              RR</button>
+
+            <button class="btn btn-warning" id="viewRr" value="viewRr" style="padding-right:30px; padding-left:30px"
+              value="viewRr" onclick="showTable('viewRr');">View RR</button>
+
+          </div>
+
+        </div><br>
+
+      </div>
+    </div>
+
+    <!-- station form -->
+
+    <div class="col-sm-8 " id="stationForm">
+      <h3 style="margin-top: 30px; margin-bottom: 15px;">Add Station</h3>
+      <form method="POST" style="width: 90%;" class="shadow my-2" id="station">{%csrf_token%}
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="zone" style="margin-top: 30px;">Railway Zone<span
+              style="color: red; ">*</span></label>
+
+          <div class="col-sm-7" style="margin-top: 40px;">
+             
+            <select id="zoneStation" style="margin-top: 30px; width: 100%;" class="input-lg zone form-control form-control-lg"  name="zone"
+            onchange="zoneChangeStation()" placeholder="Select Zone" >
+            <!-- <input list="zoneSelect" id="zoneStation" class=" zone form-control" style="margin-top: 30px;" name="zone"
+              onchange="zoneChangeStation()" placeholder="Select Zone" /> -->
+            <!-- <datalist id="zoneSelect"> -->
+              <option value="" disabled selected>Select Zone</option>
+              {% for i in zone %}
+
+              <option value="{{i.location_code}}">{{i.location_code}}</option>
+              {% endfor %}
+            <!-- </datalist> -->
+
+           </select>
+          </div>
+
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="zone">Railway Division<span style="color: red; ">*</span></label>
+          <div class="col-sm-7" style="margin-top:5px">
+            <select id="divisionStation" class="form-control" name="division" onchange="ssName()">
+              <option value="" disabled selected>Select Division</option>
+              <!-- {% for i in division %}
+                <option value="{{i.location_code}}">{{i.location_code}}</option>
+                {% endfor %} -->
+
+            </select>
+
+           
+          </div>
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="stationName">Station Name<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="stationName" name="stationName"
+              placeholder="Enter station name" maxlength="50" required>
+
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="stationId">Station Code<span style="color: red;">*</span></label>
+          <div class="col-sm-7">
+
+            <input type="text" class="form-control text-muted" id="stationId" name="stationId"
+              placeholder="Enter station code" required onkeyup="this.value = this.value.toUpperCase()" pattern="[A-Z]*"
+              maxlength="6" ;>
+            <p class="text-muted" style="font-size: 12px;">Enter character only max length is 6</p>
+          </div>
+        </div>
+
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="stationSectionName">Section Name<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <select id="stationSectionName" class="form-control" name="stationSectionName">
+              <option value="" disabled selected>Select Section Name</option>
+
+            </select>
+            <!-- <input type="text" class="form-control" id="stationSectionName" name="stationSectionName"
+              placeholder="Enter Section Name"> -->
+          </div>
+        </div>
+
+        <button class="mb-2 rounded bg-secondary btn btn-sm text-white" type="clear" onclick="resetForm()"
+          style="margin-left: 60%; margin-top: 5px;">Reset</button>
+
+        <button class="mb-2 rounded bg-primary btn btn-sm text-white" type="submit" value="station" name="submit"
+          style="margin-left: 3%; margin-top: 5px;">Save</button>
+
+
+      </form>
+    </div>
+
+    <!-- train form -->
+
+    <div class="col-sm-8" id="trainForm">
+      <h3 style="margin-top: 30px; margin-bottom: 15px;">Add Train</h3>
+      <form method="POST" style="width: 90%" class="shadow my-2" id="train">{% csrf_token%}
+
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="zone" style="margin-top: 30px;">Railway Zone<span
+              style="color: red; ">*</span></label>
+
+          <div class="col-sm-7" style="margin-top: 40px;">
+            
+            <select id="zoneTrain" class=" zone form-control" style="margin-top: 30px;"
+            name="zone" onchange="zoneChangeTrain()" placeholder="Select Zone">
+            <!-- <input list="zoneSelectTrain" id="zoneTrain" class=" zone form-control" style="margin-top: 30px;"
+              name="zone" onchange="zoneChangeTrain()" placeholder="Select Zone" />
+            <datalist id="zoneSelectTrain"> -->
+              <option value="" disabled selected>Select Zone</option>
+              {% for i in zone %}
+
+              <option value="{{i.location_code}}">{{i.location_code}}</option>
+              {% endfor %}
+            <!-- </datalist> -->
+          </select>
+
+          </div>
+
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px; margin-top: 5px;">
+
+          <label class="col-sm-3 col-form-label " for="zone">Railway Division<span style="color: red; ">*</span></label>
+          <div class="col-sm-7">
+            <select id="divisionTrain" class="form-control" name="division">
+              <option value="" disabled selected>Select Division</option>
+
+
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="trainNumber"> Train Number<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="trainNumber" name="trainNumber" placeholder="Enter train number"
+              maxlength="6" pattern="[0-9]*" required>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="trainName">Train Name<span style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="trainName" name="trainName" placeholder="Enter train name"
+              maxlength="50" onkeyup="this.value = this.value.toUpperCase()" required>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="trainCat">Train Category<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <!-- <select id="trainCat" class="form-control" name="trainCat"> -->
+            <input list="zoneSelect2" id="trainCat" class="form-control" name="trainCat" placeholder="Select Category">
+            <datalist id="zoneSelect2">
+              <!-- <option value="" disabled selected>Select Category</option> -->
+              {% for i in trainCat%}
+              <option value="{{i.tn_category}}">{{i.tn_category}}</option>
+              {% endfor %}
+            </datalist>
+            <!-- </select> -->
+          </div>
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="pmd"> Primary Maintenance Depot<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" style="margin-top: 30px;" class="form-control" id="pmd" name="pmd"
+              placeholder="Enter Primary Maintenance Depot" maxlength="6" >
+          </div>
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="smd">Secondary Maintenance Depot<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" style="margin-top: 30px;" class="form-control" id="smd" name="smd"
+              placeholder="Enter Secondary Maintenance Depot" maxlength="6" >
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="SourceStation">Source Station<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <select id="SourceStation" class="form-control" name="SourceStation">
+              <option value="" disabled selected>Select Source Station</option>
+              {% for i in sourceStation%}
+              <option value="{{i.stnshortcode}}">{{i.stnshortcode}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="destStation">Destination Station<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <select id="destStation" class="form-control" name="destStation">
+              <option value="" disabled selected>Select Destination Station</option>
+              {% for i in destStation%}
+              <option value="{{i.stnshortcode}}">{{i.stnshortcode}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="owningRly">Owning Railway<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+
+
+            <select id="owningRly" class="form-control" name="owning">
+              <option value="" disabled selected>Select Owning Railway</option>
+              {% for i in owning %}
+              <option value="{{i.stnshortcode}}">{{i.stnshortcode}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="coaches">Train Coaches<span style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="coaches" name="totalCoaches" placeholder="Enter Total Coaches"
+              maxlength="2" pattern="[0-9]*" required>
+          </div>
+        </div>
+
+        <button class="mb-2 rounded bg-secondary btn btn-sm text-white" type="clear" onclick="resetForm()"
+          style="margin-left: 60%; margin-top: 5px;">Reset</button>
+
+        <button type="submit" class="mb-2 rounded bg-primary btn btn-sm text-white" value="train" name="submit"
+          style="margin-left: 3%; margin-top: 5px;">Save</button>
+
+      </form>
+    </div>
+
+    <!-- section form -->
+
+    <div class="col-sm-8" id="sectionForm">
+      <h3 style="margin-top: 30px; margin-bottom: 15px;">Add Section</h3>
+      <form method="POST" style="width: 90%" class="shadow my-2" id="section">{%csrf_token%}
+
+
+        <div class="row mb-3" style="margin-left: 20px;">
+          <label class="col-sm-3 col-form-label " for="zone" style="margin-top: 30px;">Railway Zone<span
+              style="color: red; ">*</span></label>
+          <div class="col-sm-7" style="margin-top: 40px;" >
+            <select id="zoneSection" class="zone form-control" name="zone" onchange="zoneChangeSection()" placeholder="Select Zone">
+            <!-- <input list="zoneSelect3" id="zoneSection" class="zone form-control" style="margin-top: 30px;" name="zone"
+              onchange="zoneChangeSection()" placeholder="Select Zone">
+            <datalist id="zoneSelect3"> -->
+              <option value="" disabled selected>Select Zone</option>
+              {% for i in zone %}
+              <option value="{{i.location_code}}">{{i.location_code}}</option>
+              {% endfor %}
+            <!-- </datalist> -->
+            </select>
+          </div>
+
+        </div>
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="zone">Railway Division<span style="color: red; ">*</span></label>
+          <div class="col-sm-7">
+            <select id="divisionSection" class="form-control" name="division">
+              <option value="" disabled selected>Select Division</option>
+              <!-- {% for i in division %}
+                  <option value="{{i.location_code}}">{{i.location_code}}</option>
+                  {% endfor %} -->
+
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="sectionStartCode">Section Start Code<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <select id="sectionStartCode" class="form-control" name="sectionStartCode"
+              onchange="sectionStartChange(this.id)">
+              <option value="" disabled selected>Select Section Start Code</option>
+              {% for i in secStart%}
+              <option value="{{i.stnshortcode}}">{{i.stnshortcode}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+          <!-- <input type="text">{{sectionStartCode}}</input> -->
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="sectionEndCode">Section End Code<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <select id="sectionEndCode" class="form-control" name="sectionEndCode" onchange="getSectionCodeName()">
+              <option value="" disabled selected>Select Section End Code</option>
+              <!-- {% for i in secEnd%}
+                  <option value="{{i.stnshortcode}}">{{i.stnshortcode}}</option>
+                  {% endfor %} -->
+
+            </select>
+          </div>
+        </div>
+
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label" for="sectionCode"> Section Code<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control " id="sectionCode" name="sectionCode" placeholder="Section Code"
+              readonly required>
+          </div>
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="sectionName"> Section Name<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="sectionName" name="sectionName" placeholder="Section Name"
+              readonly required>
+          </div>
+        </div>
+
+        <!-- <div class="row mb-3" style=" margin-left: 20px;">
+        <label class="col-sm-3 col-form-label"  for="route"> Route<span style="color: red;">*</span></label>
+             <div class="col-sm-7">
+                 <input type="text" class="form-control" name="route" id="route" placeholder="Enter Route" required>
+             </div>
+       </div> -->
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="via"> Via<span style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <select id="viaName" class=" form-control" name="viaName"
+            placeholder="Enter via">
+            <!-- <input list="viaSelect" id="via" class=" form-control" name="viaName"
+            placeholder="Enter via" />
+          <datalist id="viaSelect"> -->
+            <option value="" disabled selected>Select via</option>
+            {% for i in vialist %}
+
+            <option value="{{i.station_name}}">{{i.station_name}}</option>
+            {% endfor %}
+          <!-- </datalist> -->
+          </select>
+         
+          </div>
+
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="sectionLength">Section Length<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="number" class="form-control" id="sectionLength" name="sectionLength"
+              placeholder="Enter Section Length" required>
+          </div>
+        </div>
+
+        <!-- <div class="row mb-3" style=" margin-left: 20px;">
+        <label class="col-sm-3 col-form-label" for="divisionId">Division Id<span style="color: red;">*</span></label>
+             <div class="col-sm-7">
+                 <input type="text"  class="form-control" name="division" id="divisionId" placeholder="Enter Division Id" required>
+             </div>
+       </div> -->
+
+        <button class="mb-2 rounded bg-secondary btn btn-sm text-white" type="clear" onclick="resetForm()"
+          style="margin-left: 60%; margin-top: 5px; padding-bottom: 10px;">Reset</button>
+        <button type="submit" class="mb-2 rounded bg-primary btn btn-sm text-white" value="section" name="submit"
+          style="margin-left: 3%; margin-top: 5px; padding-bottom: 10px;">Save</button>
+
+      </form>
+    </div>
+
+    <!-- running room form -->
+    <div class="col-sm-8" id="runningRoomForm">
+      <h3 style="margin-top: 30px; margin-bottom: 15px;">Add Running Room</h3>
+      <form method="POST" style="width: 90%" class="shadow my-2" id="rr">{%csrf_token%}
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="zone" style="margin-top: 30px;">Railway Zone<span
+              style="color: red; ">*</span></label>
+          <div class="col-sm-7" style="margin-top: 40px;">
+            <select id="zoneRr" class="form-control" style="margin-top: 30px;" name="zone" onchange="zoneChangeRr()" placeholder="Select Zone">
+            <option value="" disabled selected>Select Zone</option>
+            <!-- <input list="zoneSelect4" id="zoneRr" class="form-control" style="margin-top: 30px;" name="zone"
+              onchange="zoneChangeRr()" placeholder="Select Zone">
+            <datalist id="zoneSelect4"> -->
+              {% for i in zone %}
+              <option value="{{i.location_code}}">{{i.location_code}}</option>
+              {% endfor %}
+            <!-- </datalist> -->
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="zone">Railway Division<span style="color: red; ">*</span></label>
+          <div class="col-sm-7">
+            <select id="divisionRr" class="form-control" name="divisionRr">
+              <option value="" disabled selected>Select Division</option>
+
+            </select>
+          </div>
+        </div>
+
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="runningRoom">Running Room Name<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="runningRoom" name="runningRoomName"
+              placeholder="Enter Running Room Name" required maxlength="50">
+          </div>
+        </div>
+
+        <div class="row mb-3" style=" margin-left: 20px;">
+          <label class="col-sm-3 col-form-label" for="runningRoomCode">Running Room Code<span
+              style="color: red;">*</span></label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="runningRoomCode" name="runningRoomCode"
+              placeholder="Enter Running Room Code" maxlength="10" pattern="[0-9]*" required>
+          </div>
+        </div>
+
+
+        <div class="row mb-3" style="margin-left: 20px;">
+
+          <label class="col-sm-3 col-form-label " for="stationCode">Station Code<span
+              style="color: red; ">*</span></label>
+          <div class="col-sm-7">
+            <select id="rStation" class="form-control" name="rStation">
+              <option value="" disabled selected>Select station code</option>
+              {% for i in rStation%}
+              <option value="{{i.stnshortcode}}">{{i.stnshortcode}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+        </div>
+
+
+
+
+        <button class="mb-2 rounded bg-secondary btn btn-sm text-white" type="clear" onclick="resetForm()"
+          style="margin-left: 60%; margin-top: 5px;">Reset</button>
+        <button type="submit" class="mb-2 rounded bg-primary btn btn-sm text-white" value="runningRoom" name="submit"
+          style="margin-left: 3%; margin-top: 5px;">Save</button>
+
+      </form>
+    </div>
+
+    <!-- table for station -->
+    <div class="col-sm-8" style="margin-top:20px ;" id="stationTablediv">
+      <h3 style="margin-top: 10px; margin-bottom: 20px;">Station List</h3>
+      <table class="table table-striped table-bordered table-sm" width="700" id="stationTable">
+
+        <thead style="background-color:white;white-space: nowrap;font-size: 1rem; color:black;text-align: center;">
+          <tr>
+            <th>Sr. No</th>
+            <th>Station Name</th>
+            <th>Station Code</th>
+            <th>Zone</th>
+            <th>Division</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+
+
+    <!-- View station Detail Modal -->
+
+    <div id="ModalStationView" class="modal fade " role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">View Station Details</h4>
+            <span class="close" data-dismiss="modal">×</span>
+          </div>
+
+
+          <div class="modal-body">
+
+            <form method="GET" id="saveStationView" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="station_idView" name="station_idView" hidden>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-4">
+
+                  <label for="viewZone"><b>Railway Zone<sup style="font-size: 15px; color:red;">*</sup></b></label>
+
+
+                  <input id="viewZone" type="text" name="viewZone" class="form-control" disabled="disabled" />
+
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewDiv"><b>Railway Division</b></label>
+                  <input id="viewDiv" type="text" name="viewDiv" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewStnCode"><b>Station code</b></label>
+                  <input id="viewStnCode" type="text" name="viewStnCode" class="form-control" disabled="disabled" />
+                </div>
+
+
+                <div class="col-sm-4">
+                  <label for="viewStationName"><b>Station Name</b></label>
+                  <input id="viewStationName" type="text" name="viewStationName" class="form-control"
+                    disabled="disabled" />
+                </div>
+
+
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- update Station modal -->
+
+    <div class="modal fade" id="ModalStation" tabindex="-1" role="dialog" aria-labelledby="ModalStationLabel"
+      aria-hidden="true" id="ModalStation">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+
+            <h3 class="modal-title" id="ModalStationLabel" style="text-align: center; font-weight: bold; color: black;">
+              Update Station</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form method="GET" id="saveStation" class="bg-light">
+              <div class="form-group">
+                <input id="stnshortcode1" name="stnshortcode1" hidden>
+              </div>
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Station Name <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_name" type="text" name="stationName" maxlength="50" class="form-control"
+                  placeholder="Station Name" />
+              </div><br>
+
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" onclick="UpdateStation();">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- table for train -->
+
+    <div class="col-sm-8" style="margin-top:20px ;" id="trainTablediv">
+      <h3 style="margin-top: 10px; margin-bottom: 20px;">Trains List</h3>
+      <table class="table table-striped table-bordered table-sm" width="700" id="trainTable">
+
+        <thead style="background-color:white;white-space: nowrap;font-size: 1rem; color:black;text-align: center;">
+          <tr>
+            <th>Sr. No</th>
+            <th>Train Number</th>
+            <th>Train Name</th>
+            <th>Train Category</th>
+            <!-- <th>Source Station</th>
+              <th>Destination Station</th>
+              <th>Total Coaches</th> -->
+            <th>Owning Railway</th>
+            <th>Action</th>
+            <!-- <th>Delete</th> -->
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- View Train Detail Modal -->
+
+    <div id="ModalTrainView" class="modal fade " role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">View Train Details</h4>
+            <span class="close" data-dismiss="modal">×</span>
+          </div>
+
+
+          <div class="modal-body">
+
+            <form method="GET" id="saveTrainView" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="train_idView" name="train_idView" hidden>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-4">
+
+                  <label for="viewTrainId"><b>Train Id<sup style="font-size: 15px; color:red;">*</sup></b></label>
+
+
+                  <input id="viewTrainId" type="text" name="viewTrainId" class="form-control" disabled="disabled" />
+
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewTrainNo"><b>Train Number</b></label>
+                  <input id="viewTrainNo" type="text" name="viewTrainNo" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewTrainName"><b>Train Name</b></label>
+                  <input id="viewTrainName" type="text" name="viewTrainName" class="form-control" disabled="disabled" />
+                </div>
+
+
+                <div class="col-sm-4">
+                  <label for="viewTrainCat"><b>Train Category</b></label>
+                  <input id="viewTrainCat" type="text" name="viewTrainCat" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewSource"><b>Source Code</b></label>
+                  <input id="viewSource" type="text" name="viewSource" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewDest"><b>Destination Code</b></label>
+                  <input id="viewDest" type="text" name="viewDest" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewTotalCoaches"><b>Total Coaches</b></label>
+                  <input id="viewTotalCoaches" type="text" name="viewTotalCoaches" class="form-control"
+                    disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="viewOwningRly"><b>Owning Railway</b></label>
+                  <input id="viewOwningRly" type="text" name="viewOwningRly" class="form-control" disabled="disabled" />
+                </div>
+
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- update train modal-->
+    <div class="modal fade" aria-labelledby="custModal" role="dialog" aria-hidden="true" id="ModalTrain">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 style="text-align: center; font-weight: bold; color: black;">Update Train</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="GET" id="saveTrain" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="train_id" name="train_id" hidden>
+              </div>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Train Number <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_trainNumber" type="text" name="trainNumber" maxlength="50" class="form-control"
+                  placeholder="Train Number" />
+              </div><br>
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Train Name <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_trainName" type="text" name="trainName" maxlength="50" class="form-control"
+                  placeholder="Train Name" />
+              </div><br>
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Train Category <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_trainCat" type="text" name="stationCat" maxlength="6" class="form-control"
+                  placeholder="Train Category" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Source Station <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_src" type="text" name="source" maxlength="6" class="form-control"
+                  placeholder="Source Station" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Destination Station <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_dest" type="text" name="dest" maxlength="6" class="form-control"
+                  placeholder="Destination Station" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Owning Railway <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_Owning" type="text" name="ORly" maxlength="6" class="form-control"
+                  placeholder="Owning Railway" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Total Coaches <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_coaches" type="text" name="coaches" maxlength="6" class="form-control"
+                  placeholder="Total Coaches" />
+              </div> <br>
+
+
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" onclick="updateTrain();">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- table for section -->
+
+    <div class="col-sm-8" style="margin-top:20px ;" id="sectionTablediv">
+      <h3 style="margin-top: 10px; margin-bottom: 20px;">Section List</h3>
+      <table class="table table-striped table-bordered table-sm" width="700" id="sectionTable">
+
+        <thead style="background-color:white;white-space: nowrap;font-size: 1rem; color:black;text-align: center;">
+          <tr>
+            <th>Sr. No</th>
+
+            <th>Section Code</th>
+
+            <!-- <th>Route</th> -->
+            <th>Section Length</th>
+            <!-- <th>Division Id</th> -->
+            <th>Zone</th>
+            <th>Division</th>
+            <th>Action</th>
+            <!-- <th>Delete</th> -->
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+      </table>
+    </div>
+
+    <!-- View Section Detail Modal -->
+
+    <div id="ModalSectionView" class="modal fade " role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">View Section Details</h4>
+            <span class="close" data-dismiss="modal">×</span>
+          </div>
+
+
+          <div class="modal-body">
+
+            <form method="GET" id="saveSectionView" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="section_idView" name="section_idView" hidden>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-4">
+
+                  <label for="secId"><b>Section Id<sup style="font-size: 15px; color:red;">*</sup></b></label>
+
+
+                  <input id="secId" type="text" name="secId" class="form-control" disabled="disabled" />
+
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="secCode"><b>Section Code</b></label>
+                  <input id="secCode" type="text" name="secCode" class="form-control" disabled="disabled" />
+                </div>
+
+
+
+                <div class="col-sm-4">
+                  <label for="secStartCode"><b>Section Start Code</b></label>
+                  <input id="secStartCode" type="text" name="secStartCode" class="form-control" disabled="disabled" />
+                </div>
+
+
+                <div class="col-sm-4">
+                  <label for="secEndCode"><b>Section End Code</b></label>
+                  <input id="secEndCode" type="text" name="secEndCode" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="secName"><b>Section Name</b></label>
+                  <input id="secName" type="text" name="secName" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="secLength"><b>Section Length</b></label>
+                  <input id="secLength" type="text" name="secLength" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="via"><b>Via</b></label>
+                  <input id="via1234" type="text" name="via1234" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="route"><b>Route</b></label>
+                  <input id="route" type="text" name="route" class="form-control" disabled="disabled" />
+                </div>
+
+
+                <div class="col-sm-4">
+                  <label for="rlyCodeSec"><b>Railway Code</b></label>
+                  <input id="rlyCodeSec" type="text" name="rlyCodeSec" class="form-control" disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="divCodeSec"><b>Division</b></label>
+                  <input id="divCodeSec" type="text" name="divCodeSec" class="form-control" disabled="disabled" />
+                </div>
+
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- update section modal -->
+
+    <div class="modal fade" aria-labelledby="custModal" role="dialog" aria-hidden="true" id="ModalSection">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 style="text-align: center; font-weight: bold; color: black;">Update Section</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="GET" id="saveSection" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="section_id" name="section_id" hidden>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Section Start Code<sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_sectionStartCode" type="text" name="sectionStartCode" maxlength="6"
+                  class="form-control" placeholder="Section Start Code" />
+              </div> <br>
+
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Section End Code<sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_sectionEndCode" type="text" name="sectionEndCode" maxlength="6" class="form-control"
+                  placeholder="Section End Code" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Section Code<sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_sectionCode" type="text" name="sectionCode" maxlength="20" class="form-control"
+                  placeholder="Section Code" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Section Name <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_sectionName" type="text" name="sectionName" maxlength="20" class="form-control"
+                  placeholder="Section Name" />
+              </div> <br>
+
+              <!-- <div class="mb-3">
+                                  <label for="basic-default-company" class="font-weight-bold">Route<sup class="text-danger">*</sup></label></div>
+                                  <div class="col">   
+                                  <input
+                                      id="update_route"
+                                      type="text"
+                                      name="route"
+                                      maxlength="6"
+                                      class="form-control"    
+                                      placeholder="Route"   
+                                      />
+                                </div> <br>  -->
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Via <sup class="text-danger">*</sup></label>
+              </div>
+              <div class="col">
+                <input id="update_via" type="text" name="Via" maxlength="6" class="form-control" placeholder="Via" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Section Length <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_length" type="text" name="length" maxlength="6" class="form-control"
+                  placeholder="Section Length" />
+              </div> <br>
+              <!--     
+                                  <div class="mb-3">
+                                    <label for="basic-default-company" class="font-weight-bold">Division Id <sup class="text-danger">*</sup></label></div>
+                                    <div class="col">   
+                                    <input
+                                        id="update_divId"
+                                        type="text"
+                                        name="divId"
+                                        maxlength="6"
+                                        class="form-control"    
+                                        placeholder="Division Id"   
+                                        />
+                                    </div> <br>   -->
+
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" onclick="updateSection();">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- table for running room -->
+
+    <div class="col-sm-8" style="margin-top:20px ;" id="rrTablediv">
+      <h3 style="margin-top: 10px; margin-bottom: 20px;">Rr List</h3>
+      <table class="table table-striped table-bordered table-sm" width="700" id="rrTable">
+
+        <thead style="background-color:white;white-space: nowrap;font-size: 1rem; color:black;text-align: center;">
+          <tr>
+            <th>Sr. No</th>
+            <th>RR Name</th>
+            <th>RR Code</th>
+            <th>Station Code</th>
+            <th>Zone</th>
+            <th>Division</th>
+            <th>Action</th>
+            <!-- <th>Delete</th> -->
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+      </table>
+    </div>
+
+    <!-- ViewRr Detail Modal -->
+
+    <div id="ModalRrView" class="modal fade " role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title" id="exampleModalLabel">View Running Room Details</h4>
+            <span class="close" data-dismiss="modal">×</span>
+          </div>
+
+
+          <div class="modal-body">
+
+            <form method="GET" id="saveRrView" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="Rr_idView" name="Rr_idView" hidden>
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-4">
+
+                  <label for="RrId"><b>RR Id<sup style="font-size: 15px; color:red;">*</sup></b></label>
+
+
+                  <input id="RrId" type="text" name="RrId" class="form-control" placeholder="Running Room Id"
+                    disabled="disabled" />
+
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="RrName"><b>RunningRoom Name</b></label>
+                  <input id="Rrname" type="text" name="RrName" class="form-control" placeholder="Running Room Name"
+                    disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="RrCode"><b>RunningRoom Code</b></label>
+                  <input id="RrCode" type="text" name="RrCode" class="form-control" placeholder="Running Room Code"
+                    disabled="disabled" />
+                </div>
+
+
+                <div class="col-sm-4">
+                  <label for="stationCode"><b>Station Code</b></label>
+                  <input id="stationCode" type="text" name="stationCode" class="form-control" placeholder="Station Code"
+                    disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="divCode"><b>Division Code</b></label>
+                  <input id="divCode" type="text" name="divCode" class="form-control" placeholder="Division Code"
+                    disabled="disabled" />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="rlyCode"><b>Railway Code</b></label>
+                  <input id="rlyCode" type="text" name="rlyCode" class="form-control" placeholder="Railway Code"
+                    disabled="disabled" />
+                </div>
+
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RR Update modal -->
+    <div class="modal fade" aria-labelledby="custModal" role="dialog" id="ModalRr">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 style="text-align: center; font-weight: bold; color: black;">Update Rr</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="GET" id="saveRR" class="bg-light">
+              <div class="form-group">
+                <input type="number" id="Rr_id" name="Rr_id" hidden>
+              </div>
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Running Room Name <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_Rrname" type="text" name="RrName" maxlength="50" class="form-control"
+                  placeholder="Running Room Name" />
+              </div><br>
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Running Room Code <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_Rrcode" type="text" name="RrCode" maxlength="6" class="form-control"
+                  placeholder="Running Room Code" />
+              </div> <br>
+
+              <div class="mb-3">
+                <label for="basic-default-company" class="font-weight-bold">Station Code <sup
+                    class="text-danger">*</sup></label></div>
+              <div class="col">
+                <input id="update_stationCode" type="text" name="StationCode" maxlength="6" class="form-control"
+                  placeholder="StationCode" />
+              </div> <br>
+
+
+            </form>
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" onclick="updateRr();">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    <script>
+       
+
+      $("#divisionStation").select2({
+              tags: true
+      });
+      
+      $("#zoneStation").select2({
+        tags: true
+      });
+
+      $("#stationSectionName").select2({
+        tags: true
+      });
+
+      $("#zoneTrain").select2({
+        tags: true
+      });
+
+      $("#divisionTrain").select2({
+        tags: true
+     });
+      
+     $("#SourceStation").select2({
+        tags: true
+     });
+
+     $("#destStation").select2({
+        tags: true
+     });
+     
+     $("#owningRly").select2({
+        tags: true
+     });
+     
+     $("#zoneSection").select2({
+        tags: true
+     });
+
+     $("#divisionSection").select2({
+        tags: true
+     });
+
+     $("#sectionStartCode").select2({
+        tags: true
+     });
+     
+     $("#sectionEndCode").select2({
+        tags: true
+     });
+
+     $("#via").select2({
+        tags: true
+     });
+
+     $("#zoneRr").select2({
+        tags: true
+     });
+
+     $("#divisionRr").select2({
+        tags: true
+     });
+
+     $("#rStation").select2({
+        tags: true
+     });
+     
+
+
+
+      $(document).ready(function () {
+
+        $('#stationForm').hide();
+        $('#trainForm').hide();
+        $('#sectionForm').hide();
+        $('#runningRoomForm').hide();
+        $('#stationTablediv').hide();
+        $('#trainTablediv').hide();
+        $('#sectionTablediv').hide();
+        $('#rrTablediv').hide();
+
+
+
+      });
+
+      function resetForm() {
+        document.getElementById("station").reset();
+        document.getElementById("train").reset();
+        document.getElementById("section").reset();
+        document.getElementById("rr").reset();
+
+      }
+
+      function zoneChangeStation() {
+        var zone = document.getElementById('zoneStation').value;
+        alert(zone)
+        data = {
+          'zone': zone,
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'zoneChangeStation' %}",
+          dataType: 'json',
+          data: data,
+
+          success: function (response) {
+            $('#divisionStation').empty();
+            let row = '<option selected disabled hidden>Select Division</option>';
+            console.log('response.length', response.length);
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].location_code + '">' + response[i].location_code +
+                ' </option>';
+            }
+
+            $('#divisionStation').append(row);
+
+          }
+        })
+        // alert(row)
+      }
+
+     
+      function ssName(){
+        let zone=$('#zoneStation').val()
+        let division=$('#divisionStation').val();
+        console.log(division)
+        console.log(zone)
+        data={
+          'zone':zone,
+          'division':division,
+        }
+        $.ajax({
+          url: "{% url 'ssName' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            $('#stationSectionName').empty();
+            let row = '<option selected disabled hidden>--Select Section Name---</option>';
+            // console.log('response.length', response.section.length);
+            
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].secid + '">' + response[i].combinedName +
+                ' </option>';
+            }
+
+            $('#stationSectionName').append(row);
+
+          }
+        })
+      }
+
+      function viewStation(i) {
+        var id = i
+        alert(id)
+        $('#station_idView').val(id)
+
+        var viewZone = $('#viewZone').val()
+        var viewDiv = $('#viewDiv').val()
+        var viewStnCode = $('#viewStnCode').val()
+        var viewStationName = $('#viewStationName').val()
+
+
+
+        data = {
+          'id': id,
+          'viewZone': viewZone,
+          'viewDiv': viewDiv,
+          'viewStnCode': viewStnCode,
+          'viewStationName': viewStationName,
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'viewStation' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#viewZone').val(instance[0].rly_id_id__location_code)
+            $('#viewDiv').val(instance[0].div_id_id__location_code)
+            $('#viewStnCode').val(instance[0].stnshortcode)
+            $('#viewStationName').val(instance[0].station_name)
+
+          }
+        })
+      }
+
+
+      function saveStation1(i) {
+        var id = i
+        alert(id)
+        $('#stnshortcode1').val(id)
+        data = {
+          'id': id,
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'saveStation1' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#update_name').val(instance[0].station_name)
+
+          }
+        })
+      }
+
+
+
+      function UpdateStation() {
+
+        var stcode = $('#stnshortcode1').val()
+
+        var name = $('#update_name').val()
+
+
+        data = {
+          name,
+          stcode
+        }
+        $.ajax({
+          url: "{% url 'UpdateStation' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            alert('Your update has been made')
+            window.location.reload();
+          }
+        })
+      }
+
+
+      function delStation(i) {
+        var stcode = i;
+        alert(stcode)
+        alert('Are you sure you want to delete ID ' + stcode + '?')
+        data = {
+          'stcode': stcode
+        }
+        $.ajax({
+          url: '{% url "delStation" %}',
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+            alert('Your Data is Deleted')
+            window.location.reload()
+          }
+        })
+      }
+
+      // train
+
+
+      function zoneChangeTrain() {
+        var zone = document.getElementById('zoneTrain').value;
+        alert(zone)
+        data = {
+          'zone': zone,
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'zoneChangeTrain' %}",
+          dataType: 'json',
+          data: data,
+
+          success: function (response) {
+            $('#divisionTrain').empty();
+            let row = '<option selected disabled hidden>--Select Division---</option>';
+            console.log('response.length', response.length);
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].location_code + '">' + response[i].location_code +
+                ' </option>';
+            }
+
+            $('#divisionTrain').append(row);
+
+          }
+        })
+        alert(row)
+      }
+
+      function viewTrain(i) {
+        var id = i
+        alert(id)
+        $('#train_idView').val(id)
+
+        var viewTrainId = $('#viewTrainId').val()
+        var viewTrainNo = $('#viewTrainNo').val()
+        var viewTrainName = $('#viewTrainName').val()
+        var viewTrainCat = $('#viewTrainCat').val()
+        var viewSource = $('#viewSource').val()
+        var viewDest = $('#viewDest').val()
+        var viewOwningRly = $('#viewOwningRly').val()
+        var viewTotalCoaches = $('#viewTotalCoaches').val()
+
+
+        data = {
+          'id': id,
+          'viewTrainId': viewTrainId,
+          'viewTrainNo': viewTrainNo,
+          'viewTrainName': viewTrainName,
+          'viewTrainCat': viewTrainCat,
+          'viewSource': viewSource,
+          'viewDest': viewDest,
+          'viewOwningRly': viewOwningRly,
+          'viewTotalCoaches': viewTotalCoaches,
+
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'saveTrain' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#viewTrainId').val(instance[0].tnid)
+            $('#viewTrainNo').val(instance[0].train_no)
+            $('#viewTrainName').val(instance[0].train_name)
+            $('#viewTrainCat').val(instance[0].tn_category)
+            $('#viewSource').val(instance[0].stnsource_code)
+            $('#viewDest').val(instance[0].stndest_code)
+            $('#viewOwningRly').val(instance[0].trainowngrly2)
+            $('#viewTotalCoaches').val(instance[0].total_coach)
+
+
+          }
+        })
+      }
+
+
+
+      function saveTrain(i) {
+        var id = i
+        alert(id)
+        $('#train_id').val(id)
+        var update_trainNumber = $('#update_trainNumber').val()
+        var update_trainName = $('#update_trainName').val()
+        var update_trainCat = $('#update_trainCat').val()
+        var update_src = $('#update_src').val()
+        var update_dest = $('#update_dest').val()
+        var update_Owning = $('#update_Owning').val()
+        var update_coaches = $('#update_coaches').val()
+
+
+        data = {
+          'id': id,
+          'update_trainNumber': update_trainNumber,
+          'update_trainName': update_trainName,
+          'update_trainCat': update_trainCat,
+          'update_src': update_src,
+          'update_dest': update_dest,
+          'update_Owning': update_Owning,
+          'update_coaches': update_coaches,
+
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'saveTrain' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#update_trainNumber').val(instance[0].train_no)
+            $('#update_trainName').val(instance[0].train_name)
+            $('#update_trainCat').val(instance[0].tn_category)
+            $('#update_src').val(instance[0].stnsource_code)
+            $('#update_dest').val(instance[0].stndest_code)
+            $('#update_Owning').val(instance[0].trainowngrly2)
+            $('#update_coaches').val(instance[0].total_coach)
+
+
+          }
+        })
+      }
+
+      function updateTrain() {
+
+        var trainid = $('#train_id').val()
+
+        var trainNumber = $('#update_trainNumber').val()
+        var trainName = $('#update_trainName').val()
+        var trainCat = $('#update_trainCat').val()
+        var src = $('#update_src').val()
+        var dest = $('#update_dest').val()
+        var Owning = $('#update_Owning').val()
+        var coaches = $('#update_coaches').val()
+
+
+        data = {
+          trainid,
+          trainNumber,
+          trainName,
+          trainCat,
+          src,
+          dest,
+          Owning,
+          coaches
+        }
+
+        $.ajax({
+          url: "{% url 'updateTrain' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            alert('Your update has been made')
+            window.location.reload();
+          }
+        })
+      }
+
+
+      function delTrain(i) {
+        var trainid = i;
+
+        alert(trainid)
+        alert('Are you sure you want to delete ID ' + " " + trainid + '?')
+        data = {
+          'trainid': trainid
+        }
+        $.ajax({
+          url: '{% url "delTrain" %}',
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+            alert('Your Data is Deleted')
+            window.location.reload()
+          }
+        })
+      }
+
+      // section
+
+
+      function getSectionCodeName() {
+        let sectionStartCode = document.getElementById('sectionStartCode').value;
+        let sectionEndCode = document.getElementById('sectionEndCode').value;
+
+        document.getElementById('sectionCode').value = String(sectionStartCode) + '-' + String(sectionEndCode)
+        data = {
+          'sectionStartCode': sectionStartCode,
+          'sectionEndCode': sectionEndCode,
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'getSectionCodeName' %}",
+          dataType: 'json',
+          data: data,
+          success: function (response) {
+            document.getElementById('sectionName').value = response;
+
+          }
+        })
+      }
+
+      function sectionStartChange(id) {
+        var secStart = document.getElementById('sectionStartCode').value;
+        // alert(secStart)
+        data = {
+          'secStart': secStart,
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'sectionStartChange' %}",
+          dataType: 'json',
+          data: data,
+
+          success: function (response) {
+            $('#sectionEndCode').empty();
+
+            let row = '<option selected disabled hidden>--Select section end code---</option>';
+            console.log('response.length', response.length);
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].stnshortcode + '">' + response[i].stnshortcode +
+              ' </option>';
+            }
+
+            $('#sectionEndCode').append(row);
+
+          }
+        })
+
+      }
+
+      function zoneChangeSection() {
+        var zone = document.getElementById('zoneSection').value;
+        alert(zone)
+        data = {
+          'zone': zone,
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'zoneChangeSection' %}",
+          dataType: 'json',
+          data: data,
+
+          success: function (response) {
+            $('#divisionSection').empty();
+            let row = '<option selected disabled hidden>--Select Division---</option>';
+            console.log('response.length', response.length);
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].location_code + '">' + response[i].location_code +
+                ' </option>';
+            }
+
+            $('#divisionSection').append(row);
+
+          }
+        })
+      }
+
+      function viewSection(i) {
+        var id = i
+        alert(id)
+        $('#section_idView').val(id)
+        var secId = $('#secId').val()
+        var secCode = $('#secCode').val()
+        var secStartCode = $('#secStartCode').val()
+        var secEndCode = $('#secEndCode').val()
+        var secName = $('#secName').val()
+        var secLength = $('#secLength').val()
+        var via = $('#via1234').val()
+        // var route=$('#route').val()
+        var rlyCodeSec = $('#rlyCodeSec').val()
+        var divCodeSec = $('#divCodeSec').val()
+
+        data = {
+          'id': id,
+          'secId': secId,
+          'secCode': secCode,
+          'secStartCode': secStartCode,
+          'secEndCode': secEndCode,
+          'secName': secName,
+          'secLength': secLength,
+          'via': via,
+          // 'route':route,
+          'rlyCodeSec': rlyCodeSec,
+          'divCodeSec': divCodeSec,
+
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'viewSection' %}",
+          datatype: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#secId').val(instance[0].secid)
+            $('#secCode').val(instance[0].section_code)
+            $('#secStartCode').val(instance[0].secstart_code)
+            $('#secEndCode').val(instance[0].secend_code)
+            $('#secName').val(instance[0].section_name)
+            $('#secLength').val(instance[0].section_length)
+            $('#via1234').val(instance[0].via)
+            // $('#route').val(instance[0].route)
+            $('#rlyCodeSec').val(instance[0].division_code)
+            $('#divCodeSec').val(instance[0].railway_code)
+
+
+          }
+
+        })
+
+
+
+      }
+
+
+
+
+      function saveSection(i) {
+        var id = i
+        alert(id)
+        $('#section_id').val(id)
+
+        var update_sectionStartCode = $('#update_sectionStartCode').val()
+        var update_sectionEndCode = $('#update_sectionEndCode').val()
+        var update_sectionCode = $('#update_sectionCode').val()
+        var update_sectionName = $('#update_sectionName').val()
+        // var update_route=$('#update_route').val()
+        var update_via = $('#update_via').val()
+        var update_length = $('#update_length').val()
+        // var update_divId=$('#update_divId').val()
+
+
+        data = {
+          'id': id,
+          'update_sectionStartCode': update_sectionStartCode,
+          'update_sectionEndCode': update_sectionEndCode,
+          'update_sectionCode': update_sectionCode,
+          'update_sectionName': update_sectionName,
+          // 'update_route':update_route,
+          'update_via': update_via,
+          'update_length': update_length,
+          // 'update_divId':update_divId,
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'saveSection' %}",
+          datatype: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+
+            $('#update_sectionStartCode').val(instance[0].secstart_code)
+            $('#update_sectionEndCode').val(instance[0].secend_code)
+            $('#update_sectionCode').val(instance[0].section_code)
+            $('#update_sectionName').val(instance[0].section_name)
+            // $('#update_route').val(instance[0].route)
+            $('#update_via').val(instance[0].via)
+            $('#update_length').val(instance[0].section_length)
+            // $('#update_divId').val(instance[0].division_id)
+
+
+          }
+
+        })
+      }
+
+      function updateSection() {
+
+        var sectionid = $('#section_id').val()
+        alert(sectionid)
+        console.log('sectionid', sectionid)
+
+
+        var secStartCode = $('#update_sectionStartCode').val()
+        alert(secStartCode)
+        var secEndCode = $('#update_sectionEndCode').val()
+        var secCode = $('#update_sectionCode').val()
+        var secName = $('#update_sectionName').val()
+        //  var route=$('#update_route').val()
+        var via = $('#update_via').val()
+        var length = $('#update_length').val()
+        //  var divId=$('#update_divId').val()
+
+
+
+
+        // data={sectionid,secStartCode,secEndCode,secCode,secName,route,length,divId,via}
+
+        $.ajax({
+          url: "{% url 'updateSection' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: {
+            sectionid,
+            secStartCode,
+            secEndCode,
+            secCode,
+            secName,
+            length,
+            via
+          },
+          success: function (response) {
+
+            alert('Your update has been made')
+            window.location.reload();
+          }
+        })
+
+      }
+
+      function delSection(i) {
+        var trainid = i;
+        alert(trainid)
+        alert('Are you sure you want to delete ID ' + trainid + '?')
+        data = {
+          'trainid': trainid
+        }
+        $.ajax({
+          url: '{% url "delSection" %}',
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+            alert('Your Data is Deleted')
+            window.location.reload()
+          }
+        })
+      }
+
+
+      // RunningRoom
+
+
+      function zoneChangeRr() {
+        var zone = document.getElementById('zoneRr').value;
+        alert(zone)
+        data = {
+          'zone': zone,
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'zoneChangeRr' %}",
+          dataType: 'json',
+          data: data,
+
+          success: function (response) {
+            $('#divisionRr').empty();
+            let row = '<option selected disabled hidden>--Select Division---</option>';
+            console.log('response.length', response.length);
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].location_code + '">' + response[i].location_code +
+                ' </option>';
+            }
+
+            $('#divisionRr').append(row);
+
+          }
+        })
+      }
+
+
+      function viewRunningRoom(i) {
+        var idRr = i
+        alert(idRr)
+        $('#Rr_idView').val(idRr)
+        var RrId = $('#RrId').val()
+        var Rrname = $('#Rrname').val()
+        var RrCode = $('#RrCode').val()
+        var stationCode = $('#stationCode').val()
+        var divCode = $('#divCode').val()
+        var rlyCode = $('#rlyCode').val()
+
+        data = {
+          'idRr': idRr,
+          'RrId': RrId,
+          'Rrname': Rrname,
+          'RrCode': RrCode,
+          'stationCode': stationCode,
+          'divCode': divCode,
+          'rlyCode': rlyCode,
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'viewRunningRoom' %}",
+          datatype: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#RrId').val(instance[0].rrid)
+            $('#Rrname').val(instance[0].rr_name)
+            $('#RrCode').val(instance[0].rr_code)
+            $('#stationCode').val(instance[0].stnshortcode)
+            $('#divCode').val(instance[0].rly_id_id__location_code)
+            $('#rlyCode').val(instance[0].div_id_id__location_code)
+
+          }
+
+        })
+
+
+
+      }
+
+
+      function saveRr(i) {
+        var id = i
+        alert(id)
+        $('#Rr_id').val(id)
+        var update_Rrname = $('#update_Rrname').val()
+        var update_Rrcode = $('#update_Rrcode').val()
+        var update_stationCode = $('#update_stationCode').val()
+
+
+        data = {
+          'id': id,
+          'update_Rrname': update_Rrname,
+          'update_Rrcode': update_Rrcode,
+          'update_stationCode': update_stationCode,
+
+        }
+
+        $.ajax({
+
+          url: "{% url 'saveRr' %}",
+          datatype: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            var instance = response.obj
+            console.log(response)
+            $('#update_Rrname').val(instance[0].rr_name)
+            $('#update_Rrcode').val(instance[0].rr_code)
+            $('#update_stationCode').val(instance[0].stnshortcode)
+
+
+
+          }
+
+        })
+      }
+
+
+      function updateRr() {
+
+        var Rrid = $('#Rr_id').val()
+        alert(Rrid)
+        console.log('Rrid', Rrid)
+
+        var Rrname = $('#update_Rrname').val()
+        var Rrcode = $('#update_Rrcode').val()
+        var stationcode = $('#update_stationCode').val()
+
+
+
+
+        data = {
+          Rrid,
+          Rrname,
+          Rrcode,
+          stationcode
+        }
+
+        $.ajax({
+          url: "{% url 'updateRr' %}",
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+
+            alert('Your update has been made')
+            window.location.reload();
+          }
+        })
+
+      }
+
+
+      function delRr(i) {
+        var Rrid = i;
+        alert(Rrid)
+        alert('Are you sure you want to delete ID ' + Rrid + '?')
+        data = {
+          'Rrid': Rrid
+        }
+        $.ajax({
+          url: '{% url "delRr" %}',
+          dataType: 'json',
+          type: 'GET',
+          data: data,
+          success: function (response) {
+            alert('Your Data is Deleted')
+            window.location.reload()
+          }
+        })
+      }
+
+
+
+
+
+      function showData(val) {
+
+        $('#stationForm').hide();
+        $('#trainForm').hide();
+        $('#sectionForm').hide();
+        $('#runningRoomForm').hide();
+        $('#stationTablediv').hide();
+        $('#trainTablediv').hide();
+        $('#sectionTablediv').hide();
+        $('#rrTablediv').hide();
+
+        if (val == 'station') {
+          alert('showing station ')
+          $('#stationForm').show();
+          $('#trainForm').hide();
+          $('#sectionForm').hide();
+          $('#runningRoomForm').hide();
+          $('#stationTablediv').hide();
+          $('#trainTablediv').hide();
+          $('#sectionTablediv').hide();
+          $('#rrTablediv').hide();
+
+        } else
+        if (val == 'train') {
+          alert('showing train ')
+          $('#stationForm').hide();
+          $('#trainForm').show();
+          $('#sectionForm').hide();
+          $('#runningRoomForm').hide();
+          $('#stationTablediv').hide();
+          $('#trainTablediv').hide();
+          $('#sectionTablediv').hide();
+          $('#rrTablediv').hide();
+
+        } else
+        if (val == 'section') {
+          alert('showing section ')
+          $('#stationForm').hide();
+          $('#trainForm').hide();
+          $('#sectionForm').show();
+          $('#runningRoomForm').hide();
+          $('#stationTablediv').hide();
+          $('#trainTablediv').hide();
+          $('#sectionTablediv').hide();
+          $('#rrTablediv').hide();
+
+        } else
+        if (val == 'runningRoom') {
+          alert('showing running room ')
+          $('#stationForm').hide();
+          $('#trainForm').hide();
+          $('#sectionForm').hide();
+          $('#runningRoomForm').show();
+          $('#stationTablediv').hide();
+          $('#trainTablediv').hide();
+          $('#sectionTablediv').hide();
+          $('#rrTablediv').hide();
+
+        }
+
+
+      }
+
+      function showTable(val) {
+
+        $('#stationForm').hide();
+        $('#trainForm').hide();
+        $('#sectionForm').hide();
+        $('#runningRoomForm').hide();
+        $('#stationTablediv').hide();
+        $('#trainTablediv').hide();
+        $('#sectionTablediv').hide();
+        $('#rrTablediv').hide();
+
+
+        let mydata = {
+          'type': val
+        };
+
+        $.ajax({
+          url: "{% url 'cardsCategories' %}",
+          method: "GET",
+          dataType: "JSON",
+          data: mydata,
+          success: function (response) {
+
+            if (val == 'viewStation') {
+              let row = '';
+              let table = $('#stationTable').DataTable();
+              table.destroy();
+              $('#stationTable tbody').empty();
+              $('#stationTablediv').show();
+
+              alert('station table')
+
+              var count = 0;
+              for (let i = 0; i < response.length; i++) {
+                count = count + 1;
+                row += `<tr><td>${count}</td>`;
+                row += `<td>` + response[i].station_name + `</td>`;
+                row += `<td>` + response[i].stnshortcode + `</td>`;
+                row += `<td>` + response[i].rly_id_id__location_code + `</td>`;
+                row += `<td>` + response[i].div_id_id__location_code + `</td>`;
+
+                // row+=`<td>`+response[i].stnshortcode+`</td>`;
+                row +=
+                  `<td><button  type="button" id="${response[i].stnshortcode}"  onclick="viewStation(this.id)" class="btn btn-success" data-toggle="modal" title="View" data-target="#ModalStationView"><i class="fa fa-eye"></i></button>&nbsp;
+
+                          <button type="button" id="${response[i].stnshortcode}"  onclick="saveStation1(this.id)" class="btn btn-warning" data-toggle="modal" title="Edit"data-target="#ModalStation" ><i class="fa fa-pen"></i></button> &nbsp;
+                          <button type="button" id="${response[i].stnshortcode}" onclick="delStation(this.id)" title="Delete" class="btn btn-danger"><i class="fa fa-trash"></i></button></td></tr>`;
+
+
+              }
+
+              $('#stationTable tbody').append(row);
+              table = $('#stationTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers",
+
+                'columnDefs': [{
+                  'targets': [0, 3], // column index (start from 0)
+                  'orderable': false, // set orderable false for selected columns
+                }]
+
+              });
+
+
+            }
+
+            // train table
+            else if (val == 'viewTrain') {
+              let row = '';
+              let table = $('#trainTable').DataTable();
+              alert("train table")
+              table.destroy();
+              $('#trainTable tbody').empty();
+              $('#trainTablediv').show();
+              var count = 0;
+              for (let i = 0; i < response.length; i++) {
+                count = count + 1;
+                row += `<tr><td>${count}</td>`;
+                row += `<td>` + response[i].train_no + `</td>`;
+                row += `<td>` + response[i].train_name + `</td>`;
+                row += `<td>` + response[i].tn_category + `</td>`;
+                // row+='<td>'+response[i].stnsource_code+'</td>';
+                // row+='<td>'+response[i].stndest_code+'</td>';
+                // row+='<td>'+response[i].total_coach+'</td>';
+
+                row += `<td>` + response[i].trainowngrly2__stnshortcode + `</td>`;
+
+                row +=
+                  `<td><button  type="button" id="${response[i].tnid}"  onclick="viewTrain(this.id)" class="btn btn-success" data-toggle="modal" data-target="#ModalTrainView" title="View"><i class="fa fa-eye"></i></button>&nbsp;
+                        <button type="button" id="${response[i].tnid}"  onclick="saveTrain(this.id)" class="btn btn-warning" data-toggle="modal" data-target="#ModalTrain" title="Edit"><i class="fa fa-pen"></i></button>&nbsp;
+                        <button type="button" id="${response[i].tnid}" onclick="delTrain(this.id)" class="btn btn-danger" title="Delete"><i class="fa fa-trash"></i></button></td></tr>`;
+
+              }
+
+
+              $('#trainTable tbody').append(row);
+              table = $('#trainTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers"
+
+              });
+            }
+
+
+            // section table
+            else if (val == 'viewSection') {
+              let row = '';
+              let table = $('#sectionTable').DataTable();
+              alert("section table")
+              table.destroy();
+              $('#sectionTable tbody').empty();
+              $('#sectionTablediv').show();
+              var count = 0;
+              for (let i = 0; i < response.length; i++) {
+                count = count + 1;
+                row += `<tr><td>${count}</td>`;
+                row += `<td>` + response[i].section_code + `</td>`;
+
+                row += `<td>` + response[i].section_length + `</td>`;
+                row += `<td>` + response[i].rly_id_id__location_code + `</td>`;
+                row += `<td>` + response[i].div_id_id__location_code + `</td>`;
+
+
+                row +=
+                  `<td><button  type="button" id="${response[i].secid}"  onclick="viewSection(this.id)" class="btn btn-success " data-toggle="modal" data-target="#ModalSectionView" title="View" ><i class="viewIcon  fa fa-eye"></i></button>&nbsp;
+                        <button type="button" id="${response[i].secid}"  onclick="saveSection(this.id)" class="btn btn-warning" data-toggle="modal" data-target="#ModalSection" title="Edit"><i class="updateIcon fa fa-pen"></i></button>&nbsp;
+                        <button type="button" id="${response[i].secid}" onclick="delSection(this.id)" class="btn btn-danger" title="Delete"><i class="delIcon fa fa-trash"></i></button></td></tr>`;
+
+
+
+              }
+
+
+              $('#sectionTable tbody').append(row);
+              table = $('#sectionTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers"
+
+              });
+            }
+
+            //running room table
+            else if (val == 'viewRr') {
+              let row = '';
+              let table = $('#rrTable').DataTable();
+              alert("Running Room table")
+              table.destroy();
+              $('#rrTable tbody').empty();
+              $('#rrTablediv').show();
+              var count = 0;
+              for (let i = 0; i < response.length; i++) {
+                count = count + 1;
+                row += `<tr><td>${count}</td>`;
+
+                row += `<td>` + response[i].rr_name + `</td>`;
+                row += `<td>` + response[i].rr_code + `</td>`;
+                row += `<td>` + response[i].stnshortcode + `</td>`;
+                row += `<td>` + response[i].rly_id_id__location_code + `</td>`;
+                row += `<td>` + response[i].div_id_id__location_code + `</td>`;
+
+                row +=
+                  `<td><button  type="button" id="${response[i].rrid}" onclick="viewRunningRoom(this.id)" class="btn btn-success" data-toggle="modal" data-target="#ModalRrView" title="View" ><i class="fa fa-eye"></i></button>&nbsp;
+                        <button type="button" id="${response[i].rrid}"  onclick="saveRr(this.id)" class="btn btn-warning" data-toggle="modal" data-target="#ModalRr" title="Edit" ><i class="fa fa-pen"></i></button>&nbsp;    
+                        <button type="button" id="${response[i].rrid}" onclick="delRr(this.id)" class="btn btn-danger" title="Delete"><i class="fa fa-trash"></i></button></td></tr>`;
+
+
+              }
+
+
+              $('#rrTable tbody').append(row);
+              table = $('#rrTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers"
+
+              });
+            }
+          }
+
+        });
+
+
+
+      }
+
+
+      $(document).ready(function(){
+      $("#message").fadeOut(1000);
+      })
+
+
+    </script>
+</body>
+
+</html>
+{% endblock content %}

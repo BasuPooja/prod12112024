@@ -1,0 +1,886 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load convertoInt %}
+<head>
+    <style>
+        .row 
+        {
+            margin-top:10px;
+        }
+        .mainDiv{
+            margin-top: -1%;
+            /* background-color: aqua; */
+            height: 100%;
+            padding-top: 0%;
+            margin-left: 0.5%;
+        }
+        .headingRow{
+            /* background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500); */
+            background-color: #63a4ff;
+background-image: linear-gradient(315deg, #63a4ff 0%, #83eaf1 74%);
+            margin-left: 0%;
+            margin-top: 0%;
+            padding-left: 0%;
+            padding-right: 0%; 
+            /* height: 80px;; */
+        }
+        .Rcard{
+            width:100%;            
+            /* background-color: #fff; */
+            background-color: #e6f3ff;
+            color: #0a0a0a;
+            border:1px solid #aeaeae;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+            padding:5px;
+            /* border: 2px solid #17a2b8; */
+        }
+        .totalItems{
+            width:33%; 
+            background-color: #28a7455c;
+            /* border: 2px solid #28a745; */
+            color: #000000; 
+        }
+        .pendingItems{
+            width:34%; 
+            background-color: #ffc10754;
+            /* border: 2px solid #ffc107; */
+            color: #000000; 
+        }
+        .overdueItems{
+            width:33%; 
+            background-color: #dc354570;
+            /* border: 2px solid #dc3545; */
+            color: #000000; 
+        }
+        .cardsHeaders{
+            background-color: #e7eff9;
+            background-image: linear-gradient(315deg, #e7eff9 0%, #cfd6e6 74%);
+        }
+        
+    .card-body{
+        padding: 0%;
+    }
+    table{
+        width: 100%; 
+        text-align: center;
+    }
+    .summary-card{
+        height:130px;
+        overflow-y:scroll;
+        overflow: hidden;
+        
+    }
+    .summary-card table td, .summary-card table th{
+       padding:2px;
+       width:33%;        
+    }
+    .summary-card .card-body{
+        background:#eee6ff;
+    }
+    .summary-card 
+    .list-group-item{
+        padding-top: 0%;
+        /* border: 2px solid #ffb27a; */
+        border-radius: 7px;
+        background-color: #ffe9d9
+    }
+    /* .col-md-4{
+        padding: 0%;
+    }
+    .col-md-6{
+        padding: 0%;
+    }
+    .col-12{
+        padding: 0%;
+    } */
+    
+    </style>
+    <style>
+        .cards2 {
+           
+          padding: 1px !important;
+          text-align: center;
+          background-color: blanchedalmond;
+          margin-left: -20%;
+
+      }
+
+      .cards3 {
+          
+          padding: 1px !important;
+          text-align: center;
+          background-color: rgb(188, 253, 188);
+          margin-left: 4%;
+      }
+
+      .cards4 {
+          
+          padding: 1px !important;
+          text-align: center;
+          background-color: rgb(204, 235, 251);
+          margin-left: 4%;
+
+      }
+
+      .cards5 {
+          
+          padding: 1px !important;
+          text-align: center;
+          background-color: rgb(251, 245, 192);
+          margin-left: 4%;
+      }
+
+      .cards6 {
+          
+          padding: 1px !important;
+          text-align: center;
+          background-color: blanchedalmond;
+          margin-left: 4%;
+      }
+      .PendTable td{
+        padding: 0.5%;
+      }
+      .PendTable th{
+        padding: 0.5%;
+      }
+      .PendTable thead{
+        background: #b32400;
+        color:#fff;
+        font-weight:500;
+        text-transform:uppercase;
+      }
+     .entity{
+        text-align: left;
+        font-weight: 600;
+        /* background-color: #f7b4ac; */
+     }
+     .alertscard{
+        /* border: 2px solid #ffb27a; */
+        border-radius: 7px;
+        background-color: #ffe9d9
+     }
+     .card-caption
+     {
+        font-size:1.1rem;
+        color:#4d4d4d;
+        font-weight:600
+     }
+     .stats-val
+     {
+        font-size:1.5rem;
+        color:#000;
+        font-weight:600
+     }
+     .stats-head
+     {
+        font-weight:600;
+        text-transform:uppercase;
+        color:#000;
+        font-size:0.9rem;
+        text-align:left;
+     }
+     .overalStatsTable th
+     {
+        color:#595959;
+        font-size:0.9rem;
+        font-weight:500;
+     }
+     .overalStatsTable td
+     {
+        color:#000;
+        font-size:1.1rem;
+        font-weight:600;
+     }
+     .overalStatsTable td a
+     {
+        font-weight:600;
+        color:#0059b3;
+        text-decoration:none;
+        cursor:pointer;
+     }
+     .overalStatsTable td a:hover
+     {
+        color:#ff6600;
+     }
+     .pendency-head
+     {
+        margin-bottom:0px;
+        font-weight:600;
+        width:100%;
+        text-align: left;
+        font-size:1rem;
+        position: relative;
+    padding-bottom: 3px;
+    padding-left:1rem;
+    color:#b32400;
+     }
+.custom-table
+{
+    margin-top:4px;
+}
+.custom-table th.days
+{
+   color:#4d4d4d;
+   font-size:1rem;
+   font-weight:500;
+   text-align:left;
+   padding-left:1rem;
+}
+.custom-table td.count
+{
+   color:#000;
+   font-size:1.1rem;
+   font-weight:600;
+}
+.lbl-caption
+{
+    font-weight:600;
+    color:#000;
+    font-size:14px;
+}
+.form-group {
+  margin-bottom: 10px !important;
+}
+    </style>
+</head>
+<body>
+    <div class="container-fluid mainDiv">
+        <div class="row headingRow">
+            <div class="col-sm-12 col-md-12 col-lg-3"><h3 class="font-weight-bold text-black float-justify text-center" style="margin-top:2rem;font-size:1.5rem;font-weight:600;"> PENDENCY
+                DASHBOARD </h3></div>
+            <div class="col-lg-9">
+                <div class="" id="filterForm">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Date Wise</label>
+                                    <input readonly type="text" autocomplete="off" placeholder="Select Date Range"
+                                        class="form-control dateofInsp" name="searchDate" id="searchDate" value="{{irSearchDate}}">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Department</label>
+                                    
+
+
+
+                                    <select class="form-control" data-live-search="true" name="searchDepartment"
+                                        id="searchDepartment" data-actions-box="true" onchange="setDesigACToDept(this.value)">   
+                                        <option value="All">All</option>
+                                        {% for i in allDepartment %}
+                                        
+                                        <option value="{{i.department_code}}" {% if irSearchDept == i.department_code %} selected {% endif %}>{{i.department_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Designation</label>
+                                    <select class="form-control" data-live-search="true" name="searchDesignation"
+                                        id="searchDesignation" data-actions-box="true">
+                                        <option value="All">All</option>   
+                                        {% for i in allDesignation %}
+                                        <option value="{{i.designation_code}}" {% if irSearchDesig == i.designation_code %} selected {% endif %}>{{i.designation}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Level</label>
+                                    <select class="form-control" data-live-search="true" name="searchDesignation"
+                                        id="searchDesignation" data-actions-box="true">
+                                        <option value="All">All</option>   
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-sm-12 col-md-3" style="margin-top: 2%;">
+                                <div class="row text-center">
+                                    <div class="form-group mx-auto">
+                                        <div class="btn-toolbar mx-1" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-success btn-sm" name="submit" onclick="searchAllFunction('Search')"value="search">Continue</button>
+                                                <button type="button" class="btn btn-danger btn-sm" name="submit" onclick="searchAllFunction('Reset')" value="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row mainRow">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <div id="mapZone" class="card card-small p-2 mb-2 mapdiv clickable backgroundImage">
+
+                    <div style=" position: absolute ;left:10px; top: 5px;" class="d-md-none d-lg-block">
+
+                        <table style="width:100%;">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span id="headerRailwayName2">
+                                            <a href="/inspectionDetailsMap" class="badge text-white"
+                                                style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;">IR</a>
+
+                                            {% if irPathVal1 %}
+                                                <b>></b>
+                                            <span class="badge text-white"
+                                            style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerZone">
+                                                    {{irPathVal1}}
+                                            </span> 
+                                            {% endif %}
+                                            {% if irPathVal2 != '' %}
+                                            <b>></b>
+                                            <span class="badge text-white"
+                                            style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerDivision">
+                                                {{irPathVal2}}
+                                            </span>
+                                            {% endif %}
+
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style=" position: absolute ;right:5px; top: 5px;z-index:10;" class="d-md-none d-lg-block">
+                        
+                        <button type="button" class="badge text-white" value="PU"
+                        style="position:relative;z-index:20;{% if irMapVal == '2' and irTypeVal == 'PU' %} background-color:#B74805; {% else %} background-color:#ff9900; {% endif %} border: 0;cursor: pointer;width: 50px;height: 25px;" id="PU"
+                        onclick="setBtnColor(this)">PU</button>
+                        <button type="button" class="badge text-white"
+                        style="position:relative;z-index:20;  {% if irMapVal == '1' and irTypeVal == 'ZR' %} background-color:#B74805; {% else %} background-color:#ff9900; {% endif %} border: 0;cursor: pointer;width: 50px;height: 25px;" id="ZR"
+                        value="ZR" onclick="setBtnColor(this)">ZR</button>
+                        </div>
+
+                        <div style=" position: absolute ;right:5px; top: 40px;z-index:10;" class="d-md-none d-lg-block" >
+                            <button type="button" class="badge text-white buttonZrDetails"
+                            style="{% if irTypeVal == 'DIV' %} background-color:#B74805; {% else %} background-color:#ff9900; {% endif %} border: 0;cursor: pointer;width: 40px;height: 25px;" id="DIV" value="DIV"
+                            onclick="setBtnColor(this)">DIV</button>
+                            </br>
+                            <button type="button" class="badge text-white buttonZrDetails"
+                                style="margin-top: 5px; {% if irTypeVal == 'WS' %} background-color:#ff9900; {% else %} background-color:#ff9900; {% endif %} border: 0;cursor: pointer;width: 40px;height: 25px;" id="WS" value="WS"
+                                onclick="setBtnColor(this)">WS</button>
+                            <br>
+                            <button type="button" class="badge text-white buttonZrDetails"
+                            style="margin-top: 5px; {% if irTypeVal == 'HQ' %} background-color:#ff9900; {% else %} background-color:#ff9900; {% endif %} border: 0;cursor: pointer;width: 40px;height: 25px;" id="HQ" value="HQ"
+                            onclick="setBtnColor(this)">HQ</button>
+                        </div>
+                    
+                    
+                    {% if irTypeVal == 'DIV' %}
+                    <div style=" position: absolute ;right:10px; bottom: 5px; z-index:10;" class="d-md-none d-lg-block box" id="zoneDetails">
+                        <span style="color: #391a02; margin-left:10px;margin-right:10px;"><b>Divisions</b></span><br>
+                            {% for i in dataZoneWs %}
+                            <span class="badge" onclick="showDivision('{{i.location_code}}')" style="font-size: 1.063rem;color:#000080;">
+                                <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                <label style="cursor: pointer;" title="{{i.location_description}}">{{i.location_code}}</label>
+                            </span><br>
+                            {% endfor %}
+
+                    </div>
+                    {% elif irTypeVal == 'WS' %}
+                    <div style=" position: absolute ;right:10px; bottom: 5px; z-index:10;" class="d-md-none d-lg-block box" id="zoneDetails">
+                        <span style="color: #391a02; margin-left:10px;margin-right:10px;"><b>Work Shop</b></span><br>
+                                
+                                {% for i in dataZoneWs %}
+                                <span class="badge" onclick="showDivision('{{i.location_code}}')" style="font-size: 1.063rem;color:#000080;">
+                                    <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                    <span style="cursor: pointer;" title="{{i.location_description}}">{{i.location_code}}</span>
+                                    </span>
+                                    <br>
+                                    {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% include 'svgFile/IRDivisions.svg' %}
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                
+                <div class="row subRow">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="card summary-card">
+                            <h6 class="cardsHeaders card-header" >Overall Pendency Summary (Inspections/Items)</h6>
+                            <div class="card-body">
+                                <table class="table">
+                                        <tr>
+                                            <th class="card-caption">Total </th>
+                                            <th class="card-caption">Pending </th>
+                                            <th class="card-caption">Overdue </th>
+                                        </tr>                                        
+                                        <tr>
+                                            <td><span class="stats-val">500</span> / <span class="stats-val">90</span></td>
+                                            <td><span class="stats-val">246</span> / <span class="stats-val">76</span></td>
+                                            <td><span class="stats-val">9000</span> / <span class="stats-val">89892</span></td>
+                                        </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="card summary-card">
+                            <h6 class="cardsHeaders card-header" >Alerts</h6>
+                            <div class="card-body alertscard">
+                                <deque>
+                                    <ul class="list-group list-group-flush" id="rotated">
+                                        <li class="list-group-item"><b>PUNCTUALITY</b><br>
+                                            Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                            <br><b>SECR (-15%)</b>
+                                        </li>
+                                        <li class="list-group-item"><b>EXPENDITURE</b><br>
+                                            Zones As per percentage variation in Revenue Expenditure(Current year vs Last year): YEAR TO DATE
+                                            <br><b>SWR (22.91%), WR (22.63%), NER (19.35%)</b>
+                                        </li>
+                                        <li class="list-group-item"><b>FREIGHT REVENUE</b><br>
+                                            Commodity with Highest Percentage increase in Revenue (current year vs. last year): YEAR TO DATE
+                                            <br><b>COAL AND COKE (30%)</b>
+                                        </li>
+                                        <li class="list-group-item"><b>PUNCTUALITY</b><br>
+                                            Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): YEAR TO DATE
+                                            <br><b>SECR (-15%)</b>
+                                        </li>
+                                    </ul>
+                                </deque>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subRow">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th class="stats-head">Passenger Safety </th>
+                                    <th style="width: 30%;text-align: right;">
+                                        {% if variationPassenger.1 == '1' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% elif variationPassenger.1 == '2' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                       {% else %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% endif %}
+                                        <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="card-body" >
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">6767</a></b></span></td>
+                                            <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">23235</a></b></span></td>
+                                            <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">100110</a></b></span></td>
+                                        </tr>
+                                    </table>
+                                <hr style="margin:10px;"/>
+                                <!-- <p class="pendency-head">Pendency</p> -->
+                                <table class="custom-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="days">Days</th>
+                                            <th class="days" id="date1_1">>7</th>
+                                            <th class="days" id="date2_1">>30</th>
+                                            <th class="days" id="date4_1">>90</th>
+                                            <th class="days" id="date5_1">>180</th>
+                                        </tr>                                        
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th  class="days" id="passengerlast1">Pendency</th>
+                                            <td class="cards2 count" id="passengerlast1">100</td>
+                                            <td class="cards3 count" id="passengerlast2">2000</td>
+                                            <td class="cards4 count" id="passengerlast3">30000</td>
+                                            <td class="cards6 count" id="passengerlast5">50000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th class="stats-head">Employee Safety</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        {% if variationPassenger.1 == '1' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% elif variationPassenger.1 == '2' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                       {% else %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% endif %}
+                                        <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="card-body" >
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">6767</a></b></span></td>
+                                            <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">23235</a></b></span></td>
+                                            <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">100110</a></b></span></td>
+                                        </tr>
+                                    </table>
+                                    <hr style="margin:10px;" />
+                                
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">Days</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" id="passengerlast1">Pendency</th>
+                                                <td class="cards2 count" id="passengerlast1">10</td>
+                                                <td class="cards3 count" id="passengerlast2">20</td>
+                                                <td class="cards4 count" id="passengerlast3">30</td>
+                                                <td class="cards6 count" id="passengerlast5">50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Others</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        {% if variationPassenger.1 == '1' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% elif variationPassenger.1 == '2' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                       {% else %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% endif %}
+                                        <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="card-body" >
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">6767</a></b></span></td>
+                                            <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">23235</a></b></span></td>
+                                            <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">100110</a></b></span></td>
+                                        </tr>
+                                    </table>
+                                    <hr style="margin:10px;" />
+                                
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">Days</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" id="passengerlast1">Pendency</th>
+                                                <td class="cards2 count" id="passengerlast1">10</td>
+                                                <td class="cards3 count" id="passengerlast2">20</td>
+                                                <td class="cards4 count" id="passengerlast3">30</td>
+                                                <td class="cards6 count" id="passengerlast5">50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subRow">
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Night Inspection </th>
+                                    <th style="width: 30%;text-align: right;">
+                                        {% if variationPassenger.1 == '1' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% elif variationPassenger.1 == '2' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                       {% else %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% endif %}
+                                        <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="card-body" >
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">6767</a></b></span></td>
+                                            <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">23235</a></b></span></td>
+                                            <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">100110</a></b></span></td>
+                                        </tr>
+                                    </table>
+                                    <hr style="margin:10px;" />
+                                
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">Days</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" id="passengerlast1">Pendency</th>
+                                                <td class="cards2 count" id="passengerlast1">10</td>
+                                                <td class="cards3 count" id="passengerlast2">20</td>
+                                                <td class="cards4 count" id="passengerlast3">30</td>
+                                                <td class="cards6 count" id="passengerlast5">50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Surprise Inspection</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        {% if variationPassenger.1 == '1' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% elif variationPassenger.1 == '2' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                       {% else %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% endif %}
+                                        <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="card-body" >
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">6767</a></b></span></td>
+                                            <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">23235</a></b></span></td>
+                                            <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">100110</a></b></span></td>
+                                        </tr>
+                                    </table>
+                                    <hr style="margin:10px;" />
+                                
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">Days</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" id="passengerlast1">Pendency</th>
+                                                <td class="cards2 count" id="passengerlast1">10</td>
+                                                <td class="cards3 count" id="passengerlast2">20</td>
+                                                <td class="cards4 count" id="passengerlast3">30</td>
+                                                <td class="cards6 count" id="passengerlast5">50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <div class="Rcard">
+                            <table class="table card-header cardsHeaders">
+                                <tr>
+                                    <th  class="stats-head">Drive Inspection</th>
+                                    <th style="width: 30%;text-align: right;">
+                                        {% if variationPassenger.1 == '1' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% elif variationPassenger.1 == '2' %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                       {% else %}
+                                        <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                        {% endif %}
+                                        <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                    </th>
+                                </tr>
+                            </table>
+                            <div class="card-body" >
+                                    <table border="0" class="overalStatsTable">
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>Pending</th>
+                                            <th>Overdue</th>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">6767</a></b></span></td>
+                                            <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">23235</a></b></span></td>
+                                            <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">100110</a></b></span></td>
+                                        </tr>
+                                    </table>
+                                
+                            <hr style="margin:10px;" />
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="days">Days</th>
+                                                <th class="days" id="date1_1">>7</th>
+                                                <th class="days" id="date2_1">>30</th>
+                                                <th class="days" id="date4_1">>90</th>
+                                                <th class="days" id="date5_1">>180</th>
+                                            </tr>                                        
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th  class="days" id="passengerlast1">Pendency</th>
+                                                <td class="cards2 count" id="passengerlast1">10</td>
+                                                <td class="cards3 count" id="passengerlast2">20</td>
+                                                <td class="cards4 count" id="passengerlast3">30</td>
+                                                <td class="cards6 count" id="passengerlast5">50</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row subRow">
+                    <div class="col-12">
+                        <table class="table table-data table-striped table-bordered PendTable">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Pendency Count</th>
+                                    <th colspan="3">Item Type Wise</th>
+                                    <th colspan="3">Inspection Type Wise</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 12%;">Passenger Safety</th>
+                                    <th style="width: 12%;">Employee Safety</th>
+                                    <th style="width: 12%;">Others</th>
+                                    <th style="width: 12%;">Night</th>
+                                    <th style="width: 12%;">Surprise</th>
+                                    <th style="width: 12%;">Drive</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="entity">Station</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td class="entity">Section</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td class="entity">Train</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td class="entity">Others</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    window.setInterval(run,1000);
+	function run() { 
+		var prev = $("#rotated li:first-child");
+		$.unique(prev).each(function(i) {
+		  $(this).delay(i*600).slideUp(function() {
+			$(this).appendTo(this.parentNode).slideDown();
+		  });
+		});
+	}
+    function scrollCounter()
+{
+	$('.stats-val').each(function () {
+	  $(this).prop('Counter', 0).animate({
+	    Counter: Number($(this).text()) },
+	  {
+	    duration: 3000,
+	    easing: 'swing',
+	    step: function (now) {
+	      $(this).text(Math.ceil(now));
+	  }
+	});
+	});
+}
+$(document).ready(function(){
+    scrollCounter();
+})
+</script>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="client-nojs with-toc">
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <meta charset="UTF-8" />
+    <title>help page</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/docs.css'%}" />
+    <meta name="viewport" content="width=device-width" />  
+  </head>
+  <body class="mediawiki ltr sitedir-ltr skin-webplatform action-view">
+   <br><br><br>
+  <div id="content" class="mw-body">
+      <div class="container">
+        <a id="top"></a>
+        <div class="tool-area">
+              <div id="hierarchy-menu">
+                  <ol id="breadcrumb-info" class="breadcrumbs"> 
+                  </ol>
+              </div>
+        </div>
+<div id="page">
+ <div id="page-content">
+ <div id="main-content">
+<h1>HELP</h1>
+<h2>About the Website</h2>
+<p>The website e-nireekshan which is available on any web-browser(google chrome, mozilla firefox)url: deveins.indianrailways.gov.in, It provides a platform for the inspecting officers to draft as well as submit their observations with the required marked officers following the necessary actions.</p>
+<h2>SIGN-UP</h2>
+<p>For the very first time,<br><b>To sign-in, you must first sign-up.</b>
+Here is the sign-up page.Firstly you have to enter valid Email Address, certain details like designation,employee number/name 
+  will be autofetched and then on validation of the respective email.
+  Hence After validating the OTP, set the password of user account and then click on Submit button.
+  After this user account will be created.</p>
+<!-- <img src="images/signup.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/signup.png' %}" alt="" width="80%" height="80%">
+
+<h2>SIGN-IN</h2>
+<p>After sign-up, user can sign in with the registered email id and password.Provides a facility of forgot password too, incase user forgets.
+</p>
+<!-- <img src="images/signin.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/signin.png' %}" alt="" width="80%" height="80%">
+
+<h2>DASHBOARD</h2>
+<p>After sign-in, user is redirected to the dashboard page which provides the summary of the website e-nireekshan.
+  The four cards on top displaying the status of the notes created/drafted/submitted and compliances pending/received/closed with graphically as well as statistically shown. 
+</p>
+<!-- <img src="images/dashboard (2).png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/dashboard (2).png' %}" alt="" width="80%" height="80%">
+
+<h2>MY INSPECTION</h2>
+<h3>CREATE NOTES</h3>
+<p>Here the inspecting officer can create inspection notes with the facility to mark the necessary officers with a given target date and set priority.</p>
+<!-- <img src="images/create.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/create.png' %}" alt="" width="80%" height="80%">
+
+<h3>DRAFT NOTES</h3>
+<p>After creating the respective above report, the officers have a choice to save it as draft or submit it.On draft, the report will be present in the draft report page which provides a facility to edit it and submit it whenever done.</p>
+<!-- <img src="images/DRAFT.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/DRAFT.png' %}" alt="" width="80%" height="80%">
+
+<h3>COMPLETED NOTES</h3>
+<p>After creating the respective above report, the officers have a choice to save it as draft or submit it.On submit, the report will be submitted and will be present in the submitted notes page with the option to view it as pdf and view the reply of the marked officers.</p>
+<!-- <img src="images/complete.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/complete.png' %}" alt="" width="80%" height="80%">
+
+<h3>PENDING COMPLIANCE</h3>
+
+<p>Pending Complainces has the details or list of the reports in which the marked officer has not replied to the marked observations.</p>
+<!-- <img src="images/peningcc.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/peningcc.png' %}" alt="" width="80%" height="80%">
+
+<h3>RECEIVED COMPLIANCE</h3>
+
+<p>Received Complainces has the details or list of the reports in which the marked officer has  replied to the marked observations.</p>
+<!-- <img src="images/received_compliance.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/received_compliance.png' %}" alt="" width="80%" height="80%">
+
+<h3>CLOSED COMPLIANCE</h3>
+<p>Closed Complainces has the details or list of the reports in which the marked officer has  replied to the marked observations and it has been accepted by the inspecting officer.</p>
+<!-- <img src="images/closed.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/closed.png' %}" alt="" width="80%" height="80%">
+
+<h3>REVERTED COMPLIANCE</h3>
+
+<p>Received Complainces has the details or list of the reports in which the marked officer has reverted the observations to the inspecting officer.</p>
+<!-- <img src="images/revertedcompliance.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/revertedcompliance.png' %}" alt="" width="80%" height="80%">
+
+<h2>MY COMPLIANCES</h2>
+<h3>PENDING</h3>
+<p>Pending Reply, provides facility for the marked officer to view the report and reply to the inspecting officer with a choice to either forward or revert the observations.</p>
+<!-- <img src="images/pendingreply.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/pendingreply.png' %}" alt="" width="80%" height="80%">
+
+<h3>SENT</h3>
+
+<p>Sent Reply, provides facility for the marked officer to see their respective reply for the marked observation.</p>
+<!-- <img src="images/sentreply.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/sentreply.png' %}" alt="" width="80%" height="80%">
+
+<h3>ACCEPTED</h3>
+
+<p>It informs us about the reply being accepted for the respective observation of the report generated.</p>
+<!-- <img src="images/accepted.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/accepted.png' %}" alt="" width="80%" height="80%">
+
+<h3>REJECTED</h3>
+
+<p>It informs us about the reply being rejected for the respective observation of the report generated.</p>
+<!-- <img src="images/rejected.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/rejected.png' %}" alt="" width="80%" height="80%">
+
+<h3>REVERTED</h3>
+
+<p>It informs us about the reply being reverted for the respective observation of the report generated.</p>
+<!-- <img src="images/reverted.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/reverted.png' %}" alt="" width="80%" height="80%">
+
+<h2>FORWARDED COMPLIANCE</h2>
+<h3>PENDING</h3>
+
+<p>Pending Query, provides facility for the marked forward officer to view the report and reply to the officer as this contains those observation which has been forwarded.</p>
+<!-- <img src="images/pendingquery.png" style=" height: auto;width: 100%;"> -->
+<img src="{% static 'images/pendingquery.png' %}" alt="" width="80%" height="80%">
+
+<h3>SENT</h3>
+
+<p>Sent Query, provides facility for the marked forward officer to see their respective reply for the marked forwarded observation.</p>
+<img src="{% static 'images/sentquery.png' %}" alt="" width="80%" height="80%">
+
+<h2>RB MINUTES</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{% static 'js/docs.js' %}"></script>
+</body>
+
+</html>
+{% endblock %}  
+
+
+

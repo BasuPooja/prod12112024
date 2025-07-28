@@ -1,0 +1,490 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<script type="text/javascript">
+    $(".sidebar").addClass('close');
+  </script> 
+<style>
+  * {
+      box-sizing: border-box;
+    }
+    .input,
+    input[type=text]
+    {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 2px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        resize: vertical;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=submit] 
+    {
+        width: 40%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: rgb(15, 12, 12);
+        padding: 14px 20px;
+        margin: 2px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=submit]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    input[type=button] 
+    {
+        width: 30%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: white;
+        padding: 6px 6px;
+        margin: 2px 2px 2px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    input[type=button]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    .inputtag
+    {
+        height:20px;
+    }
+    .modal-dialog-full-width 
+    {
+        width: 80% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding-left: 20% !important;
+        padding-top:5% !important;
+        padding-bottom:5% !important;
+        max-width:none !important;
+        text-align: center !important;
+    }
+    .modal-content-full-width  
+    {
+        height: auto !important;
+        min-height: 100% !important;
+        border-radius: 0 !important; 
+        text-align: center !important; 
+    }
+    .modal-header-full-width  
+    {   border-bottom: 0px solid #9ea2a2 !important;    }
+    .modal-footer-full-width  
+    {   border-top: 0px solid #9ea2a2 !important;   }
+    .container
+    {   max-width: 1200px   }
+    input[type="radio"]
+    {   margin: 0 5px 0 5px;    }
+    div.bold-selected 
+    {   font-weight: bold;  }
+
+    tr.row_selected td{background-color:lightgrey !important;}
+</style>
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+
+</head>
+
+<body>
+    <h3><center><b>Completed Minutes of Meeting</b></center></h3>
+
+    <div class="container-fluid" style="overflow: auto;text-align: center; margin-bottom:5%;">
+        <div class="row" style="text-align: left; padding-left: 15em;">
+            {% for i in mom_data %}
+                {% if i.str == 'NoRB' %}
+                    <div class="col">
+                        <label for="status" >Type</label>
+                        <select class="form-control" name="status" id="status" class="custom-select" style="max-width:60%;">
+                            <option value="0" selected>All</option>
+                        </select>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="col">
+                <label for="status" >Status</label>
+                <select class="form-control" name="status" id="status" class="custom-select" style="max-width:60%;">
+                    <option value="0" selected>All</option>
+                    <option value="1">Pending</option>
+                    <option value="2">Partial</option>
+                    <option value="3">Completed</option>
+                    <option value="4">Closed</option>
+                    <!-- <option value="R">Rejected</option> -->
+                </select>
+            </div>
+            <div class="col">
+                <label for="mdate" >Date of Meeting<span style="color:red;font-weight:bold">*</span></label>
+                <input type='text' id='filterdate' name="filterdate" style="max-width:60%;" placeholder="Select Range.." class="form-control" readonly required>
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </span>
+            </div>
+            <div class="col">
+                <button type="button" id="momdone_filter" style="margin-top:2em;width:5em;border: 1px solid #ccc;" class="btn btn-success" onclick="momdone_filter(this);">Search</button>
+                <button type="button" id="clear" style="margin-top:2em;width:5em;border: 1px solid #ccc;" class="btn btn-secondary" onclick="clear_filter();">Clear</button>
+            </div>
+        </div><br>
+
+        <div class="row ">
+            <!-- table of doneby_list -->
+            <div class="col-6" style="overflow: auto;">
+                <table id="doneTable" class="table table-striped table-bordered center">
+                    <thead>
+                        <tr style="margin-left: 5em;">
+                            <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">S.No.</th> -->
+                            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">MOM Date</th>
+                            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 20%">MOM Note No.</th>
+                            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 55%;">MOM Title</th>
+                            <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in mom_data %}
+                        <tr>
+                            <!-- <td style= "text-align: left;">{{forloop.counter}}</td> -->
+                            <td style= "text-align: left;">{{i.mom_date|date:"d/m/y"}}</td>
+                            {% if i.status_flag == 1 %}
+                                <td style= "text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:crimson">{{i.mom_note_no}}</a></td>
+                            {% elif i.status_flag == 2 %}
+                                <td style= "text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:crimson">{{i.mom_note_no}}</a></td>
+                            {% elif i.status_flag == 3 %}
+                                <td style= "text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:green">{{i.mom_note_no}}</a></td>
+                            {% elif i.status_flag == 4 %}
+                                <td style= "text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:green">{{i.mom_note_no}}</a></td>
+                            {% else %}
+                            {% endif %}
+                            <td style= "text-align: left;">{{i.mom_title}}</td>
+                            {% if i.status_flag == 1 %}
+                                <td style="text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:crimson">Pending</a></td>
+                            {% elif i.status_flag == 2 %}
+                                <td style="text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:crimson">Partial</a></td>
+                            {% elif i.status_flag == 3 %}
+                                <td style="text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:green">Completed</a></td>
+                            {% elif i.status_flag == 4 %}
+                                <td style="text-align: left;"><a href="" onclick="mom_pdf('{{i.insp_no}}'); return false;" style="color:green">Closed</a></td> 
+                            {% else %}
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>   
+                </table>
+            </div>
+            
+            <div class="col-6">
+                <div id="view1">
+                    <ul class="nav nav-tabs nav-fill mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#details">MOM Note</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#remarks" >Rec'd Replies</a>
+                        </li>
+                    </ul>
+                
+                    <div class="tab-content">
+                        <div id="details" class="container-fluid tab-pane active"><br>
+                            <div id="view2" style="padding: 10%;">
+                                <center><label><h5>Click on MOM Note No. for more details..</h5></label></center>
+                            </div>
+                            <div class="row">
+                                <div class="col" hidden>
+                                    <label>MOM Insp No.</label>
+                                    <input type="text" value=""  id="mom_no" readonly class="form-control" />
+                                </div> 
+                                <div class="col" hidden>
+                                    <label>MOM Note No.</label>
+                                    <input type="text" value=""  id="note_no" readonly class="form-control" />
+                                </div>  
+                                <div class="col" hidden>
+                                    <label>Date of Meeting</label>
+                                    <input type="text" value=""  id="mdate" readonly class="form-control" />
+                                </div>  
+                            </div>
+                            <div class="row">
+                                <div class="col" hidden>
+                                    <label>MOM Title</label>
+                                    <textarea type="text" value=""  id="title" readonly class="form-control"></textarea>
+                                </div>  
+                            </div>
+                            <div class="row">
+                                <div class ="col">
+                                    <div id="preiew_pdf">
+                                        <iframe id="iframepreview"  style="width:718px; height:700px;" frameborder="0"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="remarks" style="overflow: auto;" class="container-fluid tab-pane table responsive" ><br>
+                            <div id="view3" style="padding: 10%;">
+                                <center><label id="status1"><h5>Click on MOM Note No. for more details..</h5></label></center>
+                                <center><label id="status2" hidden><h5>No reply received so far..</h5></label></center>
+                            </div>
+                            <div id="remarksdiv" hidden>
+                                <table class="table table-striped table-bordered center" id="remarksTable" style="width: 100%; " >
+                                    <thead style="white-space: nowrap; text-align: left;">
+                                        <th style="width: 10%">Item No.</th>
+                                        <th style="width: 15%;">Reply Date</th>
+                                        <th style="width: 70%;">Remarks</th>
+                                        <th style="width: 5%;">Attachment</th>  
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table> 
+                            </div>  
+                        </div>
+                    </div>      
+                </div>
+            </div>
+        </div> 
+    </div> 
+      
+    <br><br>
+</body>
+
+<!-- script for datepicker -->
+<script>
+    $(function() 
+    {
+        $('input[name="filterdate"]').daterangepicker
+        ({
+            autoUpdateInput: false,
+            // autoApply: true,
+            maxDate: new Date(),
+            locale: {   cancelLabel: 'Clear'    }
+        });
+    
+        $('input[name="filterdate"]').on('apply.daterangepicker', function(ev, picker) 
+        {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));
+            if(picker.startDate.format('DD/MM/YYYY') == picker.endDate.format('DD/MM/YYYY'))
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY'))  }
+            else
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));  }
+            $('.applyButtonClasses').click()
+        });
+    
+        $('input[name="filterdate"]').on('cancel.daterangepicker', function(ev, picker) 
+        {   $(this).val('');    });
+    });
+
+</script>
+    
+<script>
+    $( document ).ready
+    (
+       function() 
+       {
+            $('#doneTable').DataTable();
+            // $('#remarksTable').DataTable();
+           // mom_doneby_list();
+       }
+    )
+
+    function mom_pdf(e)
+    {
+        var table = $('#remarksTable').DataTable();
+        table.destroy();
+        $('#remarksTable').hide();
+        data=
+        {
+          'insp_no':e
+        }
+        $.ajax
+        ({
+            url: "{% url 'mom_pdf_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                insp_details=response.insp_details;
+                // alert(insp_details[0].note_no+' 1234 '+insp_details[0].mdate+' 1234 '+insp_details[0].title)
+                $('#mom_no').val(insp_details[0].insp_no)
+                $('#note_no').val(insp_details[0].note_no);
+                $('#mdate').val(insp_details[0].mdate);
+                $('#title').val(insp_details[0].title);
+                reply_details=response.item_details;
+                if (reply_details.length==0)
+                {
+                    pdf='preiew_pdf';
+                    file = "/mom_ReportPdf/"+insp_details[0].insp_no;
+                    $('#iframepreview').attr('src', file);
+                    $('#view2').hide();
+                    document.getElementById('status1').hidden=true;
+                    document.getElementById('status2').hidden=false;
+                }
+                else
+                {
+                    let row = "";
+                    let head = 
+                        `<thead>
+                            <tr align="left">
+                                <th style="width: 5%" hidden>counter</th>
+                                <th style="width: 5%">Item No.</th>
+                                <th style="width: 15%;">Reply Date</th>
+                                <th style="width: 70%;">Remarks</th>
+                                <th style="width: 5%;">Attachment</th> 
+                            </tr>
+                        </thead>`;
+
+                        
+                    for (let i = 0; i < reply_details.length; i++) 
+                    {
+                        row += "<tr>";
+                        row += 
+                            `<td >${i}</td>
+                            <td >${reply_details[i]['item_no']}</td>
+                            <td align="left">${reply_details[i]['reply_on']}</td>`
+                        if(reply_details[i]['text']!=null && reply_details[i]['file']!=null)
+                        {
+                            // alert('1');
+                            row+=`<td>${reply_details[i]['text']}</td>
+                            <td><a href="${reply_details[i]['file']}" target="_blank"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;
+                        }
+                        else if(reply_details[i]['text']!=null && reply_details[i]['file']==null)
+                        {
+                            // alert('2');
+                            row+=`<td>${reply_details[i]['text']}</td>
+                            <td>-</td>`;
+                        }
+                        else if(reply_details[i]['text']==null && reply_details[i]['file']!=null)
+                        {
+                            // alert('3');
+                            row+=`<td>-</td>
+                            <td><a href="${reply_details[i]['file']}" target="_blank"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;;
+                        }
+                        row += "</tr>";
+                    }   
+                    $('#remarksTable thead').remove();
+                    $('#remarksTable tr').remove();
+                    $('#remarksTable').append(head);
+                    // $('#remarksTable tbody').append(row);
+                    $('#remarksTable').show();
+                    $('#remarksTable').DataTable({
+                        "language":{
+                        "search": "Keyword search:"
+                    }
+                });
+                    pdf='preiew_pdf';
+                    file = "/mom_ReportPdf/"+insp_details[0].insp_no;
+                    $('#iframepreview').attr('src', file);
+                    $('#view2').hide();
+                }
+            }
+        });
+    }
+
+    function momdone_filter(e)
+    {
+        var table = $('#doneTable').DataTable();
+        table.destroy();
+        $('#doneTable').hide();
+        str=e.id;
+        var status=$('#status').val();
+        var d=$('#filterdate').data('daterangepicker').startDate;
+        var startDate = new Date(d);
+        startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+        d=$('#filterdate').data('daterangepicker').endDate;
+        var endDate = new Date(d);
+        endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+        data={
+            'str':str,
+            'status':status,
+            'startDate':startDate,
+            'endDate': endDate
+        }
+        // alert(startDate+'  '+endDate+'  '+status)
+        $.ajax
+        ({
+            url: "{% url 'filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success:function (response)
+            {
+                let list_filter = response.list_filter;
+                console.log(list_filter)
+                let row = "";
+                let head = 
+                // <th width=5%>S.No.</th>
+                    `<thead>
+                        <tr align=left>
+                            <th width=15%>MOM Date</th>
+                            <th width=20%>MOM Note No</th>
+                            <th width=55%>MOM Title</th>
+                            <th width=5%>Status</th>
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < list_filter.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    // <td>${list_filter[i]['sr_no']}</td>
+                    row += `<td>${list_filter[i]['mom_date']}</td>`;
+                    
+                    if(list_filter[i]['status']=='Pending')
+                        row += `<td><a href="#" id="${list_filter[i]['insp_no']}" onclick="mom_pdf(this.id); " style="color:crimson">${list_filter[i]['mom_note_no']}</a></td>`;
+                    else if(list_filter[i]['status']=='Partial')
+                        row += `<td><a href="#" id="${list_filter[i]['insp_no']}" onclick="mom_pdf(this.id); " style="color:crimson">${list_filter[i]['mom_note_no']}</a></td>`;
+                    else if(list_filter[i]['status']=='Completed')
+                        row += `<td><a href="#" id="${list_filter[i]['insp_no']}" onclick="mom_pdf(this.id); " style="color:green">${list_filter[i]['mom_note_no']}</a></td>`;
+                    else if(list_filter[i]['status']=='Closed')
+                        row += `<td><a href="#" id="${list_filter[i]['insp_no']}" onclick="mom_pdf(this.id); " style="color:green">${list_filter[i]['mom_note_no']}</a></td>`;
+                    
+                    row += `<td>${list_filter[i]['mom_title']}</td>`;
+    
+                    if(list_filter[i]['status']=='Pending')
+                        row += `<td style="color:crimson">${list_filter[i]['status']}</td>`;
+                    else if(list_filter[i]['status']=='Partial')
+                        row += `<td style="color:crimson">${list_filter[i]['status']}</td>`;
+                    else if(list_filter[i]['status']=='Completed')
+                        row += `<td style="color:green">${list_filter[i]['status']}</td>`;
+                    else if(list_filter[i]['status']=='Closed')
+                        row += `<td style="color:green">${list_filter[i]['status']}</td>`;
+                }
+                $('#doneTable thead').remove();
+                $('#doneTable tr').remove();
+                $('#doneTable').append(head);
+                $('#doneTable tbody').append(row);
+                $('#doneTable').show();
+                $('#doneTable').DataTable();
+            }
+
+        })
+    }
+    
+    $('#status').change(function() 
+    {
+        $('#preiew_pdf').empty();
+        id='note_no';
+        id1='mdate';
+        id2='title'
+        document.getElementById(id).value='';
+        document.getElementById(id1).value='';
+        document.getElementById(id2).value='';
+    });
+    
+    function clear_filter(e)
+    {
+        window.location.href='{% url "mom_doneby_list" %}'
+    }
+ 
+    $("#doneTable tbody tr").on('click',function(event) 
+    {
+        $("#doneTable tbody tr").removeClass('row_selected');
+        $(this).addClass('row_selected');
+    });
+
+</script>
+
+
+{% endblock %} 

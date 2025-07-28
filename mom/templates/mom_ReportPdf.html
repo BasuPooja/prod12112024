@@ -1,0 +1,299 @@
+{% load static %}
+
+<!DOCTYPE >
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Minutes of Meeting Report</title>
+
+</head>
+ 
+
+<style>
+    
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt;
+        
+    }
+    
+    }
+    
+ 
+</style>
+
+<body>
+    
+    {% for i in insp_details %}
+        {% if i.type == 0 %}
+        <h1 style="text-align:right"><u>CONFIDENTIAL</u></h1>
+            <h1 style="text-align:center">{{i.mom_title}}</h1>
+        {% else %}
+            <h1 style="text-align:center">{{i.mom_title}} </h1>
+                <!-- &nbsp;held on {{i.mom_date|date:'d/m/y'}}</h1> -->
+        {% endif %}
+        <h1 style="text-align:center"></h1>
+        <h1 style="text-align:left">Member(s) Present<br>Ms./Mr.</h1>
+       
+        <!-- present members -->
+        <table>
+            <tbody><tr><td>
+                    {% for j in present %}
+                    
+                    {% if j.status_flag != 1 %}
+                    <strong>{{j.desig}}</strong><br>
+                    {% else %}  
+                    <strong>{{j.name}} : Secretary</strong> <br>
+                    {% endif %}
+                    
+                    {% endfor %} 
+                </td></tr>
+            </tbody>
+        </table>
+        <br><br>
+
+        <!-- observations table -->
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="font-size: 13px; text-align: left; padding: 2px; " width="5%"><b>S.No.</b></th>
+                    <th style="font-size: 13px; text-align: left; padding: 2px; " width="70%"><b>Point(s) Discussed</b></th>
+                    <th style="font-size: 13px; text-align: left; padding: 2px; " width="25%"><b>Dealt By</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in detailsdata %}
+                    {% if j.type == 'P' or j.type == 'H' %}
+                        <tr>
+                            <td style="font-size: 13px; text-align: left;" width="5%">{{j.des_id}}</td>
+                            <td style="font-size: 13px; text-align: left;" width="70%"><b>{{j.item_heading}}</b>
+                                {% if j.tbllen > 0 %}
+                                <br>
+                                <table style="width:100%; border: 1px solid black;">
+                                {% for t1 in j.tbl_tbl %}
+                                    <tr>
+                                    {% for t2 in t1 %}
+                                    <td>{{t2}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                </table>
+                                {% endif %}
+                                {% if j.target_date != '' %}<br><strong>Target Date: </strong>{{j.target_date}} {% endif %}{% if j.item_priority == '1' %}<br><strong>On Priority </strong>{% endif %}
+
+                            <br>
+                            {% for img1 in j.link_image %}
+                            <br>
+                                <img src="{{img1}}" width="600px" height="400px" /><br>
+                            {% endfor %}
+                        
+                            </td>
+                            <td style="font-size: 13px; text-align: left;" width="25%">
+                                <div class="row"> 
+                                    
+                                    {% for k in j.custom_info %}
+                                    {% if k.selected_action == 'action' %}
+                                        {% if k.ac_co == 0 %}
+                                        <strong>For Action:</strong><br>
+                                        {% endif %}
+                                        {{k.Designation}}<br>
+                                    {% endif %}
+                                    {% endfor %}
+                                    <br>
+                                    {% for k in j.custom_info %}
+                                    {% if k.selected_action == 'info' %}
+                                    {% if k.in_co == 0 %}
+                                        <strong>For Info:</strong><br>
+                                        {% endif %}
+                                        {{k.Designation}}<br>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                
+                                
+                                {% if j.remarks %}
+                                <div class="row">
+                                    <p style="font-size: 13px; text-align: left;"><strong>Remarks: </strong>{{j.remarks}}</p>
+                                </div>
+                                {% endif %}
+                                
+                            </td>
+                        </tr>
+                    {% elif j.type == 'SP' or j.type == 'SH' %}
+                       
+                            <tr>
+                                <td style="font-size: 13px; text-align: left;" width="5%">{{j.des_id}}</td>
+                                <td style="font-size: 13px; text-align: left;" width="70%"><b>{{j.item_subheading}}</b>
+                                    {% if j.tbllen > 0 %}
+                                    <br>
+                                    <table style="width:100%; border: 1px solid black;">
+                                    {% for t1 in j.tbl_tbl %}
+                                        <tr>
+                                        {% for t2 in t1 %}
+                                        <td>{{t2}}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    </table>
+                                    {% endif %}
+                                {% if j.target_date != '' %}<br><strong>Target Date: </strong>{{j.target_date}} {% endif %}{% if j.item_priority == '1' %}<br><strong>On Priority </strong>{% endif %}
+                                
+                                {% if j.item_description %}
+                                <strong><br>Description: </strong><br>{{j.item_description}}
+                                {% endif %}
+                                <br>
+                                {% for img1 in j.link_image %}
+                                <br>
+                                    <img src="{{img1}}" width="600px" height="400px" /><br>
+                                {% endfor %}
+                            
+                                </td>
+                                <td style="font-size: 13px; text-align: left;" width="25%">
+                                    <div class="row"> 
+                                        
+                                        {% for k in j.custom_info %}
+                                        {% if k.selected_action == 'action' %}
+                                            {% if k.ac_co == 0 %}
+                                            <strong>For Action:</strong><br>
+                                            {% endif %}
+                                            {{k.Designation}}<br>
+                                        {% endif %}
+                                        {% endfor %}
+                                        <br>
+                                        {% for k in j.custom_info %}
+                                        {% if k.selected_action == 'info' %}
+                                        {% if k.in_co == 0 %}
+                                            <strong>For Info:</strong><br>
+                                            {% endif %}
+                                            {{k.Designation}}<br>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    
+                                    {% if j.remarks %}
+                                    <div class="row">
+                                        <p style="font-size: 13px; text-align: left;"><strong>Remarks: </strong>{{j.remarks}}</p>
+                                    </div>
+                                    {% endif %}
+                                    
+                                </td>
+                            </tr>
+                            
+                    {% elif j.type == 'SSP' or j.type == 'D' %}
+                    <tr>
+                        <td style="font-size: 13px; text-align: left;" width="5%">{{j.des_id}}</td>
+                        <td style="font-size: 13px; text-align: left;" width="70%"><b>{{j.item_decision}}</b>
+                            {% if j.tbllen > 0 %}
+                            <br>
+                            <table style="width:100%; border: 1px solid black;">
+                            {% for t1 in j.tbl_tbl %}
+                                <tr>
+                                {% for t2 in t1 %}
+                                <td>{{t2}}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            </table>
+                            {% endif %}
+                            {% if j.target_date != '' %}<br><strong>Target Date: </strong>{{j.target_date}} {% endif %}{% if j.item_priority == '1' %}<br><strong>On Priority </strong>{% endif %}
+
+                        <br>
+                        {% for img1 in j.link_image %}
+                        <br>
+                            <img src="{{img1}}" width="600px" height="400px" /><br>
+                        {% endfor %}
+                    
+                        </td>
+                        <td style="font-size: 13px; text-align: left;" width="25%">
+                            <div class="row"> 
+                                
+                                {% for k in j.custom_info %}
+                                {% if k.selected_action == 'action' %}
+                                    {% if k.ac_co == 0 %}
+                                    <strong>For Action:</strong><br>
+                                    {% endif %}
+                                    {{k.Designation}}<br>
+                                {% endif %}
+                                {% endfor %}
+                                <br>
+                                {% for k in j.custom_info %}
+                                {% if k.selected_action == 'info' %}
+                                {% if k.in_co == 0 %}
+                                    <strong>For Info:</strong><br>
+                                    {% endif %}
+                                    {{k.Designation}}<br>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            
+                            
+                            {% if j.remarks %}
+                            <div class="row">
+                                <p style="font-size: 13px; text-align: left;"><strong>Remarks: </strong>{{j.remarks}}</p>
+                            </div>
+                            {% endif %}
+                            
+                        </td>
+                    </tr>
+                      
+                       
+                    {% else %}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <br><br><br><br>
+
+        
+        <br>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td><h1>Note No: {{i.mom_note_no}}<br>Dated: {{i.mom_date|date:"d/m/y"}}</h1></td>
+                    
+                </tr>
+                <tr>
+                   
+                    <td style="text-align:right;"><h1>{{insp_ofc_name}}<br>({{insp_desig}})<br>{{station_name}}</h1></td>
+                </tr>
+                <tr>
+                    
+                    <td style="font-size: 13px">
+                        {% if copyto %}
+                        <strong>Copy To:</strong><br>
+                        {% for i in copyto %}
+                            {{i}}<br>
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <br>
+    {% endfor %}
+</body>

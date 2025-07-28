@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<style>
+
+
+    
+     @page {
+        size: A4 portrait;
+        margin: 1cm;
+        }
+
+  body{
+    display: grid;
+  grid-template-columns: min-content 1fr;
+  }
+.botline{
+
+    padding-top: 40px;
+    padding-left: 5px;
+     
+}
+.headings{
+    border:0;
+}
+
+.data th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-top: 5px;
+    
+
+  }
+
+  /* tr:nth-child(even) {
+  background-color: #D6EEEE;
+} */
+</style>     
+<body>
+<table style="width: 30px;border:whitesmoke" id="Show1">
+    <tr> 
+       
+        <td colspan="3" style="text-align :center; font-size: 20px; border: none;"> <h1>Train Inspection Review</h1></td>
+  
+    </tr>
+</table>
+
+
+
+<table style="width: 30px;border:whitesmoke" id="Show1">
+
+    <tr> 
+        <td colspan="3" style=" font-size: 1.5em; border: none; text-align:center"><b>Dated:{{fromdate|date:'d/m/Y'}} - {{todate|date:'d/m/Y'}}</b></td>
+    </tr>
+</table>
+
+<table style="width: 30px;border:whitesmoke" id="Show1">
+
+    <tr> 
+        <td colspan="3" style=" font-size: 1.5em; border: none; text-align:right"><b>As on:{{todaydate|date:'d/m/Y'}}</b></td>
+    </tr>
+</table>
+<!-- <table style=" width:30px; border:black;">
+    <tr>
+        <td colspan="4" style="font-size: 12px;">From Date : {{fromdate.0.inspected_on|date:'d/m/Y'}}</td>
+        <td colspan="4" style="font-size: 12px;"> To Date : {{todate.0.inspected_on|date:'d/m/Y'}}</td>
+        <td colspan="4" style="font-size: 12px;">Train Category : {{train.0.tn_category}}</td>
+    </tr>
+</table> -->
+<table style="width: 30px;border:0.5px black ;">
+    <thead>
+       
+        <tr >
+           <b> <tr style="text-align: center; font-size: 13px; background-color: lightgrey; ">
+               
+            <th scope="col">Train Category(Train Count)</th>
+            <th scope="col">Total Inspections done</th>
+            <th scope="col">Max Inspections(Count)</th>
+            <th scope="col">Min Inspections(Count)</th>
+             
+           </b> 
+            </tr>
+           
+        </tr>
+    </thead>
+    <tbody style="text-align: center;" id="tbody_IC">
+        <!-- {% for i in details %}
+        <tr>
+                                                                                                        
+            <td>{{i.key}}(
+
+            {% for j in i.val %}
+            {{j.cnt}})
+            </td>
+            <td>{{j.tot}}</td>
+            <td ></a>{{j.mxins}}{{j.mx}}:{{j.mxinfo}}</td>
+            <td >{{j.mnins}}{{j.mn}}:{{j.mxinfo}}</td>
+            {%endfor%}
+        </tr>
+        {%endfor%} -->
+        {% for i,j in details.items %}
+        <tr>
+            <td>{{i}}({{j.cnt}})</td>
+            <td>{{j.tot}}</td>
+            <td >{{j.mxins}}{{j.mx}}{{j.mxinfo}}</td>
+            <td >{{j.mnins}}{{j.mn}}{{j.mninfo}}</td>
+            
+        </tr>
+        {%endfor%}
+
+    </tbody>
+    
+</table>
+
+
+</div>
+
+</body>
+</html>

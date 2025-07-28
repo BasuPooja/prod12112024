@@ -1,0 +1,64 @@
+------------------CSS-----------------------
+.help-heading
+{
+    position:absolute;
+    top:-20px;
+    left:10px;
+    background:#ff6600;
+    padding:5px;
+    font-size:15px;
+    font-weight:600;
+    color:#fff !important;
+    padding-right:1rem;
+    padding-left:1rem;
+    border-left:2px solid #cc5200;
+    border-right:2px solid #cc5200;
+}
+.video-heading
+{
+    position:absolute;
+    top:-20px;
+    right:10px;
+    {% comment %} background:#ff6600; {% endcomment %}
+    padding:5px;
+    font-size:15px;
+    font-weight:600;
+    color:#fff !important;
+    padding-left:1rem;
+    padding-right:1rem;
+    border-left:2px solid #cc5200;
+    border-right:2px solid #cc5200;
+}
+
+
+
+------------HTML---------------------------
+<p class="video-heading"><a href="\static\inspects\images\help menu\Dashboard.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\My Inspection.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\DO Letter.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\MoM.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Search.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Tour Program.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Copy To.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Task Tracker.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Feedback.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Report.mp4" target="_blank">Watch Video</a></p>
+
+<p class="video-heading"><a href="\static\inspects\images\help menu\Profile Icon.mp4" target="_blank">Watch Video</a></p>----Hierarchy--------
+
+
+
+
+
+
+
+

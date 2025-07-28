@@ -1,0 +1,490 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<html>
+<head>
+    <title>e-Inspection: Help Menu</title>
+   
+        
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+    .my-heading {
+      font-family: Georgia;
+      margin-top: 0px;
+      font-weight: 500;
+      font-size: 2.5rem;
+      text-align: center;
+      Color: black;
+      font-weight: bold;
+    }
+</style>
+<style type="text/css">
+      
+    body {
+    background: #f6f3f7;
+    }
+    
+    p {
+    margin: 0;
+    }
+    
+    .topbar {
+    font-family: 'Roboto', sans-serif;
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    text-align: center;
+    display: block;
+    background: #730000;
+    color: #fff;
+    padding: 5px 0;
+    background: #730000;
+      background: -moz-linear-gradient(top, #730000 0%, #000000 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#730000), color-stop(100%,#000000));
+      background: -webkit-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -o-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -ms-linear-gradient(top, #730000 0%,#000000 100%);
+      background: linear-gradient(to bottom, #730000 0%, #000000 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#730000', endColorstr='#000000',GradientType=0 );
+    }
+    
+    .topbar p {
+    margin: 0;
+    font-weight: 200;
+    }
+    
+    .topbar p a {
+    font-size: 12px;
+    }
+    
+    .header {
+    background: #fff;
+    padding: 20px 0;
+    padding-top: 60px;
+    }
+    
+    .control-box h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    }
+    
+    .control-box {
+    border: 1px solid #dddcd8;    
+    background-color: #fff;
+    position:relative;
+    padding-top:2rem !important;
+    margin-bottom:2rem;
+    }
+    
+    .control-box .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+    
+    .control-box .links li {
+    margin-bottom: 10px;
+    }
+    
+    .control-box .links li a {
+    color: #aa1212;
+    text-decoration: underline;
+    }
+    
+    .content {
+    margin-top: 10px;
+    }
+    
+    .breadcrumb p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #777;
+    font-size: 14px;
+    }
+    
+    .breadcrumb p a {
+    color: #aa1212;
+    }
+    
+    .main-content h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 27px;
+    color: #000;
+    margin-bottom: 20px;
+    }
+    
+    .main-content p {
+    font-size: 17px;
+    color: #4d4d4d;
+    line-height: 29px;
+    margin-bottom: 20px;
+    }
+    
+    .main-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    }
+    
+    .main-content h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    }
+    h2, h3, h4{
+      padding: 5px;
+      text-align: center;
+    }
+    
+    .text_color{
+    background-color: rgb(95, 225, 230);
+    font-size: 24;
+    }
+    
+    .text_color_h2 {
+    background-color: rgb(109, 109, 214); 
+    }
+
+    .video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heading-title {
+    position: relative;
+    padding-bottom: 16px;
+    font-weight: 600;
+    color: #0f42e9 !important;
+    font-size: 20px;
+    margin-bottom: 1rem;
+    /* margin-left: 2rem; */
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif;
+    margin-bottom:0px;
+} 
+.section-head
+{
+    font-size:14px;
+    font-weight:600;
+    color:#4d4d4d;
+    text-align:left;
+    margin-top:1rem;
+    margin-bottom:10px;
+}
+a.help-link
+{
+    font-weight:500;
+    text-decoration:none;
+    color:#0059b3;
+    font-size:14px;
+}
+.link-list .list-group-item
+{
+    padding:2px !important;
+}
+.dtls-list .list-group-item
+{
+    padding:6px !important;
+    text-align: justify;
+}
+.help-heading
+{
+    position:absolute;
+    top:-20px;
+    right:10px;
+    background:#00ff2a;
+    padding:5px;
+    font-size:15px;
+    font-weight:600;
+    color:#000000 !important;
+    padding-right:1rem;
+    padding-left:1rem;
+    border-left:2px solid #00cc22;
+}
+.ribbon {
+  position: absolute;
+  left: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+hr{
+    margin-bottom:2rem;
+}
+.parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parent button {
+  background-color: #cccdce;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0 1px 2px #AEAEAE;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parent button:active {
+  background-color: #AEAEAE;
+  box-shadow: 0 0 1px #aeaeae;
+  transform: translateY(2px);
+}
+
+.btn-back
+{
+    border-radius: 70%;
+}
+.video-btn{
+    height:40%;
+    color:rgb(3, 3, 3);
+    background-color: rgb(138, 230, 126);
+    color:#000000 !important;
+}
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
+  <script>
+    function backTop()
+    {
+        $("html, body").animate(
+                { scrollTop: "0" }, 1000);
+    }
+    function playVideo(titl,link)
+    {
+        $('#modtitle').html(titl);
+        $("#vidmodal").modal("show");
+        var htmlstr='<a href="'+link+'" id="vidlink" style="float: right;" download="true"><i class="fa fa-download" aria-hidden="true"></i>';
+            htmlstr+='Click here to download</a>';
+            htmlstr+='<video class="video-element" controls><source src="'+link+'" id="vidsrc" type="video/mp4">Your browser does not support the video tag.</video>';
+        $("#modbody").html(htmlstr);
+
+    }
+    $(document).ready(function(){
+      $('#help_options').width($('#help_options').parent().width()-25)
+    })
+    </script>
+<body>
+    
+    <div class="modal" tabindex="-1" role="dialog" id="vidmodal">
+        <div class="modal-dialog modal-lg modal-xl" style="max-width:95vw !important;height:90vh;margin:1rem;" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id ="modtitle">Login & Signup</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Back">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Back</button>
+              </button>
+            </div>
+            <div class="modal-body" id ="modbody">
+                
+            </div>
+          </div>
+        </div>
+      </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                  <div class="my-heading">
+                    <h1 class="heading-title"><i class="fas fa-angle-right"></i> <font  face = "Comic sans MS" size =" 5"  text = "blue">Let's get you started..</font></h1>
+                  </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3" style="position:relative">
+                        
+                            <div class="control-box p-3 mt-0  sticky-top " style="height: auto;z-index:1;position:fixed;top:7.25em" id="help_options">
+                                <div class="ribbon"><span><font color = "black">Categories</font></span></div>
+                                <div class="fix">
+                                <div class="container-fluid index">
+                                <h3 class="section-head"><font face = "Times New Roman" size = "4">About</font></h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C1" class="help-link"><font face = "Times New Roman" size = "3">e-Inspection</font></a></li>
+                                </ul>
+                                <h3 class="section-head"><font face = "Times New Roman" size = "4">Account Management</font></h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C2" class="help-link"><font face = "Times New Roman" size = "3">Sign In</font></a></li>
+                                    <li class="list-group-item"><a href="#C3" class="help-link"><font face = "Times New Roman" size = "3">Sign Up</font></a>
+                                   <button class="video-btn" style ="float:right" onclick="playVideo('Login & Signup','/media/video/login_&_signup.mp4');">watch video</button>
+                                   <!-- <a href="/media/video/sample_n.mp4" ><button class="video-btn" >Click to download</button></a> -->
+                                </li>
+                                    <li class="list-group-item"><a href="#C4" class="help-link"><font face = "Times New Roman" size = "3">Forgot Password</font></a></li>
+                                  </ul>
+                                <h3 class="section-head"><font face = "Times New Roman" size = "4">Application Features</font></h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C5" class="help-link"><font face = "Times New Roman" size = "3">User Master</font></a>
+                                        <button class="video-btn" style ="float:right"  onclick="playVideo('Homepage Dashboard','/media/video/');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C6" class="help-link"><font face = "Times New Roman" size = "3">Designation Master</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('My Inspection','/media/video/');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C7" class="help-link"><font face = "Times New Roman" size = "3">Railway Wise Report</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('My Compliance','/media/video/');">watch video</button></li>
+                                        <li class="list-group-item"><a href="#C7" class="help-link"><font face = "Times New Roman" size = "3">Division Wise Report</font></a>
+                                            <button class="video-btn" style ="float:right" onclick="playVideo('My Compliance','/media/video/');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C8" class="help-link"><font face = "Times New Roman" size = "3">Officer's Wise Report</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('Forwarded Compliance','/media/video/');" >watch video</button></li>
+                                    
+                                    </ul>
+                                    
+                            </div>
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                <div class="col-md-9">
+                
+                    <div class="control-box p-3 main-content" id="C1">
+                        <p class="help-heading">About e-Inspection</p>
+                        <ul class="list-group list-group-flush dtls-list">
+                            <li class="list-group-item"> <font face = "Times New Roman" size = "5">
+                                The e-Inspection website is accessible through any  web-browser viz. Google Chrome, Mozilla Firefox, Internet Explorer, Apple Safari etc. through the url: <a href="https://einspection.indianrailways.gov.in/" target="_self" class="help-link"><font face = "Times New Roman" size = "4">https://einspection.indianrailways.gov.in/</font></a></font>
+                            </li>
+                            <li class="list-group-item"> <font face = "Times New Roman" size = "5">
+                                The website provides a convenient online platform for the inspecting officers to draft/submit their observations along with marking officers</font>
+                            </li>
+                        </ul>
+              <!-- <img src="\static\inspects\images\help menusample\inspection2.png" alt="Login" style="width: 100%;height: auto;" class="img img-fluid img-responsive"><br> -->
+              <img src="\static\inspects\images\help menusample\inspection2.jpg" alt="Login" style="width: 100%;height: auto;"><br>
+              <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+             <hr id="C2" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Sign In</p>
+            <p><font face = "Times New Roman" size = "5"> 
+                This is the first page that opens when the e-Inspection website is opened. Through this form users can Login into this website using the user id and password provided by the CRIS admin. On successful login, a user dashboard with full access to their inspection record will be available to the user. </p></font>
+                <img src="\static\inspects\images\help menusample\login1.png" alt="Login" style="width: 100%;height: auto;"><br>        
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div> 
+<hr id="#C3" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Sign Up</p> 
+             
+            <p><font face = "Times New Roman" size = "5">This feature is provided to update employee number(IPAS no.) posted on a particular designation or to change posting status, password etc related to that designation.  Firstly, users have to enter their valid Email Address, if not available then user can raise a request to register email id. Once email id is entered, Designation corresponding to email entered, will be autofetched then click on Get OTP to authenticate via email OTP. On successful verification user can enter their employee number and this will change the incumbent posted on selected designation along with posting status as Primary or Dual charge. Users are required to change password during successful signup. 
+            </font></p>
+            <img src="\static\inspects\images\help menusample\signup.png" alt="Sign Up" style="width: 100%;height: auto;"><br>  
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+
+            <hr id="C4"  />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Forgot Password</p>
+                
+            <p> <font face = "Times New Roman" size = "5"> In the event that a user forgets their password, they can easily reset it by clicking the 'Forgot Password' option available in login form. Following that, the user will need to provide their registered email address to receive an OTP to reset their password. On successful verification, user can provide a new password in a given combination and format and click on Submit button to make the changes.</font></p>
+               <img src="\static\inspects\images\help menusample\forget1.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+                <hr id="C5" />
+                <div class="control-box p-3 main-content">
+                    <p class="help-heading">User Master</p>
+                    
+            <p><font face = "Times New Roman" size = "5">Admin can relinquish any officer of their railway, Post any officer in their railway, view pending request to relieve any officers presently posted in another railway and Accept/Reject request sent by another railway admin to relieve any officers presently posted in their railway.
+            
+            <img src="\static\inspects\images\help menu\UserMaster.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through nav bar provided:-</font>
+                <ul>
+                    <li>Relinquish</li>
+                    <img src="\static\inspects\images\help menu\RElinguish.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    <li>New Joining</li>
+                    <img src="\static\inspects\images\help menu\NewJoin.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    <li>Requested</li>
+                    <img src="\static\inspects\images\help menu\Requested.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    <li>Pending </li>
+                    <img src="\static\inspects\images\help menu\A_Pending.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    
+                    
+                </ul>
+            </p></font>
+            
+            <!-- <p><font face = "Times New Roman" size = "5"> Customized Dashboard for CRB & CEO</font></p>
+            <img src="\static\inspects\images\help menusample\dashboard2.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div> -->
+      </div>
+      <hr id="C6" />
+      <div class="control-box p-3 main-content">
+          <p class="help-heading">Designation Master</p>
+          <!-- <p><font face = "Times New Roman" size = "5">After clicking on this <b>Designation Master</b> </font></p> -->
+          <font face = "Times New Roman" size = "5"> 
+            <p><font face = "Times New Roman" size = "5"> After clicking on this <b>Designation Master</b> Following option are available in this menu accessible through  provided:-</font>
+                <ul>
+                    <li><b>All Designation Details</b></li>
+                    <p><font face = "Times New Roman" size = "5"> When the admin logs in with their railway ID, they will be able to see a list of details of all employees. If the admin wants to change any employee's details, they can go to the 'Action' column and modify the department, railway/division, station, reporting officer, pay level, mobile number, e-mail address (only if it is not assigned to anyone else), add remarks, and click on 'Forward Request'.</font>
+                        <img src="\static\inspects\images\help menu\DesignationDetails.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    <li><b>Add Designation</b></li>
+                    <p><font face = "Times New Roman" size = "5"> The super admin can directly add designations. They can select the post, which will automatically fetch the details of the department, category, pay level, and designation. Then they can select the station, reporting officer, work area, mobile number, e-mail address, and remark. In the railway/division column, when we select the railway/division, it will show whether the designation is available or not. If it is available, it will show a similar designation.</font>
+                    <img src="\static\inspects\images\help menu\AddDesignation.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    <li><b>Requested by me</b></li>
+                        <img src="\static\inspects\images\help menu\RequestToMe1.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+                    
+                </ul>
+            </p></font>
+            <!-- <img src="\static\inspects\images\help menusample\my_insp.png" alt="My Inspection" style="width: 100%;height: auto;"> -->
+            <!-- <br> -->
+            <p><font face = "Times New Roman" size = "6"><b>Railway Wise Report</b></font></p>
+            <p><font face = "Times New Roman" size = "5">Under the <b>'Railway Wise Report'</b>admin can view railway wise summary of inspection done, closed,  open, pending, overdue, and complied by the selected railway group. Reports can also be exported as Excel or PDF format or print from the option given above the table.
+                <br><br>
+             </font></p>
+          <img src="\static\inspects\images\help menu\RailwayWiseReport.png" alt="Railway Wise Report" style="width: 100%;height: auto;"><br>
+
+            <p><font face = "Times New Roman" size = "6"><b>Division Wise Report</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> On clicking <b>Division Wise Report</b> admin can view division wise summary of inspection done, closed,  open, pending, overdue, and complied by the selected divisions of any railway. Reports can also be exported as Excel or PDF format or print from the option given above the table.
+
+            </font></p>
+            <img src="\static\inspects\images\help menu\DivisionWiseReport.png" alt="Division Wise Report" style="width: 100%;height: 50;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Officer's Wise Report</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> Under the <b>"Officer's Wise Report"</b>admin can view officer wise summary of inspection done, closed,  open, pending, overdue, and complied by the selected designation of any division or any railway. Reports can also be exported as Excel or PDF format or print from the option given above the table.
+            </font></p>
+            <img src="\static\inspects\images\help menu\OfficerWiseReport.PNG" alt="Officer's Wise Report" style="width: 100%;height: auto;"><br>   
+        </div>
+
+    </div>
+{% endblock content %}
+        </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>E-inspection</title>
+
+ <style>
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;        
+    }
+        h3 {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 0px;
+            color: rgb(7, 7, 105);
+            margin-bottom: 5px;
+        } 
+        table {
+        margin-top: 10px;
+    }
+ 
+.header {
+        display: flex;
+        align-items: center;
+    }
+
+    .header img:first-child {
+        margin-right: auto;
+    }
+
+    .header img:last-child {
+        margin-left: auto;
+    }
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <!-- <img src="{{abs_path}}" width="1200px" height="140px"> -->
+        <br>
+        {% if irTypeVal == 'IR' %}
+        <h3>Pending Count For Rly./Org. ( {{INSPITEMTYPE}} ) From {{irSearchDate}} To {{irSearchDateTO}}</h3> 
+        {% else %} 
+        <h3>Pending Count For {{irDetailsVal}} ( {{INSPITEMTYPE}} )  From {{irSearchDate}} To {{irSearchDateTO}}</h3> 
+        {% endif %}        
+    </div>
+
+   <b><h3 style="text-align: center; font-size: 18px; padding-top: 0px;"></h3></b>
+    <div>
+        <table border="0.7">
+            <thead>
+                <tr>
+                
+                    <th style="width:6%; text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;"> S.No. </th>
+                    <th style=" text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Railway</th> 
+                    <th style=" text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;" colspan="2">Total Count </th>
+                    <th style=" text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;" colspan="2">Pending Count </th>
+                    <th style=" text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;" colspan="2">Overdue Count </th>
+                    <th style=" text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;" colspan="4">Pendency Count</th>
+                    
+                    </tr>
+                    <tr>
+                       <th style="background-color:#0066cc ;color:#fff; padding-top:8px;"></th>  
+                       <th style="background-color:#0066cc ;color:#fff; padding-top:8px;"></th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp </th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Item</th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp </th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Item</th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp </th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Item </th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">>7 Days</th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">>30 Days</th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">>90 Days</th>
+                        <th style="text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">>180 Days</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for item in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{item.0}}</td>
+                    <td>{{item.1}}</td>
+                    <td>{{item.2}}</td>
+                    <td>{{item.3}}</td>
+                    <td>{{item.4}}</td>
+                    <td>{{item.5}}</td>
+                    <td>{{item.6}}</td>
+                    <td>{{item.7}}</td> 
+                    <td>{{item.8}}</td>
+                    <td>{{item.9}}</td>
+                    <td>{{item.10}}</td> 
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>     
+  </div>  
+</body>
+</html>

@@ -1,0 +1,350 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+  <!-- add this cdn -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tooltip.js/1.3.1/tooltip.js"></script> -->
+  <script type="text/javascript" src="{% static '/org/tooltip.js' %}"> </script>
+
+  <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css" /> -->
+
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+ <!-- 
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/orgchart/3.7.0/js/jquery.orgchart.js"></script>
+ <script type="text/javascript" src="{% static '/org/cdnjs.cloudflare.com_ajax_libs_orgchart_3.7.0_js_jquery.orgchart1.js' %}"></script> 
+ <script type="text/javascript" src="{% static '/jquery-ui/jquery-ui.min.js' %}"></script>
+ <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+ <link rel="stylesheet" type="text/css" media="screen" href="{% static '/org/jquery.orgchart.css' %}">
+ <link rel="stylesheet" type="text/css" media="screen" href="{% static '/org/cdnjs.cloudflare.com_ajax_libs_orgchart_3.7.0_css_jquery.orgchart.min.css' %}"> 
+ <script type="text/javascript" src="{% static '/org/cdnjs.cloudflare.com_ajax_libs_orgchart_3.7.0_js_jquery.orgchart.min.js' %}"> </script>
+ <script type="text/javascript" src="{% static '/org/jquery.orgchart.js' %}"></script>    
+ <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+ <script type="text/javascript" src="{% static '/org/jquery.orgchart.js' %}"></script>
+ <link rel="stylesheet" type="text/css" media="screen" href="{% static '/org/jquery.orgchart.css' %}">
+ -->
+ 
+
+ <link rel="stylesheet" type="text/css" media="screen" href="{% static '/org/cdnjs.cloudflare.com_ajax_libs_orgchart_3.7.0_css_jquery.orgchart.css' %}"> 
+ <script type="text/javascript" src="{% static '/org/cdnjs.cloudflare.com_ajax_libs_orgchart_3.7.0_js_jquery.orgchart.js' %}"> </script>
+
+
+
+
+<style>
+
+.task-spacing::after {
+  content: "\00a0\00a0\00a0";
+}
+
+
+/* Hide the very first 3 rows (that represent the pseudo root element) */
+.orgchart > table > tbody > tr:nth-child(-n+3) { 
+    display: none !important; 
+}
+
+/* in the .node class of the root, search for the first children of root and
+    hide their topEdge arrow which is associated to the pseudo root elemen */
+.orgchart > table > tbody > tr.nodes > td > table > tbody > tr > td > div.node > i.topEdge {
+    display: none !important;
+}
+
+
+
+#chart-container {
+        font-family: Arial;
+
+        height: 500px;
+        border: 1.7px solid #aaa;
+        border-radius: 5px;
+        overflow: auto;
+        text-align: center;
+      }
+.orgchart {
+  background: #fff; 
+}
+
+.ui-tooltip{
+  white-space: pre-line;
+  background-color: rgb(127, 210, 248);
+  font-family: Serif ;
+  font-weight: bold;
+  font-size: 12px;
+  opacity:0.9;
+  border: 8px solid rgb(9, 110, 9);
+  box-shadow: 4px 4px;
+}
+
+.ui-tooltip th,
+.ui-tooltip td {
+  border: 1px solid #0f0606;
+  padding: 5px;
+  text-align: left;
+}
+
+.orgchart .node .title {
+  color: rgb(1, 10, 7); 
+} 
+
+</style>
+</head>
+
+
+<body>
+<br><br>
+  <h3 class="report_heading">hierarchy</h3>
+<br><br>
+<div class="container">
+  <div class="inpt-container" id="container1" style="padding-bottom: 10px;" >
+    <form method="POST" id='indexForm'> 
+      {% csrf_token %}
+      <div class="row" style="text-align: left; margin-left: 2em;" >
+
+
+          <div class="col"  >
+            <label for="Zone" class="lbl-caption">Rly./Org. Wise </label>
+            <select class="form-control" id="zone" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select" onchange="changefunc(this.id)" 
+                 ><span style="color:red;font-weight:bold">*</span>
+                <option value="">All</option>
+                {% for z in Zone %}
+                  {% if z.location_code == rly_code %}
+                  <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+                  {% else %}
+                  <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+          </div>   
+      &nbsp;
+        <div class="col">
+        <label for="division" class="lbl-caption">Division/Unit</label>
+        <select class="form-control" id="division" data-placeholder="Div./Unit Wise..." name="division" class="custom-select" style="max-width:100%;"
+        ><span style="color:red;font-weight:bold">*</span>
+    
+                <option value="" >All</option>
+                
+                {% for d in division %}
+                {% if d.location_code == div_code %}
+                <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+                  {% else %}
+                  <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                  {% endif %}
+                    {% endfor %}
+            </select>
+        </div>      
+          &nbsp;
+          <div class="col">
+            <label for="dept" class="lbl-caption"> Department</label>
+            <select  class="form-control" id="dept_1" data-placeholder="Select department.." name="dept_1" class="custom-select" style="max-width: 100%;">
+              <span style="color:red;font-weight:bold">*</span>
+              <option value="" selected >All</option>
+      
+                {% for i in department %}
+                <option value="{{i.department_code}}">{{i.department_name}}</option>
+                {% endfor %}        
+            </select>
+          </div>
+
+          <div class="col">
+              <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                  <div class="btn-group mr-2" role="group" >
+                      <button type="button" id="submit"  class="btn btn-warning btn-sm" onclick="Submitfn()" >Submit</button>
+                      <button type="reset" class="btn btn-secondary btn-sm" onClick="window.location.reload();">Reset</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>  
+  </div>
+
+  <div id="chart-container">
+  </div>
+  
+  <br><br><br>
+
+<br><br><br>
+</div>
+
+ 
+
+    
+</body>
+
+<script>
+
+
+
+  function changefunc(id){
+    let newid = id.substr(4)
+      //  alert('newid: '+newid);
+       var rly=$('#zone'+newid).val();
+      //  data={
+      //      'rly_data': JSON.stringify(rly)
+      //    }
+          mydata={
+            'rly_data': rly//JSON.stringify(rly)
+          }
+
+         $.ajax({
+           type : 'GET',
+           url : "{% url 'changefunc' %}",
+           dataType : 'json',
+           data : mydata,
+           success : function(response){
+             division=response.division;
+                         $('#division'+ newid).empty();
+                         $('#division'+ newid).append(`<option value="" >All</option>`);
+                         for (let i = 0; i < division.length; i++) {
+                                                                        /////////////////////////
+                           $('#division'+newid).append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                     }
+           }
+         })
+  }
+  
+  function refreshPage() {
+            location.reload();
+    }
+    // $("#zone").select2();
+           // Read selected option
+           $('#rly').click(function(){
+             var username = $('#rly option:selected').text();
+             var userid = $('#rly').val();
+           });
+  //  $("#division").select2();
+   $('#division').click(function(){
+     var username = $('#div option:selected').text();
+     var userid = $('#div').val();
+  });
+  
+   $("#department").select2();
+   
+   $('#department').click(function(){
+     var username = $('#department option:selected').text();
+     var userid = $('#department').val();
+  });  
+</script>
+
+
+
+<script>
+  'use strict';
+
+  (function($){
+  
+    $(function() {
+       
+      var showDescendents = function(node, depth) {
+        if (depth === 1) {
+          return false;
+        }
+        $(node).closest('tr').siblings(':last').children().find('.node:first').each(function(index, node) {
+                                                                                                                                                        
+          var $temp = $(node).closest('tr').siblings().removeClass('hidden');
+
+          var $children = $temp.last().children().find('.node:first');
+          
+          if ($children.length) {
+            $children[0].style.offsetWidth = $children[0].offsetWidth;
+          }
+          $children.removeClass('slide-up');
+          showDescendents(node, depth--);
+        });
+      };
+    });
+  
+  })(jQuery);
+</script>
+
+<script>
+  function Submitfn(){
+      var selZone = $('#zone').val();
+      var selDivision = $('#division').val();
+      var selDepartment = $('#dept_1').val();
+      document.querySelectorAll('button, input[type="radio"], input[type="checkbox"]').forEach(button => button.disabled = true);
+      $('#chart-container').empty()
+      $('#chart-container').html('<img src="/static/images/loading_data1.gif" alt="Loading" class="loading-gif">');
+
+      $.ajax({
+        url: "{% url 'Submitfn' %}",
+        method: "GET",
+        dataType: "JSON",      
+        data: {'selZone':selZone,'selDivision':selDivision,'selDepartment':selDepartment,},
+        success: function(data){
+          //data.datascource1
+          document.querySelectorAll('button, input[type="radio"], input[type="checkbox"]').forEach(button => button.disabled = false);
+          $('#chart-container .loading-gif').remove();
+
+          $('#chart-container').orgchart({
+            'visibleLevel': 20,
+            'data' : data,
+            //'nodeContent': 'total_notes',
+            'createNode': function($node, data) {
+
+            $node.on('mouseenter', function(event) {
+            var target = event.target;
+           
+            var  row =  '<table>' +
+                 // '<th>' + data.name + ' - ' + data.empfname + ' ' + data.empmname + ' ' + data.emplname + '</th>' +
+                  data.name + ' - ' + data.empfname + ' ' + data.empmname + ' ' + data.emplname + 
+        '<tr>' +
+          '<th colspan="4"> </th>' +  '<th colspan="4">Pending</th>' + '<th colspan="4"> Created </th>'  + '<th colspan="4"> Marked </th>' +
+        '</tr>' +
+        '<tr>' +
+          '<td colspan="4">Inspection</td>' +  '<td colspan="4">'+data.total_forwarded_items_m2m+'</td>' + '<td colspan="4"> '+data.total_insp_created+' </td>'  + '<td colspan="4"> '+data.total_insp_marked_fwd+' </td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td colspan="4"> Task </td>' + '<td colspan="4">'+data.pending_task+'</td>' + '<td colspan="4"> '+data.total_task_created+' </td>'  + '<td colspan="4"> '+data.task_marked+' </td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td colspan="4">MOM </td>' +  '<td colspan="4">'+data.total_mom_pending+'</td>' + '<td colspan="4"> '+data.total_mom_created+' </td>'  + '<td colspan="4"> '+data.total_mom_marked+' </td>' +
+        '</tr>' +
+        '<tr>' +
+          '<td colspan="4">DO</td>' +  '<td colspan="4">'+data.total_do_pending+'</td>' + '<td colspan="4"> '+data.total_do_created+' </td>'  + '<td colspan="4"> '+data.total_do_marked+' </td>' +
+        '</tr>' +
+    '</table>'     
+
+    $(target).attr('title', row);
+                
+                $(document).tooltip({ 
+                  track: true,
+                  content: function () {
+                    
+                     return $(this).attr('title');
+                },
+                show: {
+                delay: 2100 
+                },
+                open: function (event, ui) {
+                $('.ui-tooltip').not(ui.tooltip).remove();
+    }                   
+                });  // jquery-ui tooltip
+              // }
+            });      
+              $node.on('click', '.bottomEdge',function(event) {
+                if ($(event.target).is('.fa-chevron-down')) {
+                  showDescendents(this, 3);
+                }
+              });
+            }
+          });
+          document.getElementsByClassName('node')[0].style.visibility='hidden';
+        }, 
+        error: function(xhr, status, error){
+          console.log(error);
+          
+        $('#chart-container .loading-gif').remove();
+        $('#chart-container').text('Data Not Found');
+        }
+      });
+
+  //});
+}
+$(document).ready(function(){
+  document.getElementById('submit').click();
+});
+</script> 
+
+
+
+{% endblock %}

@@ -1,0 +1,2403 @@
+{% extends 'adminDash.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+</head>
+<style>
+  
+  * { box-sizing: border-box; }
+/* body {
+  font: 16.5px Arial;
+} */
+.event a {
+    background-color: #5FBA7D !important;
+    color: #ffffff !important;
+}
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position:relative;
+  display: inline-block;
+ 
+  /* overflow: hidden; */
+}
+
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 3px;
+  font-size: 12px;
+}
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+input[type=submit] {
+  background-color: rgb(48, 122, 18);
+  color: #fff;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 100;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.autocomplete-items div {
+  padding: 4px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+.select2-container--default .select2-selection--single{
+    padding:1px;
+    height: 35px;
+    /*  48px;  */
+    font-size: 15px;  
+    position: relative;
+
+
+}
+
+</style>
+<style> 
+.border {
+  top:10%;
+  display: inline-block;
+  width: 80%;
+  height: 100%;
+  /* margin: 40%; */
+  background-color: #f9f8fcfa;
+  box-shadow: 15px 15px 5px  lightblue;
+}</style>
+<body>
+ 
+  <input  type="text" id="id" value="{{id}}" hidden></input>
+  <input  type="text" id="detailid" value="{{user2}}" hidden></input>
+  <input  type="text" id="count_tb" value="{{count_tb1}}" hidden ></input>
+  <!-- <div class="form-row" id="raill"> -->
+<div id="duration">
+<!-- <div  style="margin-top: 2% ; margin-left: 18%;" id="duration1" ><span class="border  border-black-3"><br><br>
+<div style="margin-left:15%"class="row">
+    <div class="col-md-5 ">
+        <label for="fromstation" class="form-label  font-weight-bold" name="userLabel">Railways<sup class="text-danger">*</sup>
+        </label>
+
+        <select  id="userdata0" name="name1" class="form-control select2" onchange="getZoneEinsp()" required >
+          <option selected disabled="true" >---Select Railways---</option>
+            {% for i in railwayZone %}
+            
+            <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>
+            {% endfor %}
+        </select>
+
+    </div>
+
+    <div class=" col-md-5 ">
+        <label for="fromstation" class="form-label  font-weight-bold" name="userLabel">Division
+            <sup class="text-danger">*</sup>
+        </label>
+        <select id="userdata1" name="name1" class="form-control select2" onchange="getDesignationEinsp()"required  >
+            <option selected disabled="true" >---Select Division---</option>   
+        </select>
+    </div>
+  </div>  <br>
+    </div> -->
+    <!-- duration -->
+    <div  style="margin-top: 8% ; margin-left: 18%;" id="duration2" ><span class="border  border-black-3"><br><br>
+      <div style="text-align:center" >
+    {% if id %}
+    <h2>Edit Inspection Roster Duration</h2><br><br><br></div>
+    {% else %}
+    <h2>Add Inspection Roster Duration</h2><br><br><br></div>
+    {% endif %}
+    <!-- <button type="button"  class="btn btn-primary" id="addeinsp" data-toggle="modal" data-target="#Modal" ><span class="glyphicon glyphicon-plus">Add Duration</span></button><br><br><br> -->
+    <form autocomplete="off" action="" method="POST" class="form-horizontal" name="indexForm"  required>
+      {% csrf_token %}
+
+  <div style="margin-left:25%" class="row" >
+    <div class="col-md-4">
+    <!-- <div style=" text-align: center;margin-left:33% ; margin-right:33%"> -->
+    
+    <label for="fdate" class="form-label  h6">Enter From Date<sup class="text-danger font-weight-bold h6">*</sup></label>
+    <input type="text"  class=" form-control datepicker" class="row-md-2" id="fdate" autocomplete="off"  placeholder="dd-mm-yyyy" name="fdate" value="{% if user6 %}{{user6.fdate}}{% endif %}" required readonly><br><br><br><br>
+    
+      </div>
+    <div class="col-md-4">
+    <label for="tdate" class="form-label  h6 ">To Date<sup class="text-danger font-weight-bold h6">*</sup></label>
+    <input  type="text" class=" form-control" placeholder="dd-mm-yyyy"onclick="clickfirst()"id="tdate"name="tdate" value="{% if user6 %}{{user6.tdate}}{% endif %}" readonly="readonly"><br>
+    <br><br>
+  </div>
+  </div><br>
+</div>
+    <div style="text-align: center;">
+    <button type="button" class="btn btn-primary" id="btnsave " onclick="validateForm();"> Proceed</button>
+    <button type="submit" class="btn btn-secondary " type="reset" id="btnReset" value="submit" onclick="refreshPage()">Reset</button>
+    <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" > Close</button> -->
+    </div>
+</form><br><br>
+  </span></div>
+
+    <input  type="text" id="hiddendiv" value="{{date_to_disable_ft}}"hidden ></input>
+    <input  type="text" id="hidiv" value="{{date_to_color_ft}}"hidden></input >
+    <!-- {% for i in date_to_disable_ft %}
+    <input id="hiddendiv" type="text" value="{{id}}"></input>
+    {% endfor %} -->
+
+      <div style="text-align: center;"id="addform">
+      {% if id %}
+    <h2>Edit Inspection Roster Master(Draft)</h2><br>
+    {% else %}
+    <h2>Inspection Roster Master</h2><br>
+    {% endif %}
+          <!-- <h2>Inspection Roster Master</h2><br> -->
+        <div id="selectedDate" style="text-align:center"class="row" >
+<div class="col-md-2" style="margin-left:25%"><label for="roster_id" >Roster id:</label>
+  <input  value="" class="form-control"id="roster_no" readonly="readonly"></div>
+          
+  <div class="col-md-2">
+          <label for="fdate" >From Date:</label>
+          <input  value="{% if user6 %}{{user6.fdate}}{% endif %}" class="form-control"id="strtdt" readonly="readonly">
+  </div>
+  <div class="col-md-2">
+          <label for="tdate" >To Date:</label>
+          <input value="{{tdate}}" id="enddatedt" class="form-control"readonly="readonly"><br><br>
+        </div>
+        </div>
+        
+<section id="section_20" style="margin-left:5% ; margin-right:5%" >
+  {% if count_tb1 == 0 %}
+  <section id="clone_section0" style="background-color: #E9ECEF;">
+    <form autocomplete="off" action="" method="POST" class="form-horizontal" id="indexForm2" >
+      {% csrf_token %}
+    <div class="table-responsive">
+      <div hidden>
+            <input type="text" id="hidval"value="{{date_to_disable_doi}}"></input>
+          </div>
+      <table class="table table-bordered table-striped table-highlight" id="tb0">
+        <thead id="tb1"> 
+          <th>Designation</th>
+          <th>Officer Name</th>
+          <th style="width:2%">Select</th>
+          <th style="text-align:center">Roster Details</th>
+          <th button type="button"  class="btn btn-primary mt-2" id="addMore0" title="Add More officer"  onclick="multipleInspection()" value="0" ><span class="fas fa-plus"></span></thbutton>
+          <!-- <th style="font-size:18px;" id="addMore" title="Add More officer"><span class="glyphicon glyphicon-plus"></span></th> -->
+        </thead> 
+    
+        <tbody id="addworkmech0">
+          <tr>
+              <td>
+                  <select class="form-control select2" name="empno0" id="empno0" class="custom-select" onchange="fetch_officer(this);">
+                    {% if designationn %}
+                    <option  value="{{designationn.0}}" selected>{{designationn.0}}</option>
+                    {% else %}
+                    <option selected disabled="true">---Select Designation---</option>
+                    {% endif %}
+  
+                    <!-- <option selected disabled="true">Select Designation</option> -->
+                      {% for i in empno %}
+                      <option value="{{i.empno}}">{{i.designation}}</option>
+                      {% endfor %}
+                  </select>
+                </td>
+
+                <td>
+                  <!-- <select class="form-control" id="name" class="custom-select">
+                      <option selected disabled="true" >---Select Officer Name---</option> -->            
+                    <input type="text" readonly="readonly" value="{% if designationn %}{{designationn.1}}{% endif %}" class="form-control" id="name0" name="name0" placeholder="Officer name">
+                    <span></span>
+                  </input>
+    
+                </td>
+  
+                <td>
+                  <input class="onoffswitch-checkbox" type="checkbox" value="" id="flexCheckIndeterminate0" checked>
+                  <label class="form-check-label" for="flexCheckIndeterminate" style="margin-left: 10%;"></label>&nbsp;&nbsp;
+                </td>
+                
+                <td>
+                  <table class="table table-bordered">
+                    <th colspan="4" style="text-align:left">ONWARD<sup class="text-danger font-weight-bold h6">*</sup></th>
+                    <tr>
+                      <td>
+                        <select class="form-control select2" id="secid0" >
+                          {% if sectionn_code %}
+                          <option  value="{{sectionn_code.0}}" >{{sectionn_code.0}}</option>
+                          {% else %}
+                          <option selected disabled="true" >---Section---</option>
+                          {% endif %}
+                          {% for j in section_code %}
+                          <option value="{{j.section_code}}">{{j.section_code}}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td>
+                          <select class="form-control select2" name ="shortcode0" id="shortcode0"  onchange="fetch_trainDetails(this);">
+                            {% if inspectionof %}
+                            <option  value="{{inspectionof.0}}" >{{inspectionof.0}}</option>
+                            {% else %}
+                            <option selected disabled="true" >---Inspection type---</option>
+                            {% endif %}
+                            {% for j in shortcode %}
+                            <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                            {% endfor %}
+                          </select>
+                      </td>
+                      <td>
+                        <div class="autocomplete">
+                          <input type="text"class="form-control "value = "{% if detail %}{{detail.0}}{% endif %}"  name="details" placeholder="Detail" id="details0">
+  
+                        </div>
+                    </td>
+                    <td>
+                   
+                        <input type="text" class="form-control picker"id="work0" placeholder="dd/mm/yyyy" name="work" value="{% if doi %}{{doi.0}}{% endif %}" readonly>
+                         
+                       
+                    </td>
+                    
+                    </tr>
+                    <th colspan="4"style="text-align:left">BACKWARD</th>
+                    <tr>
+                      <td>
+                        <select class="form-control select2" id="secidd0" >
+                          {% if sectionn_code %}
+                          <option  value="{{sectionn_code.1}}" >{{sectionn_code.1}}</option>
+                          {% else %}
+                          <option selected disabled="true" >---Section---</option>
+                          {% endif %}
+                          {% for j in section_code %}
+                          <option value="{{j.section_code}}">{{j.section_code}}</option>
+                          {% endfor %}
+                        </select>
+                    <td>
+                      <select class="form-control select2" id="shortcodee0" onchange="fetch_trainDetails2(this)";>
+                        {% if inspectionof %}
+                        <option value="{{inspectionof.1}}" >{{inspectionof.1}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Inspection type--</option>
+                        {% endif %}
+                        {% for j in shortcode %}
+                        <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                        {% endfor %}
+                      </select>
+                    </td>
+                   
+                    <td>
+                      <div class="autocomplete" >
+                      <input  type="text" class="form-control"value = "{% if detail %}{{detail.1}}{% endif %}"  name="details" placeholder="Detail" id="detailss0"> 
+                    </div>                   
+                  </td>
+               
+                      <td>
+            
+                          <input type="text" class="form-control picker"id="workk0"placeholder="dd/mm/yyyy" name="workk" value="{% if doi %}{{doi.1}}{% endif %}" readonly>
+                      </td>
+                     
+                    </tr>
+                    <th colspan="4"style="text-align:left">OTHERS</th>
+                    <tr>
+                      <td>
+                        <select class="form-control select2" id="seciddd0" >
+                          {% if sectionn_code %}
+                          <option  value="{{sectionn_code.2}}" >{{sectionn_code.2}}</option>
+                          {% else %}
+                          <option selected disabled="true" >---Section---</option>
+                          {% endif %}
+                          {% for j in section_code %}
+                          <option value="{{j.section_code}}">{{j.section_code}}</option>
+                          {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                      <select class="form-control select2" id="shortcodeee0" value="" onchange="fetch_trainDetails3(this);">
+                        {% if inspectionof %}
+                        <option value="{{inspectionof.2}}"  selected>{{inspectionof.2}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Inspection type--</option>
+                        {% endif %}
+                        {% for j in shortcode %}
+                        <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                        {% endfor %}
+                      </select>
+                  </td>
+                  
+                  <td>
+                    <div class="autocomplete" >
+                    <input  type="text" class="form-control"value = "{% if detail %}{{detail.2}}{% endif %}"  name="details" placeholder="Detail" id="detailsss0">  
+                  </div>                  
+                  </td>
+                  <td>
+                  
+                    <input type="text" class="form-control picker"id="workkk0" placeholder="dd/mm/yyyy" name="workkk"value="{% if doi %}{{doi.2}}{% endif %}"readonly >
+                  </td>
+                   
+                  </tr>
+                  </table>
+                 </td>
+                 <td button type="button" id="removeRow0" value="0" title="delete officer" class="btn btn-danger"  onclick="removeRow()" ><span class="fas fa-times"></span></tdbutton>
+                
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form> 
+  </section>
+  
+  {% else %}
+  {% for i in count_tb %}
+  <!-- {{ forloop.counter0 }} -->
+  <section id="clone_section{{forloop.counter0}}" style="background-color: #E9ECEF;">
+  <form autocomplete="off" action="" method="POST" class="form-horizontal" id="indexForm2" >
+    {% csrf_token %}
+  <div class="table-responsive">
+    <div hidden>
+          <input type="text" id="hidval"value="{{date_to_disable_doi}}"></input>
+        </div>
+    <table class="table table-bordered table-striped table-highlight" id="tb{{forloop.counter0}}">
+      <thead id="tb1"> 
+        <th>Designation</th>
+        <th>Officer Name</th>
+        <th style="width:2%">Select</th>
+        <th style="text-align:center">Roster Details</th>
+        <th button type="button"  class="btn btn-primary mt-2" id="addMore{{forloop.counter0}}" title="Add More officer"  onclick="multipleInspection()" value="0" ><span class="fas fa-plus"></span></thbutton>
+        <!-- <th style="font-size:18px;" id="addMore" title="Add More officer"><span class="glyphicon glyphicon-plus"></span></th> -->
+      </thead> 
+  
+      <tbody id="addworkmech{{forloop.counter0}}">
+        {% for x in user7 %}
+        <tr>
+            <td>
+                <select class="form-control select2" name="empno0" id="empno{{forloop.counter0}}" class="custom-select" onchange="fetch_officer(this);">
+                  {% if x.designation__designation %}
+                  <option  value="{{x.designation__designation}}" selected>{{x.designation__designation}}</option>
+                  {% else %}
+                  <option selected disabled="true">---Select Designation---</option>
+                  {% endif %}
+
+                  <!-- <option selected disabled="true">Select Designation</option> -->
+                    {% for i in empno %}
+                    <option value="{{i.empno}}">{{i.designation}}</option>
+                    {% endfor %}
+                </select>
+              </td>
+
+              <td>
+                <!-- <select class="form-control" id="name" class="custom-select">
+                    <option selected disabled="true" >---Select Officer Name---</option> -->
+                    
+                  <input type="text" readonly="readonly" value="{% if x.designation__empno_id__empname %}{{x.designation__empno_id__empname}}{% endif %}" class="form-control" id="name{{forloop.counter0}}" name="name0" placeholder="Officer name">
+                  <span></span>
+                </input>
+  
+              </td>
+
+              <td>
+                <input class="onoffswitch-checkbox" type="checkbox" value="" id="flexCheckIndeterminate{{forloop.counter0}}" checked>
+                <label class="form-check-label" for="flexCheckIndeterminate" style="margin-left: 10%;"></label>&nbsp;&nbsp;
+              </td>
+              
+              <td>
+                
+                <table class="table table-bordered">
+                  <th colspan="4" style="text-align:left">ONWARD</th>
+                  <tr>
+                    <td>
+                      <select class="form-control select2" id="secid{{forloop.counter0}}" >
+                        {% if x.section_code %}
+                        <option  value="{{x.section_code}}" >{{x.section_code}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Section---</option>
+                        {% endif %}
+                        {% for j in section_code %}
+                        <option value="{{j.section_code}}">{{j.section_code}}</option>
+                        {% endfor %}
+                      </select>
+                    </td>
+                    <td>
+                        <select class="form-control select2" name ="shortcode0" id="shortcode{{forloop.counter0}}"  onchange="fetch_trainDetails(this);">
+                          {% if x.inspectionof %}
+                          <option  value="{{x.inspectionof}}" >{{x.inspectionof}}</option>
+                          {% else %}
+                          <option selected disabled="true" >---Inspection type---</option>
+                          {% endif %}
+                          {% for j in shortcode %}
+                          <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                          {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                      <div class="autocomplete">
+                        <input type="text"class="form-control "value = "{% if x.detail %}{{x.detail}}{% endif %}"  name="details" placeholder="Detail" id="details{{forloop.counter0}}">
+
+                      </div>
+                  </td>
+                  <td>
+                 
+                      <input type="text" class="form-control picker"id="work{{forloop.counter0}}" placeholder="dd/mm/yyyy" name="work" value="{% if x.doi %}{{x.doi|date:'dd-mm-yyyy'}}{% endif %}" readonly>
+                       
+                     
+                  </td>
+                  
+                  </tr>
+                  <th colspan="4"style="text-align:left">BACKWARD</th>
+                  <tr>
+                    <td>
+                      <select class="form-control select2" id="secidd{{forloop.counter0}}" >
+                        {% if x.section_code %}
+                        <option  value="{{x.section_code}}" >{{x.section_code}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Section---</option>
+                        {% endif %}
+                        {% for j in section_code %}
+                        <option value="{{j.section_code}}">{{j.section_code}}</option>
+                        {% endfor %}
+                      </select>
+                  <td>
+                    <select class="form-control select2" id="shortcodee{{forloop.counter0}}" onchange="fetch_trainDetails2(this)";>
+                      {% if x.inspectionof %}
+                      <option value="{{x.inspectionof}}" >{{x.inspectionof}}</option>
+                      {% else %}
+                      <option selected disabled="true" >---Inspection type--</option>
+                      {% endif %}
+                      {% for j in shortcode %}
+                      <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                 
+                  <td>
+                    <div class="autocomplete" >
+                    <input  type="text" class="form-control"value = "{% if x.detail %}{{x.detail}}{% endif %}"  name="details" placeholder="Detail" id="detailss{{forloop.counter0}}"> 
+                  </div>                   
+                </td>
+             
+                    <td>
+          
+                        <input type="text" class="form-control picker"id="workk{{forloop.counter0}}"placeholder="dd/mm/yyyy" name="workk" value="{% if x.doi %}{{x.doi}}{% endif %}" readonly>
+                    </td>
+                   
+                  </tr>
+                  <th colspan="4"style="text-align:left">OTHERS</th>
+                  <tr>
+                    <td>
+                      <select class="form-control select2" id="seciddd{{forloop.counter0}}" >
+                        {% if sectionn_code %}
+                        <option  value="{{sectionn_code.2}}" >{{sectionn_code.2}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Section---</option>
+                        {% endif %}
+                        {% for j in section_code %}
+                        <option value="{{j.section_code}}">{{j.section_code}}</option>
+                        {% endfor %}
+                      </select>
+                  </td>
+                  <td>
+                    <select class="form-control select2" id="shortcodeee{{forloop.counter0}}" value="" onchange="fetch_trainDetails3(this);">
+                      {% if inspectionof %}
+                      <option value="{{inspectionof.2}}"  selected>{{inspectionof.2}}</option>
+                      {% else %}
+                      <option selected disabled="true" >---Inspection type--</option>
+                      {% endif %}
+                      {% for j in shortcode %}
+                      <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                      {% endfor %}
+                    </select>
+                </td>
+                
+                <td>
+                  <div class="autocomplete" >
+                  <input  type="text" class="form-control"value = "{% if detail %}{{detail.2}}{% endif %}"  name="details" placeholder="Detail" id="detailsss{{forloop.counter0}}">  
+                </div>                  
+                </td>
+                <td>
+                
+                  <input type="text" class="form-control picker"id="workkk{{forloop.counter0}}" placeholder="dd/mm/yyyy" name="workkk"value="{% if doi %}{{doi.2}}{% endif %}"readonly >
+                </td>
+                 
+                </tr>
+                </table>
+               </td>
+               <td button type="button" id="removeRow0" value="0" title="delete officer" class="btn btn-danger"  onclick="removeRow()" ><span class="fas fa-times"></span></tdbutton>
+              
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</form> 
+</section>
+{% endfor %}
+{% endif %}
+
+</section>
+
+ 
+<!-- <a href="{%url 'view_roster' %}"><button type="button" style="text-align:left"class="btn btn-primary">Roster</button></a> -->
+
+<button type="button" style="text-align: center" id="submit" class="btn btn-success" onclick="validateSaveForm()">Submit</button></a>
+<button type="button" style="text-align: center" id="draft" class="btn btn-success" onclick="validateSaveForm2()">Save as Draft</button></a>
+</div>
+
+<script>
+  var count_tb=$('#count_tb').val()
+  if (count_tb==0){
+  
+    $("#empno0").select2({
+    tags:true
+  });
+
+  $("#secid0").select2({
+    tags:true
+  });
+
+  $("#shortcode0").select2({
+    tags:true
+  });
+
+  $("#secidd0").select2({
+    tags:true
+  });
+
+  $("#seciddd0").select2({
+    tags:true
+  });
+  $("#shortcodee0").select2({
+    tags:true
+  });
+  $("#shortcodeee0").select2({
+    tags:true
+  });
+}
+else{
+  for (let i=0;i<parseInt(count_tb);i++){
+  $("#empno"+ String(i)).select2({
+    tags:true
+  });
+
+  $("#secid"+ String(i)).select2({
+    tags:true
+  });
+
+  $("#shortcode"+ String(i)).select2({
+    tags:true
+  });
+
+  $("#secidd"+ String(i)).select2({
+    tags:true
+  });
+
+  $("#seciddd"+ String(i)).select2({
+    tags:true
+  });
+  $("#shortcodee"+ String(i)).select2({
+    tags:true
+  });
+  $("#shortcodeee"+ String(i)).select2({
+    tags:true
+  });
+  }
+}
+</script>
+
+<script>
+
+  
+  var globalstrdt,globalenddt;
+
+function autocomplete(inp, arr) {
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+/*execute a function when someone clicks in the document:*/
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+
+
+$(document).ready(function(){
+
+  $("#addform").hide()
+
+  $('#fdate').change(function(){
+    startDate=$(this).val();
+    var parts =String(startDate).split('-');
+    chkdate=parts[2]+'-'+parts[1]+'-'+parts[0]
+
+    if(date_to_disable.includes(chkdate))
+    {
+      alert('already exists');
+      $('#fdate').val('');
+      return false;
+    }})
+})
+$('.select2').select2();
+// newchange
+function validateForm() {
+
+  var x = document.getElementById("fdate").value;
+
+  if (x == "") {
+    alert('Date must be filled out');
+    return false;
+  }
+  addform();saveDuration() ;
+  $("#duration").hide()
+
+  // document.getElementById('closemodal').click();
+}
+function refreshPage() {
+            location.reload();    
+    }
+
+    function clickfirst() {
+      var ed = document.getElementById("fdate").value;
+      if(ed==""){
+        alert("Enter From Date");  
+      }
+         
+      else
+        alert("Click Proceed")  
+    }
+
+function validateSaveForm() {
+  var count_tb=$('#count_tb').val()
+
+if (count_tb==0){
+  // alert(count_tb)
+
+var a = document.getElementById("empno0").value;
+
+var b = document.getElementById("secid0").value;
+var c = document.getElementById("shortcode0").value;
+
+var d = document.getElementById("details0").value;
+var e = document.getElementById("work0").value;
+
+var b1 = document.getElementById("secidd0").value;
+var c1 = document.getElementById("shortcodee0").value;
+// alert("hiii"+c1)
+var d1 = document.getElementById("detailss0").value;
+var e1 = document.getElementById("workk0").value;
+
+var b2 = document.getElementById("seciddd0").value;
+var c2 = document.getElementById("shortcodeee0").value;
+var d2 = document.getElementById("detailsss0").value;
+var e2 = document.getElementById("workkk0").value;
+}
+  else{
+  for(let i=0;i<parseInt(count_tb);i++){
+
+  var a = document.getElementById("empno"+ String(i)).value;
+
+  var b = document.getElementById("secid"+ String(i)).value;
+  var c = document.getElementById("shortcode"+ String(i)).value;
+ 
+  var d = document.getElementById("details"+ String(i)).value;
+  var e = document.getElementById("work"+ String(i)).value;
+  
+  var b1 = document.getElementById("secidd"+ String(i)).value;
+  var c1 = document.getElementById("shortcodee"+ String(i)).value;
+  var d1 = document.getElementById("detailss"+ String(i)).value;
+  var e1 = document.getElementById("workk"+ String(i)).value;
+
+  var b2 = document.getElementById("seciddd"+ String(i)).value;
+  var c2 = document.getElementById("shortcodeee"+ String(i)).value;
+  var d2 = document.getElementById("detailsss"+ String(i)).value;
+  var e2 = document.getElementById("workkk"+ String(i)).value;
+  }
+}
+  // alert(a)
+  if (a == ""|| a==null || a=="---Select Designation---") {
+    alert('Designation must be filled out');
+    return false;
+  }
+ 
+  if (b == ""||b=="---Section---") {
+    alert('Section must be filled out(ONWARD)');
+    return false;
+  }
+  
+  if (c == ""||c=="---Inspection type---") {
+    alert('Inspection type must be filled out(ONWARD)');
+    return false;
+  }
+
+  if (d == "") {
+    alert('Train/Station detail must be filled out(ONWARD)');
+    return false;
+  }
+
+
+  if (e == "") {
+    alert('Date must be filled out(ONWARD)');
+    return false;
+  }
+// alert(b1)
+  if (b1!="---Section---") {
+    // alert("hii")
+  //   alert('Section must be filled out(BACKWARD)');
+  //   return false;
+  // }
+  
+  if (c1=="---Inspection type--") {
+    alert('Inspection type must be filled out(BACKWARD)');
+    return false;
+  }
+
+  if (d1 == "") {
+    alert('Train/Station detail must be filled out(BACKWARD)');
+    return false;
+  }
+
+  if (e1 == "") {
+    alert('Date must be filled out(BACKWARD)');
+    return false;
+  }
+  }
+  if (b2!="---Section---") {
+  //   alert('Section must be filled out(OTHERS)');
+  //   return false;
+  // }
+  
+  if (c2=="---Inspection type--") {
+    alert('Inspection type must be filled out(OTHERS)');
+    return false;
+  }
+
+  if (d2 == "") {
+    alert('Train/Station detail must be filled out(OTHERS)');
+    return false;
+  }
+
+  if (e2 == "") {
+    alert('Date must be filled out(OTHERS)');
+    return false;
+  }
+}
+  validateSaveFormChild();
+  //  <a href="{%url 'roster_list' %}"></a> 
+  // URL="{% url 'roster_list' %}";
+  // window.open(URL, '_blank');
+}
+
+
+function validateSaveForm2() {
+  //let x = document.forms["indexForm"]["fdate"].value;
+  // var x = $('#fdate').val()
+  var count_tb=$('#count_tb').val()
+
+  if(count_tb==0){
+  
+  var a = document.getElementById("empno0").value;
+
+  var b = document.getElementById("secid0").value;
+  var c = document.getElementById("shortcode0").value;
+  var d = document.getElementById("details0").value;
+  var e = document.getElementById("work0").value;
+
+  var b1 = document.getElementById("secidd0").value;
+  var c1 = document.getElementById("shortcodee0").value;
+  var d1 = document.getElementById("detailss0").value;
+  var e1 = document.getElementById("workk0").value;
+
+  var b2 = document.getElementById("seciddd0").value;
+  var c2 = document.getElementById("shortcodeee0").value;
+  var d2 = document.getElementById("detailsss0").value;
+  var e2 = document.getElementById("workkk0").value;
+  }
+
+  else{
+  for(let i=0;i<parseInt(count_tb);i++){
+
+  var a = document.getElementById("empno"+ String(i)).value;
+
+  var b = document.getElementById("secid"+ String(i)).value;
+  var c = document.getElementById("shortcode"+ String(i)).value;
+  var d = document.getElementById("details"+ String(i)).value;
+  var e = document.getElementById("work"+ String(i)).value;
+  
+  var b1 = document.getElementById("secidd"+ String(i)).value;
+  var c1 = document.getElementById("shortcodee"+ String(i)).value;
+  var d1 = document.getElementById("detailss"+ String(i)).value;
+  var e1 = document.getElementById("workk"+ String(i)).value;
+
+  var b2 = document.getElementById("seciddd"+ String(i)).value;
+  var c2 = document.getElementById("shortcodeee"+ String(i)).value;
+  var d2 = document.getElementById("detailsss"+ String(i)).value;
+  var e2 = document.getElementById("workkk"+ String(i)).value;
+  // alert(a)
+}
+  }
+
+  if (a == ""|| a==null || a=="---Select Designation---") {
+    alert('Designation must be filled out');
+    return false;
+  }
+ 
+  if (b == ""||b=="---Section---") {
+    alert('Section must be filled out(ONWARD)');
+    return false;
+  }
+  
+  if (c == ""||c=="---Inspection type---") {
+    alert('Inspection type must be filled out(ONWARD)');
+    return false;
+  }
+
+  if (d == "") {
+    alert('Train/Station detail must be filled out(ONWARD)');
+    return false;
+  }
+  
+
+  if (e == "") {
+    alert('Date must be filled out(ONWARD)');
+    return false;
+  }
+
+  if (b1!="---Section---") {
+  //   alert('Section must be filled out(BACKWARD)');
+  //   return false;
+  // }
+  
+  if (c1=="---Inspection type--") {
+    alert('Inspection type must be filled out(BACKWARD)');
+    return false;
+  }
+
+  if (d1 == "") {
+    alert('Train/Station detail must be filled out(BACKWARD)');
+    return false;
+  }
+
+  if (e1 == "") {
+    alert('Date must be filled out(BACKWARD)');
+    return false;
+  }
+  }
+  if (b2!="---Section---") {
+  //   alert('Section must be filled out(OTHERS)');
+  //   return false;
+  // }
+  
+  if (c2=="---Inspection type--") {
+    alert('Inspection type must be filled out(OTHERS)');
+    return false;
+  }
+
+  if (d2 == "") {
+    alert('Train/Station detail must be filled out(OTHERS)');
+    return false;
+  }
+
+  if (e2 == "") {
+    alert('Date must be filled out(OTHERS)');
+    return false;
+  }
+}
+  validateSaveForm2Child();
+  
+  //  <a href="{%url 'roster_list' %}"></a> 
+  // URL="{% url 'roster_draft' %}";
+  // window.open(URL, '_blank');
+}
+
+function saveDetails() {
+  // $('#submit').attr("disabled",true);
+  var count_tb=$('#count_tb').val()
+  if (count_tb==0){
+    var designationCh=[],sectionCh=[],inspectionofCh=[],
+        detailCh=[],doiCh=[],section1Ch=[],inspectionof1Ch=[],
+        detail1Ch=[],doi1Ch=[],section2Ch=[],inspectionof2Ch=[],detail2Ch=[],doi2Ch=[]
+
+      for(let j=0;j<=global_count;j++)
+      {
+      designationCh.push($('#empno'+j).val())
+      
+      console.log("designationCh",designationCh)
+      sectionCh.push($('#secid'+j).val())
+      // console.log("noiii",sectionCh)
+      inspectionofCh.push($('#shortcode'+j).val())
+      console.log("inspectionofCh",inspectionofCh)
+
+      detailCh.push($('#details'+j).val())
+      doiCh.push($('#work'+j).val())
+   
+      section1Ch.push($('#secidd'+j).val())
+      inspectionof1Ch.push($('#shortcodee'+j).val())
+      detail1Ch.push($('#detailss'+j).val())
+      doi1Ch.push($('#workk'+j).val())
+      
+      section2Ch.push($('#seciddd'+j).val())
+      inspectionof2Ch.push($('#shortcodeee'+j).val())
+      detail2Ch.push($('#detailsss'+j).val())
+      doi2Ch.push($('#workkk'+j).val())
+    }
+      }
+      
+  else{
+  for(let i=0;i<parseInt(count_tb);i++){
+      var designation = $('#empno'+ String(i)).val()
+      var section = $('#secid'+ String(i)).val()
+      var inspectionof = $('#shortcode'+ String(i)).val()
+      var detail = $('#details'+ String(i)).val()
+      var doi = $('#work'+ String(i)).val()
+   
+      var section1 = $('#secidd'+ String(i)).val()
+      var inspectionof1 = $('#shortcodee'+ String(i)).val()
+      var detail1 = $('#detailss'+ String(i)).val()
+      var doi1 = $('#workk'+ String(i)).val()
+      
+      var section2 = $('#seciddd'+ String(i)).val()
+      var inspectionof2 = $('#shortcodeee'+ String(i)).val()
+      var detail2 = $('#detailsss'+ String(i)).val()
+      var doi2 = $('#workkk'+ String(i)).val()
+  // let save=el.id.substr()
+  }
+  }
+
+  var designationCh=JSON.stringify(designationCh)
+  console.log("desigggggg",designationCh)
+var sectionCh=JSON.stringify(sectionCh)
+var inspectionofCh=JSON.stringify(inspectionofCh)
+var detailCh=JSON.stringify(detailCh)
+var doiCh=JSON.stringify(doiCh)
+var section1Ch=JSON.stringify(section1Ch)
+var inspectionof1Ch=JSON.stringify(inspectionof1Ch)
+var detail1Ch=JSON.stringify(detail1Ch)
+var doi1Ch=JSON.stringify(doi1Ch)
+var section2Ch=JSON.stringify(section2Ch)
+var inspectionof2Ch=JSON.stringify(inspectionof2Ch)
+var detail2Ch=JSON.stringify(detail2Ch)
+var doi2Ch=JSON.stringify(doi2Ch)
+      
+      
+      let roster_no=$('#roster_no').val()
+      let id=$('#id').val()
+      let detailid=$('#detailid').val()
+      // console.log("id",id)
+      console.log("detailid00000",detailid)
+      var token = '{{ csrf_token }}';   
+      
+      r= confirm('Are you sure you want to submit the Data!')
+      if(r==true){
+        console.log("true")
+        $.ajax({
+        type:'POST',       
+        data:{id,detailid,roster_no,designation,doi,inspectionof,section,detail,
+          doi1,inspectionof1,section1,detail1,doi2,inspectionof2,section2,detail2,
+          designationCh,doiCh,inspectionofCh,sectionCh,detailCh,
+          doi1Ch,inspectionof1Ch,section1Ch,detail1Ch,doi2Ch,inspectionof2Ch,section2Ch,detail2Ch,'global_count':global_count, csrfmiddlewaretoken:'{{ csrf_token }}'},
+        url:'{% url "saveDataa" %}',
+        dataType:'json',
+      
+        success: function (response) {
+          
+          alert('Data saved successfully');
+          window.location.href="{%url 'roster_list' %}"
+          // URL="{% url 'roster_list' %}";
+          // window.open(URL, '_blank'); 
+        }
+      })
+    }
+      
+      else{
+        window.location.reload();
+      }
+
+}
+
+    
+    function saveAsDraft() {
+      // $('#draft').attr("disabled",true);
+      var count_tb=$('#count_tb').val()
+      console.log("count_tb",count_tb)
+      console.log("global_count12233",global_count)
+      if(count_tb==0){
+        var designationCh=[],sectionCh=[],inspectionofCh=[],
+        detailCh=[],doiCh=[],section1Ch=[],inspectionof1Ch=[],
+        detail1Ch=[],doi1Ch=[],section2Ch=[],inspectionof2Ch=[],detail2Ch=[],doi2Ch=[]
+      for(let j=0;j<=global_count;j++)
+      {
+      designationCh.push($('#empno'+j).val())
+      
+      console.log("designationCh",designationCh)
+      sectionCh.push($('#secid'+j).val())
+      // console.log("noiii",sectionCh)
+      inspectionofCh.push($('#shortcode'+j).val())
+      console.log("inspectionofCh",inspectionofCh)
+
+      detailCh.push($('#details'+j).val())
+      doiCh.push($('#work'+j).val())
+   
+      section1Ch.push($('#secidd'+j).val())
+      inspectionof1Ch.push($('#shortcodee'+j).val())
+      detail1Ch.push($('#detailss'+j).val())
+      doi1Ch.push($('#workk'+j).val())
+      
+      section2Ch.push($('#seciddd'+j).val())
+      inspectionof2Ch.push($('#shortcodeee'+j).val())
+      detail2Ch.push($('#detailsss'+j).val())
+      doi2Ch.push($('#workkk'+j).val())
+    }
+      }
+
+      else{
+      for(let i=0;i<parseInt(count_tb);i++){
+      var designation = $('#empno'+ String(i)).val()
+      var section = $('#secid'+ String(i)).val()
+      var inspectionof = $('#shortcode'+ String(i)).val()
+      var detail = $('#details'+ String(i)).val()
+      var doi = $('#work'+ String(i)).val()
+   
+      var section1 = $('#secidd'+ String(i)).val()
+      var inspectionof1 = $('#shortcodee'+ String(i)).val()
+      var detail1 = $('#detailss'+ String(i)).val()
+      var doi1 = $('#workk'+ String(i)).val()
+      
+      var section2 = $('#seciddd'+ String(i)).val()
+      var inspectionof2 = $('#shortcodeee'+ String(i)).val()
+      var detail2 = $('#detailsss'+ String(i)).val()
+      var doi2 = $('#workkk'+ String(i)).val()
+  // let save=el.id.substr()
+  }
+}
+
+
+var designationCh=JSON.stringify(designationCh)
+var sectionCh=JSON.stringify(sectionCh)
+var inspectionofCh=JSON.stringify(inspectionofCh)
+var detailCh=JSON.stringify(detailCh)
+var doiCh=JSON.stringify(doiCh)
+var section1Ch=JSON.stringify(section1Ch)
+var inspectionof1Ch=JSON.stringify(inspectionof1Ch)
+var detail1Ch=JSON.stringify(detail1Ch)
+var doi1Ch=JSON.stringify(doi1Ch)
+var section2Ch=JSON.stringify(section2Ch)
+var inspectionof2Ch=JSON.stringify(inspectionof2Ch)
+var detail2Ch=JSON.stringify(detail2Ch)
+var doi2Ch=JSON.stringify(doi2Ch)
+
+
+    console.log(detailCh)
+
+      var roster_no=$('#roster_no').val()
+      var id=$('#id').val()
+      var detailid=$('#detailid').val()
+      // console.log("id",id)
+      console.log("detailid00000",detailid)
+      var token = '{{ csrf_token }}';   
+      
+      r= confirm('Are you sure you want to save Data as Draft!')
+      if(r==true){
+        console.log("true")
+        $.ajax({
+        type:'POST',       
+        data:{id,detailid,roster_no,designation,doi,inspectionof,section,detail,
+          doi1,inspectionof1,section1,detail1,doi2,inspectionof2,section2,detail2,
+          designationCh,doiCh,inspectionofCh,sectionCh,detailCh,
+          doi1Ch,inspectionof1Ch,section1Ch,detail1Ch,doi2Ch,inspectionof2Ch,section2Ch,detail2Ch,'global_count':global_count, csrfmiddlewaretoken:'{{ csrf_token }}'},
+        url:'{% url "saveDraft" %}',
+        dataType:'json',
+      
+        success: function (response) {
+          alert('Data saved successfully(As a Draft)');
+          window.location.href="{%url 'roster_draft_list' %}"
+          // URL="{% url 'roster_draft_list' %}";
+          // window.open(URL, '_blank'); 
+        }
+      })
+    }
+
+      else{
+        window.location.reload();
+      } }   
+    
+
+function addform()
+{
+  $("#addform").show()
+}
+
+////////////////////////////////////////////////////////////
+var count_tb=$('#count_tb').val()
+
+if (count_tb==0){
+
+  $('#secid0').change(function () {
+    var dropDown1 = $(this).val();
+    // console.log("secccccccc",dropDown1)
+    
+    // $("#secidd0").find("option:disabled").prop("disabled",false);
+        $("#secidd0 option[value='"+dropDown1).attr('disabled', 'disabled')
+        // $("#seciddd0 option[value='"+dropDown1).attr('disabled', 'disabled');  
+  }
+    )
+
+    $('#secidd0').change(function () {
+    var dropDown2 = $(this).val();
+    // dropDown2=dropDown2.split(',')
+    // $("#secid0").find("option:disabled").prop("disabled",false);
+        $("#secid0 option[value='"+dropDown2).attr('disabled', 'disabled');
+        // $("#seciddd0 option[value='"+dropDown2).attr('disabled', 'disabled'); 
+  })
+
+  //   $('#seciddd0').change(function () {
+  //   var dropDown3 = $(this).val();
+  //   // dropDown3=dropDown3.split(',')
+  //   // $("#secidd0").find("option:disabled").prop("disabled",false);
+  //   // $("#secid0").find("option:disabled").prop("disabled",false);
+  //       $("#secidd0 option[value='"+dropDown3).attr('disabled', 'disabled')
+  //       $("#secid0 option[value='"+dropDown3).attr('disabled', 'disabled');
+  //   })
+}
+else{
+  for(let i=0;i<parseInt(count_tb);i++){
+
+    $('#secid'+ String(i)).change(function () {
+    var dropDown1 = $(this).val();
+    console.log("secccccccc",dropDown1)
+    
+    // $("#secidd0").find("option:disabled").prop("disabled",false);
+        $("#secidd"+String(i)+" option[value='"+dropDown1).attr('disabled', 'disabled')
+        $("#seciddd"+String(i)+" option[value='"+dropDown1).attr('disabled', 'disabled');  
+  })
+
+    $('#secidd'+ String(i)).change(function () {
+    var dropDown2 = $(this).val();
+    // dropDown2=dropDown2.split(',')
+    // $("#secid0").find("option:disabled").prop("disabled",false);
+        $("#secid"+String(i)+" option[value='"+dropDown2).attr('disabled', 'disabled');
+        $("#seciddd"+String(i)+" option[value='"+dropDown2).attr('disabled', 'disabled'); 
+  })
+
+    $('#seciddd'+ String(i)).change(function () {
+    var dropDown3 = $(this).val();
+    // dropDown3=dropDown3.split(',')
+    // $("#secidd0").find("option:disabled").prop("disabled",false);
+    // $("#secid0").find("option:disabled").prop("disabled",false);
+        $("#secidd"+String(i)+" option[value='"+dropDown3).attr('disabled', 'disabled')
+        $("#secid"+String(i)+" option[value='"+dropDown3).attr('disabled', 'disabled');
+    })
+  }
+}
+function saveDuration() {
+  
+      let rosterid=$('#id').val()
+      console.log("iiiddddd",rosterid)
+
+      let detailid=$('#detailid').val()
+      console.log("detailid",detailid)
+
+      let fromdate = $('#fdate').val()
+      // console.log('fromdate',fromdate)
+      let todate = $('#tdate').val()
+     
+      var v1=$('#hidval').val()
+      // console.log(v1)
+
+      //for data format in html
+      frdate=fromdate.split('-')
+      frdate=frdate[0]+'/'+frdate[1]+'/'+frdate[2]
+      
+      trdate=todate.split('-')
+      trdate=trdate[0]+'/'+trdate[1]+'/'+trdate[2]
+
+
+      $('#strtdt').val(frdate);
+      // console.log('frdate,trdate',frdate,trdate)
+      $('#enddatedt').val(trdate);
+  
+        var token = '{{ csrf_token }}';    
+      if (rosterid=="None"){
+      $.ajax({
+          type:'POST',       
+          data:{detailid,rosterid,fromdate,todate,csrfmiddlewaretoken:'{{ csrf_token }}'},
+          url:'{% url "saveDuration" %}',
+          dataType:'json',
+        
+          success: function (response) {
+            
+            let rostno=document.getElementById("id").value;
+            console.log("rostno",rostno)
+            if(rostno=="None"){ 
+              $('#roster_no').val(response.obj.erosterid)
+          }
+            else{
+              $('#roster_no').val(rosterid)
+            }
+            //alert('date selected!')
+            // alert(frdate+'     '+trdate)
+            $( ".picker" ).datepicker({ 
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work);
+              return [v1.indexOf(dmy) == -1];
+              },
+            });
+ 
+          }
+        })
+      }
+      else{
+        $.ajax({
+          type:'POST',       
+          data:{detailid,rosterid,fromdate,todate,csrfmiddlewaretoken:'{{ csrf_token }}'},
+          url:'{% url "saveDurationUpdate" %}',
+          dataType:'json',
+        
+          success: function (response) {
+            
+            let rostno=document.getElementById("id").value;
+            console.log("rostno",rostno)
+            if(rostno=="None"){ 
+              $('#roster_no').val(response.obj.erosterid)
+          }
+            else{
+              $('#roster_no').val(rosterid)
+            }
+            //alert('date selected!')
+            // alert(frdate+'     '+trdate)
+            $( ".picker" ).datepicker({ 
+              // maxDate: tdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work);
+              return [v1.indexOf(dmy) == -1];
+       
+    },
+            });
+
+          }
+        })
+      }
+      }
+    
+  function saveDurationFinal() {
+      let rosterid=$('#id').val()
+      console.log("iiiddddd",rosterid)
+      let detailid=$('#detailid').val()
+      console.log("hiiiidetailid",detailid)
+
+      let roster=$('#roster_no').val()
+      let fromdate = $('#fdate').val()
+      // console.log('fromdate',fromdate)
+      let todate = $('#tdate').val()
+     
+      var v1=$('#hidval').val()
+      // console.log(v1)
+
+      //for data format in html
+      frdate=fromdate.split('-')
+      frdate=frdate[0]+'/'+frdate[1]+'/'+frdate[2]
+      
+      trdate=todate.split('-')
+      trdate=trdate[0]+'/'+trdate[1]+'/'+trdate[2]
+
+
+      $('#strtdt').val(frdate);
+      // console.log('frdate,trdate',frdate,trdate)
+      $('#enddatedt').val(trdate);
+  
+        var token = '{{ csrf_token }}';   
+
+      if (rosterid=="None"){
+      $.ajax({
+          type:'POST',       
+          data:{rosterid,detailid,roster,fromdate,todate,csrfmiddlewaretoken:'{{ csrf_token }}'},
+          url:'{% url "DurationFinal" %}',
+          dataType:'json',
+        
+          success: function (response) {
+            
+            let rostno=document.getElementById("id").value;
+            console.log("rostno",rostno)
+          //   if(rostno=="None"){ 
+          //     $('#roster_no').val(response.obj.erosterid)
+          // }
+          //   else{
+          //     $('#roster_no').val(rosterid)
+          //   }
+            //alert('date selected!')
+            // alert(frdate+'     '+trdate)
+            $( ".form-control datepicker" ).datepicker({ 
+              // maxDate: tdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work);
+              return [v1.indexOf(dmy) == -1];
+       
+    },
+            });
+ 
+          }
+        })
+      }
+      else{
+        $.ajax({
+          type:'POST',       
+          data:{rosterid,detailid,fromdate,todate,csrfmiddlewaretoken:'{{ csrf_token }}'},
+          url:'{% url "DurationFinal_id" %}',
+          dataType:'json',
+        
+          success: function (response) {
+            
+            let rostno=document.getElementById("id").value;
+            console.log("rostno",rostno)
+            if(rostno=="None"){ 
+              $('#roster_no').val(response.obj.erosterid)
+          }
+            else{
+              $('#roster_no').val(rosterid)
+            }
+            //alert('date selected!')
+            // alert(frdate+'     '+trdate)
+            $( ".picker" ).datepicker({ 
+              // maxDate: tdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work0){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work0);
+              return [v1.indexOf(dmy) == -1];
+       
+    },
+            });
+
+
+          }
+        })
+      }
+      }
+    
+
+function saveDurationDraft() {
+      let rosterid=$('#id').val()
+      console.log("iiiddddd",rosterid)
+      let roster=$('#roster_no').val()
+      let fromdate = $('#fdate').val()
+      console.log('fromdate',fromdate)
+      let todate = $('#tdate').val()
+     
+      var v1=$('#hidval').val()
+      console.log(v1)
+
+      //for data format in html
+      frdate=fromdate.split('-')
+      frdate=frdate[0]+'/'+frdate[1]+'/'+frdate[2]
+      
+      trdate=todate.split('-')
+      trdate=trdate[0]+'/'+trdate[1]+'/'+trdate[2]
+
+
+      $('#strtdt').val(frdate);
+      console.log('frdate,trdate',frdate,trdate)
+      $('#enddatedt').val(trdate);
+    
+      
+        var token = '{{ csrf_token }}';    
+      if (rosterid=="None"){
+      $.ajax({
+          type:'POST',       
+          data:{rosterid,roster,fromdate,todate,csrfmiddlewaretoken:'{{ csrf_token }}'},
+          url:'{% url "DurationUpDraft" %}',
+          dataType:'json',
+        
+          success: function (response) {
+            
+            let rostno=document.getElementById("id").value;
+            console.log("rostno",rostno)
+          //   if(rostno=="None"){ 
+          //     $('#roster_no').val(response.obj.erosterid)
+          // }
+          //   else{
+          //     $('#roster_no').val(rosterid)
+          //   }
+            //alert('date selected!')
+            // alert(frdate+'     '+trdate)
+            $( ".picker" ).datepicker({ 
+              // maxDate: tdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work);
+              return [v1.indexOf(dmy) == -1];
+       
+    },
+            });
+ 
+          }
+        })
+      }
+      else{
+        $.ajax({
+          type:'POST',       
+          data:{rosterid,fromdate,todate,csrfmiddlewaretoken:'{{ csrf_token }}'},
+          url:'{% url "DurationUp_id" %}',
+          dataType:'json',
+        
+          success: function (response) {
+            
+            let rostno=document.getElementById("id").value;
+            console.log("rostno",rostno)
+            if(rostno=="None"){ 
+              $('#roster_no').val(response.obj.erosterid)
+          }
+            else{
+              $('#roster_no').val(rosterid)
+            }
+            //alert('date selected!')
+            // alert(frdate+'     '+trdate)
+            $( ".picker" ).datepicker({ 
+              // maxDate: tdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work);
+              return [v1.indexOf(dmy) == -1];
+       
+    },
+            });
+
+          }
+        })
+      }
+      }
+    
+  function fetch_trainDetails(el){
+    let current1 = el.id.substr(9)
+    // console.log("current1",current1)
+    // alert(current1)
+    $('#details'+current1).val('');
+    var inspection_type =$('#shortcode'+current1).val(); 
+
+    var traindata=[];
+    var traindata2=[];
+
+    $.ajax({
+       type:"GET",
+       dataType:"json",
+       url:"{% url 'train_details' %}",
+       success:function(response){
+
+       for(let i=0;i<response.train_no.length;i++){
+              traindata.push(String(response.train_no[i]));
+        }
+        
+       for(let j=0;j<response.stnshortcode.length;j++){
+              traindata2.push(String(response.stnshortcode[j]));
+        }
+      
+        if(inspection_type=='FP'|| inspection_type=='LC' || inspection_type=='OB' ||  inspection_type=='RR'){   
+          alert('enter train no.only(use 0 to 9)')  
+          document.getElementById('details'+current1).placeholder='Enter Train No.';
+          $("#details"+current1).on("input",function(evt){
+            var self=$(this);
+            // alert(self)
+            // self.val(self.val().replace(/[^0-9\.]/g, ""));
+            self.val(self.val().replace(/\D/g, ""));
+            if(( evt.which<48|| evt.which>57))
+            {
+              evt.preventDefault();
+            }
+          });
+          autocomplete(document.getElementById('details'+current1),traindata);
+        }else  if(inspection_type=='SI'){
+          alert('enter station code (use A to Z)')
+          document.getElementById('details'+current1).placeholder='Enter Station' ;
+          $("#details"+current1).keypress(function(e){
+            var regex=new RegExp(/^[a-zA-Z\s]+$/);
+            var str=String.fromCharCode(!e.charCode ? e.which: e.charCode);
+            if(regex.test(str)){
+              return true;
+            }
+            else{
+              e.preventDefault();
+              return false;
+            }
+          });
+           
+          autocomplete(document.getElementById('details'+current1),traindata2);
+        }
+        
+      }
+       })
+      }
+
+  function fetch_trainDetails2(el){
+    let current2 = el.id.substr(10)
+    // console.log("current2",current2)
+    // alert(current2)
+    $('#detailss'+current2).val('');
+    var inspection_type =$('#shortcodee'+current2).val(); 
+    var traindata=[];
+    var traindata2=[];
+
+    $.ajax({
+       type:"GET",
+       dataType:"json",
+       url:"{% url 'train_details' %}",
+       success:function(response){
+       for(let i=0;i<response.train_no.length;i++){
+              traindata.push(String(response.train_no[i]));
+        }
+        for(let j=0;j<response.stnshortcode.length;j++){
+              traindata2.push(String(response.stnshortcode[j]));
+        }
+        
+        if(inspection_type=='FP'|| inspection_type=='LC' || inspection_type=='OB' ||  inspection_type=='RR'){   
+          alert('enter train no.only(use 0 to 9)')  
+          document.getElementById('detailss'+current2).placeholder='Enter Train No.' ;
+          $("#detailss"+current2).on("input",function(evt){
+            var self=$(this);
+            // alert(self)
+            // self.val(self.val().replace(/[^0-9\.]/g, ""));
+            self.val(self.val().replace(/\D/g, ""));
+            if(( evt.which<48|| evt.which>57))
+            {
+              evt.preventDefault();
+            }
+          });
+          autocomplete(document.getElementById('detailss'+current2),traindata);
+         
+        }else  if(inspection_type=='SI'){
+          alert('enter station code (use A to Z)')
+          document.getElementById('detailss'+current2).placeholder='Enter Station' ;
+          $("#detailss"+current2).keypress(function(e){
+            var regex=new RegExp(/^[a-zA-Z\s]+$/);
+            var str=String.fromCharCode(!e.charCode ? e.which: e.charCode);
+            if(regex.test(str)){
+              return true;
+            }
+            else{
+              e.preventDefault();
+              return false;
+            }
+          });
+          autocomplete(document.getElementById('detailss'+current2),traindata2);
+        
+        }
+        
+      }
+       })
+      }
+
+
+ function fetch_trainDetails3(el){
+  let current = el.id.substr(11)
+  // alert(current)
+  $('#detailsss'+current).val('');
+    var inspection_type =$('#shortcodeee'+ current).val(); 
+    var traindata=[];
+    var traindata2=[];
+  
+    $.ajax({
+       type:"GET",
+       dataType:"json",
+       url:"{% url 'train_details' %}",
+       success:function(response){
+       for(let i=0;i<response.train_no.length;i++){
+              traindata.push(String(response.train_no[i]));
+        }
+        for(let j=0;j<response.stnshortcode.length;j++){
+              traindata2.push(String(response.stnshortcode[j]));
+        }
+
+        if(inspection_type=='FP'|| inspection_type=='LC' || inspection_type=='OB' ||  inspection_type=='RR'){ 
+          alert('enter train no.only(use 0 to 9)')    
+          document.getElementById('detailsss'+current).placeholder='Enter Train No.' ;
+          $("#detailsss"+current).on("input",function(evt){
+            var self=$(this);
+            // alert(self)
+            // self.val(self.val().replace(/[^0-9\.]/g, ""));
+            self.val(self.val().replace(/\D/g, ""));
+            if(( evt.which<48|| evt.which>57))
+            {
+              evt.preventDefault();
+            }
+          });
+          autocomplete(document.getElementById('detailsss'+current),traindata);
+        
+        }else  if(inspection_type=='SI'){
+          alert('enter station code (use A to Z)')
+          document.getElementById('detailsss'+current).placeholder='Enter Station' ;
+          $("#detailsss"+current).keypress(function(e){
+            var regex=new RegExp(/^[a-zA-Z\s]+$/);
+            var str=String.fromCharCode(!e.charCode ? e.which: e.charCode);
+            if(regex.test(str)){
+              return true;
+            }
+            else{
+              e.preventDefault();
+              return false;
+            }
+          });
+          autocomplete(document.getElementById('detailsss'+current),traindata2);
+        
+        }
+        
+      }
+       })
+      }
+      
+ 
+
+function fetch_officer(e) {
+  
+  let new_id= e.id.substr(5, 8)
+  console.log(new_id)
+  // var emp=$('#empno0').val()
+  // console.log("hii",emp)
+    var empno = document.getElementById('empno'+ String(new_id)).value;
+    // console.log("officers",typeof(empno))
+    // alert("hi",empno)
+    var data ={
+      'empno':empno,
+    }
+    console.log(empno)
+    $.ajax({
+      
+      url: "{% url 'name_wise' %}",
+      type:'GET',
+      // url: url,
+      data:data,
+      success: function(data){
+    
+         $("#name"+String(new_id)).empty();
+        
+       var display=data.name[0].empno_id__empname
+       console.log(data.name[0].empno_id__empname)
+ 
+        $("#name"+String(new_id)).val(display);
+      },
+      error:function(){
+        alert("error");
+      }
+    });
+
+  };
+
+ var disableDates=$('#hiddendiv').val();
+ console.log("disableDates",disableDates)
+
+ $( "#fdate" ).datepicker({ 
+        // maxDate: currentdate,
+        // enddate:"currentdate",
+        dateFormat: "dd-mm-yy",
+        changeMonth : true, 
+        changeYear : true,
+        todayHighlight: true,
+        clearBtn:true,
+        autoclose: true,
+        minDate:0,
+        beforeShowDay: 
+        function(fdate){     
+                dmy = jQuery.datepicker.formatDate('dd-mm-yy', fdate); 
+                // alert("hi",dmy)         
+                return [disableDates.indexOf(dmy) == -1];        
+            },  
+           
+        onSelect: function(val)
+        {
+          startDate=$(this).val();
+          // alert(startDate)
+                      var parts =String(startDate).split('-');
+                      chkdate=parts[2]+'-'+parts[1]+'-'+parts[0]
+                      $('#tdate').datepicker('option', 'minDate',startDate );
+         
+                      const date = new Date(chkdate);
+
+                      //xyz=date.getDate() + 7;
+                      xyz=date.setDate(date.getDate() + 6);
+                      xyz=new Date(xyz)
+                      //var enddate = date.addDays(7); 
+                     
+                      xyz=formatDate(xyz)
+                      //alert(xyz)
+                      $('#tdate').datepicker('option', 'maxDate',xyz );
+                      $('#tdate').val(xyz)
+                      
+        },
+      });
+
+    
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    let newyear = String(year).slice(0, 4)
+    return [day,month,newyear].join('-');
+}
+</script>
+
+
+<!-- multiple addition -->
+
+<script>
+  var global_count = 0
+  function multipleInspection()
+  {
+    global_count++
+
+   var $button = `<section id="section_2${global_count}"  >
+    <section id="clone_section${global_count}" style="background-color: #E9ECEF;">
+    <form autocomplete="off" action="" method="POST" class="form-horizontal" id="indexForm2" >
+    {% csrf_token %}
+  <div class="table-responsive">
+    <div hidden>
+          <input type="text" id="hidval"value="{{date_to_disable_doi}}"></input>
+        </div>
+    <table class="table table-bordered table-striped table-highlight" id="tb${global_count}">
+      <thead>
+         
+        <th>Designation</th>
+        <th>Officer Name</th>
+        <th style="width:2%">Select</th>
+        <th style="text-align:center">Roster Details</th>
+
+      </thead> 
+      
+      <tbody id="addworkmech0">
+ 
+        <tr>
+            <td>
+                <select class="form-control select2" name="empno" id="empno${global_count}" class="custom-select" onchange="fetch_officer(this);">
+                  {% if designationn %}
+                  <option  value="{{designationn.0}}" selected>{{designationn.0}}</option>
+                  {% else %}
+                  <option selected disabled="true">---Select Designation---</option>
+                  {% endif %}
+
+                  <!-- <option selected disabled="true">Select Designation</option> -->
+                    {% for i in empno %}
+                    <option value="{{i.empno}}">{{i.designation}}</option>
+                    {% endfor %}
+                </select>
+              </td>
+
+              <td>              
+                  <input type="text" readonly="readonly" value="{% if designationn %}{{designationn.1}}{% endif %}" class="form-control" id="name${global_count}" name="name" placeholder="Officer name">
+                  <span></span>
+                </input>
+  
+              </td>
+
+              <td>
+                <input class="onoffswitch-checkbox" type="checkbox" value="" id="flexCheckIndeterminate${global_count}" checked>
+                <label class="form-check-label" for="flexCheckIndeterminate" style="margin-left: 10%;"></label>&nbsp;&nbsp;
+              </td>
+              
+              <td>
+                <table class="table table-bordered">
+                  <th colspan="4" style="text-align:left">ONWARD</th>
+                  <tr>
+                    <td>
+                      <select class="form-control select2" id="secid${global_count}" >
+                        {% if sectionn_code %}
+                        <option  value="{{sectionn_code.0}}" >{{sectionn_code.0}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Section---</option>
+                        {% endif %}
+                        {% for j in section_code %}
+                        <option value="{{j.section_code}}">{{j.section_code}}</option>
+                        {% endfor %}
+                      </select>
+                    </td>
+                    <td>
+                        <select class="form-control select2"  id="shortcode${global_count}"  value="" onchange="fetch_trainDetails(this);">
+                          {% if inspectionof %}
+                          <option  value="{{inspectionof.0}}" >{{inspectionof.0}}</option>
+                          {% else %}
+                          <option selected disabled="true" >---Inspection type---</option>
+                          {% endif %}
+                          {% for j in shortcode %}
+                          <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                          {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                      <div class="autocomplete">
+                        <input type="text"class="form-control "value = "{% if detail %}{{detail.0}}{% endif %}"  name="details" placeholder="Detail" id="details${global_count}">
+
+                      </div>
+                  </td>
+                  <td>
+                 
+                      <input type="text" class="form-control picker"id="work${global_count}" placeholder="dd/mm/yyyy" name="work" value="{% if doi %}{{doi.0}}{% endif %}" readonly>
+                       
+                     
+                  </td>
+                  
+                  </tr>
+                  <th colspan="4"style="text-align:left">BACKWARD</th>
+                  <tr>
+                    <td>
+                      <select class="form-control select2" id="secidd${global_count}" >
+                        {% if sectionn_code %}
+                        <option  value="{{sectionn_code.1}}" >{{sectionn_code.1}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Section---</option>
+                        {% endif %}
+                        {% for j in section_code %}
+                        <option value="{{j.section_code}}">{{j.section_code}}</option>
+                        {% endfor %}
+                      </select>
+                  <td>
+                    <select class="form-control select2" id="shortcodee${global_count}"value="" onchange="fetch_trainDetails2(this)";>
+                      {% if inspectionof %}
+                      <option value="{{inspectionof.1}}" >{{inspectionof.1}}</option>
+                      {% else %}
+                      <option selected disabled="true" >---Inspection type--</option>
+                      {% endif %}
+                      {% for j in shortcode %}
+                      <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                 
+                  <td>
+                    <div class="autocomplete" >
+                    <input  type="text" class="form-control"value = "{% if detail %}{{detail.1}}{% endif %}"  name="details" placeholder="Detail" id="detailss${global_count}"> 
+                  </div>                   
+                </td>
+             
+                    <td>
+          
+                        <input type="text" class="form-control picker"id="workk${global_count}"placeholder="dd/mm/yyyy" name="workk" value="{% if doi %}{{doi.1}}{% endif %}" readonly>
+                    </td>
+                 
+                  </tr>
+                  <th colspan="4"style="text-align:left">OTHERS</th>
+                  <tr>
+                    <td>
+                      <select class="form-control select2" id="seciddd${global_count}" >
+                        {% if sectionn_code %}
+                        <option  value="{{sectionn_code.2}}" >{{sectionn_code.2}}</option>
+                        {% else %}
+                        <option selected disabled="true" >---Section---</option>
+                        {% endif %}
+                        {% for j in section_code %}
+                        <option value="{{j.section_code}}">{{j.section_code}}</option>
+                        {% endfor %}
+                      </select>
+                  </td>
+                  <td>
+                    <select class="form-control select2" id="shortcodeee${global_count}" value="" onchange="fetch_trainDetails3(this);">
+                      {% if inspectionof %}
+                      <option value="{{inspectionof.2}}"  selected>{{inspectionof.2}}</option>
+                      {% else %}
+                      <option selected disabled="true" >---Inspection type--</option>
+                      {% endif %}
+                      {% for j in shortcode %}
+                      <option value="{{j.shortcode}}">{{j.shortcode}}</option>
+                      {% endfor %}
+                    </select>
+                </td>
+                
+                <td>
+                  <div class="autocomplete" >
+                  <input  type="text" class="form-control"value = "{% if detail %}{{detail.2}}{% endif %}"  name="details" placeholder="Detail" id="detailsss${global_count}">  
+                </div>                  
+                </td>
+                <td>
+                
+                  <input type="text" class="form-control picker"id="workkk${global_count}" placeholder="dd/mm/yyyy" name="workkk"value="{% if doi %}{{doi.2}}{% endif %}" readonly>
+                </td>
+                 
+                </tr>
+              
+                </table>
+               </td>
+  
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+</div> 
+</section>
+</section>` 
+
+$('#section_20').append($button); 
+
+///////////////////////////////////////////////////
+
+$('#secid'+global_count).change(function () {
+    var dropDown1 = $(this).val();
+    console.log("secccccccc",dropDown1)
+    
+    // $("#secidd"+global_count).find("option:disabled").prop("disabled",false);
+        $("#secidd"+global_count +" option[value='"+dropDown1).attr('disabled', 'disabled')
+        // $("#seciddd"+global_count +" option[value='"+dropDown1).attr('disabled', 'disabled');  
+  }
+    )
+
+    $('#secidd'+global_count).change(function () {
+    var dropDown2 = $(this).val();
+    // dropDown2=dropDown2.split(',')
+    // $("#secid0").find("option:disabled").prop("disabled",false);
+        $("#secid"+global_count +" option[value='"+dropDown2).attr('disabled', 'disabled');
+        // $("#seciddd"+global_count +" option[value='"+dropDown2).attr('disabled', 'disabled'); 
+  }
+    )
+
+  //   $('#seciddd'+global_count).change(function () {
+  //   var dropDown3 = $(this).val();
+  //       $("#secidd"+global_count +" option[value='"+dropDown3).attr('disabled', 'disabled')
+  //       $("#secid"+global_count +" option[value='"+dropDown3).attr('disabled', 'disabled');
+    
+  // })
+    
+
+
+
+  $('#empno'+global_count).select2({
+    tags:true
+  });
+
+  $('#secid'+global_count).select2({
+    tags:true
+  });
+
+  $('#shortcode'+global_count).select2({
+    tags:true
+  });
+
+  $('#secidd'+global_count).select2({
+    tags:true
+  });
+
+  $('#seciddd'+global_count).select2({
+    tags:true
+  });
+  $('#shortcodee'+global_count).select2({
+    tags:true
+  });
+  $('#shortcodeee'+global_count).select2({
+    tags:true
+  });
+
+
+  var v1=$('#hidval').val()
+
+  $( "#work"+global_count ).datepicker({ 
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(work){
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', work);
+              return [v1.indexOf(dmy) == -1];
+              },
+            });
+
+            $( "#workk"+global_count ).datepicker({ 
+              // maxDate: currentdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(workk0){       
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', workk0);
+              return [v1.indexOf(dmy) == -1];  
+    },
+            });
+
+            $( "#workkk"+global_count ).datepicker({ 
+              // maxDate: currentdate,
+              // enddate:"currentdate",
+              dateFormat: "dd/mm/yy",
+              changeMonth : true, 
+              changeYear : true,
+              todayHighlight: true,
+              clearBtn:true,
+              autoclose: true,
+              minDate: frdate,
+              maxDate: trdate,
+              beforeShowDay: function(workkk0){    
+              dmy = jQuery.datepicker.formatDate('dd-mm-yy', workkk0);
+              return [v1.indexOf(dmy) == -1];
+       
+            },
+            });
+
+}
+
+
+function validateSaveFormChild() {
+
+if(global_count!=0){
+
+var a = document.getElementById("empno"+global_count).value;
+
+var b = document.getElementById("secid"+global_count).value;
+var c = document.getElementById("shortcode"+global_count).value;
+
+var d = document.getElementById("details"+global_count).value;
+var e = document.getElementById("work"+global_count).value;
+
+var b1 = document.getElementById("secidd"+global_count).value;
+var c1 = document.getElementById("shortcodee"+global_count).value;
+var d1 = document.getElementById("detailss"+global_count).value;
+var e1 = document.getElementById("workk"+global_count).value;
+
+var b2 = document.getElementById("seciddd"+global_count).value;
+var c2 = document.getElementById("shortcodeee"+global_count).value;
+var d2 = document.getElementById("detailsss"+global_count).value;
+var e2 = document.getElementById("workkk"+global_count).value;
+// alert(a)
+if (a == " "|| a==null || a=="---Select Designation---") {
+  alert('Designation must be filled out1');
+  return false;
+}
+
+if (b == ""||b=="---Section---") {
+  alert('Section must be filled out(ONWARD1)');
+  return false;
+}
+
+if (c == ""||c=="---Inspection type---") {
+  alert('Inspection type must be filled out(ONWARD1)');
+  return false;
+}
+
+if (d == "") {
+  alert('Train/Station detail must be filled out(ONWARD1)');
+  return false;
+}
+
+
+if (e == "") {
+  alert('Date must be filled out(ONWARD1)');
+  return false;
+}
+
+if (b1!="---Section---") {
+//   alert('Section must be filled out(BACKWARD1)');
+//   return false;
+// }
+
+if (c1=="---Inspection type--") {
+  alert('Inspection type must be filled out(BACKWARD1)');
+  return false;
+}
+
+if (d1 == "") {
+  alert('Train/Station detail must be filled out(BACKWARD1)');
+  return false;
+}
+
+if (e1 == "") {
+  alert('Date must be filled out(BACKWARD1)');
+  return false;
+}
+}
+if (b2!="---Section---") {
+//   alert('Section must be filled out(OTHERS1)');
+//   return false;
+// }
+
+if (c2=="---Inspection type--") {
+  alert('Inspection type must be filled out(OTHERS1)');
+  return false;
+}
+
+if (d2 == "") {
+  alert('Train/Station detail must be filled out(OTHERS1)');
+  return false;
+}
+
+if (e2 == "") {
+  alert('Date must be filled out(OTHERS1)');
+  return false;
+}
+}
+}
+//  <a href="{%url 'roster_list' %}"></a> 
+// URL="{% url 'roster_list' %}";
+// window.open(URL, '_blank');
+saveDetails();saveDurationFinal();
+}
+
+    
+function validateSaveForm2Child() {
+
+var a = document.getElementById("empno"+global_count).value;
+
+var b = document.getElementById("secid"+global_count).value;
+var c = document.getElementById("shortcode"+global_count).value;
+
+var d = document.getElementById("details"+global_count).value;
+var e = document.getElementById("work"+global_count).value;
+
+var b1 = document.getElementById("secidd"+global_count).value;
+var c1 = document.getElementById("shortcodee"+global_count).value;
+var d1 = document.getElementById("detailss"+global_count).value;
+var e1 = document.getElementById("workk"+global_count).value;
+
+var b2 = document.getElementById("seciddd"+global_count).value;
+var c2 = document.getElementById("shortcodeee"+global_count).value;
+var d2 = document.getElementById("detailsss"+global_count).value;
+var e2 = document.getElementById("workkk"+global_count).value;
+// alert(a)
+if (a == " "|| a==null || a=="---Select Designation---") {
+  alert('Designation must be filled out1');
+  return false;
+}
+
+if (b == ""||b=="---Section---") {
+  alert('Section must be filled out(ONWARD1)');
+  return false;
+}
+
+if (c == ""||c=="---Inspection type---") {
+  alert('Inspection type must be filled out(ONWARD1)');
+  return false;
+}
+
+if (d == "") {
+  alert('Train/Station detail must be filled out(ONWARD1)');
+  return false;
+}
+
+
+if (e == "") {
+  alert('Date must be filled out(ONWARD1)');
+  return false;
+}
+
+if (b1!="---Section---") {
+//   alert('Section must be filled out(BACKWARD1)');
+//   return false;
+// }
+
+if (c1 == ""||c1=="---Inspection type--") {
+  alert('Inspection type must be filled out(BACKWARD1)');
+  return false;
+}
+
+if (d1 == "") {
+  alert('Train/Station detail must be filled out(BACKWARD1)');
+  return false;
+}
+
+if (e1 == "") {
+  alert('Date must be filled out(BACKWARD1)');
+  return false;
+}
+}
+if (b2!="---Section---") {
+//   alert('Section must be filled out(OTHERS1)');
+//   return false;
+// }
+
+if (c2=="---Inspection type--") {
+  alert('Inspection type must be filled out(OTHERS1)');
+  return false;
+}
+
+if (d2 == "") {
+  alert('Train/Station detail must be filled out(OTHERS1)');
+  return false;
+}
+
+if (e2 == "") {
+  alert('Date must be filled out(OTHERS1)');
+  return false;
+}
+}
+//  <a href="{%url 'roster_list' %}"></a> 
+// URL="{% url 'roster_list' %}";
+// window.open(URL, '_blank');
+saveAsDraft();saveDurationDraft();
+}
+
+   
+function removeRow()
+{ 
+  if(global_count>0){
+    $('#clone_section'+global_count).remove()
+    global_count=global_count-1
+  }
+  else{
+    alert("There should be atleast 1 table")
+  }
+
+}
+
+</script>
+
+
+</div>
+</body>
+
+</html>
+{% endblock content %}

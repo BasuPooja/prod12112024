@@ -1,0 +1,834 @@
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+      if(self===top){
+        var antiClickjack = document.getElementById("antiClickjack");
+        antiClickjack.parentNode.removeChild(antiClickjack);
+      }
+      else{
+        top.location= self.location;
+      }
+    </script>
+
+<script src="{%static '/js/jquery-3.6.0.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chart.min2.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chartjs-plugin-datalabels.min.js'%}"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script> -->
+<script type="text/javascript" src="{% static '/js/popper.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/js/chart.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+<script type="text/javascript" src="{% static '/DataTables/datatables.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/highcharts.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/highcharts-3d.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/exporting.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/export-data.js'%}"></script>
+<script type="text/javascript" src="{% static '/Highcharts-10.1.0/code/modules/accessibility.js'%}"></script>
+<link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static '/DataTables/datatables.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+<!-- <link rel="stylesheet" type="text/css" hef="{% static '/css/lato.css' %}"> -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- Apeksha scripts, etc -->
+<script type="text/javascript" src="{% static '/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static '/js/bootstrap.min.js' %}"></script>
+
+<!-- <script src="//code.jquery.com/jquery.min.js"></script> -->
+
+<!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+<!-- <script src="jquery.dropdown.js"></script> -->
+<!-- Include the plugin's CSS and JS: -->
+
+<!-- <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css" /> -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+
+<link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+<script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+
+
+<!-- <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}"> -->
+
+<script src="{% static 'js/timepicker.js' %}"></script>
+<!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<!-- Select2 CSS -->
+
+<!-- jQuery -->
+<script src="{% static '/js/jquery.min4.js' %}"></script>
+
+<!-- Select2 JS -->
+<script src="{% static '/js/select2.min.js' %}"></script>
+<!-- Load icon library -->
+<!-- <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}"> -->
+<!-- multiple selesct marked officer -->
+
+<!-- <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css"> -->
+<script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+<link href="{% static '/css/jquery.dataTables.min.css' %}" rel="stylesheet" />
+<!-- Sheets for datepicker for target date -->
+
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+<script src="{% static '/js/jquery-ui.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+<link rel="stylesheet" type="text/css" href="{% static '/css/lato.css' %} ">
+<!-- <link href="{% static 'css/roboto.css' %}" rel="stylesheet"> -->
+<br>
+
+
+<script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+<script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+<link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+
+<style>
+    /* tanya */
+    .drft-inspect-lbl1 {
+      background-color: rgb(7, 221, 196);
+      
+    }
+  .drft-inspect-val1{
+      background-color: rgb(109, 241, 225);
+  
+    }
+  .inspect-note2 {
+  
+  
+  background: -webkit-linear-gradient(to right, #f8a725, #65a55b);
+  background: linear-gradient(to right, #00ad99, #00C6AF);
+  }
+  /* tanya end */
+  
+  .table-data {
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  .table-data th {
+      background:#0066cc;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 0.25rem;
+  }
+  .table-data td {
+      color: #000;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0.25rem;
+  }
+  .table-data tr:nth-child(even) {
+      background-color: #f8f8f8 !important;
+  }
+  
+  
+    .modal-content {
+      border: solid !important;
+      border-width: 1px !important;
+    }
+  
+    .modal-header {
+      background-color: #2f7ac5 !important;
+      color: #fff;
+      border-radius: inherit;
+    }
+  
+    .close span {
+      color: #fff !important;
+    }
+  
+    .close span:hover {
+      color: #fff !important;
+    }
+  
+    .modal.left .modal-dialog,
+    .modal.right .modal-dialog {
+      position: fixed;
+      margin: auto;
+      width: 1200px;
+      height: 100%;
+      -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+      -o-transform: translate3d(0%, 0, 0);
+      transform: translate3d(0%, 0, 0);
+    }
+  
+    .modal.left .modal-content,
+    .modal.right .modal-content {
+      height: 100%;
+      overflow-y: auto;
+    }
+  
+    .modal.left .modal-body,
+    .modal.right .modal-body {
+      padding: 15px 15px 80px;
+    }
+  
+    /*Left*/
+    .modal.left.fade .modal-dialog {
+      left: -320px;
+      -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+      -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+      -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+      transition: opacity 0.3s linear, left 0.3s ease-out;
+    }
+  
+    .modal.left.fade.show .modal-dialog {
+      left: 0;
+    }
+  
+    /*Right*/
+    .modal.right.fade .modal-dialog {
+      right: -320px;
+      -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+      -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+      -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+      transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+  
+    .modal.right.fade.show .modal-dialog {
+      right: 0;
+    }
+  
+    /* ----- MODAL STYLE ----- */
+    .modal-content {
+      border-radius: 0;
+      border: none;
+    }
+  
+    .modal-header {
+      border-bottom-color: #EEEEEE;
+      background-color: #FAFAFA;
+    }
+  
+    .modal-lg {
+      max-width: 70% !important;
+    }
+  
+    .modal {
+      pointer-events: none;
+    }
+  
+    /* .modal-backdrop {
+      display: none;
+    } */
+  
+  
+    .table-bordered th {
+      /* background: rgb(243, 205, 205); */
+      /* background-image: linear-gradient(to right, #8bccfc , #8bccfc,#8bccfc,#d4eafa); */
+      background-color: #fff;
+  
+    }
+  
+    th {
+      border: 1px;
+      padding: 5px;
+      width: 80px;
+      min-width: 80px;
+    }
+  
+    td {
+      border: 1px;
+      padding: 5px;
+      width: 80px;
+      min-width: 80px;
+    }
+  
+  
+    .headcol {
+      position: sticky;
+      background-color: #d9ecfa;
+    }
+  
+  
+  
+    #sidebar-container .list-group button {
+      padding: 50%;
+      margin: 0%;
+      height: 312.5%;
+      color: white;
+    }
+  
+    #sidebar-container2 .list-group button {
+      padding: 12.5%;
+      margin: 12.5%;
+      height: 312.5%;
+      color: white;
+    }
+  
+  
+    .btn {
+      background-color: rgb(178, 229, 245);
+      color: black;
+  
+    }
+  
+    .btn:hover {
+      background-color: #90c0f7;
+      color: black
+    }
+  
+    .readmore {
+      margin-top: -11px;
+  
+    }
+  
+    #more {
+      display: none;
+    }
+  
+    #myBtn {
+      border: none;
+      background-color: white;
+    }
+  
+    .button1 {
+      float: right;
+      margin-right: 2%;
+      border: none;
+      background-color: #89CFF0;
+      font-weight: 500;
+      color: black;
+      padding-left: 1%;
+    }
+  
+  
+  
+    .button2 {
+      float: right;
+      margin-right: 4%;
+      border: none;
+      background-color: #89CFF0;
+      font-weight: 500;
+      color: black;
+      padding-left: 2%;
+    }
+  
+  
+    .button3 {
+      float: right;
+      margin-right: 4%;
+      margin-top: 10%;
+      border: none;
+      background-color: #89CFF0;
+      font-weight: 500;
+      color: black;
+      padding-left: 2%;
+      margin-bottom: 0%;
+    }
+  
+  
+  
+    .butt {
+      padding-left: 12%;
+      width: 50%;
+      background-color: white;
+      border: none;
+      color: black;
+      font-weight: 500;
+    }
+  
+  
+    .date1 {
+      background-color: transparent;
+      border: none;
+  
+    }
+  
+    .btnchart {
+      color: #007bff;
+      font-weight: bold;
+    }
+  
+    .btnchart:hover {
+      color: rgb(250, 48, 34);
+    }
+  
+    .btnchart:active1 {
+      color: rgb(250, 48, 34);
+    }
+  
+    .active1 {
+      color: rgb(250, 67, 39);
+    }
+  
+  
+    .chart2#drm {
+      padding-left: 20px;
+      float: left !important;
+      width: 24%;
+      margin-left: 1%;
+      margin-right: 0%;
+    }
+  
+    .chart2#phod {
+      padding-right: 20px;
+      float: right !important;
+      width: 24%;
+      margin-left: 1%;
+      margin-right: 0%;
+    }
+  
+    #poi tr,
+    th {
+      position: sticky;
+      left: 0;
+    }
+  
+    #fo tr,
+    th {
+      position: sticky;
+      left: 0;
+    }
+  
+    /* Apeksha styles starts */
+  
+    .modal-dialog-full-width {
+      width: 70% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding-left: 30% !important;
+      max-width: none !important;
+      text-align: center !important;
+    }
+  
+    .modal-content-full-width {
+      height: auto !important;
+      min-height: 100% !important;
+      border-radius: 0 !important;
+      text-align: center !important;
+    }
+  
+    .modal-header-full-width {
+      border-bottom: 0px solid #9ea2a2 !important;
+    }
+  
+    .modal-footer-full-width {
+      border-top: 0px solid #9ea2a2 !important;
+    }
+  
+    .modal-dialog-half-width {
+      width: 60% !important;
+      height: 80% !important;
+      margin: 15% !important;
+      max-width: none !important;
+      text-align: center !important;
+  
+    }
+  
+    .modal-content-half-width {
+      width: 60% !important;
+      height: 80% !important;
+      border-radius: 0 !important;
+      text-align: center !important;
+  
+    }
+  
+    .modal-header-half-width {
+      border-bottom: 0px solid #9ea2a2 !important;
+    }
+  
+  
+    /* Apeksha styles end here */
+  
+    #cardf {
+      float: right;
+      margin-left: -0.2%;
+      margin-right: 0%;
+    }
+  
+    .ddropdown {
+  
+      overflow: hidden;
+    }
+  
+    .ddropdown .ddropbtn {
+      border: none;
+      outline: none;
+    }
+  
+    .ddropdown-content {
+      display: none;
+      position: fixed;
+    }
+  
+    .ddropdown-content a {
+      display: block;
+  
+    }
+  
+    .ddropdown:hover .ddropbtn {
+      background-color: blue;
+    }
+  
+    .ddropdown-content a:hover {
+      background-color: #ddd;
+    }
+  
+  
+    .dropdown-left-manual {
+      right: 0;
+      left: auto;
+      padding-left: 1px;
+      padding-right: 1px;
+    }
+  
+    .dropdown-menu {
+      left: auto !important;
+      right: 0 !important;
+    }
+  
+    .dropdown-menu-left {
+      left: -80px !important;
+  
+    }
+  
+  
+  
+  
+    .buttona {
+      float: right;
+      margin-right: 2%;
+      margin-top: 0.5%;
+    }
+  
+  
+    /* .card5{
+    width: 23%;
+    margin-left: 15px;
+    float: right;
+  } */
+    .drft-inspect-lbl {
+      background-color: rgb(156, 245, 133);
+      /* background-color: rgb(251, 208, 243); */
+  
+    }
+  
+    .isud-inspect-lbl {
+      background-color: rgb(156, 245, 133);
+      /* background-color:rgb(172, 251, 153); */
+  
+    }
+  
+    .drft-inspect-val {
+      background-color: rgb(194, 248, 181);
+  
+    }
+  
+    .isud-inspect-val {
+      background-color: rgb(194, 248, 181);
+  
+    }
+  
+    .inspect-note {
+  
+      background: #ec008c;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #fc6767, #f944b1);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #fc6767, #f566bc);
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+  
+    }
+  
+    .inspect-note1 {
+  
+      background: #037022;
+      /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #4dad38, #65a55b);
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #53d64c, #84fa88);
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+  
+    }
+  
+    h6.card-title {
+      font-size: 17px !important;
+      font-weight: 600;
+      /* border-bottom:1px solid #4d4d4d; */
+  
+    }
+  
+    .footer-desc {
+      font-size: 13px;
+      font-weight: bold;
+      color: #4d4d4d;
+      text-align: center;
+    }
+  
+    .card table td {
+      padding: 0.15rem;
+    }
+  
+    .dot-red {
+      height: 18px;
+      width: 18px;
+      background-color: #ff6666;
+      border-radius: 50%;
+      display: inline-block;
+      margin-top: 6px;
+    }
+  
+    .dot-yellow {
+      height: 18px;
+      width: 18px;
+      background-color: #e6b800;
+      border-radius: 50%;
+      display: inline-block;
+      margin-top: 6px;
+    }
+  
+    .dot-desc {
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 10px;
+      margin-right: 10px;
+      font-family: arial;
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+  
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+  
+      bottom: 0;
+  
+      margin-left: 0.25rem;
+      margin-right: 0.5rem;
+      border: 0px;
+      background-color: rgb(255, 255, 255, 0) !important;
+      color: #007bff !important;
+  
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      border: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+  
+      padding-bottom: 0px;
+      margin-left: 0.25rem;
+      margin-right: 0.5rem;
+      background-color: rgba(232, 77, 77, 0) !important;
+  
+  
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+      border: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+  
+      padding-bottom: 0px;
+      margin-left: 0.25rem;
+      margin-right: 0.5rem;
+      color: #333 !important;
+      border: 1px solid rgba(0, 0, 0, 0);
+      background-color: rgba(232, 77, 77, 0);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+      /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+      /* Chrome10+,Safari5.1+ */
+      background: -moz-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+      /* FF3.6+ */
+      background: -ms-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+      /* IE10+ */
+      background: -o-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+      /* Opera 11.10+ */
+      background: linear-gradient(to bottom, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+      /* W3C */
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  
+      /* color: #007bff !important; */
+      border: 1px solid rgba(17, 17, 17, 0);
+      background-color: #58585800;
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+      /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+      /* Chrome10+,Safari5.1+ */
+      background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+      /* FF3.6+ */
+      background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+      /* IE10+ */
+      background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+      /* Opera 11.10+ */
+      background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+      /* W3C */
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+      border: 0px;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+  
+      margin-left: 0.25rem;
+      margin-right: 0.5rem;
+      outline: none;
+      background-color: #2b2b2b00;
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+      /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+      /* Chrome10+,Safari5.1+ */
+      background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+      /* FF3.6+ */
+      background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+      /* IE10+ */
+      background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+      /* Opera 11.10+ */
+      background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+      /* W3C */
+      box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_info {
+      clear: both;
+      float: left;
+      /* padding-top: 0.25em; */
+    }
+  
+    .tabledash .dataTables_wrapper .dataTables_paginate {
+      float: right;
+      text-align: right;
+      /* padding-top: 0.25em; */
+    }
+  
+    .btn1 {
+      background-color: rgb(255, 255, 255);
+      color: black;
+      font-size: 20px;
+      border-radius: 10px;
+      padding: 3% 3% 3% 2%;
+    }
+  
+    .dropdown-toggle.tog1::after {
+      color: black;
+    }
+  
+    .btn1:hover {
+      /* background-color: rgb(250, 201, 110); */
+      background-color: #faf6f3;
+      transition: 3ms;
+      color: black !important;
+      font-weight: lighter !important;
+      text-decoration: none;
+  
+  
+    }
+  
+    .dropdown:hover .dropdown-toggle {
+  
+      color: black !important;
+    }
+  
+    .daterangepicker {
+      position: absolute;
+      margin-left: 75%;
+      margin-top: 5%;
+    }
+  </style>
+  
+  <style>
+    .span-filter {
+      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+      background-image: linear-gradient(#ff9d2f, #ff6126);
+      padding: 4px;
+      position: fixed;
+      right: 10px;
+      top: 45vh;
+      z-index: 99;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      cursor: pointer;
+      color: #fff;
+    }
+  
+    .sidenav {
+      height: 200px;
+      width: 0;
+      /* 0 width - change this with JavaScript */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Stay on top */
+      top: calc(50% - 140px);
+      /* Stay at the top */
+      right: 0;
+      text-align: left;
+      background-color: #fff;
+      overflow-x: hidden;
+      /* Disable horizontal scroll */
+      padding-top: 40px;
+      /* Place content 60px from the top */
+      z-index: 101;
+      border-left: 1px solid #cfd8dc !important;
+      transition: .5s;
+      backface-visibility: hidden;
+      border-left: 1px solid rgba(0, 0, 0, .05);
+      box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    }
+  
+    /* The navigation menu links */
+    .sidenav a {
+      padding: 6px 6px 6px 22px;
+      text-decoration: none;
+      font-size: 12px;
+      color: #333333;
+      display: block;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+  
+    /* When you mouse over the navigation links, change their color */
+    .sidenav a:hover {
+      color: #cc5200;
+    }
+  
+    /* Position and style the close button (top right corner) */
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 15px;
+      font-size: 26px;
+      margin-left: 50px;
+    }
+  
+    .misc-link-item {
+      padding: 2px !important;
+    }
+  
+    .h6.card-title {
+      font-size: 0.8rem !important;
+    }
+  </style>
+
+  
+    
+</head>

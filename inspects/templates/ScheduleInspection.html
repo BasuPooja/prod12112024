@@ -1,0 +1,1140 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tour Programme of Marked Officer</title>
+  <!-- CSS only -->
+  <!-- {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> {% endcomment %}
+
+      -->
+
+
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+
+  <style>
+    table {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10px 0 0 0;
+      table-layout: auto;
+    }
+
+    table td,
+    table th {
+
+      /* max-width: 0; */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      word-break: break-all;
+      white-space: nowrap;
+
+      text-align: left;
+      /* padding: 10px; */
+    }
+
+    table th {
+      width: auto !important;
+    }
+
+    table td {
+      max-width: 0;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #E8E8E8;
+    }
+
+    table td:hover {
+      background-color: rgb(210, 211, 207);
+      overflow: visible;
+      white-space: normal;
+      height: auto;
+    }
+
+    table .t8 {
+      width: 20%;
+    }
+    .hidden-row{
+      display: none;
+    }
+    */
+  </style>
+</head>
+
+<body class="mr-4">
+  <div>
+    <h3 id="h6" class="report_heading">Tour Programme of Other Officers</h3>
+  </div>
+  <div class="nav nav-tabs" style="margin-left: 20px;">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+          <a class=" nav-link active" data-toggle="tab" onclick="openCity('incoming_table', this, '')" id="defaultOpen">Incoming({{count_incoming}})</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="drafts_page_view" data-toggle="tab" onclick="openCity('outgoing_table', this, '')">Ongoing({{count_ongoing}})</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" onclick="openCity('elapsed_table', this, '')">Elapsed({{count_elapsed}})</a>
+      </li>
+  </ul>
+  </div>
+  
+
+  <div class="tabcontent" id="incoming_table">
+    <div id="all_designation" class="container-fluid  tab-pane active"><br>
+      <div id="div-all-desig">
+        <table class="table table-hover table-data table-sm table-striped table-bordered" id="main_incoming_table">
+          <thead>
+            <tr>
+              <th >Designation</th>
+              <th >From</th>
+              <th>To</th>
+              <th >Letter No.</th>
+              <th >Rly./Org.</th>
+              <th >Div./Unit</th>
+              <th >Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in incoming %}
+              <tr>
+                  <td style="text-align: center">
+                    {{i.designation}}
+                  </td>
+                  <!-- <td class="truncate" title="{{i.description}}" style="text-align: center">{{i.description }}</td> -->
+                  <td style="text-align: center">{{i.from}}</td>
+                  <td style="text-align: center">{{i.to}}</td>
+                  <td style="text-align: center">{{i.letter_no}}</td>
+
+                  <td title="{{i.only_rail}}" class="truncate" style="text-align: center">{{i.only_rail}}</td>
+                  <td title="{{i.only_div}}" class="truncate" style="text-align: center">{{i.only_div}}</td>
+
+                  
+                  <!-- <td style="text-align: center">{{i.remarks}}</td> -->
+                  <!-- <td style="text-align: center">{{i.sent_to}}</td> -->
+                  <td>
+                      <button type="button" name="{{i.id}}" style="border-style: none; margin-left: 30%;" onclick="hideRowsOutbox(this)">
+                          <i class="fas fa-angle-double-down" style="font-size:24px;color:rgb(105, 174, 238)"
+                              title="Click To Expand/Shrink Details"></i>
+                      </button>
+                  </td>
+              </tr>
+              
+              {% endfor %}
+          </tbody>
+
+        </table>
+        {% for i in incoming %}
+              <div class="inpt-container hidden-row" style="padding:10px; border-style:solid; border-width: 1px;" id="displayContentOutbox{{i.id}}">
+                
+                <h5 style="text-align: center;">CURRENT TOUR INFO</h5>
+                <table>
+                  <div class="row">
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Rly./Org</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Div./Unit</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Location type</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label for="division" class="lbl-caption">Location Name</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col" style="text-align: center;">
+                      {{i.only_rail}}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.only_div != '' %}
+                      {{i.only_div}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.loc_type != '' %}
+                      {{i.loc_type}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.loc != '' %}
+                      {{i.loc}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                  </div>
+                </table>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Description</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{i.description}}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Accompanied By</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {% if i.accompanied_by != '' %}
+                          {{i.accompanied_by}}
+                        {% else %}
+                        N/A
+                        {% endif %}
+                      </div>   
+                    </div> 
+                  </div>
+                </div>
+
+                <table class="table table-hover table-data table-sm table-striped table-bordered" style="margin-top: 10px;" id="tb">
+                  <col style="width:120px">
+                  <col style="width:80px">
+                  <col style="width:120px">
+                  <thead>
+                    <tr>
+                      <th scope="col" colspan="3" style="text-align: center;">From</th>
+                      <th scope="col" colspan="3" style="text-align: center;">To</th>
+                      <th scope="col" colspan="3" style="text-align: center;"></th>
+                    </tr>
+                      <tr>
+                        <th scope="col" style="text-align: center;">दिनांक<br>Start Date</th>
+                        <th scope="col" style="text-align: center;">प्रस्थान समय<br>Dep Time</th>
+                        <th scope="col" style="text-align: center;">स्टेशन<br>Station</th>
+                        <th scope="col" style="text-align: center;">दिनांक<br>End Date</th>
+                        <th scope="col" style="text-align: center;">आगमन समय<br>Arr Time</th>
+                        <th scope="col" style="text-align: center;">स्टेशन<br>Station</th>
+                        <th scope="col" style="text-align: center;">माद्यम<br>Mode</th>
+                        <th scope="col" style="text-align: center;">संख्या<br>No.</th>                          
+                        <th scope="col" style="text-align: center;">उद्देश्य<br>Purpose</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for j in i.tour %}
+                    <tr>
+                      <td style="text-align: center;">{{j.date}}</td>
+                      <td style="text-align: center;">{{j.dep_time}}</td>
+                      <td style="text-align: center;">{{j.from}}</td>
+                      <td style="text-align: center;">{{j.end_date}}</td>
+                      <td style="text-align: center;">{{j.arr_time}}</td>
+                      <td style="text-align: center;">{{j.to}}</td>
+                      <td style="text-align: center;">{{j.mode}}</td>
+                      <td style="text-align: center;">{{j.no}}</td>
+                      <td style="text-align: center;">{{j.purpose}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Looking After By</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{ i.looking_after_officer }}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Recommending Officer</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{ i.recommending_officer }}
+                      </div>   
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Approving Authority</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{i.approving_officer}}
+                      </div>   
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >For information</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {% if i.marked_to == "" %}
+                          N/A
+                        {% else %}
+                          {{i.marked_to}}
+                        {% endif %}
+                      </div>   
+                    </div> 
+                  </div>
+                </div>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <label><p>Uploaded Documents</p></label>
+                    <button class="btn-info" name="{{i.id}}" id="preview_pdf{{i.id}}" style="background-color: red; border-style:hidden;" onclick="viewFunc(this)" disabled>View</button><p id="file_alert"></p>
+                    <iframe id="disp_doc_outbox{{i.id}}"  style="width:100%; height:740px; display:none; flex-direction: row;" frameborder="0"></iframe>
+                  </div>
+                  <script>
+                    console.log("{{i.document}}" != "");
+                    if ("{{i.document}}" != "") {
+                      document.getElementById("preview_pdf{{i.id}}").disabled = false;
+                      document.getElementById("preview_pdf{{i.id}}").style.backgroundColor = "blue";
+                      $('#disp_doc_outbox{{i.id}}').attr('src', "/media/inspection_doc/{{i.document}}");
+                    }
+                    function viewFunc(btn){
+                      var id = btn.name;
+                      if(document.getElementById("disp_doc_outbox"+id).style.display == "block")
+                        document.getElementById("disp_doc_outbox"+id).style.display = "none";
+                      else
+                        document.getElementById("disp_doc_outbox"+id).style.display = "block";
+                    }
+                    
+                  </script>
+                </div>
+                
+              </div>
+             
+              {% endfor %}
+              <script>
+                function hideRowsOutbox(button) {
+                  // var table = document.getElementById("inboxTable");
+                  letter_no = "displayContentOutbox"+button.name;
+                  console.log('letter_no', letter_no);
+                  var row = button.parentNode.parentNode;
+                  var table = document.getElementById("main_incoming_table");
+                  var rows = table.getElementsByTagName("tr");
+                  
+                  if (rows.length == 2){
+                    if(document.getElementById(letter_no).classList.contains('hidden-row')){
+                      document.getElementById(letter_no).classList.remove("hidden-row");
+                    }
+                    else{
+                      document.getElementById(letter_no).classList.add("hidden-row");
+                    }
+                    return;
+                  }
+                  
+                  for (var j = 1; j< rows.length; j++){
+                    if( rows[j].classList.contains("hidden-row")){
+                      // console.log('hi');
+                      for (var i = 1; i < rows.length; i++) {
+                        
+                          rows[i].classList.remove("hidden-row");
+                          if(document.getElementById(letter_no).classList.contains('hidden-row')){
+                            continue;
+                          }
+                          else{
+                            document.getElementById(letter_no).classList.add("hidden-row");
+                          }
+                      }
+                      return;
+                    }
+                  }
+                  for (var i = 1; i < rows.length; i++) {
+                    // console.log('hi');
+                          if (rows[i] !== row) {
+                              rows[i].classList.add("hidden-row");
+                          }
+                          else{
+                            document.getElementById(letter_no).classList.remove("hidden-row");
+                          }
+                      }
+                }
+              </script>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tabcontent" id="outgoing_table" style="display: none;">
+    <div id="all_designation" class="container-fluid  tab-pane active"><br>
+      <div id="div-all-desig">
+    <table class="table table-hover table-data table-sm table-striped table-bordered" id="main_ongoing_table">
+      <thead>
+        <tr>
+          <th >Designation</th>
+          <th >From</th>
+          <th>To</th>
+          <th >Letter No.</th>
+          <th >Rly./Org.</th>
+          <th >Div./Unit</th>
+          <!-- <th >Status</th> -->
+          <th >Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in ongoing %}
+              <tr>
+                  <td style="text-align: center">
+                    {{i.designation}}
+                  </td>
+                  <!-- <td class="truncate" title="{{i.description}}" style="text-align: center">{{i.description }}</td> -->
+                  <td style="text-align: center">{{i.from}}</td>
+                  <td style="text-align: center">{{i.to}}</td>
+                  <td style="text-align: center">{{i.letter_no}}</td>
+
+                  <td title="{{i.only_rail}}" class="truncate" style="text-align: center">{{i.only_rail}}</td>
+                  <td title="{{i.only_div}}" class="truncate" style="text-align: center">{{i.only_div}}</td>
+
+                  
+                  <!-- <td style="text-align: center">{{i.remarks}}</td> -->
+                  <!-- <td style="text-align: center">{{i.sent_to}}</td> -->
+                  <td>
+                      <button type="button" name="{{i.id}}" style="border-style: none; margin-left: 30%;" onclick="hideRowsOngoing(this)">
+                          <i class="fas fa-angle-double-down" style="font-size:24px;color:rgb(105, 174, 238)"
+                              title="Click To Expand/Shrink Details"></i>
+                      </button>
+                  </td>
+              </tr>
+              
+              {% endfor %}
+      </tbody>
+
+    </table>
+    {% for i in ongoing %}
+              <div class="inpt-container hidden-row" style="padding:10px; border-style:solid; border-width: 1px;" id="displayContentOngoing{{i.id}}">
+                
+                <h5 style="text-align: center;">CURRENT TOUR INFO</h5>
+                <table>
+                  <div class="row">
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Rly./Org</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Div./Unit</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Location type</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label for="division" class="lbl-caption">Location Name</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col" style="text-align: center;">
+                      {{i.only_rail}}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.only_div != '' %}
+                      {{i.only_div}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.loc_type != '' %}
+                      {{i.loc_type}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.loc != '' %}
+                      {{i.loc}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                  </div>
+                </table>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Description</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{i.description}}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Accompanied By</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {% if i.accompanied_by != '' %}
+                          {{i.accompanied_by}}
+                        {% else %}
+                        N/A
+                        {% endif %}
+                      </div>   
+                    </div> 
+                  </div>
+                </div>
+
+                <table class="table table-hover table-data table-sm table-striped table-bordered" style="margin-top: 10px;" id="tb">
+                  <col style="width:120px">
+                  <col style="width:80px">
+                  <col style="width:120px">
+                  <thead>
+                    <tr>
+                      <th scope="col" colspan="3" style="text-align: center;">From</th>
+                      <th scope="col" colspan="3" style="text-align: center;">To</th>
+                      <th scope="col" colspan="3" style="text-align: center;"></th>
+                    </tr>
+                      <tr>
+                        <th scope="col" style="text-align: center;">दिनांक<br>Start Date</th>
+                        <th scope="col" style="text-align: center;">प्रस्थान समय<br>Dep Time</th>
+                        <th scope="col" style="text-align: center;">स्टेशन<br>Station</th>
+                        <th scope="col" style="text-align: center;">दिनांक<br>End Date</th>
+                        <th scope="col" style="text-align: center;">आगमन समय<br>Arr Time</th>
+                        <th scope="col" style="text-align: center;">स्टेशन<br>Station</th>
+                        <th scope="col" style="text-align: center;">माद्यम<br>Mode</th>
+                        <th scope="col" style="text-align: center;">संख्या<br>No.</th>                          
+                        <th scope="col" style="text-align: center;">उद्देश्य<br>Purpose</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for j in i.tour %}
+                    <tr>
+                      <td style="text-align: center;">{{j.date}}</td>
+                      <td style="text-align: center;">{{j.dep_time}}</td>
+                      <td style="text-align: center;">{{j.from}}</td>
+                      <td style="text-align: center;">{{j.end_date}}</td>
+                      <td style="text-align: center;">{{j.arr_time}}</td>
+                      <td style="text-align: center;">{{j.to}}</td>
+                      <td style="text-align: center;">{{j.mode}}</td>
+                      <td style="text-align: center;">{{j.no}}</td>
+                      <td style="text-align: center;">{{j.purpose}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Looking After By</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{ i.looking_after_officer }}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Recommending Officer</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{ i.recommending_officer }}
+                      </div>   
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Approving Authority</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{i.approving_officer}}
+                      </div>   
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >For information</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {% if i.marked_to == "" %}
+                          N/A
+                        {% else %}
+                          {{i.marked_to}}
+                        {% endif %}
+                      </div>   
+                    </div> 
+                  </div>
+                </div>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <label><p>Uploaded Documents</p></label>
+                    <button class="btn-info" name="{{i.id}}" id="preview_pdf{{i.id}}" style="background-color: red; border-style:hidden;" onclick="viewFunc(this)" disabled>View</button><p id="file_alert"></p>
+                    <iframe id="disp_doc_outbox{{i.id}}"  style="width:100%; height:740px; display:none; flex-direction: row;" frameborder="0"></iframe>
+                  </div>
+                  <script>
+                    console.log("{{i.document}}" != "");
+                    if ("{{i.document}}" != "") {
+                      document.getElementById("preview_pdf{{i.id}}").disabled = false;
+                      document.getElementById("preview_pdf{{i.id}}").style.backgroundColor = "blue";
+                      $('#disp_doc_outbox{{i.id}}').attr('src', "/media/inspection_doc/{{i.document}}");
+                    }
+                    function viewFunc(btn){
+                      var id = btn.name;
+                      if(document.getElementById("disp_doc_outbox"+id).style.display == "block")
+                        document.getElementById("disp_doc_outbox"+id).style.display = "none";
+                      else
+                        document.getElementById("disp_doc_outbox"+id).style.display = "block";
+                    }
+                    
+                  </script>
+                </div>
+                
+              </div>
+             
+              {% endfor %}
+              <script>
+                function hideRowsOngoing(button) {
+                  // var table = document.getElementById("inboxTable");
+                  letter_no = "displayContentOngoing"+button.name;
+                  console.log('letter_no', letter_no);
+                  var row = button.parentNode.parentNode;
+                  var table = document.getElementById("main_ongoing_table");
+                  var rows = table.getElementsByTagName("tr");
+                  
+                  if (rows.length == 2){
+                    if(document.getElementById(letter_no).classList.contains('hidden-row')){
+                      document.getElementById(letter_no).classList.remove("hidden-row");
+                    }
+                    else{
+                      document.getElementById(letter_no).classList.add("hidden-row");
+                    }
+                    return;
+                  }
+                  
+                  for (var j = 1; j< rows.length; j++){
+                    if( rows[j].classList.contains("hidden-row")){
+                      // console.log('hi');
+                      for (var i = 1; i < rows.length; i++) {
+                        
+                          rows[i].classList.remove("hidden-row");
+                          if(document.getElementById(letter_no).classList.contains('hidden-row')){
+                            continue;
+                          }
+                          else{
+                            document.getElementById(letter_no).classList.add("hidden-row");
+                          }
+                      }
+                      return;
+                    }
+                  }
+                  for (var i = 1; i < rows.length; i++) {
+                    // console.log('hi');
+                          if (rows[i] !== row) {
+                              rows[i].classList.add("hidden-row");
+                          }
+                          else{
+                            document.getElementById(letter_no).classList.remove("hidden-row");
+                          }
+                      }
+                }
+              </script>
+    </div>
+    </div>
+  </div>
+
+  <div id="elapsed_table" class="tabcontent" style="display: none;">
+    <div id="all_designation" class="container-fluid  tab-pane active"><br>
+      <div id="div-all-desig">
+
+    <table class="table table-hover table-data table-sm table-striped table-bordered" id="main_elapsed_table">
+      <thead>
+        <tr>
+          <th >Designation</th>
+          <th >From</th>
+          <th>To</th>
+          <th >Letter No.</th>
+          <th >Rly./Org.</th>
+          <th >Div./Unit</th>
+          <!-- <th >Status</th> -->
+          <th >Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in elapsed %}
+              <tr>
+                  <td style="text-align: center">
+                    {{i.designation}}
+                  </td>
+                  <!-- <td class="truncate" title="{{i.description}}" style="text-align: center">{{i.description }}</td> -->
+                  <td style="text-align: center">{{i.from}}</td>
+                  <td style="text-align: center">{{i.to}}</td>
+                  <td style="text-align: center">{{i.letter_no}}
+                  </td>
+
+                  <td title="{{i.only_rail}}" class="truncate" style="text-align: center">{{i.only_rail}}</td>
+                  <td title="{{i.only_div}}" class="truncate" style="text-align: center">{{i.only_div}}</td>
+
+                  
+                  <!-- <td style="text-align: center">{{i.remarks}}</td> -->
+                  <!-- <td style="text-align: center">{{i.sent_to}}</td> -->
+                  <td>
+                      <button type="button" name="{{i.id}}" style="border-style: none; margin-left: 30%;" onclick="hideRowsElapsed(this)">
+                          <i class="fas fa-angle-double-down" style="font-size:24px;color:rgb(105, 174, 238)"
+                              title="Click To Expand/Shrink Details"></i>
+                      </button>
+                  </td>
+              </tr>
+              
+              {% endfor %}
+      </tbody>
+
+    </table>
+    {% for i in elapsed %}
+              <div class="inpt-container hidden-row" style="padding:10px; border-style:solid; border-width: 1px;" id="displayContentElapsed{{i.id}}">
+                
+                <h5 style="text-align: center;">CURRENT SCHEDULE INFO</h5>
+                <table>
+                  <div class="row">
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Rly./Org</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Div./Unit</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label class="lbl-caption">Location type</label>
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      <label for="division" class="lbl-caption">Location Name</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col" style="text-align: center;">
+                      {{i.only_rail}}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.only_div != '' %}
+                      {{i.only_div}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.loc_type != '' %}
+                      {{i.loc_type}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                    <div class="col" style="text-align: center;">
+                      {% if i.loc != '' %}
+                      {{i.loc}}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </div>
+                  </div>
+                </table>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Description</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{i.description}}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Accompanied By</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {% if i.accompanied_by != '' %}
+                          {{i.accompanied_by}}
+                        {% else %}
+                        N/A
+                        {% endif %}
+                      </div>   
+                    </div> 
+                  </div>
+                </div>
+
+                <table class="table table-hover table-data table-sm table-striped table-bordered" style="margin-top: 10px;" id="tb">
+                  <col style="width:120px">
+                  <col style="width:80px">
+                  <col style="width:120px">
+                  <thead>
+                    <tr>
+                      <th scope="col" colspan="3" style="text-align: center;">From</th>
+                      <th scope="col" colspan="3" style="text-align: center;">To</th>
+                      <th scope="col" colspan="3" style="text-align: center;"></th>
+                    </tr>
+                      <tr>
+                        <th scope="col" style="text-align: center;">दिनांक<br>Start Date</th>
+                        <th scope="col" style="text-align: center;">प्रस्थान समय<br>Dep Time</th>
+                        <th scope="col" style="text-align: center;">स्टेशन<br>Station</th>
+                        <th scope="col" style="text-align: center;">दिनांक<br>End Date</th>
+                        <th scope="col" style="text-align: center;">आगमन समय<br>Arr Time</th>
+                        <th scope="col" style="text-align: center;">स्टेशन<br>Station</th>
+                        <th scope="col" style="text-align: center;">माद्यम<br>Mode</th>
+                        <th scope="col" style="text-align: center;">संख्या<br>No.</th>                          
+                        <th scope="col" style="text-align: center;">उद्देश्य<br>Purpose</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for j in i.tour %}
+                    <tr>
+                      <td style="text-align: center;">{{j.date}}</td>
+                      <td style="text-align: center;">{{j.dep_time}}</td>
+                      <td style="text-align: center;">{{j.from}}</td>
+                      <td style="text-align: center;">{{j.end_date}}</td>
+                      <td style="text-align: center;">{{j.arr_time}}</td>
+                      <td style="text-align: center;">{{j.to}}</td>
+                      <td style="text-align: center;">{{j.mode}}</td>
+                      <td style="text-align: center;">{{j.no}}</td>
+                      <td style="text-align: center;">{{j.purpose}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Looking After By</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{ i.looking_after_officer }}
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Recommending Officer</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{ i.recommending_officer }}
+                      </div>   
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >Approving Authority</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {{i.approving_officer}}
+                      </div>   
+                    </div> 
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="event" class="lbl-caption" >For information</label>
+                      <div contenteditable="false" style="background-color: #d2d2d2; padding: 10px; border-radius: 8px;">
+                        {% if i.marked_to == "" %}
+                          N/A
+                        {% else %}
+                          {{i.marked_to}}
+                        {% endif %}
+                      </div>   
+                    </div> 
+                  </div>
+                </div>
+                <div class="row" style="margin-left: 5px; margin-right: 5px;">
+                  <div class="col">
+                    <label><p>Uploaded Documents</p></label>
+                    <button class="btn-info" name="{{i.id}}" id="preview_pdf{{i.id}}" style="background-color: red; border-style:hidden;" onclick="viewFunc(this)" disabled>View</button><p id="file_alert"></p>
+                    <iframe id="disp_doc_outbox{{i.id}}"  style="width:100%; height:740px; display:none; flex-direction: row;" frameborder="0"></iframe>
+                  </div>
+                  <script>
+                    console.log("{{i.document}}" != "");
+                    if ("{{i.document}}" != "") {
+                      document.getElementById("preview_pdf{{i.id}}").disabled = false;
+                      document.getElementById("preview_pdf{{i.id}}").style.backgroundColor = "blue";
+                      $('#disp_doc_outbox{{i.id}}').attr('src', "/media/inspection_doc/{{i.document}}");
+                    }
+                    function viewFunc(btn){
+                      var id = btn.name;
+                      if(document.getElementById("disp_doc_outbox"+id).style.display == "block")
+                        document.getElementById("disp_doc_outbox"+id).style.display = "none";
+                      else
+                        document.getElementById("disp_doc_outbox"+id).style.display = "block";
+                    }
+                    
+                  </script>
+                </div>
+                
+              </div>
+             
+              {% endfor %}
+              <script>
+                function hideRowsElapsed(button) {
+                  // var table = document.getElementById("inboxTable");
+                  letter_no = "displayContentElapsed"+button.name;
+                  console.log('letter_no', letter_no);
+                  var row = button.parentNode.parentNode;
+                  var table = document.getElementById("main_elapsed_table");
+                  var rows = table.getElementsByTagName("tr");
+                  
+                  if (rows.length == 2){
+                    if(document.getElementById(letter_no).classList.contains('hidden-row')){
+                      document.getElementById(letter_no).classList.remove("hidden-row");
+                    }
+                    else{
+                      document.getElementById(letter_no).classList.add("hidden-row");
+                    }
+                    return;
+                  }
+                  
+                  for (var j = 1; j< rows.length; j++){
+                    if( rows[j].classList.contains("hidden-row")){
+                      // console.log('hi');
+                      for (var i = 1; i < rows.length; i++) {
+                        
+                          rows[i].classList.remove("hidden-row");
+                          if(document.getElementById(letter_no).classList.contains('hidden-row')){
+                            continue;
+                          }
+                          else{
+                            document.getElementById(letter_no).classList.add("hidden-row");
+                          }
+                      }
+                      return;
+                    }
+                  }
+                  for (var i = 1; i < rows.length; i++) {
+                    // console.log('hi');
+                          if (rows[i] !== row) {
+                              rows[i].classList.add("hidden-row");
+                          }
+                          else{
+                            document.getElementById(letter_no).classList.remove("hidden-row");
+                          }
+                      }
+                }
+              </script>
+    </div>
+    </div>
+  </div>
+  <script>
+    
+    function openCity(cityName, elmnt, color) {
+        // Hide all elements with class="tabcontent" by default */
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+
+        // Remove the background color of all tablinks/buttons
+        tablinks = document.getElementsByClassName("tablink");
+        // for (i = 0; i < tablinks.length; i++) {
+        //   tablinks[i].style.backgroundColor = "";
+        // }
+        // if (cityName != 'mainForm'){
+        //   document.getElementById('all-buttons').style.display = "none";
+        // }
+        // else{
+        //   document.getElementById('all-buttons').style.display = "block";
+        // }
+        // Show the specific tab content
+        document.getElementById(cityName).style.display = "block";
+
+        // Add the specific color to the button used to open the tab content
+        elmnt.style.backgroundColor = color;
+      };
+
+    $(function() {
+
+$('input[name="daterange1"]').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    // maxDate: new Date(),
+    "opens": "right",
+    locale: {
+        cancelLabel: 'Clear'
+    }
+});
+
+$('input[name="daterange1"]').on('apply.daterangepicker', function(ev, picker) {
+  $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+  
+
+      $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+    
+    
+  
+  $('.applyButtonClasses').click()
+
+  
+});
+
+$('input[name="daterange1"]').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+});
+
+  $(".datepker").datepicker({
+    
+    dateFormat: 'dd/mm/y',
+    showButtonPanel: true,
+    closeText: 'Clear',
+    
+    onClose: function () {
+       var event = arguments.callee.caller.caller.arguments[0];
+       // If "Clear" gets clicked, then really clear it
+       if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+          $(this).val('');
+       }
+    }
+  });
+  
+  //date range end
+    $(function () {
+      $('#main_incoming_table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          'excel', 'print',
+
+        ],
+      });
+      $('#main_ongoing_table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          'excel', 'print',
+
+        ],
+      });
+      $('#main_elapsed_table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          'excel', 'print',
+
+        ],
+      });
+
+    });
+  </script>
+</body>
+
+
+<script>
+
+  function show_data(e) {
+
+    $.ajax
+      (
+        {
+          url: '{% url "Show1" %}',
+          datatype: 'json',
+          type: 'GET',
+          success: function (response) {
+
+            var table = $('#Show1').DataTable();
+            table.destroy();
+            $('#Show1 tbody').empty();
+            
+            var s = 0;
+            for (i in response.donor) {
+              s = s + 1
+              $('#Show1 tbody').append
+                (
+                  `<tr>
+                                 <td >${s}</td>
+                                 <td>${response.donor[i][0].date_to_act}</td>
+                                 <td>${response.donor[i][0].designation}</td>
+                                 <td>${response.donor[i][0].Railways_act}</td>
+                                 <td>${response.donor[i][0].Division_act}</td>
+                                 <td>${response.donor[i][0].location3_act}</td>
+                                 <td >${response.donor[i][0].event}:${response.donor[i][0].description}</td>
+                                 <td>${response.donor[i][0].statusNew}</td>
+     
+                             </tr> `
+                )
+            }
+            var table = $('#Show1').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                  extend: 'excel',
+                  messageTop: 'Schedule Inspection of other officer'
+
+                },
+                {
+                  extend: 'print',
+                  messageTop: 'Schedule Inspection of other officer'
+
+                },
+
+              ],
+            });
+          }
+        }
+      )
+  }
+
+  $(".datepker").datepicker({
+
+    dateFormat: 'dd/mm/y',
+    showButtonPanel: true,
+    closeText: 'Clear',
+
+    onClose: function () {
+      var event = arguments.callee.caller.caller.arguments[0];
+      // If "Clear" gets clicked, then really clear it
+      if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+        $(this).val('');
+      }
+    }
+  });
+  function refreshPage() {
+    location.reload();
+
+  }
+  function searchDetails2() {
+
+    var date1 = $('#date1').val();
+
+    data = { 'date': date1 }
+
+    $.ajax({
+      url: '{% url "searchDetails2" %}',
+      dataType: 'json',
+      type: 'GET',
+      data: data,
+      success: function (response) {
+        var table = $('#Show1').DataTable();
+        table.destroy();
+        $('#Show1 tbody').empty();
+
+        var s = 0;
+        for (i in response.donor) {
+          s = s + 1
+          $('#Show1 tbody').append
+            (
+              `<tr>
+                                 <td>${s}</td>
+                                 <td>${response.donor[i][0].date_to_act}</td>
+                                 <td>${response.donor[i][0].designation}</td>
+                                 <td>${response.donor[i][0].Railways_act}</td>
+                                 <td>${response.donor[i][0].Division_act}</td>
+                                 <td>${response.donor[i][0].location3_act}</td>
+                                 <td >${response.donor[i][0].event}:${response.donor[i].description}</td>
+                                 <td>${response.donor[i][0].status}</td>
+     
+                             </tr> `
+            )
+        }
+        var table = $('#Show1').DataTable({
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              extend: 'excel',
+              messageTop: 'Schedule Inspection of other officer',
+              messageTop: 'On(' + date1 + ')'
+            },
+            {
+              extend: 'print',
+              messageTop: 'Schedule Inspection of other officer',
+              messageTop: 'On(' + date1 + ')'
+            },
+
+          ],
+        });
+
+      }
+    })
+  }
+
+</script>
+
+
+
+</html>
+{% endblock content %}

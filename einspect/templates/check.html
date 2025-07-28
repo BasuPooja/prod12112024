@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    
+
+
+    
+    
+    <title>Einspection | Inspection Form</title>
+    <style>
+        .accordion-button::after {
+            background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+            background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+            background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+            background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+            background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+            color: white;
+            border: white;
+        }
+
+        .accordion-button::after {
+            background-color: white;
+            color: black;
+            border-radius: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+
+
+        .rating>input {
+            display: none;
+        }
+
+        .rating>label {
+            position: relative;
+            width: 1em;
+            font-size: 2vw;
+            color: #FFD700;
+            cursor: pointer;
+        }
+
+        .rating>label::before {
+            content: "\2605";
+            position: absolute;
+            opacity: 0;
+        }
+
+        .rating>label:hover:before,
+        .rating>label:hover~label:before {
+            opacity: 1 !important;
+        }
+
+        .rating>input:checked~label:before {
+            opacity: 1;
+        }
+
+        .rating:hover>input:checked~label:before {
+            opacity: 0.4;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="container">
+
+    <ul class="checkouttabs">
+        <li class="tab-link current" data-tab="tab-1">Tab One</li>
+        <li class="tab-link" data-tab="tab-2">Tab Two</li>
+        <li class="tab-link" data-tab="tab-3">Tab Three</li>
+        <li class="tab-link" data-tab="tab-4">Tab Four</li>
+    </ul>
+
+    <div id="tab-1" class="tab-content current">
+        <form action="" id="theForm">
+            <input type="text" name="foo" id="foo" />
+            <input class="submit" type="submit" name="submit">
+        </form>
+        <button class="tab_btn next">Next</button>
+    </div>
+    <div id="tab-2" class="tab-content">
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <div class="accordion">
+            <div class="checkout_step_title" id="first_header">Header 1</div>
+            <div class="checkout_step_content checkout_step_content-first">This is the content for the first header.
+                <button class="nextbtn">Next</button>
+            </div>
+            <div class="checkout_step_title" id="second_header">Header 2</div>
+            <div class="checkout_step_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <button class="prevbtn">Prev</button>
+                <button class="nextbtn">Next</button>
+            </div>
+            <div class="checkout_step_title" id="third_header">Header 3</div>
+            <div class="checkout_step_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <button class="prevbtn">Prev</button>
+                <button class="nextbtn">Next</button>
+            </div>
+            <div class="checkout_step_title" id="forth_header">Header 4</div>
+            <div class="checkout_step_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <button class="prevbtn">Prev</button>
+                <button class="nextbtn">Next</button>
+            </div>
+            <div class="checkout_step_title" id="fifth_header">Header 5</div>
+            <div class="checkout_step_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <button class="prevbtn">Prev</button>
+                <button class="shipping_btn">Next</button>
+            </div>
+        </div>
+                <!-- <button class="tab_btn prev">Prev</button> -->
+    <button class="tab_btn next">Next</button>
+    </div>
+    <div id="tab-3" class="tab-content">
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+     <button class="tab_btn prev">Prev</button>
+    </div>
+
+</div><!-- container -->
+</body>
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery("button.tab_btn").live('click',function(){
+        var getClass = jQuery(this).attr('class');
+        console.log(getClass);
+        if(getClass == "tab_btn next"){
+            //validations
+            var closest_par = jQuery(this).closest('div');
+            var current_div = jQuery(closest_par).attr('id');
+            var updated_div = jQuery(closest_par).next().attr('id');    
+            jQuery(".tab-content").stop(true,true).hide();          
+            jQuery("#" + updated_div).stop(true,true).show();
+            jQuery(".checkouttabs li").removeClass("current")
+            jQuery("li[data-tab='"+ current_div +"']").addClass("pass");
+            jQuery("li[data-tab='"+ updated_div +"']").addClass("current");
+        }
+        if(getClass == "tab_btn prev"){
+            //validations
+            var closest_par = jQuery(this).closest('div');
+            var current_div = jQuery(closest_par).attr('id');
+            var updated_div = jQuery(closest_par).prev().attr('id');
+            jQuery(".tab-content").stop(true,true).hide();
+            jQuery("#" + updated_div).stop(true,true).show();
+            jQuery(".checkouttabs li").removeClass("current")
+            jQuery("li[data-tab='"+ updated_div +"']").removeClass("pass");
+            jQuery("li[data-tab='"+ updated_div +"']").addClass("current");
+        }
+    });
+
+    jQuery("button.stp_btn").live('click',function(){
+        var getClass = jQuery(this).attr('class');
+        console.log(getClass);
+        if(getClass == "stp_btn next"){
+            //validations
+            var closest_par = jQuery(this).closest('div');
+            var current_div = jQuery(closest_par).attr('id');
+            var updated_div = jQuery(closest_par).next().attr('id');    
+            jQuery(".stp-content").stop(true,true).hide();          
+            jQuery("#" + updated_div).stop(true,true).show();
+            jQuery(".checkouttabs li").removeClass("current")
+            jQuery("li[data-tab='"+ current_div +"']").addClass("pass");
+            jQuery("li[data-tab='"+ updated_div +"']").addClass("current");
+        }
+        if(getClass == "stp_btn prev"){
+            //validations
+            var closest_par = jQuery(this).closest('div');
+            var current_div = jQuery(closest_par).attr('id');
+            var updated_div = jQuery(closest_par).prev().attr('id');
+            jQuery(".stp-content").stop(true,true).hide();
+            jQuery("#" + updated_div).stop(true,true).show();
+            jQuery(".checkouttabs li").removeClass("current")
+            jQuery("li[data-tab='"+ updated_div +"']").removeClass("pass");
+            jQuery("li[data-tab='"+ updated_div +"']").addClass("current");
+        }
+    });
+
+    jQuery(".pass").live('click',function(){
+        var get_data_val = jQuery(this).attr('data-tab');
+        jQuery(".tab-content").stop(true,true).hide();  
+        jQuery("#"+ get_data_val).stop(true,true).show();
+        jQuery(this).removeClass("pass");
+        jQuery(this).nextAll('.checkouttabs li').removeClass('pass current');
+        jQuery(this).addClass("current");
+    });
+
+    jQuery('.checkout_step_content-first').show();
+    jQuery('.checkout_step_title').attr('disabled',true);
+    jQuery(".accordion .checkout_step_title").click(function () {
+         jQuery(".accordion .checkout_step_title").removeClass('currentstep');         
+         jQuery(this).addClass('currentstep');         
+         jQuery(this).nextAll('.checkout_step_title').attr('disabled',true);
+
+         if(jQuery(this).is('[disabled=disabled]')){
+            return false;
+         }         
+         if(!jQuery(this).next("div").is(":visible")) {
+              jQuery(".accordion .checkout_step_content").slideUp("slow");
+              jQuery(this).next("div").slideToggle("slow");
+          }
+      });
+
+     jQuery(".accordion .nextbtn").click(function () {
+          nextBtn(this);
+     });
+
+     jQuery(".accordion .prevbtn").click(function () {
+          previousBtn(this);
+    });
+
+    function previousBtn(data){
+       var $prevContent = jQuery(data).parent().prev().prev();
+       jQuery(".accordion .checkout_step_title").removeClass('currentstep');
+       jQuery(".accordion .checkout_step_content").slideUp();
+       jQuery(data).parent().prev().attr('disabled',true);
+       $prevContent.slideDown(1000);
+    }
+    function nextBtn(data){
+       var $nextContent = jQuery(data).parent().next().next();
+       jQuery(".accordion .checkout_step_title").removeClass('currentstep');
+       jQuery(".accordion .checkout_step_content").slideUp();
+       jQuery(data).parent().prev().attr("disabled",false);
+       $nextContent.slideDown(10);
+    }
+    jQuery('.shipping_btn').click(function(){
+        jQuery('.tab_btn').trigger('click');
+        jQuery("li[data-tab='tab-2']").addClass("pass");
+    });
+});
+</script>

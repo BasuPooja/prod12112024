@@ -1,0 +1,1299 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+
+<style>
+  .modal-lg {
+    max-width: 48%;
+  }
+
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 80%;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    ;
+    height: 100%;
+    margin: 0;
+  }
+
+
+
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    /* border: 1.5px solid rgb(14, 12, 12); */
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=submit] {
+    width: 40%;
+    text-align: center;
+    background-color: #4CAF50;
+
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+    text-align: center;
+  }
+
+
+  input[type=button]:hover {
+    background-color: #45a049;
+    text-align: center;
+  }
+
+  /* #viewbtn{
+        margin-left:1050px;
+      } */
+
+  .inputtag {
+    height: 20px;
+  }
+
+  .button {
+    padding: 15px 25px;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 2em;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 15px;
+
+  }
+
+  .button:hover {
+    background-color: #3e8e41
+  }
+
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+</style>
+<style>
+  #viewbtn {
+    margin-left: 1200px;
+    margin-right: 10px;
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+</head>
+
+
+
+<!-- <input style="margin-left:90%; margin-top:10px;height:2.5em;width:4em;"  type="button" value="Back" onclick="history.back()"> -->
+<!-- <h2 align="center"  >Search Inspections Report </h2> -->
+
+<h3 class="report_heading">Search Inspection Report</h3>
+
+<!-- {% comment %} 
+  <h3 class="report_heading">Search Inspection Report</h3>    
+  {% endcomment %} -->
+
+<br>
+<div class="container">
+  <div class="inpt-container" id="container1">
+
+    <form action="{% url 'search_location' %}" method="POST" id='indexForm'>
+      {% csrf_token %}
+
+      <div class="row" style="margin-left: 1em; margin-right: 5em;">
+
+        <div class="col form-group">
+          <label for="rly_id" class="lbl-caption">Rly./Org. Wise</label>
+          <select class="form-control self-control" id="location_code" name="location_code" class="custom-select"
+            data-placeholder="Select Rly/Org..." multiple required>
+            <option value="" disabled hidden>All</option>
+            {% for z in zone %}
+            <option value="{{z}}">{{z}}</option>
+            {% endfor %}
+
+          </select>
+        </div>
+
+
+        <div class="col form-group">
+          <label for="div_id" class="lbl-caption">Div./Unit Wise</label>
+
+          <select class="form-control self-control" id="location_type" name="location_type" class="custom-select"
+            data-placeholder="Select Div/Unit..." multiple>
+            <option value="" disabled hidden>All</option>
+            {% for d in division %}
+            <!-- {% comment %} <option value="{{d}}">{{d}}</option> {% endcomment %} -->
+            <option value="{{d.location_code}}-{{d.location_type}}">{{d.location_code}}-{{d.location_type}}</option>
+
+            {% endfor %}
+
+          </select>
+
+        </div>
+
+
+        <div class="col form-group" hidden>
+          <label for="department_name" class="lbl-caption">Department</label>
+          <select class="form-control sel-control" id="dept" name="dept" class="custom-select"
+            data-placeholder="Department..." multiple hidden>
+
+            <option value="" disabled hidden>select</option>
+            {% for d in dept %}
+            <option value="{{d}}">{{d}}</option>
+            {% endfor %}
+
+          </select>
+
+        </div>
+
+        <div class="col form-group">
+          <label for="designation" class="lbl-caption">Designation Wise</label>
+          <select class="form-control sel-control" id="designation" name="designation" class="custom-select" multiple
+            data-placeholder="Designation...">
+            <option value="" disabled hidden>select</option>
+            {% for d in desi %}
+            <option value="{{d}}">{{d}}</option>
+            {% endfor %}
+
+          </select>
+        </div>
+
+
+        <div class="col form-group">
+          <label for="status" class="lbl-caption">Status</label>
+          <select class="form-control sel-control" id="status" name="status" multiple class="custom-select"
+            data-placeholder="Select Status...">
+            <!-- {% comment %} <option value="All" >All</option> {% endcomment %}
+            {% comment %} <option value="1" >Complete</option> {% endcomment %}
+            {% comment %} <option value="2" >Partial</option> {% endcomment %} -->
+            <option value="Closed">Closed Compliances</option>
+            <option value="Pending">Pending Compliances</option>
+
+            <!-- {% comment %} <option value="4" >Closed Compliance</option>
+            <option value="3" >Fully Compliance</option>
+            <option value="1" >Pending Compliance</option>
+            <option value="2" >Partially Compliance</option> {% endcomment %} -->
+
+          </select>
+        </div>
+
+
+        <div class="col form-group">
+          <label for="date" class="lbl-caption">Date Range</label>
+          <input class="form-control " id="created_on" name="created_on" autocomplete='off'
+            placeholder='Select Daterange' style="margin-top:0em; background-color: #fff;" readonly>
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- 
+          {% comment %} <button type="button" onclick="myFunction()" style="margin-top:25px;height:3em;width:5em;" 
+          class="btn btn-success btn-sm">Continue</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="button" style="margin-top:25px;height:3em;width:5em;" 
+          class="btn btn-secondary btn-sm"  onclick='reset_data()'>Reset</button> {% endcomment %} -->
+
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-10">
+          <div class="row">
+            <div class="col-sm-3 lbl-caption" style="padding-left: 1em;padding-top:.5rem;">
+            
+              <input type="checkbox" style="width:40%; height:40%" id="check">Search from Insp. Para 
+            </div>
+
+            <div class="col-7 p-0" id='search_text' style="margin-left: 1em;">
+
+              <input type="text" class="form-control" id="query_text" name="query" placeholder='Search  text from Insp. Para'>
+
+
+
+              {% comment %} 
+              <div class="col-sm-6">
+                <button type="submit" style="height:3em;width:6em;" class="btn btn-success btn-sm">Search</button>
+              </div> {% endcomment %}
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-2" >
+          <div class="btn-toolbar" role="toolbar" style="padding-top:1rem;">
+            <div class="btn-group" role="group">
+
+              <button type="button" onclick="myFunction()"  class="btn btn-warning btn-sm"
+                id='search_ob'>Continue
+              </button>
+
+              <a class="btn btn-secondary btn-sm" href="/search_location/">Reset</a>
+                    {% comment %} 
+                    <button  type="button"  style="margin-top:2em; " class="btn btn-secondary" id="insp_clear">Reset</button> 
+                    {% endcomment %}
+
+                    {% comment %} 
+                    <button type="button" style="height:3em;width:5em;margin-right: 7em;" class="btn btn-secondary btn-sm"  onclick='reset_data()'>Reset</button>
+                    {% endcomment %}
+            </div>
+
+          </div>
+          <br>
+        </div>
+
+      </div>
+
+
+      <!-- {% comment %} <div class="col-sm-6">
+          <button type="button" onclick="myFunction()"
+          class="btn btn-success btn-sm">Continue</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="button" 
+          class="btn btn-secondary btn-sm"  onclick='reset_data()'>Reset</button>
+        </div> {% endcomment %} -->
+
+    </form>
+  </div>
+
+
+</div>
+{% comment %}
+<div class="container">
+  <div class="inpt-container" id="container1">
+    <div class="row" style="margin-left: 1em; margin-right: 5em;">
+
+      <div class="col form-group">
+        <label for="rly_id" class="lbl-caption">Created Inspection:</label>
+        <p id="total_count"></p>
+      </div>
+
+      <div class="col form-group">
+        <label for="div_id" class="lbl-caption">Pending Inspection:</label>
+        <p id="pending"></p>
+    
+
+      </div>
+
+
+
+
+      <div class="col form-group">
+        <label for="designation" class="lbl-caption">Closed Inspection:</label>
+        <p id="closed"></p>
+      </div>
+
+
+      <div class="col form-group">
+        <label for="status" class="lbl-caption">Overdue Count:</label>
+        <p id="overdue_count"></p>
+      </div>
+
+  
+      <div class="col form-group">
+        <label for="date" class="lbl-caption">Marked Count:</label>
+        <p id="marked_count"></p>
+
+      </div>
+
+
+ 
+
+    </div>
+  </div>
+</div>
+{% endcomment %}
+
+<!-- <div class="col-sm-2s" id="myinsp5">
+  <div class="card h-100">
+    <div class="card-body" style="padding: 0%; background-color: rgb(255, 255, 147);">
+      <h6 class="card-title fw-bold text-center pt-1 pb-1 m-0" style="background-color:  #ffcf4a;">Insp/Para</h6>
+       <h6 class="card-title fw-bold text-center pt-1 pb-1 m-0" style="background-color:  #ffcf4a;">Marked Officer</h6> -->
+      <!-- <div class="container-fluid" style="background-color: rgb(255, 255, 147);">
+        <div class="row no-glutters pb-0">
+          <div class="col text-center card-text">
+
+            <div class="container-fluid">
+              <div class="col-sm-6" style="background-color: rgb(249, 249, 104); width: 50%;">
+                <div class="col card-text">Created</div>
+              </div>
+              <div class="row no-glutters text-center">
+                <div class="col card-text font-weight-bold">
+                  <a role="button" href="{% url 'compliance_form_accept' %}?data3={{color}}&daterange={{daterange}}"
+                    target="_blank" style="color: rgb(234, 10, 10);" data-toggle="tooltip"
+                    title="Total Inspection/Total Items Count)">{{repliedi}}/</a>
+                  <a role="button"
+                    href="{% url 'pending_forme' %}?data=repliedj&data3={{color}}&daterange={{daterange}}"
+                    target="_blank" style="color: rgb(234, 10, 10);" data-toggle="tooltip"
+                    title="Total Inspection/Total Items Count">{{repliedj}}</a>
+                </div>
+              </div>
+
+
+            </div>
+          </div> -->
+
+          
+
+          <!-- <div class="col text-center">
+
+            <div class="container-fluid">
+              <div class="col-sm-4" style="background-color: rgb(249, 249, 104); width: 50%;">
+                <div class="col text-right card-text">Pending</div>
+              </div>
+              <div class="row no-glutters text-left">
+                <div class="col font-weight-bold">
+                  <a role="button" href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}"
+                    target="_blank" style="color: rgb(234, 10, 10);" data-toggle="tooltip"
+                    title="Total Inspection/Total Items Count">{{pendingi}}/</a>
+                  <a role="button"
+                    href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                    target="_blank" style="color: rgb(228, 9, 9);" data-toggle="tooltip"
+                    title="Total Inspection/Total Items Count">{{pendingj}}</a>
+                </div>
+              </div> -->
+
+
+             <!-- </div>
+          </div>
+          <div class="col text-center card-text">
+
+            <div class="container-fluid">
+              <div class="col-sm-6" style="background-color: rgb(249, 249, 104);width: 50%;">
+                <div class="col card-text">Completed</div>
+              </div>
+              <div class="row no-glutters text-center ">
+                <div class="col card-text font-weight-bold">
+                  <p data-toggle="tooltip" title="Total Inspection/Total Items Count">
+                    {{replyi}}
+                    /{{replyj}}</p>
+                </div>
+              </div>
+
+              
+              <div class="text-center card-text">
+                
+                <div class="container-fluid">
+                  <div class="row-sm-1" style="background-color: rgb(249, 249, 104);width: 50%;">
+                    <div class="text-center card-text">Overdue</div>
+                  </div>
+                  <div class="row no-glutters text-center">
+                    <div class="col card-text font-weight-bold">
+                      <a role="button"
+                href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                style="color: rgb(234, 10, 10);" data-toggle="tooltip"
+                title="Total Inspection/Total Items Count">{{pendingi}}/</a>
+              <a role="button"
+                href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                target="_blank" style="color: rgb(228, 9, 9);" data-toggle="tooltip"
+                title="Total Inspection/Total Items Count">{{pendingj}}</a>
+                </div>
+                  </div>
+              </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  -->
+
+   
+
+
+    <!-- {% comment %} 
+<form action="{% url 'keyword_location_search' %}"  method="POST" id='indexForms'>
+  {% csrf_token %}
+
+  <div class="col" style="margin-left: 5em; margin-right: 5em;">
+    <input type="checkbox" id="check"> Observation Search</legend>    
+  </div>
+
+  &nbsp;
+  &nbsp;
+
+  <div class="row" id ='search_text' style="margin-left: 5em; margin-right: 5em; display:none;">
+
+      <div class="col-sm-6 form-group" >
+        <input class="form-control" id="query" name="query"
+        class="custom-select">
+          
+      </div>
+
+        <div  class="col-sm-6 form-group" >
+          <button type="submit" style="height:3em;width:6em;" 
+          class="btn btn-success btn-sm" >Search</button>
+        </div> 
+  </div>
+
+
+
+</form>
+ {% endcomment %} -->
+
+    <!-- <form method='POST'  class="form-inline my-2 my-log-0">
+      {% csrf_token %}
+      <div class="row" style="margin-left: 15em; margin-right: 15em;">
+
+        <div class="col-sm-6 form-group">
+          <label for="location_description" >Keyword Search</b></label>
+          <input class="form-control" id="query" name="query"
+           class="custom-select">
+             
+      </div>
+      <div class="col-sm-6 form-group">
+        <label for="location_description" >Search By Person</b></label>
+        <input class="form-control" id="location_description" name="location1" class="custom-select"
+       value='{{q}}' >
+
+           
+      </div>
+
+      <div class="row" style="margin-left: 10em; margin-right: 10em;">
+        <div  class="col-sm-2s form-group pull-right" >
+          <button type="submit" value="Submit" style="margin-top:2.7em;height:3em;width:6em;" 
+          class="btn btn-success btn-sm pull-right">Submit</button>
+        </div>
+      </div>
+  
+
+  
+       
+ 
+        
+    </div>
+
+      </form> -->
+
+
+    <!-- <div class="row" style="margin-left: 20em; margin-right: 20em;">
+        <div  class="col-sm-2s form-group pull-right" >
+          <label ></label>
+          <button  type="submit"  name="zone_loc_submit"  style="margin-top:2.7em;height:3em;width:6em;" class="btn btn-success btn-sm pull-right" >Submit</button>
+        </div>
+     </div> -->
+
+
+
+
+    <!-- Search Location modal -->
+  
+    <div class="modal left fade" id="Search_Modal" tabindex="-1" role="dialog" aria-labelledby="MOM_ModalLabel"
+      aria-hidden="true">
+
+      <div class="modal-dialog modal-lg" role="document" style='width:60%;'>
+        <div class="modal-content modal-content-full-width ">
+          <!-- <div class="modal-header modal-header-full-width ">
+            {% comment %} <h3 class="modal-title w-800 text-center" id="MOM_ModalLabel">Search Inspection Report Data</h3><br> {% endcomment %}
+            <h3 style="font-family: 'Lato', sans-serif;" id="MOM_ModalLabel"> 
+               <center><b>Inspection Report</b></center>
+            </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          </div> -->
+
+          <div class="modal-body" style="text-align: left;">
+
+            <div class="row">
+
+              <div id="preview_mom_pdf">
+
+                <!-- <a class="btn btn-primary" target="_blank" id="aiframetest1" style="float:right">
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i></a> -->
+
+                <iframe id="iframepreview" style="width:900px; height:900px;" frameborder="0"></iframe>
+              </div>
+
+            </div>
+
+          </div><!--  Modal Body -->
+          <div class="modal-footer modal-footer-full-width">
+            <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+          </div><!-- Modal Footer-->
+        </div>
+      </div>
+    </div>
+    <!-- Search Location Modal -END -->
+
+
+
+
+    <!-- Search InSP Para modal -->
+
+    <div class="modal left fade" id="Insp_Modal" tabindex="-1" role="dialog" aria-labelledby="Insp_ModalLabel"
+      aria-hidden="true">
+
+      <div class="modal-dialog modal-lg" role="document" style='width:60%;'>
+        <div class="modal-content modal-content-full-width ">
+          <div class="modal-header modal-header-full-width ">
+            {% comment %} <h3 class="modal-title w-800 text-center" id="MOM_ModalLabel">Search Inspection Report Data
+            </h3><br> {% endcomment %}
+            <h3 style="font-family: 'Lato', sans-serif;" id="Insp_ModalLabel">
+              <center><b>Search Insp Para Data</b></center>
+            </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body" style="text-align: left;">
+            <div class="row">
+
+              <div id="preview_insp_pdf">
+                <!-- <a class="btn btn-primary" target="_blank" id="aiframetest11" style="float:right">
+            <i class="fas fa-arrow-right" aria-hidden="true"></i></a> -->
+
+
+
+                <iframe id="iframepreviews" style="width:900px; height:900px;" frameborder="0"></iframe>
+              </div>
+            </div>
+          </div><!--  Modal Body -->
+          <div class="modal-footer modal-footer-full-width">
+            <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+          </div><!-- Modal Footer-->
+        </div>
+      </div>
+    </div>
+    <!-- Search Inss Para modal End -->
+
+
+
+
+
+    <form action="{% url 'search_location' %}" method="POST" id='indexForm'>
+      {% csrf_token %}
+      <div id="tablediv" class="box-body no-padding" style="margin-left: 5em; margin-right: 5em;">
+        <table id="tableid" name="tableid" class="table table-striped table-bordered table-sm table-data "
+          cellspacing="0">
+          <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+
+            <tr>
+              <th>S.No.</th>
+              <th>Insp. Date </th>
+              <th>Insp. Note No.</th>
+
+              <th>Insp. Rly./Org.</th>
+              <th>Insp. Div./Unit</th>
+              {% comment %} <th>Department</th> {% endcomment %}
+              <th>Insp. Note</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+
+          </tbody>
+
+        </table>
+
+        <!-- /.box-body -->
+
+      </div>
+      <div id='tabledivs' class="box-body no-padding" style="margin-left: 5em; margin-right: 5em;">
+        <table id="tableids" name="tableids" class="table table-striped table-bordered table-data " cellspacing="0">
+          <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+
+            <tr>
+              <th>S.No.</th>
+              <th>Insp. Date</th>
+              <th>Insp. Para</th>
+              <th>Insp. By</th>
+              <th>Insp. Note</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+
+
+          </tbody>
+
+        </table>
+
+        <!-- /.box-body -->
+
+      </div>
+
+    </form>
+
+
+    {% comment %}
+    <form id='indexForm'>
+      {% csrf_token %}
+      <div class="box-body no-padding" style="margin-left: 5em; margin-right: 5em;">
+        <table id="tableid" name="tableid" class="table table-striped table-bordered table-sm viewsss " cellspacing="0">
+          <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+
+
+            <tr>
+              <th>Sr No.</th>
+              <th>Result</th>
+              <th>Inspection Note No</th>
+              <th>Date</th>
+              <th>Done By</th>
+
+              <th>View</i></th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {%for i in des_location %}
+
+            <tr>
+              <td> {{forloop.counter}}</td>
+              <td> {{i.observation}}</td>
+              <td> {{i.inspection_no_id__inspection_note_no}}</td>
+              <td> {{i.modified_on}}</td>
+              <td> {{i.modified_by}}</td>
+              <td> <span class="btn-group"><a href="{% url 'inspectionReportPdf' i.inspection_no %}" target="blank"
+                    style="color: inherit"><i class="fa fa-eye"></i> pdf view</i></a></span></td>
+            </tr>
+
+            {% endfor %}
+
+
+
+
+          </tbody>
+          <br>
+          <br>
+          <br>
+
+        </table>
+
+        <br>
+        <!-- /.box-body -->
+
+      </div>
+
+    </form>
+
+    <script>
+      $(document).ready(function () {
+        $('.viewsss').DataTable({
+
+        });
+      });
+
+    </script> {% endcomment %}
+
+
+
+    <script>
+
+
+
+      $(document).ready(function () {
+        $('#location_code').select2();
+      });
+      $(document).ready(function () {
+        $('#location_type').select2();
+      });
+      $(document).ready(function () {
+        $('#dept').select2();
+      });
+      $(document).ready(function () {
+        $('#designation').select2();
+      });
+      $(document).ready(function () {
+        $('#status').select2();
+      });
+
+      {% comment %}
+      $(function () {
+
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+          $('#created_on span').html(start.format('MM-D-YY') + ' ' + end.format('MM-D-YY'));
+        }
+
+        $('#created_on').daterangepicker({
+          startDate: start,
+          endDate: end,
+          ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          }
+        }, cb);
+
+        cb(start, end);
+
+      });  {% endcomment %}
+
+      $(function () {
+
+        $('input[name="created_on"]').daterangepicker({
+          autoUpdateInput: false,
+          autoApply: true,
+          maxDate: new Date(),
+          "opens": "left",
+          locale: {
+            cancelLabel: 'Clear'
+          }
+        });
+
+
+
+
+        $('input[name="created_on"]').on('apply.daterangepicker', function (ev, picker) {
+          $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+
+          if (picker.startDate.format('DD/MM/YY') == picker.endDate.format('DD/MM/YY')) {
+            $(this).val(picker.startDate.format('DD/MM/YY'))
+          }
+          else {
+            $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+
+          }
+
+          $('.applyButtonClasses').click()
+
+
+        });
+
+        $('input[name="created_on"]').on('cancel.daterangepicker', function (ev, picker) {
+          $(this).val('');
+        });
+
+      });
+
+
+
+
+      $("#location_type").change(function () {
+        var groupss = $('#location_type').val();
+        data = {
+          'groupss': JSON.stringify(groupss),
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'search_desig_ajax' %}",
+          dataType: 'json',
+          data: data,
+
+          success: function (response) {
+            //alert("hereeee")
+            // console.log('0000000000', response)
+            $("#designation").find('option').remove();
+            $('#designation').append();
+            //$("#designation").find('option').remove();
+            for (i = 0; i < response.ins.length; i++) {
+              $('#designation').append(`<option value="${response.ins[i]}">${response.ins[i]}</option>`);
+
+            }
+          }
+        });
+      })
+
+      function location_change_add() {
+        //alert('hellkkkk')
+        var root = $('#location_type').val();
+        data = {
+          'root': JSON.stringify(root),
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'search_des_loc_ajax' %}",
+          dataType: 'json',
+          data: data,
+          success: function (response) {
+            //alert("hereeee")
+            // console.log('0000000000', response)
+            $("#location_code").find('option').remove();
+            $('#location_code').append();
+            for (i in response.ins) {
+              $('#location_code').append(`<option selected value="${response.ins[i]}">${response.ins[i]}</option>`);
+
+            }
+          }
+        });
+
+      }
+
+      $("#location_code").change(function () {
+        var group = $('#location_code').val();
+        // alert(group)
+        //alert("heree")
+        data = {
+          'group': JSON.stringify(group),
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'search_locat_ajax' %}",
+          dataType: 'json',
+          data: data,
+          success: function (response) {
+            //alert("hereeee")
+            // console.log(response)
+            $("#location_type").find('option').remove();
+            $('#location_type').append();
+            for (i = 0; i < response.ins.length; i++) {
+              $('#location_type').append(`<option value="${response.ins[i]['location_code']}-${response.ins[i]['location_type']}" >${response.ins[i]['location_code']}-${response.ins[i]['location_type']}</option>`);
+
+            }
+            $("#designation").find('option').remove();
+            $('#designation').append();
+            //$("#designation").find('option').remove();
+            for (i = 0; i < response.insdesig.length; i++) {
+              $('#designation').append(`<option value="${response.insdesig[i]}">${response.insdesig[i]}</option>`);
+
+            }
+          }
+        });
+      })
+
+
+
+
+
+      //show data in 
+
+
+
+      $('#tablediv').hide();
+      $('#tabledivs').hide();
+
+      var table = $('#tableid').DataTable();
+      var table1 = $('#tableids').DataTable();
+      function myFunction() {
+        //if ("#indexForms" ==true) {
+
+        count = 0;
+        //document.getElementById("#myFunction");
+        var location_code = $('#location_code').val()
+        var location_type = $('#location_type').val()
+        var designation = $('#designation').val()
+        var dept = $('#dept').val()
+        var created_on = $('#created_on').val()
+        var status = $('#status').val()
+        var query = $('#query').val()
+        //alert(query)
+
+        // console.log(location_code, location_type, designation, dept, created_on, status, query);
+        data = {
+          'location_code': JSON.stringify(location_code),
+          'location_type': JSON.stringify(location_type),
+          'designation': JSON.stringify(designation),
+          'dept': JSON.stringify(dept),
+          'created_on': created_on,
+          'status': JSON.stringify(status),
+          'query': query
+
+        }
+        $.ajax({
+          type: 'GET',
+          url: "{% url 'fetch_desig_ajax' %}",
+          dataType: 'json',
+          data: data,
+          //data:{location_code,location_type,designation,dept,created_on},
+
+          success: function (response) {
+            table.destroy();
+            table1.destroy();
+            if (query == '') {
+
+              // alert("inside alert")
+              $('#tableid tbody').empty();
+
+              count = 1;
+              //myhtml = '';
+              let myhtml2 = '';
+
+              //console.log(response,"$$$$$$$$")
+
+
+              $('#tableid tbody').empty();
+
+
+              for (i = 0; i < response.ins.length; i++) {
+
+                //console.log("@@@@@@@@@@");
+                let rly = ''
+                let div = ''
+                let dep = ''
+
+                for (j in response.ins[i].location_item) {
+                  //console.log(response.ins[i].location_item)
+                  if (response.ins[i].location_item[j].type == 'HQ')
+                    rly += '<span>' + response.ins[i].location_item[j].item + '<br></span>'
+                  else if (response.ins[i].location_item[j].type == 'DIV')
+                    div += '<span>' + response.ins[i].location_item[j].item + '<br></span>'
+                  else if (response.ins[i].location_item[j].type == 'DPT')
+                    dep += '<span>' + response.ins[i].location_item[j].item + '<br></span>'
+
+
+                }
+
+                // console.log(response.ins[i].status_flag)
+                //if( response.ins[i].status_flag=1){
+                myhtml2 += '<tr>'
+                myhtml2 += ' <td>' + [i + 1] + '</td>'
+                myhtml2 += ' <td>' + formatDate(response.ins[i].inspected_on) + '</td>'
+                myhtml2 += ' <td>' + response.ins[i].inspection_note_no + '</td>'
+                myhtml2 += ' <td>' + rly + '</td>'
+                myhtml2 += ' <td>' + div + '</td>'
+
+                if (response.ins[i].status_flag == 4) {
+                  myhtml2 += ' <td id=' + response.ins[i].inspection_no + ' onclick="search_modal_view(this);"> <a title="Click to view details" href="#"  target="blank" data-toggle="modal" data-target="#Search_Modal" class="stretched-link"> <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px; color:green;" > </i> </a> </td>'
+                } else {
+                  myhtml2 += ' <td id=' + response.ins[i].inspection_no + ' onclick="search_modal_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Search_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;color:red;"> </i> </a> </td>'
+                }
+
+                myhtml2 += '</tr>'
+
+              }
+              //href="/inspectionReportPdf/'+response.ins[i].inspection_no+'/" 
+              //<th style="font-weight:normal; padding-left:10px; padding-right:0px;" data-toggle="modal" data-target="#Search_Modal" onclick="mom_modal_view('{{i.mom_no}}')"><a href="#" style="color:blue">{{i.mom_date|date:"d/m/y"}}</a></th>
+              //myhtml2 += ' <td> <a title="Click to view details" href="/inspectionReportPdf/'+response.ins[i].inspection_no+'/"  target="blank"> <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px; color:green;" > </i> </a> </td>'
+
+
+
+              $('#tableid tbody').append(myhtml2);
+              $('#tablediv').show();
+
+              //$('#tableid').DataTable(); 
+              table = $('#tableid').DataTable();
+              $('#tabledivs').hide();
+
+
+              //table=$('#tableid').DataTable(); 
+
+              // $("#total_count").html(response.total_created)
+              // $("#closed").html(response.closed)
+              // $("#pending").html(response.pending)
+              // $("#marked_count").html(response.marked_count)
+              // $("#overdue_count").html(response.overdue_count)
+              
+              
+            }
+
+            else {
+              $('#tableids tbody').empty();
+
+              let row = "";
+              // console.log(response.listsearch)
+              //   alert(response.inspect_details.length)
+              for (let i = 0; i < response.listsearch.length; i++) {
+
+                row += "<tr>";
+                row += `<td>${i + 1}</td>
+            <td>${response.listsearch[i].inspection_no_id__inspected_on}</td>
+
+            <td><a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top"
+               title="${response.listsearch[i].observation}">
+               ${response.listsearch[i].observation.slice(0, 50)}
+              </a></td>
+
+            <td>${response.listsearch[i].inspection_no_id__inspection_officer_id__designation}</td>`
+                if (response.listsearch[i].inspection_no_id__status_flag == 4) {
+                  // alert("gf")
+                  row += `<td id=${response.listsearch[i].inspection_no_id} onclick="search_insp_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;color:green"> </i> </a> </td>`
+                } else {
+                  // alert("gf");
+                  // console.log(response.listsearch[i].inspection_no_id);
+                  row += `<td id=${response.listsearch[i].inspection_no_id} onclick="search_insp_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;color:red "> </i> </a> </td>`
+                  // console.log("hg")
+                }
+                // row += `<td id=${response.listsearch[i].inspection_no_id} onclick="search_insp_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;"> </i> </a> </td>`
+
+
+                row += "</tr>";
+              }
+              // alert("kjf")
+              //$('#tableid').append(head);
+              //$('#tableid tbody').empty();
+              $('#tableids tbody').append(row);
+              table1 = $('#tableids').DataTable();
+              $('#tablediv').hide();
+              $('#tabledivs').show();
+              // alert("DNJF")
+            }
+
+          }
+        });
+      }
+
+      /*}
+    else {
+     document.getElementById("#indexForms" ==true)
+    }
+    
+    }
+    */
+
+
+
+
+
+    </script>
+
+    {% comment %} clear button {% endcomment %}
+
+    <script>
+
+      function reset_data() {
+        $.ajax
+          ({
+            url: "{% url 'reset_data' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            success: function (response) {
+              change_div = response.change_div;
+              change_rly = response.change_rly;
+              change_dept = response.change_dept;
+              change_designation = response.change_designation;
+              change_status = response.change_status;
+              change_date = response.change_date;
+
+              $('#location_code').empty();
+              $('#location_code').append(`<option value="">All</option>`);
+              $('#location_type').empty();
+              $('#location_type').append(`<option value="">All</option>`);
+              $('#designation').empty();
+              $('#designation').append(`<option value="">All</option>`);
+              $('#dept').empty();
+              $('#dept').append(`<option value="">All</option>`);
+              $('#status').empty();
+              $('#status').append(`<option value="">All</option>`);
+              $('#created_on').empty();
+              $('#created_on').append(`<option value="">All</option>`);
+
+              for (let i = 0; i < change_div.length; i++) {
+                $('#location_code').append
+                (
+                  `<option value="${change_div[i]}">${change_div[i]}</option>`
+                );
+              }
+              for (let i = 0; i < change_rly.length; i++) {
+                $('#location_type').append
+                (
+                  `<option value="${change_rly[i]}">${change_rly[i]}</option>`
+                );
+              }
+              for (let i = 0; i < change_dept.length; i++) {
+                $('#dept').append
+                (
+                  `<option value="${change_dept[i]}">${change_dept[i]}</option>`
+                );
+              }
+
+              for (let i = 0; i < change_designation.length; i++) {
+                $('#designation').append
+                (
+                  `<option value="${change_designation[i]}">${change_designation[i]}</option>`
+                );
+              }
+
+              for (let i = 0; i < change_status.length; i++) {
+                $('#status').append
+                (
+                  `<option value="${change_status[i]}">${change_status[i]}</option>`
+                );
+              }
+              for (let i = 0; i < change_date.length; i++) {
+                $('#created_on').append
+                (
+                  `<option value="${change_date[i]}">${change_date[i]}</option>`
+                );
+              }
+
+
+            }
+          })
+      }
+
+    </script>
+
+    <script>
+
+      $(document).ready(function () {
+
+      });
+
+    </script>
+
+
+    <script>
+      $("#check").click(function () {
+        var value = $("#check").is(':checked');
+        if (value) {
+          // console.log("inside value")
+          $("#query_text").removeAttr("disabled");
+          $("#query_text").focus();
+        }
+        else {
+          // console.log('insode else')
+          $("#query_text").val('');
+          $("#query_text").attr("disabled","disabled");
+        }
+      });
+
+
+      $(document).ready(function () {
+
+        $("#query_text").attr("disabled","disabled");
+        $('.js-btn-tooltip').tooltip();
+
+        $('.js-btn-tooltip--custom-alt').tooltip({
+          customClass: 'tooltip-custom-alt'
+        });
+
+      });
+    </script>
+
+    <script>
+      function formatDate(date) {
+        var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+        if (month.length < 2)
+          month = '0' + month;
+        if (day.length < 2)
+          day = '0' + day;
+        let newyear = String(year).slice(2, 5)
+        return [day, month, newyear].join('/');
+      }
+
+
+    </script>
+
+
+
+    <script>
+      function search_modal_view(e) {
+        //alert(e.id)
+        file = "/inspectionReportPdf/" + e.id;
+        $('#iframepreview').attr('src', file);
+
+        $('#aiframetest1').attr('href', file);
+      }
+    </script>
+
+
+    <script>
+      function search_insp_view(e) {
+        //alert(e.id)
+        file = "/inspectionReportPdf/" + e.id;
+        $('#iframepreviews').attr('src', file);
+        $('#aiframetest11').attr('href', file);
+      }
+    </script>
+
+
+
+    {% endblock %}

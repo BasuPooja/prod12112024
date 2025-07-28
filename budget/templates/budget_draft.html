@@ -1,0 +1,342 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<!-- <link rel="stylesheet" href="jquery.dropdown.css"> -->
+<script src="jquery.dropdown.js"></script>
+<!-- Include the plugin's CSS and JS: -->
+
+<script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css" />
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<link rel="stylesheet" type="text" href="{% static '/bootstrap-5.1.3-dist/css/font-awesome.min.css'%}">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/bootstrap.min.css' %}">
+
+<link href="{% static '/css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+<script src="{% static '/js/bootstrap-toggle.min.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/select2.min.css' %}">
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/quicksand.css' %} ">
+
+<link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+
+<script src="{% static 'js/timepicker.js' %}"></script>
+<!-- <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" /> -->
+
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<!-- Select2 CSS -->
+
+<!-- jQuery -->
+<script src="{% static '/js/jquery.min4.js' %}"></script>
+
+<!-- Select2 JS -->
+<script src="{% static '/js/select2.min.js' %}"></script>
+<!-- Load icon library -->
+<link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+<!-- multiple selesct marked officer -->
+
+<link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+<script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+<link href="{% static '/css/jquery.dataTables.min.css' %}" rel="stylesheet" />
+<!-- Sheets for datepicker for target date -->
+
+<link rel="stylesheet" href="{% static '/css/jquery-ui.css' %}">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="{% static '/js/jquery-ui.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/css/lato.css' %} ">
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+<link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+
+
+<!-- Makes problem in marked officer field -->
+<!-- Pagination Link -->
+<!-- <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com//ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Quicksand', sans-serif;
+        ;
+        height: 100%;
+        margin: 0;
+    }
+
+
+
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 40%;
+        text-align: center;
+        background-color: #4CAF50;
+
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+        text-align: center;
+    }
+
+
+    input[type=button]:hover {
+        background-color: #45a049;
+        text-align: center;
+    }
+
+    /* #viewbtn{
+ margin-left:1050px;
+ } */
+
+    .inputtag {
+        height: 20px;
+    }
+
+    .button {
+        padding: 15px 25px;
+        font-size: 12px;
+        text-align: center;
+        margin-left: 2em;
+        cursor: pointer;
+        outline: none;
+        color: #fff;
+        background-color: #04AA6D;
+        border: none;
+        border-radius: 15px;
+
+    }
+
+    .button:hover {
+        background-color: #3e8e41
+    }
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+</style>
+<style>
+    #viewbtn {
+        margin-left: 1200px;
+        margin-right: 10px;
+    }
+
+    .row {
+        display: grid;
+        grid-auto-flow: column;
+    }
+
+
+    /*modal styling*/
+
+    .modal.right .modal-dialog {
+        position: fixed;
+        /* display: grid;
+        column-gap: 50px; */
+
+        margin: auto;
+        width: 80%;
+        height: 100%;
+        -webkit-transform: translate3d(0%, 0, 0);
+        -ms-transform: translate3d(0%, 0, 0);
+        -o-transform: translate3d(0%, 0, 0);
+        transform: translate3d(0%, 0, 0);
+    }
+
+    .modal.right .modal-content {
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .modal.right .modal-body {
+        max-height: 100%;
+        padding: 10px 10px 10px;
+    }
+
+    .modal.right.fade .modal-dialog {
+        right: -320px;
+        -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    .modal.right.fade.show .modal-dialog {
+        right: 0;
+    }
+
+    .modal-content {
+        border: solid !important;
+        border-width: 1px !important;
+        border-radius: 0;
+        border: none;
+    }
+
+    .modal-header {
+        background-color: #343A40 !important;
+        color: #fff;
+        border-radius: inherit;
+        border-bottom-color: #EEEEEE;
+        background-color: #FAFAFA;
+    }
+
+    .modal-lg {
+        max-width: 70% !important;
+    }
+
+
+
+    /* Add Animation */
+    @-webkit-keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes animatetop {
+        from {
+            top: -300px;
+            opacity: 0
+        }
+
+        to {
+            top: 0;
+            opacity: 1
+        }
+    }
+
+    /* The Close Button */
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+
+<body>
+    <h3 class="report_heading">Draft Budget</h3>
+    <br>
+    
+    <div style="margin-left: 3em;" class="col-sm-11">
+        <table id="createTable" class="table table-striped table-bordered center table-data"
+            style="margin-left: auto; margin-right: auto;">
+            <thead>
+                <tr>
+                    <th> S.No. </th>
+                    <th> Budget Para</th>
+                    <th> Action Point</th>
+                    <th> Concerned Officer</th>
+                    <th> Action </th>
+                    <th> Status </th>
+                    <th> Command </th>
+                </tr>
+            </thead>
+            <tbody id="addworkpara">
+                {% for i in dataList %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.specific_action_id__budget_id__title}} [{{i.specific_action_id__budget_id__financial_year}}/{{i.specific_action_id__budget_id__para_no}}]</td>
+                    <td>{% if i.specificAction %}{{i.specificAction}}{% endif %}</td>
+                    <td>{{i.marked_officer_id__designation}}</td>
+                    <td>{{i.specific_action_id__budget_id__action}}</td>
+                    <td>{% if i.specific_action_id__sub_specific_action %}{{i.specific_action_id__sub_specific_action}}{% endif %}</td>
+                    <td style="white-space: nowrap;">
+                        <button type="button" class="btn btn-outline-primary" id="{{i.specific_action_id__budget_id_id}}" onclick="open_budget(this)"><i class="fas fa-edit"></i></button> &nbsp;
+                        <button type="button" class="btn btn-outline-danger" id="{{i.specific_action_id__budget_id_id}}"onclick="delete_budget(this)" ><i class="fas fa-trash-alt"></i></button>
+                      </td>
+
+                </tr>
+                {% empty %}
+                <td colspan="7" style="text-align: center;"> No Data Found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+$('#createTable').show();
+
+table = $('#createTable').DataTable({
+    lengthMenu: [10, 25, 50, 100],
+    dom: '<"search"f><"top"l>rt<"bottom"ip><"clear">',
+});
+
+    $( document ).ready(function() {
+        $('#mytable').DataTable();
+});
+
+
+function open_budget(e)
+{
+    var budget_id=e.id;
+    alert(budget_id);
+    window.open("/create_budget_form?budget_id="+budget_id)
+    
+   
+}
+function delete_budget(el){
+    const budget_id = el.id
+    $.ajax({
+      url: '{% url "delete_budget_fun" %}',
+      method: 'GET',
+      dataType: 'json',
+      async: false,
+      data: {budget_id},
+      success: function(res){
+        alert('Budget deleted successfully!')
+        window.location.reload()
+      }
+    })
+  }
+
+  
+</script>
+{% endblock %}

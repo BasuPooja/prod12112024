@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<style>
+
+
+    
+     @page {
+        size: A4 portrait;
+        margin: 1cm;
+        }
+
+  body{
+    display: grid;
+  grid-template-columns: min-content 1fr;
+  }
+.botline{
+
+    padding-top: 40px;
+    padding-left: 5px;
+     
+}
+.headings{
+    border:0;
+}
+
+.data th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding-top: 5px;
+    
+
+  }
+
+  /* tr:nth-child(even) {
+  background-color: #D6EEEE;
+} */
+</style>     
+<body>
+<table style="width: 30px;border:whitesmoke" id="Show1">
+    <tr> 
+       
+        <td colspan="3" style="text-align :center; font-size: 20px; border: none;"> <h1>Schedule Inspection of other officers</h1></td>
+        
+       
+        
+    </tr>
+</table>
+<br>
+<br>
+
+
+
+
+<table style="width: 30px;border:black ;">
+    <thead>
+       
+        <tr >
+           <b> <tr style="text-align: center; font-size: 13px; background-color: lightgrey; ">
+               
+               
+                <th scope="col">Insp. Date</th>
+                
+                <th scope="col">Rly./Org.</th>
+                <th scope="col">Div./Unit</th>
+                <th scope="col">Major Location</th>
+               
+                
+                <th scope="col">Status</th>
+             
+           </b> 
+            </tr>
+           
+        </tr>
+    </thead>
+    <tbody style="text-align: center;" id="Show1">
+        
+        {% for i in donor %}
+        <tr>
+           
+            
+            <td>{{i.date_to_act}}</td>
+           
+            <td>{{i.Railways_act}}</td>
+            <td>{{i.Division_act}}</td>
+            <td>{{i.location3_act}}</td>
+            
+            <td>{{i.status}}</td>
+           
+        </tr>
+        {%endfor%}
+    </tbody>
+    
+</table>
+
+
+</div>
+
+</body>
+</html>

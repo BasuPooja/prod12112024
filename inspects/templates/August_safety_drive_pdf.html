@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Inspection Report</title>
+</head>
+{% load static %}
+<style>
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+     table{
+        table-layout:fixed;
+        width:100%;
+     }
+     th{
+        font-size: 13px;
+     }
+
+    tbody td{
+        padding: 3px;
+        font-size: 13px;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        height: auto;
+        width: auto !important;
+        -ms-word-wrap: break-word !important;
+    }
+    span{
+        word-wrap: break-word !important;
+        overflow-wrap: break-word;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt;
+        
+    }
+    }
+   
+ 
+</style>
+<body>
+   
+        <!-- <b><h1 style="text-align: center; font-size: 18px; padding-top: 40px;">August Safety Drive Inspection Report</h1></b> -->
+        <div>
+            <br>
+            <br>
+            <br>
+            {% for d in data %}
+                <!-- <p>
+                            <h5>Inspection by:</h5>
+                            <pre>{{d.officer_name}}<br>{{d.officer_desig}}</pre>
+                            <br>
+                            <h5>Date of Inspection: {{d.insp_date}}</h5>
+                            <br>
+
+                            <h5>Inspection Done at:</h5>
+                            <pre>{{d.place_of_insp}}<br>{{d.div_of_insp}}<br>{{d.zone_of_insp}}</pre>
+                            <br>
+
+                            <h5>Shortcomings Found:</h5>
+                            <pre>{{d.shortcomings}}</pre>
+                            <br>
+
+                            <h5>Action Taken:</h5>
+                            <pre>{{d.action_taken}}</pre>
+                            <br>
+
+                            <h5>Further Suggestions:</h5>
+                            <pre>{{d.comments}}</pre>
+                </p> -->
+                <table border="0.7">
+                    <thead>
+                        <tr>
+                            <th style="width:10%; text-align: center; background-color:#469ef7 ; padding-top:8px;">Sys. ID</th>
+                            <th style="width:10%; text-align: center; background-color:#469ef7 ; padding-top:8px;">Insp ID</th>                       
+                            <th style="width:30%; text-align: center; background-color:#469ef7 ; padding-top:8px;">Insp. Officer</th>
+                            <th style="width:30%; text-align: center; background-color:#469ef7 ; padding-top:8px;">Email Address</th>   
+                            <th style="width:20%; text-align: center; background-color:#469ef7 ; padding-top:8px;">Mobile Number </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align:left">
+                            <td>{{d.system_id}}</td>
+                            <td>{{d.inspection_id}}</td>
+                            <td>{{d.officer_name}}</td>
+                            <td>{{d.officer_email}}</td>
+                            <td>{{d.officer_mobile}}</td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <table border="0.7">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Officer Designation</th>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Post Grade</th>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Grade Code</th>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Posted In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align:left">
+                            <td>{{d.officer_desig}}</td>
+                            <td>{{d.officer_post_grade}}</td>
+                            <td>{{d.officer_grade_code}}</td>
+                            <td>{{d.officer_posted_in}}</td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <table border="0.7">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Insp. Date </th>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Place of Insp </th>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Rly./Org.</th>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Div./Unit</th>                             
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align:left">
+                            <td>{{d.insp_date_field | date:'d/m/y'}}</td>
+                            <td>{{d.place_of_insp}}</td>
+                            <td>{{d.zone_of_insp}}</td>
+                            <td>{{d.div_of_insp}}</td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <table border="0.7">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Insp. Type</th> 
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Shortcomings found during the Inspection</th>                            
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Action taken for addressing the shortcomings</th> 
+                            <th style="text-align: center; background-color:#469ef7 ; padding-top:8px;">Any other comment/ suggestion</th>                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align:left">
+                            <td>{{d.type_of_insp}}</td>
+                            <td>{{d.shortcomings}}</td>
+                            <td>{{d.action_taken}}</td>
+                            <td>{{d.comments}}</td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                {% if forloop.counter != data|length  %}
+                    <pdf:nextpage /> 
+                {% endif %}
+            {% endfor %}
+
+        </div>
+        
+        
+           <div id="footer_content"> Page <pdf:pagenumber> of <pdf:pagecount> </div>       
+      
+    
+</body>
+</html>

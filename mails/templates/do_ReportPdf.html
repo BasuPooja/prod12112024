@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin-top: 7cm;
+            margin-bottom: 1cm;
+            margin-left: 2cm;
+            margin-right: 2cm;
+
+            thead {
+                display: table-header-group;
+            }
+
+            @frame footer {
+                -pdf-frame-content: footerContent;
+                bottom: 0cm;
+                margin-left: 4cm;
+                margin-right: 4cm;
+                height: 2cm;
+            }
+
+            @frame header {
+                -pdf-frame-content: headerContent;
+                top: 0cm;
+                margin-top: 0cm;
+                margin-bottom: 0.5cm;
+                margin-left: 0cm;
+                margin-right: 0cm;
+                height: 8cm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div align="center">
+
+        <div id="headerContent">
+            {%block page_header%}
+            <div class="form_row">
+              <img style="width:100%;" src="C:/Users/Administrator/Documents/devMISI/static/crb_heading.jpg" />
+            </div>
+            <div class="form_row">
+                <table>
+            {% for i in data %}
+            <td style="text-align: left;margin-left: 70px;"><FONT face="Times New Roman"  size=16px><b>D.O. No:&nbsp;&nbsp;{{i.do_letter_no}}</b></FONT></td>
+            
+            <td style="text-align: right;margin-right: 120px;">
+                <FONT face="Times New Roman"  size=16px><b>{% if station in not null %} {{station}},{% endif %}&nbsp;Dated:&nbsp;&nbsp;{{i.do_letter_date | date:'d.m.Y'}}</b></FONT>
+                </td>
+            {% endfor %}
+        </table>
+            </div>
+            {%endblock%}
+        </div>
+
+
+
+    </div>
+    <table>
+        <tbody>
+            <tr>
+                <td style="width: 10%; text-align: right; margin: top 2px;"><FONT face="Times New Roman"  size=16px><b>Sub:</b></FONT></td>
+                <td style="width: 80%; text-align: left;"><FONT face="Times New Roman"  size=16px>{% for i in data %} {{i.subject}} {% endfor %}</FONT></td>
+                <td style="width: 10%;""></td>
+            </tr>
+            </tbody>
+    </table>
+   <br>
+   <br>
+    <div>
+        <FONT face="Times New Roman"  size=16px> <p>{% for i in data %} {{i.do_text}} {% endfor %}</p></FONT>
+    </div>
+    <div>
+        <FONT face="Times New Roman"  size=16px> <p style="margin-left: 50px;">With Best Wishes</p></FONT>
+    </div>
+
+  <br>
+    <table width="100%">
+        <tbody>
+            <tr> <td colspan="3"><p><FONT face="Times New Roman"  size=16px><b>DA:-</b>As above</FONT></p></td></tr>
+            <tr>
+               
+                <td style="width:20% ;text-align: left;">
+                <table>
+                    {% for i in data1 %}
+                    <tr>
+                        <td> 
+                            <FONT face="Times New Roman"  size=16px><b>
+                            {{i.emp_no.empname}}&nbsp;{{i.emp_no.empmname | default:'' }}&nbsp;{{i.emp_no.emplname | default:'' }}<br>
+                            {{i.desig_id.designation}}</b>
+                        </FONT>
+                            </td>
+                    </tr>
+                    {% endfor %}
+                </table>    
+                </td>
+                <td style="width:60% ;"></td>
+                <td style="width:20% ;text-align: center;"><FONT face="Times New Roman"  size=16px><b>({{name}})<br>{{desig}}</b></FONT></td>
+                
+            </tr>
+        </tbody>
+    </table>
+    <div id="footerContent" align="center">
+
+        <img  src="C:/Users/Administrator/Documents/devMISI/static/crb_footer.jpg" />
+
+    </div>
+</body>
+
+</html>

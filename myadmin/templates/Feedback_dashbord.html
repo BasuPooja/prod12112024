@@ -1,0 +1,492 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+  <title>Feedback Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+
+  <style>
+    .label-row {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .chart-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      justify-items: center;
+      padding: 10px;
+    }
+    
+    .chart-box {
+      width: 18%;
+      min-width: 250px;
+      max-width: 300px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      background: #fff;
+    }
+    
+    .chart-box canvas {
+      width: 100% !important;
+      height: 200px !important; 
+    }
+    .container1 {
+      font-family: 'Lato', sans-serif;
+      overflow-x: auto;
+      margin-top: 30px;
+      padding: 10px;
+      flex: 1 1 70%;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      min-width: 300px;
+      overflow-x: auto;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .table th {
+      background-color: #007BFF;
+      color: white;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .table td {
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid #007BFF;
+    }
+
+    .table th, .table td {
+      border: 1px solid #007BFF;
+      white-space: nowrap;
+    }
+
+    .selected-row {
+      background-color: #d9edf7 !important; 
+    }
+
+    #feedbackTable tbody tr {
+      cursor: pointer;
+    }
+    #feedbackTable tbody tr.active {
+      background-color: #d1ecf1 !important; 
+    }
+
+    .bar-chart-section {
+      flex: 1 1 70%;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      min-width: 300px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 100%;
+    }
+    
+    .bar-chart-box {
+      position: relative;
+      height: 400px;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .bar-chart-section {
+      display: flex;
+      flex-direction: row; 
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .highlighted-row {
+      background-color: #e7de55 !important; 
+    }
+
+    
+  </style>
+
+</head>
+
+<body>
+  <body>
+    <div class="container-fluid " >
+      <div class="row gy-4" style="padding-left:1%; padding-right: 1%;">
+            <div class="container-fluid rounded border border-info border-opacity-25 "
+              style="padding-bottom: 0.5%;padding-top: 0.5%;background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500); ">
+              <h3 class="font-weight-bold text-black float-justify text-center"> FEEDBACK DASHBOARD OVERVIEW</h3>
+  
+            </div>
+      </div>
+    </div>
+    <br>  
+
+    <div class="label-row" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; underline">
+      Rating Scale:
+      <div><span style="background-color:#a6d785; padding:5px 15px; border-radius:5px;">1</span></div>
+      <div><span style="background-color:#f5a9bc; padding:5px 15px; border-radius:5px;">2</span></div>
+      <div><span style="background-color:#f9d56e; padding:5px 15px; border-radius:5px;">3</span></div>
+      <div><span style="background-color:#90caf9; padding:5px 15px; border-radius:5px;">4</span></div>
+      <div><span style="background-color:#ffcc80; padding:5px 15px; border-radius:5px;">5</span></div>
+    </div>
+  
+    <div class="chart-container" id="chartContainer"></div>
+
+    <div style="display: flex; gap: 20px; padding: 0 2%; flex-wrap: wrap;">
+
+    <!-- Left Side: Table -->
+    <div class="container1" style="font-family:'Lato', sans-serif; overflow-x: auto; ">
+      <div class="table-section"> 
+        <table id="feedbackTable" class="display table table-striped table-bordered table-sm table-data style=border-spacing: 10px; width: 100%;" id="feedbackTable"> 
+          <thead style="background-color: #343a40; table-bordered  white-space: nowrap; color: white; text-align: left;">
+              <tr>
+                  <th>S.No.</th>
+                  <th style="padding: 10px;">Designation</th>
+                  <th style="padding: 10px;">Feedback Date</th>
+                  <th style="padding: 10px;">Suggestions</th>
+              </tr>
+          </thead>
+          {% if mydata %}
+          <tbody>
+              {% for row in mydata %}
+              <tr>
+                  <td>{{ forloop.counter }}</td> 
+                  <td style="padding: 10px;">{{ row.Designation }}</td>
+                  <td style="padding: 10px;">{{ row.reported_date|date:"d-m-Y" }}</td>
+                  <td style="padding: 10px;">{{ row.suggestions }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>No feedback data available.</p>
+        {% endif %}
+      </div>
+    </div>
+    
+    <!-- Right Side: Chart -->
+    <div class="bar-chart-section">
+      <div class="bar-chart-box">
+        <canvas id="barChartAll" width="1000" height="500"></canvas>
+      </div>
+    </div>
+</div>
+
+    <!-- Pie Chart-->
+    <script>
+      const barColors = [
+        "#a6d785",  
+        "#f5a9bc", 
+        "#f9d56e",  
+        "#90caf9",  
+        "#ffcc80"  
+      ];
+  
+      const fieldLabels = {
+        overall_experience: "Overall Experience",
+        inspection_accuracy: "Inspection Accuracy",
+        ui_design: "UI Design",
+        performance_speed: "Performance Speed",
+        application_smoothness: "App Smoothness",
+        dashboard: "Dashboard",
+        my_inspection: "My Inspection",
+        compliance_marked: "Compliance Marked",
+        mom: "MOM",
+        search: "Search",
+        copy_to: "COPY TO",
+        reports: "Reports"
+      };
+  
+      fetch("{% url 'feedback_chart_data' %}")
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById("chartContainer");
+  
+          Object.keys(data).forEach((key, index) => {
+            const chartBox = document.createElement("div");
+            chartBox.style.textAlign = "center";
+            chartBox.style.fontWeight = "bold";
+            chartBox.style.margin = "10px";
+            chartBox.style.width = "200px";
+            chartBox.style.display = "inline-block";
+            chartBox.textContent = fieldLabels[key];
+            chartBox.className = "chart-box";
+
+            const canvas = document.createElement("canvas");
+            canvas.id = `chart_${index}`;
+            canvas.style.width = "180px";
+            canvas.style.height = "180px";
+            canvas.style.margin = "auto";
+            chartBox.appendChild(canvas);
+            container.appendChild(chartBox);
+            
+            new Chart(canvas, {
+              type: "doughnut",
+              data: {
+                labels: ["1", "2", "3", "4", "5"],
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: data[key]
+                }]
+              },
+              options: {
+                plugins: {
+                  legend: {
+                    display: false
+                  },
+                  title: {
+                    display: false
+                  },
+                  tooltip: {
+                    callbacks: {
+                      label: function(context) {
+                        const ratingDescriptions = {
+                          "1": "Poor",
+                          "2": "Fair",
+                          "3": "Good",
+                          "4": "Very Good",
+                          "5": "Excellent"
+                        };
+                        const label = context.label;
+                        const description = ratingDescriptions[label] || "N/A";
+                        const value = context.raw;
+                        return `(${description}): ${value}`;
+                      }
+                    }
+                  }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            });
+           /* new Chart(canvas, {
+              type: "doughnut",
+              data: {
+                labels: ["1", "2", "3", "4", "5"],
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: data[key]
+                }]
+              },
+              options: {
+                plugins: {
+                  legend: {
+                    display: false
+                  },
+                  title: {
+                    display: false
+                  },
+                  tooltip: {
+                    callbacks: {
+                      label: function(context) {
+                        const ratingDescriptions = {
+                          "1": "Poor",
+                          "2": "Fair",
+                          "3": "Good",
+                          "4": "Very Good",
+                          "5": "Excellent"
+                        };
+                        const label = context.label;
+                        const description = ratingDescriptions[label] || "N/A";
+                        const value = context.raw;
+                        return `(${description}): ${value}`;
+                      }
+                    }
+                  }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+              }
+            });*/
+            
+
+          });
+        });
+    </script>
+
+    <!-- Pagignation-->
+    <script>
+      $(document).ready(function () {
+        $('#feedbackTable').DataTable({
+          "pageLength": 7,
+          "lengthChange": false,  
+          "language": {
+            "info": "Showing _START_ to _END_ of _TOTAL_ entries"
+          }
+        });
+      });
+    </script>
+    
+    <!--barchart-->
+    <script>
+      const labels = [
+        'Inspection Accuracy', 'UI Design', 'Performance Speed', 'Application Smoothness',
+        'Dashboard', 'My Inspection', 'Compliances (Marked to Me)', 'Minutes of Meeting', 'Search', 'COPY TO', 'Reports', 'Overall Experience'
+      ];
+    
+      let barChartInstance = null; 
+    
+      function loadFeedbackChart(designation = null) {
+        let url = '/feedback_chart_load/';
+        if (designation) {
+          url += `?designation=${encodeURIComponent(designation)}`;
+        }
+    
+        fetch(url)
+          .then(response => response.json())
+          .then(json => {
+            const chartBox = document.querySelector('.bar-chart-box');
+            chartBox.innerHTML = '<canvas id="barChartAll" width="1000" height="500"></canvas>'; // Reset canvas
+    
+            if (!json.datasets || json.datasets.length === 0) {
+              chartBox.innerHTML = `<div style="text-align:center; color:red; font-weight:bold; padding: 20px;">
+                NO FEEDBACK ROW SELECTED YET.....!
+              </div>`;
+              return;
+            }
+    
+            const datasets = json.datasets.map((entry) => {
+              const backgroundColor = entry.data.map(value => {
+                if (value < 3) return 'rgba(255, 99, 132, 0.5)';        // Red
+                if (value === 3) return 'rgba(75, 192, 192, 0.5)';       // Green
+                return 'rgba(255, 206, 86, 0.5)';                        // Yellow
+              });
+    
+              const borderColor = backgroundColor.map(color => color.replace('0.5', '1'));
+    
+              return {
+                label: entry.label,
+                data: entry.data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+              };
+            });
+    
+            const ctx = document.getElementById('barChartAll').getContext('2d');
+    
+            if (barChartInstance) {
+              barChartInstance.destroy();
+            }
+    
+            barChartInstance = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: labels,
+                datasets: datasets
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: 'right',
+                    labels: {
+                      generateLabels: function () {
+                        return [
+                          {
+                            text: 'Rating 1–2 (Poor)',
+                            fillStyle: 'rgba(255, 99, 132, 0.5)',
+                            strokeStyle: 'rgba(255, 99, 132, 1)',
+                            lineWidth: 1
+                          },
+                          {
+                            text: 'Rating 3 (Average)',
+                            fillStyle: 'rgba(75, 192, 192, 0.5)',
+                            strokeStyle: 'rgba(75, 192, 192, 1)',
+                            lineWidth: 1
+                          },
+                          {
+                            text: 'Rating 4–5 (Good/Excellent)',
+                            fillStyle: 'rgba(255, 206, 86, 0.5)',
+                            strokeStyle: 'rgba(255, 206, 86, 1)',
+                            lineWidth: 1
+                          }
+                        ];
+                      }
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: `FEEDBACK RATINGS FOR ${json.designation.toUpperCase()}`,
+                    font: {
+                      size: 24,
+                      style: 'italic',
+                      weight: 'bold',
+                      family: 'Lato, sans-serif'
+                    },
+                    color: '#007bff',
+                    padding: { top: 20, bottom: 20 }
+                  }
+                },
+                scales: {
+                  y: {
+                    min: 1,
+                    max: 5,
+                    ticks: {
+                      stepSize: 1
+                    }
+                  }
+                }
+              }
+            });
+          });
+      }
+    
+      document.addEventListener("DOMContentLoaded", function () {
+        loadFeedbackChart(); 
+    
+        const table = document.getElementById("feedbackTable");
+    
+        if (table) {
+          const rows = table.getElementsByTagName("tr");
+    
+          for (let i = 1; i < rows.length; i++) {
+            rows[i].addEventListener("click", function () {
+              for (let j = 1; j < rows.length; j++) {
+                rows[j].classList.remove("highlighted-row");
+              }
+    
+              this.classList.add("highlighted-row");
+    
+              const designation = this.cells[1].textContent.trim();
+    
+              loadFeedbackChart(designation);
+            });
+          }
+        }
+      });
+    </script>
+    
+  </body>
+  
+
+
+{% endblock %}
+

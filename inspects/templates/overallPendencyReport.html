@@ -1,0 +1,200 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}"> 
+    <style>
+        .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* You can adjust the background color and opacity */
+    z-index: 9999;
+}
+
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db; /* Loader color */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    </style>
+</head>
+<body>
+    <div id="loader" class="loader-container">
+        <div class="loader"></div>
+    </div>
+    <!-- <h3 class="report_heading">List of {{flag}}</h3> -->
+    {% if typeID == 'IR' %}
+    <h3 class="report_heading">List of {{header}} {{flag}} for {{typeID}} from {{sDate}} to {{eDate}} {{deptt}} {{Desigg}} {{lvll}}</h3>
+    {% else %}
+    <h3 class="report_heading">List of {{header}} {{flag}} for {{typeID}}  {% if zoneID %}({{zoneID}}) {% endif %} from {{sDate}} to {{eDate}} {{deptt}} {{Desigg}} {{lvll}}</h3>
+    {% endif %}
+    <br>
+    <div id="main">
+    <div class="container"> 
+        <table id="table1" class="table table-striped table-bordered center table-data " >
+            {% if flag == 'INSP' %}
+            <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+              <th style="width: 5%;">S.No.</th>
+              <th style="width: 8%;">Insp. Date</th>
+              <th style="width: 10%;">Insp. Note No.</th>
+              <th style="width: 5%;">Insp. Type</th>
+              <th style="width: 35%;">Insp. Title</th>
+              <th style="width: 10%;">Marked Officer</th>
+              <th style="width: 6%;">Rly./Org.</th>
+              <th style="width: 6%;">Div./Unit</th>
+              <th style="width: 5%;">Location</th>
+            </thead>
+            <tbody>
+                
+                    {% for item in mdata %}
+                <tr style="text-align:left">
+                   
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{item.0 | date:'d-m-y' }}</td>
+                    <td><a href="{% url 'inspectionReportHtml' item.1 %}" target="_blank">{{item.2}}</a></td>
+                    <td>General</td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.4}}'>{{item.4|truncatechars:50}}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.5}}'>{{item.5|truncatechars:20}}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.6}}'>{% if item.6 != None %}{{item.6|truncatechars:20}} {% endif %}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.7}}'>{% if item.7 != None %}{{item.7|truncatechars:20}} {% endif %}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.9}}'> {% if item.8 != None %} {{item.8|truncatechars:50}} {% endif %}</a></td>   
+                  
+                   
+                </tr>
+                    {% endfor %}
+            </tbody>
+            {% else %}
+            <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+                <th style="width: 5%;">S.No.</th>
+                <th style="width: 8%;">Insp. Date</th>
+                <th style="width: 10%;">Insp. Note No.</th>
+                <th style="width: 5%;">Insp. Type</th>
+                <th style="width: 35%;">Observation</th>
+                <th style="width: 10%;">Marked Officer</th>
+                <th style="width: 6%;">Rly./Org.</th>
+                <th style="width: 6%;">Div./Unit</th>
+                <th style="width: 5%;">Location</th>
+              </thead>
+              <tbody>
+                      {% for item in mdata %}
+                <tr style="text-align:left">
+                   
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{item.0 | date:'d-m-y' }}</td>
+                    <td><a href="{% url 'inspectionReportHtml' item.1 %}" target="_blank">{{item.2}}</a></td>
+                    <td>General</td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.4}}'>{{item.4|truncatechars:50}}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.5}}'>{{item.5|truncatechars:20}}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.6}}'>{% if item.8 != None %} {{item.6|truncatechars:20}} {% endif %}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.7}}'>{% if item.8 != None %} {{item.7|truncatechars:20}} {% endif %}</a></td>
+                    <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{item.8}}'>{% if item.8 != None %} {{item.8|truncatechars:50}} {% endif %}</a></td>   
+                </tr>
+                    {% endfor %}
+              </tbody>
+              {%endif%}
+        </table>
+        <div id="main">
+            <div class="container">     
+                <form id="excelForm" method="get" action="{% url 'overallPendencyReport_excel' %}" >
+                    {% csrf_token %}
+                    <input type="hidden" name="data" value="{{ data }}">
+                    <input type="hidden" name="startDate" value="{{ sDate }}">
+                    <input type="hidden" name="endDate" value="{{ eDate }}">
+                    <input type="hidden" name="Department" value="{{ irSearchDept }}">
+                    <input type="hidden" name="Designation" value="{{ irSearchDesig }}">
+                    <input type="hidden" name="Level" value="{{ searchLevel }}">
+                    <input type="hidden" name="typeID" value="{{ typeID }}">
+                    <input type="hidden" name="zoneID" value="{{ zoneID }}">
+                    <input type="hidden" name="divID" value="{{ divId }}">
+                    <input type="hidden" name="header" value="{{ header }}">
+                </form>
+    
+                <form id="pdfForm" method="get" action="{% url 'overallPendencyReport_pdf' %}" target="_blank">
+                    {% csrf_token %}
+                    <input type="hidden" name="data" value="{{ data }}">
+                    <input type="hidden" name="startDate" value="{{ sDate }}">
+                    <input type="hidden" name="endDate" value="{{ eDate }}">
+                    <input type="hidden" name="Department" value="{{ irSearchDept }}">
+                    <input type="hidden" name="Designation" value="{{ irSearchDesig }}">
+                    <input type="hidden" name="Level" value="{{ searchLevel }}">
+                    <input type="hidden" name="typeID" value="{{ typeID }}">
+                    <input type="hidden" name="zoneID" value="{{ zoneID }}">
+                    <input type="hidden" name="divID" value="{{ divId }}">
+                    <input type="hidden" name="header" value="{{ header }}">
+                    <input type="hidden" name="flag" value="{{ flag }}">
+                </form>
+    
+                    <center>
+                        <button class="btn btn-success btn" type="button" onclick="generateExcel()">EXCEL</button>                
+                        <button class="btn btn-danger btn" type="button" onclick="generatePdf()">PDF</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+</body>
+<script>
+
+
+$(document).ready(function() {
+    $('#loader').show();
+    $('#table1').DataTable({
+        "language": {
+            "search": "Keyword search:"
+        },
+        "aoColumns": [
+            null,
+            { "sType": "date-uk" },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+        ],
+        "initComplete": function() {
+            $('#loader').hide();
+        }
+    });
+});
+
+    
+</script>
+<script>
+    function generateExcel() {
+        var form = document.getElementById("excelForm");
+        var actionUrl = form.action;
+        var formData = new URLSearchParams(new FormData(form));
+        var finalUrl = actionUrl + '?' + formData.toString();
+        window.location.href = finalUrl;
+    }
+    </script>
+<script>
+    function generatePdf() {
+        var form = document.getElementById("pdfForm");
+        var actionUrl = form.action;
+        var formData = new URLSearchParams(new FormData(form));
+        var finalUrl = actionUrl + '?' + formData.toString();
+        window.open(finalUrl);
+    }
+</script>
+{% endblock %}

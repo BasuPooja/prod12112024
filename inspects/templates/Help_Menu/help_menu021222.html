@@ -1,0 +1,514 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<html>
+<head>
+    <title>e-Inspection: Help Menu</title>
+   
+        <!-- <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/help_menu.css' %}">   -->
+     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+    .my-heading {
+      font-family: Georgia;
+      margin-top: 0px;
+      font-weight: 500;
+      font-size: 2.5rem;
+      text-align: center;
+      Color: black;
+      font-weight: bold;
+    }
+</style>
+
+<style type="text/css">
+      
+    body {
+    background: #f6f3f7;
+    }
+    
+    p {
+    margin: 0;
+    }
+    
+    .topbar {
+    font-family: 'Roboto', sans-serif;
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    text-align: center;
+    display: block;
+    background: #730000;
+    color: #fff;
+    padding: 5px 0;
+    background: #730000;
+      background: -moz-linear-gradient(top, #730000 0%, #000000 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#730000), color-stop(100%,#000000));
+      background: -webkit-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -o-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -ms-linear-gradient(top, #730000 0%,#000000 100%);
+      background: linear-gradient(to bottom, #730000 0%, #000000 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#730000', endColorstr='#000000',GradientType=0 );
+    }
+    
+    .topbar p {
+    margin: 0;
+    font-weight: 200;
+    }
+    
+    .topbar p a {
+    font-size: 12px;
+    }
+    
+    .header {
+    background: #fff;
+    padding: 20px 0;
+    padding-top: 60px;
+    }
+    
+    .control-box h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    }
+    
+    .control-box {
+    border: 1px solid #dddcd8;    
+    background-color: #fff;
+    position:relative;
+    padding-top:2rem !important;
+    margin-bottom:2rem;
+    }
+    
+    .control-box .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+    
+    .control-box .links li {
+    margin-bottom: 10px;
+    }
+    
+    .control-box .links li a {
+    color: #aa1212;
+    text-decoration: underline;
+    }
+    
+    .content {
+    margin-top: 10px;
+    }
+    
+    .breadcrumb p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #777;
+    font-size: 14px;
+    }
+    
+    .breadcrumb p a {
+    color: #aa1212;
+    }
+    
+    .main-content h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 27px;
+    color: #000;
+    margin-bottom: 20px;
+    }
+    
+    .main-content p {
+    font-size: 17px;
+    color: #4d4d4d;
+    line-height: 29px;
+    margin-bottom: 20px;
+    }
+    
+    .main-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    }
+    
+    .main-content h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    }
+    h2, h3, h4{
+      padding: 5px;
+      text-align: center;
+    }
+    
+    .text_color{
+    background-color: rgb(95, 225, 230);
+    font-size: 24;
+    }
+    
+    .text_color_h2 {
+    background-color: rgb(109, 109, 214); 
+    }
+
+    .video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heading-title {
+    position: relative;
+    padding-bottom: 16px;
+    font-weight: 600;
+    color: #262626 !important;
+    font-size: 20px;
+    margin-bottom: 1rem;
+    /* margin-left: 2rem; */
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif;
+    margin-bottom:0px;
+} 
+.section-head
+{
+    font-size:14px;
+    font-weight:600;
+    color:#4d4d4d;
+    text-align:left;
+    margin-top:1rem;
+    margin-bottom:10px;
+}
+a.help-link
+{
+    font-weight:500;
+    text-decoration:none;
+    color:#0059b3;
+    font-size:14px;
+}
+.link-list .list-group-item
+{
+    padding:2px !important;
+}
+.dtls-list .list-group-item
+{
+    padding:6px !important;
+    text-align: justify;
+}
+.help-heading
+{
+    position:absolute;
+    top:-20px;
+    right:10px;
+    background:#ff6600;
+    padding:5px;
+    font-size:15px;
+    font-weight:600;
+    color:#fff !important;
+    padding-right:1rem;
+    padding-left:1rem;
+    border-left:2px solid #cc5200;
+}
+.ribbon {
+  position: absolute;
+  left: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+hr{
+    margin-bottom:2rem;
+}
+.parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parent button {
+  background-color: #cccdce;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0 1px 2px #AEAEAE;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parent button:active {
+  background-color: #AEAEAE;
+  box-shadow: 0 0 1px #aeaeae;
+  transform: translateY(2px);
+}
+
+.btn-back
+{
+    border-radius: 70%;
+}
+</style>
+  <script>
+    function backTop()
+    {
+        $("html, body").animate(
+                { scrollTop: "0" }, 1000);
+    }
+    </script>
+<body>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                  <div class="my-heading">
+                    <h1 class="heading-title"><i class="fas fa-angle-right"></i>&nbsp;Let's get you started..</h1>
+                  </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                        
+                            <div class="control-box p-3 mt-0  sticky-top " style="height: auto;z-index:1;">
+                                <div class="ribbon"><span>Categories</span></div>
+                                <div class="fix">
+                                <div class="container-fluid index">
+                                <h3 class="section-head">About</h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C1" class="help-link">e-Inspection</a></li>
+                                </ul>
+                                <h3 class="section-head">Account Management</h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C2" class="help-link">Sign Up</a></li>
+                                    <li class="list-group-item"><a href="#C3" class="help-link">Sign In</a></li>
+                                    <li class="list-group-item"><a href="#C4" class="help-link">Forgot Password</a></li>
+                                  </ul>
+                                <h3 class="section-head">Application Features</h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C5" class="help-link">Home (Dashboard)</a></li>
+                                    <li class="list-group-item"><a href="#C6" class="help-link">My Inspections</a></li>
+                                    <li class="list-group-item"><a href="#C7" class="help-link">My Compliances</a></li>
+                                    <li class="list-group-item"><a href="#C8" class="help-link">Query</a></li>
+                                    <li class="list-group-item"><a href="#C9" class="help-link">RB Minutes</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                <div class="col-md-9">
+                
+                    <div class="control-box p-3 main-content" id="C1">
+                        <p class="help-heading">About e-Inspection</p>
+                        <ul class="list-group list-group-flush dtls-list">
+                            <li class="list-group-item"> 
+                                The e-Inspection website is accessible through any major web-browser viz. Google Chrome, Mozilla Firefox, Internet Explorer, Apple Safari etc. through the url: <a href="https://deveins.indianrailways.gov.in/" target="_self" class="help-link">https://deveins.indianrailways.gov.in/</a>
+                            </li>
+                            <li class="list-group-item"> 
+                                The website provides a convenient online platform for the inspecting officers to draft/submit their observations along with marking officers
+                            </li>
+                        </ul>
+              <!-- <img src="\static\inspects\images\help menu\inspection2.png" alt="Login" style="width: 100%;height: auto;" class="img img-fluid img-responsive"><br> -->
+              <img src="\static\inspects\images\help menu\inspection2.jpg" alt="Login" style="width: 100%;height: auto;"><br>
+              <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+            <hr id="C2" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Sign Up</p>
+            <p>First time uses:-<br>
+                To <b>sign-in</b>, user must have to first <b>sign-up</b>.</p>
+                <img src="\static\inspects\images\help menu\signup1.png" alt="Login" style="width: 100%;height: auto;"><br>
+                <p>This is the sign-up page.
+                Firstly, user have to enter their valid <b>Email Address</b>, after entering the Email Address, <b>Designation</b> will be autofetched then click on <b>Get OTP</b>. By clicking on Get OTP user will get a pop-up message on the top of the screen with the OTP.</p>
+                <img src="\static\inspects\images\help menu\signupotp1.png" alt="Login" style="width: 100%;height: auto;"><br>
+
+                
+                <p>After that fill the <b>Posting Status, Employee Number</b></p>
+                After, entering the Employee Number <b>Employee Name</b> will be autofetched.</p>
+                <p>Hence after filling the above details then set a strong password of user account and then click on Submit button.
+                After this user account will be created.</p>
+            
+            <img src="\static\inspects\images\help menu\signupcomp.png" alt="Login" style="width: 100%;height: auto;"><br>            
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C3" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Sign In</p>
+            <p>Login with the user id (Login helps user to quickly and easily manage user authentication and sign-in to user website).</p>
+            <p>Users sign into a Account, provide their consent, and securely share their profile information with user platform. Customizable buttons and multiple flows are supported for user sign up and sign in.</p>
+            
+            <img src="\static\inspects\images\help menu\login1.png" alt="Login" style="width: 100%;height: auto;"><br>  
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+
+            <hr id="C4" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Forgot Password</p>
+            <p> In case the user forgets his/her password then the user can easily reset it by clicking on “forgot password”.</p>
+                <!-- <img src="\static\inspects\images\help menu\forget.png" alt="Forget Password" style="width: 100%;height: auto;"> -->
+                <p>
+                After that, user has to fill their registered email id to receive a link to reset password.</p>     
+                <img src="\static\inspects\images\help menu\forget_password.png" alt="Login" style="width: 100%;height: auto;"><br>
+                <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+                <hr id="C5" />
+                <div class="control-box p-3 main-content">
+                    <p class="help-heading">Home Page (Dashboard)</p>
+            
+            <p>After sign-in, user is redirected to the dashboard page providing the summary of the website.
+                The four cards on top displaying the status of the inspection created/drafted/submitted and compliances pending/received/closed with graphics and statistics.</p>
+            
+            <img src="\static\inspects\images\help menu\dashboard.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+      </div>
+      <hr id="C6" />
+      <div class="control-box p-3 main-content">
+          <p class="help-heading">My Inspections</p>
+            
+            <p>User can find several options through left sidebar:-
+                <ul>
+                    <li>Create Notes</li>
+                    <li>Draft Notes</li>
+                    <li>Completed Notes</li>
+                    <li>Pending Compliance</li>
+                    <li>Closed Compliance</li>
+                    <li>Received Compliance</li>
+                    <li>Reverted Compliance</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\My Inspection.png" alt="Home Page" style="width: 100%;height: auto;">
+            <br>
+            <p>After clicking on <b>Create Notes</b>, new window will appear with new form. the inspecting officer can create inspection notes with the facility to mark to the relevant officers with a target date and can set priority.</p>
+            <img src="\static\inspects\images\help menu\create.png" alt="Create Notes" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Draft Notes</b>, new page will appear. After creating the respective above report, the officers have a choice to save it as draft or submit it.On draft, the report will be present in the draft report page which provides a facility to edit it and submit it whenever done.</p>
+            <img src="\static\inspects\images\help menu\DRAFT.png" alt="Draft Notes" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Completed Notes</b>, new page will appear. After creating the respective above report, the officers have a choice to save it as draft or submit it. On submit, the report will be submitted and will be present in the submitted notes page with the option to view it as pdf and view the reply of the marked officers.</p>
+            <img src="\static\inspects\images\help menu\complete.png" alt="Completed Notes" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Pending Compliance</b> new page will appear. Pending Complainces has the details or list of the reports in which the marked officer has not replied to the marked observations.</p>
+            <img src="\static\inspects\images\help menu\peningcc.png" alt="Pending Compliance" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Closed Compliance</b> new page will appear. Closed Complainces has the details or list of the reports in which the marked officer has replied to the marked observations and it has been accepted by the inspecting officer. User can also view the Inspection Note and reply on it.</p>
+            <img src="\static\inspects\images\help menu\closed.png" alt="Closed Compliance" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view.png" alt="Inspection Note" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\reply.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Received Compliance</b> new page will appear. Received Complainces has the details or list of the reports in which the marked officer has replied to the marked observations. User can also view the Inspection Note and Inspections Details Done by GM/NR.</p>
+            <img src="\static\inspects\images\help menu\received.png" alt="Received Compliance" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view1.png" alt="Inspection Note" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\inspectiondetail.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Received Compliance</b> new page will appear. Received Complainces has the details or list of the reports in which the marked officer has reverted the observations to the inspecting officer. User can also view the Inspection Note and Inspections Corrigendum Details Done by GM/NR.</p>
+            <img src="\static\inspects\images\help menu\reverted.png" alt="Reverted Compliance" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view2.png" alt="Inspection Note" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\inspectiondetail1.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C7" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">My Compliances</p>
+            
+            <p>User can find several options such as:-
+                <ul>
+                    <li>Pending</li>
+                    <li>Sent</li>
+                    <li>Rejected</li>
+                    <li>Reverted</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\My Complainces.png" alt="My Complainces" style="width: 100%;height: auto;">
+            <br>
+            <p>Clicking on <b>Pending</b> new page will appear. Pending Reply, provides facility for the marked officer to view the report and reply to the inspecting officer with a choice to either forward or revert the observations. User can also view the Report and Reply on it.</p>
+            <img src="\static\inspects\images\help menu\pending.png" alt="Pending" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view3.png" alt="View" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\reply1.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Sent</b> new page will appear. Sent Reply, provides facility for the marked officer to see their respective reply for the marked observation. User can also view the Report and Reply on it.</p>
+            <img src="\static\inspects\images\help menu\sent.png" alt="Sent" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view4.png" alt="View" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\reply2.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Rejected</b> new page will appear. It informs us about the reply being rejected for the respective observation of the report generated.</p>
+            <img src="\static\inspects\images\help menu\rejectedreply.png" alt="Rejected Reply" style="width: 100%;height: auto;"><br>
+            <p>Clicking on <b>Reverted</b> new page will appear. It informs us about the reply being reverted for the respective observation of the report generated. User can also view the Report and Remark on it.</p>
+            <img src="\static\inspects\images\help menu\reverted1.png" alt="Reverted" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view5.png" alt="View" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\remark.png" alt="Remark" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+            
+<hr id="C8" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Query</p>
+            
+            <p>User can find several options such as:-
+                <ul>
+                    <li>Pending</li>
+                    <li>Sent</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\Query.png" alt="Query" style="width: 100%;height: auto;">
+            <br>
+            <p>Clicking on <b>Pending</b> new page will appear. Pending Query, provides facility for the marked forward officer to view the report and reply to the officer as this contains those observation which has been forwarded. User can also view the Report and Reply on it.</p>
+            <img src="\static\inspects\images\help menu\pending1.png" alt="Pending" style="width: 100%;height: auto;"><br>
+            <p>After clicking on <b>sent</b> new page will appear. Sent Query, provides facility for the marked forward officer to see their respective reply for the marked forwarded observation. User can also view the Report and Reply on it.</p>
+            <img src="\static\inspects\images\help menu\sent1.png" alt="Sent" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\view6.png" alt="View" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\reply3.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+            
+<hr id="C9" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">RB Minutes</p>
+            
+            <p>User can find several options such as:-
+                <ul>
+                    <li>Create</li>
+                    <li>Saved</li>
+                    <li>Reply</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\RB Minutes.png" alt="RB Minutes" style="width: 100%;height: auto;">
+            <br>
+            <p>Clicking on <b>Create</b> new page will appear. In Create form user can <b>Create Minutes Of Meeting</b> with the list of members(s) present, Date of meeting, after that the user can <b>Add heading, Add Sub Heading and Add Decision</b> and can also copy to different members.</p>
+            <img src="\static\inspects\images\help menu\RB.png" alt="RB-1" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\RB-1.png" alt="RB-2" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\RB-2.png" alt="RB-3" style="width: 100%;height: auto;"><br>
+            <p>After clicking on <b>Saved</b> new page will appear with new form. In Saved form user can view all the saved meetings.</p>
+            <img src="\static\inspects\images\help menu\saved.png" alt="Saved" style="width: 100%;height: auto;"><br>
+            <p>After clicking on <b>Reply</b> new page will appear with new form. In Reply form user can reply to all the meetings.</p>
+            <img src="\static\inspects\images\help menu\reply4.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+
+{% endblock content %}

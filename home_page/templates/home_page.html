@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        {% include 'inspects_staticProvider.html' %}
+        <style>
+            
+            .btn btn-warning{
+                text-align: left;
+                
+                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>
+                        <center>Home Page</center>
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <a href="https://railmadad.indianrailways.gov.in/"><img src="/static/images/logo_new.png" class="img img-responsive img-fluid"   /></a>
+                    <h3>Rail Madad</h3>
+                </div>
+                <div class="col-3">
+                    <a href="https://morpr.cris.org.in/pat/login"><img src="/static/images/vip.png" class="img img-responsive img-fluid"  /></a>
+                    <h3>Parliament References</h3>
+                </div>
+                <div class="col-3">
+                    <a href="https://morpr.cris.org.in/pat/login"><img src="/static/images/vip.png" class="img img-responsive img-fluid"  /></a>
+                    <h3>VIP References</h3>
+                </div>
+                <div class="col-3">
+                    <a href="https://parichay.nic.in/"><img src="/static/images/eparichay.png" class="img img-responsive img-fluid"  /></a>
+                    <h3>e-Parichay</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <a href="https://indianrailways.gov.in/"><img src="/static/images/irlogo.png" class="img img-responsive img-fluid"  /></a>
+                    <h3>Indian Railways</h3>
+                </div>
+                <div class="col-3">
+                    
+                </div>
+                <div class="col-3">
+                    <!-- <a href="https://ircep.gov.in/IRPSM/"><img src="/static/images/irlogo.png" class="img img-responsive img-fluid"  /></a> -->
+                    <a href="https://ircep.gov.in/IRPSM/IRPSMDashboard/IRPSMDashboardInner.jsp"><img src="/static/images/irlogo.png" class="img img-responsive img-fluid"  /></a>
+                    <h3>IRPSM</h3>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row" id="mydrishti" hidden style="margin-bottom:2%; margin-top: 2%;">
+                <div class="col-1"></div>
+                <div class="col-2" style="text-align:left;">
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('1'); return false;" >SAFETY</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('2'); return false;" >LOADING</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('3'); return false;" >PUNCTUALITY</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('4'); return false;" >EARNINGS & WORKING EXPENSES</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('5'); return false;" >CAPEX</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('6'); return false;" >INFRASTRUCTURE CREATION</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('7'); return false;" >ROLLING STOCK PRODUCTION</button></div>
+                    <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('8'); return false;" >ASSET FAILURES</button></div>
+                </div>
+                <div class="col-8" width="100%">
+                    <table class="table table-bordered table-striped table-sm" id="drishti_table1" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: white;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <!-- <th style="width:8%; text-align: left;">Description</th> -->
+                            <th style="width:10%; text-align: left;">Sub Head</th>
+                            <th style="width:15%; text-align: left;" >Actuals (current month of last FE)</th>
+                            <th style="width:15%; text-align: left;" >Targets <br> (current month)</th>
+                            <th style="width:10%; text-align: left;" >Actuals <br>(current month)</th>
+                            <th style="width:15%; text-align: left;" >Cummulative target <br> (upto last month)</th>
+                            <th style="width:20%; text-align: left;" >Cummulative actuals <br> (upto last month)</th>
+                            <th style="width:15%; text-align: left;">Variation(cummulative)</th>
+                        </thead>
+                        <tbody style="color: black;"></tbody>
+                    </table>
+                    <button type="button" class="btn btn-success" onclick="hidediv(); return false;" >CLOSE</button>
+                </div>
+                <!-- <div class="col-1"></div> -->
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <a href="https://esamiksha.gov.in/"><img src="/static/images/esamiksha_logo.png" class="img img-responsive img-fluid"  /></a>
+                    <h3>e-Samiksha</h3>
+                </div>
+                <div class="col-3">
+                    <a href="https://eoffice.gov.in/"><img src="/static/images/eoofice.PNG" class="img img-responsive img-fluid" /></a>
+                    <h3>e-Office</h3>
+                </div>
+                <div class="col-3"></div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function showdiv(){
+             document.getElementById("mydrishti").hidden=false;
+             return false;
+        }
+        function hidediv(){
+             document.getElementById("mydrishti").hidden=true;
+             return false;
+        }
+        function table_view(id) {
+     
+            console.log(id);
+            data = {
+            'id': id
+            }
+            $.ajax
+            ({
+                url: "{% url 'view_table' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response) {
+                    document.getElementById("drishti_table1").hidden=false;
+                    $('#drishti_table1 tbody').empty()
+                    row='';
+                    table_d=response.table_data;
+                    console.log(table_d[0])
+                        for (var i = 0; i < table_d.length; i++) {
+                            row+='<tr style="text-align: center;"><td style="width:10%; text-align: left;">'+table_d[i]['item']+'</td>';
+                            row+='<td style="width:15%; text-align: center;">'+table_d[i]['actuals']+'</td>';
+                            row+='<td style="width:15%; text-align: center;">'+table_d[i]['targets']+'</td>';
+                            row+='<td style="width:10%; text-align: center;">'+table_d[i]['actuals_current_month']+'</td>';
+                            row+='<td style="width:15%; text-align: center;">'+table_d[i]['cummulative_target']+'</td>';
+                            row+='<td style="width:20%; text-align: center;">'+table_d[i]['cummulative_actuals']+'</td>';
+                            row+='<td style="width:15%; text-align: center;">'+table_d[i]['variation']+'</td></tr>';
+                }
+                $('#drishti_table1 tbody').append(row);
+            }
+            });
+        }
+    </script>
+</html>

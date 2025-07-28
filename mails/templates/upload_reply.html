@@ -1,0 +1,50 @@
+{% extends 'C:\Users\Administrator\Documents\devMISI\inspects\templates\base.html' %} 
+{% block content %}
+<head>
+    <style>
+        .row {
+            margin-top: 5%;
+            margin-bottom: 5%;
+            font-size:1.2vw;
+        }
+    </style>
+  </head>
+
+<div class="container-fluid">
+  <div class="row mt-3">
+    <div class="col-6" style="background-color: rgb(182, 182, 202); height: 100%">
+        <h1>DO File Preview</h1>
+        <iframe src="{{form.reply_path}}">
+            
+        </iframe>
+    </div>
+      
+      <div class="col-6" style="background-color: white;">
+          <form action="" method="POST" class="was-validated">
+              {% csrf_token %}
+                  <div class="row mt-2" style="height: 250px; width: 100%">
+                      <div class="col-md-5">
+                          <label for ='remarks' class="mr-sm-2">Remarks *</label> 
+                      </div>
+                      <div class="col-md-5" >
+                          <textarea class="form-control mb-2 mr-sm-2" style="width: 23vw; height:100%" name="remarks" placeholder="Enter Remarks" required></textarea>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-md-5" >
+                          <label for ='reply_file' class="mr-sm-2">Upload Reply </label>
+                      </div>
+                      <div class="col-md-5" >
+                        <input name="do_file" type="file" accept="application/pdf, image/jpeg, image/x-png, " style="width: 100%;" />
+                        <p style="color: blue; ">Accepted types: .pdf, .png, .jpeg, .jpg</p>
+                      </div>
+                  </div>
+                 
+              <button type="submit" class="btn btn-primary mb-2 mt-4">Submit</button>             
+          </form>
+      </div>
+  </div>
+
+</div>
+  
+{% endblock %}

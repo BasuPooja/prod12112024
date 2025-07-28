@@ -1,0 +1,760 @@
+{% extends 'base.html' %} 
+  {% load static %}
+  {% block content %}
+ 
+<head>
+  <script type="text/javascript">
+    $(".sidebar").addClass('close');
+  </script> 
+  <title>DO letter upload</title>
+
+  <script type="text/javascript">
+      if(self===top){
+        var antiClickjack = document.getElementById("antiClickjack");
+        antiClickjack.parentNode.removeChild(antiClickjack);
+      }
+      else{
+        top.location= self.location;
+      }
+  </script>
+
+  <style>
+      @media screen and (min-width:500px) {
+          .myFormCard {
+              border: 1px solid rgb(236, 236, 236);
+              padding: 3%;
+              margin-top: 2%;
+              /* margin: 3%; */
+              margin-left: 30%;
+              margin-right: 30%;
+              border-radius: 10px;
+          }
+
+          .myFormCard {
+              /* Add shadows to create the "card" effect */
+              box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+              transition: 0.3s;
+          }
+
+          /* On mouse-over, add a deeper shadow */
+          .myFormCard:hover {
+              box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+          }
+
+
+      }
+
+      @media screen and (max-width:500px) {
+          .myFormCard {
+              padding: 10px;
+              margin: 10px;
+              box-sizing: border-box;
+          }
+      }
+
+      .flex-container {
+          display: flex;
+          /* justify-content: space-between; */
+      }
+
+      .left-part {
+          width: 30%;
+          align-self: center;
+      }
+
+      .right-part {
+          width: 60%;
+          align-self: center;
+      }
+      .my-heading {
+          font-family:Georgia;
+          margin-top:1rem;
+          font-weight : 500;
+          font-size : 2.5rem;
+          text-align : center;
+          Color : black;
+          font-weight: bold;
+
+      }
+  </style>
+</head>
+ <body>
+  <div class="myFormCard">
+    <div class="flex-container">
+        <!-- <div class="left-part">
+            <img src="{% static 'inspects/images/logo_inspection.png' %}" alt="Logo Inspection" width="80%" height="80%">
+        </div> -->
+        <div class="my-heading ">
+            <!-- <h1>
+                <span style="color: #ea4335;">INSPECTION</span>
+            </h1> -->
+            <div class="my-heading">
+                <h3>Create new D.O. Letter</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                  <div class="alert alert-success">
+                    <strong>Success </strong>{{ message }}
+                  </div>
+                {% elif message.tags == 'error' %}
+                  <div class="alert alert-danger">
+                    <strong>Error </strong>{{ message }}
+                  </div>
+                {% elif message.tags == 'info' %}
+                  <div class="alert alert-info">
+                    <strong>Info </strong>{{ message }}
+                  </div>
+                {% else %}
+               
+                {% endif %}
+               
+           
+            {% endfor %}
+        {% endif %}
+      </div>
+
+
+
+ <div class="container-fluid">
+    <!-- <div class="row">
+        <div class="col-4">
+            
+        </div>
+        <div class="col-4">
+            <h3 style="font-family: 'Lato', sans-serif;">
+                <center><b>Upload New D.O. Letter</b></center>
+              </h3>
+        </div>
+        <div class="col-4">
+            <button  type="button"  name="view_all" class="btn btn-success" id="view_all" onclick="view_all()">
+                View All D.O. Letters
+            </button>
+        </div>
+        
+    </div> -->
+    
+     
+    <!-- <div class="row mt-3">
+        <div class="col-3">
+           
+        </div>
+        <div class="col-6 " style="background-color: white;">
+
+            <form action="" method="POST" class="was-validated" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div class="row mt-2">
+                        
+                        <div class="col-md-5 " >
+                            <label for ='do_letter_no' class="mr-sm-2">DO Letter No.</label> 
+                        </div>
+                         
+                        <div class="col-md-5" >
+                            <input type ='text' class="form-control mb-2 mr-sm-2" name="do_letter_no" placeholder="Enter Letter No." required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" >
+                            <label for ='date' class="mr-sm-2">DO Letter Date</label> 
+                        </div>
+                        <div class="col-md-5" >
+                            <input type="date" class="form-control mb-2 mr-sm-2" name="date" placeholder="Select Date" id="email" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" >
+                            <label for ='subject' class="mr-sm-2">Subject</label>
+                        </div>
+                        <div class="col-md-5" >
+                            <textarea class="form-control mb-2 mr-sm-2" name="subject" placeholder="Enter Subject" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" >
+                            <label for ='action_by' class="mr-sm-2">Action By</label>
+                        </div>
+                        <div class="col-md-5" >
+                            <div class="multi_select_box" >
+                                <input type="text" id="action_by_test" name="action_by_test" hidden>
+                                  <select id="action_by" name="action_by" class="form-control" style="width: 180px;"  data-live-search="true" multiple data-actions-box="true" multiple data-selected-text-format="count > 2" multiple>
+                                     
+                                        {% for i in officers %}
+                                        <option style="width:20px" value="{{i.designation}}" data-tokens="{{i.designation}}">{{i.designation}}</option>
+                                        {% endfor %}
+              
+                                  </select>
+                            <select multiple name="item_id" style="width: 100%; height:100%">
+                            <select id="desig" name="desig" placeholder="--Select--" required style="height: 35px; width:180px">
+                                <option value="" selected disabled hidden>--Select--</option>
+                                {% for i in officers %}
+                                <option value="{{i.designation}}">{{i.designation}}</option>
+                                {% endfor %}
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-5" >
+                            <label for ='do_pdf' class="mr-sm-2">Upload DO letter</label>
+                        </div>
+                        <div class="col-md-5" >
+                            <input name="do_file" type="file" accept="application/pdf, image/jpeg, image/x-png, " style="width: 100%;" />
+                            <p style="color: blue;">Accepted types: .pdf, .png, .jpeg, .jpg</p>
+                        </div>
+                    </div>
+                   <div class="row">
+                    <div class="col-2 mr-3">
+                        <button type="submit" class="btn btn-primary mb-2 mt-4"  id="submit" >Submit</button> 
+                    </div>
+                   </div>
+                </form>
+               
+        </div>
+       
+        <div class="col-6" style="background-color: rgb(182, 182, 202);">
+            <h1>DO File Preview</h1>
+            <iframe src="{{form.doc_path}}">
+                
+            </iframe>
+        </div>
+    </div> -->
+
+    
+    <div class="row">
+      <div class="col" style="background-color: white;">
+        <form action="" method="POST" class="form-group" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row ">
+
+            <div class="col-md-4 " style="padding-top: 2%;">
+              <label for='do_letter_no' class="mr-sm-2">D.O. Letter No.</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+
+            <div class="col-md-8">
+              <input type='text' class="form-control mb-2 mr-sm-2" name="do_letter_no"
+                placeholder="Enter Letter No." required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label for='date' class="mr-sm-2">D.O. Letter Date</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+
+
+              <input type="text" class="form-control mb-2 mr-sm-2" autocomplete="off" name="date"
+                style="background-color: #fff;" placeholder="Select Date" id="email" required readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label for='subject' class="mr-sm-2">Subject</label><span style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+              <textarea class="form-control mb-2 mr-sm-2" name="subject" placeholder="Enter Subject"
+                required></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label for='action_by' class="mr-sm-2">Address To</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+
+
+              <!-- <select id="desig" name="desig" placeholder="--Select--" required style="height: 35px; width:180px">
+                        
+                            <option value="" selected disabled hidden>--Select--</option>
+                              {% for i in officers %}
+                              <option value="{{i.designation}}">{{i.designation}}</option>
+                              {% endfor %}
+                          </select>  -->
+              <div class="multi_select_box">
+                <input type="text" id="action_by_test" name="action_by_test" hidden>
+                <select id="action_by" name="action_by" class="form-control" style="width: 100%;"
+                  placeholder="--Select Officers--" data-live-search="true" multiple data-actions-box="true"
+                  multiple data-selected-text-format="count > 2" multiple>
+
+                  {% for i in officers %}
+                  <option style="width:20px" value="{{i.designation_code}}" data-tokens="{{i.designation}}">
+                    {{i.designation}}</option>
+                  {% endfor %}
+
+                </select>
+                <!-- <input type="button" id="desgnbtn${item}" value="Ok" onclick="getOption('desgn${item}')">
+                            <input type="text" id="desgninp${item}" value="" hidden> -->
+
+              </div>
+
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-4">
+              <label for='action_by' class="mr-sm-2">Copy To</label>
+            </div>
+            <div class="col-md-8">
+              <div class="multi_select_box">
+                <input type="text" id="copy_to_test" name="copy_to_test" hidden>
+                <select id="copy_to" name="copy_to" class="form-control" style="width: 100%;"
+                  placeholder="--Select Officers--" data-live-search="true" multiple data-actions-box="true"
+                  multiple data-selected-text-format="count > 2" multiple>
+
+                  {% for i in officers %}
+                  <option style="width:20px" value="{{i.designation_code}}" data-tokens="{{i.designation}}">
+                    {{i.designation}}</option>
+                  {% endfor %}
+
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-4">
+              <input type="text" name="savetype" value="upload" hidden>
+            </div>
+            <div class="form-group col-md-4">
+              <input type="radio" name="cat" value="upload" onclick="fun_check('single')" checked>
+              <label for="upload">Upload D.O.</label><br>
+            </div>
+            <div class="form-group col-md-4">
+              <input type="radio" name="cat" value="text" onclick="fun_check('radall')">
+              <label for="dotext">D.O. Text</label><br>
+            </div>
+          </div>
+          <div class="row mt-2" id="radsingle">
+            <div class="col-md-4">
+              <label for='do_pdf' class="mr-sm-2">Upload D.O. letter</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+              <input name="do_file" type="file" accept="application/pdf" style="width: 100%;" id="do_file"
+                onchange="Filevalidation()" />
+              <p style="color: blue;">Accepted types: .pdf <br> File size should not exceed 200kB </p>
+            </div>
+          </div>
+          <div class="row mt-2" id="radall">
+            <!-- <div class="col-md-4" >
+                        <label for ='do_text' class="mr-sm-2">DO Text</label><span style="color:red;font-weight:bold">*</span>
+                    </div> -->
+            <div class="col-md-12">
+              <textarea class="form-control mb-2 mr-sm-2" id="do_text" name="do_text" placeholder="Enter D.O. Text"
+                rows="5" maxlength="300" onkeyup="Filevalidation1(this.value)"></textarea>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 mr-3" id="submitdos">
+              <button type="submit" id="submit" class="btn btn-success" disabled
+                style=" width: 100%;" onclick="dosubmit()" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button>
+            </div>
+            <div class="col-4"></div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+ </div>
+</body>
+ <script>
+    function view_all(){
+        window.location.href= "{% url 'view_all' %}";
+      }
+
+      $('#action_by').select2()
+
+      $(document).ready(function() {
+        $('#submit').click(function() {
+            var selected = $("#action_by :selected").map((_, e) => e.value).get();
+            document.getElementById('action_by_test').value=selected;
+            //alert(document.getElementById('action_by_test').value)
+
+            
+        });
+    });
+ </script>
+   <!-- Apeksha DO letters scripts -->
+   <script>
+    $('#action_by').select2();
+    $('#copy_to').select2()
+    $(document).ready(function () {
+      $('#submit').click(function () {
+        var selected = $("#action_by :selected").map((_, e) => e.value).get();
+        document.getElementById('action_by_test').value = selected;
+  
+        selected = $("#copy_to :selected").map((_, e) => e.value).get();
+        document.getElementById('copy_to_test').value = selected;
+      });
+    });
+  
+     var tablexs = $('#replyStatus_table').DataTable({
+             "language": {
+               "search": "Search:"
+             }
+     });
+    var table11 = $('#modal_table').DataTable({
+      "language": {
+        "search": "Search:"
+      }
+    });
+  
+    var table2 = $('#do_letters_modal_table').DataTable({
+      "language": {
+        "search": "Search:"
+      }
+    });
+  
+  
+    function open_modal(id) {
+     
+      data = {
+        'id': id
+      }
+      $.ajax
+        ({
+          url: "{% url 'do_letter_modal_view' %}",
+          method: "GET",
+          dataType: "JSON",
+          async: false,
+          data: data,
+          success: function (response) {
+            table2.destroy()
+            $('#do_letters_modal_table tbody').empty()
+  
+            letters = response.letters;
+            status23 = response.status;
+            table_data = '';
+  
+            for (var i = 0; i < letters.length; i++) {
+              table_data += '<tr><td>' + (i + 1) + '</td>';
+              table_data += '<td>' + letters[i].do_letter_date + '</td>';
+              table_data += '<td><a href="" onclick="open_do(' + id + '); return false;">' + letters[i].do_letter_no + '</a></td>';
+              table_data += '<td>' + letters[i].desig_id + '</td>';
+              table_data += '<td>' + letters[i].status_flag + '</td></tr>';
+  
+            }
+            $('#do_letters_modal_table tbody').empty()
+            $('#do_letters_modal_table tbody').append(table_data)
+            table2 = $('#do_letters_modal_table').DataTable({
+              "language": {
+                "search": "Search:"
+              }
+            });
+  
+  
+          }
+        });
+  
+    }
+  
+    function open_do(id) {
+      $('#iframetest111').hide();
+     
+      data = {
+        'id': id
+      }
+      $.ajax
+        ({
+          url: "{% url 'view_ajax' %}",
+          method: "GET",
+          dataType: "JSON",
+          async: false,
+          data: data,
+          success: function (response) {
+            table11.destroy();
+  
+            letter_no = response.do_letter_no;
+            $('#letter_no').val(letter_no);
+            letter_date = response.do_letter_date;
+            $('#letter_date').val(letter_date);
+            subject = response.subject;
+            $('#subject').val(subject);
+            $('#copyto').val(response.copyto);
+            let str = 'Letter No.-' + String(letter_no) + 'Date:- ' + String(letter_date);
+            document.getElementById('setdodata').innerHTML = str;
+  
+            if (response.do_text == null) {
+              file = "/media/" + response.do_file;
+            }
+            else {
+              file = "/do_pdf_create/" + response.id;
+            }
+            $('#iframetest').attr('src', file);
+            status23 = response.status;
+            
+            table_data = '';
+            for (var i = 0; i < status23.length; i++) {
+              console.log(status23[i])
+              table_data += '<tr>';
+              if (status23[i]['status_flag'] == 'Pending') {
+                table_data += '<td style="color: red;">' + status23[i]['desig_id__designation'] + '</td>';
+                table_data += '<td >No</td>';
+                table_data += '<td>-</td>';
+                table_data += '<td>-</td></tr>'
+                table_data += '</tr>';
+              }
+              else {
+                table_data += '<td style="color: green;">' + status23[i]['desig_id__designation'] + '</td>';
+                str1 = String(status23[i]['date_of_reply'])
+                srt2 = String(str1.substring(8, 10)) + '-' + String(str1.substring(5, 7)) + '-' + String(str1.substring(0, 4));
+                table_data += '<td>Yes </td>';
+                table_data += '<td>' + srt2 + '</td>';
+                
+                reply_file = "/media/" + status23[i]['reply_path'];
+                if (reply_file != '/media/')
+                  table_data += `<td style="text-align: center;"><button type="submit" name="submit" class="b1" value="${reply_file}" onclick="funopenreply11(this.value)"><i class="fa fa-paperclip" style="font-size:20px;color:rgb(64, 112, 243)"></i></button></td></tr>`;
+                else
+                  table_data += '<td>-</td></tr>'
+                table_data += '</tr>';
+              }
+  
+            }
+            $('#modal_table tbody').empty()
+            $('#modal_table tbody').append(table_data)
+            table11 = $('#modal_table').DataTable({
+              "language": {
+                "search": "Search:"
+              }
+            });
+  
+  
+          }
+        });
+    }
+  
+    function upload_do() {
+  
+      data = {
+        csrfmiddlewaretoken: '{{csrf_token}}'
+      };
+      $.ajax
+        ({
+          url: "{% url 'upload-do' %}",
+          method: "POST",
+          dataType: "JSON",
+          async: false,
+          data: data,
+          success: function (response) {
+            let row = '';
+            row += '<option selected disabled hidden value=""> Select To Mark</option>';
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value=">' + response[i].designation + '">' + response[i].designation + '</option>';
+            
+            }
+  
+            $('#desig').append(row);
+          }
+        });
+  
+    }
+  
+    function reply_status(id) {
+     
+      $('#iframetest11').hide();
+      $('#aiframetest11').hide();
+      data = {
+        'id': id
+      };
+      $.ajax
+        ({
+          url: "{% url 'view_ajax2'  %}",
+          method: "GET",
+          dataType: "JSON",
+          async: false,
+          data: data,
+          success: function (response) {
+  
+            if (tablexs instanceof $.fn.dataTable.Api) {
+              tablexs.destroy();
+            }
+          
+            data = '<b>D.O. Letter No.</b>-' + response.letters[0].do_letter_no + '        <b>Date</b>- ' + response.letters[0].do_letter_date;
+            document.getElementById('dodetails').innerHTML = data;
+            file = "/media/" + response.do_file;
+  
+  
+            if (response.do_text == null) {
+              $('#iframetest1').attr('src', file);
+              $('#aiframetest1').attr('href', file);
+            }
+            else {
+              file = "/do_pdf_create/" + response.id;
+  
+              $('#iframetest1').attr('src', file);
+              $('#aiframetest1').attr('href', file);
+            }
+            var row = '';
+            $('#replyStatus_table tbody').empty();
+            for (i = 0; i < (response.letters[0].marked_to).length; i++) {
+              if (response.letters[0].marked_to[i].abc == true) {
+                row += '<tr><td style="color: green;"><b>' + response.letters[0].marked_to[i].xyz + '</b></td>';
+                row += '<td>Yes</td>';
+                reply_file = "/media/" + response.letters[0].marked_to[i].reply_path;
+                if (reply_file != '/media/')
+                  row += `<td style="text-align: center;"><button type="submit" name="submit" class="b1" value="${reply_file}" onclick="funopenreply(this.value)"><i class="fa fa-paperclip" style="font-size:20px;color:rgb(64, 112, 243)"></i></button></td></tr>`;
+                else
+                  row += '<td>-</td></tr>'
+              }
+              else{
+                row += '<tr><td style="color: red;"><b>' + response.letters[0].marked_to[i].xyz + '</b></td>';
+                row += '<td>NO</td>';
+                row += '<td>-</td></tr>'
+              }
+            }
+            $('#replyStatus_table tbody').empty()
+            $('#replyStatus_table tbody').append(row)
+            tablexs = $('#replyStatus_table').DataTable({
+              "language": {
+                "search": "Search:"
+              }
+            });
+  
+          }
+        });
+    }
+    
+    function funopenreply(val) {
+      if (val != '/media/') {
+        $('#iframetest11').attr('src', val);
+        $('#aiframetest11').attr('href', val);
+        $('#iframetest11').show();
+        $('#aiframetest11').show();
+      }
+    }
+  
+    function funopenreply11(val) {
+      if (val != '/media/') {
+        $('#iframetest111').attr('src', val);
+        $('#iframetest111').show();
+      }
+    }
+  
+    Filevalidation = () => {
+      const fi = document.getElementById('do_file');
+  
+      // Check if any file is selected.
+      if (fi.files.length > 0) {
+        for (const i = 0; i <= fi.files.length - 1; i++) {
+  
+          const fsize = fi.files.item(i).size;
+          const file = Math.round((fsize / 1024));
+          // The size of the file.
+          if (file >= 200) {
+            alert("File too Big, please select a file less than 200KB");
+          }
+          else {
+            // document.getElementById('size').innerHTML = '<b>'
+            // + file + '</b> KB';
+            document.getElementById('submit').disabled = false;
+          }
+        }
+      }
+    }
+  
+  
+  
+   //Apeksha DO letters scripts ends
+  
+  </script>
+  <script>
+    $(function () {
+  
+      $('input[name="date"]').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        autoApply: true,
+        maxDate: new Date(),
+        "opens": "left",
+        locale: {
+          cancelLabel: 'Clear'
+        }
+      });
+  
+      $('input[name="date"]').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YY'));
+  
+  
+      });
+  
+  
+    });
+  </script>
+
+<script type="text/javascript">
+
+  function dosubmit(){
+    $('#submitdos').hide();
+  }
+
+
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  /* Set the width of the side navigation to 0 */
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
+  var doissuedtable, doreceivedtable;
+
+
+  $('#radsingle').show();
+  $('#radall').hide();
+  function fun_check(value) {
+    document.getElementById('submit').disabled = true;
+    if (value == 'single') {
+      $('#do_text').val('');
+      $('#radsingle').show();
+      $('#radall').hide();
+
+    }
+    else {
+      $('#do_file').val('');
+      $('#radsingle').hide();
+      $('#radall').show();
+    }
+  }
+  function Filevalidation1(val) {
+    if (val.length > 0)
+      document.getElementById('submit').disabled = false;
+    else
+      document.getElementById('submit').disabled = true;
+  }
+
+
+
+
+
+  
+</script>
+
+<script>
+        
+  $(document).ready(function () {
+$("#submit").on("click", function() {
+  // $(this).attr("disabled", "disabled");
+  $(this).attr("hidden", "hidden");
+  doWork(); //this method contains your logic
+});
+});
+
+
+function doWork() {
+// alert("doing work");
+//actually this function will do something and when processing is done the button is enabled by removing the 'disabled' attribute
+//I use setTimeout so you can see the button can only be clicked once, and can't be clicked again while work is being done
+setTimeout('$("#submit").removeAttr("hidden")', 15000);
+}
+</script>
+    
+  {% endblock %}

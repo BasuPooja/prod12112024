@@ -1,0 +1,459 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+    <style>
+      * {
+  box-sizing: border-box;
+}
+body {
+        font-family: 'Quicksand', sans-serif;;
+        height: 100%;
+        margin: 0;
+        }
+
+
+    
+      input[type=text]
+      {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: block;
+              /* border: 1.5px solid rgb(14, 12, 12); */
+              border-radius: 4px;
+              box-sizing: border-box;
+      }
+    
+      input[type=submit] {
+              width: 40%;
+              text-align: center;
+              background-color: #4CAF50;
+             
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=submit]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+    
+    
+      input[type=button]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    
+      .inputtag{
+        height:20px;
+      }
+      .button {
+  padding: 15px 25px;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 2em;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #04AA6D;
+  border: none;
+  border-radius: 15px;
+ 
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.btn{
+  text-align: center;
+}
+
+#date_range {
+  width: 224px; 
+  height: 37px; 
+  border: 1px solid rgb(138, 136, 136); 
+  background-color: #fff; 
+  box-shadow: none;
+}
+
+.btn-block {width: 225px;}
+
+#sssss {
+  margin-left: 2em;
+  margin-right: 3em;
+}
+#aaaaa {
+  margin-left: 2em;
+  margin-right: 3em;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  padding: 10px;
+}
+.grid-item {
+ 
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+
+</style>
+
+<body>
+  <h3><center><b>Department Wise</b></center></h3>
+<br>
+
+    <div class="modern" style="font-family:'Lato', sans-serif">
+      <div class="grid-container" id="instituteTable" >
+
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" 
+                    id="account" name="account" value="ACCOUNTS" onclick="check_department_wise_all(this.value)">Account</button>
+                </td>
+
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='admin_general',
+                     name='admin_general' value='ADMIN/GENERAL'onclick="check_department_wise_all(this.value)">Admin/General</button>
+                </td>
+              </div>
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='civil_engineering' 
+                    name='civil_engineering' value='CIVIL ENGINEERING' onclick="check_department_wise_all(this.value)">Civil Engineering</button>
+                </td>
+              </div>
+            
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='commercial' 
+                    name='commercial' value='COMMERCIAL' onclick="check_department_wise_all(this.value)">Commercial</button>
+                </td>
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='cris_testing'
+                     name='cris_testing' value='CRIS_testing'  onclick="check_department_wise_all(this.value)">Cris Testing</button>
+                </td>
+
+              </div>
+
+
+             <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='electrical'
+                     name='electrical' value='ELECTRICAL' onclick="check_department_wise_all(this.value)" >Electrical</button>
+                </td>
+             </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='mechanical' 
+                    name='mechanical' value='MECHANICAL' onclick="check_department_wise_all(this.value)">Mechanical</button>
+                </td>
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='medical' 
+                    name='medical' value='MEDICAL' onclick="check_department_wise_all(this.value)">Medical</button>
+                </td>
+
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='misc' 
+                    name='misc' value='MISC' onclick="check_department_wise_all(this.value)">Misc</button>
+                </td>
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='operating' 
+                    name='operating' value='OPERATING' onclick="check_department_wise_all(this.value)">Operating</button>
+                </td>
+
+
+              </div>
+
+             <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='perssonal' 
+                    name='perssonal' value='PERSONNEL' onclick="check_department_wise_all(this.value)">Perssonal</button>
+                </td>
+
+             </div>
+
+             <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='safety' 
+                    name='safety' value='SAFETY' onclick="check_department_wise_all(this.value)">Safety</button>
+                </td>
+             </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='security' 
+                    name='security' value='SECURITY (RPF)' onclick="check_department_wise_all(this.value)">Security (RPF)</button>
+                </td>
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='singal_and_tele' 
+                    name='singal_and_tele' value='SIGNAL AND TELECOMMUNICATION (S&T)' onclick="check_department_wise_all(this.value)">Singal & Telecommunication</button>
+                </td>
+
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-danger btn-flat" id='store'
+                     name='store' value='STORE' onclick="check_department_wise_all(this.value)">Store</button>
+                </td>
+              </div>
+
+        </div>
+        
+  </div>  
+
+
+
+<div id='sssss'>
+<form method="POST" id='indexForm'> 
+    {% csrf_token %}
+  <div id="tablediv11" class="box-body no-padding">
+    <table id="tableid" name="tableid" class="table table-striped table-bordered table-sm " cellspacing="0">
+        <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">      
+        <tr>
+          <th>S. No</th>
+          <th>Inspection&nbsp;Type</th>
+          <th>Checklist&nbsp;Title</th>
+          <th>View Template</th>
+          <th>Create Inspection Report</th>
+
+        </tr>
+        </thead>
+
+           <tbody></tbody>
+  </table>
+
+    <!-- /.box-body -->
+  </div>
+</form>
+</div>
+<br>
+ 
+
+  <h3><center><b>Category Wise</b></center></h3>
+  
+    <div class="modern" style="font-family:'Lato', sans-serif">
+        <div class="grid-container" class="table table-striped table-bordered table-sm" id="instituteTable1" >
+        
+          <div class="grid-item">
+                <td>
+                    <button type="button" class="btn btn-block btn-secondary  btn-flat" id='station'
+                     name='station' onclick='category_wise(this.value)' value='Station'>Station</button>
+                </td>
+          </div>
+
+          <div class="grid-item">
+                <td>
+                    <button type="button" class="btn btn-block btn-secondary  btn-flat" id='track'
+                    onclick='category_wise(this.value)' name='track' value='Track'>Track</button>
+                </td>
+          </div>
+
+              <div class="grid-item">
+                <td>
+                    <button type="button" class="btn btn-block btn-secondary  btn-flat" id='workshope' 
+                    name='workshope' onclick='category_wise(this.value)' value='Workshop'>Workshop</button>
+                </td>
+              </div>
+
+                <div class="grid-item">
+                 <td>
+                    <button type="button" class="btn btn-block btn-secondary  btn-flat" id='gate' 
+                    name='gate' onclick='category_wise(this.value)' value='Gate'>Gate</button>
+                 </td>
+                </div>
+
+              <div class="grid-item">
+                <td>
+                    <button type="button" class="btn btn-block btn-secondary  btn-flat" id='footplate' 
+                    name='footplate' onclick='category_wise(this.value)' value='Footplate'>Footplate</button>
+                </td>
+
+              </div>
+
+              <div class="grid-item">
+
+                <td>
+                    <button type="button" class="btn btn-block btn-secondary  btn-flat" id='rcd' 
+                    name='rcd'  onclick='category_wise(this.value)' value='RCD'>RCD</button>
+                </td>
+
+              </div>
+
+
+            </div>
+    </div>
+  <br>
+
+<div id='aaaaa'>
+        <form method="POST" id='indexForm'> 
+            {% csrf_token %}
+          <div id="tablediv" class="box-body no-padding" >
+            <table id="tableid1" name="tableid" class="table table-striped table-bordered table-sm " cellspacing="0">
+                <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+                  
+                <tr>
+                    <th>S. No</th>
+                    <th>Inspection&nbsp;Type</th>
+                    <th>Checklist&nbsp;Title</th>
+                    <th>View Template</th>
+                    <th>Create Inspection Report</th>
+        
+                </tr>
+
+                </thead>
+        
+                <tbody> </tbody>
+           
+          </table>
+        
+            <!-- /.box-body -->
+        
+          </div>
+         
+        </form>
+        
+</div>
+  </body>   
+
+<script>
+  
+  $('#tableid1').hide();
+  $('#tableid').hide();
+</script>
+
+<script>
+
+  function check_department_wise_all(data1){
+    var table=$('#tableid').DataTable();
+   
+
+     let data={
+         "data1":data1
+     }
+     table.destroy();
+     $('#tableid tbody').empty();
+    $.ajax({
+          url: '{% url "check_department_wise_all" %}',
+          dataType: 'json',
+          type: 'POST',
+          data: data,
+          success: function(res){
+           count=1;
+           let myhtml2='';
+           for (i = 0; i <res.obj.length; i++) {
+             myhtml2 += '<tr>' 
+             myhtml2 += ' <td>' + [i+1] +'</td>'
+             myhtml2 += ' <td>' + res.obj[i].inspection_type +'</td>'
+             myhtml2 += ' <td>' + res.obj[i].checklist_title+'</td>'
+             myhtml2 += ' <td> <a title="Click to view details" href="/admin_checklistpdf/'+res.obj[i].checklist_id+'/"  target="blank"> <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;" > </i> </a> </td>'
+             myhtml2 += ' <td> <a title="Click to view details" href="/search_checklist_template_report/'+res.obj[i].checklist_id+'/"  target="blank"> <i class="fas fa-edit" style="margin-left: 1em; font-size: 30px;" > </i> </a> </td>'
+             myhtml2 += '</tr>'
+           }
+             $('#tableid tbody').append(myhtml2); 
+             $('#tableid').show();
+          //table=$('#tableid').DataTable();
+          table = $('#tableid').DataTable({
+            pageLength : 5,
+            lengthMenu: [[5, 10, 20, 50, 100,500], [5, 10, 20, 50, 100, 500]]
+          });
+          } 
+        })
+ }
+</script>
+
+<script>
+  function category_wise(data1){
+     var table=$('#tableid1').DataTable();
+     //var table = $('#tableid1').DataTable({
+      //pageLength : 5,
+      //lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']]
+    //});
+       
+      let data={
+          "data1":data1
+      }
+      table.destroy();
+      $('#tableid1 tbody').empty();
+     $.ajax({
+           url: '{% url "check_category_wise_all" %}',
+           dataType: 'json',
+           type: 'POST',
+           data: data,
+           success: function(res){
+            count=1;
+            let myhtml2='';
+
+            for (i = 0; i <res.obj.length; i++) {
+              myhtml2 += '<tr>' 
+              myhtml2 += ' <td>' + [i+1] +'</td>'
+              myhtml2 += ' <td>' + res.obj[i].inspection_type +'</td>'
+              myhtml2 += ' <td>' + res.obj[i].checklist_title+'</td>'
+              myhtml2 += ' <td> <a title="Click to view details" href="/admin_checklistpdf/'+res.obj[i].checklist_id+'/"  target="blank"> <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;" > </i> </a> </td>'
+              myhtml2 += ' <td> <a title="Click to view details" href="/search_checklist_template_report/'+res.obj[i].checklist_id+'/"  target="blank"> <i class="fas fa-edit" style="margin-left: 1em; font-size: 30px;" > </i> </a> </td>'
+              myhtml2 += '</tr>'
+            }
+              $('#tableid1 tbody').append(myhtml2); 
+              $('#tableid1').show();
+           //table=$('#tableid1').DataTable();
+           table = $('#tableid1').DataTable({
+            pageLength : 5,
+            lengthMenu: [[5, 10, 20, 50, 100,500], [5, 10, 20, 50, 100, 500]]
+          });
+          
+           }
+         })
+  }
+</script>
+
+  {% endblock %}  

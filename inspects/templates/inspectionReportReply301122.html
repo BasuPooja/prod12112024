@@ -1,0 +1,584 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+
+<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<style>
+
+
+
+  
+</style>
+
+<style>
+ 
+
+</style>
+
+<body>
+  <h2 style="font-family: 'Times New Roman', Times, serif;">
+    <center><b> Reply of {% for ab in ins_title %} {{ab.inspection_note_no}}  dtd.{{ab.inspected_on|date:'d/m/y'}} {% endfor %}</b></center>
+  </h2>
+<br>
+
+
+<form method="POST"> 
+{% csrf_token %}
+
+  <!-- <div class="row" style="margin-left: 15em;">
+   
+      <div class="col-md-2"  style="margin-left:2em ;">
+          <label for="Zone" >Rly/Org</label>
+         
+          <select class="form-control" id="zone" name="zone" class="custom-select" multiple readonly>
+            {% for g in multi_loc %}
+            {% if g.type == 'HQ' %}
+                  <option value="{{g.item}}" selected>{{g.item}}</option> 
+            {% endif %}
+              {% for zn in Zone %}
+                  <option value="{{zn}}">{{zn}}</option>
+              {% endfor %}
+            {% endfor %}
+          </select>
+              
+ 
+      </div>
+
+      <div class="col-md-2">
+          <label for="division">Division</label>
+          
+          
+          <select class="form-control" id="division" name="division" class="custom-select" style="max-width:100%;" multiple readonly>
+            {% for g in multi_loc %}
+            {% if g.type == 'DIV' %}
+                <option value="{{g.item}}" selected>{{g.item}}</option> 
+            {% endif %}
+                {% for div in division %}
+                <option value="{{div}}">{{div}}</option>
+                {% endfor %}
+            {% endfor %}
+          </select>
+                  
+           
+          
+      </div>
+      <div class="col-md-2">
+      <label for="division">Department</label>
+      
+      <select class="form-control" id="department" name="department" class="custom-select" style="max-width:100%;" multiple readonly>
+        {% for g in multi_loc %}
+        {% if g.type == 'DPT' %}
+            <option value="{{g.item}}" selected>{{g.item}}</option> 
+        {% endif %}
+            {% for dp in department %}
+            <option value="{{dp.department_name}}">{{dp.department_name}}</option>
+            {% endfor %}
+        {% endfor %}
+      </select>
+              
+             
+      </div>
+  
+      <div  class="col-md-2" >
+        <label for="location" >Location</label>
+        <select name="location" id="location" class="form-control" multiple readonly>
+          {% for g in multi_loc %}
+          {% if g.type == 'LOC' %}
+              <option value="{{g.item}}" selected>{{g.item}}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      
+      <div class="col-md-2 form-group" >
+        <label for="start" >Inspection Date</label><br>
+        {% for date in ins_title %}
+          <textarea type="text" autocomplete="off" name="daterange1"   class="form-control" style="margin-top:0em ;height: 100px; max-width: 100%;" id="txtDate2"  readonly>{{date.start_date|date:'d/m/Y'}} to {{date.inspected_on|date:'d/m/Y'}}</textarea>
+          {% endfor %}
+      </div>
+
+  </div>  -->
+</div>   
+<br>
+
+
+
+
+{% for i in ins_title %}
+<div class="container">
+  <label for="start" >Title</label>
+  <textarea class="form-control" maxlength="150"   id="titleinsp"  name="titleinsp" readonly>{{i.inspection_title}}</textarea>
+ 
+</div> 
+{% endfor %}
+<br>
+
+
+        <div class="col-md-12"> 
+        <table id="table1" class="table table-striped table-bordered center" style="width:95%; margin-left: 1em;">
+
+          <thead >
+           
+              <tr style="margin-left: 5em;">
+               
+               <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Item.No.</th>
+              
+               <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 30%;"> Inspection Para</th>
+              
+              
+               <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">Action By</th>
+              
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 20%;">Reply Received</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Days Taken</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">% Compliance</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">Priority</th>
+              <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">Reject Reply</th>
+              
+              
+             </tr>
+        
+          </thead>
+          
+          
+          <tbody  id="addworkmech">
+          
+          {% for j in item_details1 %}
+          
+          {% if j.type == 'H' %}
+          <tr>
+          <td><div style="text-align: center; width:5px; font-family: verdana;">{{j.des_id}}</div></td>
+          <td><div><b><p id='heading{{j.des_id}}' >{{j.item_title}}</p></b></div></td>
+          
+          
+          
+          
+          {% if j.chk_cts == 'YES' %}
+            <td>
+              <table width="100%" class="table">
+                
+                
+                {% for z in j.mrkoffi %}
+                    {% if z.status_flag == 3 %}
+                      <tr>
+                        <td style="line-height: 2.42857143;"><span style="color: green;">{{z.marked_to__designation}}</span></td>
+                      </tr>
+                    {% else %}
+                      <tr>
+                        <td style="line-height: 2.42857143;"><span style="color: red;">{{z.marked_to__designation}}</span></td>
+                      </tr>
+                    {% endif %}
+                
+                {% endfor %}
+                
+               
+              </table>
+            
+            </td>
+            
+            <td>
+                <table width="100%">
+                {% for z in j.mrkoffi %}
+                {% if z.compliance != null %}
+                      <tr>
+                        <td style="line-height: 2.42857143;">{{z.compliance}}</td>
+                      </tr>
+                      {% else %}
+                        <tr>
+                          <td style="line-height: 2.42857143;">-</td>
+                        </tr>
+                      {% endif %}
+                
+                {% endfor %}
+              </table>
+            </td>
+            <td>
+              <table width="100%" class="table">
+                
+                {% now "Y-m-d" as todays_dt %}
+                
+                
+                    {% for z in j.mrkoffi %}
+                        {% if todays_dt > j.target_date|date:'Y-m-d' %}
+                            <tr>
+                              <td style="line-height: 2.42857143;"><span style="color: red;">{{z.days}}</span></td>
+                            </tr>
+
+                      {% else %}
+                        <tr>
+                          <td style="line-height: 2.42857143;"><span style="color: green;">{{z.days}}</span></td></td>
+                        </tr>
+                      {% endif %}
+
+                    {% endfor %}
+                
+              </table>
+            </td>
+            <td>
+              {{j.percentage}}
+            </td>
+
+            <td>
+              -
+            </td>
+            
+        
+
+           
+              <td>
+                <table width="100%" class="table">
+                    {% for z in j.mrkoffi %}
+                    <tr >
+                      
+                      <td style="line-height: 2.4857143;" >
+                        {% if z.status_flag == 3 %}
+                        <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: green;"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                        </div>
+                        {% elif z.status_flag == 1 and z.status == 'R' %}
+                        <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: #ff6961;"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                        </div>
+                        {% else %}
+                            -
+                        {% endif %}
+                      </td>
+                      
+                    </tr>
+                    
+                    {% endfor %}
+                  </table>
+              </td>
+           
+
+            
+          {% else %}
+            
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+
+          {% endif %}
+        </tr>
+
+
+          {% elif j.type == 'SH' %}
+          <tr>
+              <td><p style="text-align: center; width:5px; font-family: verdana;" id='itemno{{j.des_id}}'>{{j.des_id}}</p></td>
+              
+           
+              <td ><p id='observation{{j.des_id}}'>{{j.observation}}</p></td>
+              
+              
+              
+              <td>
+                
+                
+                <table width="100%" class="table">
+                  {% for z in j.mrkoffi %}
+                      {% if z.status_flag == 3 %}
+                        <tr>
+                          <td style="line-height: 2.42857143;"><span style="color: green;">{{z.marked_to__designation}}</span></td>
+                        </tr>
+                      {% else %}
+                        <tr>
+                          <td style="line-height: 2.42857143;"><span style="color: red;">{{z.marked_to__designation}}</span></td>
+                        </tr>
+                      {% endif %}
+                  
+                  {% endfor %}
+                </table>
+              
+              </td>
+              
+                <td>
+                  <table width="100%">
+                    {% for z in j.mrkoffi %}
+                    {% if z.compliance != null %}
+                      <tr>
+                        <td style="line-height: 2.42857143;">{{z.compliance}}</td>
+                      </tr>
+                      {% else %}
+                        <tr>
+                          <td style="line-height: 2.42857143;">-</td>
+                        </tr>
+                      {% endif %}
+                    
+                    {% endfor %}
+                  </table>
+                </td>
+                <td>
+                    <table width="100%" class="table">
+                      {% now "Y-m-d" as todays_date %}
+
+                      
+                          {% for z in j.mrkoffi %}
+                              {% if todays_date > j.target_date|date:'Y-m-d' %}
+                                  <tr>
+                                    <td style="line-height: 2.42857143;"><span style="color: red;">{{z.days}}</span></td>
+                                  </tr>
+
+                            {% else %}
+                              <tr>
+                                <td style="line-height: 2.42857143;"><span style="color: green;">{{z.days}}</span></td></td>
+                              </tr>
+                            {% endif %}
+
+                          {% endfor %}
+                      
+                    </table>
+                </td>
+                <td>
+                  {{j.percentage}}
+                </td>
+
+                <td>
+                  
+                  {% if j.priority == 1 %}
+                  <span>High</span>
+                  {% else %}
+                      -
+                  {% endif %}
+                </td>
+
+                <td>
+                  <table width="100%" class="table">
+                      {% for z in j.mrkoffi %}
+                      <tr >
+                        
+                        <td style="line-height: 1.9857143;" >
+                          {% if z.status_flag == 3 %}
+                          <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: green;"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                          </div>
+                          {% elif z.status_flag == 1 and z.status == 'R' %}
+                          <div style="text-align: center;"><a  value="reject" onclick="actionBtnFunction(this);"   id="{{z.marked_no}}" data-toggle="modal" data-target="#actionModal"><span style="font-weight: bold; color: #ff6961;"><i class="fas fa-dot-circle fa-2x"></i></span></a>
+                          </div>
+                          {% else %}
+                              -
+                          {% endif %}
+                        </td>
+                        
+                      </tr>
+                      
+                      {% endfor %}
+                    </table>
+                </td>
+              
+            </tr>
+              
+          {% else %}
+          <tr>
+            <td><div style="text-align: center; width:5px; font-family:verdana;"></div></td>
+            <td>{{j.des_id}}<p id='subheading{{j.des_id}}' autocomplete = "off"  style="margin-left: 80px;" >{{j.item_subtitle}}</p></td>
+              
+          </tr>
+          {% endif  %}  
+        {% endfor %}
+        
+      </tbody>
+          
+      </table>
+  </div>
+
+</form>
+<br>
+<br>
+
+
+   
+
+
+<!-- action Modal -->
+<div class="modal fade" id="actionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Action</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="containar">
+
+          <div class="row">
+              <table id="m_table" class="table">
+                  <thead>
+                      <tr>
+                          <th>S.No</th>
+                          <th>Remark</th>
+                          <th>Reply On</th>
+                          
+                          <th>Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+
+              </table>
+              <div class="col text-id">
+                
+              </div>
+          </div>
+
+          <div class="row">
+              <input type="text" id="marked_no" hidden>
+              
+              <div class="col">
+                  
+
+                  <div>
+                      <label for="remark_id"><b>Add Remark</b></label>
+                      <textarea class="form-control" placeholder="Max lanegth 200 character" style="height: 50px;" name="remark_id" id="remark_id" cols="30" rows="10" maxlength="200"></textarea>
+                  </div>
+              </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="m_close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save_btn_id" onclick="saveActionForm();">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+
+<input type="text" id="insp_number" value="{{insp_number}}" hidden>
+
+
+<br>
+<br>
+</body>
+
+<script>
+
+function actionBtnFunction(el){
+  
+  let insp_number = $('#insp_number').val()
+  let mark_officer_id = el.id
+      $('#marked_no').val(mark_officer_id)
+
+      $('#m_table tbody').empty()
+
+
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'actionBtnFunction_ajax' %}",
+      dataType : 'json',
+      data : {insp_number, mark_officer_id},
+      success : function(response){
+        
+          for(let y in response.obj){
+            if(response.obj[y].status == 'R' && response.obj[y].status_flag == 1){
+                  document.getElementById('save_btn_id').disabled = true;
+                  document.getElementById('remark_id').disabled = true;
+                }
+                else{
+                  document.getElementById('save_btn_id').disabled = false;
+                  document.getElementById('remark_id').disabled = false;
+                }
+          }
+          if(response.rem_obj.length > 0){
+            let content = ''
+            
+            for(i in response.rem_obj){
+                $('#m_table tbody').empty()
+                let sno = parseInt(i+1)
+                content += '<tr>'
+                        +'<td>'+sno+'</td>'
+                        +'<td>'+response.rem_obj[i].remark+'</td>'
+                        
+                        +'<td>'+ formatDate(response.rem_obj[i].rejected_on)+'</td>'
+                        +'<td>'+ response.rem_obj[i].status +'</td>'
+            
+                content +=  '</tr>'
+                
+            }
+            $('#m_table tbody').append(content)
+          }else{
+            $('.text-id').html('<div style="text-align: center;"><h6>No Remark</h6></div>')
+          }
+
+          
+      }
+ });
+}
+
+
+// function acceptBtnFunction(el){
+//   let mark_num= el.id
+//   let insp_number= $('#insp_number').val()
+
+//   $.ajax({
+//       type : 'GET',
+//       url : "{% url 'accept_mark_reply_ajax' %}",
+//       dataType : 'json',
+//       data : {mark_num, insp_number},
+//       success : function(response){
+
+          
+
+//           window.location.reload()
+          
+        
+//       }
+//  });
+// }
+
+
+
+function saveActionForm(){
+  // let action_option = $('#action_option').val()
+  
+  let mark_num= $('#marked_no').val()
+  let remark_id= $('#remark_id').val()
+  let insp_number= $('#insp_number').val()
+  if(remark_id == ''){
+      alert('Please add some remark')
+      return false;
+  }
+      
+  $.ajax({
+      type : 'GET',
+      url : "{% url 'save_mark_reply_ajax' %}",
+      dataType : 'json',
+      data : {mark_num, remark_id, insp_number},
+      success : function(response){
+        
+          $('#m_close').click()
+
+          window.location.reload()
+          
+        
+      }
+ })
+}
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day,month,newyear].join('/');
+}
+
+</script>
+{% endblock %}  

@@ -1,0 +1,3314 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load convertoInt %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map View</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+    <script src="{% static '/js/newchart.js' %}" ></script>
+
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+    />
+
+    <style>
+        .summary-card{
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        margin: 0%;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 0.25rem;
+        /* background-color: #fff1ce; */
+        width: 47%;
+        margin-top: -21%;
+        margin-left: 1%;
+        /* height: 60%; */
+     }
+     .summary-card:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+        /* .col-6 col-sm-3{
+            height: 200px !important;
+        } */
+        .backgroundImage {
+            background-color: #fff6dc;
+            /* background-image:url('{% static "images/flag6.jpg" %}'); */
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+        #mapZone{
+            height: 100%;
+        }
+        #mapPu{
+            height: 100%;
+        }
+        .zones {
+            width: 100%;
+            height: 100%;
+        }
+
+        svg {
+
+            transform: scale(1.2);
+        }
+
+        .box {
+            border-style: solid;
+            border-color: darkred;
+            border-radius: 10px;
+            border-width: 8px;
+            background-color: beige;
+            color: #fff;
+        }
+
+        #zones32 {
+            transform: scale(2.5);
+        }
+    
+            .select2-container .select2-selection--single {
+                height: 35px !important;
+                width: 100% !important;
+      
+                display: block !important;
+            
+                border-radius: 4px !important;
+                box-sizing: border-box !important;
+            }
+            .select2-selection__arrow {
+                height: 35px !important;
+            }
+       
+    </style>
+
+<style>
+    
+    .Rcard{
+      width:20rem;
+      border-left-style: groove;
+      border-right-style: groove;
+      border-top-style: groove;
+      border-bottom-style: groove;
+     /* height: 95% !important; */
+    }
+    .Rcard:hover{
+      box-shadow: black;
+    }
+    .passengercard{
+      /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYmlsUCSUUY9gDqOTqMnunSZe9ex5tvM7kQg&usqp=CAU");
+      background-repeat: no-repeat;
+      background-position: 20% 10%; */
+      height: 95%;
+      width:155%;
+      margin-left: -9%;
+      z-index: 0;
+      /* border-radius: 5%; */
+    }
+    .passengercard:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+    .passengercard::before {
+          /* Overlay with the desired opacity */
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(255, 255, 255, 0.3); /* Change the opacity value as needed */
+          z-index: -1; /* Set to be behind the .passengercard content */
+      }
+    .employeecard{
+      height: 95%;
+      margin-left:36%;
+      width:155%;
+      /* border-radius: 5%; */
+    }
+    .employeecard:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+    .otherscard{
+      height: 95%;
+      margin-left:80%;
+      width:155%;
+      /* border-radius: 5%; */
+    }
+    .otherscard:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+    .nightcard{
+      height: 100%;
+      margin-top:-7%;
+      width:155%;
+      margin-left: -9%;
+      /* border-radius: 5%; */
+    }
+    .nightcard:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+    .surprisecard{
+      height: 100%;
+      margin-top:-7%;
+      margin-left:36%;
+      width:155%;
+      /* border-radius: 5%; */
+    }
+    .surprisecard:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+    .drivecard{
+      height: 100%;
+      margin-top:-7%;
+      margin-left:80%;
+      width:155%;
+      /* border-radius: 5%; */
+    }
+    .drivecard:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+    .totalVal{
+      padding: 1%;
+      /* background-color: #85f9a0; */
+      font-size: 88%;
+      margin-left: -3%;
+      border:5% solid black;
+      border-radius: 4%;
+    }
+    .pendingVal{
+      padding: 1%;
+      /* background-color:#fad76f; */
+      font-size: 88%;
+      border:5% solid black;
+      border-radius: 4%;
+    }
+    .overdueVal{
+      padding: 1%;
+      /* background-color:   #fd8591; */
+      font-size: 88%;
+      border:5% solid black;
+      border-radius: 4%;
+    }
+   /* .chart-container{
+      width:100%;
+      max-width:1000px;
+      height: %;
+   } */
+   .total{
+      margin-left: 5%;
+      margin-top: 5%;
+      font-size: 90%;
+   }
+   .pending{
+      margin-left: 17%;
+      font-size: 90%;
+   }
+   .overdue{
+      margin-left:8%;
+      font-size: 90%;
+   }
+   .chart-container{
+        /* height:70% !important; */
+      min-width: 180%;
+      margin-left: -15%;
+      background-size: cover;
+      margin-top: 0%;
+   }
+   .cards2 {
+          /* border-radius: 50%; */ 
+          padding: 1px !important;
+          text-align: center;
+          background-color: blanchedalmond;
+          margin-left: -20%;
+
+      }
+
+      .cards3 {
+          /* border-radius: 50%; */
+          padding: 1px !important;
+          text-align: center;
+          background-color: rgb(188, 253, 188);
+          margin-left: 4%;
+      }
+
+      .cards4 {
+          /* border-radius: 50%; */
+          padding: 1px !important;
+          text-align: center;
+          background-color: rgb(204, 235, 251);
+          margin-left: 4%;
+
+      }
+
+      .cards5 {
+          /* border-radius: 50%; */
+          padding: 1px !important;
+          text-align: center;
+          background-color: rgb(251, 245, 192);
+          margin-left: 4%;
+      }
+
+      .cards6 {
+          /* border-radius: 50%; */
+          padding: 1px !important;
+          text-align: center;
+          background-color: blanchedalmond;
+          margin-left: 4%;
+      }
+      .cates1{
+            padding-top: 0%;
+          margin-top: 0%;
+          margin-left: -23%;
+          font-size: 80%;
+      }
+      .cates2{
+        padding-top: 0%;
+        margin-top: 0%;
+          margin-left:4%;
+          font-size: 80%;
+      }
+      .cates3{
+        padding-top: 0%;
+        margin-top: 0%;
+          margin-left:4%;
+          font-size: 80%;
+      }
+      .cates4{
+        padding-top: 0%;
+        margin-top: 0%;
+          margin-left:4%;
+          font-size: 80%;
+      }
+      .cates5{
+        padding-top: 0%;
+        margin-top: 0%;
+          margin-left:3%;
+          font-size: 80%;
+      }
+      .card-title{
+          /* background: linear-gradient(to top, #dad4ec 0%, #dad4ec 1%, #f3e7e9 100%); */
+          width:116%;
+          padding: 2%;
+          margin-top: -8%;
+          margin-left: -8%;
+          /* padding-left: 25%;
+          padding-right: 10%; */
+          /* max-width: 100%; */
+          
+      }
+      .row1 {
+          margin-top: 4%;
+          background: linear-gradient(120deg, #e4fdab 0%, #ebfded 100%);
+          border-radius: 17%;
+          margin-left: -3%;
+      }
+      .cardStation {
+          /*height: 16rem; */
+          border-left-style: groove;
+          border-right-style: groove;
+          border-top-style: groove;
+          border-bottom-style: groove;
+          /* border-width: 0.7%; */
+          border-color: rgb(213, 176, 213);
+          padding: 0%;
+
+      }
+ 
+      .cardSection {
+          /*height: 16rem; */
+          border-left-style: groove;
+          border-right-style: groove;
+          border-top-style: groove;
+          border-bottom-style: groove;
+          /*border-width: 0.7%;*/
+          border-color: rgb(213, 176, 213);
+          padding: 0%;
+      }
+      .row2 {
+          margin-top: 4%;
+          background: linear-gradient(110.5deg, rgba(252, 223, 253, 0.66) 22.8%, rgba(248, 192, 146, 0.15) 64.6%);
+          border-radius: 17%;
+          margin-left: -3%;
+      }
+      .cardTrain {
+          /*height: 16rem;*/
+          border-left-style: groove;
+          border-right-style: groove;
+          border-top-style: groove;
+          border-bottom-style: groove;
+          /*border-width: 0.7%;*/
+          border-color: rgb(213, 176, 213);
+          /* width: 200%; */
+          padding: 0%;
+      }
+      .row3 {
+          margin-top: 4%;
+          background: radial-gradient(253px at 12.6% 77.9%, rgb(234, 247, 231) 0.3%, rgb(237, 251, 251) 90.5%);
+          border-radius: 17%;
+          margin-left: -3%;
+      }
+      .cardOthers {
+          /*height: 16rem;*/
+          border-left-style: groove;
+          border-right-style: groove;
+          border-top-style: groove;
+          border-bottom-style: groove;
+          border-color: rgb(213, 176, 213);
+          padding: 0%;
+      }
+
+      .row4 {
+          margin-top: 4%;
+          background: radial-gradient(circle at 10% 20%, rgb(252, 253, 200) 0%, rgb(248, 241, 226) 90%);
+          border-radius: 17%;
+          margin-left: -3%;
+      }
+      /* .chart1{
+          width:20%;
+          height: 100%;
+      } */
+      /* .text-info {
+          background-color: white;
+          border-radius: 40%;
+          width: 400%;
+      } */
+
+      .table td,
+      .table th {
+          border-top: 0;
+
+      }
+
+      .table thead th {
+
+          border-bottom: 0;
+      }
+     
+  </style>
+
+<style>
+    .cardStation {
+            /*height: 16rem; */
+            border-left-style: groove;
+            border-right-style: groove;
+            border-top-style: groove;
+            border-bottom-style: groove;
+            /* border-width: 0.7%; */
+            border-color: rgb(213, 176, 213);
+        }
+
+        .cardSection {
+            /*height: 16rem; */
+            border-left-style: groove;
+            border-right-style: groove;
+            border-top-style: groove;
+            border-bottom-style: groove;
+            /*border-width: 0.7%;*/
+            border-color: rgb(213, 176, 213);
+        }
+
+        .row2 {
+            margin-top: 4%;
+            background: linear-gradient(110.5deg, rgba(252, 223, 253, 0.66) 22.8%, rgba(248, 192, 146, 0.15) 64.6%);
+            border-radius: 17%;
+            margin-left: -3%;
+        }
+
+        .cardTrain {
+            /*height: 16rem;*/
+            border-left-style: groove;
+            border-right-style: groove;
+            border-top-style: groove;
+            border-bottom-style: groove;
+            /*border-width: 0.7%;*/
+            border-color: rgb(213, 176, 213);
+        }
+
+        .row3 {
+            margin-top: 4%;
+            background: radial-gradient(253px at 12.6% 77.9%, rgb(234, 247, 231) 0.3%, rgb(237, 251, 251) 90.5%);
+            border-radius: 17%;
+            margin-left: -3%;
+        }
+
+        .cardOthers {
+            /*height: 16rem;*/
+            border-left-style: groove;
+            border-right-style: groove;
+            border-top-style: groove;
+            border-bottom-style: groove;
+            border-color: rgb(213, 176, 213);
+        }
+
+        .row4 {
+            margin-top: 4%;
+            background: radial-gradient(circle at 10% 20%, rgb(252, 253, 200) 0%, rgb(248, 241, 226) 90%);
+            border-radius: 17%;
+            margin-left: -3%;
+        }
+
+        .text-info1 {
+            background-color: #e9ffd2;
+            margin-top: 2%;
+            border-radius: 64px 32px;
+           
+        }
+
+        .text-info2 {
+            background-color: #FEFAE0;
+            margin-top: 2%;
+            border-radius: 64px 32px;
+           
+        }
+
+        .text-info3 {
+            background-color: #EDFFEC;
+            margin-top: 2%;
+            border-radius: 64px 32px;
+           
+        }
+        .text-info4 {
+            background-color: #fff5d5;
+            margin-top: 2%;
+            border-radius: 64px 32px;
+           
+        }
+        .table td,
+        .table th {
+            border-top: 0;
+
+        }
+
+        .table thead th {
+
+            border-bottom: 0;
+        }
+
+</style>
+
+
+<style>
+    .colour1 {
+        background: linear-gradient(120deg, #e4fdab 0%, #ebfded 100%);
+        
+    }
+
+    .shape {
+        height: 100%;
+        background-color: rgb(210, 241, 219);
+        border-radius: 15%;
+    }
+
+    .colour2 {
+        background: linear-gradient(110.5deg, rgba(252, 223, 253, 0.66) 22.8%, rgba(248, 192, 146, 0.15) 64.6%);
+    }
+
+    .colour3 {
+        background: radial-gradient(253px at 12.6% 77.9%, rgb(234, 247, 231) 0.3%, rgb(237, 251, 251) 90.5%);
+    }
+
+    .colour4 {
+        background: radial-gradient(circle at 10% 20%, rgb(252, 253, 200) 0%, rgb(248, 241, 226) 90%);
+    }
+</style>
+
+
+<style>
+    
+  .loader {
+  border: 16px solid #f3f3f3;
+  /* border-radius: 50%; */
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+.green {
+        color: green;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .yellow {
+        color: yellow;
+    }
+</style>
+
+<style>
+    .card table td {
+            padding: 0.15rem;
+        }
+        .card-summ-header{
+            padding: 0%;
+        }
+         .summary-card{
+   
+        margin: 0%;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 0.25rem;
+       
+        width: 47%;
+        margin-top: -17%;
+        margin-left: 2%;
+        min-height: 50%;
+       
+
+     }
+     .summary-card:hover{
+      background: #fff;
+      box-shadow: 0px 6px 7px rgba(0, 0, 0, 0.30);
+    }
+
+    .custom-table {
+        border-collapse: separate;
+        /* border-spacing: 3%;  */
+        /* Addspace between columns */
+        margin: 2%;
+
+    }
+
+    /* .custom-table td {
+        padding: 2%; 
+    } */
+</style>
+<style>
+    .cardsHeaders{
+        background: rgb(2,171,228);
+        background: linear-gradient(0deg, rgba(2,171,228,1) 0%, rgba(4,118,193,1) 50%, rgba(72,72,255,1) 100%);
+        color: white;
+        /* background: rgb(48,213,214);
+        background: linear-gradient(0deg, rgba(48,213,214,1) 0%, rgba(72,202,255,1) 100%, rgba(158,231,255,1) 100%); */
+    }
+    .PendencySatsTables{
+        width: 100%;
+        height: 100%;
+    }
+    .overalStatsTable{
+        width:100%; text-align: center;  height: 30%; margin: 0%; padding: 0%;
+    }
+    /* .overalStatsTable td{
+        height: 10px;
+    }  */
+    .card-body{
+        padding-top: 0% !important;
+    }
+    .graphcards{
+        background: rgb(2,171,228);
+        background: linear-gradient(0deg, rgba(2,171,228,1) 0%, rgba(4,118,193,1) 50%, rgba(72,72,255,1) 100%);
+        color: white;
+        /* background: radial-gradient(592px at 48.2% 50%, rgba(255, 255, 249, 0.6) 0%, rgb(160, 199, 254) 74.6%); */
+        height: 10%;
+        /* margin-top: 1%; */
+        padding: 1%;
+    }
+    .graphcards th{
+        padding-top: 0%;
+        padding-bottom: 0%;
+    }
+    .tableProgress{
+        width: 100%; text-align: left; margin-top: 1%;
+    }
+    .tableProgress th{
+        padding: 0% !important;
+    }
+    .progress-bar{
+        color: black;
+    }
+    .stats-card{
+        width: 100%;
+        padding: 0% !important;
+    }
+    .table  .table-bordered .table-stats{
+        width: 100%;
+        padding: 0% !important;
+    }
+    .nav-link{
+        color: black;
+        font-weight: 600;
+    }
+</style>
+
+
+<style>
+    /* The Modal */
+    .modal { 
+         display: none; 
+         position: fixed; 
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+        }
+       
+    /* Modal Content */
+    .modal-content {
+         background-color: #fefefe;
+         margin:  8%; 
+         margin-left: 12%;
+         margin-top: 5%;
+         padding: 20px;
+         border: 1px solid #888;
+         width: 80%; /* 80% width */
+         height:80%;
+       }
+       
+       /* Close Button */
+       .close {
+         float: right;
+         font-size: 28px;
+         font-weight: bold;
+         cursor: pointer;
+       }
+       
+       .close:hover,
+       .close:focus {
+         color: red;
+       }
+       .box{
+        background-color: white;
+        border-width: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 3px;
+       }
+</style>
+
+</head>
+
+<body>
+
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" id="textId" name="textId" hidden>
+        <input type="text" id="textdivws" name="textdivws" value="DIV" hidden>
+        <input type="submit" id="submitButton" name="submit" value="submitZone" hidden>
+
+
+        <input type="text" id="irSearchType" name="irSearchType" value="No" hidden>
+        <input type="text" id="irSearchDate" name="irSearchDate" value="{{irSearchDate|default:''}}" hidden>   
+        <input type="text" id="irSearchDesig" name="irSearchDesig" value="{{irSearchDesig|default:'All'}}" hidden>
+        <input type="text" id="irSearchDept" name="irSearchDept" value="{{irSearchDept|default:'All'}}" hidden>
+        <input type="text" id="irTypeformodal" name="irTypeformodal" value="" hidden>
+        <input type="text" id="irType" name="irType" value="{{irTypeVal}}" hidden>
+        <input type="text" id="irDetails" name="irDetails" value="{{irDetailsVal}}" hidden>
+        <input type="text" id="irPath" name="irPath" value="{{irPathVal}}" hidden>
+        <input type="text" id="irMap" name="irMap" value="{{irMapVal}}" hidden>
+        <input type="text" id="irPath1" name="irPath1" value="{{irPathVal1}}" hidden>
+        <input type="text" id="irPath2" name="irPath2" value="{{irPathVal2}}" hidden>
+        <input type="submit" id="irSubmitButton" name="submit" value="irSubmitButton" hidden>
+
+    </form>
+<div id="main" class="container-fluid ml-0" style="float: top;">
+    <div class="container-fluid" style="background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);margin-left: 28px;margin-top: 0px;padding-left: 0px;padding-right: 0px; height: 80px;">
+        <div class="row mt-2">
+            <div class="col-xs-12 col-md-4 col-sm-12 mb-2 ">
+                <h3 class="font-weight-bold text-black float-justify text-center" style="margin-top: 25px;"> INSPECTION
+                    DASHBOARD </h3>
+            </div>
+            <div class="col-sm-12 col-md-8">
+                <div class="container  mt-5" id="filterForm" style="margin-top: 1px !important;margin-bottom: 1px;">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Date Wise</label>
+                                    <input readonly type="text" autocomplete="off" placeholder="Select Date Range"
+                                        class="form-control dateofInsp" name="searchDate" id="searchDate" value="{{irSearchDate}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Department</label>
+                                   
+
+
+
+                                    <select class="form-control" data-live-search="true" name="searchDepartment"
+                                        id="searchDepartment" data-actions-box="true" onchange="setDesigACToDept(this.value)">   
+                                        <option value="All">All</option>
+                                        {% for i in allDepartment %}
+                                        
+                                        <option value="{{i.department_code}}" {% if irSearchDept == i.department_code %} selected {% endif %}>{{i.department_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="lbl-caption">Designation</label>
+                                    <select class="form-control" data-live-search="true" name="searchDesignation"
+                                        id="searchDesignation" data-actions-box="true">
+                                        <option value="All">All</option>   
+                                        {% for i in allDesignation %}
+                                        <option value="{{i.designation_code}}" {% if irSearchDesig == i.designation_code %} selected {% endif %}>{{i.designation}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                         
+
+                            <div class="col-lg-2 col-md-12 col-sm-12 " style="margin-top: 15px;">
+                                <div class="row text-center">
+                                    <div class="form-group mx-auto">
+                                        <div class="btn-toolbar mx-1" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-success btn-sm" name="submit" onclick="searchAllFunction('Search')"
+                                                    style="margin-top:15px;color: white;"
+                                                    value="search">Continue</button>
+                                                <button type="button" class="btn btn-danger btn-sm" name="submit" onclick="searchAllFunction('Reset')"
+                                                    style="margin-top:15px ;" value="reset">Reset</button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid row mt-2" style="margin-left: 0px;">
+        
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="px-3" style="background-color:antiquewhite; border-radius: 0.438rem;color:#000080;font-size: 1.275rem;z-index:100;"></div>
+                    {% if irMapVal == '1' %}
+                    <div id="mapZone" class="card card-small p-2 mb-2 mapdiv clickable backgroundImage">
+
+                        <div style=" position: absolute ;left:10px; top: 5px;" class="d-md-none d-lg-block">
+
+                            <table style="width:100%;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span id="headerRailwayName2">
+                                                <a href="/inspectionDetailsMap" class="badge text-white"
+                                                    style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;">IR</a>
+
+                                                {% if irPathVal1 %}
+                                                    <b>></b>
+                                                <span class="badge text-white"
+                                                style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerZone">
+                                                        {{irPathVal1}}
+                                                </span> 
+                                                {% endif %}
+                                                {% if irPathVal2 != '' %}
+                                                <b>></b>
+                                                <span class="badge text-white"
+                                                style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerDivision">
+                                                    {{irPathVal2}}
+                                                </span>
+                                                {% endif %}
+
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style=" position: absolute ;right:5px; top: 5px;z-index:10;" class="d-md-none d-lg-block">
+                            
+                            <button type="button" class="badge text-white" value="PU"
+                            style="position:relative;z-index:20;{% if irMapVal == '2' and irTypeVal == 'PU' %} background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 50px;height: 25px;" id="PU"
+                            onclick="setBtnColor(this)">PU</button>
+                            <button type="button" class="badge text-white"
+                            style="position:relative;z-index:20;  {% if irMapVal == '1' and irTypeVal == 'ZR' %} background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 50px;height: 25px;" id="ZR"
+                            value="ZR" onclick="setBtnColor(this)">ZR</button>
+                            </div>
+
+                            <div style=" position: absolute ;right:5px; top: 40px;z-index:10;" class="d-md-none d-lg-block" >
+                                <button type="button" class="badge text-white buttonZrDetails"
+                                style="{% if irTypeVal == 'DIV' %} background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 40px;height: 25px;" id="DIV" value="DIV"
+                                onclick="setBtnColor(this)">DIV</button>
+                                </br>
+                                <button type="button" class="badge text-white buttonZrDetails"
+                                    style="margin-top: 5px; {% if irTypeVal == 'WS' %} background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 40px;height: 25px;" id="WS" value="WS"
+                                    onclick="setBtnColor(this)">WS</button>
+                                <br>
+                                <button type="button" class="badge text-white buttonZrDetails"
+                                style="margin-top: 5px; {% if irTypeVal == 'HQ' %} background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 40px;height: 25px;" id="HQ" value="HQ"
+                                onclick="setBtnColor(this)">HQ</button>
+                            </div>
+                        
+                        
+                        {% if irTypeVal == 'DIV' %}
+                        <div style=" position: absolute ;right:10px; bottom: 5px; z-index:10;" class="d-md-none d-lg-block box" id="zoneDetails">
+                            <span style="color: #391a02; margin-left:10px;margin-right:10px;"><b>Divisions</b></span><br>
+                                {% for i in dataZoneWs %}
+                                <span class="badge" onclick="showDivision('{{i.location_code}}')" style="font-size: 1.063rem;color:#000080;">
+                                    <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                    <label style="cursor: pointer;" title="{{i.location_description}}">{{i.location_code}}</label>
+                                </span><br>
+                                {% endfor %}
+
+                        </div>
+                        {% elif irTypeVal == 'WS' %}
+                        <div style=" position: absolute ;right:10px; bottom: 5px; z-index:10;" class="d-md-none d-lg-block box" id="zoneDetails">
+                            <span style="color: #391a02; margin-left:10px;margin-right:10px;"><b>Work Shop</b></span><br>
+                                    
+                                    {% for i in dataZoneWs %}
+                                    <span class="badge" onclick="showDivision('{{i.location_code}}')" style="font-size: 1.063rem;color:#000080;">
+                                        <i class="far fa-hand-point-right" style="color: #000080;"></i>
+                                        <span style="cursor: pointer;" title="{{i.location_description}}">{{i.location_code}}</span>
+                                        </span>
+                                        <br>
+                                        {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% include 'svgFile/IRDivisionscolor.svg' %}
+                    </div>
+                    {% else %}
+                    <div id="mapPu" class="card card-small p-2 mb-2 mapdiv clickable backgroundImage">
+
+                        <div style=" position: absolute ;left:10px; top: 5px;" class="d-md-none d-lg-block">
+
+                            <table style="width:100%;">
+                                <tbody>
+                                    <tr>
+                                        <td>
+
+                                            
+
+
+                                            <span id="headerRailwayName21">
+                                                <a href="/inspectionDetailsMap" class="badge text-white"
+                                                    style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;">IR</a>
+                                                    {% if irPathVal1 %}
+                                                    <b>></b>
+                                                <span class="badge text-white"
+                                                style="background-color:#B74805;margin-bottom: 6px;position:relative;z-index: 10;" id="headerPu">
+                                                        {{irPathVal1}}
+                                                    {% endif %}
+
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style=" position: absolute ;right:5px; top: 5px;z-index:10;" class="d-md-none d-lg-block">
+                        <button type="button" class="badge text-white" value="PU"
+                            style="position:relative;z-index:20;{% if irMapVal == '2' and irTypeVal == 'PU' %}background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 50px;height: 25px;" id="PU"
+                            onclick="setBtnColor(this)">PU</button>
+                            <button type="button" class="badge text-white"
+                            style="position:relative;z-index:20;  {% if irMapVal == '1' and irTypeVal == 'ZR' %}background-color:#B74805; {% else %} background-color:#fad76f; {% endif %} border: 0;cursor: pointer;width: 50px;height: 25px;" id="ZR"
+                            value="ZR" onclick="setBtnColor(this)">ZR</button>
+                            </div>
+                        {% include 'svgFile/pu.svg' %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row ml-0" style="width: 100%; height: 19%;">
+                <div class="col-12 ml-0" style="padding-left: 0%; padding-right: 0%;">
+                    <div class="card summary-card mt-1 ml-0" style="width: 100%; height: 100%;">
+                        <h6 class="cardsHeaders card-header fw-bold text-center pt-1 pb-1 m-0" >Overall Pendency Summary</h6>
+                        <div class="card-body mt-1" style=" padding-bottom: 0%;  height: 80%;">
+                            <div class="row" style="margin: 0%;  height: 80%;">
+                                <div class="col text-center" style="background-color: #74a6f6; padding: 1%;">
+                                    <span><b>Total Items</b></span>
+                                    <hr>
+                                    <div> <a role="button"
+                                        href="{% url 'compliance_form_accept' %}?data3={{color}}&daterange={{daterange}}"
+                                        target="_blank" style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                        title="Total Items Count"><b>{{overallTotalCount}}</b></a>
+                                    </div>
+                                </div>
+                                    
+                                <!-- Second section with yellow background -->
+                                <div class="col text-center" style="background-color: #fff189; padding: 1%;">
+                                    <span><b>Pending Items</b></span>
+                                    <hr>
+                                    <div class="row no-glutters text-center">
+                                        <div class="col card-text" style="padding: 0%;">
+                                          <a role="button"
+                                            href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                                            style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                            title="Pending Items Count" style="font-size: medium;"><b>{{overallPendingCount}}</b></a>
+                                            <!-- <a role="button"
+                                            href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                                            target="_blank" style="color: rgb(229, 237, 3);" data-toggle="tooltip"
+                                            title="Total Inspection/Total Items Count" style="font-size: medium;">{{overallPendingPercentage}}</a> -->
+                                            </div>
+                                      </div>
+                                </div>
+                                <!-- Third section with red background -->
+                                <div class="col text-center" style="background-color: #f58477; padding: 1%;">
+                                    <span><b>Overdue Items</b></span>
+                                    <hr>
+                                    <div class="row no-glutters text-center">
+                                        <div class="col card-text" style="padding: 0%; ">
+                                          <a role="button"
+                                    href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                                    style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                    title="Overdue Items Count" style="font-size: medium;"><b>{{overallOverdueCount}}</b></a>
+                                    
+                                    </div>
+                                      </div>
+                                      
+                            </div>
+                            </div>
+                            <!-- <table class="table tableProgress">
+                                <tr>
+                                    <th style="width: 20%;"><label for="Total">Total</label></th>
+                                    <th style="width: 80%;">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" aria-valuenow="{{overallTotalCount}}" aria-valuemin="0" aria-valuemax="{{overallTotalCount}}">{{overallTotalCount}}</div>
+                                          </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 20%;"><label for="Pending">Pending</label></th>
+                                    <th style="width: 80%;">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: {{overallPendingPercentage}}%" aria-valuenow="{{overallPendingCount}}" aria-valuemin="0" aria-valuemax="{{overallPendingCount}}">{{overallPendingCount}}/ {{overallPendingPercentage}}%</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 20%;"><label for="Overdue">Overdue</label></th>
+                                    <th style="width: 80%;">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: {{overallOverduePercentage}}%"  aria-valuenow="{{overallOverdueCount}}" aria-valuemin="0" aria-valuemax="{{overallOverdueCount}}">{{overallOverdueCount}}/ {{overallOverduePercentage}}%</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                
+                            </table> -->
+                            <!-- <table style="width: 100%; text-align: center; margin-top: 1%;">
+                                <thead><tr>
+                                    <th style="width:33%; background-color: #8be04e; color: #000000; font-size: medium;">Total</th>
+                                    <th style="width:34%; background-color: #ffee65; color: #000000; font-size: medium;">Pending</th>
+                                    <th style="width:33%; background-color: #ea5545; color: #fff; font-size: medium;">Overdue</th>
+                                </tr></thead>
+                                <tbody><tr>
+                                    <td>
+                                        <a role="button"
+                                            href="{% url 'compliance_form_accept' %}?data3={{color}}&daterange={{daterange}}"
+                                            target="_blank" style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                            title="Total Items Count">{{total_overall1}}</a>
+                                        <a role="button"
+                                            href="{% url 'pending_forme' %}?data=repliedj&data3={{color}}&daterange={{daterange}}"
+                                            target="_blank" style="color: rgb(72, 212, 51);" data-toggle="tooltip"
+                                            title="Total Inspection/Total Items Count">{{total_overall}}</a>
+                                    </td>
+                                    <td>
+                                        <a role="button"
+                                            href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                                            style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                            title="Pending Items Count" style="font-size: medium;">{{pending_overall1}}</a>
+                            
+                                        <a role="button"
+                                            href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                                            target="_blank" style="color: rgb(229, 237, 3);" data-toggle="tooltip"
+                                            title="Total Inspection/Total Items Count" style="font-size: medium;">{{pending_overall}}</a>
+                                    </td>
+                                    <td>
+                                        <a role="button"
+                                            href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                                            style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                            title="Overdue Items Count" style="font-size: medium;">{{overdue_overall1}}</a>
+                                        
+                                        <a role="button"
+                                            href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                                            target="_blank" style="color: rgb(228, 9, 9);" data-toggle="tooltip"
+                                            title="Total Inspection/Total Items Count" style="font-size: medium;">{{overdue_overall}}</a>
+                                    </td>
+                                </tr></tbody>
+                            </table> -->
+                          
+                            <!-- <div class="row no-glutters pb-0" style="margin-right: 15%;">
+                            <div class="col text-center card-text">
+                             
+                              <div class="container-fluid">
+                                <div class="row no-glutters text-center pt-1" style="background-color: rgb(249, 249, 104);">
+                                  <div class="col card-text" style="background-color: rgb(46, 196, 27); color: #000000; font-size: medium;">Total</div>
+                                </div>
+                                <div class="row no-glutters text-center" >
+                                  <div class="col card-text font-weight-bold">
+                                    <a role="button"
+                              href="{% url 'compliance_form_accept' %}?data3={{color}}&daterange={{daterange}}"
+                              target="_blank" style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                              title="Total Items Count">{{total_overall1}}</a>
+                            <a role="button"
+                              href="{% url 'pending_forme' %}?data=repliedj&data3={{color}}&daterange={{daterange}}"
+                              target="_blank" style="color: rgb(72, 212, 51);" data-toggle="tooltip"
+                              title="Total Inspection/Total Items Count">{{total_overall}}</a>
+                              </div>
+                                </div>
+            
+                             
+                            </div>
+                            </div>
+                            <div class="col text-center card-text">
+                             
+                              <div class="container-fluid">
+                                <div class="row no-glutters text-center pt-1" style="background-color: rgb(249, 249, 104);">
+                                  <div class="col card-text" style="padding: 0%; background-color: rgb(229, 237, 3); color: #000000; font-size: medium;">Pending</div>
+                                </div>
+                                <div class="row no-glutters text-center">
+                                  <div class="col card-text font-weight-bold" style="padding: 0%;">
+                                    <a role="button"
+                              href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                              style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                              title="Pending Items Count" style="font-size: medium;">{{pending_overall1}}</a>
+            
+                              <a role="button"
+                              href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                              target="_blank" style="color: rgb(229, 237, 3);" data-toggle="tooltip"
+                              title="Total Inspection/Total Items Count" style="font-size: medium;">{{pending_overall}}</a>
+                              </div>
+                                </div>
+            
+                             
+                            </div>
+                            </div>
+                            <div class="col text-center card-text" style="padding: 0%; ">
+                             
+                              <div class="container-fluid">
+                                <div class="row no-glutters text-center pt-1" style="background-color: rgb(249, 249, 104);">
+                                  <div class="col card-text" style="padding: 0%; background-color: rgb(234, 10, 10); color: #fff; font-size: medium;">Overdue</div>
+                                </div>
+                                <div class="row no-glutters text-center">
+                                    <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                      <a role="button"
+                                href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                                style="color: rgb(0, 0, 0);" data-toggle="tooltip"
+                                title="Overdue Items Count" style="font-size: medium;">{{overdue_overall1}}</a>
+                               
+                              <a role="button"
+                                href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                                target="_blank" style="color: rgb(228, 9, 9);" data-toggle="tooltip"
+                                title="Total Inspection/Total Items Count" style="font-size: medium;">{{overdue_overall}}</a>
+                                </div>
+                                  </div>
+                               
+            
+            
+                             
+                            </div>
+                            </div>                         
+                        </div> -->
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-8">
+            <div class="row">
+                <div class="col-6 col-sm-3">
+ 
+                    <div class="Rcard passengercard">
+                        <table class="table card-header graphcards">
+                            <tr>
+                                <th style="width: 70%;">Passenger Safety </th>
+                                <th style="width: 30%;text-align: right;">
+                                    {% if variationPassenger.1 == '1' %}
+                                    <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% elif variationPassenger.1 == '2' %}
+                                    <i id="arrowpassenger" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                   {% else %}
+                                    <i id="arrowpassenger" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% endif %}
+                                    <span id="percentagepassenger" style="font-size:medium"></span>{{ variationPassenger.0 }}%  
+                                </th>
+                            </tr>
+                        </table>
+                       
+                        <div class="card-body" >
+                                <table border="0" class="overalStatsTable">
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>Pending</td>
+                                        <td>Overdue</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Passenger Safety','Total')">{{firstRowAllData.0.10}}</a></b></span></td>
+                                        <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Passenger Safety','Pending')">{{firstRowAllData.0.11}} / {{firstRowAllData.0.13|convertoInt}}%</a></b></span></td>
+                                        <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Passenger Safety','Overdue')">{{firstRowAllData.0.12}} / {{firstRowAllData.0.14|convertoInt}}%</a></b></span></td>
+                                    </tr>
+                                </table>
+                                <div class="col-9 m-0">
+                                    <div class="chart-container">
+                                        <canvas id="chart1" class="chart1"></canvas>
+                                    </div>
+                                </div>
+                            <!-- <hr class="w-100"> -->
+                            <h6 >Data statistics (Last 5 Days) </h6>
+                            <table class="container custom-table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <td class="row row-cols-2 row-cols-lg-3"></td>
+                                        <td class="cards2" id="passengerlast1">{{firstRowAllData.0.15}}</td>
+                                        <td class="cards3" id="passengerlast2">{{firstRowAllData.0.16}}</td>
+                                        <td class="cards4" id="passengerlast3">{{firstRowAllData.0.17}}</td>
+                                        <td class="cards5" id="passengerlast4">{{firstRowAllData.0.18}}</td>
+                                        <td class="cards6" id="passengerlast5">{{firstRowAllData.0.19}}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td class="cates1" id="date1_1">{{daysArray.0}}</td>
+                                        <td class="cates2" id="date2_1">{{daysArray.1}}</td>
+                                        <td class="cates3" id="date3_1">{{daysArray.2}}</td>
+                                        <td class="cates4" id="date4_1">{{daysArray.3}}</td>
+                                        <td class="cates5" id="date5_1">{{daysArray.4}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+ 
+                </div>
+                <div class="col-6 col-sm-3">
+ 
+                    <div class="Rcard employeecard">
+                        <table class="table card-header graphcards">
+                            <tr>
+                                <th style="width: 70%;">Employee Safety</th>
+                                <th style="width: 30%;text-align: right;">
+                                    {% if variationEmployee.1 == '1' %}
+                                    <i id="arrowemployee" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% elif variationEmployee.1 == '2' %}
+                                    <i id="arrowemployee" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                   {% else %}
+                                    <i id="arrowemployee" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% endif %}
+                                    <span id="percentageemployee" style="font-size:medium"></span>{{ variationEmployee.0 }}%  
+                                </th>
+                            </tr>
+                        </table>
+                        
+                            
+                        <div class="card-body">
+                            <table border="0" class="overalStatsTable">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>Pending</td>
+                                    <td>Overdue</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Employee Safety','Total')">{{firstRowAllData.0.20}}</a></b></span></td>
+                                    <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Employee Safety','Pending')">{{firstRowAllData.0.21}} / {{firstRowAllData.0.23|convertoInt}}%</a></b></span></td>
+                                    <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Employee Safety','Overdue')">{{firstRowAllData.0.22}} / {{firstRowAllData.0.24|convertoInt}}%</a></b></span></td>
+                                </tr>
+                            </table>
+                         
+                          <div class="col-9 m-0">
+                            <div class="chart-container">
+                                <canvas id="chart2" class="chart"></canvas>
+                            </div>
+                        </div>                       
+ 
+                          <h6 >Data statistics (Last 5 Days) </h6>
+                          <table class="container custom-table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <td class="row row-cols-2 row-cols-lg-3"></td>
+                                    <td class="cards2" id="employeelast1">{{firstRowAllData.0.25}}</td>
+                                    <td class="cards3" id="employeelast2">{{firstRowAllData.0.26}}</td>
+                                    <td class="cards4" id="employeelast3">{{firstRowAllData.0.27}}</td>
+                                    <td class="cards5" id="employeelast4">{{firstRowAllData.0.28}}</td>
+                                    <td class="cards6" id="employeelast5">{{firstRowAllData.0.29}}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td class="cates1" id="date1_2">{{daysArray.0}}</td>
+                                    <td class="cates2" id="date2_2">{{daysArray.1}}</td>
+                                    <td class="cates3" id="date3_2">{{daysArray.2}}</td>
+                                    <td class="cates4" id="date4_2">{{daysArray.3}}</td>
+                                    <td class="cates5" id="date5_2">{{daysArray.4}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                      </div>
+ 
+                </div>
+                <div class="col-6 col-sm-3">
+ 
+                    <div class="Rcard otherscard">
+                        <table class="table card-header graphcards">
+                            <tr>
+                                <th style="width: 70%;">Others</th>
+                                <th style="width: 30%;text-align: right;">
+                                    {% if variationOthers.1 == '1' %}
+                                    <i id="arrowothers" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% elif variationOthers.1 == '2' %}
+                                    <i id="arrowothers" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                   {% else %}
+                                    <i id="arrowothers" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% endif %}
+                                    <span id="percentageothers" style="font-size:medium"></span>{{ variationOthers.0 }}%  
+                                </th>
+                            </tr>
+                        </table>
+                        <!-- <h6 class="card-header graphcards">Others 
+
+                            {% if variationOthers.1 == '1' %}
+                             <i id="arrowothers" class="fas fa-arrow-circle-up" style="color: green;" title="last year others" style="margin-left: 3%;"></i> 
+                             {% elif variationOthers.1 == '2' %}
+                             <i id="arrowothers" class="fas fa-arrow-circle-down" style="color: red;" title="last year others" style="margin-left: 3%;"></i> 
+                            {% else %}
+                             <i id="arrowothers" class="fas fa-arrow-circle-up" style="color: yellow;" title="last year others" style="margin-left: 3%;"></i> 
+                             {% endif %}
+                             
+                             
+                             <span id="percentageothers" style="font-size:medium"></span>{{ variationOthers.0 }}%  
+                            
+                            
+                            
+                            </h6> -->
+                        <div class="card-body">
+                            <table border="0" class="overalStatsTable">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>Pending</td>
+                                    <td>Overdue</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Others','Total')">{{firstRowAllData.0.0}}</a></b></span></td>
+                                    <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Others','Pending')">{{firstRowAllData.0.1}} / {{firstRowAllData.0.3|convertoInt}}%</a></b></span></td>
+                                    <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Others','Overdue')">{{firstRowAllData.0.2}} / {{firstRowAllData.0.4|convertoInt}}%</a></b></span></td>
+                                </tr>
+                            </table>
+                       
+                          <div class="col-9  m-0">
+                            <div class="chart-container">
+                                <canvas id="chart3" class="chart3"></canvas>
+                            </div>
+                            </div>
+                            <!-- <hr class="w-100"> -->
+                            <h6>Data statistics (Last 5 Days) </h6>
+                            <table class="container custom-table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <td class="row row-cols-2 row-cols-lg-3"></td>
+                                        <td class="cards2" id="otherslast1">{{firstRowAllData.0.5}}</td>
+                                        <td class="cards3" id="otherslast2">{{firstRowAllData.0.6}}</td>
+                                        <td class="cards4" id="otherslast3">{{firstRowAllData.0.7}}</td>
+                                        <td class="cards5" id="otherslast4">{{firstRowAllData.0.8}}</td>
+                                        <td class="cards6" id="otherslast5">{{firstRowAllData.0.9}}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td class="cates1" id="date1_3">{{daysArray.0}}</td>
+                                        <td class="cates2" id="date2_3">{{daysArray.1}}</td>
+                                        <td class="cates3" id="date3_3">{{daysArray.2}}</td>
+                                        <td class="cates4" id="date4_3">{{daysArray.3}}</td>
+                                        <td class="cates5" id="date5_3">{{daysArray.4}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <hr class="w-100" style="margin-top:-2%;"> -->
+                            <!-- <div class="container" style="margin-top:3%;">
+                                <div class="row row-cols-2 row-cols-lg-3">
+                                    <div class="col-4 col-lg-2"></div>
+                                    <div class="col-4 col-lg-2 cards2" id="otherslast1">{{firstRowAllData.0.5}}</div>
+                                    <div class="col-4 col-lg-2 cards3" id="otherslast2">{{firstRowAllData.0.6}}</div>
+                                    <div class="col-4 col-lg-2 cards4" id="otherslast3">{{firstRowAllData.0.7}}</div>
+                                    <div class="col-4 col-lg-2 cards5" id="otherslast4">{{firstRowAllData.0.8}}</div>
+                                    <div class="col-4 col-lg-2 cards6" id="otherslast5">{{firstRowAllData.0.9}}</div>
+                                </div>
+                            </div> -->
+ 
+                            <!-- <div class="container">
+                                <div class="row row-cols-2 row-cols-lg-3">
+                                    <div class="col-4 col-lg-2"><i class="fa-solid fa-calendar-days"></i></div>
+                                    <div class="col-4 col-lg-2 cates1" id="date1_3">{{daysArray.0}}</div>
+                                    <div class="col-4 col-lg-2 cates2" id="date2_3">{{daysArray.1}}</div>
+                                    <div class="col-4 col-lg-2 cates3" id="date3_3">{{daysArray.2}}</div>
+                                    <div class="col-4 col-lg-2 cates4" id="date4_3">{{daysArray.3}}</div>
+                                    <div class="col-4 col-lg-2 cates5" id="date5_3">{{daysArray.4}}</div>
+                                </div>
+                            </div> -->
+                        </div>
+                        </div>
+ 
+                </div>
+             
+                <!-- Force next columns to break to new line -->
+                <div class="w-100"></div>
+             
+                <div class="col-6 col-sm-3">
+ 
+                    <div class="Rcard nightcard" >
+                        <table class="table card-header graphcards">
+                            <tr>
+                                <th style="width: 70%;">Night Inspection </th>
+                                <th style="width: 30%;text-align: right;">
+                                    {% if variationNight.1 == '1' %}
+                                    <i id="arrowIconnight" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% elif variationNight.1 == '2' %}
+                                    <i id="arrowIconnight" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                   {% else %}
+                                    <i id="arrowIconnight" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% endif %}
+                                    <span id="percentagenight" style="font-size:medium"></span>{{ variationNight.0 }}%  
+                                </th>
+                            </tr>
+                        </table>
+                        <!-- <h6 class="card-header graphcards" >Night Inspection 
+                            {% if variationNight.1 == '1' %}
+                             <i id="arrowIconnight" class="fas fa-arrow-circle-up" style="color: green;" title="last year night" style="margin-left: 3%;"></i> 
+                             {% elif variationNight.1 == '2' %}
+                             <i id="arrowIconnight" class="fas fa-arrow-circle-down" style="color: red;" title="last year night" style="margin-left: 3%;"></i> 
+                            {% else %}
+                             <i id="arrowIconnight" class="fas fa-arrow-circle-up" style="color: yellow;" title="last year night" style="margin-left: 3%;"></i> 
+                             {% endif %}
+                             
+                             
+                             <span id="percentagenight" style="font-size:medium"></span>{{ variationNight.0 }}%  
+                            
+                        
+                        </h6> -->
+                        <div class="card-body">
+                            <table border="0" class="overalStatsTable">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>Pending</td>
+                                    <td>Overdue</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Night Inspection','Total')">{{secondRowAllData.0.0}}</a></b></span></td>
+                                    <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Night Inspection','Pending')">{{secondRowAllData.0.1}} / {{secondRowAllData.0.3|convertoInt}}%</a></b></span></td>
+                                    <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Night Inspection','Overdue')">{{secondRowAllData.0.2}} / {{secondRowAllData.0.4|convertoInt}}%</a></b></span></td>
+                                </tr>
+                            </table>
+                         
+                          <div class="col-9  m-0">
+                            <div class="chart-container">
+                                <canvas id="chart4" class="chart"></canvas>
+                            </div>
+                            </div>
+                        <!-- <hr class="w-100"> -->
+                        <h6>Data statistics (Last 5 Days) </h6>
+                        <table class="container custom-table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <td class="row row-cols-2 row-cols-lg-3"></td>
+                                    <td class="cards2" id="nightlast1">{{secondRowAllData.0.5}}</td>
+                                    <td class="cards3" id="nightlast2">{{secondRowAllData.0.6}}</td>
+                                    <td class="cards4" id="nightlast3">{{secondRowAllData.0.7}}</td>
+                                    <td class="cards5" id="nightlast4">{{secondRowAllData.0.8}}</td>
+                                    <td class="cards6" id="nightlast5">{{secondRowAllData.0.9}}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td class="cates1" id="date1_4">{{daysArray.0}}</td>
+                                    <td class="cates2" id="date2_4">{{daysArray.1}}</td>
+                                    <td class="cates3" id="date3_4">{{daysArray.2}}</td>
+                                    <td class="cates4" id="date4_4">{{daysArray.3}}</td>
+                                    <td class="cates5" id="date5_4">{{daysArray.4}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <hr class="w-100" style="margin-top:-2%;"> -->
+                        <!-- <div class="container" style="margin-top:3%;">
+                            <div class="row row-cols-2 row-cols-lg-3">
+                                <div class="col-4 col-lg-2"></div>
+                                <div class="col-4 col-lg-2 cards2" id="nightlast1">{{secondRowAllData.0.5}}</div>
+                                <div class="col-4 col-lg-2 cards3" id="nightlast2">{{secondRowAllData.0.6}}</div>
+                                <div class="col-4 col-lg-2 cards4" id="nightlast3">{{secondRowAllData.0.7}}</div>
+                                <div class="col-4 col-lg-2 cards5" id="nightlast4">{{secondRowAllData.0.8}}</div>
+                                <div class="col-4 col-lg-2 cards6" id="nightlast5">{{secondRowAllData.0.9}}</div>
+                            </div>
+                        </div>
+ 
+                        <div class="container">
+                            <div class="row row-cols-2 row-cols-lg-3">
+                                <div class="col-4 col-lg-2"><i class="fa-solid fa-calendar-days"></i></div>
+                                    <div class="col-4 col-lg-2 cates1" id="date1_4">{{daysArray.0}}</div>
+                                    <div class="col-4 col-lg-2 cates2" id="date2_4">{{daysArray.1}}</div>
+                                    <div class="col-4 col-lg-2 cates3" id="date3_4">{{daysArray.2}}</div>
+                                    <div class="col-4 col-lg-2 cates4" id="date4_4">{{daysArray.3}}</div>
+                                    <div class="col-4 col-lg-2 cates5" id="date5_4">{{daysArray.4}}</div>
+                            </div>
+                        </div> -->
+                        </div>
+                      </div>
+ 
+                </div>
+                <div class="col-6 col-sm-3">
+ 
+                    <div class="Rcard surprisecard">
+                        <table class="table card-header graphcards">
+                            <tr>
+                                <th style="width: 70%;">Surprise Inspection</th>
+                                <th style="width: 30%;text-align: right;">
+                                    {% if variationSuprise.1 == '1' %}
+                                    <i id="arrowsurprise" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% elif variationSuprise.1 == '2' %}
+                                    <i id="arrowsurprise" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                   {% else %}
+                                    <i id="arrowsurprise" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% endif %}
+                                    <span id="percentagesurprise" style="font-size:medium"></span>{{ variationSuprise.0 }}%  
+                                </th>
+                            </tr>
+                        </table>
+                        <!-- <h6 class="card-header graphcards">Surprise Inspection
+                            {% if variationSuprise.1 == '1' %}
+                            <i id="arrowsurprise" class="fas fa-arrow-circle-up" style="color: green;" title="last year surprise" style="margin-left: 3%;"></i> 
+                            {% elif variationSuprise.1 == '2' %}
+                            <i id="arrowsurprise" class="fas fa-arrow-circle-down" style="color: red;" title="last year surprise" style="margin-left: 3%;"></i> 
+                           {% else %}
+                            <i id="arrowsurprise" class="fas fa-arrow-circle-up" style="color: yellow;" title="last year surprise" style="margin-left: 3%;"></i> 
+                            {% endif %}
+                            
+                            
+                            <span id="percentagesurprise" style="font-size:medium"></span>{{ variationSuprise.0 }}%  
+                           
+                        
+                        </h6> -->
+                        <div class="card-body">
+                            <table border="0" class="overalStatsTable">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>Pending</td>
+                                    <td>Overdue</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Surprise Inspection','Total')">{{secondRowAllData.0.10}}</a></b></span></td>
+                                    <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Surprise Inspection','Pending')">{{secondRowAllData.0.11}} / {{secondRowAllData.0.13|convertoInt}}%</a></b></span></td>
+                                    <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Surprise Inspection','Overdue')">{{secondRowAllData.0.12}} / {{secondRowAllData.0.14|convertoInt}}%</a></b></span></td>
+                                </tr>
+                            </table>
+                          <div class="col-9  m-0">
+                            <div class="chart-container">
+                                <canvas id="chart5" class="chart5"></canvas>
+                            </div>
+                            </div>      
+                        <!-- <hr class="w-100"> -->
+                        <h6>Data statistics (Last 5 Days) </h6>
+                        <table class="container custom-table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <td class="row row-cols-2 row-cols-lg-3"></td>
+                                    <td class="cards2" id="surpriselast1">{{secondRowAllData.0.15}}</td>
+                                    <td class="cards3" id="surpriselast2">{{secondRowAllData.0.16}}</td>
+                                    <td class="cards4" id="surpriselast3">{{secondRowAllData.0.17}}</td>
+                                    <td class="cards5" id="surpriselast4">{{secondRowAllData.0.18}}</td>
+                                    <td class="cards6" id="surpriselast5">{{secondRowAllData.0.19}}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td class="cates1" id="date1_5">{{daysArray.0}}</td>
+                                    <td class="cates2" id="date2_5">{{daysArray.1}}</td>
+                                    <td class="cates3" id="date3_5">{{daysArray.2}}</td>
+                                    <td class="cates4" id="date4_5">{{daysArray.3}}</td>
+                                    <td class="cates5" id="date5_5">{{daysArray.4}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <!-- <hr class="w-100" style="margin-top:-2%;"> -->
+                        <!-- <div class="container" style="margin-top:3%;">
+                            <div class="row row-cols-2 row-cols-lg-3">
+                                <div class="col-4 col-lg-2"></div>
+                                <div class="col-4 col-lg-2 cards2" id="surpriselast1">{{secondRowAllData.0.15}}</div>
+                                <div class="col-4 col-lg-2 cards3" id="surpriselast2">{{secondRowAllData.0.16}}</div>
+                                <div class="col-4 col-lg-2 cards4" id="surpriselast3">{{secondRowAllData.0.17}}</div>
+                                <div class="col-4 col-lg-2 cards5" id="surpriselast4">{{secondRowAllData.0.18}}</div>
+                                <div class="col-4 col-lg-2 cards6" id="surpriselast5">{{secondRowAllData.0.19}}</div>
+                            </div>
+                        </div>
+ 
+                        <div class="container">
+                            <div class="row row-cols-2 row-cols-lg-3">
+                                <div class="col-4 col-lg-2"><i class="fa-solid fa-calendar-days"></i></div>
+                                <div class="col-4 col-lg-2 cates1" id="date1_5">{{daysArray.0}}</div>
+                                <div class="col-4 col-lg-2 cates2" id="date2_5">{{daysArray.1}}</div>
+                                <div class="col-4 col-lg-2 cates3" id="date3_5">{{daysArray.2}}</div>
+                                <div class="col-4 col-lg-2 cates4" id="date4_5">{{daysArray.3}}</div>
+                                <div class="col-4 col-lg-2 cates5" id="date5_5">{{daysArray.4}}</div>
+                            </div>
+                        </div> -->
+                        </div>
+                      </div>
+ 
+                </div>
+                <div class="col-6 col-sm-3">
+ 
+                    <div class="Rcard drivecard">
+                        <table class="table card-header graphcards">
+                            <tr>
+                                <th style="width: 70%;">Drive Inspection</th>
+                                <th style="width: 30%;text-align: right;">
+                                    {% if variationDrive.1 == '1' %}
+                                    <i id="arrowIcondrive" class="fas fa-arrow-circle-up" style="color: rgb(127, 248, 127);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% elif variationDrive.1 == '2' %}
+                                    <i id="arrowIcondrive" class="fas fa-arrow-circle-down" style="color: red;" title="last year employee" style="margin-left: 70%;"></i> 
+                                   {% else %}
+                                    <i id="arrowIcondrive" class="fas fa-arrow-circle-up" style="color: rgb(255, 255, 135);" title="last year employee" style="margin-left: 70%;"></i> 
+                                    {% endif %}
+                                    <span id="percentagedrive" style="font-size:medium"></span>{{ variationDrive.0 }}%  
+                                </th>
+                            </tr>
+                        </table>
+                        <!-- <h6 class="card-header graphcards">Drive
+                            
+                            {% if variationDrive.1 == '1' %}
+                            <i id="arrowIcondrive" class="fas fa-arrow-circle-up" style="color: green;" title="last year drive" style="margin-left: 3%;"></i> 
+                            {% elif variationDrive.1 == '2' %}
+                            <i id="arrowIcondrive" class="fas fa-arrow-circle-down" style="color: red;" title="last year drive" style="margin-left: 3%;"></i> 
+                           {% else %}
+                            <i id="arrowIcondrive" class="fas fa-arrow-circle-up" style="color: yellow;" title="last year drive" style="margin-left: 3%;"></i> 
+                            {% endif %}
+                            
+                            
+                            <span id="percentagedrive" style="font-size:medium"></span>{{ variationDrive.0 }}%  
+                           
+                        
+                        </h6> -->
+                        <div class="card-body">
+                            <table border="0" class="overalStatsTable">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>Pending</td>
+                                    <td>Overdue</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="totalVal" id="passendertotal"><b><a href="#" onclick="fetchdata('Drive Inspection','Total')">{{secondRowAllData.0.20}}</a></b></span></td>
+                                    <td><span class="pendingVal" id="passenderpending"><b><a href="#" onclick="fetchdata('Drive Inspection','Pending')">{{secondRowAllData.0.21}} / {{secondRowAllData.0.23|convertoInt}}%</a></b></span></td>
+                                    <td><span class="overdueVal" id="passenderoverdue"><b><a href="#" onclick="fetchdata('Drive Inspection','Overdue')">{{secondRowAllData.0.22}} / {{secondRowAllData.0.24|convertoInt}}%</a></b></span></td>
+                                </tr>
+                            </table>
+                         
+                          <div class="col-9  m-0">
+                            <div class="chart-container">
+                                <canvas id="chart6" class="chart6"></canvas>
+                            </div>
+                            </div>
+                 
+                        <!-- <hr class="w-100"> -->
+                        <h6>Data statistics (Last 5 Days) </h6>
+                        <table class="container custom-table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <td class="row row-cols-2 row-cols-lg-3"></td>
+                                    <td class="cards2" id="drivelast1">{{secondRowAllData.0.25}}</td>
+                                    <td class="cards3" id="drivelast2">{{secondRowAllData.0.26}}</td>
+                                    <td class="cards4" id="drivelast3">{{secondRowAllData.0.27}}</td>
+                                    <td class="cards5" id="drivelast4">{{secondRowAllData.0.28}}</td>
+                                    <td class="cards6" id="drivelast5">{{secondRowAllData.0.29}}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td class="cates1" id="date1_6">{{daysArray.0}}</td>
+                                    <td class="cates2" id="date2_6">{{daysArray.1}}</td>
+                                    <td class="cates3" id="date3_6">{{daysArray.2}}</td>
+                                    <td class="cates4" id="date4_6">{{daysArray.3}}</td>
+                                    <td class="cates5" id="date5_6">{{daysArray.4}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <!-- <hr class="w-100" style="margin-top:-2%;"> -->
+                        <!-- <div class="container" style="margin-top:3%;">
+                            <div class="row row-cols-2 row-cols-lg-3">
+                                <div class="col-4 col-lg-2"></div>
+                                <div class="col-4 col-lg-2 cards2" id="drivelast1">{{secondRowAllData.0.25}}</div>
+                                <div class="col-4 col-lg-2 cards3" id="drivelast2">{{secondRowAllData.0.26}}</div>
+                                <div class="col-4 col-lg-2 cards4" id="drivelast3">{{secondRowAllData.0.27}}</div>
+                                <div class="col-4 col-lg-2 cards5" id="drivelast4">{{secondRowAllData.0.28}}</div>
+                                <div class="col-4 col-lg-2 cards6" id="drivelast5">{{secondRowAllData.0.29}}</div>
+                            </div>
+                        </div>
+ 
+                        <div class="container">
+                            <div class="row row-cols-2 row-cols-lg-3">
+                                <div class="col-4 col-lg-2"><i class="fa-solid fa-calendar-days"></i></div>
+                                <div class="col-4 col-lg-2 cates1" id="date1_6">{{daysArray.0}}</div>
+                                <div class="col-4 col-lg-2 cates2" id="date2_6">{{daysArray.1}}</div>
+                                <div class="col-4 col-lg-2 cates3" id="date3_6">{{daysArray.2}}</div>
+                                <div class="col-4 col-lg-2 cates4" id="date4_6">{{daysArray.3}}</div>
+                                <div class="col-4 col-lg-2 cates5" id="date5_6">{{daysArray.4}}</div>
+                            </div>
+                        </div> -->
+                        </div>
+                      </div>
+ 
+                </div>
+              </div>
+        </div>
+    </div>
+
+    <div class="container-fluid row mt-2 ml-1" >
+            <div class="cardStation col-lg-3 col-sm-6">
+            <div class="stats-card">
+                <table class="table  table-bordered table-stats" style="background-color:#FCD0BF ">
+                    <tr><th>Station</th>
+                        <th>Pendency Count/ Percentage</th>
+                        <th>
+                            <!-- <i class="fas fa-table" style="margin-left: 70%;"></i> -->
+                        </th>
+                    </tr>
+                </table>
+                <table class="table">
+                    <thead>
+                        <tr border="0">
+                            <th scope="col">Passenger Safety</th>
+                            <th scope="col">Employee Safety</th>
+                            <th scope="col">Others</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr border="0">
+                            <td>{{thirdRowData.0.0}} / {{thirdRowData.0.24|convertoInt}}%</td>
+                            <td>{{thirdRowData.0.1}} / {{thirdRowData.0.25|convertoInt}}%</td>
+                            <td>{{thirdRowData.0.2}} / {{thirdRowData.0.26|convertoInt}}%</td>
+                        </tr>
+                        <tr border="0">
+                            <th>Night</th>
+                            <th>Surprise</th>
+                            <th>Drive</th>
+                        </tr>
+                        <tr border="0">
+                            <td>{{thirdRowData.0.3}} / {{thirdRowData.0.27|convertoInt}}%</td>
+                            <td>{{thirdRowData.0.4}} / {{thirdRowData.0.28|convertoInt}}%</td>
+                            <td>{{thirdRowData.0.5}} / {{thirdRowData.0.29|convertoInt}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div class="cardSection col-lg-3 col-sm-6">
+                <div class="stats-card">
+                    <table class="table  table-bordered table-stats" style="background-color:#FCF6BF ">
+                        <tr><th>Section </th>
+                            <th>Pendency Count/ Percentage</th>
+                            <th>
+                                <!-- <i class="fas fa-table" style="margin-left: 70%;"></i> -->
+                            </th>
+                        </tr>
+                    </table>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Passenger Safety</th>
+                                <th scope="col">Employee Safety</th>
+                                <th scope="col">Others</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{thirdRowData.0.6}} / {{thirdRowData.0.30|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.7}} / {{thirdRowData.0.31|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.8}} / {{thirdRowData.0.32|convertoInt}}%</td>
+                            </tr>
+                            <tr>
+                                <th>Night</th>
+                                <th>Surprise</th>
+                                <th>Drive</th>
+                            </tr>
+                            <tr>
+                                <td>{{thirdRowData.0.9}} / {{thirdRowData.0.33|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.10}} / {{thirdRowData.0.34|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.11}} / {{thirdRowData.0.35|convertoInt}}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="cardTrain col-lg-3 col-sm-6">
+                <div class="stats-card">
+                    <table class="table  table-bordered table-stats" style="background-color:#BFFBFC ">
+                        <tr><th>Train</th>
+                            <th>Pendency Count/ Percentage</th>
+                            <th>
+                                <!-- <i class="fas fa-table" style="margin-left: 70%;"></i> -->
+                            </th>
+                        </tr>
+                    </table>
+                    <table class="table">
+                        <thead>
+                            <tr border="0">
+                                <th scope="col">Passenger Safety</th>
+                                <th scope="col">Employee Safety</th>
+                                <th scope="col">Others</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr border="0">
+                                <td>{{thirdRowData.0.12}} / {{thirdRowData.0.36|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.13}} / {{thirdRowData.0.37|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.14}} / {{thirdRowData.0.38|convertoInt}}%</td>
+                            </tr>
+                            <tr border="0">
+                                <th>Night</th>
+                                <th>Surprise</th>
+                                <th>Drive</th>
+                            </tr>
+                            <tr border="0">
+                                <td>{{thirdRowData.0.15}} / {{thirdRowData.0.39|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.16}} / {{thirdRowData.0.40|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.17}} / {{thirdRowData.0.41|convertoInt}}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="cardOthers col-lg-3 col-sm-6">
+                <div class="stats-card">
+                    <table class="table table-bordered table-stats" style="background-color:#EEFCBF ">
+                        <tr><th>Others </th>
+                            <th>Pendency Count/ Percentage</th>
+                            <th>
+                                <!-- <i class="fas fa-table" style="margin-left: 70%;"></i> -->
+                            </th>
+                        </tr>
+                    </table>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Passenger Safety</th>
+                                <th scope="col">Employee Safey</th>
+                                <th scope="col">Others</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{thirdRowData.0.18}} / {{thirdRowData.0.42|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.19}} / {{thirdRowData.0.43|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.20}} / {{thirdRowData.0.44|convertoInt}}%</td>
+                            </tr>
+                            <tr>
+                                <th>Night</th>
+                                <th>Surprise</th>
+                                <th>Drive</th>
+                            </tr>
+                            <tr>
+                                <td>{{thirdRowData.0.21}} / {{thirdRowData.0.45|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.22}} / {{thirdRowData.0.46|convertoInt}}%</td>
+                                <td>{{thirdRowData.0.23}} / {{thirdRowData.0.47|convertoInt}}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+       
+            <!-- <div class="cardStation col-sm-12 col-md-6 col-lg-3">
+                <div class="card-header" style="background-color: #FCD0BF;  width: 100%;">
+                    <span class="station"style="font-weight: 500; font: sans-serif;">Station</span><i class="fas fa-table" style="margin-left: 70%;"></i><span
+                        class="glyphicon glyphicon-th"></span>
+                    </div>
+                <div class="card-body text-info1">
+                     
+                        <table class="table">
+                            <thead>
+                                <tr border="0">
+                                    <th scope="col">Passenger Safety</th>
+                                    <th scope="col">Employee Safety</th>
+                                    <th scope="col">Others</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr border="0">
+                                    <td>{{thirdRowData.0.0}}/{{thirdRowData.0.24}}</td>
+                                    <td>{{thirdRowData.0.1}}/{{thirdRowData.0.25}}</td>
+                                    <td>{{thirdRowData.0.2}}/{{thirdRowData.0.26}}</td>
+                                </tr>
+                                <tr border="0">
+                                    <th>Night</th>
+                                    <th>Surprise</th>
+                                    <th>Drive</th>
+                                </tr>
+                                <tr border="0">
+                                    <td>{{thirdRowData.0.3}}/{{thirdRowData.0.27}}</td>
+                                    <td>{{thirdRowData.0.4}}/{{thirdRowData.0.28}}</td>
+                                    <td>{{thirdRowData.0.5}}/{{thirdRowData.0.29}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                   
+                </div>
+            </div> -->
+
+            <!-- <div class="cardSection col-sm-12 col-md-6 col-lg-3">
+                <div class="card-header" style="margin-left: -5%; width: 100%; background-color: #FAEDCD;"><span class="station"
+                        style="font-weight: 500; font: sans-serif;">Section</span><i class="fas fa-table" style="margin-left: 70%"></i><span
+                        class="glyphicon glyphicon-th"></span></div>
+                <div class="card-body text-info2">
+                   
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Passenger Safety</th>
+                                    <th scope="col">Employee Safety</th>
+                                    <th scope="col">Others</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{thirdRowData.0.6}}/{{thirdRowData.0.30}}</td>
+                                    <td>{{thirdRowData.0.7}}/{{thirdRowData.0.31}}</td>
+                                    <td>{{thirdRowData.0.8}}/{{thirdRowData.0.32}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Night</th>
+                                    <th>Surprise</th>
+                                    <th>Drive</th>
+                                </tr>
+                                <tr>
+                                    <td>{{thirdRowData.0.9}}/{{thirdRowData.0.33}}</td>
+                                    <td>{{thirdRowData.0.10}}/{{thirdRowData.0.34}}</td>
+                                    <td>{{thirdRowData.0.11}}/{{thirdRowData.0.35}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                   
+                </div>
+            </div>
+
+            <div class="cardTrain col-sm-12 col-md-6 col-lg-3">
+                <div class="card-header"  style="margin-left: -5%; width: 100%;background-color: #CAF7E3;"><span class="station"
+                        style="font-weight: 500; font: sans-serif;">Train</span><i class="fas fa-table" style="margin-left: 70%;"></i><span
+                        class="glyphicon glyphicon-th"></span></div>
+                <div class="card-body text-info3">
+                   
+                        <table class="table">
+                            <thead>
+                                <tr border="0">
+                                    <th scope="col">Passenger Safety</th>
+                                    <th scope="col">Employee Safety</th>
+                                    <th scope="col">Others</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr border="0">
+                                    <td>{{thirdRowData.0.12}}//{{thirdRowData.0.36}}</td>
+                                    <td>{{thirdRowData.0.13}}/{{thirdRowData.0.37}}</td>
+                                    <td>{{thirdRowData.0.14}}/{{thirdRowData.0.38}}</td>
+                                </tr>
+                                <tr border="0">
+                                    <th>Night</th>
+                                    <th>Surprise</th>
+                                    <th>Drive</th>
+                                </tr>
+                                <tr border="0">
+                                    <td>{{thirdRowData.0.15}}/{{thirdRowData.0.39}}</td>
+                                    <td>{{thirdRowData.0.16}}/{{thirdRowData.0.40}}</td>
+                                    <td>{{thirdRowData.0.17}}/{{thirdRowData.0.41}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                   
+                </div>
+            </div>
+
+            <div class="cardOthers col-sm-12 col-md-6 col-lg-3">
+                <div class="card-header" style="margin-left: -5%; width: 100%; background-color: #FFEEBB;" ><span class="station"
+                        style="font-weight: 500; font: sans-serif;">Others</span><i class="fas fa-table" style="margin-left: 70%;"></i><span
+                        class="glyphicon glyphicon-th"></span></div>
+                <div class="card-body text-info4">
+                   
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Passenger Safety</th>
+                                    <th scope="col">Employee Safey</th>
+                                    <th scope="col">Others</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{thirdRowData.0.18}}/{{thirdRowData.0.42}}</td>
+                                    <td>{{thirdRowData.0.19}}/{{thirdRowData.0.43}}</td>
+                                    <td>{{thirdRowData.0.20}}/{{thirdRowData.0.44}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Night</th>
+                                    <th>Surprise</th>
+                                    <th>Drive</th>
+                                </tr>
+                                <tr>
+                                    <td>{{thirdRowData.0.21}}/{{thirdRowData.0.45}}</td>
+                                    <td>{{thirdRowData.0.22}}/{{thirdRowData.0.46}}</td>
+                                    <td>{{thirdRowData.0.23}}/{{thirdRowData.0.47}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                   
+                </div>
+            </div> -->
+   
+       
+    </div>
+   
+    <div class="container-fluid row mt-2" style="margin-left: 0px;">
+        <div class="col-lg-6 col-sm-12">
+            <div class="card text-center">
+                <div class="card-header"
+                    style="background: rgb(131,58,180);
+                    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(255,224,160,1) 50%, rgba(252,176,69,1) 100%); text-align: left;">
+                    <h4 style="float: left; color: white;" >Pendency</h4>
+                    <ul class="nav nav-pills justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#Active">Passenger Safety</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Link">Employee Safety</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Disabled">Others</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body" style="padding: 0%;">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Active">
+                            <table class="PendencySatsTables">
+                                <thead>
+                                    <tr border="0">
+                                        <td scope="col" style="font-weight:bold;" class="shape colour1"> >7 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour2"> >30 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour3"> >90 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour4"> >180 days
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr border="0">
+                                        <td class="shape colour1">{{pendencyDataCard1.0.0}}</td>
+                                        <td class="shape colour2">{{pendencyDataCard1.0.1}}</td>
+                                        <td class="shape colour3">{{pendencyDataCard1.0.2}}</td>
+                                        <td class="shape colour4">{{pendencyDataCard1.0.3}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class=" tab-pane fade" id="Link">
+                            <table class="PendencySatsTables">
+                                <thead>
+                                    <tr border="0">
+                                        <td scope="col" style="font-weight:bold;" class="shape colour1">>7 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour2">>30 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour3">>90 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour4">>180 days
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr border="0">
+                                        <td class="shape colour1">{{pendencyDataCard1.0.5}}</td>
+                                        <td class="shape colour2">{{pendencyDataCard1.0.6}}</td>
+                                        <td class="shape colour3">{{pendencyDataCard1.0.7}}</td>
+                                        <td class="shape colour4">{{pendencyDataCard1.0.8}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="Disabled">
+                            <table class="PendencySatsTables">
+                                <thead>
+                                    <tr border="0">
+                                        <td scope="col" style="font-weight:bold;" class="shape colour1">>7 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour2">>30 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour3">>90 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour4">>180 days
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr border="0">
+                                        <td class="shape colour1">{{pendencyDataCard1.0.10}}</td>
+                                        <td class="shape colour2">{{pendencyDataCard1.0.11}}</td>
+                                        <td class="shape colour3">{{pendencyDataCard1.0.12}}</td>
+                                        <td class="shape colour4">{{pendencyDataCard1.0.13}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-sm-12">
+            <div class="card text-center">
+                <div class="card-header"
+                    style="background: rgb(131,58,180);
+                    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(255,224,160,1) 50%, rgba(252,176,69,1) 100%);">
+                    <h4 style="float: left; color: white;">Pendency</h4>
+                    <ul class="nav nav-pills justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#Active1">Night Inspection</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Link1">Surprise</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#Disabled1">Drive</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body" style="padding: 0%;">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Active1">
+                            <table class="PendencySatsTables">
+                                <thead>
+                                    <tr border="0">
+                                        <td scope="col" style="font-weight:bold;" class="shape colour1"> >7 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour2"> >30 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour3"> >90 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour4"> >180 days
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr border="0">
+                                        <td class="shape colour1">{{pendencyDataCard2.0.0}}</td>
+                                        <td class="shape colour2">{{pendencyDataCard2.0.1}}</td>
+                                        <td class="shape colour3">{{pendencyDataCard2.0.2}}</td>
+                                        <td class="shape colour4">{{pendencyDataCard2.0.3}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class=" tab-pane fade" id="Link1">
+                            <table class="PendencySatsTables">
+                                <thead>
+                                    <tr border="0">
+                                        <td scope="col" style="font-weight:bold;" class="shape colour1">>7 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour2">>30 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour3">>90 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour4">>180 days
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr border="0">
+                                        <td class="shape colour1">{{pendencyDataCard2.0.5}}</td>
+                                        <td class="shape colour2">{{pendencyDataCard2.0.6}}</td>
+                                        <td class="shape colour3">{{pendencyDataCard2.0.7}}</td>
+                                        <td class="shape colour4">{{pendencyDataCard2.0.8}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="Disabled1">
+                            <table class="PendencySatsTables">
+                                <thead>
+                                    <tr border="0">
+                                        <td scope="col" style="font-weight:bold;" class="shape colour1">>7 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour2">>30 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour3">>90 days
+                                        </td>
+                                        <td scope="col" style="font-weight:bold;" class="shape colour4">>180 days
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr border="0">
+                                        <td class="shape colour1">{{pendencyDataCard2.0.10}}</td>
+                                        <td class="shape colour2">{{pendencyDataCard2.0.11}}</td>
+                                        <td class="shape colour3">{{pendencyDataCard2.0.12}}</td>
+                                        <td class="shape colour4">{{pendencyDataCard2.0.13}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div  id="secondary" style="  margin: auto;width: 10%;padding: 10px;">
+   
+    <div class="loader"></div>
+  </div>
+
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <div class="heading" style="font-size: 20px;">
+        <center><p id = 'demo'>Rly: List of Night Inspection related items (Total)</p></center>
+        
+        <table id="table_id" width="100%" class="table table-striped table-bordered table-sm">
+            <thead style="background-color: #2b7bea;white-space: nowrap; font-size: 1.2rem; color:white;" id = 'thead1'>
+             <tr>
+              <th style="width: 5%; text-align: center;">S.No.</th> 
+              <th style="width: 10%; text-align: center;"> Rly <br> <input type="text" class="box" placeholder="Search"> </th>
+              <th style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></th>
+              <th style="width: 10%; text-align: center;">Pending <br><input type="text" class="box" placeholder="Search"></th>
+              <th style="width: 10%; text-align: center;">Overdue <br><input type="text" class="box" placeholder="Search"></th>
+              <th style="width: 10%; text-align: center;">Closed <br><input type="text" class="box" placeholder="Search"></th>
+              
+          </tr>
+            </thead>
+            <tbody id = 'mydata'>
+                <td style="width: 5%; text-align: center;">S.No.</td> 
+              <td style="width: 10%; text-align: center;"> Rly <br> <input type="text" class="box" placeholder="Search"> </td>
+              <td style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></td>
+              <td style="width: 10%; text-align: center;">Pending <br><input type="text" class="box" placeholder="Search"></td>
+              <td style="width: 10%; text-align: center;">Overdue <br><input type="text" class="box" placeholder="Search"></td>
+              <td style="width: 10%; text-align: center;">Closed <br><input type="text" class="box" placeholder="Search"></td>
+            </tbody>
+        </div>
+          </table>
+        </div>
+           
+</div>
+<button type="button" id = 'btnmodal' class="btn btn-primary" data-toggle="modal" data-target="#modal" hidden></button>
+
+
+   <script>
+$('#main').show();
+$('#secondary').hide();
+$(".sidebar").addClass('close');
+$('#searchDepartment').select2();   
+$('#searchDesignation').select2();
+
+
+$(document).ready(function(){
+    let showHideButton = '{{irTypeVal|safe}}';
+    if(showHideButton == 'ZR' || showHideButton == 'DIV' || showHideButton == 'WS' || showHideButton == 'HQ')
+    {
+        $('.buttonZrDetails').show();
+        $('#ZR').css('background-color','#B74805');
+    }
+    else
+    {
+        $('.buttonZrDetails').hide();
+    }
+})
+
+function setDesigACToDept(val)
+        {
+            
+           
+                data = {
+                            typ: 'DesignationDetails',
+                            irType: $('#irType').val(),
+                            irPath2: $('#irPath2').val(),
+                            irDetails: $('#irDetails').val(),
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                            dept : val
+                    }
+                    $.ajax({
+                        method: "POST",
+                        url: "{% url 'inspectionDetailsMap' %}",
+                        dataType: 'json',
+                        data: data,
+                        success: function (response) {
+                            $('#searchDesignation').empty();
+                            let option = '<option value="All">All</option>';
+                            if (response.length > 0) {
+                                for (let i = 0; i < response.length; i++) {
+                                    option += `<option value="${response[i].designation_code}">${response[i].designation}</option>`;
+                                }
+                            }
+                            $('#searchDesignation').append(option);
+
+                        }
+                    });
+             
+        }
+
+        function get_data_PU(h) {
+            const dataId = $(h).attr("data-id");
+            $('#textId').val(dataId);
+            $('#irDetails').val(dataId);
+            $('#irSearchDept').val("");
+            $('#irSearchDate').val("");
+            $('#irSearchDesig').val("");
+            $('#irSearchType').val('No');
+            document.getElementById('irSubmitButton').click();
+
+
+        }
+
+        function get_data(h) {
+            
+            const dataId = $(h).attr("data-id");
+            $('#textId').val(dataId);
+            $('#irDetails').val(dataId);
+            $('#irPath2').val('');
+            $('#irSearchDept').val("");
+            $('#irSearchDate').val("");
+            $('#irSearchDesig').val("");
+            $('#irSearchType').val('No');
+            
+            let typ = $('#textdivws').val();
+
+            if($('#irType').val() == 'All')
+            {
+                $('#irType').val('ZR');
+                // $('.buttonZrDetails').show();
+                // $('#ZR').css('background-color','#B74805');
+            }
+            
+                document.getElementById('irSubmitButton').click();
+                $('#main').hide();
+                $('#secondary').show();
+           
+            
+        }
+        function get_data_text(h) {
+            
+            const dataId = h;
+            $('#textId').val(dataId);
+            $('#irDetails').val(dataId);
+            $('#irSearchDept').val("");
+            $('#irSearchDate').val("");
+            $('#irSearchDesig').val("");
+            $('#irSearchType').val('No');
+
+            let typ = $('#textdivws').val();
+            document.getElementById('irSubmitButton').click();
+            $('#main').hide();
+            $('#secondary').show();
+
+            }
+
+
+        function showDivision(divName) {
+            $('#irPath2').val(divName);
+            $('#irSearchDept').val("");
+            $('#irSearchDate').val("");
+            $('#irSearchDesig').val("");
+            $('#irSearchType').val('No');
+            document.getElementById('irSubmitButton').click();
+            $('#main').hide();
+            $('#secondary').show();
+
+        }
+
+
+        function setBtnColor(th) {
+            let val = th.value;
+            $('#irPath2').val('');
+            if (val == 'ZR') {
+                $('#irDetails').val('All');
+            }
+            else if (val == 'PU') {
+                $('#irDetails').val('All');
+            }
+           
+            $('#irType').val(val); 
+            
+            $('#irSearchDept').val("");
+            $('#irSearchDate').val("");
+            $('#irSearchDesig').val("");
+            $('#irSearchType').val('No');
+
+
+            document.getElementById('irSubmitButton').click();
+            $('#main').hide();
+            $('#secondary').show();
+        }
+
+        var currentdate = new Date();
+        $(".dateofInsp").daterangepicker({
+            maxDate: currentdate,
+            autoApply: true,
+            autoUpdateInput: false,
+            autoclose: true,
+            dateFormat: "dd/mm/yy",
+            endDate: "currentdate",
+            changeMonth: true,
+            changeYear: true,
+            todayHighlight: true,
+            clearBtn: true
+        });
+        $(".dateofInsp").on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YY') + '-' + picker.endDate.format('DD/MM/YY'));
+        });
+
+        function searchAllFunction(val)
+        {
+            if(val == 'Reset')
+            {
+                window.location.href='/inspectionDetailsMap';
+                $('#main').hide();
+            $('#secondary').show();
+            }
+            else{
+                $('#irSearchDept').val($('#searchDepartment').val());  
+                $('#irSearchDate').val($('#searchDate').val());
+                $('#irSearchDesig').val($('#searchDesignation').val());
+                $('#irSearchType').val('Yes');
+                document.getElementById('irSubmitButton').click();
+                $('#main').hide();
+            $('#secondary').show();
+               
+               
+            }
+        }
+    </script>
+
+
+<script>
+    // chart-1
+    var count_list1 = JSON.parse('{{count_list1|safe}}');
+    var fin_yr1 = JSON.parse('{{allFinYear |safe}}');
+ 
+    function drawBarcharts1() {
+        var label_array1 = fin_yr1;
+        var color_array1 = ['#4CAF50', '#FFC107', '#F44336'];
+ 
+        var ctx1 = document.getElementById("chart1").getContext('2d');
+        var myChart1 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: label_array1,
+                datasets: [{
+                    label: 'Closed',
+                    backgroundColor: color_array1[0],
+                    data: count_list1.map(function(item) {
+                        return item[0]; // Total value for each data point
+                    })
+                }, {
+                    label: 'Pending',
+                    backgroundColor: color_array1[1],
+                    data: count_list1.map(function(item) {
+                        return item[1]; // Pending value for each data point
+                    })
+                }, {
+                    label: 'Overdue',
+                    backgroundColor: color_array1[2],
+                    data: count_list1.map(function(item) {
+                        return item[2]; // Overdue value for each data point
+                    })
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: true // Stack bars horizontally
+                    },
+                    y: {
+                        stacked: true, // Stack bars vertically
+                        beginAtZero: true
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 5
+                    }
+                },
+                barPercentage: 0.6, // Adjust the value as per your preference
+                responsive: true,
+                legend: {
+                    // display: true,
+                    position: 'right' ,
+                    align: "middle"
+                },onClick: function(context) {
+                const points = myChart1.getElementsAtEventForMode(context, 'nearest', {
+                intersect: true
+                }, true);
+                if(points.length > 0){
+                const fg = points[0].datasetIndex
+                let cd3 = context.chart.config.data.datasets[fg]['label'] // pending total
+                if(cd3 == 'Closed'){
+                    cd3 = 'Total'
+                }
+                fetchdata('Passenger Safety',cd3)
+                }
+            }
+            }
+        });
+    }
+ 
+
+
+    // chart 2
+
+var count_list2 = JSON.parse('{{count_list2|safe}}');
+ 
+
+  function drawBarcharts2() {
+      var label_array2 = fin_yr1;
+      var color_array2= ['#4CAF50', '#FFC107', '#F44336'];
+
+      var ctx2 = document.getElementById("chart2").getContext('2d');
+      var myChart2 = new Chart(ctx2, {
+          type: 'bar',
+          data: {
+              labels: label_array2,
+              datasets: [{
+                  label: 'Closed',
+                  backgroundColor: color_array2[0],
+                  data: count_list2.map(function(item) {
+                      return item[0]; // Total value for each data point
+                  })
+              }, {
+                  label: 'Pending',
+                  backgroundColor: color_array2[1],
+                  data: count_list2.map(function(item) {
+                      return item[1]; // Pending value for each data point
+                  })
+              }, {
+                  label: 'Overdue',
+                  backgroundColor: color_array2[2],
+                  data: count_list2.map(function(item) {
+                      return item[2]; // Overdue value for each data point
+                  })
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      stacked: true // Stack bars horizontally
+                  },
+                  y: {
+                      stacked: true, // Stack bars vertically
+                      beginAtZero: true
+                  }
+              },
+              layout: {
+                  padding: {
+                      top: 5
+                  }
+              },
+              barPercentage: 0.6, // Adjust the value as per your preference
+              legend: {
+                  display: true
+                },onClick: function(context) {
+                const points = myChart2.getElementsAtEventForMode(context, 'nearest', {
+                intersect: true
+                }, true);
+                if(points.length > 0){
+                const fg = points[0].datasetIndex
+                let cd3 = context.chart.config.data.datasets[fg]['label'] // pending total
+                if(cd3 == 'Closed'){
+                    cd3 = 'Total'
+                }
+                fetchdata('Employee Safety',cd3)
+                }
+            }
+          }
+      });
+  }
+
+
+  // chart-3
+
+  var count_list3 = JSON.parse('{{count_list3|safe}}');
+ 
+
+  function drawBarcharts3() {
+      var label_array3 = fin_yr1;
+      var color_array3= ['#4CAF50', '#FFC107', '#F44336'];
+
+      var ctx3 = document.getElementById("chart3").getContext('2d');
+      var myChart3 = new Chart(ctx3, {
+          type: 'bar',
+          data: {
+              labels: label_array3,
+              datasets: [{
+                  label: 'Closed',
+                  backgroundColor: color_array3[0],
+                  data: count_list3.map(function(item) {
+                      return item[0]; // Total value for each data point
+                  })
+              }, {
+                  label: 'Pending',
+                  backgroundColor: color_array3[1],
+                  data: count_list3.map(function(item) {
+                      return item[1]; // Pending value for each data point
+                  })
+              }, {
+                  label: 'Overdue',
+                  backgroundColor: color_array3[2],
+                  data: count_list3.map(function(item) {
+                      return item[2]; // Overdue value for each data point
+                  })
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      stacked: true // Stack bars horizontally
+                  },
+                  y: {
+                      stacked: true, // Stack bars vertically
+                      beginAtZero: true
+                  }
+              },
+              layout: {
+                  padding: {
+                      top: 5
+                  }
+              },
+              barPercentage: 0.6, // Adjust the value as per your preference
+              legend: {
+                  display: true
+              },onClick: function(context) {
+                const points = myChart3.getElementsAtEventForMode(context, 'nearest', {
+                intersect: true
+                }, true);
+                if(points.length > 0){
+                const fg = points[0].datasetIndex
+                let cd3 = context.chart.config.data.datasets[fg]['label'] // pending total
+                if(cd3 == 'Closed'){
+                    cd3 = 'Total'
+                }
+                fetchdata('Others',cd3)
+                }
+            }
+          }
+      });
+  }
+
+
+
+// chart-4
+
+var count_list4 = JSON.parse('{{ count_list4|safe }}');
+  function drawBarcharts4() {
+
+  var label_array4 = fin_yr1;
+  var color_array4= ['#4CAF50', '#FFC107', '#F44336'];
+
+  var ctx4 = document.getElementById("chart4").getContext('2d');
+  var myChart4 = new Chart(ctx4, {
+      type: 'bar',
+      data: {
+          labels: label_array4,
+          datasets: [{
+              label: 'Closed',
+              backgroundColor: color_array4[0],
+              data: count_list4.map(function(item) {
+                  return item[0]; // Total value for each data point
+              })
+          }, {
+              label: 'Pending',
+              backgroundColor: color_array4[1],
+              data: count_list4.map(function(item) {
+                  return item[1]; // Pending value for each data point
+              })
+          }, {
+              label: 'Overdue',
+              backgroundColor: color_array4[2],
+              data: count_list4.map(function(item) {
+                  return item[2]; // Overdue value for each data point
+              })
+          }]
+      },
+      options: {
+          scales: {
+              x: {
+                  stacked: true // Stack bars horizontally
+              },
+              y: {
+                  stacked: true, // Stack bars vertically
+                  beginAtZero: true
+              }
+          },
+          layout: {
+              padding: {
+                  top: 5
+              }
+          },
+          barPercentage: 0.6, // Adjust the value as per your preference
+          legend: {
+              display: true
+            },onClick: function(context) {
+                const points = myChart4.getElementsAtEventForMode(context, 'nearest', {
+                intersect: true
+                }, true);
+                if(points.length > 0){
+                const fg = points[0].datasetIndex
+                let cd3 = context.chart.config.data.datasets[fg]['label'] // pending total
+                if(cd3 == 'Closed'){
+                    cd3 = 'Total'
+                }
+                fetchdata('Night Inspection',cd3)
+                }
+            }
+      }
+  });
+}
+
+
+
+// chart-5
+
+var count_list5 = JSON.parse('{{ count_list5|safe }}');
+      function drawBarcharts5() {
+      var label_array5 = fin_yr1;
+      var color_array5= ['#4CAF50', '#FFC107', '#F44336'];
+ 
+      var ctx5 = document.getElementById("chart5").getContext('2d');
+      var myChart5 = new Chart(ctx5, {
+          type: 'bar',
+          data: {
+              labels: label_array5,
+              datasets: [{
+                  label: 'Closed',
+                  backgroundColor: color_array5[0],
+                  data: count_list5.map(function(item) {
+                      return item[0]; // Total value for each data point
+                  })
+              }, {
+                  label: 'Pending',
+                  backgroundColor: color_array5[1],
+                  data: count_list5.map(function(item) {
+                      return item[1]; // Pending value for each data point
+                  })
+              }, {
+                  label: 'Overdue',
+                  backgroundColor: color_array5[2],
+                  data: count_list5.map(function(item) {
+                      return item[2]; // Overdue value for each data point
+                  })
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      stacked: true // Stack bars horizontally
+                  },
+                  y: {
+                      stacked: true, // Stack bars vertically
+                      beginAtZero: true
+                  }
+              },
+              layout: {
+                  padding: {
+                      top: 5
+                  }
+              },
+              barPercentage: 0.6, // Adjust the value as per your preference
+              legend: {
+                  display: true
+                },onClick: function(context) {
+                const points = myChart5.getElementsAtEventForMode(context, 'nearest', {
+                intersect: true
+                }, true);
+                if(points.length > 0){
+                const fg = points[0].datasetIndex
+                let cd3 = context.chart.config.data.datasets[fg]['label'] // pending total
+                if(cd3 == 'Closed'){
+                    cd3 = 'Total'
+                }
+                fetchdata('Surprise Inspection',cd3)
+                }
+            }
+          }
+      });
+  }
+ 
+
+  //  chart-6
+
+  var count_list6 = JSON.parse('{{ count_list6|safe }}');
+      function drawBarcharts6() {
+      var label_array6 = fin_yr1;
+      var color_array6= ['#4CAF50', '#FFC107', '#F44336'];
+ 
+      var ctx6 = document.getElementById("chart6").getContext('2d');
+      var myChart6 = new Chart(ctx6, {
+          type: 'bar',
+          data: {
+              labels: label_array6,
+              datasets: [{
+                  label: 'Closed',
+                  backgroundColor: color_array6[0],
+                  data: count_list6.map(function(item) {
+                      return item[0]; // Total value for each data point
+                  })
+              }, {
+                  label: 'Pending',
+                  backgroundColor: color_array6[1],
+                  data: count_list6.map(function(item) {
+                      return item[1]; // Pending value for each data point
+                  })
+              }, {
+                  label: 'Overdue',
+                  backgroundColor: color_array6[2],
+                  data: count_list6.map(function(item) {
+                      return item[2]; // Overdue value for each data point
+                  })
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      stacked: true // Stack bars horizontally
+                  },
+                  y: {
+                      stacked: true, // Stack bars vertically
+                      beginAtZero: true
+                  }
+              },
+              layout: {
+                  padding: {
+                      top: 5
+                  }
+              },
+              barPercentage: 0.6, // Adjust the value as per your preference
+              legend: {
+                  display: true
+                },onClick: function(context) {
+                const points = myChart6.getElementsAtEventForMode(context, 'nearest', {
+                intersect: true
+                }, true);
+                if(points.length > 0){
+                const fg = points[0].datasetIndex
+                let cd3 = context.chart.config.data.datasets[fg]['label'] // pending total
+                if(cd3 == 'Closed'){
+                    cd3 = 'Total'
+                }
+                fetchdata('Drive Inspection',cd3)
+                }
+            }
+          }
+      });
+  }
+ 
+
+
+
+  // Call the function to draw the chart when the document is ready
+  document.addEventListener("DOMContentLoaded", function () {
+        drawBarcharts1();
+        drawBarcharts2();
+        drawBarcharts3();
+        drawBarcharts4();
+        drawBarcharts5();
+        drawBarcharts6();
+  });
+
+
+</script>
+
+
+
+<script>
+
+function fetchdata(card_type,card_data){
+    // alert('faisal')
+    let searchDate = $("#searchDate").val()
+    let searchDepartment = $("#searchDepartment").val()
+    let searchDesignation = $("#searchDesignation").val()
+
+    let irType = $("#irType").val()
+    let irDetails = $("#irDetails").val()
+    let irPath2 = $("#irPath2").val()
+
+    let irSearchType = $("#irSearchType").val()
+    let irSearchDept = $("#irSearchDept").val()
+    let irSearchDesig = $("#irSearchDesig").val()
+
+    $.ajax({
+        method: "GET",
+        url: "{% url 'InspDashboardDetailView' %}",
+        dataType: 'json',
+        data: {'searchDate':searchDate,'searchDepartment':searchDepartment,'searchDesignation':searchDesignation,
+                'irType':irType,'irDetails':irDetails,'irPath2':irPath2,'card_type':card_type,'card_data':card_data,
+                'irSearchType':irSearchType,'irSearchDept':irSearchDept,'irSearchDesig':irSearchDesig},
+        success: function (response) {
+            console.log(response)
+            // let tr = '<tr>'
+            let td = ''
+            if(card_data == 'Total'){
+                $("#thead1 tr").empty()
+                $("#thead1 tr").append(`<th style="width: 10%; text-align: center;"> ${irType} <br> <input type="text" class="box" placeholder="Search"> </th>
+                <th style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></th>
+                <th style="width: 10%; text-align: center;">Pending <br><input type="text" class="box" placeholder="Search"></th>
+                <th style="width: 10%; text-align: center;">Overdue <br><input type="text" class="box" placeholder="Search"></th>`)
+                for(let i = 0; i<response.data.length;i++){
+                    td += `<tr><td>${response.data[i][0]}</td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td></tr>`
+                }
+                
+                $("#mydata").empty()
+                $("#mydata").append(td)
+            }
+            else{
+                $("#thead1 tr").empty()
+                $("#thead1 tr").append(`<th style="width: 5%; text-align: center;" placeholder="Search">S.No.</th>
+              <th style="width: 10%; text-align: center;">${irType}<br> <input type="text" class="box" placeholder="Search"> </th>
+              <th style="width: 10%; text-align: center;">> 7 days <br><input type="text" class="box" placeholder="Search"></th>
+              <th style="width: 10%; text-align: center;">> 30 days <br><input type="text" class="box" placeholder="Search"></th>
+              <th style="width: 10%; text-align: center;">> 90 days <br><input type="text" class="box" placeholder="Search"></th>
+              <th style="width: 10%; text-align: center;">> 180 days <br><input type="text" class="box" placeholder="Search"></th>`)
+                for(let i = 0; i<response.data.length;i++){
+                    td += `<tr><td>${i+1}</td><td>${response.data[i][0]}</td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td><td>${response.data[i][4]}</td></tr>`
+                }
+                
+                $("#mydata").empty()
+                $("#mydata").append(td)
+            }
+
+            $("#demo").text('Rly: List of '+card_type+' '+card_data)
+            $("#btnmodal").click()
+        }
+    });
+
+}
+
+</script>
+
+
+<!-- Faisal Sir scripts -->
+<script>
+    var table =$('#table_id').DataTable({
+    "iDisplayLength": 10,
+                    
+        // "ordering": false,
+        "lengthChange": true,
+        "lengthMenu": [10,15, 30, 50, 75, 100],
+    dom: 'Blfrtip',
+         bSort: false,
+        
+        buttons: [
+        {
+            extend: 'excel',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                if(irType == 'All'){
+                    var stre ='Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate
+                }
+                else{
+                    var stre=irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate
+                }
+                return stre
+            },
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            
+        },
+        {
+            extend:'pdfHtml5',
+            title: function (e) {
+                var e1 = $('#datefrom').val()
+                var e2 = $('#dateto').val()
+                var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                return stre
+            },
+            exportOptions: {
+                alignment: 'right',
+                },
+            customize: function ( doc ) {
+                console.log("doc",doc)
+                console.log("doc",doc.defaultStyle)
+                console.log("doc2",doc.styles.tableBodyEven)
+                console.log("doc3",doc.styles.tableBodyOdd)
+                doc.content.splice(0,1);
+                
+                doc.styles.tableBodyEven.alignment = 'center';
+                doc.styles.tableBodyOdd.alignment = 'center';
+               
+              },
+              text :'PDF',
+              
+                fontSize : 'LEGAL'
+            
+        },
+        {
+            extend: 'print',
+            title: function (e) {
+                var s1 = $('#datefrom').val()
+                var s2 = $('#dateto').val()
+                var str = 'Inspection Report from ' + s1 + ' to ' + s2;
+                return str
+            },
+            customize: function ( doc ) {
+                 $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                },
+        },
+        ],
+        headers:true
+  });
+
+
+    function fetchdata(card_type,card_data){
+    // alert('akjdlfk')
+    var irType = $("#irType").val()
+    var irDetails = $("#irDetails").val()
+    // alert('kdj'+irType+irDetails)
+    let searchDate = $("#searchDate").val()
+    let searchDepartment = $("#searchDepartment").val()
+    let searchDesignation = $("#searchDesignation").val()
+    
+    let irPath2 = $("#irPath2").val()
+
+    let irSearchDate = $("#irSearchDate").val()
+    let irSearchDept = $("#irSearchDept").val()
+    let irSearchDesig = $("#irSearchDesig").val()
+    
+    $.ajax({
+        method: "GET",
+        url: "{% url 'InspDashboardDetailView' %}",
+        dataType: 'json',
+        data: {'searchDate':searchDate,'searchDepartment':searchDepartment,'searchDesignation':searchDesignation,
+                'irType':irType,'irDetails':irDetails,'irPath2':irPath2,'card_type':card_type,'card_data':card_data,
+                'irSearchDate':irSearchDate,'irSearchDept':irSearchDept,'irSearchDesig':irSearchDesig},
+        success: function (response) {
+            table.destroy();
+            console.log(response)
+            // let tr = '<tr>'
+            let td = ''
+            if(card_data == 'Total'){
+                $("#thead1 tr").empty()
+                $("#thead1 tr").append(`<th style="width: 10%; text-align: center;"> ${irType}   </th>
+                <th style="width: 10%; text-align: center;">Total </th>
+                <th style="width: 10%; text-align: center;">Pending </th>
+                <th style="width: 10%; text-align: center;">Overdue </th>`)
+                for(let i = 0; i<response.data.length;i++){
+                    td += `<tr><td><a href = '#' onclick = "DetailsViewOfDataget('${response.data[i][0]}','${card_type}','${card_data}')">${response.data[i][0]}</a></td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td></tr>`
+                }
+                
+                $("#mydata").empty()
+                $("#mydata").append(td)
+            }
+            else{
+                $("#thead1 tr").empty()
+                $("#thead1 tr").append(`<th style="width: 5%; text-align: center;">S.No.</th>
+                    <th style="width: 10%; text-align: center;">${irType}  </th>
+                    <th style="width: 10%; text-align: center;"> 7 days </th>
+                    <th style="width: 10%; text-align: center;"> 30 days </th>
+                    <th style="width: 10%; text-align: center;"> 90 days </th>
+                    <th style="width: 10%; text-align: center;"> 180 days </th>`)
+                for(let i = 0; i<response.data.length;i++){
+                    td += `<tr><td>${i+1}</td><td><a href = '#' onclick = "DetailsViewOfDataget('${response.data[i][0]}','${card_type}','${card_data}')">${response.data[i][0]}</a></td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td><td>${response.data[i][4]}</td></tr>`
+                }
+                
+                $("#mydata").empty()
+                $("#mydata").append(td)
+            }
+            // alert('kkkkkkkkkkkkk')
+            if(irType == 'All'){
+                $("#demo").text('Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate)
+            }
+            else{
+                $("#demo").text(irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate)
+            }
+            
+            $("#btnmodal").click()
+            $("#irTypeformodal").val(irType)
+            // DATATABLE
+            table=$('#table_id').DataTable({
+                    "iDisplayLength": 10,
+                    
+                    // "ordering": false,
+                    "lengthChange": true,
+                    "lengthMenu": [10,15, 30, 50, 75, 100],
+                    dom: 'Blfrtip',
+                    
+                    buttons: [
+                    {
+                        extend: 'excel',
+                        title: function (e) {
+                            var e1 = $('#datefrom').val()
+                            console.log("datefrom",e1)
+                            var e2 = $('#dateto').val()
+                            if(irType == 'All'){
+                                var stre ='Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate
+                            }
+                            else{
+                                var stre=irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate
+                            }
+                            return stre
+                        },
+                        // orientation: 'landscape',
+                        // pageSize: 'LEGAL',
+                        
+                    },
+                    {
+                        extend:'pdfHtml5',
+                        title: function (e) {
+                            var e1 = $('#datefrom').val()
+                            var e2 = $('#dateto').val()
+                            console.log("datefrom1",e1)
+                            console.log("datefrom1",datefrom)
+                            var stre = 'Inspection Report from ' + e1 + ' to ' + e2;
+                            console.log('insode inspection report',stre)
+                            return stre
+                        },
+                        exportOptions: {
+                            alignment: 'right',
+                            },
+                        customize: function ( doc ) {
+                            console.log("doc",doc)
+                            console.log("doc",doc.defaultStyle)
+                            console.log("doc2",doc.styles.tableBodyEven)
+                            console.log("doc3",doc.styles.tableBodyOdd)
+                            doc.content.splice(0,1);
+                            
+                            doc.styles.tableBodyEven.alignment = 'center';
+                            doc.styles.tableBodyOdd.alignment = 'center';
+                        },
+                        text :'Pdf',
+                        title:"Inspection Report ",
+                                    fontSize : 'LEGAL'
+                        
+                    },
+                    {
+                        extend: 'print',
+                        footer:true,
+                        title: function (e) {
+                            var s1 = $('#datefrom').val()
+                            var s2 = $('#dateto').val()
+                            var str = 'Inspection Report from ' + s1 + ' to ' + s2 +' for '+mydata;
+                            return str
+                        },
+                        customize: function ( doc ) {
+                            $(doc.document.body).find('tableid').css('text-align', 'center');
+
+                            //  $(doc.document.body).find('table').css('border', '1px solid #000');
+                            //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+                            //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+                            //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+                            //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+                            },
+                            "pagingType": "simple",
+                            "sEmptyTable": 'No data available in table',
+
+                            // "bSort": true,
+
+                            "oLanguage": {
+                                "sInfoEmpty": "Page 0 of 0 ",
+                            },
+                            "language": {
+                                "info": "Page _PAGE_ of _PAGES_",
+                                "paginate": {
+                                    "previous": "Prev",
+                                },
+                            },
+                    },
+                    ],
+                });
+        
+        }
+    });
+
+}
+
+    function DetailsViewOfDataget(data1,card_type,card_data){
+    // alert('kjslefi')
+
+    let searchDate = $("#searchDate").val()
+    let searchDepartment = $("#searchDepartment").val()
+    let searchDesignation = $("#searchDesignation").val()
+
+
+    let irType = $("#irType").val()
+    let irDetails = $("#irDetails").val()
+
+    let irPath2 = $("#irPath2").val()
+
+    let irSearchDate = $("#irSearchDate").val()
+    let irSearchDept = $("#irSearchDept").val()
+    let irSearchDesig = $("#irSearchDesig").val()
+    // alert('irType '+irType)
+    let irTypeformodal = $("#irTypeformodal").val()
+    // alert('alldata'+irType)
+    let zr = ["ER","SER","WCR","NCR","ECOR","KM","SCR","NWR","WR","SR","SECR","CR","SWR","NER","ECR","NFR","NR",'KR']
+    if(irTypeformodal == 'All' && zr.includes(data1)){
+        // alert('ksdlife99999999999999999')
+        document.getElementById('modaldismis').click();
+        $("#irTypeformodal").val('ZR') 
+        // irType = 'DIV'
+        // irDetails = data1
+        // alert('ird'+irDetails)
+        $.ajax({
+            method: "GET",
+            url: "{% url 'DetailsViewOfData' %}",
+            dataType: 'json',
+            data: {'irType':irType,'irDetails':data1,'irPath2':irPath2,'card_type':card_type,'card_data':card_data,'irSearchDate':irSearchDate,'irSearchDept':irSearchDept,'irSearchDesig':irSearchDesig},
+            success: function (response) {
+                // alert('success')
+                console.log(response)
+                // let tr = '<tr>'
+                let td = ''
+                if(card_data == 'Total'){
+                    $("#thead1 tr").empty()
+                    $("#thead1 tr").append(`<th style="width: 10%; text-align: center;"> ${irType}   </th>
+                    <th style="width: 10%; text-align: center;">Total </th>
+                    <th style="width: 10%; text-align: center;">Pending </th>
+                    <th style="width: 10%; text-align: center;">Overdue </th>`)
+                    for(let i = 0; i<response.data.length;i++){
+                        td += `<tr><td><a href = '#' onclick = "DetailsViewOfDataget('${response.data[i][0]}','${card_type}','${card_data}')">${response.data[i][0]}</a></td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td></tr>`
+                    }
+                    
+                    $("#mydata").empty()
+                    $("#mydata").append(td)
+                }
+                else{
+                    $("#thead1 tr").empty()
+                    $("#thead1 tr").append(`<th style="width: 5%; text-align: center;">S.No.</th>
+                        <th style="width: 10%; text-align: center;">${irType}  </th>
+                        <th style="width: 10%; text-align: center;"> 7 days </th>
+                        <th style="width: 10%; text-align: center;"> 30 days </th>
+                        <th style="width: 10%; text-align: center;"> 90 days </th>
+                        <th style="width: 10%; text-align: center;"> 180 days </th>`)
+                    for(let i = 0; i<response.data.length;i++){
+                        td += `<tr><td>${i+1}</td><td><a href = '#' onclick = "DetailsViewOfDataget('${response.data[i][0]}')">${response.data[i][0]}</a></td><td>${response.data[i][1]}</td><td>${response.data[i][2]}</td><td>${response.data[i][3]}</td><td>${response.data[i][4]}</td></tr>`
+                    }
+                    
+                    $("#mydata").empty()
+                    $("#mydata").append(td)
+                }
+                // alert('kkkkkkkkkkkkk')
+                if(irType == 'All'){
+                $("#demo").text('Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate)
+                }
+                else{
+                    $("#demo").text(irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate)
+                }
+                
+                $("#btnmodal").click()
+        
+            }
+        });
+
+        return false;
+    }
+    // alert('not go there')
+    $.ajax({
+        method: "GET",
+        url: "{% url 'DetailsViewOfData' %}",
+        dataType: 'json',
+        data: {'searchDate':searchDate,'searchDepartment':searchDepartment,'searchDesignation':searchDesignation,
+                'irPath2':irPath2,'irTypeformodal':irTypeformodal,'irType':irTypeformodal,'irDetails':data1,'card_type':card_type,'card_data':card_data,
+                'irSearchDate':irSearchDate,'irSearchDept':irSearchDept,'irSearchDesig':irSearchDesig,"mydata":data1},
+        success: function (response) {
+            console.log(response)
+            // let tr = '<tr>'
+            let td = ''
+            // if(card_data == 'Total'){
+                $("#thead1 tr").empty()
+                $("#thead1 tr").append(`<th style="width: 10%; text-align: center;"> S.No > </th>
+                <th style="width: 10%; text-align: center;">Insp. Date </th>
+                <th style="width: 10%; text-align: center;">Insp. Note No. </th>
+                <th style="width: 10%; text-align: center;">Insp. Observation></th>
+                <th style="width: 10%; text-align: center;">Marked Officer </th>
+                <th style="width: 10%; text-align: center;">Rly./org. </th>
+                <th style="width: 10%; text-align: center;">Div./Unit </th>
+                <th style="width: 10%; text-align: center;">Insp. Note </th>`)
+                for(let i = 0; i<response.data1.length;i++){
+                    let date = response.data1[i][0].split('-')
+                    let url12 = parseInt(response.data1[i][1])
+                    date = date[2]+"-"+date[1]+'-'+date[0]
+                    td += `<tr><td>${i+1}</td><td>${date}</td><td>${response.data1[i][1]}</td><td>${response.data1[i][2]}</td>
+                       <td>${response.data1[i][3]}</td><td>${response.data1[i][4]}</td><td>${response.data1[i][5]}</td>`
+                       
+                       td += `<td><a href="/inspectionReportHtml/`+url12+`" >Action</a></td>`
+                       td += `</tr>`
+                }
+                
+                $("#mydata").empty()
+                $("#mydata").append(td)
+            // }
+            if(irType == 'All'){
+                $("#demo").text('Rly/org : List of '+card_type+' related item ('+card_data+') from '+irSearchDate)
+            }
+            else{
+                $("#demo").text(irType+' : List of '+card_type+' related item ('+card_data+ ') from '+irSearchDate)
+            }
+
+        }
+    });
+
+}
+
+</script>
+
+</body>
+{% endblock %}

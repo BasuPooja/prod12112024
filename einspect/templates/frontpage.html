@@ -1,0 +1,3777 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Einspection | User Form</title>
+
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}" ></script>
+  <script src="{% static '/js/popper.min.js' %}" ></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}" ></script>
+  <script src="{% static '/js/bootstrap.min.js' %}" ></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}"  />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}"  />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}"  />    
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}"  />
+  <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+  <link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" /> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> 
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link rel="stylesheet" type="text/css" href="{% static '/accordian/bootstrap.min.css' %}" />
+  <script src="{% static '/accordian/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>  
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />  
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}" />
+  <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+  <link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />  
+  <script type="text/javascript" src="{% static '/js/jquery.mask.js'%}"></script>
+  <!-- neilotpal -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  <!-- neilotpal -->
+  <link rel="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+
+</head>
+
+<style>
+  .dropdown:hover .dropdown-toggle {
+    color: black !important;
+  }
+
+  .dropdown-toggle.tog1::after {
+    color: black;
+  }
+
+  hr.cardbreak{
+    margin-block-start: 0.4em;
+    margin-block-end: em;
+  }
+
+  hr.break{
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+  }
+
+  .cardname{
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+
+  .cardname1{
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  .cardcount{
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .badgecolor1{
+    background-color: #5584dc;
+  }
+
+  .badgecolor2{
+    background-color: #59d334;
+  }
+
+  .badgecolor3{
+    background-color: #f4a629;
+  }
+  
+  .badgecolor4{
+    background-color: #f34a2c;
+  }
+
+  .badgecolor5{
+    background-color: #f24b94;
+  }
+
+  .badgecolor6{
+    background-color: #e44efe;
+  }
+
+  .btnadd{
+    background-color: rgb(13, 157, 234);
+    font-weight: 700;
+    color: white;
+    margin-top: -0.8rem;
+
+  }
+
+  .btnview{
+    background-color: orange;
+    font-weight: 700;
+    color: white;
+    border: none;
+    margin-top: -0.8rem;
+
+  }
+
+  .btnadd:hover{
+    background-color: rgb(13, 157, 234);
+    font-weight: 700;
+    color: black;
+  }
+ 
+  .btnview:hover{
+    background-color: orange;
+    font-weight: 700;
+    color: black;
+    border: none;
+  }
+ 
+  .dot-green {
+    height: 18px;
+    width: 18px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 6px;
+  }
+
+  .dot-purple {
+    height: 18px;
+    width: 18px;
+    background-color: purple;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 6px;
+  }
+
+  .dot-yellow {
+    height: 18px;
+    width: 18px;
+    background-color: yellow;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 6px;
+  }
+
+  .dot-blue {
+    height: 18px;
+    width: 18px;
+    background-color: blue;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 6px;
+  }
+
+  .dot-grey {
+    height: 18px;
+    width: 18px;
+    background-color: grey;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 6px;
+  }
+
+  .dot-desc {
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-family: arial;
+  }
+
+  .pastelYellow{
+    background-color:#f7f6cf ;
+  }
+  .pastelPink{
+    background-color:#f4cfdf ;
+  }
+  .pastelBlue{
+    background-color:#b6d8f2 ;
+  }
+
+  .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+
+padding-left: 0px;
+padding-right: 0px;
+padding-bottom: 0px;
+
+bottom: 0;
+
+margin-left: 0.25rem;
+margin-right: 0.5rem;
+border: 0px;
+background-color: rgb(255, 255, 255, 0) !important;
+color: black !important;
+
+}
+
+.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+border: 0px;
+padding-left: 0px;
+padding-right: 0px;
+
+padding-bottom: 0px;
+margin-left: 0.25rem;
+margin-right: 0.5rem;
+background-color: rgba(232, 77, 77, 0) !important;
+
+}
+
+.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+border: 0px;
+padding-left: 0px;
+padding-right: 0px;
+padding-bottom: 0px;
+margin-left: 0.25rem;
+margin-right: 0.5rem;
+color: #333 !important;
+border: 1px solid rgba(0, 0, 0, 0);
+background-color: rgba(232, 77, 77, 0);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+/* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+/* Chrome10+,Safari5.1+ */
+background: -moz-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+/* FF3.6+ */
+background: -ms-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+/* IE10+ */
+background: -o-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+/* Opera 11.10+ */
+background: linear-gradient(to bottom, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+/* W3C */
+}
+
+.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+
+/* color: #007bff !important; */
+border: 1px solid rgba(17, 17, 17, 0);
+background-color: #58585800;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+/* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+/* Chrome10+,Safari5.1+ */
+background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+/* FF3.6+ */
+background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+/* IE10+ */
+background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+/* Opera 11.10+ */
+background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+/* W3C */
+}
+
+.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+border: 0px;
+padding-left: 0px;
+padding-right: 0px;
+padding-bottom: 0px;
+
+margin-left: 0.25rem;
+margin-right: 0.5rem;
+outline: none;
+background-color: #2b2b2b00;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+/* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+/* Chrome10+,Safari5.1+ */
+background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+/* FF3.6+ */
+background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+/* IE10+ */
+background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+/* Opera 11.10+ */
+background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+/* W3C */
+box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+}
+
+.tabledash .dataTables_wrapper .dataTables_info {
+clear: both;
+float: left;
+/* padding-top: 0.25em; */
+}
+
+.tabledash .dataTables_wrapper .dataTables_paginate {
+float: right;
+text-align: right;
+/* padding-top: 0.25em; */
+}
+.tanya_hr{
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+}
+.card { margin-bottom:-20px; } 
+.header-cards { position:relative;}
+/* .header-cards { width:100%; overflow-x:scroll; padding:1rem; }  */
+.header-cards::-webkit-scrollbar{ display: none; }
+.card-col { padding-left:3px; padding-right:3px; } 
+.leftArrow, .rightArrow { cursor:pointer; z-index:999;position:absolute;top:150px;}
+.leftArrow{left:15px;top:150px;} .rightArrow{right:10px;top:150px;} 
+</style>
+<script> var posLeft=0; $(document).ready(function()
+  { $(".leftArrow").click(function() { event.preventDefault();  $(".header-cards").animate({scrollLeft: posLeft-900}, 500); if(posLeft>400) posLeft-=900; }); 
+    $(".rightArrow").click(function() { event.preventDefault(); console.log($(".header-cards").get(0).scrollWidth+"   "+$(".header-cards").innerWidth()+"   "+posLeft); $(".header-cards").animate({scrollLeft: posLeft+400}, 500); posLeft+=400; if(posLeft>($(".header-cards").get(0).scrollWidth-$(".header-cards").innerWidth())) { $(".header-cards").animate({scrollLeft: 0},50);/*$(".header-cards").fadeOut(1000); $(".header-cards").fadeIn(1000); */posLeft=0; } }); });
+    
+  </script>
+<body>
+
+  {% csrf_token %}
+  <form action="{% url 'frontpage' %}" method="POST" >
+
+    <div  class="row mx-4 my-3" style="background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);">
+      <input type="text" value="{{testcard}}" id="cardvalue" hidden>
+
+        <div class="col-lg-11 col-md-8 col-sm-6 py-2">
+          <h3 class="align-middle font-weight-bold text-black float-justify text-center"> DASHBOARD OF {{request.session.designation | safe}}</h3>
+        </div>
+
+        <div class="col-lg-1 col-md-4 col-sm-6 py-2">
+          <div class="dropdown ">
+            <button class="btn btn-light dropdown-toggle align-middle tog1" type="button" id="dropdownMenuButton" data-toggle="dropdown"    aria-haspopup="true" aria-expanded="false">  <i class="fa fa-calendar"></i>{{daterange}} </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <button class="dropdown-item" type="submit" name="submit" value="sum1">All</button>
+              <button class="dropdown-item" type="submit" name="submit" value="sum2">Last 7 days</button>
+              <button class="dropdown-item" type="submit" name="submit" value="sum3">Last 4 weeks</button>
+              <button class="dropdown-item" type="submit" name="submit" value="sum4">Last 12 months</button>
+            </div>
+          </div>
+        </div>
+    </div>     
+              
+    <!-- <div class="font-weight-bold text-primary float-right">
+            <div class="dropdown">
+              
+              <button class="btn btn-secondary dropdown-toggle tog1" type="button" id="dropdownMenuButton" data-toggle="dropdown"     aria-haspopup="true" aria-expanded="false" style="color:black;font-size: 14px;background-color: #fff;">
+                <i class="fa fa-calendar"></i>{{daterange}} </button>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" type="submit" name="submit" value="sum1">All</button>
+                <button class="dropdown-item" type="submit" name="submit" value="sum2">Last 7 days</button>
+                <button class="dropdown-item" type="submit" name="submit" value="sum3">Last 4 weeks</button>
+                <button class="dropdown-item" type="submit" name="submit" value="sum4">Last 12 months</button>
+              </div>
+
+            </div>
+          </div> -->
+    <!-- <div class="row">
+       
+        <div class="chart1" style="margin-bottom: 0px; width: 100%; height: 0% !important;padding-left: 0;">
+          
+            <div class="" style="height:20% ; padding-bottom: 0.5%;padding-top: 0.5%;background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);">
+            <h3 class="font-weight-bold text-black float-justify text-center"> DASHBOARD OF
+              {{request.session.designation | safe}}</h3>
+                <div class="font-weight-bold text-primary float-right">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle tog1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:black;margin-right:1rem;font-size: 15px;background-color: #fff;">
+                      <i class="fa fa-calendar"></i>{{daterange}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <button class="dropdown-item" type="submit" name="submit" value="sum1">All</button>
+                      <button class="dropdown-item" type="submit" name="submit" value="sum2">Last 7 days</button>
+                      <button class="dropdown-item" type="submit" name="submit" value="sum3">Last 4 weeks</button>
+                      <button class="dropdown-item" type="submit" name="submit" value="sum4">Last 12 months</button>
+                    </div>
+                  </div>
+                </div>
+              </h5>
+            </div>
+          
+        </div>
+      </div> -->
+     <!-- ###############################COMMENTED BY TANYA###################################STARTED------ -->
+    <!-- <div class="row mx-4">              
+      <input type="text"class="form-control" id="hidden_id" value="{{id}}" hidden>
+      <input type="text"class="form-control" id="hidden_id1" value="{{myid}}" hidden> 
+
+      <div class="card-deck">
+        {% for i in card %} 
+        <div class="card ml-1 mr-2 mt-2 mb-1 pastelYellow border-dark">
+          
+          <div class="row card-text mx-2 " >
+            <div class="col-lg-6 text-nowrap cardname">{{i.name}}</div>
+            <div class="col-lg-6 text-right cardcount"><span class="badge badgecolor{{i.instypeid}}">{{i.cnt}}</span></div>
+          </div>
+          <hr class="cardbreak">
+          <div class="row mx-1 mb-1">
+            <img src= "/media/{{i.inspection_image}}" class="rounded card-img-top img-responsive d-block"> 
+          </div> -->
+          <!-- <hr class="cardbreak"> -->
+          <!-- <div class="row mx-2 mt-1 mb-2 rounded">
+            <div class="col-lg-6 col-md-12 col-sm-12 my-2">
+                <a href="#" id="{{i.instypeid}}" class="btn btn-info btn-sm btn-block btnadd border-dark" style="white-space: normal; word-wrap: break-word;" onclick="myfun(this.id)">Create New</a>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 my-2">
+                <a href="/footPlate_report" class="btn btn-success btn-sm btn-block btnview border border-dark" style="white-space: normal; word-wrap:break-word;">View Report</a>
+            </div>
+          </div> 
+        </div>
+        {% endfor %} 
+      </div> 
+
+    </div>
+
+    <hr class="mx-3 my-3"> -->
+    <!-- ****************************COMMENTED BY TANYA  END**************************************-->
+    <div class="row">
+      <div class="col-lg-6 " >
+      <div ><button class="btn btn-outline-success leftArrow btn-sm" ><i class="fas fa-chevron-left"></i></button></div>
+      </div>
+      <div class="col-lg-6">
+      <div><button class="btn btn-outline-success rightArrow btn-sm" ><i class="fas fa-chevron-right"></i></button></div> 
+      </div>
+    </div>
+  <div class="row mx-4 flex-nowrap overflow-auto row-cols-5 row-cols-md-5 header-cards" id="headDiv">              
+    <input type="text"class="form-control" id="hidden_id" value="{{id}}" hidden>
+    <input type="text"class="form-control" id="hidden_id1" value="{{myid}}" hidden> 
+    <!-- <div class="row flex-nowrap overflow-auto row-cols-3 row-cols-md-3 header-cards" id="headDiv"> -->
+    <!-- <div class="card-deck"> -->
+      {% for i in card %} 
+      <div class="card ml-1 mr-2 mt-2 mb-1 pastelYellow border-dark">
+        
+        <div class="row card-text mx-2 " >
+          <div class="col-lg-6 text-nowrap cardname">{{i.name}}</div>
+          <div class="col-lg-6 text-right cardcount"><span class="badge badgecolor{{i.instypeid}}">{{i.cnt}}</span></div>
+        </div>
+        <hr class="cardbreak">
+        <div class="row mx-1 mb-1 ">
+          <img src= "/media/{{i.inspection_image}} " class="rounded card-img-top img-responsive d-block" height="130px" width="400px" style="margin-top:-1rem ;"> 
+        </div>
+        <!-- <hr class="cardbreak"> -->
+        <div class="row mx-2 mt-1 mb-2 rounded">
+          <div class="col-lg-6 col-md-12 col-sm-12 my-2">
+              <a href="#" id="{{i.instypeid}}" class="btn btn-info btn-sm btn-block btnadd border-dark" style="white-space: normal; word-wrap: break-word;" onclick="myfun(this.id)">Create New</a>
+          </div>
+          <div class="col-lg-6 col-md-12 col-sm-12 my-2">
+              <a href="/footPlate_report" class="btn btn-success btn-sm btn-block btnview border border-dark" style="white-space: normal; word-wrap:break-word;">View Report</a>
+          </div>
+        </div> 
+      </div>
+      {% endfor %} 
+    </div>
+    <hr class="tanya_hr"> 
+
+    {% csrf_token %}
+
+    <div class="row mx-4">
+      
+      <div class="col-lg-4 p-0 m-0">
+        <div class="chart2" id="zone">
+          <div class="card shadow border-dark">
+            <div class="card-header cardname1 pastelBlue border-dark">
+              <h6 class="text-primary text-center cardname text-uppercase">
+                Deficiencies ( <a href="javascript:void(0);" id="issid" role="button" onclick="SeeIssue()">IssueWise</a> / <a href="javascript:void(0);" id="offdefid" role="button" onclick="SeeOfficerdef()">Officer</a> )
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">           
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                  <canvas id="myChart3" style="width:100%; "></canvas>
+                  <canvas id="myChartdef" style="width:100%; "></canvas>                
+                </div>               
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- graphs 2 -->
+      <div class="col-lg-4 px-1 m-0" >
+        <div class="chart2" id="zone">
+          <div class="card shadow border-dark">
+            <div class="card-header cardname1 pastelYellow border-dark" >
+              <h6 class="text-primary text-center cardname text-uppercase">
+                Schedule-Surprise ( <a href="javascript:void(0);" id="offid" role="button" onclick="SeeOfficer()">Officer</a> / <a href="javascript:void(0);" id="typeid" role="button" onclick="Seetype()">Type</a> )
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">            
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                  <canvas id="myChart1" style="width:100%; "></canvas>
+                  <canvas id="myChart2" style="width:100%; "></canvas>               
+                </div>              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- graph3 siri officerwise-->
+      
+      <div class="col-lg-4 p-0 m-0">
+        <div class="chart2" id="zone">
+          <div class="card shadow border-dark">
+            <div class="card-header cardname1 pastelPink border-dark">
+              <h6 class="text-primary text-center cardname text-uppercase">
+              Issues ( Department - Wise )
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">
+          
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                  <canvas id="myChart" style="width:100%; "></canvas>              
+                </div>              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="mx-3 my-3">
+ 
+    <div class="row mx-4">
+
+      <div class="col-lg-6 pl-0 pr-4 m-0" >
+        <div class="chart2" id="zone">
+          <div class="card shadow h-100 border-dark tabledash">
+            <div class="card-header mh-100 cardname1 pastelBlue border-dark" >
+              <h6 class="text-primary text-center cardname text-uppercase">
+                Incoming  Schedule 
+              </h6>
+              <div class="row">
+                <table id="showroster1" class="col-lg-12 col-md-12 col-sm-12 p-0 m-0 table-fixed table-responsive-xl table table-hover table-bordered  table-light " style="min-height:290px;" >
+                  <thead class="tHead thead-light">
+                      <tr id="thead">
+                          <th scope="col">S.No.</th>                      
+                          <th scope="col">Date Of Schedule</th>                        
+                          <th scope="col">Inspection Type</th>
+                          <th scope="col">Section</th> 
+                          <th scope="col">Details</th>
+                          <!-- <th scope="col">Status</th> -->
+                          
+                      </tr> 
+                  </thead>
+  
+                  <tbody class="bg-light">
+                  
+                    {% for i in rosterdet %}
+                    <tr>                      
+                        <td>{{i.slno}}</td> 
+                        <td>{{i.doi}}</td>
+                        <td>{{i.inspectionof}}</td>
+                        <td>{{i.section}}</td>                        
+                        <td>{{i.detail}}</td>
+                    </tr>
+                    {%endfor%}
+                    {% for i in rosterlen %}
+                    <tr>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    {%endfor%}
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- <div class="pagination1 pastelBlue px-3 py-1" style="font-family:'Courier New', Courier, monospace; color: black;">
+              <span class="step-links">
+                <div class="row">
+                  {% if rosterdet.has_previous %}
+                  <div class="col-lg-2 col-md-6 col-sm-12">
+                    <a href="?page=1" class="btn btn-danger btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">&laquo;first</a>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-12">
+                    <a href="?page={{ rosterdet.previous_page_number }}" class="btn btn-success btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">previous</a>
+                  </div>
+                  {% endif %}
+
+                  <div class="col-lg-4 col-md-12 col-sm-12">
+                    <span class="current text-center">
+                      Page {{ rosterdet.number }} of {{ rosterdet.paginator.num_pages }}.
+                    </span>
+                  </div>
+
+                  {% if rosterdet.has_next %}
+                  <div class="col-lg-2 col-md-6 col-sm-12">
+                    <a href="?page={{ rosterdet.next_page_number }}" class="btn btn-success btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">next</a>
+                  </div>
+                  <div class="col-lg-2 col-md-6 col-sm-12">
+                    <a href="?page={{ rosterdet.paginator.num_pages }}" class="btn btn-danger btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">last &raquo;</a>
+                  </div>
+                  {% endif %}
+                </div>                  
+              </span>
+            </div> -->
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 pr-0  m-0" >
+        <div class="chart2" id="zone" >
+          <div class="card shadow h-100 border-dark">
+            <div class="card-header cardname1 pastelPink border-dark tabledash" style="height: 0%;" >
+              <h6 class="text-primary text-center cardname text-uppercase">
+                Deficiencies  Reported
+              </h6>
+              <table id="showroster2" class="col-lg-12 col-md-12 col-sm-12 p-0 m-0 table-fixed table-responsive-xl table table-hover table-bordered table-light" style="min-height:290px;" >
+                <thead class="tHead thead-light">
+                    <tr id="thead">
+                        <th scope="col">S.No.</th>
+                        
+                        <th scope="col">Inspection Type</th> 
+                        <th scope="col">Reported By</th>
+                        <th scope="col">Reported On</th>
+                        <th scope="col">Issue Reported</th>
+          
+                    </tr> 
+                </thead>
+                <tbody>
+                  {% for i in ans %}
+                  
+                  <tr>
+                    {% for j in i %}
+                    <td>{{j}}</td>
+                    {%endfor%}
+                    <!-- <td>{{j.loc}}</td>
+                    <td>{{j.rem}}</td>
+                    <td>{{j.date}}</td>
+                    <td>{{j.repo}}</td> -->
+                  </tr>
+                  
+                  {%endfor%}
+                  {% for i in anslength %}
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  {%endfor%}
+                  
+                </tbody>
+              </table>
+            </div>
+
+            <!-- <div class="pagination1 pastelPink px-3 py-1" style="font-family:'Courier New', Courier, monospace; color: black;">
+              <span class="step-links1">                  
+                  <div class="row">
+                    {% if ans.has_previous %}
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                      <a href="?page=1"  class="btn btn-danger btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">&laquo; first</a>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                      <a href="?page={{ ans.previous_page_number }}"  class="btn btn-success btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">previous</a>
+                    </div>
+                    {% endif %}
+
+                    <div class="col-lg-4 col-md-12col-sm-12 text-center">
+                      <span class="current1 text-center">
+                        Page {{ ans.number }} of {{ ans.paginator.num_pages }}.
+                    </span>
+                    </div>
+
+                    {% if ans.has_next %}
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                      <a href="?page={{ ans.next_page_number }}"  class="btn btn-success btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">next</a>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                      <a href="?page={{ ans.paginator.num_pages }}"  class="btn btn-danger btn-sm p-1 m-0 btn-block" style="white-space: normal; word-wrap: break-word;">last &raquo;</a>
+                    </div>
+                    {% endif %}
+                  </div> 
+              </span>
+            </div> -->
+            
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="mx-3 my-3">
+
+    <div class="row mx-4">
+      <div class=" col-lg-6 pl-0 pr-4 m-0">
+          <div class="card shadow  border-dark">
+            <div class="card-header cardname1 border-dark pastelPink">
+              <h6 class="text-primary text-center cardname text-uppercase">
+                <span style="color: rgb(12, 145, 12);">Top</span> 10 Stations ( Standard of Cleanliness )
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">            
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                  <canvas id="myCharttop10C" style="width:100%; "></canvas>
+                </div>              
+            </div>
+          </div>
+      </div>
+      
+      <div class=" col-lg-6 pr-0  m-0">
+          <div class="card shadow  border-dark">
+            <div class="card-header cardname1 border-dark pastelBlue">
+              <h6 class="text-primary text-center cardname text-uppercase">
+                <span style="color: red;">Worst</span> 10 Stations ( Standard of Cleanliness )
+            </h6>
+          </div>
+          <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">            
+              <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                <canvas id="myCharttop10CW" style="width:100%; "></canvas>
+              </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+          
+    <div class="row mx-4 mt-4">
+      <div class="col-lg-6 pl-0 pr-4 m-0">
+          <div class="card shadow border-dark">
+            <div class="card-header cardname1 border-dark pastelBlue" >
+              <h6 class="text-primary text-center cardname text-uppercase">
+                <span style="color: rgb(12, 145, 12);">Top</span> 10 Stations ( Passenger Ammenities )
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">            
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                  <canvas id="myCharttop10PC" style="width:100%; "></canvas>
+                </div>              
+            </div>
+          </div>
+      </div>
+      
+      <div class="col-lg-6 pr-0  m-0">
+          <div class="card shadow border-dark">
+            <div class="card-header cardname1 border-dark pastelPink">
+              <h6 class="text-primary text-center cardname text-uppercase">
+                <span style="color: red;">Worst</span> 10 STATIONS ( Passenger Ammenities )
+            </h6>
+          </div>
+          <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">            
+              <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                <canvas id="myCharttop10PW" style="width:100%; "></canvas>
+              </div>              
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="mx-3 my-3">
+
+    <div class="row mx-4">
+      <div class="col-lg-6 pl-0 pr-4 m-0">
+        <div class="card shadow pastelPink border-dark">
+        <div class="card-header mh-100 cardname1 border-dark" >              
+          <h6 class="text-primary text-center cardname text-uppercase"> <span style="color: rgb(12, 145, 12);">Top</span> 5 Trains </h6>
+          <table id="showroster" class="col-lg-12 col-md-12 col-sm-12 .table-fixed table-responsive-xl table table-hover table-bordered table-light" >
+            <thead class="tHead thead-light">
+                <tr id="thead">
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Train names</th>
+                    <th scope="col">Inspection Date</th>
+                </tr> 
+            </thead>                
+            <tbody>   
+
+              {% for i in best %}
+              {% if forloop.counter < 6 %}
+              <tr>                        
+                <td>{{forloop.counter}}</td> 
+                <td>{{i.1.train_naam}}</td>
+                <td>{{i.1.inspect_date}}</td>                        
+              </tr>
+              {%endif%}
+              {%endfor%}
+              
+            </tbody>                
+          </table>
+        </div>
+        </div>
+      </div>
+
+      <div class=" col-lg-6 pr-0  m-0">
+        <div class="card shadow border-dark">
+        <div class="card-header mh-100 cardname1 border-dark pastelBlue" >
+          <h6 class="font-weight-bold text-primary text-center cardname text-uppercase">
+            <span style="color: red;">Worst</span> 5 Trains
+        </h6>
+        <table id="showroster" class="col-lg-12 col-md-12 col-sm-12 .table-fixed table-responsive-xl table table-hover table-bordered table-light" >
+          <thead class="tHead thead-light">
+              <tr id="thead">
+                  <th scope="col">S.No.</th>                
+                  <th scope="col">Train Name</th>                  
+                  <th scope="col">Date of Inspection</th>                  
+              </tr> 
+          </thead>
+          {% for i in worst %}
+          {% if forloop.counter < 6 %}
+          
+            <tr>
+                  
+                  <td>{{forloop.counter}}</td> 
+                  <td>{{i.1.train_naam}}</td>
+                  <td>{{i.1.inspect_date}}</td>
+                  
+            </tr>
+
+            {%endif%}
+            {%endfor%}
+            
+  </table>
+      </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  {% if request.session.d_level == 'DRM' %}
+  <form action="{% url 'frontpage' %}" method="POST">
+
+    <hr class="mx-3 my-3">
+    
+    <div class="row mx-4" >
+      <div class="col-lg-12 col-md-12 col-sm-12 p-0 m-0" >
+        <div class="chart2" id="zone" >
+          <div class="card shadow border-dark">
+
+            <div class="card-header cardname1 border-dark pastelYellow">
+              <h6 class="text-primary text-center cardname text-uppercase">
+                  Issue Reported
+              </h6>
+            </div>
+
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">          
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+
+                  <div class="row mt-2">
+                    <div class="col-md-4" style="padding-right: 0;">
+                      <h6 class="font-weight-bold text-primary text-center">
+                        Current Week
+                      </h6>
+                      <canvas id="myChartdrm1" style="width:100%; "></canvas>
+                    </div>
+                    <div class="col-md-4" style="padding-right: 0;">
+  
+                      <h6 class="font-weight-bold text-primary text-center">
+                        Last 4 Weeks
+                      </h6>
+                      <canvas id="myChartdrm2" style="width:100%; "></canvas>
+                    </div>
+                    <div class="col-md-4" style="padding-right: 0;">
+  
+                      <h6 class="font-weight-bold text-primary text-center">
+                        Last 1 Year
+                      </h6>
+                      <canvas id="myChartdrm3" style="width:100%; "></canvas>
+                    </div>
+                  </div>
+
+                  <hr class="cardbreak">
+
+                  <div class="row">
+                    <div class="col-md-12" align="center">
+                      <table  style="margin-bottom:0px; width: 100%;">
+                        <tr>
+                          <td>
+                            <center>
+                              <span class="dot-green"></span>
+                              <span class="dot-desc">Mechanical</span>
+                              <span class="dot-purple"></span>
+                              <span class="dot-desc">Admin/General</span>
+                              <span class="dot-yellow"></span>
+                              <span class="dot-desc">Account</span>
+                              <span class="dot-blue"></span>
+                              <span class="dot-desc">Electrical</span>
+                              <span class="dot-grey"></span>
+                              <span class="dot-desc">Others</span>
+                            </center>
+    
+                          </td>
+    
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+
+          </div>
+        </div> 
+      </div>   
+    </div>
+
+    <hr class="mx-3 my-3">
+
+    <div class="row mx-4 ">
+        <div class="col-lg-4 p-0 m-0" >
+          <div class="chart2" id="zone">
+            <div class="card shadow border-dark">
+              <div class="card-header cardname1 pastelBlue border-dark">
+                <h6 class="text-primary text-center cardname text-uppercase">
+                  Inspection (Current Week)
+                </h6>
+              </div>
+              <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">          
+                  <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                    <canvas id="myChartdrm5" style="width:100%; "></canvas>              
+                  </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class=" col-lg-4 px-1 m-0">
+        <div class="chart2" id="zone">
+          <div class="card shadow border-dark">
+            <div class="card-header cardname1 pastelYellow border-dark">
+              <h6 class="text-primary text-center cardname text-uppercase">
+                Inspection (Last 4 Week)
+              </h6>
+            </div>
+            <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">
+          
+                <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                  <canvas id="myChartdrm4" style="width:100%; "></canvas>
+              
+                </div>
+              
+            </div>
+          </div>
+        </div>
+        </div>
+      
+        <div class="col-lg-4 p-0 m-0">
+          <div class="chart2" id="zone">
+            <div class="card shadow border-dark">
+              <div class="card-header cardname1 pastelPink border-dark">
+                <h6 class="text-primary text-center cardname text-uppercase">
+                Inspection (Last 1 Year)
+                </h6>
+              </div>
+              <div class="card-body d-flex flex-column"  style="padding: 0.25rem; height: 100%;">
+            
+                  <div class="tab-pane fade show active1" role="tabpanel" aria-labelledby="flamingo-tab" >
+                    <canvas id="myChartdrm6" style="width:100%; "></canvas>
+                
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</form>
+  {% elif request.session.d_level == 'GM' %}
+  {% else %}
+  {% endif %}
+  
+</body>
+  
+<script>
+
+  // drm script
+  
+  const mchart1 = {
+  id: 'mchart1',
+
+  afterEvent(chart, args) {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+    canvas.addEventListener('mousemove', (event) => {
+      const x = args.event.x;
+      const y = args.event.y;
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+        canvas.style.cursor = 'pointer';
+      }
+      else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+        canvas.style.cursor = 'pointer';
+      }
+      else {
+        canvas.style.cursor = 'default';
+      }
+    })
+  },
+
+  afterDraw(chart, args, pluginOptions) {
+    const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+    class CircleChevron {
+      draw(ctx, x1, pixel) {
+        const angle = Math.PI / 180;
+
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgb(255,255,255,0)';
+        ctx.fillStyle = 'rgba(255,255,255,0)';
+        ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '	#FF0000';
+        ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+        ctx.lineTo(x1 - pixel, height / 2 + top);
+        ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+
+    let drawCircleLeft = new CircleChevron();
+    drawCircleLeft.draw(ctx, left, 5);
+
+    let drawCircleRight = new CircleChevron();
+    drawCircleRight.draw(ctx, right, -5);
+  }
+};
+
+//6 graphs of drm
+
+const ctx1drm = document.getElementById('myChartdrm1').getContext('2d');
+let dayscurweek={{dayscurweek | safe}}
+let count_mech = {{count_mech | safe}}
+let count_admin = {{count_admin | safe}}
+let count_elec = {{count_elec | safe}}
+let count_account = {{count_account | safe}}
+let count_total = {{count_total | safe}}
+
+
+const myChartdrm1 = new Chart(ctx1drm, {
+  plugins:[mchart1],
+  type: 'bar',
+  data: {
+      labels: dayscurweek,
+      datasets: [
+        {
+          // label: '# day',
+          data: count_mech,
+          label:'MECHANICAL',
+          backgroundColor:['green']
+        
+        },
+        {
+          
+          data: count_admin,
+          label:'ADMIN/GENERAL',
+          backgroundColor:['purple']
+          
+        },
+        {
+          
+          data: count_account,
+          label:'ACCOUNT',
+          backgroundColor:['yellow']
+          
+        },
+        {
+          
+          data: count_elec,
+          label:'ELECTRICAL',
+          backgroundColor:['blue']
+          
+        },
+        {
+          
+          data: count_total,
+          label:'Others',
+          backgroundColor:['grey']
+        }
+    ]
+  },
+  options: {
+    layout:{
+      padding:{
+        right:16.5,
+      }
+    },
+      plugins:{
+          legend:{
+            display:false,
+          },
+      },
+      scales: {
+          x: {
+              stacked:true,
+              display: true,
+              max:6,
+              min:0,
+
+          },
+          y: {
+              stacked:true,
+              display:true,
+              min:0,
+              max:50,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+              }
+          }
+      }
+  },
+  
+});
+
+
+const ctx2drm = document.getElementById('myChartdrm2').getContext('2d');
+
+let dayslastfourweek={{dayslastfourweek | safe}}
+
+let count_mech1 = {{count_mech1 | safe}}
+let count_admin1 = {{count_admin1 | safe}}
+
+let count_elec1 = {{count_elec1 | safe}}
+let count_account1 = {{count_account1 | safe}}
+let count_total1 = {{count_total1 | safe}}
+
+
+const myChartdrm2 = new Chart(ctx2drm, {
+  plugins:[mchart1],
+  type: 'bar',
+  data: {
+      labels: dayslastfourweek,
+      datasets: [
+        {
+          // label: '# day',
+          data: count_mech1,
+          label:'Mechanical',
+          backgroundColor:['green']
+        
+        },
+        {
+          
+          data: count_admin1,
+          label:'ADMIN/GENERAL',
+          backgroundColor:['purple']
+          
+        },
+        {
+          
+          data: count_elec1,
+          label:'Electrical',
+          backgroundColor:['yellow']
+          
+        },
+        {
+          
+          data: count_account1,
+          label:'Account',
+          backgroundColor:['blue']
+          
+        },
+        {
+          
+          data: count_total1,
+          label:'Others',
+          backgroundColor:['grey']
+        }
+    ]
+  },
+  options: {
+    layout:{
+      padding:{
+        right:16.5,
+      }
+    },
+      plugins:{
+          legend:{
+            display:false,
+          },
+      },
+      scales: {
+          x: {
+              stacked:true,
+              display: true,
+              max:6,
+              min:0,
+
+          },
+          y: {
+              stacked:true,
+              display:true,
+              min:0,
+              max:50,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+              }
+          }
+      }
+  },
+  
+});
+
+
+const ctx3drm = document.getElementById('myChartdrm3').getContext('2d');
+
+let dayslasttwelvemonth={{dayslasttwelvemonth | safe}}
+
+let count_mech2 = {{count_mech2 | safe}}
+let count_admin2 = {{count_admin2 | safe}}
+
+let count_elec2 = {{count_elec2 | safe}}
+let count_account2 = {{count_account2 | safe}}
+let count_total2 = {{count_total2 | safe}}
+
+
+const myChartdrm3 = new Chart(ctx3drm, {
+// alert('third graph')
+  plugins:[mchart1],
+  type: 'bar',
+  data: {
+      labels: dayslasttwelvemonth,
+      datasets: [
+        {
+          // label: '# day',
+          data: count_mech2,
+          label:'Mechanical',
+          backgroundColor:['green']
+        
+        },
+        {
+          
+          data: count_admin2,
+          label:'ADMIN/GENERAL',
+          backgroundColor:['purple']
+          
+        },
+        {
+          
+          data: count_elec2,
+          label:'Electrical',
+          backgroundColor:['yellow']
+          
+        },
+        {
+          
+          data: count_account2,
+          label:'Account',
+          backgroundColor:['blue']
+          
+        },
+        {
+          
+          data: count_total2,
+          label:'Others',
+          backgroundColor:['grey']
+        }
+    ]
+  },
+  options: {
+    layout:{
+      padding:{
+        right:16.5,
+      }
+    },
+      plugins:{
+          legend:{
+            display:false,
+          },
+      },
+      scales: {
+          x: {
+              stacked:true,
+              display: true,
+              max:6,
+              min:0,
+
+          },
+          y: {
+              stacked:true,
+              display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+              }
+          }
+      }
+  },
+  
+});
+
+
+// inspection graphs of DRM
+// last four week
+const ctx4drm = document.getElementById('myChartdrm4').getContext('2d');
+
+let inspeclastfourweek={{inspeclastfourweek | safe}}
+
+let count_pending = {{count_pending | safe}}
+let count_complete = {{count_complete | safe}}
+
+let count_surprise = {{count_surprise | safe}}
+
+
+const myChartdrm4 = new Chart(ctx4drm, {
+  plugins:[mchart1],
+  type: 'bar',
+  data: {
+      labels: inspeclastfourweek,
+      datasets: [
+        {
+        
+          data: count_pending,
+          label:'Pending',
+          backgroundColor:['red']
+        
+        },
+        {
+          
+          data: count_complete,
+          label:'Complete',
+          backgroundColor:['blue']
+          
+        },
+        {
+          
+          data: count_surprise,
+          label:'Surprise',
+          backgroundColor:['grey']
+          
+        },
+        
+    ]
+  },
+  options: {
+    layout:{
+      padding:{
+        right:16.5,
+      }
+    },
+      plugins:{
+          legend:{
+            display:true,
+          },
+      },
+      scales: {
+          x: {
+              stacked:true,
+              display: true,
+              max:6,
+              min:0,
+
+          },
+          y: {
+              stacked:true,
+              display:true,
+              min:0,
+              max:30,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+              }
+          }
+      }
+  },
+  
+});
+
+// current week
+
+const ctx5drm = document.getElementById('myChartdrm5').getContext('2d');
+
+let inspecurrweek={{inspecurrweek | safe}}
+let final_count={{final_count | safe}}
+
+
+const myChartdrm5 = new Chart(ctx5drm, {
+  plugins:[mchart1],
+  type: 'bar',
+  data: {
+      labels: inspecurrweek,
+      datasets: [
+        {
+        
+          data: final_count,
+          backgroundColor:color => {
+                      var r = Math.floor(Math.random() * 255);
+                      var g = Math.floor(Math.random() * 255);
+                      var b = Math.floor(Math.random() * 255);
+                      return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+                  },
+        
+        },
+        
+    ]
+  },
+  options: {
+    layout:{
+      padding:{
+        right:16.5,
+      }
+    },
+      plugins:{
+          legend:{
+            display:false,
+          },
+      },
+      scales: {
+          x: {
+            
+              display: true,
+              max:6,
+              min:0,
+
+          },
+          y: {
+            
+              display:true,
+              min:0,
+              max:30,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+              }
+          }
+      }
+  },
+  
+});
+
+
+
+const ctx6drm = document.getElementById('myChartdrm6').getContext('2d');
+
+let inspeclasttwelvemonth={{inspeclasttwelvemonth | safe}}
+
+let count_pending1 = {{count_pending1 | safe}}
+
+let count_complete1 = {{count_complete1 | safe}}
+
+let count_surprise1 = {{count_surprise1 | safe}}
+
+
+const myChartdrm6 = new Chart(ctx6drm, {
+  plugins:[mchart1],
+  type: 'bar',
+  data: {
+      labels: inspeclasttwelvemonth,
+      datasets: [
+        {
+        
+          data: count_pending1,
+          label:'Pending',
+          backgroundColor:['red']
+        
+        },
+        {
+          
+          data: count_complete1,
+          label:'Complete',
+          backgroundColor:['blue']
+          
+        },
+        {
+          
+          data: count_surprise1,
+          label:'Surprise',
+          backgroundColor:['grey']
+          
+        },
+        
+    ]
+  },
+  options: {
+    layout:{
+      padding:{
+        right:16.5,
+      }
+    },
+      plugins:{
+          legend:{
+            display:true,
+          },
+      },
+      scales: {
+          x: {
+              stacked:true,
+              display: true,
+              max:6,
+              min:0,
+
+          },
+          y: {
+              stacked:true,
+              display:true,
+              min:0,
+              max:30,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+              }
+          }
+      }
+  },
+  
+});
+
+
+
+
+
+
+
+function moveScrolldrm1(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChartdrm1;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm1.options.scales.x.max = myChartdrm1.options.scales.x.max - 4;
+      myChartdrm1.options.scales.x.min = myChartdrm1.options.scales.x.min - 4;
+
+      if (myChartdrm1.options.scales.x.max <= 0){
+        myChartdrm1.options.scales.x.min = 0;
+        myChartdrm1.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm1.options.scales.x.min = myChartdrm1.options.scales.x.min + 4;
+      myChartdrm1.options.scales.x.max = myChartdrm1.options.scales.x.max + 4;
+
+      if (myChartdrm1.options.scales.x.max >= myChartdrm1.data.datasets[0].data.length){
+        myChartdrm1.options.scales.x.min = myChartdrm1.data.datasets[0].data.length - 4;
+        myChartdrm1.options.scales.x.max = myChartdrm1.data.datasets[0].data.length;
+      };
+    }
+    myChartdrm1.update();
+  })
+};
+
+myChartdrm1.ctx.onclick=moveScrolldrm1();
+
+
+function moveScrolldrm2(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChartdrm2;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm2.options.scales.x.max = myChartdrm2.options.scales.x.max - 4;
+      myChartdrm2.options.scales.x.min = myChartdrm2.options.scales.x.min - 4;
+
+      if (myChartdrm2.options.scales.x.max <= 0){
+        myChartdrm2.options.scales.x.min = 0;
+        myChartdrm2.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm2.options.scales.x.min = myChartdrm2.options.scales.x.min + 4;
+      myChartdrm2.options.scales.x.max = myChartdrm2.options.scales.x.max + 4;
+
+      if (myChartdrm2.options.scales.x.max >= myChartdrm2.data.datasets[0].data.length){
+        myChartdrm2.options.scales.x.min = myChartdrm2.data.datasets[0].data.length - 4;
+        myChartdrm2.options.scales.x.max = myChartdrm2.data.datasets[0].data.length;
+      };
+    }
+    myChartdrm2.update();
+  })
+};
+
+myChartdrm2.ctx.onclick=moveScrolldrm2();
+
+
+function moveScrolldrm3(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChartdrm3;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm3.options.scales.x.max = myChartdrm3.options.scales.x.max - 4;
+      myChartdrm3.options.scales.x.min = myChartdrm3.options.scales.x.min - 4;
+
+      if (myChartdrm3.options.scales.x.max <= 0){
+        myChartdrm3.options.scales.x.min = 0;
+        myChartdrm3.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm3.options.scales.x.min = myChartdrm3.options.scales.x.min + 4;
+      myChartdrm3.options.scales.x.max = myChartdrm3.options.scales.x.max + 4;
+
+      if (myChartdrm3.options.scales.x.max >= myChartdrm3.data.datasets[0].data.length){
+        myChartdrm3.options.scales.x.min = myChartdrm3.data.datasets[0].data.length - 4;
+        myChartdrm3.options.scales.x.max = myChartdrm3.data.datasets[0].data.length;
+      };
+    }
+    myChartdrm3.update();
+  })
+};
+
+myChartdrm3.ctx.onclick=moveScrolldrm3();
+
+
+function moveScrolldrm4(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChartdrm4;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm4.options.scales.x.max = myChartdrm4.options.scales.x.max - 4;
+      myChartdrm4.options.scales.x.min = myChartdrm4.options.scales.x.min - 4;
+
+      if (myChartdrm4.options.scales.x.max <= 0){
+        myChartdrm4.options.scales.x.min = 0;
+        myChartdrm4.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm4.options.scales.x.min = myChartdrm4.options.scales.x.min + 4;
+      myChartdrm4.options.scales.x.max = myChartdrm4.options.scales.x.max + 4;
+
+      if (myChartdrm4.options.scales.x.max >= myChartdrm4.data.datasets[0].data.length){
+        myChartdrm4.options.scales.x.min = myChartdrm4.data.datasets[0].data.length - 4;
+        myChartdrm4.options.scales.x.max = myChartdrm4.data.datasets[0].data.length;
+      };
+    }
+    myChartdrm4.update();
+  })
+};
+
+myChartdrm4.ctx.onclick=moveScrolldrm4();
+
+
+function moveScrolldrm5(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChartdrm5;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm5.options.scales.x.max = myChartdrm5.options.scales.x.max - 4;
+      myChartdrm5.options.scales.x.min = myChartdrm5.options.scales.x.min - 4;
+
+      if (myChartdrm5.options.scales.x.max <= 0){
+        myChartdrm5.options.scales.x.min = 0;
+        myChartdrm5.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm5.options.scales.x.min = myChartdrm5.options.scales.x.min + 4;
+      myChartdrm5.options.scales.x.max = myChartdrm5.options.scales.x.max + 4;
+
+      if (myChartdrm5.options.scales.x.max >= myChartdrm5.data.datasets[0].data.length){
+        myChartdrm5.options.scales.x.min = myChartdrm5.data.datasets[0].data.length - 4;
+        myChartdrm5.options.scales.x.max = myChartdrm5.data.datasets[0].data.length;
+      };
+    }
+    myChartdrm5.update();
+  })
+};
+
+myChartdrm5.ctx.onclick=moveScrolldrm5();
+
+function moveScrolldrm6(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChartdrm6;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm6.options.scales.x.max = myChartdrm6.options.scales.x.max - 4;
+      myChartdrm6.options.scales.x.min = myChartdrm6.options.scales.x.min - 4;
+
+      if (myChartdrm6.options.scales.x.max <= 0){
+        myChartdrm6.options.scales.x.min = 0;
+        myChartdrm6.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChartdrm6.options.scales.x.min = myChartdrm6.options.scales.x.min + 4;
+      myChartdrm6.options.scales.x.max = myChartdrm6.options.scales.x.max + 4;
+
+      if (myChartdrm6.options.scales.x.max >= myChartdrm6.data.datasets[0].data.length){
+        myChartdrm6.options.scales.x.min = myChartdrm6.data.datasets[0].data.length - 4;
+        myChartdrm6.options.scales.x.max = myChartdrm6.data.datasets[0].data.length;
+      };
+    }
+    myChartdrm6.update();
+  })
+};
+
+myChartdrm6.ctx.onclick=moveScrolldrm6();
+
+</script>
+  
+<script>
+  $('#showroster1').dataTable({
+    "iDisplayLength":3,
+    "pagingType":"simple",
+    "sEmptyTable":'No data available in table',
+    "bSort":false,
+    "oLanguage":{
+      "sInfoEmpty":"Page 0 of 0",
+    },
+    "language":{
+      "info":"Page _PAGE_ of _PAGES_",
+      "paginate":{
+        "previous":"Prev",
+      },
+    },
+  });
+  $('#showroster1_filter').hide();
+  $('#showroster1_length').hide();
+
+  $('#showroster2').dataTable({
+    "iDisplayLength":3,
+    "pagingType":"simple",
+    "sEmptyTable":'No data available in table',
+    "bSort":false,
+    "oLanguage":{
+      "sInfoEmpty":"Page 0 of 0",
+    },
+    "language":{
+      "info":"Page _PAGE_ of _PAGES_",
+      "paginate":{
+        "previous":"Prev",
+      },
+    },
+  });
+  $('#showroster2_filter').hide();
+  $('#showroster2_length').hide();
+
+
+  // user script
+  $(document).ready(function(){
+    $('#myChart2').hide();
+    $('#myChart3').hide();
+    document.getElementById('typeid').style.color='red'; // 2nd graph
+    document.getElementById('issid').style.color='red';  // 1st graph
+  });
+  
+
+  function Seetype(){
+$('#myChart1').show();
+$('#myChart2').hide();
+document.getElementById('typeid').style.color='red';
+document.getElementById('offid').style.color='#007bff';
+}
+
+function SeeOfficer(){
+$('#myChart1').hide();
+$('#myChart2').show();
+document.getElementById('offid').style.color='red';
+document.getElementById('typeid').style.color='#007bff';
+}
+function SeeIssue(){
+$('#myChartdef').show();
+$('#myChart3').hide();
+document.getElementById('issid').style.color='red';
+document.getElementById('offdefid').style.color='#007bff';
+
+}
+
+function SeeOfficerdef(){
+$('#myChartdef').hide();
+$('#myChart3').show();
+document.getElementById('offdefid').style.color='red';
+document.getElementById('issid').style.color='#007bff';
+}
+
+  
+$(function () {
+    $('input[name="daterange"]').daterangepicker({
+    opens: 'left'
+  }, function (start, end, label) {
+    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+  });
+  });
+
+  
+  function myfun(id)
+  { 
+    window.location.href="{% url 'showMenu' %}"+"?id="+id;
+  }
+  
+  $(document).ready(function() {
+    $('#submit').click(function() {
+      var selected = $("#action_by :selected").map((_, e) => e.value).get();
+      document.getElementById('action_by_test').value=selected;
+    
+
+    
+  });
+});
+function setsummarydate(val) {
+  document.getElementById('summarydate').value = val;
+}
+
+const mchart = {
+  id: 'mchart',
+
+  afterEvent(chart, args) {
+    const { ctx, canvas, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+    canvas.addEventListener('mousemove', (event) => {
+      const x = args.event.x;
+      const y = args.event.y;
+
+      if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+        canvas.style.cursor = 'pointer';
+      }
+      else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15) {
+        canvas.style.cursor = 'pointer';
+      }
+      else {
+        canvas.style.cursor = 'default';
+      }
+    })
+  },
+
+  afterDraw(chart, args, pluginOptions) {
+    const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+
+    class CircleChevron {
+      draw(ctx, x1, pixel) {
+        const angle = Math.PI / 180;
+
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgb(255,255,255,0)';
+        ctx.fillStyle = 'rgba(255,255,255,0)';
+        ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '	#FF0000';
+        ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+        ctx.lineTo(x1 - pixel, height / 2 + top);
+        ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+
+    let drawCircleLeft = new CircleChevron();
+    drawCircleLeft.draw(ctx, left, 5);
+
+    let drawCircleRight = new CircleChevron();
+    drawCircleRight.draw(ctx, right, -5);
+  }
+};
+
+
+const ctxtop10C = document.getElementById('myCharttop10C').getContext('2d');
+  let station_names={{ station_names| safe}}
+  let poscnt={{ poscnt| safe}}
+  
+  const myCharttop10C = new Chart(ctxtop10C, {
+  
+type: 'bar',
+data: {
+          labels: station_names,
+          datasets: [
+            {
+              data: poscnt,
+              // label:'palak',
+              backgroundColor:color => {
+                      var r = Math.floor(Math.random() * 255);
+                      var g = Math.floor(Math.random() * 255);
+                      var b = Math.floor(Math.random() * 255);
+                      return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+                  },
+              
+                            
+            },
+            
+        ]
+      },
+      options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+legend:{
+      display:false,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:9,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        // max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+  const ctxtop10CW = document.getElementById('myCharttop10CW').getContext('2d');
+  let station_names1={{ station_names| safe}}
+  let negcnt={{ negcnt| safe}}
+  const myCharttop10CW = new Chart(ctxtop10CW, {
+  
+type: 'bar',
+data: {
+          labels:station_names1,
+          datasets: [
+            {
+              data: negcnt,
+              // label:'palak',
+              backgroundColor:color => {
+                      var r = Math.floor(Math.random() * 255);
+                      var g = Math.floor(Math.random() * 255);
+                      var b = Math.floor(Math.random() * 255);
+                      return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+                  },
+              
+                            
+            },
+          
+        ]
+      },
+      options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:false,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:9,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        // max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+  
+  
+  const ctxtop10P = document.getElementById('myCharttop10PC').getContext('2d');
+  let station_names2={{ station_names2| safe}}
+  let poscnt1={{ poscnt1| safe}}
+  
+  const myCharttop10PC = new Chart(ctxtop10P, {
+  
+type: 'bar',
+data: {
+          labels: station_names2,
+          datasets: [
+            {
+              data: poscnt1,
+              // label:'palak',
+              backgroundColor:color => {
+                      var r = Math.floor(Math.random() * 255);
+                      var g = Math.floor(Math.random() * 255);
+                      var b = Math.floor(Math.random() * 255);
+                      return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+                  },
+              
+                            
+            },
+            
+        ]
+      },
+
+      options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:false,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:9,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        // max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+
+  });
+
+  const ctxtop10PW = document.getElementById('myCharttop10PW').getContext('2d');
+  let station_names3={{ station_names3| safe}}
+  let negcnt1={{ negcnt1| safe}}
+  const myCharttop10PW = new Chart(ctxtop10PW, {
+  
+type: 'bar',
+data: {
+          labels: station_names3,
+          datasets: [
+            {
+              data: negcnt1,
+              // label:'palak',
+              backgroundColor:color => {
+                      var r = Math.floor(Math.random() * 255);
+                      var g = Math.floor(Math.random() * 255);
+                      var b = Math.floor(Math.random() * 255);
+                      return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+                  },
+              
+                            
+            },
+          
+        ]
+      },
+      options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:false,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:9,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        // max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+
+
+cardvalue=document.getElementById('cardvalue').value;
+// alert(cardvalue)
+
+if(cardvalue == 'ALL')
+{   // graphs 3 Isuues (department wise)
+
+const ctx = document.getElementById('myChart').getContext('2d');
+let issuep={{issuep | safe}}
+  let issued={{issued | safe}}
+  let departnames={{departnames | safe}}
+  const myChart = new Chart(ctx, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: departnames,
+          datasets: [
+            {
+              data: issuep,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+            
+              data: issued,
+              label:'Done',
+              backgroundColor:['green'],
+                
+            
+            }
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      stacked:true,
+      display: true,
+        max:5,
+        min:0,
+
+    },
+
+    y: {
+      stacked:true,
+      display:true,
+        min:0,
+        max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+
+//graphs 2 schedule-surprise type
+
+const ctx1 = document.getElementById('myChart1').getContext('2d');
+
+let inspcount={{inspcount|safe}}   // Y axis
+let inspcount2={{inspcount2|safe}}
+let typee={{typee | safe}}   // X axis
+const myChart1 = new Chart(ctx1, {
+// plugins:[mchart],
+  type: 'bar',
+  data: {
+      labels:typee ,
+      datasets: [
+        {
+          label:'Scheduled',
+          data:inspcount,
+          backgroundColor:['blue'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+      {
+          label:'Surprise',
+          data:inspcount2,
+          backgroundColor:['pink'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+    ]
+  },
+
+  options: {
+
+
+    layout:{
+      padding:{
+        right:20.5,
+      }
+    },
+
+    plugins:{
+          legend:{
+            display:true,
+          },
+          tooltip: {
+            display: false,
+          }
+      },
+      scales: {
+
+          x:{
+            stacked:true,
+            display: true,
+              max:5,
+              min:0,
+
+          },
+
+          y: {
+            stacked:true,
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+  },
+},
+
+});
+
+
+// graphs 2 officerwise sched-surprise
+
+
+
+const ctx2 = document.getElementById('myChart2').getContext('2d');
+let officerlist={{officerlist|safe}} 
+let schedcount={{schedcount|safe}} 
+let surpcount={{surpcount|safe}} 
+
+
+const myChart2 = new Chart(ctx2, {
+// plugins:[mchart],
+  type: 'bar',
+  // data: barChartData,
+  data:{
+    labels:officerlist,
+datasets: [
+  
+  {
+    label: "Schedule",
+    backgroundColor: "lightgreen",
+    borderColor: "green",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: schedcount
+  },
+  {
+    label: "Surprise",
+    backgroundColor: "yellow",
+    borderColor: "orange",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: surpcount
+  }
+]
+  },
+  // options: chartOptions,
+  options:{
+    
+    responsive: true,
+legend: {
+  position: "top"
+},
+title: {
+  display: true,
+  text: ""
+},
+scales: {
+  x:{
+          stacked:true,
+            display: true,
+              max:5,
+              min:0,
+
+          },
+
+          y: {
+            stacked:true,
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+
+}
+  }
+});
+
+
+// graph1 siri(deficiency) issuewise
+
+
+
+const ctx3 = document.getElementById('myChartdef').getContext('2d');
+let issuenames={{issuenames | safe}}
+  let issuep1={{issuep1 | safe}}
+  let issued1={{issued1 | safe}}
+  
+  const myChartdef = new Chart(ctx3, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: issuenames,
+          datasets: [
+            {
+              data:issuep1,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+              data:issued1,
+              label:'Done',
+              backgroundColor:['green'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      stacked:true,
+      display: true,
+        max:10,
+        min:0,
+
+    },
+
+    y: {
+      stacked:true,
+      display:true,
+        min:0,
+        max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+  // graph3 siri officerwise
+
+  const ctx33 = document.getElementById('myChart3').getContext('2d');
+  let sirioff = {{sirioff | safe}}
+  let sirioffpcnt = {{sirioffpcnt | safe}}
+  let sirioffdcnt = {{sirioffdcnt | safe}}
+  
+  const myChart3 = new Chart(ctx33, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: sirioff,
+          datasets: [
+            {
+              data:sirioffpcnt,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+              data:sirioffdcnt,
+              label:'Done',
+              backgroundColor:['green'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      stacked:true,
+      display: true,
+        max:5,
+        min:0,
+
+    },
+
+    y: {
+      stacked:true,
+      display:true,
+        min:0,
+        max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+  
+} // if ends here   
+
+if(cardvalue == '7-DAYS')
+{  
+
+const ctx = document.getElementById('myChart').getContext('2d');
+let issuep7={{issuep7 | safe}}
+  let issued7={{issued7 | safe}}
+  let departnames7={{departnames7 | safe}}
+  const myChart = new Chart(ctx, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: departnames7,
+          datasets: [
+            {
+              data: issuep7,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+            
+              data: issued7,
+              label:'Done',
+              backgroundColor:['green'],
+                
+            
+            }
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      stacked:true,
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+      stacked:true,
+      display:true,
+        min:0,
+        max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+
+
+
+//graphs 2 schedule-surprise type
+
+const ctx1 = document.getElementById('myChart1').getContext('2d');
+
+let inspcount1={{inspcount1|safe}}   // Y axis
+let inspcount22={{inspcount22|safe}}
+let typee1={{typee1 | safe}}   // X axis
+const myChart1 = new Chart(ctx1, {
+// plugins:[mchart],
+  type: 'bar',
+  data: {
+      labels:typee1 ,
+      datasets: [
+        {
+          label:'Scheduled',
+          data:inspcount1,
+          backgroundColor:['blue'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+      {
+          label:'Surprise',
+          data:inspcount22,
+          backgroundColor:['pink'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+    ]
+  },
+
+  options: {
+
+
+    layout:{
+      padding:{
+        right:20.5,
+      }
+    },
+
+    plugins:{
+          legend:{
+            display:true,
+          },
+      },
+      scales: {
+
+          x:{
+            stacked:true,
+            display: true,
+              max:3,
+              min:0,
+
+          },
+
+          y: {
+            stacked:true,
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+  }
+},
+
+});
+
+
+// graphs 2 officerwise sched-surprise
+
+
+
+const ctx2 = document.getElementById('myChart2').getContext('2d');
+let officerlist1={{officerlist1|safe}} 
+let schedcount1={{schedcount1|safe}} 
+let surpcount1={{surpcount1|safe}} 
+
+
+const myChart2 = new Chart(ctx2, {
+// plugins:[mchart],
+  type: 'bar',
+  // data: barChartData,
+  data:{
+    labels:officerlist1,
+datasets: [
+  
+  {
+    label: "Schedule",
+    backgroundColor: "lightgreen",
+    borderColor: "green",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: schedcount1
+  },
+  {
+    label: "Surprise",
+    backgroundColor: "yellow",
+    borderColor: "orange",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: surpcount1
+  }
+]
+  },
+  // options: chartOptions,
+  options:{
+    
+    responsive: true,
+legend: {
+  position: "top"
+},
+title: {
+  display: true,
+  text: ""
+},
+scales: {
+  x:{
+          
+            display: true,
+              max:3,
+              min:0,
+
+          },
+
+          y: {
+            
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+
+}
+  }
+});
+
+// graph1 siri(deficiency) issuewise
+
+
+
+const ctx3 = document.getElementById('myChartdef').getContext('2d');
+let issuenames71={{issuenames71 | safe}}
+  let issuep71={{issuep71 | safe}}
+  let issued71={{issued71 | safe}}
+  
+  const myChartdef = new Chart(ctx3, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: issuenames71,
+          datasets: [
+            {
+              data:issuep71,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+              data:issued71,
+              label:'Done',
+              backgroundColor:['green'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        max:30,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+  // graph3 siri officerwise
+
+  const ctx33 = document.getElementById('myChart3').getContext('2d');
+let sirioff1={{sirioff1 | safe}}
+  let sirioffpcnt1={{sirioffpcnt1 | safe}}
+  
+  const myChart3 = new Chart(ctx33, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: sirioff1,
+          datasets: [
+            {
+              data:sirioffpcnt1,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+      
+      display:true,
+        min:0,
+        max:30,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+}
+
+if(cardvalue == '4-WEEKS'){
+
+
+const ctx = document.getElementById('myChart').getContext('2d');
+let issuep4={{issuep4 | safe}}
+  let issued4={{issued4 | safe}}
+  let departnames4={{departnames4 | safe}}
+  const myChart = new Chart(ctx, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: departnames4,
+          datasets: [
+            {
+              data: issuep4,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+            
+              data: issued4,
+              label:'Done',
+              backgroundColor:['green'],
+                
+            
+            }
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      stacked:true,
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+      stacked:true,
+      display:true,
+        min:0,
+        max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+//graphs 2 schedule-surprise type
+
+const ctx1 = document.getElementById('myChart1').getContext('2d');
+
+let inspcount14={{inspcount14|safe}}   // Y axis
+let inspcount24={{inspcount24|safe}}
+let typee14={{typee | safe}}   // X axis
+const myChart1 = new Chart(ctx1, {
+// plugins:[mchart],
+  type: 'bar',
+  data: {
+      labels:typee14 ,
+      datasets: [
+        {
+          label:'Scheduled',
+          data:inspcount14,
+          backgroundColor:['blue'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+      {
+          label:'Surprise',
+          data:inspcount24,
+          backgroundColor:['pink'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+    ]
+  },
+
+  options: {
+
+
+    layout:{
+      padding:{
+        right:20.5,
+      }
+    },
+
+    plugins:{
+          legend:{
+            display:true,
+          },
+      },
+      scales: {
+
+          x:{
+            stacked:true,
+            display: true,
+              max:3,
+              min:0,
+
+          },
+
+          y: {
+            stacked:true,
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+  }
+},
+
+});
+
+
+// graphs 2 officerwise sched-surprise
+
+
+
+const ctx2 = document.getElementById('myChart2').getContext('2d');
+let officerlist4={{officerlist4|safe}} 
+let schedcount4={{schedcount4|safe}} 
+let surpcount4={{surpcount4|safe}} 
+
+
+const myChart2 = new Chart(ctx2, {
+// plugins:[mchart],
+  type: 'bar',
+  // data: barChartData,
+  data:{
+    labels:officerlist4,
+datasets: [
+  
+  {
+    label: "Schedule",
+    backgroundColor: "lightgreen",
+    borderColor: "green",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: schedcount4
+  },
+  {
+    label: "Surprise",
+    backgroundColor: "yellow",
+    borderColor: "orange",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: surpcount4
+  }
+]
+  },
+  // options: chartOptions,
+  options:{
+    
+    responsive: true,
+legend: {
+  position: "top"
+},
+title: {
+  display: true,
+  text: ""
+},
+scales: {
+  x:{
+          
+            display: true,
+              max:3,
+              min:0,
+
+          },
+
+          y: {
+            
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+
+}
+  }
+});
+
+//graph1 siri(deficiency) issuewise
+
+
+
+const ctx3 = document.getElementById('myChartdef').getContext('2d');
+let issuenames41={{issuenames41 | safe}}
+  let issuep41={{issuep41 | safe}}
+  let issued41={{issued41 | safe}}
+  
+  const myChartdef = new Chart(ctx3, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: issuenames41,
+          datasets: [
+            {
+              data:issuep41,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+              data:issued41,
+              label:'Done',
+              backgroundColor:['red'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        max:30,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+  // graph3 siri officerwise
+
+  const ctx33 = document.getElementById('myChart3').getContext('2d');
+let sirioff4={{sirioff4 | safe}}
+  let sirioffpcnt4={{sirioffpcnt4 | safe}}
+  
+  const myChart3 = new Chart(ctx33, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: sirioff4,
+          datasets: [
+            {
+              data:sirioffpcnt4,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+      
+      display:true,
+        min:0,
+        max:30,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+} 
+
+if(cardvalue == '12-MONTHS'){
+
+const ctx = document.getElementById('myChart').getContext('2d');
+let issuep12={{issuep12 | safe}}
+  let issued12={{issued12 | safe}}
+  let departnames12={{departnames12 | safe}}
+  const myChart = new Chart(ctx, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: departnames12,
+          datasets: [
+            {
+              data: issuep12,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+            
+              data: issued12,
+              label:'Done',
+              backgroundColor:['green'],
+                
+            
+            }
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      stacked:true,
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+      stacked:true,
+      display:true,
+        min:0,
+        max:100,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+
+//graphs 2 schedule-surprise type
+
+const ctx1 = document.getElementById('myChart1').getContext('2d');
+
+let inspcount112={{inspcount112|safe}}   // Y axis
+let inspcount212={{inspcount212|safe}}
+let typee112={{typee112 | safe}}   // X axis
+const myChart1 = new Chart(ctx1, {
+// plugins:[mchart],
+  type: 'bar',
+  data: {
+      labels:typee112 ,
+      datasets: [
+        {
+          label:'Scheduled',
+          data:inspcount112,
+          backgroundColor:['blue'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+      {
+          label:'Surprise',
+          data:inspcount212,
+          backgroundColor:['pink'],
+          // backgroundColor:color => {
+          //             var r = Math.floor(Math.random() * 255);
+          //             var g = Math.floor(Math.random() * 255);
+          //             var b = Math.floor(Math.random() * 255);
+          //             return "rgba(" + r + "," + g + "," + b + ", 0.7)";
+          //         },
+      },
+    ]
+  },
+
+  options: {
+
+
+    layout:{
+      padding:{
+        right:20.5,
+      }
+    },
+
+    plugins:{
+          legend:{
+            display:true,
+          },
+      },
+      scales: {
+
+          x:{
+            stacked:true,
+            display: true,
+              max:3,
+              min:0,
+
+          },
+
+          y: {
+            stacked:true,
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+  }
+},
+
+});
+
+
+// graphs 2 officerwise sched-surprise
+
+
+
+const ctx2 = document.getElementById('myChart2').getContext('2d');
+let officerlist12={{officerlist12|safe}} 
+let schedcount12={{schedcount12|safe}} 
+let surpcount12={{surpcount12|safe}} 
+
+
+const myChart2 = new Chart(ctx2, {
+// plugins:[mchart],
+  type: 'bar',
+  // data: barChartData,
+  data:{
+    labels:officerlist12,
+datasets: [
+  
+  {
+    label: "Schedule",
+    backgroundColor: "lightgreen",
+    borderColor: "green",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: schedcount12
+  },
+  {
+    label: "Surprise",
+    backgroundColor: "yellow",
+    borderColor: "orange",
+    borderWidth: 1,
+    categoryPercentage:0.5,
+    barPercentage:0.5,
+    data: surpcount12
+  }
+]
+  },
+  // options: chartOptions,
+  options:{
+    
+    responsive: true,
+legend: {
+  position: "top"
+},
+title: {
+  display: true,
+  text: ""
+},
+scales: {
+  x:{
+          
+            display: true,
+              max:3,
+              min:0,
+
+          },
+
+          y: {
+            
+            display:true,
+              min:0,
+              max:100,
+              beginAtZero: true,
+              ticks:{
+              stepSize:5,
+          }
+      }
+
+}
+  }
+});
+//graph1 siri(deficiency) issuewise
+
+<!-- console.log({{defiss | safe}}) -->
+
+const ctx3 = document.getElementById('myChartdef').getContext('2d');
+let issuenames121={{issuenames121 | safe}}
+  let issuep121={{issuep121 | safe}}
+  let issued121={{issued121 | safe}}
+  
+  const myChartdef = new Chart(ctx3, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: issuenames121,
+          datasets: [
+            {
+              data:issuep121,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            {
+              data:issued121,
+              label:'Done',
+              backgroundColor:['red'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+    
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+    
+      display:true,
+        min:0,
+        max:30,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+  // graph3 siri officerwise
+
+  const ctx33 = document.getElementById('myChart3').getContext('2d');
+let sirioff12={{sirioff12 | safe}}
+  let sirioffpcnt12={{sirioffpcnt12 | safe}}
+  
+  const myChart3 = new Chart(ctx33, {
+      // plugins:[mchart],
+      type: 'bar',
+      data: {
+          labels: sirioff12,
+          datasets: [
+            {
+              data:sirioffpcnt12,
+              label:'Pending',
+              backgroundColor:['red'],
+              
+                            
+            },
+            
+        ]
+      },
+      
+  options: {
+
+
+layout:{
+padding:{
+  right:20.5,
+}
+},
+
+plugins:{
+    legend:{
+      display:true,
+    },
+},
+scales: {
+
+    x:{
+      
+      display: true,
+        max:3,
+        min:0,
+
+    },
+
+    y: {
+      
+      display:true,
+        min:0,
+        max:30,
+        beginAtZero: true,
+        ticks:{
+        stepSize:5,
+    }
+}
+}
+},
+
+
+  });
+
+}
+
+
+
+
+// scroll for siri and sched-surprise
+
+function moveScroll1(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChart;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChart.options.scales.x.max = myChart.options.scales.x.max - 4;
+      myChart.options.scales.x.min = myChart.options.scales.x.min - 4;
+
+      if (myChart.options.scales.x.max <= 0){
+        myChart.options.scales.x.min = 0;
+        myChart.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChart.options.scales.x.min = myChart.options.scales.x.min + 4;
+      myChart.options.scales.x.max = myChart.options.scales.x.max + 4;
+
+      if (myChart.options.scales.x.max >= myChart.data.datasets[0].data.length){
+        myChart.options.scales.x.min = myChart.data.datasets[0].data.length - 4;
+        myChart.options.scales.x.max = myChart.data.datasets[0].data.length;
+      };
+    }
+    myChart.update();
+  })
+};
+
+myChart.ctx.onclick=moveScroll1();
+
+
+function moveScroll2(){
+  const { ctx, canvas, chartArea: {left, right, top, bottom, width, height} } = myChart1;
+
+  canvas.addEventListener('click',(event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log('x',x)
+    console.log('y',y)
+
+    if(x >= left - 15 && x <= left + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChart1.options.scales.x.max = myChart1.options.scales.x.max - 4;
+      myChart1.options.scales.x.min = myChart1.options.scales.x.min - 4;
+
+      if (myChart1.options.scales.x.max <= 0){
+        myChart1.options.scales.x.min = 0;
+        myChart1.options.scales.x.max = 3;
+      };
+    }
+
+    if(x >= right - 15 && x <= right + 15 && y >= height/2 + top - 15 && y <= height/2 + top + 15){
+
+      myChart1.options.scales.x.min = myChart1.options.scales.x.min + 4;
+      myChart1.options.scales.x.max = myChart1.options.scales.x.max + 4;
+
+      if (myChart1.options.scales.x.max >= myChart1.data.datasets[0].data.length){
+        myChart1.options.scales.x.min = myChart1.data.datasets[0].data.length - 4;
+        myChart1.options.scales.x.max = myChart1.data.datasets[0].data.length;
+      };
+    }
+    myChart1.update();
+  })
+};
+
+myChart1.ctx.onclick=moveScroll2();
+
+</script>
+
+<script>
+  $( function() {
+var currentdate= new Date();
+$( ".datepick" ).daterangepicker({ 
+  maxDate: currentdate,
+  autoclose:true,
+  dateFormat: "dd-mm-yy",
+  endDate:"currentdate",
+  changeMonth : true,
+  changeYear : true,
+  todayHighlight: true,
+  clearBtn : true 
+});
+} );
+</script>
+
+</html>
+{% endblock content %}

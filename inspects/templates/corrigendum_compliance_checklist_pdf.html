@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>my inspection</title>
+
+ <style>
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;        
+    }
+        h3 {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 0px;
+            color: darkblue;
+            margin-bottom: 5px;
+        } 
+        table {
+        margin-top: 10px;
+    }
+ 
+.header {
+        display: flex;
+        align-items: center;
+    }
+
+    .header img:first-child {
+        margin-right: auto;
+    }
+
+    .header img:last-child {
+        margin-left: auto;
+    }
+
+</style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{abs_path}}" width="1200px" height="140px">
+        <br>
+        <b><h3 style="text-align: center; font-size: 18px; padding-top: 0px;">REVERTED COMPLIANCE OF MY INSPECTIONS</h3></b> 
+    </div>
+
+   <b><h3 style="text-align: center; font-size: 18px; padding-top: 0px;"></h3></b>
+   <div align="right" style="font-size: 12px;">Dated: {{Ondate}}</div>
+
+    <div>
+        <table border="0.7">
+            <thead>
+                <tr>
+                    <th style="width:8%;text-align: center; background-color:#0066cc ;color:#fff; padding-top:8px;">S.No</th>
+                    <th style="width:11%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp. Date </th>
+                    <th style="width:24%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp. Note No.</th>
+                    <th style="width:12%;text-align: center;background-color:#0066cc;color:#fff; padding-top:8px;">Insp. Type </th>
+                    <th style="width:40%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Insp. Title</th>
+                    <th style="width:11%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Rly./Org.</th>
+                    <th style="width:11%;text-align: center;background-color:#0066cc ;color:#fff; padding-top:8px;">Div./Unit</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+
+                {% for g in mydata %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{g.inspected_on|date:"d/m/y" }}</td>
+                    <!-- <td>{{ g.institute_name }}</td> -->
+                    <!-- <td>{{ g.id }}</td> -->
+                    <td>{{ g.inspection_note_no }}</td>
+                    <td>General</td>
+                    <td><span >
+                      {{g.inspection_title}}
+                    </span>
+                  </td>
+                    
+                    <td>{% for j in g.location_item %}
+                      {% if j.type == 'HQ' %}
+                          <span >{{j.item}}<br></span>
+                      {% endif %}
+                      {% endfor %}
+                    </td>
+    
+                    <td>{% for j in g.location_item %}
+                            {% if j.type == 'DIV' %}
+                                <span >{{j.item}}<br></span>
+                            {% endif %}
+                            {% endfor %}
+                          
+                    </td>
+            
+                   
+                </tr> 
+                {% endfor %}
+                {% for i in phase2 %}
+                <tr >
+                    <td >{{i.sr_no}}</td>
+                    <td >{{i.eitemid__einspno__inspected_on | date:'d/m/y'}}</td>
+                    <td >{{i.eitemid__einspno__inspection_note_no}}</td>
+                    <td >{{i.eitemid__einspno__instypeid__name}}</td>
+                    <td >{{i.eitemid__einspno__inspection_title}}</td>
+                    <td >{{i.eitemid__einspno__rly_id_id__location_code}}</td>
+                    <td >{{i.eitemid__einspno__div_id_id__location_code}}</td>
+                    
+                </tr>
+            {% endfor %}
+            </tbody>
+    
+    </table> 
+       
+  </div>  
+</body>
+</html>

@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding:4px 6px;
+}
+
+.abv {
+ border: 1px solid #dddddd;
+  text-align: center;
+  padding:6px 20px;
+  background-color: #0066cc;
+  color:#fff;
+}
+
+
+h1{
+    text-align: center;
+    font-size: 20px;
+}
+tbody tr td{
+    background-color: #f2f2f2;
+}
+/* tr td:nth-child(even) {
+  background-color: #D6EEEE;
+} */
+tfoot tr td{
+    font-weight: bold;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+</style>
+<div>
+<img src="C:/Users/Administrator/Documents/devMISI/media/images11/indian_railways.jpg" style="height: 65px;width: 65px;">
+<span>{% for i in 'jisdnfinewifniweasdgwegtertertertawejisdnfinewifniweasdgwegtertertertawejisdnfinewifniweasdgwegtertertertawejisdnfinewifniweasdgwegtertertertawenewifniweasdgwegtertertertaweertertawenewifniweasdgwegtddddddddd' %} 
+    &nbsp; {% endfor%}</span>
+<img src="C:/Users/Administrator/Documents/devMISI/media/images11/azadi.png" style="height: 65px;width: 65px;padding-left: 55%;">
+</div>
+<h1 class="report_heading">Inspection Report From {{datefrom|date:'d-m-Y'}} to {{dateto|date:'d-m-Y'}} for {{rly_list2}}</h1>     
+
+
+    <table id="tableid" name="tableid" class="table">
+        <thead>
+          
+        <tr class="abv">
+            <th>Railway</th>
+            <th>Created Inspection Notes</th>
+            <th>Fully Complied Inspection Notes</th>
+            <th>Pending Compliance Inspection Note</th>
+            <th>Total Inspection Points</th>                          
+            <th>Pending Inspection Points</th>     
+            <th>Overdue Inspection Points</th>                          
+            <th>%Complied Inspection</th>       
+            
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in rly_list %}
+            <tr>
+                <td>{{i.rly}}</td>
+                <td>{{i.total_inspection}}</td>
+                <td>{{i.total_closed}}</td>
+                <td>{{i.total_open}}</td>
+                <td>{{i.total_item}}</td>
+                <td>{{i.total_item_pending}}</td>
+                <td>{{i.total_item_overdue}}</td>
+                <td>{{i.per_complied|floatformat:2}}</td>
+   
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>{{total_total_inspection}}</td>
+
+                <td>{{total_total_closed}}</td>
+                <td>{{total_total_open}}</td>
+
+                <td>{{total_total_item}}</td>
+                <td>{{total_total_item_pending}}</td>
+
+                <td>{{total_total_item_overdue}}</td>
+                <td>{{total_total_per_complied|floatformat:2}}</td>
+            </tr>
+        </tfoot>
+        
+  </table>
+</body>
+</html>

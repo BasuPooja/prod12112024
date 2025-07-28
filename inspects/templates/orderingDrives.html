@@ -1,0 +1,1111 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<head>
+    <style>
+        /* Box Sizing */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* General Styles */
+body {
+    font-family: "Poppins-Regular";
+    font-size: 15px;
+    color: #666;
+    /* background-color: #6645eb; */
+    margin: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+textarea {
+    resize: none;
+}
+
+input, textarea, select, button {
+    font-family: "Poppins-Regular";
+    font-size: 15px;
+    color: #666;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+/* Wrapper */
+.wrapper {
+    /* max-width: 600px;
+    height: 85vh; */
+    margin: auto;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(236, 236, 236);
+    padding: 3%;
+    margin-top: 2%;
+    /* margin: 3%; */
+    /* margin-left: 30%;
+    margin-right: 30%; */
+    border-radius: 10px;
+    box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+    transition: 0.3s;
+    /* background-color: #6200EA; */
+}
+
+.wrapper .image-holder {
+    width: 51%;
+}
+
+.wrapper form {
+    width: 100%;
+}
+
+/* Wizard */
+.wizard > .steps .current-info,
+.wizard > .steps .number {
+    display: none;
+}
+
+#wizard {
+    min-height: 570px;
+    background: #fff;
+    margin-right: 60px;
+    padding: 107px 75px 65px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.steps {
+    margin-bottom: 30px;
+}
+
+.steps ul {
+    display: flex;
+    position: relative;
+}
+
+.steps ul li {
+    width: 25%;
+    margin-right: 10px;
+}
+
+.steps ul li a {
+    display: inline-block;
+    width: 100%;
+    height: 7px;
+    background: #e6e6e6;
+    border-radius: 3.5px;
+}
+
+.steps ul li.first a,
+.steps ul li.checked a {
+    background: #6645eb;
+    transition: all 0.5s ease;
+}
+
+.steps ul:before {
+    content: "Drive Details";
+    font-size: 22px;
+    font-family: "Poppins-SemiBold";
+    color: #333;
+    top: -38px;
+    position: absolute;
+}
+
+.steps ul.step-2:before {
+    content: "Group of Participants";
+}
+
+.steps ul.step-3:before {
+    content: "Drive History and Scheduling View";
+}
+
+.steps ul.step-4:before {
+    content: "Final Preview";
+}
+
+/* Form Elements */
+.form-row {
+    margin-bottom: 24px;
+}
+
+.form-row label {
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-row.form-group {
+    display: flex;
+}
+
+.form-row.form-group .form-holder {
+    width: 50%;
+    margin-right: 21px;
+}
+
+.form-row.form-group .form-holder:last-child {
+    margin-right: 0;
+}
+
+.form-holder {
+    position: relative;
+}
+
+.form-holder i {
+    position: absolute;
+    top: 11px;
+    right: 19px;
+    font-size: 17px;
+    color: #999;
+}
+
+.form-control {
+    height: 42px;
+    border: 1px solid #e6e6e6;
+    background: none;
+    width: 100%;
+    padding: 0 18px;
+}
+
+.form-control:focus {
+    border-color: #f3d4b7;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #999;
+    font-size: 13px;
+}
+
+.form-control::-moz-placeholder {
+    color: #999;
+    font-size: 13px;
+}
+
+.form-control:-ms-input-placeholder {
+    color: #999;
+    font-size: 13px;
+}
+
+textarea.form-control {
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+.option {
+    color: #999;
+}
+
+/* Buttons & Actions */
+.actions ul {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.actions ul.step-last {
+    justify-content: flex-end;
+}
+
+.actions ul.step-last li:first-child {
+    display: none;
+}
+
+.actions li a {
+    padding: 0;
+    border: none;
+    display: inline-flex;
+    height: 51px;
+    width: 135px;
+    align-items: center;
+    background: #6200EA;
+    cursor: pointer;
+    color: #fff !important;
+    position: relative;
+    padding-left: 41px;
+    text-decoration: none;
+    transition-duration: 0.3s;
+    font-weight: 400;
+}
+
+.actions li a:before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 41px;
+    color: #fff;
+    font-family: "FontAwesome";
+}
+
+.actions li a:hover {
+    background: #6200eaba;
+}
+
+.actions li:first-child a {
+    background: #e6e6e6;
+    padding-left: 48px;
+}
+
+.actions li:first-child a:before {
+    content: '';
+    left: 26px;
+}
+
+.actions li:first-child a:hover {
+    background: #ccc;
+}
+
+.actions li:last-child a {
+    padding-left: 29px;
+    width: 167px;
+    font-weight: 400;
+}
+
+.actions li:last-child a:before {
+    right: 30px;
+}
+
+/* Media Queries */
+@media (max-width: 1500px) {
+    .wrapper {
+        height: auto;
+    }
+}
+
+@media (max-width: 1199px) {
+    .wrapper {
+        height: 100vh;
+    }
+    #wizard {
+        margin-right: 40px;
+        min-height: 829px;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+}
+
+@media (max-width: 991px) {
+    .wrapper {
+        justify-content: center;
+    }
+    .wrapper .image-holder {
+        display: none;
+    }
+    .wrapper form {
+        width: 60%;
+    }
+    #wizard {
+        margin-right: 0;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media (max-width: 767px) {
+    .wrapper {
+        height: auto;
+        display: block;
+    }
+    .wrapper .image-holder {
+        width: 100%;
+        display: block;
+    }
+    .wrapper form {
+        width: 100%;
+    }
+    #wizard {
+        min-height: unset;
+        padding: 70px 20px 40px;
+    }
+}
+    </style>
+    <style>
+        
+        .table-form td, th{
+            border: none !important;
+        }
+        .sectionsRow thead tr th {
+          width: 10%;
+        }
+      
+        .select2-results__option[aria-selected=true] { 
+        background-color: #dff0c3 !important;
+        color:#000 !important;
+       }
+       
+        .select2-selection--multiple:before {
+          content: "";
+          position: absolute;
+          right: 7px;
+          top: 42%;
+          border-top: 5px solid #888;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+      }
+      
+      .select2-selection__choice__remove{
+        border: none;
+    }
+        .select2-search__field:placeholder-shown {
+            width: 100% !important; /*makes the placeholder to be 100% of the width while there are no options selected*/
+        }
+        .acc-head{
+            /* text-align:center; */
+            background-image: linear-gradient(to left, #c6d5ff, #9886fb, #4749eb); 
+            height: 45px;
+            color: white;
+            /* border-bottom: white !important; */
+            border-bottom-width:2px ;
+            /* border-bottom-width: 3px; */
+            border-bottom-style: solid;
+        }
+      </style>
+      <style>
+        .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+        .wrap.active {
+            display: block;
+            visibility: visible;
+            box-shadow: 2px 3px 16px silver;
+            transition: all 600ms;
+            transform: translateY(0px);
+            transition: all 0.5s;
+        }
+
+        .wrap {
+            position: fixed;
+            overflow: hidden;
+            top: 10%;
+            right: 10%;
+            bottom: 85px;
+            left: 10%;
+            padding: 12px;
+            display: block !important;
+            border-radius: 4px;
+            transform: translateY(20px);
+            transition: all 0.5s;
+            visibility: hidden;
+            z-index: 9999;
+            height: 85vh;
+        }
+
+        .wrap-1.active {
+            display: block;
+            visibility: visible;
+            box-shadow: 2px 3px 16px silver;
+            transition: all 600ms;
+            transform: translateY(0px);
+            transition: all 0.5s;
+        }
+
+        .wrap-1 {
+            position: fixed;
+            overflow: hidden;
+            top: 10%;
+            right: 10%;
+            bottom: 85px;
+            left: 10%;
+            padding: 12px;
+            display: block !important;
+            border-radius: 4px;
+            transform: translateY(20px);
+            transition: all 0.5s;
+            visibility: hidden;
+            z-index: 9999;
+            height: 85vh;
+        }
+
+        .wrap.active .content,
+        .wrap-1.active .content {
+            position: relative;
+            z-index: 1;
+            opacity: 1;
+            transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+        }
+
+        .wrap .content,
+        .wrap-1 .content {
+            opacity: 0;
+        }
+
+        .wrap.active:before,
+        .wrap-1.active:before {
+            height: 2000px;
+            width: 2000px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            margin-left: -1000px;
+            margin-top: -1000px;
+            display: block;
+            -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .wrap:before,
+        .wrap-1:before {
+            position: fixed;
+            width: 1px;
+            height: 1px;
+            background: white;
+            content: "";
+            bottom: 10px;
+            left: 50%;
+            top: 95%;
+            color: #fff;
+            border-radius: 50%;
+            -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .wrap::-webkit-scrollbar,
+        .wrap-1::-webkit-scrollbar {
+            width: 10px;
+            /* Remove scrollbar space */
+            background: #dedede;
+        }
+
+        /* Optional: show position indicator in red */
+        .wrap::-webkit-scrollbar-thumb,
+        .wrap-1::-webkit-scrollbar-thumb {
+            background: #FF0000;
+        }
+    </style>
+    
+</head>
+<body>
+  <!-- JQUERY STEP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-steps/1.1.0/jquery.steps.min.js"></script>
+
+
+<div class="container-fluid wrapper">
+    <form action="">
+        <div id="wizard">
+            <!-- SECTION 1 -->
+            <h4></h4>
+            <section>
+                <div class="row table-fluid">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <th><label for='drive_name' class="mr-sm-2">DRIVE NAME</label><span style="color:red;font-weight:bold">*</span></th>
+                                <td><textarea maxlength="1500" class="form-control mb-2 mr-sm-2" name="drive_name" placeholder="Enter Drive Name (Upto 1500 characters)" required></textarea></td>
+                            </tr>
+                            <tr>
+                                <th style="padding-top:3.5rem ;"><label for='ordered_by' class="mr-sm-2">ORDERED BY</label><span style="color:red;font-weight:bold">*</span></th>
+                                <td>
+                                    <table class="table-form">
+                                        <tr>
+                                            <th>DESIGNATION</th>
+                                            <th>NAME</th>
+                                            <th>STATION</th>
+                                        </tr>
+                                        <tr>
+                                            <td><input type='text' class="form-control mb-2 mr-sm-2" name="officer_desig" value="{{desig}}" placeholder="DESIGNATION" required disabled></td>
+                                            <td><input type='text' class="form-control mb-2 mr-sm-2" name="station_name" value="{{insp_ofc_name}}" placeholder="NAME" required></td>
+                                            <td><input type='text' class="form-control mb-2 mr-sm-2" name="officer_name"  value="{{station_name}}" placeholder="STATION" required></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <th><label for='drive_date' class="mr-sm-2">DRIVE DATE</label><span style="color:red;font-weight:bold">*</span></th>
+                                <td></td>
+                            </tr> -->
+                            <tr id="radsingle">
+                                <th>
+                                    <input type="radio" name="cat" value="upload" onclick="fun_check('single')" checked>
+                                    <label for="upload">UPLOAD DRIVE INSTRUCTIONS</label>
+                                    <span style="color:red;font-weight:bold">*</span>
+                                </th>
+                                <td>
+                                    <input name="do_file" type="file" accept="application/pdf" style="width: 100%;" id="do_file"
+                                    onchange="Filevalidation()" /><p style="color: blue;">Accepted types: .pdf  File size should not exceed 200kB </p>
+                                </td>
+                            </tr>
+                            <tr id="radall">
+                                <th>
+                                    <input type="radio" name="cat" value="text" onclick="fun_check('radall')">
+                                    <label for="dotext">WRITE DRIVE INSTRUCTIONS</label>
+                                    <span style="color:red;font-weight:bold">*</span>
+                                </th>
+                                <td>
+                                    <textarea class="form-control mb-2 mr-sm-2" id="do_text" name="do_text" placeholder="Enter Drive Instructions" rows="5" maxlength="300" onkeyup="Filevalidation1(this.value)"></textarea>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </section> <!-- SECTION 2 -->
+            <h4></h4>
+            <section>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <div class="acc-head" data-toggle="collapse" data-target="#collapseOne" id="create_new_acc" aria-expanded="false" aria-controls="collapseOne" onclick="justToggleFunction();editGroup(this)">
+                            <div class="row p-2">
+                                <div class="col-10">
+                                    <h5>Create New Group</h5>
+                                </div>
+                                <div class="col-2" style="text-align: right;">
+                                    <button class="btn btn-sm btn-outline-dark " id="create_new" onclick="editGroup(this)">
+                                        <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-down fa-lg"></i>
+                                        
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div id="collapseOne"  class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body table-fluid">
+                                <table class="table table-form">
+                                    <tbody>
+                                        <tr>
+                                            <th><label for="Zone">Rly./Org.</label></th>
+                                            <th><label for="Zone">Div./Unit</label></th>
+                                            <th><label for="Zone">Department</label></th>
+                                            <th><label for="Zone">Level</label></th>
+                                            <th><label for="Zone">Grade</label></th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <select class="form-control" id="zone" name="zone"  style="max-width:100%;" data-placeholder="Select Zone.."  multiple onchange="zone_change()">
+                                                    {% for z in zones %}
+                                                        {% if z.rly_unit_code == zone_unit_code %}
+                                                        <option value="{{z.rly_unit_code}}" selected>{{z.location_description}}</option>
+                                                        {%  else %}
+                                                        <option value="{{z.rly_unit_code}}">{{z.location_description}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="division" name="division"  style="max-width:100%;" data-placeholder="Select Division.."  multiple>
+                                                    {% for z in division %}
+                                                        {% if z.rly_unit_code == div_unit_code %}
+                                                        <option value="{{z.rly_unit_code}}" selected>{{z.location_description}}</option>
+                                                        {%  else %}
+                                                        <option value="{{z.rly_unit_code}}">{{z.location_description}}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="dept" name="dept"  style="max-width:100%;" data-placeholder="Select Departments.."  multiple >
+                                                    {% for z in departments %}
+                                                    <option value="{{z}}">{{z}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="pc_level" name="pc_level"  style="max-width:100%;" data-placeholder="Select Level.."  multiple >
+                                                    {% for z in pc_level %}
+                                                    <option value="{{z}}">{{z}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" id="grade" name="grade"  style="max-width:100%;" data-placeholder="Select Grade.."  multiple >
+                                                    {% for z in grade %}
+                                                    <option value="{{z}}">{{z}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table table-form">
+                                    <tbody>
+                                        <tr>
+                                            <th><label for="group_name">Enter Group Name</label></th>
+                                            <td><input type='text' maxlength="200" class="form-control mb-2 mr-sm-2" id="group_name" name="group_name" placeholder="Enter Group Name in not more than 200 characters" required></td>
+                                            <td><button class="btn btn-warning  mt-1" onclick="setGroup()">&nbsp;&nbsp; Generate Group &nbsp;&nbsp;</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="accordion-item">
+                        <div class="acc-head" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" onclick="previouslyCreatedGroups()">
+                            <div class="row p-2">
+                                <div class="col-10">
+                                    <h5>Select Previously Created Groups</h>
+                                </div>
+                                <div class="col-2" style="text-align: right;">
+                                    <button class="btn btn-sm btn-outline-dark " onclick="previouslyCreatedGroups()">
+                                        <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-down fa-lg"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body table-fluid">
+                                <table class="table table-striped table-bordered table-data" id="previouslyCreatedGroupsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Select Groups</th>
+                                            <th>Group Name</th>
+                                            <th>Created On</th>
+                                            <th>Edit Group</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button id="multiple" class="btn btn-warning  mt-1" onclick="editGroup(this)">&nbsp;&nbsp; Edit Participants &nbsp;&nbsp;</button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-success  mt-1" onclick="selectGroups()">&nbsp;&nbsp; Select Groups &nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="acc-head" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" onclick="selectedGroups()">
+                            <div class="row p-2">
+                                <div class="col-10">
+                                    <h5>Your Selected Groups For This Drive</h5>
+                                </div>
+                                <div class="col-2" style="text-align: right;">
+                                    <button class="btn btn-sm btn-outline-dark " onclick="previouslyCreatedGroups()">
+                                        <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                                        <i class="fas fa-angle-double-down fa-lg"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body table-fluid">
+                                <table class="table table-form" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Select</th>
+                                            <th>Group Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"></td>
+                                            <td>Group Name</td>
+                                            <td><button type="button" class="btn btn-outline-primary btn-sm"><i class="far fa-edit"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> <!-- SECTION 3 -->
+            <h4></h4>
+            <section>
+                <div class="row table-fluid">
+                    <table class="table table-form">
+                        <tbody>
+                            <tr>
+                                <th><label for="Zone">Selected Groups</label></th>
+                                <th><label for="Zone">Rly./Org.</label></th>
+                                <th><label for="Zone">Div./Unit</label></th>
+                                <th><label for="Zone">Department</label></th>
+                                <th><label for="Zone">Date Range</label></th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select class="form-control" id="zone" name="zone"  style="max-width:100%;" data-placeholder="Select zone.."  multiple onchange="zone_change()">
+                                        <option value=""  disabled hidden>select</option>
+                                        {% for z in Zone %}
+                                        <option value="{{z}}">{{z}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="zone" name="zone"  style="max-width:100%;" data-placeholder="Select zone.."  multiple onchange="zone_change()">
+                                        <option value=""  disabled hidden>select</option>
+                                        {% for z in Zone %}
+                                        <option value="{{z}}">{{z}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="zone" name="zone"  style="max-width:100%;" data-placeholder="Select zone.."  multiple onchange="zone_change()">
+                                        <option value=""  disabled hidden>select</option>
+                                        {% for z in Zone %}
+                                        <option value="{{z}}">{{z}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" id="zone" name="zone"  style="max-width:100%;" data-placeholder="Select zone.."  multiple onchange="zone_change()">
+                                        <option value=""  disabled hidden>select</option>
+                                        {% for z in Zone %}
+                                        <option value="{{z}}">{{z}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1" required class="form-control" style="margin-top:0em; height: 36px; background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;" id="txtDate2"   readonly requied>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section> <!-- SECTION 4 -->
+            <h4></h4>
+            <section>
+                <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                    <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+                    <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+                </svg> -->
+                <p class="success">Order placed successfully. Your order will be dispacted soon. meanwhile you can track your order in my order section.</p>
+            </section>
+        </div>
+    </form>
+</div>
+<div class="wrap mt-0">
+    <div class="content mt-0">
+        <button class="btn btn-danger" onclick="closePpln();">&times;</button>
+        <iframe src="" style="width:100%;height:82vh;border:0px;" id="frmDash"></iframe>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+	$("#wizard").steps({
+        headerTag: "h4",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        enableAllSteps: true,
+        transitionEffectSpeed: 500,
+        onStepChanging: function (event, currentIndex, newIndex) { 
+            if ( newIndex === 1 ) {
+                $('.steps ul').addClass('step-2');
+            } else {
+                $('.steps ul').removeClass('step-2');
+            }
+            if ( newIndex === 2 ) {
+                $('.steps ul').addClass('step-3');
+            } else {
+                $('.steps ul').removeClass('step-3');
+            }
+
+            if ( newIndex === 3 ) {
+                $('.steps ul').addClass('step-4');
+                $('.actions ul').addClass('step-last');
+            } else {
+                $('.steps ul').removeClass('step-4');
+                $('.actions ul').removeClass('step-last');
+            }
+            return true; 
+        },
+        labels: {
+            finish: "Order again",
+            next: "Next",
+            previous: "Previous"
+        }
+    });
+    // Custom Steps Jquery Steps
+    $('.wizard > .steps li a').click(function(){
+    	$(this).parent().addClass('checked');
+		$(this).parent().prevAll().addClass('checked');
+		$(this).parent().nextAll().removeClass('checked');
+    });
+    // Custom Button Jquery Steps
+    $('.forward').click(function(){
+    	$("#wizard").steps('next');
+    })
+    $('.backward').click(function(){
+        $("#wizard").steps('previous');
+    })
+    // Checkbox
+    $('.checkbox-circle label').click(function(){
+        $('.checkbox-circle label').removeClass('active');
+        $(this).addClass('active');
+    })
+})
+</script>
+<script>
+    
+    
+    
+    
+
+    $(function() {
+    
+    $('input[name="daterange1"]').daterangepicker({
+        autoUpdateInput: false,
+        autoApply: true,
+        maxDate: new Date(),
+        "opens": "left",
+        locale: {
+            cancelLabel: 'Clear'
+        }
+    });
+    
+    $('input[name="daterange1"]').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+      
+      if(picker.startDate.format('DD/MM/YY') == picker.endDate.format('DD/MM/YY')){
+          $(this).val(picker.startDate.format('DD/MM/YY'))
+        }
+        else{
+          $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+        
+        }
+      
+      $('.applyButtonClasses').click()
+    
+      
+    });
+    
+    $('input[name="daterange1"]').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+    
+    });
+    
+    $('#txtDate2').hover(function(){
+      $('body').trigger('mousedown');
+     document.getElementById('txtDate2').click();
+    });
+    
+        
+          $("textarea").each(function () {
+          this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+            }).on("input", function () {
+              this.style.height = "auto";
+              this.style.height = (this.scrollHeight) + "px";
+            });
+        </script>
+    <script>
+        $('#do_file').removeAttr('disabled');
+        $('#do_text').attr('disabled','disabled');
+        function fun_check(value) {
+            if (value == 'single') {
+                $('#do_text').val('');
+                $('#do_file').removeAttr('disabled');
+                $('#do_text').attr('disabled','disabled');
+            }
+            else {
+                $('#do_file').val('');
+                $('#do_file').attr('disabled','disabled');
+                $('#do_text').removeAttr('disabled');
+            }
+        }
+        
+        Filevalidation = () => {
+            const fi = document.getElementById('do_file');
+        
+            // Check if any file is selected.
+            if (fi.files.length > 0) {
+                for (const i = 0; i <= fi.files.length - 1; i++) {
+        
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                // The size of the file.
+                if (file >= 200) {
+                    alert("File too Big, please select a file less than 200KB");
+                }
+                else {
+                    // document.getElementById('size').innerHTML = '<b>'
+                    // + file + '</b> KB';
+                    document.getElementById('submit').disabled = false;
+                }
+                }
+            }
+            }
+            function Filevalidation1(val) {
+            if (val.length > 0)
+            document.getElementById('submit').disabled = false;
+            else
+            document.getElementById('submit').disabled = true;
+        }
+    </script>
+<script>
+    $( document ).ready(function(){
+        $('#zone').select2();
+        $('#division').select2();
+        $('#dept').select2();
+        $('#grade').select2();
+        $('#pc_level').select2();
+        zone_change()
+    });
+
+    let division_data = JSON.parse('{{division_data|safe}}');
+
+    function zone_change(){
+        var selected_divisions = $('#division').val();
+        var selected_zones = $('#zone').val();
+
+        $('#division').empty()
+        $('#division').append(`<option value="">Select division</option>`);
+        for (let j = 0; j < division_data.length; j++) {
+            if (selected_zones.includes(division_data[j]['parent_rly_unit_code'])){
+                if (selected_divisions.includes(String(division_data[j]['rly_unit_code'])))
+                    $('#division').append(`<option value="${division_data[j]['rly_unit_code']}" selected> ${division_data[j]['location_description']}</option>`);
+                else
+                    $('#division').append(`<option value="${division_data[j]['rly_unit_code']}"> ${division_data[j]['location_description']}</option>`);
+            }
+            
+        }
+    }
+</script>  
+<script>
+    function justToggleFunction(){
+        document.getElementById("collapseThree").className = "collapse";
+        document.getElementById("collapseTwo").className = "collapse";
+    }
+    
+    function setGroup()
+    {
+        
+    $.ajax({
+          type : 'POST',
+          url : "{% url 'createGroup' %}",
+          dataType : 'json',
+          data: {
+            csrfmiddlewaretoken: '{{csrf_token}}',
+            'zone': JSON.stringify($('#zone').val()), 
+            'division': JSON.stringify($('#division').val()), 
+            'dept': JSON.stringify($('#dept').val()), 
+            'pc_level': JSON.stringify($('#pc_level').val()), 
+            'grade': JSON.stringify($('#grade').val()), 
+            'group_name': $('#group_name').val(), 
+            'call_type' : 'create_new'
+          },
+          success : function(response){
+            value = response.value
+            alert(value)
+            // if (value == 'True'){
+            //     alert('Group Created Succesfully')
+            // }
+            // else{
+            //     alert('oops error!!')
+            // }
+          }
+    })
+    }
+    function previouslyCreatedGroups(){
+       
+        // document.getElementById("collapseOne").className = "collapse";
+        document.getElementById("collapseThree").className = "collapse";
+        already_selected_groups=[]
+        elements = document.getElementsByClassName("previouslyCreatedGroupsCheckbox");
+        for (i = 0; i < elements.length; i++) {
+            if (elements[i].checked == true){
+                var dd = elements[i].id
+                real_id = dd.substr(8);
+                already_selected_groups.push(real_id)
+            }
+        }
+        alert(already_selected_groups)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        $.ajax({
+          type : 'GET',
+          url : "{% url 'createGroup' %}",
+          dataType : 'json',
+          data: {
+            'call_type' : 'previouslyCreatedGroups'
+          },
+          success : function(response){
+            groups_created = response.groups_created
+            var table = $('#previouslyCreatedGroupsTable').DataTable();
+            table.destroy();
+            $('#previouslyCreatedGroupsTable tbody').empty();
+            row=''
+            for (var i=0;i<groups_created.length; i++){
+                var serverDate = new Date(groups_created[i]['group_created_on']);
+                serverDate.setHours(0, 0, 0, 0);
+                if (serverDate.getTime() === today.getTime() || already_selected_groups.includes(groups_created[i]['group_no']))
+                    var selected='checked'
+                else
+                    var selected=''
+
+                row+=`
+                <tr>
+                    <td><input class='previouslyCreatedGroupsCheckbox' type="checkbox" ${selected} id="group_id${groups_created[i]['group_no']}" value="${groups_created[i]['group_no']}"></td>
+                    <td>${groups_created[i]['group_name']}</td>
+                    <td>${formatDate(groups_created[i]['group_created_on'])}</td>
+                    <td><button id="${groups_created[i]['group_no']}" type="button" class="btn btn-outline-primary btn-sm" onclick="editGroup(this)"><i class="far fa-edit"></i></button></td>
+                </tr>
+                `
+            }
+            $('#previouslyCreatedGroupsTable tbody').append(row);
+            $('#previouslyCreatedGroupsTable').show();
+            $('#previouslyCreatedGroupsTable').DataTable({
+                "language":{
+                    "search": "Keyword search:"
+                }
+            });
+          }
+        })
+    }
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        let newyear = String(year).slice(2, 5)
+        return [day, month, newyear].join('/');
+    }
+    function selectedGroups(){
+        // document.getElementById("collapseOne").className = "collapse";
+        document.getElementById("collapseTwo").className = "collapse";
+    }
+    
+    function editGroup(e){
+        id = e.id
+        alert(id)
+        groups = []
+        if (id == 'multiple'){
+            elements = document.getElementsByClassName("previouslyCreatedGroupsCheckbox");
+            for (i = 0; i < elements.length; i++) {
+                if (elements[i].checked == true){
+                    var dd = elements[i].id
+                    real_id = dd.substr(8);
+                    groups.push(real_id)
+                }
+            }
+        }
+        else if (id=="create_new" || id == 'create_new_acc'){
+            groups.push('new_group')
+        }
+        else{
+            groups.push(id)
+        }
+        // groups=JSON.stringify(groups)
+        urls='/editGroup/'+"?group_id=" + groups;
+        $("#frmDash").attr("src",urls);
+        $(".wrap").toggleClass('active');
+    }
+    function closePpln() {
+        $(".wrap").toggleClass('active');
+        // window.location.reload();
+    }
+</script>    
+
+{% endblock %}

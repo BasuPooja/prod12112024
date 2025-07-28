@@ -1,0 +1,874 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script> 
+</head>
+<style>
+    .modal-content{
+    border: solid !important;
+    border-width: 1px !important;
+    }
+    .modal-header{
+    background-color: #0066cc!important;
+    color: #fff;
+    border-radius: inherit;
+    }
+    .close span{
+    color: #fff !important;
+    }
+    .close span:hover{
+    color: #fff !important;
+    }
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 1500px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+
+  .modal.right.fade.show .modal-dialog {
+    right: 0;
+  }
+
+  /* ----- MODAL STYLE ----- */
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+  }
+
+  .modal-lg {
+    max-width: 70% !important;
+  }
+
+</style>
+
+<style>
+  * {
+      box-sizing: border-box;
+    }
+    .input,
+    input[type=text]
+    {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 2px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        resize: vertical;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=submit] 
+    {
+        width: 40%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: rgb(15, 12, 12);
+        padding: 14px 20px;
+        margin: 2px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=submit]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    input[type=button] 
+    {
+        width: 30%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: white;
+        padding: 6px 6px;
+        margin: 2px 2px 2px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=button]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    .inputtag
+    {
+        height:20px;
+    }
+    .container
+    {
+        width:1500px;
+    }
+
+    input[type="radio"]
+    {   margin: 0 5px 0 5px;    }
+
+    div.bold-selected 
+    {   font-weight: bold;  }
+
+    tr.row_selected td{background-color:lightgrey !important;}
+
+
+    
+
+
+
+
+</style>
+
+<body>
+    <h3 class="report_heading">MOM Compliances Marked to Me</h3> 
+    <br>
+
+    <div class="container " >
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div class="inpt-container ">
+                    <input id="dis_id" value="{{str}}" hidden>
+                    {% if str == 'NoRB' %}
+                    <div class="row mb-1" style="text-align: left; padding-left:5%;">
+                        <div class="col-3">
+                            <label for="type" class="lbl-caption">Meeting Type</label>
+                            <select class="form-control" name="type" id="type" style="max-width:100%;height: 40px;" class="custom-select">
+                                <option value="All" selected>All</option>
+                                {% for t in meeting %}
+                                    <option value="{{t.meeting_type}}">{{t.meeting_type}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="status" class="lbl-caption">Reply Status<span style="color:red;font-weight:bold">*</span></label>
+                            <select class="form-control" name="status" id="status" style="max-width:100%; height: 40px;" class="custom-select">
+                                <option value="" disabled >All</option>
+                                <option value="1">Pending</option>
+                                <option value="3">Accepted</option>
+                                <!-- <option value="R">Rejected</option> -->
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="mdate" class="lbl-caption">Date of Meeting</label>
+                            <input type='text' id='filterdate' name="filterdate" style="max-width:100%; height: 40px; background-color: #fff; margin-top: 0px;" placeholder="Select Range.." class="form-control" readonly >
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                        <div class="col-3">
+                            <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                                <div class="btn-group mr-2" role="group" >
+                                
+        
+                            <button type="button" id="submit_filter" class="btn btn-warning btn-sm" onclick="reply_filter(this);">Continue</button>
+                            <button type="button" id="clear"  class="btn btn-secondary btn-sm" onclick="clear_filter();">Reset</button>
+                           </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row" style="text-align: left; padding-left:15%">
+                        <div class="col">
+                            <label for="status" class="lbl-caption">Status<span style="color:red;font-weight:bold">*</span></label>
+                            <select class="form-control" name="status" id="status" style="max-width:100%;height: 30px;" class="custom-select">
+                                <option value="" disabled>All</option>
+                                <option value="1">Pending</option>
+                                <option value="3">Accepted</option>
+                                <!-- <option value="R">Rejected</option> -->
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="mdate" class="lbl-caption">Date of Meeting</label>
+                            <input type='text' style="background-color: #fff;" id='filterdate' name="filterdate" style="max-width:100%; height: 30px;" placeholder="Select Range.." class="form-control" readonly required>
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                        </div>
+                        <div class="col">
+                            <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                                <div class="btn-group mr-2" role="group" >
+                                  
+                            <button type="button" id="submit_filter" class="btn btn-warning btn-sm" onclick="reply_filter(this);">continue</button>&nbsp;
+                            <button type="button" id="clear"  class="btn btn-secondary btn-sm" onclick="clear_filter();">Reset</button>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- <div class="container" style="font-family:'Lato', sans-serif; overflow-x: auto;"> -->
+                    <table id="tablereply" class="table table-bordered table-sm table-data dataTable no-footer">
+                        <thead style="background-color:#0066cc; color:aliceblue">
+                            <tr style="text-align:left">
+                                <th style="width:5%">S.No.</th>
+                                <th style="width:10%">Meeting Date</th>
+                                <th style="width:20%">MOM Note No</th>
+                                <th style="width:55%">MOM Title</th>
+                                <th style="width:10%">MOM Date</th>
+                                <!-- <th style="width:8%">View</th> -->
+                                <th style="width:10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in dealt_reply %}
+                            <tr style="text-align:left">
+                                <td>{{forloop.counter}}</td>
+                                <td>{{i.mom_date|date:"d/m/y"}}</td>
+                                <td><a href="" data-toggle="modal" data-target="#PdfModal" onclick="show_pdf_file('{{i.insp_no}}','{{i.mom_note_no}}','{{i.mom_date|date:'d/m/y'}}');">{{i.mom_note_no}}</a></td>
+                                <td>{{i.mom_title}}</td>
+                                <td>{{i.created_on|date:"d/m/y"}}</td>
+                                <!-- <td><a type="button" class="btn btn-primary" style="color: #fff;" target="blank">Report</a></td> -->
+                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#PendingModal" id={{i.insp_no}} onclick="pending(this)">Reply</button></td>
+                                <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PendingModal" id={{i.insp_id}} onclick="reply(this)">Reply</button></td> -->
+                            </tr>
+                            {% endfor %} 
+                        </tbody>
+                    </table>
+                   <!-- </div> -->
+            </div>
+            <div class="col-1"></div>
+        </div>
+        
+    </div>
+    <br>
+         
+
+        
+
+    <!-- Modal to view PDF -->
+    <div class="modal fade left" id="PdfModal" tabindex="-1" role="dialog" aria-labelledby="PdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-lg" role="document" style="width:750px; height:740px;padding: 0px;">
+            <div class="modal-content modal-content-full-width ">
+                <div class="modal-header modal-header-full-width ">
+                    <h3 style="font-family: 'Lato', sans-serif;" id="PdfModalLabel">
+                        <label id="pdf-heading"></label>
+                    </h3>
+                    <!-- <h3 class="modal-title w-100" id="PdfModalLabel"><label id="pdf-heading"></label></h3><br> -->
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" >Close</button>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> -->
+                </div>
+                <div class="modal-body"  style="overflow: auto;text-align: left;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col" id="preiew_report_pdf" style="max-width: 100%; max-height: 100%;">
+                                <iframe id="iframepreview1"  style="width:700px; height:740px;" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--  Modal Body -->
+                <div class="modal-footer modal-footer-full-width">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" id="closePdf">Close</button>
+                </div>
+            </div><!-- Modal-Content-->
+        </div><!-- Modal-Dialog -->
+    </div>
+
+    <!-- Modal for pending reply-->
+    <div class="modal fade right" id="PendingModal" tabindex="-1" role="dialog" aria-labelledby="PendingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modal-content-full-width ">
+                <div class="modal-header modal-header-full-width ">
+                    <h3 style="font-family: 'Lato', sans-serif;" id="PendingModalLabel">
+                        List of Pending Replies
+                    </h3>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" >Close</button>
+
+                <!-- <h3 class="modal-title w-100 text-center" id="PendingModalLabel">List of Pending Replies</h3><br> -->
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+            </div>
+            <!-- <form action="{% url 'mom_reply_form' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %} -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- <div class="col" id="preiew_report_pdf" style="max-width: 100%; max-height: 100%;">
+                            <iframe id="iframepreview1"  style="width:500px; height:740px;" frameborder="0"></iframe>
+                        </div> -->
+                        <div class="col">
+                            <div class="container1" style="overflow-y: auto;text-align: left;">
+
+                                <input style="width:8%;text-align:center;background-color:aliceblue;" id="insp_no" value="{{insp_no}}" hidden></input>
+                                <table id="mytable1"  class="table table-striped  table-data table-bordered center">
+                                    <thead >
+                                        <tr>
+                                            <th>Item No</th>
+                                            <th>Minutes of Meeting</th>
+                                            <th>Remarks</th>
+                                            <th>Upload</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div><!--  Modal Body -->
+            <!-- </form> -->
+            <div class="modal-footer modal-footer-full-width">
+                <!-- <button type="button" id="submit" class="btn btn-success" onclick="save_reply()">Submit</button>  -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closePending">Close</button>
+            </div>
+        </div><!-- Modal-Content-->
+        </div><!-- Modal-Dialog -->
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for accepted reply-->
+    <div class="modal fade right" id="AcceptModal" tabindex="-1" role="dialog" aria-labelledby="AcceptModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content modal-content-full-width ">
+                <div class="modal-header modal-header-full-width ">
+                    <h3 style="font-family: 'Lato', sans-serif;" id="AcceptModalLabel">
+                        List of Accepted Replies
+                    </h3>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" >Close</button>
+                    <!-- <h3 class="modal-title w-100 text-center" id="AcceptModalLabel">List of Accepted Replies</h3><br>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> -->
+                </div>
+            <div class="modal-body" style="overflow: auto;text-align: left;">
+                <div class="container1">
+                    <input style="width:8%;text-align:center;background-color:aliceblue;" id="insp_no" value="{{insp_no}}" hidden></input>
+                    <table id="mytable2" class="table table-bordered table-sm table-data dataTable no-footer">
+                        <thead style="background-color:#0066cc; color:aliceblue">
+                            <tr>
+                    
+                                <th>Item No</th>
+                                <th>Minutes of Meeting</th>
+                                <th>Remarks</th>
+                                <th>Attachment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="modal-body" style="overflow: auto;text-align: center;"> -->
+                    <div id="preiew_reply_pdf">
+                        <iframe id="iframepreview"  style="width:1000px; height:700px;" frameborder="0"></iframe>
+                    </div>
+                <!-- </div> -->
+            </div>
+            <div class="modal-footer modal-footer-full-width">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeAccept">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    
+</body>
+
+<!-- script for datepicker -->
+<script>
+    $(function() 
+    {
+        $('input[name="filterdate"]').daterangepicker
+        ({
+            autoUpdateInput: false,
+            // autoApply: true,
+            maxDate: new Date(),
+            locale: {   cancelLabel: 'Clear'    }
+        });
+    
+        $('input[name="filterdate"]').on('apply.daterangepicker', function(ev, picker) 
+        {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));
+            if(picker.startDate.format('DD/MM/YYYY') == picker.endDate.format('DD/MM/YYYY'))
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY'))  }
+            else
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));  }
+            $('.applyButtonClasses').click()
+        });
+    
+        $('input[name="filterdate"]').on('cancel.daterangepicker', function(ev, picker) 
+        {   $(this).val('');    });
+    });
+
+</script>
+    
+<script>
+    $( document ).ready
+    (
+        function() 
+        {
+            $('#tablereply').DataTable();
+            // $('#type').select2();
+        }
+    );
+
+    function pending(e)
+    {
+        var insp_no=e.id;
+        var table = $('#mytable1').DataTable();
+        table.destroy();
+        $('#mytable1').hide();
+        data=
+        {
+            'insp_no':insp_no,
+            'str':'pending',
+        }
+        $('#insp_no').val(insp_no);
+        $.ajax
+        ({
+            url: "{% url 'mom_reply_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                console.log(response)
+                replydata=response.itemdetails;
+                console.log(replydata)
+                let row = "";
+                let head = 
+                    `<thead>
+                        <tr align="left">
+                            <th>Item No</th>
+                            <th style="width:30%">Observations</th>
+                            <th style="width:40%">Remarks</th>
+                            <th>Upload</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < replydata.length; i++) 
+                { 
+                    // row += `<form method="POST" enctype="multipart/form-data">
+                    //         {% csrf_token %}`;
+                    row += "<tr>";   
+                    if(replydata[i]['type']=='H' || replydata[i]['type']=='P') 
+                    {
+                        row += `
+                            <td width=5%>${replydata[i]['item_no']}</td>
+                            <td align="left">${replydata[i]['item_heading']}</td>
+                            <td><textarea type='text' class="form-control" id="/${replydata[i]['item_db']}" onkeyup="expandarea(this)" name="reply_text" maxlength="3000"></textarea></td>
+                            <td width=5%><input type="file" accept="application/pdf, image/jpeg, image/x-png," id="file${replydata[i]['item_db']}" name="file" onchange="Filevalidation(this)">
+                                <p style="color: blue;">Accepted types: .pdf, .png, .jpeg, .jpg <br> File size should not exceed 200kB</p>
+                            </td>
+                            <td width=10%><button type="button" class="btn btn-primary" id="${replydata[i]['item_db']}" onclick="save_reply(this);">Submit</button></td>`
+                    }
+                    else if(replydata[i]['type']=='SH' || replydata[i]['type']=='SP') 
+                    {
+                        row += `<td width=5%>${replydata[i]['item_no']}</td>`;
+                        if(replydata[i]['item_description']!=null)
+                            row+=`<td align="left"><b>${replydata[i]['item_subheading']}</b><br>${replydata[i]['item_description']}</td>`;
+                        else
+                        row+=`<td align="left">${replydata[i]['item_subheading']}</td>`;
+                        row+=`   
+                            <td><textarea type='text' class="form-control" id="/${replydata[i]['item_db']}"  onkeyup="expandarea(this)" name="reply_text" maxlength="3000"></textarea></td>
+                            <td width=5%><input type='file' accept="application/pdf, image/jpeg, image/x-png," id="file${replydata[i]['item_db']}" name="file" onchange="Filevalidation(this)"></input>
+                                <p style="color: blue;">Accepted types: .pdf, .png, .jpeg, .jpg <br> File size should not exceed 200kB</p>
+                            </td>
+                            <td width=10%><button type="button" class="btn btn-primary" id="${replydata[i]['item_db']}" onclick="save_reply(this)">Submit</button></td>`
+                    }
+                    else if(replydata[i]['type']=='D'|| replydata[i]['type']=='SSP') 
+                    {
+                        row += `
+                            <td width=5%>${replydata[i]['item_no']}</td>
+                            <td align="left">${replydata[i]['item_decision']}</td>
+                            <td><textarea type='text' class="form-control" id="/${replydata[i]['item_db']}" onkeyup="expandarea(this)" name="reply_text"  maxlength="3000"></textarea></td>
+                            <td width=5%><input type='file' accept="application/pdf, image/jpeg, image/x-png," id="file${replydata[i]['item_db']}" name="file" onchange="Filevalidation(this)"></input>
+                                <p style="color: blue;">Accepted types: .pdf, .png, .jpeg, .jpg <br> File size should not exceed 200kB</p>
+                            </td>
+                            <td width=10%><button type="button" class="btn btn-primary" id="${replydata[i]['item_db']}" onclick="save_reply(this)">Submit</button></td>`
+                    }
+                    row += "</tr>";
+                    // row += `</form>`;
+                }
+                $('#mytable1 thead').remove();
+                $('#mytable1 tr').remove();
+                $('#mytable1').append(head);
+                $('#mytable1 tbody').append(row);
+                $('#mytable1').show();
+                // $('#mytable1').DataTable({
+                //     pageLength:5,
+                // });
+            }
+        })
+    }
+
+    function accept(e)
+    {
+        var insp_no=e.id;
+        var table = $('#mytable2').DataTable();
+        table.destroy();
+        $('#mytable2').hide();
+        data=
+        {
+            'insp_no':insp_no,
+            'str':'accept',
+        }
+        $('#insp_no').val(insp_no);
+        $.ajax
+        ({
+            url: "{% url 'mom_reply_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                replydata=response.itemdetails;
+                console.log(replydata);
+                let row = "";
+                //  <th>Attachment</th>
+                let head = 
+                    `<thead>
+                        <tr align="left">
+                            <th>Item No</th>
+                            <th style="width:30%">Observations</th>
+                            <th style="width:40%">Remarks</th>
+                            <th>Attachment</th>
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < replydata.length; i++) 
+                { 
+                    // row += `<form method="POST" enctype="multipart/form-data">
+                    //         {% csrf_token %}`;
+                    // <td width=5%><input type="file" id="file${replydata[i]['item_db']}" name="file"></td>`;
+                    row += "<tr>";   
+                    if(replydata[i]['type']=='H' || replydata[i]['type']=='P') 
+                    {
+                        row += `
+                            <td width=5%>${replydata[i]['item_no']}</td>
+                            <td align="left">${replydata[i]['item_heading']}</td>
+                            <td><input type='text' class="form-control" id="/${replydata[i]['item_db']}" onkeyup="expandarea(this)" name="reply_text"  maxlength="3000" value="${replydata[i]['remark']}" readonly/></td>`;
+                        if(replydata[i]['file_remark']=='')
+                        {
+                            row+=`<td width=5%>-</td>`;
+                        }
+                        else
+                        {
+                            row+=`<td width=5%><a href="#" onclick="show_reply_file('${replydata[i]['file_remark']}','${replydata[i]['note_no']}','${replydata[i]['item_no']}')"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;
+                        }
+                    }
+                    else if(replydata[i]['type']=='SH' || replydata[i]['type']=='SP') 
+                    {
+                        row += `<td width=5%>${replydata[i]['item_no']}</td>`;
+                        if(replydata[i]['item_description']!=null)
+                            row+=`<td align="left"><b>${replydata[i]['item_subheading']}</b><br>${replydata[i]['item_description']}</td>`;
+                        else
+                        row+=`<td align="left">${replydata[i]['item_subheading']}</td>`;
+                        row+=`   
+                            <td><input type='text' class="form-control" id="/${replydata[i]['item_db']}" onkeyup="expandarea(this)" name="reply_text"  maxlength="3000" value="${replydata[i]['remark']}" readonly/></td>`;
+                        if(replydata[i]['file_remark']=='')
+                        {
+                            row+=`<td width=5%>-</td>`;
+                        }
+                        else
+                        {
+                            row+=`<td width=5%><a href="#" onclick="show_reply_file('${replydata[i]['file_remark']}','${replydata[i]['note_no']}','${replydata[i]['item_no']}')"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;
+                        }
+                    }
+                    else if(replydata[i]['type']=='D' || replydata[i]['type']=='SSP') 
+                    {
+                        row += `
+                            <td width=5%>${replydata[i]['item_no']}</td>
+                            <td align="left">${replydata[i]['item_decision']}</td>
+                            <td><input type='text' class="form-control" id="/${replydata[i]['item_db']}" onkeyup="expandarea(this)" name="reply_text" maxlength="3000" value="${replydata[i]['remark']}" readonly/></td>`;
+                        if(replydata[i]['file_remark']=='')
+                        {
+                            row+=`<td width=5%>-</td>`;
+                        }
+                        else
+                        {
+                            row+=`<td width=5%><a href="#" onclick="show_reply_file('${replydata[i]['file_remark']}','${replydata[i]['note_no']}','${replydata[i]['item_no']}')"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>`;
+                        }
+                    }
+                    row += "</tr>";
+                    // row += `</form>`;
+                }
+                $('#mytable2 thead').remove();
+                $('#mytable2 tr').remove();
+                $('#mytable2').append(head);
+                $('#mytable2 tbody').append(row);
+                $('#mytable2').show();
+                $('#mytable2').DataTable();
+            }
+        })
+    }
+
+    function save_reply(e)
+    {
+        insp_no=$('#insp_no').val();
+        item_no=e.id;
+        var text='/'+item_no;
+        var pdf='file'+item_no;
+        var reply_text=document.getElementById(text).value;
+        var data = new FormData();
+        var file=$('#'+pdf)[0].files[0];
+        // var file=$('input[id='+pdf+']')[0].files[0];
+        if (file)
+        {
+            // data['file']=file
+            // data['insp_no']=insp_no
+            // data['item_no']=item_no
+            // data['reply_text']=reply_text
+            data.append('file',file)
+            data.append('insp_no',insp_no)
+            data.append('item_no',item_no)
+            data.append('reply_text',reply_text)
+            var token = '{{ csrf_token }}';
+            console.log(data);
+            $.ajax
+            ({
+                url: "{% url 'mom_reply_ajax' %}",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                headers: {'X-CSRFToken': token},
+                data: data,
+                success: function (response) 
+                {
+                    if(response.length==0)
+                    {
+                        alert('Kindly Reply First');
+                    }
+                    else
+                    {
+                        console.log('saved');
+                        alert('Reply Saved Successfully');
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+        else
+        {
+            data=
+            {
+                'insp_no':insp_no,
+                'item_no':item_no,
+                'reply_text':reply_text,
+                'str':'save_text',
+            }
+            $.ajax
+            ({
+                url: "{% url 'mom_reply_ajax' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response) 
+                {
+                    if(response.length==0)
+                    {
+                        alert('Kindly Reply First');
+                    }
+                    else
+                    {
+                        console.log('saved');
+                        alert('Reply Saved Successfully');
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    }
+
+    function clear_filter(e)
+    {
+        window.location.href='{% url "mom_reply_form" %}'
+    }
+    
+    function reply_filter(e)
+    {
+        var table = $('#tablereply').DataTable();
+        table.destroy();
+        $('#tablereply').hide();
+        str=e.id;
+        var status=$('#status').val();
+        var date_mom=$('#filterdate').val();
+        if(date_mom=='' || date_mom==undefined)
+        {
+            startDate=''
+            endDate=''
+        }
+
+        else{
+            var d=$('#filterdate').data('daterangepicker').startDate;
+            var startDate = new Date(d);
+            startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+            d=$('#filterdate').data('daterangepicker').endDate;
+            var endDate = new Date(d);
+            endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+        }
+        if($('#dis_id').val()=='NoRB')
+        {
+            var type=$('#type').val();
+            data={
+                'str':str,
+                'status':status,
+                'startDate':startDate,
+                'endDate': endDate,
+                'meeting_type':type,
+            }
+        }
+        else
+        {
+            data={
+                'str':str,
+                'status':status,
+                'startDate':startDate,
+                'endDate': endDate,
+                'meeting_type':'Board Meeting',
+            }
+        }
+        // alert(startDate+'  '+endDate+'  '+status)
+        $.ajax
+        ({
+            url: "{% url 'filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                let list_filter = response.list_filter;
+                let row = "";
+                let head = 
+                    `<thead style="background-color:black; color:white">
+                        <tr align=left>
+                            <th width=5%>S.No.</th>
+                            <th width=10%>MOM Date</th>
+                            <th width=20%>MOM Note No</th>
+                            <th width=55%>MOM Title</th>
+                            <th width=10%>Action</th>
+                        </tr>
+                    </thead>`;
+                for (let i = 0; i < list_filter.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    if(status=='1')
+                    {
+                        row += `<td>${list_filter[i]['sr_no']}</td>
+                            <td>${list_filter[i]['mom_date']}</td>
+                            <td><a href="" data-toggle="modal" data-target="#PdfModal" onclick="show_pdf_file('${list_filter[i]['insp_no']}','${list_filter[i]['mom_note_no']}','${list_filter[i]['mom_date']}');">${list_filter[i]['mom_note_no']}</a></td>
+                            <td>${list_filter[i]['mom_title']}</td>
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#PendingModal" id="${list_filter[i]['insp_no']}" onclick="pending(this)">Reply</button></td>
+                            </td>`;
+                    }
+                    else if(status=='3')
+                    {
+                        row += `<td>${list_filter[i]['sr_no']}</td>
+                            <td>${list_filter[i]['mom_date']}</td>
+                            <td><a href="" data-toggle="modal" data-target="#PdfModal" onclick="show_pdf_file('${list_filter[i]['insp_no']}','${list_filter[i]['mom_note_no']}','${list_filter[i]['mom_date']}');">${list_filter[i]['mom_note_no']}</a></td>
+                            <td>${list_filter[i]['mom_title']}</td>
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#AcceptModal" id="${list_filter[i]['insp_no']}" onclick="accept(this)">View Reply</button></td>
+                            </td>`;
+                    }
+                    row += "</tr>"; 
+                }
+                $('#tablereply thead').remove();
+                $('#tablereply tr').remove();
+                $('#tablereply').append(head);
+                $('#tablereply tbody').append(row);
+                $('#tablereply').show();
+                $('#tablereply').DataTable();
+            }
+        })
+    }
+
+    function show_reply_file(e,e1,e2)
+    {
+        // alert(e+'  +12345+  '+e1+'  +54321+  '+e2)
+        // document.getElementById('reply_file').innerHTML = 'Reply for '+e1;
+        $('#iframepreview').show();
+        pdf='preiew_reply_pdf';
+        file = e;
+        $('#iframepreview').attr('src', file);
+    }
+
+    function show_pdf_file(e,e1,e2)
+    {
+        // alert(e+e1+e2)
+        // pending(e)
+        document.getElementById('pdf-heading').innerHTML = 'MOM Note No: '+e1+'\n'+'Dated: '+e2;
+        $('#iframepreview1').show();
+        file = "/mom_ReportPdf/"+e;
+        $('#iframepreview1').attr('src', file);
+    }
+
+    Filevalidation = (e) => 
+    {
+        file_id=e.id
+        const fi = document.getElementById(file_id);
+        if (fi.files.length > 0) {
+            for (const i = 0; i <= fi.files.length - 1; i++) 
+            {
+                const fsize = fi.files.item(i).size;
+                const file = Math.round((fsize / 1024));
+                if (file >= 200) 
+                {
+                    alert("File too Big, please select a file less than 200kb");
+                    document.getElementById(e.id).value=null;
+                }
+            }
+        }
+    }
+
+    function expandarea(element){
+        // alert(element.scrollHeight)
+        element.style.height = "1px";
+        element.style.height = (15+element.scrollHeight)+"px";
+    }
+</script>
+
+{% endblock %} 

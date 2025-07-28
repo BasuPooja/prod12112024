@@ -1,0 +1,1604 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
+
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="{% static 'js/date_filter.js' %}"></script>
+
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static '/css/datatables/jquery.dataTables.min.css' %}"
+  />
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+  />
+  
+  
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+  
+<style>
+table {
+  width: 100%; /* Optional: Set the table width */
+  border-collapse: collapse;
+}
+
+
+table, th, td {
+  border: 1px solid black; /* Optional: Add borders to the table and cells */
+}
+td{
+  text-align:center;
+  /* pasta@1195 */
+}
+.pendency{
+  display: none;
+} 
+.category {
+  display: none;
+}
+.btn:active {
+  border-style: outset;
+  border: none;
+  box-shadow: none;
+
+  /* display: none; */
+  
+}
+.btn{
+  margin: 4px 2px 4px 2px;
+}
+<button class="button-10" role="button">Button 10</button>
+
+/* CSS */
+.button-10 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 6px;
+  border: none;
+
+  color: #fff;
+  background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
+   background-origin: border-box;
+  box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  /* &: active {
+    display: none;
+} */
+
+.button-10:focus {
+  box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+  outline: 0;
+}
+
+</style>
+</head>
+
+<body>
+  <h3 class="report_heading">Pendency Report</h3>
+  <br>
+
+
+
+<!-- <div class="col" >
+  <label for="txtDate2" class="lbl-caption">Insp. Date<span style="color:red;font-weight:bold">*</span></label><br>
+  {% if option_val == 'edit' %}
+        {% for date in ins_detail %}
+          {% if date.start_date|date:'d/m/Y' == date.inspected_on|date:'d/m/Y' %}
+          <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1"   class="form-control" style="margin-top:0em ;height: 36px; background-color: #fff; max-width: 100%;" id="txtDate2"  value="{{date.start_date|date:'d/m/y'}}" readonly>
+          {% else %}
+          <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1"   class="form-control" style="margin-top:0em ;height: 36px; background-color: #fff; max-width: 100%;" id="txtDate2"  value="{{date.start_date|date:'d/m/y'}} to {{date.inspected_on|date:'d/m/y'}}" readonly>
+          {% endif %}
+        {% endfor %}
+  {% else %}
+    <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1" required class="form-control" style="margin-top:0em; height: 36px; background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;" id="txtDate2"   readonly requied>
+  {% endif %}
+</div>
+</form>
+</div>  -->
+
+<div class="container" style="font-family:'Lato', sans-serif;">
+
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+ 
+
+    <div class="col" style="margin-top: -34px;">
+      <label for="txtDate2" class="lbl-caption">Insp. Date<span style="color:red;font-weight:bold">*</span></label>
+      <input type="text" autocomplete="off" placeholder="Select daterange.." name="daterange1" class="form-control" style="margin-top:0em ;height: 36px; background-color: #fff; min-width: 106%; padding: 0%;" id="txtDate2" readonly>
+   </div>
+      <form id="radio-form">
+    <button  type="button"  class="button-10"id="option1" value="a" onclick="handleClick(this.value)" > Rly./Org. Wise</button>&nbsp;
+    <button type="button" class="button-10"id="option2" value="b" onclick="handleClick(this.value)" > Div/Unit Wise</button>&nbsp;
+    <button type="button" class="button-10"id="option3" value="c" onclick="handleClick(this.value)" > Department Wise</button>&nbsp;
+    <button type="button" class="button-10"id="option4" value="d" onclick="handleClick(this.value)" hidden > Insp. Officer</button>
+    <button type="button" class="button-10"id="option5" value="e" onclick="handleClick(this.value)" > Marked Officer Wise</button>&nbsp;
+    
+      <label>
+        <input type="radio" name="options" id="option6" value="SEM" onclick="handleClick(this.value)" > Sections
+      </label>
+      <label >
+        <input type="radio" name="options" id="option7" value="STM" onclick="handleClick(this.value)" > Station
+      </label>
+      <label>
+        <input type="radio" name="options" id="option8" value="TRN"  onclick="handleClick(this.value)"> Train
+      </label>
+      <label >
+        <input type="radio" name="options" id="option9" value="OTHERS"  onclick="handleClick(this.value)"  > Others
+      </label>
+    </form>
+
+  
+
+</div>
+<!-- <div class="form-check form-check-inline btn btn-info"   >
+  <input class="form-check-input" type="checkbox" id="check1" value="check1">
+  <label class="form-check-label" for="check1" >Pendency</label>
+</div>
+<div class="form-check form-check-inline btn btn-info" >
+  <input class="form-check-input"  type="checkbox" id="check2" value="check2">
+<label class="form-check-label" for="check2" >Category</label>
+</div> -->
+</div>
+
+</div>
+
+
+<!-- 
+
+<div class="container">
+
+</div>
+ -->
+
+<!--new zone-->
+
+
+      <!--  -->
+       
+<div class="main">
+  <br>
+   
+<div class="container" >
+  <div class="inpt-container" id="container1" style="padding-bottom: 10px;" >
+    <form method="POST" id='indexForm'> 
+      {% csrf_token %}
+      <div class="row" style="text-align: left; margin-left: 2em;" >
+<!--  -->
+
+
+<div class="col Zone" id="zone770"  style="display: none;" >
+  <label for="zone777" class="lbl-caption" >Rly./Org. Wise </label>
+  <select class="form-control zone" id="zone777" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select" onchange="handleClick('c',this.value);changefunc7(this.value)" 
+       ><span style="color:red;font-weight:bold">*</span>
+      <option value="">Select</option>
+      {% for z in Zone %}
+        {% if z.location_code == rly_code %}
+        <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+        {% else %}
+        <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+        {% endif %}
+      {% endfor %}
+  </select>
+</div>                 
+   
+<div class="col" id="div770" style="display: none;">&nbsp;
+<label for="div777" class="lbl-caption">Division/Unit</label>
+<select class="form-control division" id="div777" data-placeholder="Div./Unit Wise..." onchange="handleClick('c',this.value)" name="div777" class="custom-select"
+><span style="color:red;font-weight:bold">*</span>
+      <option value="" >Select</option>
+      {% for d in division %}
+      {% if d.location_code == div_code %}
+      <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+        {% else %}
+        <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+        {% endif %}
+      {% endfor %}
+  </select>
+</div>    
+
+
+
+<!-- ///// -->
+
+<div class="col" id="newdiv32"  style="display: none;" >
+  <label for="newdiv32" class="lbl-caption" >Rly./Org. Wise </label>
+  <select class="form-control zone" id="newdiv32" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select" onchange="handleClick(this.value,'b')" 
+       ><span style="color:red;font-weight:bold">*</span>
+      <option value="">Select</option>
+      {% for z in Zone %}
+        {% if z.location_code == rly_code %}
+        <option value="{{z.location_code}}" selected>{{z.location_code}}</option>
+        {% else %}
+        <option value="{{z.location_code}}".format(someInt)>{{z.location_code}}</option>
+        {% endif %}
+      {% endfor %}
+  </select>
+</div> 
+        <!--  -->
+  <div class="col Zone" id="zone123"  style="display: none;" >
+    <label for="Zone" class="lbl-caption" >Rly./Org. Wise </label>
+    <select class="form-control zone" id="zone" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select" onchange="handleClick(this.value);changefunc(this.value)" 
+          ><span style="color:red;font-weight:bold">*</span>
+        <option value="">Select</option>
+        {% for z in Zone %}
+          {% if z.location_code == rly_code %}
+          <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+          {% else %}
+          <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+  </div>                 
+      
+<div class="col" id="div123" style="display: none;">&nbsp;
+<label for="division" class="lbl-caption">Division/Unit</label>
+<select class="form-control division" id="division" data-placeholder="Div./Unit Wise..." onchange="handleClick(this.value)" name="division" class="custom-select"
+><span style="color:red;font-weight:bold">*</span>
+        <option value="" >Select</option>
+        {% for d in division %}
+        {% if d.location_code == div_code %}
+        <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+          {% else %}
+          <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+          {% endif %}
+        {% endfor %}
+    </select>
+</div>      
+<!------------------------------------------ Section Station Train Others -------------->
+                                        <!-- STM -->
+        <div class="col zone2" id="unitzone"  style="display: none;" >
+          <label for="unitzone" class="lbl-caption" >Rly./Org. Wise </label>
+          <select class="form-control zone2" id="unitzone" data-placeholder="Rly./Org Wise..." name="zone2" class="custom-select" onchange="handleClick('STM',this.value);changefunc2(this.value)" 
+               ><span style="color:red;font-weight:bold">*</span>
+              <option value="">Select</option>
+              {% for z in Zone %}
+                {% if z.location_code == rly_code %}
+                <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+                {% else %}
+                <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+                {% endif %}
+              {% endfor %}
+          </select>
+        </div> 
+      <div class="col" id="unitdiv" style="display: none;">&nbsp;
+      <label for="unitdiv" class="lbl-caption">Division/Unit</label>
+      <select class="form-control division" id="unitdivt" data-placeholder="Div./Unit Wise..." onchange="handleClick('STM',this.value)" name="division" class="custom-select"
+      ><span style="color:red;font-weight:bold">*</span>
+              <option value="" >Select</option>
+              {% for d in division %}
+              {% if d.location_code == div_code %}
+              <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+                {% else %}
+                <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                {% endif %}
+                  {% endfor %}
+          </select>
+      </div>      
+                                               <!-- SEM -->
+<div class="col zone3" id="divzone12"  style="display: none;" >
+  <label for="unitzone" class="lbl-caption" >Rly./Org. Wise </label>
+  <select class="form-control zone2" id="unitzone" data-placeholder="Rly./Org Wise..." name="zone2" class="custom-select" onchange="handleClick('SEM',this.value);changefunc3(this.value)" 
+       ><span style="color:red;font-weight:bold">*</span>
+      <option value="">Select</option>
+      {% for z in Zone %}
+        {% if z.location_code == rly_code %}
+        <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+        {% else %}
+        <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+        {% endif %}
+      {% endfor %}
+  </select>
+</div> 
+<div class="col" id="div71" style="display: none;">&nbsp;
+<label for="unitdiv" class="lbl-caption">Division/Unit</label>
+<select class="form-control division" id="div7" data-placeholder="Div./Unit Wise..." onchange="handleClick('SEM',this.value)" name="division" class="custom-select"
+><span style="color:red;font-weight:bold">*</span>
+      <option value="" >Select</option>
+      {% for d in division %}
+      {% if d.location_code == div_code %}
+      <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+        {% else %}
+        <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+        {% endif %}
+          {% endfor %}
+  </select>
+</div>      
+                                    <!-- TRN  -->
+<div class="col zone3" id="zone71"  style="display: none;" >
+  <label for="zone7" class="lbl-caption" >Rly./Org. Wise </label>
+  <select class="form-control zone2" id="zone7" data-placeholder="Rly./Org Wise..." name="zone2" class="custom-select" onchange="handleClick('TRN',this.value);changefunc4(this.value)" 
+       ><span style="color:red;font-weight:bold">*</span>
+      <option value="">Select</option>
+      {% for z in Zone %}
+        {% if z.location_code == rly_code %}
+        <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+        {% else %}
+        <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+        {% endif %}
+      {% endfor %}
+  </select>
+</div> 
+<div class="col" id="div81" style="display: none;">&nbsp;
+<label for="div8" class="lbl-caption">Division/Unit</label>
+<select class="form-control division" id="div8" data-placeholder="Div./Unit Wise..." onchange="handleClick('TRN',this.value)" name="division" class="custom-select"
+><span style="color:red;font-weight:bold">*</span>
+      <option value="" >Select</option>
+      {% for d in division %}
+      {% if d.location_code == div_code %}
+      <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+        {% else %}
+        <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+        {% endif %}
+          {% endfor %}
+  </select>
+</div>      
+
+          <!-- others  -->
+
+          <div class="col zone3" id="zone91"  style="display: none;" >
+            <label for="zone9" class="lbl-caption" >Rly./Org. Wise </label>
+            <select class="form-control zone2" id="zone9" data-placeholder="Rly./Org Wise..." name="zone2" class="custom-select" onchange="handleClick('OTHERS',this.value);changefunc5(this.value)" 
+                  ><span style="color:red;font-weight:bold">*</span>
+                <option value="">Select</option>
+                {% for z in Zone %}
+                  {% if z.location_code == rly_code %}
+                  <option value="{{z.rly_unit_code}}" selected>{{z.location_code}}</option>
+                  {% else %}
+                  <option value="{{z.rly_unit_code}}">{{z.location_code}}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+          </div> 
+          
+          
+          <div class="col" id="div91" style="display: none;">&nbsp;
+          <label for="div9" class="lbl-caption">Division/Unit</label>
+          <select class="form-control division" id="div9" data-placeholder="Div./Unit Wise..." onchange="handleClick('OTHERS',this.value)" name="division" class="custom-select"
+          ><span style="color:red;font-weight:bold">*</span>
+                <option value="" >Select</option>
+                {% for d in division %}
+                {% if d.location_code == div_code %}
+                <option value="{{d.rly_unit_code}}" selected>{{d.location_code}}-{{d.location_type}}</option>
+                  {% else %}
+                  <option value="{{d.rly_unit_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                  {% endif %}
+                    {% endfor %}
+            </select>
+          </div>      
+
+<!--  -->
+
+          <div class="col">
+            
+            <div class="btn-toolbar" role="toolbar" style="margin-top:26px;">
+              <div class="form-check form-check-inline btn btn-info"   >
+                <input class="form-check-input" type="checkbox" id="check1" value="check1">
+                <label class="form-check-label" for="check1" >Pendency</label>
+              </div>
+              <div class="form-check form-check-inline btn btn-info" >
+                <input class="form-check-input"  type="checkbox" id="check2" value="check2">
+              <label class="form-check-label" for="check2" >Category</label>
+              </div>
+
+              <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                  <div class="btn-group mr-2" role="group" >
+                      <button type="button" id="submit"  class="btn btn-warning btn-sm" onclick="" hidden >Submit</button>
+                      <button type="reset" class="btn btn-secondary btn-sm" onClick="window.location.reload();" hidden>Reset</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>  
+  </div>
+</div>
+
+<div class="container" style="font-family:'Lato', sans-serif; overflow-x: auto;">
+    <div class="modern" style="font-family:'Lato', sans-serif">   
+      <table class="table table-striped table-bordered table-data" id="instituteTable" >
+        <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+          <tr>
+          <th style="width: 8%;" ><a id="field_name" >Zone</a> </th>
+          <th style="width: 13.5%;">Total Inspection / Item</th>
+          <!-- <th style="width: 13.5%;">Total Items</th> -->
+          <th style="width: 13.5%;">Pending Inspection / Items</th>
+          <th style="width: 13.5%;">Overdue Inspection / Items </th>
+          <th style="width: 5%;">Priority Item</th> 
+          <th id="p1" style="width: 8%;" class="pendency" >Pendency > 7</Pendency></th>
+          <th id="p2" style="width: 8%;" class="pendency">Pendency > 30</Pendency></th>
+          <th id="p3" style="width: 8%;" class="pendency">Pendency > 90</Pendency></th>
+          <th id="p4" style="width: 8%;" class="pendency">Pendency > 180</Pendency></th>
+          <th id="c1" style="width: 4%;" class="category">PS</th>
+          <th id="c7" style="width: 4%;" class="category">ES</th>
+          <th id="c2" style="width: 4%;" class="category">OTH</th>
+          <th id="c3" style="width: 4%;" class="category">NI</th>
+          <th id="c4" style="width: 4%;" class="category">SI</th>
+          <th id="c5" style="width: 4%;" class="category">DI</th> 
+          <th id="c6" style="width: 4%;" class="category">RI</th> 
+
+         </tr>
+        </thead>    
+        <tbody>
+          
+        </tbody>     
+      </table>           
+    </div>
+</div>
+
+<!--  -->
+
+
+
+
+
+
+
+
+<center>
+  <div class="container" id = 'munnu'></div>
+</center>
+
+
+
+
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+
+    <div class="container" style="font-family:'Lato', sans-serif; overflow-x: auto;">
+      <div class="modern" style="font-family:'Lato', sans-serif">   
+        <table class="table table-striped table-bordered table-data" id="instituteTable3" >
+          <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+            <tr>
+            <th style="width: 20%;" >Inspection Date </th>
+            <th style="width: 15%;">filed No</th>
+
+            <th style="width: 15%;">Inspection Note No</th>
+            <!-- <th style="width: 13.5%;">Total Items</th> -->
+            <th style="width: 15%;">Marked Officer</th>
+            <th style="width: 25%;">Location</th> 
+          </tr>
+          </thead>    
+          <tbody>
+            
+          </tbody>     
+        </table>           
+      </div>
+    </div>
+    
+</div>
+</div>
+
+
+<!--  -->
+<!-- 
+<div id="modal" class="modal">
+  <div class="modal-content">
+      
+      <div class="heading" style="font-size: 20px;">
+          <button id="modaldismis" type="button" class="closebtn btn-danger btn-sm" data-dismiss="modal" aria-label="Close">
+              Close
+            </button>
+      <center><h3 id = 'demo'>Rly: List of Night Inspection related items (Total)</h3></center>
+      </div>
+      
+        <div class="row" id = 'hideme'>
+          <div class = 'col-2'>
+              <label for="Zone" class="lbl-caption">Rly./Org. </label>
+              <select class="form-control" id="zone" data-placeholder="Rly./Org Wise..." name="zone" class="custom-select"
+                   ><span style="color:red;font-weight:bold">*</span>
+                  <option value="All" selected>All</option>
+                  {% for z in zone %}
+                  <option value="{{z}}">{{z}}</option>
+                  {% endfor %}
+
+              </select>
+          </div>
+          <div class="col-2">
+              <label for="division " class="lbl-caption" >Division/Unit</label>
+              <select class="form-control" id="division" data-placeholder="Div./Unit Wise..." name="division" class="custom-select" style="max-width:100%;"
+              ><span style="color:red;font-weight:bold">*</span>
+
+                      <option value="All" selected>All</option>
+                      {% for d in division %}
+                          <option value="{{d.location_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                          {% endfor %}
+                  </select>
+          </div>
+          <div class="col-4" id = 'anvi'>
+              <span>
+                  <span class="radio-box">
+                  <label class="radio-inline custom-label">
+                  <input type="radio" name="optradio" onclick="My_Card_data('STM')" value="STM" id="radio1" data-toggle="modal" data-target="#modales">Station
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('SEM')" value="SEM" id="radio2" data-toggle="modal" data-target="#modalos">Section
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('TRN')" value="TRN" id="radio3" data-toggle="modal" data-target="#modalns">Train
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('OTH')" value="OTH" id="radio4" data-toggle="modal" data-target="#modalts">Others
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="My_Card_data('Station')" value="Station" id="radio5" data-toggle="modal" data-target="#modalts">All
+                  </label>
+                  </span>
+              </span>
+          </div>
+          <div class="col-4" id = 'gurleen'>
+              <span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('STM')" value="STM" id="radio1" data-toggle="modal" data-target="#modales">Station
+                  </label>
+                  </span> 
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('SEM')" value="SEM" id="radio2" data-toggle="modal" data-target="#modalos">Section
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('TRN')" value="TRN" id="radio3" data-toggle="modal" data-target="#modalns">Train
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('OTH')" value="OTH" id="radio4" data-toggle="modal" data-target="#modalts">Others
+                  </label>
+                  </span>
+                  <span class="radio-box">
+                  <label class="radio-inline">
+                  <input type="radio" name="optradio" onclick="fetchdata2('All')" value="All" id="radio6" data-toggle="modal" data-target="#modalts">All
+                  </label>
+                  </span>
+              </span>
+          </div>
+          <div class="col-4" id = 'check'>
+              <span class="check-box">
+              <input type="checkbox" id="Pending" name="Pending" value="Pending" onclick="fetchdata2('Pending')" readonly>
+              <label for="vehicle1">Pending</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="Overdue" name="Overdue" value="Overdue" onclick="fetchdata2('Overdue')">
+              <label for="Overdue"> Overdue</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="Priority" name="Priority" value="Priority"onclick="fetchdata2('Priority')">
+              <label for="Priority"> Priority</label><br>
+              </span>
+            
+          </div>
+          <div class="col-4" id = 'check1'>
+              <span class="check-box">
+              <input type="checkbox" id="vehicle1" name="Pending" onchange="My_Card_data('Pending')" value="Pending" readonly>
+              <label for="vehicle1">Pending</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="vehicle2" name="Overdue" onchange="My_Card_data('Overdue')"  value="Overdue">
+              <label for="vehicle2"> Overdue</label>
+              </span>
+              <span class="check-box">
+              <input type="checkbox" id="vehicle3" name="Priority" onchange="My_Card_data('Priority')"  value="Priority">
+              <label for="vehicle2"> Priority</label>
+              </span>
+          </div>
+  </div>
+
+      
+      <br><br>
+      <div id="div-all-desig">
+      <table id="table_id" class="table table-striped table-bordered table-sm" style="width: 100%;">
+          <thead style="background-color: #2b7bea;white-space: nowrap; font-size: 1.2rem; color:white; " id = 'thead1'>
+           <tr>
+            <th style="width: 5%; text-align: center;">S.No.</th> 
+             <th style="width: 10%; text-align: center;"> Rly <br></th>
+            <th style="width: 10%; text-align: center;">Total <br></th>
+            <th style="width: 10%; text-align: center;">Pending <br></th>
+            <th style="width: 10%; text-align: center;">Overdue <br></th> 
+            <th style="width: 10%; text-align: center;">Closed <br></th>
+            
+        </tr>
+          </thead>
+          <tbody id = 'mydata'>
+              <tr>
+                  <td style="width: 5%; text-align: center;">S.No.</th> 
+             <td style="width: 10%; text-align: center;"> Rly <br> <input type="text" class="box" placeholder="Search"> </td>
+            <td style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></td>
+            <td style="width: 10%; text-align: center;">Pending <br><input type="text" class="box" placeholder="Search"></td>
+            <td style="width: 10%; text-align: center;">Overdue <br><input type="text" class="box" placeholder="Search"></td> 
+            <td style="width: 10%; text-align: center;">Closed <br><input type="text" class="box" placeholder="Search"></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="div-all-desig-details" class="zonetable-show-hide">
+          <table id="table_id1" class="table table-striped table-bordered table-sm table-data">
+              <thead style="background-color: #2b7bea;white-space: nowrap; font-size: 1.2rem; color:white;" id = 'thead2'>
+               <tr>
+                <th style="width: 5%; text-align: center;">S.No.</th> 
+                 <th style="width: 10%; text-align: center;"> Rly <br></th>
+                <th style="width: 10%; text-align: center;">Total <br></th>
+                <th style="width: 10%; text-align: center;">Pending <br></th>
+                <th style="width: 10%; text-align: center;">Overdue <br></th> 
+                <th style="width: 10%; text-align: center;">Closed <br></th>
+                
+               </tr>
+              </thead>
+              <tbody id = 'mydata1'>
+                  <tr>
+                      <td style="width: 10%; text-align: center;">S.No.</th> 
+                      <td style="width: 10%; text-align: center;"> Rly <br> <input type="text" class="box" placeholder="Search"> </td>
+                      <td style="width: 10%; text-align: center;">Total <br><input type="text" class="box" placeholder="Search"></td>
+                      <td style="width: 10%; text-align: center;">Pending <br><input type="text" class="box" placeholder="Search"></td>
+                      <td style="width: 10%; text-align: center;">Overdue <br><input type="text" class="box" placeholder="Search"></td> 
+                      <td style="width: 10%; text-align: center;">Closed <br><input type="text" class="box" placeholder="Search"></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+         
+  </div>
+</div> -->
+
+<!-- <button type="button" id = 'btnmodal' class="btn btn-primary" data-toggle="modal" data-target="#modal" hidden></button> -->
+
+
+
+</body>
+<script>
+
+
+        Tasktable = $("#instituteTable").DataTable({
+        iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tasktableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+        Tasktable3 = $("#instituteTable3").DataTable({
+        iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tasktableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+        $('.dropdown-toggle').dropdown();
+
+        $(document).ready(function() {  
+    document.getElementById('option1').click();
+    
+  });
+
+document.addEventListener('DOMContentLoaded', function() {
+  const datePicker = document.getElementById('txtDate2');
+  
+  // Set default date range (September 2022 to current date)
+  const startDate = new Date('2022-09-01');
+  const currentDate = new Date();
+
+
+  const startOfPreviousMonth = new Date(currentDate);
+  startOfPreviousMonth.setMonth(currentDate.getMonth() - 1);
+  startOfPreviousMonth.setDate(1);
+
+  console.log('munnu',startOfPreviousMonth);
+  const options = {
+    startDate: startOfPreviousMonth,
+    endDate: currentDate,
+    
+    minDate: startDate, 
+    maxDate: currentDate,
+    showDropdowns: true,
+    autoApply: true,
+    locale: {
+      format: 'YYYY-MM-DD',
+    }
+  };
+
+  // Initialize the date picker with the given options
+  datePicker.addEventListener('focus', function() {
+    $(this).daterangepicker(options);
+  });
+
+  // Enforce the date range restriction when a date is selected
+  $(datePicker).on('apply.daterangepicker', function(ev, picker) {
+    const selectedDate = picker.startDate;
+    
+    // Check if the selected date is within the valid range
+    if (selectedDate < startDate) {
+      picker.setStartDate(startDate);
+      picker.setEndDate(startDate);
+    } else if (selectedDate > currentDate) {
+      picker.setStartDate(currentDate);
+      picker.setEndDate(currentDate);
+    }
+  });
+});
+
+const check1 = document.getElementById("check1");
+const check2 = document.getElementById("check2");
+
+check1.addEventListener("change", function() {
+  if (check1.checked) {
+    $('.pendency').show();
+  } else {
+    $('.pendency').hide();
+  }
+});
+
+check2.addEventListener("change", function() {
+  if (check2.checked) {
+    $('.category').show();
+  } else {
+    $('.category').hide();
+  }
+});
+
+  const datePicker = document.getElementById('txtDate2');
+  console.log('datePicker',datePicker);
+  // Set default date range (September 2022 to current date)
+  const startDate = new Date('2022-09-01');
+  const currentDate = new Date();
+  
+  const startOfPreviousMonth = new Date(currentDate);
+  startOfPreviousMonth.setMonth(currentDate.getMonth() - 1);
+  startOfPreviousMonth.setDate(1);
+  const options = {
+    startDate: startOfPreviousMonth,
+    currentDate: currentDate,
+    minDate: startDate, 
+    maxDate: currentDate,
+    showDropdowns: true,
+    autoApply: true,
+    locale: {
+      format: 'DD/MM/YYYY',
+    }
+  };  
+  $(datePicker).daterangepicker(options);
+
+    function handleClick(val, val2) {
+      var rl = $('#zone777').val();
+      var di = $('#div777').val();
+      console.log('rlllllllll',rl);
+      console.log('diiiiiiiii',di);
+
+      var checkbox1 = document.getElementById("check1");
+      var checkbox2 = document.getElementById("check2");
+      checkbox1.checked = false;
+      checkbox2.checked = false;
+
+      document.getElementById("p1").style.display = 'none';
+      document.getElementById("p2").style.display = 'none';
+      document.getElementById("p3").style.display = 'none';
+      document.getElementById("p4").style.display = 'none';      
+      document.getElementById("c1").style.display = 'none';
+      document.getElementById("c2").style.display = 'none';
+      document.getElementById("c3").style.display = 'none';
+      document.getElementById("c4").style.display = 'none';
+      document.getElementById("c5").style.display = 'none';
+      document.getElementById("c6").style.display = 'none';
+      document.getElementById("c7").style.display = 'none';
+
+      console.log("val", val);
+      console.log("val2", val2);
+      console.log("Value received val  :", typeof(val));
+      console.log("Value received val2 :", typeof(val));
+
+      // val = (int) val;
+      if(val == 'a'){
+      //$('#').show;
+      $('#zone123').hide();       
+      $('#div123').hide();
+      $('#dept123').hide();
+      $('#newdiv32').hide();
+       $('#zone770').hide();
+       $('#div770').hide();
+      $('#unitzone').hide();
+      $('#unitdiv').hide();
+        $('#zone71').hide();
+      $('#divzone12').hide();
+      $('#div71').hide();
+      $('#div81').hide();
+
+      $('#div91').hide();
+        $('#zone91').hide();
+      }
+      else if(val == 'b'){
+      //$('#').show;
+      $('#zone123').hide();   
+      $('#div123').hide();
+      $('#dept123').hide();
+      $('#newdiv32').show();
+      $('#unitzone').hide();
+      $('#unitdiv').hide();
+      
+      $('#zone71').hide();
+      $('#divzone12').hide();
+      $('#div71').hide();
+      $('#div81').hide();
+    
+      $('#div91').hide();
+        $('#zone91').hide();  
+        
+       $('#zone770').hide();
+       $('#div770').hide();
+    }
+      else if(val == 'c'){
+      //$('#').show;
+       $('#zone123').hide();
+       $('#div123').hide();
+       $('#zone770').show();
+       $('#div770').show();
+        $('#dept123').hide();
+        $('#newdiv32').hide();
+        $('#unitzone').hide();
+      $('#unitdiv').hide();
+      
+      $('#zone71').hide();
+      $('#divzone12').hide();
+      $('#div71').hide();
+      $('#div81').hide();
+      
+      $('#div91').hide();
+        $('#zone91').hide();
+      }
+      else if(val == 'd'){
+        $('#zone123').show();        
+        $('#div123').show();
+        $('#dept123').show();
+        $('#newdiv32').hide();
+        $('#unitzone').hide();
+        $('#unitdiv').hide();
+        $('#zone71').hide();
+        $('#divzone12').hide();
+        $('#div71').hide();
+        $('#div81').hide();
+       $('#zone770').hide();
+       $('#div770').hide();
+        $('#div91').hide();
+        $('#zone91').hide();
+      }
+      else if(val == 'e'){
+        $('#zone123').show();
+        $('#newdiv32').hide();
+        $('#div123').show();
+        $('#dept123').show();
+        $('#unitzone').hide();
+        $('#unitdiv').hide();
+        $('#zone71').hide();
+        $('#divzone12').hide();
+        $('#div71').hide();
+        $('#div81').hide();
+       $('#zone770').hide();
+       $('#div770').hide();
+        
+        $('#div91').hide();
+        $('#zone91').hide();
+      }
+      else if(val == 'SEM'){
+        $('#zone123').hide();
+        $('#newdiv32').hide();
+        $('#div123').hide();
+        $('#dept123').hide();
+        $('#unitzone').show();
+        $('#unitdiv').show();        
+      $('#zone71').hide();
+      $('#divzone12').hide();
+      $('#div71').hide();
+      $('#div81').hide();
+       $('#zone770').hide();
+       $('#div770').hide();
+      
+      $('#div91').hide();
+        $('#zone91').hide();
+
+      }
+      else if(val == 'STM'){
+      $('#zone123').hide();
+      $('#newdiv32').hide();
+      $('#div123').hide();
+      $('#dept123').hide();
+      $('#unitzone').hide();
+      $('#unitdiv').hide();       
+      $('#zone71').hide();
+      $('#divzone12').show();
+      $('#div71').show();
+      $('#div81').hide();      
+      $('#div91').hide();
+      $('#zone91').hide();
+       $('#zone770').hide();
+       $('#div770').hide();
+      }
+      else if(val == 'TRN'){
+        $('#zone123').hide();
+        $('#newdiv32').hide();
+        $('#div123').hide();
+        $('#dept123').hide();
+        $('#unitzone').hide();
+        $('#unitdiv').hide();
+        $('#zone71').show();
+        $('#divzone12').hide();
+        $('#div71').hide();
+        $('#div81').show();
+        $('#div91').hide();
+        $('#zone91').hide();
+       $('#zone770').hide();
+       $('#div770').hide();
+      }
+      else if(val == 'OTHERS'){
+        $('#zone123').hide();
+        $('#newdiv32').hide();
+        $('#div123').hide();
+        $('#dept123').hide();
+        $('#unitzone').hide();
+        $('#unitdiv').hide();
+        $('#zone71').hide();
+        $('#div91').show();
+        $('#zone91').show();
+       $('#zone770').hide();
+       $('#div770').hide();
+      }
+
+      if(val == 'undefined'){
+        return;
+      }
+      
+      var date = $('#txtDate2').val();
+      console.log('date',date);
+      
+      const [startDateStr, endDateStr] = date.split(" - ");
+      const startDate = startDateStr;
+      const currentDate = endDateStr;
+      
+      console.log("Start Date:", startDate);
+      console.log("End Date:", currentDate);
+
+      var myzone = $('#zone').val();
+      var selectedval = {'selected_value': val,
+              'selected_value2':val2,
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+              'startDate':startDate,
+              'currentDate':currentDate,
+              'rl':rl,
+              'di':di,
+            }
+      document.querySelectorAll('button, input[type="radio"], input[type="checkbox"]').forEach(button => button.disabled = true);
+      
+      $('#munnu').html('<img src="/static/images/loading_data1.gif" alt="Loading" class="loading-gif">');
+
+      Tasktable.destroy();//
+      $('#instituteTable tbody').empty(); //++++AJAX++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++AJAX+++++++++++++++++++++++++++++++++++
+      // $('#instituteTable tbody').html('<img src="/static/images/loading_data1.gif" alt="Loading" class="loading-gif">');------------------------------------------------
+      $.ajax({
+          url: "{% url 'dashfunc' %}",
+          type: "POST",
+          data: selectedval,
+          
+          success: function(data) {
+              var optionButtons = document.querySelectorAll('.option-button');
+              // Get the radio button with the class "option-radio"
+              var optionRadio = document.querySelector('.option-radio');
+
+
+            $('#munnu .loading-gif').remove();
+            document.querySelectorAll('button, input[type="radio"], input[type="checkbox"]').forEach(button => button.disabled = false);
+            $('#field_name').text(data.field_name);
+            let tdata = data.tdata,row='', rly_id = data.rly_id;
+            for(let i=0;i<tdata.length;i++)
+            {
+            row+='<tr><td style="text-align: left";>';
+            row+=  `<a href="#" onclick="handleClick('${(rly_id[i])}')"> ${tdata[i]} </a>` + '</td><td>';
+
+            row+= `<a> ${data.total_inspection[i]} </a>`+
+
+                  ' / '  +  `<a > ${data.total_items[i]} </a>` + '</td><td>'  
+
+                + `<a> ${data.insptotal_pending[i]} </a>` + 
+
+                ' / ' + `<a > ${data.total_pending[i]} </a>`  + '</td><td>'  
+
+                + `<a> ${data.insptotal_overdue[i]} </a>`  +
+
+                 ' / ' + `<a > ${data.total_overdue[i]} </a>`  + '</td><td>'
+
+                   + `<a > ${data.priority[i]} </a>`  + '</td><td class="pendency">'
+                  + `<a> ${data.total_pendency_count_7[i]} </a>`  + '</td><td class="pendency" >'
+                  + `<a > ${data.total_pendency_count_30[i]} </a>`  + '</td><td class="pendency" >'
+                  + `<a > ${data.total_pendency_count_90[i]} </a>`  + '</td><td class="pendency" >'
+                  + `<a > ${data.total_pendency_count_180[i]} </a>`  + '</td><td class="category" >'
+                    
+                  + `<a > ${data.ps[i]} </a>`  + '</td><td class="category" >'
+                  + `<a > ${data.es[i]} </a>`  + '</td><td class="category" >'
+                  + `<a > ${data.oth[i]} </a>`  + '</td><td class="category" >'
+                  + `<a > ${data.ni[i]} </a>`  + '</td><td class="category" >'
+                  + `<a > ${data.si[i]} </a>`  + '</td><td class="category" >'
+                  + `<a > ${data.di[i]} </a>`  + '</td><td class="category" >'
+                  + `<a > ${data.ri[i]} </a>`  + '</td></tr>';
+            }
+            //{
+            // row+='<tr><td style="text-align: left";>';
+            // row+=  `<a href="#" onclick="handleClick('${(rly_id[i])}')"> ${tdata[i]} </a>`;
+            // row+=  '</td><td>'  +  data.total_inspection[i] + ' / '  +  data.total_items[i] + '</td><td>'  +  data.insptotal_pending[i] + ' / ' +data.total_pending[i] + '</td><td>'  + data.insptotal_overdue[i] +' / ' +data.total_overdue[i] + '</td><td>'
+
+            //   + data.priority[i]  +'</td><td  class="pendency" >' + data.total_pendency_count_7[i] +  '</td><td class="pendency" >'+ data.total_pendency_count_30[i] + '</td><td class="pendency">'+ data.total_pendency_count_90[i] + '</td><td class="pendency">' +  data.total_pendency_count_180[i] + '</td><td  class="category" >'
+              
+            //   + data.ps[i] +  '</td><td class="category" >'+ data.es[i] +  '</td><td class="category" >'+ data.oth[i] + '</td><td class="category">'+ data.ni[i] + '</td><td class="category">' +  data.si[i] + '</td><td  class="category" >' + data.di[i] +  '</td><td a class="category" >'+ data.ri[i] + '</a>'
+            //   + '</td></tr>';
+            // }
+            $('#instituteTable tbody').html(row);
+             
+        Tasktable = $("#instituteTable").DataTable({
+        iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tasktableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],          
+        });              
+            // console.log(response);
+          },
+          error: function(error) {
+              console.log(error);
+          }
+      });
+  }
+
+
+
+
+      // Setup - add a text input to each footer cell
+
+
+      // //for search option
+      // $('#instituteTable').DataTable({
+      //   initComplete: function () {
+      //     this.api().columns().every(function () {
+      //       var column = this;
+      //       var select = $('<select class="form-control"><option value="">Select</option></select>')
+      //         .appendTo($(column.header()))
+      //         .on('change', function () {
+      //           var val = $.fn.dataTable.util.escapeRegex($(this).val());
+      //           column.search(val ? '^' + val + '$' : '', true, false).draw();
+      //         });
+    
+      //       column.data().unique().sort().each(function (d) {
+      //         select.append('<option value="' + d + '">' + d + '</option>');
+      //       });
+      //     });
+      //   }
+</script>
+<script>
+    function changefunc2(rly){
+      console.log("onchange2 worked");
+         alert(rly);
+            mydata={
+              'rly_data': rly//JSON.stringify(rly)
+            }              
+           $.ajax({
+             type : 'GET',
+             url : "{% url 'changefunc' %}",
+             dataType : 'json',
+             data : mydata,
+             success : function(response){
+               division=response.division;
+                           $('#unitdivt').empty();
+                           $('#unitdivt').append(`<option value="" >Select</option>`);
+                           for (let i = 0; i < division.length; i++) {
+                             $('#unitdivt').append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                       }
+             }
+           })
+    }
+
+    function changefunc3(rly){
+      console.log("onchange3 worked");
+         alert(rly);
+            mydata={
+              'rly_data': rly//JSON.stringify(rly)
+            }              
+           $.ajax({
+             type : 'GET',
+             url : "{% url 'changefunc' %}",
+             dataType : 'json',
+             data : mydata,
+             success : function(response){
+               division=response.division;
+                           $('#div7').empty();
+                           $('#div7').append(`<option value="" >Select</option>`);
+                           for (let i = 0; i < division.length; i++) {
+                             $('#div7').append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                       }
+             }
+           })
+    }
+
+    function changefunc4(rly){
+      console.log("onchange4 worked");
+         alert(rly);
+            mydata={
+              'rly_data': rly//JSON.stringify(rly)
+            }              
+           $.ajax({
+             type : 'GET',
+             url : "{% url 'changefunc' %}",
+             dataType : 'json',
+             data : mydata,
+             success : function(response){
+               division=response.division;
+                           $('#div8').empty();
+                           $('#div8').append(`<option value="" >Select</option>`);
+                           for (let i = 0; i < division.length; i++) {
+                             $('#div8').append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                       }
+             }
+           })
+    }
+
+    function changefunc5(rly){
+      console.log("onchange4 worked");
+         alert(rly);
+            mydata={
+              'rly_data': rly//JSON.stringify(rly)
+            }              
+           $.ajax({
+             type : 'GET',
+             url : "{% url 'changefunc' %}",
+             dataType : 'json',
+             data : mydata,
+             success : function(response){
+               division=response.division;
+                           $('#div9').empty();
+                           $('#div9').append(`<option value="" >Select</option>`);
+                           for (let i = 0; i < division.length; i++) {
+                             $('#div9').append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                       }
+             }
+           })
+    }
+
+
+
+    function changefunc7(rly){
+      console.log("onchange7 worked");
+        //  alert(rly);
+            mydata={
+              'rly_data': rly//JSON.stringify(rly)
+            }              
+           $.ajax({
+             type : 'GET',
+             url : "{% url 'changefunc' %}",
+             dataType : 'json',
+             data : mydata,
+             success : function(response){
+               division=response.division;
+                           $('#div777').empty();
+                           $('#div777').append(`<option value="" >Select</option>`);
+                           for (let i = 0; i < division.length; i++) {
+                             $('#div777').append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                       }
+             }
+           })
+    }
+
+
+    function changefunc(id){
+      let newid = id.substr(4)
+        //  alert('newid: '+newid);
+         var rly=$('.zone'+newid).val();
+        //  data={
+        //      'rly_data': JSON.stringify(rly)
+        //    }
+            mydata={
+              'rly_data': rly//JSON.stringify(rly)
+            }
+           $.ajax({
+             type : 'GET',
+             url : "{% url 'changefunc' %}",
+             dataType : 'json',
+             data : mydata,
+             success : function(response){
+               division=response.division;
+                           $('.division'+ newid).empty();
+                           $('.division'+ newid).append(`<option value="" >Select</option>`);
+                           for (let i = 0; i < division.length; i++) {
+                                                                          /////////////////////////
+                             $('.division'+newid).append(`<option value="${division[i].rly_unit_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                                       }
+             }
+           })
+    }    
+</script>
+<script>
+  function modalClick(row1, col1, field, con, fieldData){
+    console.log('row1', row1)
+    console.log('col1', col1)
+    console.log('con', con)
+    Tasktable3.destroy();
+    $('#instituteTable3 tbody').empty();
+    
+    $.ajax({
+        url: "{% url 'modalClick' %}",
+        type: "POST",
+        data: {
+          'row1':row1,
+          'col1':col1,
+          'field':field,
+          'fieldData':fieldData,
+          'con': con,
+          'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        success: function(data) {
+          // let tdata = data.tdata;
+          // for(let i=0;i<tdata.length;i++)
+          //  {
+          //   row+='<tr><td>' +  data.inspDate[i] + '</td><td>'  +  data.inspNoteNo[i] + '</td><td>'  + data.inspObs[i] + '</td><td>'  + data.MarkedOfficer[i]  +'</td><td" >' + data.Rly[i] +  '</td><td>'+ data.div[i] + '</td><td>'+ data.div[i] + '</td><td>' +  data.location[i] + '</td></tr>';
+          //   }
+
+          // let wholedata = data.wholedata;
+          // $('#instituteTable2 tbody').html(row);
+        
+        let maindata = data.inspNoteNo, row = '';
+        for(let i=0;i<maindata.length;i++)
+        {
+            row+='<tr><td>' +  data.inspDate[i] +  '</td><td>'  +  data.field_no[i] + '</td><td>'  +  data.inspNoteNo[i] + '</td><td>'  +  data.MarkedOfficer[i] + '</td><td>' +data.location[i] 
+              // + data.insptotal_overdue[i] +' / ' +data.total_overdue[i] + '</td><td>'
+              + '</td></tr>';
+        }
+        $('#instituteTable3 tbody').append(row);
+
+        // let wholedata =  data.wholedata;
+        // $('#instituteTable3 tbody').append(wholedata);
+
+        
+        Tasktable3 = $("#instituteTable3").DataTable({
+        iDisplayLength: 15,
+          // "ordering": false,
+          order: [[1, "desc"]],
+          lengthChange: true,
+          lengthMenu: [15, 30, 50, 75, 100],
+          dom: "Blfrtip",
+
+          buttons: [
+            {
+              extend: "excel",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                console.log("datefrom", e1);
+                var e2 = $("#dateto").val();
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                return stre;
+              },
+              // orientation: 'landscape',
+              // pageSize: 'LEGAL',
+            },
+            {
+              extend: "pdfHtml5",
+              title: function (e) {
+                var e1 = $("#datefrom").val();
+                var e2 = $("#dateto").val();
+                console.log("datefrom1", e1);
+                console.log("datefrom1", datefrom);
+                var stre = "Inspection Report from " + e1 + " to " + e2;
+                console.log("insode inspection report", stre);
+                return stre;
+              },
+              exportOptions: {
+                alignment: "right",
+              },
+              customize: function (doc) {
+                console.log("doc", doc);
+                console.log("doc", doc.defaultStyle);
+                console.log("doc2", doc.styles.tableBodyEven);
+                console.log("doc3", doc.styles.tableBodyOdd);
+                doc.content.splice(0, 1);
+
+                doc.styles.tableBodyEven.alignment = "center";
+                doc.styles.tableBodyOdd.alignment = "center";
+              },
+              text: "Pdf",
+              title: "Inspection Report ",
+              fontSize: "LEGAL",
+            },
+            {
+              extend: "print",
+              footer: true,
+              title: function (e) {
+                var s1 = $("#datefrom").val();
+                var s2 = $("#dateto").val();
+                let date2 = $("#created_on").val();
+                var str = "Inspection Report from " + date2;
+                return str;
+              },
+              customize: function (doc) {
+                $(doc.document.body)
+                  .find("tasktableid")
+                  .css("text-align", "center");
+              },
+              pagingType: "simple",
+              sEmptyTable: "No data available in table",
+
+              // "bSort": true,
+
+              oLanguage: {
+                sInfoEmpty: "Page 0 of 0 ",
+              },
+              language: {
+                info: "Page _PAGE_ of _PAGES_",
+                paginate: {
+                  previous: "Prev",
+                },
+              },
+            },
+          ],
+        });
+
+
+
+        }
+    });
+  }
+
+  </script>
+  
+{% endblock %}

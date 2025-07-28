@@ -1,0 +1,1371 @@
+{% extends 'adminDash.html' %} {% block content %}
+{% load static %}
+
+<head>
+    <title>User List</title>
+    <script src="{% static '/js/autosize.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+    <style>
+        
+        .my-heading {
+            font-family: Sans-serif;
+            margin-top: 1rem;
+            font-weight: 500;
+            font-size: 2.5rem;
+            text-align: center;
+            Color: black;
+            font-weight: bold;
+        }
+
+
+        .zonetable-show-hide {
+            display: none;
+        }
+
+    
+
+        .request_to_me-show-hide
+        {
+            display: none;
+        }
+        hr {
+            width: 5%;
+            border-top: 3px dotted rgb(132, 127, 127);
+
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <!-- <link rel="stylesheet" type="text/css" href="{% static '/css/datatables/jquery.dataTables.min.css' %}" /> -->
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>  
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"/>
+    
+  </head>
+
+<body>
+    <div class="container-fluid">
+        <input type="hidden" class="form-control" id="txt_empno_id">
+        <input type="hidden" class="form-control" id="txt_request_id">
+        <input type="hidden" class="form-control" id="txt_empno_designation">
+        <input type="hidden" class="form-control" id="txt_pull_back">
+        <div class="my-heading">
+            <h3>User List</h3>
+        </div>
+
+        <div id="div_list">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#all_designation">Relinquish</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" id="link_new_joining"  href="#new_joining">New Joining</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#request_by_me">Requested</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#request_to_me">Pending</a>
+                </li>
+            </ul>
+
+            <div class="container-fluid">
+                <div class="tab-content">
+                    <div id="all_designation" class="container-fluid  tab-pane active"><br>
+                        <div id="div-all-desig">
+                            <table class="table table-striped table-bordered table-sm" id="zonetable">
+                                <thead style="background-color: #0066cc;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Employee Name</th>
+                                        <th> Railway Type </th>
+                                        <th>Railway Unit </th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for i in details_data %}
+                                    <tr>
+                                        <td>{{i.designation}}</td>
+                                        <td>{{i.empno_id  | default:'' }}</td>
+                                        <td>{{i.empno_id__empname  | default:'' }} {{i.empno_id__empmname | default:'' }}
+                                            {{i.empno_id__emplname | default:'' }}</td>
+
+                                        <td>{{i.rly_unit_id__location_type}}</td>
+                                        <td>{{i.rly_unit_id__location_code}}</td>
+                                        <td>{{i.contactnumber | default:'' }}</td>
+                                        <td>{{i.official_email_ID | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="{{i.empno_id}}" name="{{i.designation}}" onclick="expand_all_designation(this.id,this.name);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down" style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="div-all-desig-details" class="zonetable-show-hide">
+                            <table class="table table-striped table-bordered table-sm" id="emp-details">
+                                <thead>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Employee Name</th>
+                                        <th>Railway Unit </th>
+                                        <th>Railway Type </th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="hrms_id">HRMS Id</label>
+                                        <input type="text" readonly value="" class="form-control" id="hrms_id">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="reporting_officer">Reporting Officer</label>
+                                        <input type="text" readonly value="" class="form-control"
+                                            id="reporting_officer">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="station">Station</label>
+                                        <input type="text" readonly value="" class="form-control" id="station">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label for="department">Department</label>
+                                        <input type="text" readonly value="" class="form-control" id="department">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <Label for="charge_type">Charge Type</Label>
+                                        <select id="charge_type" required class="form-control" disabled>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <button name="button" onclick="save_release_officer()"
+                                            class="btn btn-outline-success"
+                                            style="margin-left: 30%;">Relinquish</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="new_joining" class="container-fluid  tab-pane"><br>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <Label for="txt_new_joining">Search Employee Number/ Name/ HRMS Id and Select</Label>
+                                    <input class="form-control" type="text" id="txt_new_joining" list="partlist" autocomplete="off"
+                                        placeholder="Enter Employee number/ HRMS Id/ Employee Name">
+                                    <datalist id="partlist" style="background-color: white;">
+                                        {%for j in new_emp_no%}
+                                        <option value="{{j.empno}}">{{j.empno}}/ {{j.hrms_id}}/ {{j.empname}}
+                                            {{j.empmname | default:'' }} {{j.emplnamee | default:'' }} </option>
+                                        {%endfor%}
+                                    </datalist>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <input type="button" onclick="funcGetEmpDetailsButton()" class="btn btn-primary" value="Search" style="margin-top:35px;">
+                                    <input type="button" onclick="clearGetEmpDetailsButton()" class="btn btn-primary" value="Clear" style="margin-top:35px;">
+                                </div>
+                            </div>
+                        </div>
+                        <section id="first_new_joining">
+                            <table class="table table-striped table-bordered table-sm" id="emp-details-new-joining">
+                                <thead>
+                                    <tr>
+                                        <th colspan="5" style="text-align: center;color: rgb(85, 134, 241);">Employee
+                                            details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>HRMS Id</th>
+                                        <th>Employee No.</th>
+                                        <th>Employee Name</th>
+                                        <th>Level</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                        </section>
+
+                        <section id="second_new_joining">
+                            <table class="table table-striped table-bordered table-sm" id="desig-details-new-joining">
+                                <thead>
+                                    <tr>
+                                        <th colspan="9" style="text-align: center;color: rgb(85, 134, 241);">Current
+                                            position</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Railway Type </th>
+                                        <th>Railway Unit </th>
+                                        <th>Reporting Officer </th>
+                                        <th>Department</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Charge Type</th>
+                                        <th>Station</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                        </section>
+                        <hr>
+                        <div id="div_new_joining">
+                            <p style="text-align: center;color: rgb(85, 134, 241);text-decoration: underline;"> New
+                                Posting Details</p>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="txt_new_joining_designation">Select Designation</Label><br>
+                                            <select class="form-control" id="txt_new_joining_designation" autocomplete="off"
+                                            placeholder="Select Designation" style="width:100%;"
+                                            onchange="funcGetDesignationDetails(this.value)">
+                                            <option value="" selected disabled hidden>Select Designation </option>
+                                            {% for j in rly_emp_designation %}
+                                            <option value="{{j}}">{{j}} </option>
+                                            {% endfor %}
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="charge_type_new_joining">Charge Type</Label>
+                                        <select id="charge_type_new_joining" required class="form-control">
+                                            <option value="P">Primary</option>
+                                            <option value="D">Dual</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="department_new_joining">Department</Label>
+                                        <select id="department_new_joining" required class="form-control">
+                                            {% for i in all_department %}
+                                            <option value="{{i.department_code}}">{{i.department_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="place_new_joining">Railway/ Division</Label>
+                                        <select id="place_new_joining" required class="form-control" onchange="getstationName(this.value)">
+                                            <option value="" selected disabled hidden>Select Railway/ Division </option>
+                                            {% for i in all_railway %}
+                                            <option value="{{i.rly_unit_code}}">{{i.location_code}}/
+                                                {{i.location_description}}/ {{i.location_type}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="reporting_officer_new_joining">Reporting Officer</Label>
+                                        <select class="form-control"  id="reporting_officer_new_joining" style="width:100%;" placeholder="Select Reporting Officer">
+                                        <option value="" selected disabled hidden>Select Reporting Officer</option>
+                                            {%for j in rly_emp_designation%}
+                                            <option value="{{j}}">{{j}} </option>
+                                            {%endfor%}
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="station_new_joining">Station</Label>
+                                        
+
+                                            <select class="form-control"  id="station_new_joining" style="width:100%;" placeholder="Select Reporting Officer">
+                                                <option value="" selected disabled hidden>Select Station</option>
+                                                {%for j in all_station%}
+                                                <option value="{{j.station_name}}">{{j.station_name}} </option>
+                                                {%endfor%}
+                                                </select>
+                                            </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="contact_new_joining">Mobile Number</Label>
+                                        <input class="form-control" type="text" id="contact_new_joining" autocomplete="off"
+                                            onkeypress="return isNumber(event)" placeholder="Enter Contact number"
+                                            maxlength="10">
+                                    </div>
+                                </div>
+
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="email_new_joining">e-Mail Address</Label>
+                                        <input class="form-control" type="text" id="email_new_joining" autocomplete="off"
+                                            placeholder="Enter e-mail address" maxlength="50">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="password_new_joining">Password</Label>
+                                        <input class="form-control" readonly type="text" id="password_new_joining"
+                                            value="Admin@123">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <Label for="remarks_new_joining">Remarks</Label>
+                                        <input class="form-control" maxlength="100" type="text" id="remarks_new_joining" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <button name="button" onclick="saveNewJoining()" class="btn btn-outline-success"
+                                            style="margin-left: 30%;">Save Data</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="request_by_me" class="container-fluid  tab-pane"><br>
+                        <div id="request_by_me-desig">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;" id="request_by_me_table">
+                                <thead>
+                                    <tr>
+                                        
+                                        <th>Request Id</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Employee Name</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Station Name</th>
+                                        <th>Status</th>
+                                        <th>View details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in requested %}
+                                    <tr>
+                                        <td>{{i.history_id}}</td> 
+                                        <td>{{i.created_date | date:'d-m-Y' }}</td>  
+                                        <td>{{i.current_desigination}}</td>
+                                        <td>{{i.empno_id}}</td>
+                                        <td>{{i.empno.empname  | default:'' }} {{i.empno.empmname | default:'' }}
+                                            {{i.empno.emplname | default:'' }}</td>
+                                        <td>{{i.current_contactnumber | default:'' }}</td>
+                                        <td>{{i.current_official_email_ID | default:'' }}</td>
+                                        <td>{{i.current_station_name | default:'' }}</td>
+                                        <td>{{i.status | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="request{{i.history_id}}" name="{{i.history_id}}" onclick="expandRequested(this.name);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+                                       
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="request_by_me-desig-details" class="zonetable-show-hide">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;" id="request_by_me_table_details">
+                                <thead>
+                                    <tr>
+                                        <th colspan="9" style="text-align: center;color: rgb(85, 134, 241);" id="request_by_me-tableid">Request Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Requested on</th>
+                                        <th>Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Station Name</th>
+                                        <th>Status</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;" id="request_by_me_table_details_2">
+                                <thead>
+                                    <tr>
+                                        <th colspan="7" style="text-align: center;color: rgb(85, 134, 241);" id="acc_rej_details">Accepted/Rejected Details</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Emp name</th>
+                                        <th>Employee No.</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Accepted/Rejected Remarks</th>
+                                        <th>Accepted/Rejected Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-12">
+                               <center>
+                                        <button name="button" onclick="requestedBack()" class="btn btn-outline-success"
+                                            >Back</button>
+                                        <button name="button" id="pullbackid" onclick="pullBack()" class="btn btn-outline-success"
+                                            >Pull Back</button>
+                                       
+                             </center>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="request_to_me" class="container-fluid  tab-pane"><br>
+                        <div id="request_to_me-desig">
+                            <table class="table table-striped table-bordered table-sm" style="width: 100%;" id="request_to_me_table">
+                                <thead>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Requested on</th>
+                                        <th>Requested By</th>
+                                        <th>Requested Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Station Name</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in pending %}
+                                    <tr>
+                                        <td>{{i.history_id}}</td> 
+                                        <td>{{i.created_date | date:'d-m-Y' }}</td> 
+                                        <td>{{i.done_by}}</td> 
+                                        <td>{{i.current_desigination}}</td>
+                                        <td>{{i.empno_id}}</td>
+                                        <td>{{i.current_contactnumber | default:'' }}</td>
+                                        <td>{{i.current_official_email_ID | default:'' }}</td>
+                                        <td>{{i.current_station_name | default:'' }}</td>
+                                        <td>{{i.status | default:'' }}</td>
+                                        <td>
+                                            <button type="button" id="{{i.history_id}}" name="{{i.history_id}}" onclick="expandRequestToMe(this.id);"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-down"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="request_to_me_table-desig-details" class="request_to_me-show-hide">
+                            <table class="table table-striped table-bordered table-sm" id="request_to_me_table_prev-details">
+                                <thead>
+                                    <tr><th colspan="10" style="text-align: center;color: rgb(85, 134, 241);"> Current Designation Details</th></tr>
+                                    <tr>
+                                        
+                                        <th>Designation</th>
+                                        <th>Employee No.</th>
+                                        <th>Employee Name</th>
+                                        <th>Railway Type</th>
+                                        <th>Railway Unit</th>
+                                        <th>Department</th>
+                                        <th>Reporting officer</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Station Name</th>
+                                        
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                </tbody>
+                            </table>
+                            <br>
+                            <table class="table table-striped table-bordered table-sm" id="request_to_me_table_next-details">
+                                <thead>
+                                    <tr><th colspan="10" style="text-align: center;color: rgb(85, 134, 241);"> Requested Designation Details</th></tr>
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Requested By</th>
+                                        <th>Designation</th>
+                                        <th>Railway Type</th>
+                                        <th>Railway Unit</th>
+                                        <th>Department</th>
+                                        <th>Reporting officer</th>
+                                        <th>Mobile No.</th>
+                                        <th>Email</th>
+                                        <th>Station Name</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="row">
+                            <div class="col-12">
+                               <center>
+                                <div class="form-group">
+                                    <Label for="acc_remarks_new_joining">Remarks</Label>
+                                    <input class="form-control" maxlength="100" type="text" id="acc_remarks_new_joining" autocomplete="off">
+                                </div>
+                             </center>
+                            </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                               <center>
+                                        <button name="button" onclick="pendingBack()" class="btn btn-outline-success"
+                                            >Back</button>
+                                        <button name="button" onclick="pendingAccept()" class="btn btn-outline-success"
+                                            >Accept</button>
+                                        <button name="button" onclick="pendingReject()" class="btn btn-outline-success"
+                                            >Reject</button>
+                             </center>
+                            </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () 
+        {
+            $('#first_new_joining').hide();
+            $('#second_new_joining').hide();
+            $('#div_new_joining').hide();
+            $('#zonetable').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ]
+                });  
+            $('#request_to_me_table').DataTable({'ordering':false});
+            $('#request_by_me_table').DataTable({'ordering':false});
+            $('#txt_new_joining_designation').select2();
+            $('#reporting_officer_new_joining').select2();  
+            $('#station_new_joining').select2({tags: true});
+           
+            
+        });
+
+function getstationName(val)
+{
+    let data = {
+                post_type: 'station',
+                val : val,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    
+                    if(response.length>0)
+                    {
+                        let row ='<option value="" selected disabled hidden>Select station</option>';
+                        $('#station_new_joining').empty();
+                        for(let i=0;i<response.length;i++)
+                        {
+                            row +=`<option value="${response[i].station_name}">${response[i].station_name}</option>`;
+                        }
+                        $('#station_new_joining').append(row);
+                    }
+                    else{
+                        alert('Station is not present in master')
+                    }
+                },
+                error : function(err){
+                    alert('Some error occured');
+                }
+            });
+}
+        function expandRequested(history_id)
+        {
+            $('#txt_pull_back').val(history_id);
+            let data = {
+                post_type: 'history',
+                history_id : history_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+
+                    let history_data = response.history_data;
+                    console.log(history_data)
+                    let pending = response.pending;
+                    let row='<tr>';
+                        row += `<td>${history_data[0].history_id}</td>`;
+
+                        let date = String(history_data[0].created_date).split('T')
+                        date = date[0].split('-')
+                        date = date[2]+'-'+date[1]+'-'+date[0];
+                        row += `<td>${date}</td>`;
+                        row += `<td>${history_data[0].current_desigination}</td>`;
+                        row += `<td>${history_data[0].empno_id}</td>`;
+                        row += `<td>${history_data[0].current_contactnumber}</td>`;
+                        row += `<td>${history_data[0].current_official_email_ID}</td>`;
+                        row += `<td>${history_data[0].current_station_name}</td>`;
+                        row += `<td>${history_data[0].status}</td>`;
+                        row += `<td>${history_data[0].created_remarks}</td>`;
+                        row +='</tr>';
+                        
+                        $('#request_by_me_table_details tbody').empty();
+                        $('#request_by_me_table_details tbody').append(row);
+                        row ='';
+                        $('#request_by_me_table_details_2').hide();
+
+                        $('#pullbackid').hide();
+                        $('#request_by_me-tableid').html(response.admin_1 + ' Accepted Case');
+                        if(pending.length>0)
+                        {
+                            $('#request_by_me-tableid').html('Request Details');
+                            if(history_data[0].status == 'Forwarded')
+                            {
+                                $('#acc_rej_details').html('Pending With Details');
+                                $('#pullbackid').show();
+                            }
+                            else{
+                                $('#acc_rej_details').html(history_data[0].status+' Details')
+                            }
+                            $('#request_by_me_table_details_2').show();
+                            row += `<td>${pending[0].designation}</td>`;
+                            row += `<td>${pending[0].emp_name}</td>`;
+                            row += `<td>${pending[0].admin}</td>`;
+                            row += `<td>${pending[0].admin_mobile}</td>`;
+                            row += `<td>${pending[0].admin_email}</td>`;
+                            if(history_data[0].accepted_remarks != null)
+                            {
+                                row += `<td>${history_data[0].accepted_remarks}</td>`;
+                            }
+                            else{
+                                row += `<td></td>`;
+                            }
+                            
+                            if(history_data[0].accepted_date != null)
+                            {
+                                let date = String(history_data[0].accepted_date).split('T')
+                                date = date[0].split('-')
+                                date = date[2]+'-'+date[1]+'-'+date[0];
+                                row += `<td>${date}</td>`;
+                            }
+                            else{
+                                row += `<td></td>`;
+                            }
+                            row +='</tr>';
+                            $('#request_by_me_table_details_2 tbody').empty();
+                        $('#request_by_me_table_details_2 tbody').append(row);
+                        }
+                    document.getElementById('request_by_me-desig').classList.toggle('zonetable-show-hide');
+                    document.querySelector('#request_by_me-desig-details').classList.toggle('zonetable-show-hide');
+                },
+                error : function(err){
+                    alert('Some error occured');
+                }
+            })
+            
+        }
+
+        function pullBack()
+        {
+            if (confirm('Are You sure to pull back, once done cannot be reverted')) {
+            let id = $('#txt_pull_back').val();
+            let data = {
+                post_type: 'pullback',
+                history_id : id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    alert(response);
+                    window.location.reload();
+                },
+                error : function(err){
+                    alert('Some error occured');
+                }
+            });
+        }
+        }
+        function requestedBack()
+        {
+            document.getElementById('request_by_me-desig').classList.toggle('zonetable-show-hide');
+            document.querySelector('#request_by_me-desig-details').classList.toggle('zonetable-show-hide');
+        }
+        function pendingBack()
+        {
+            document.getElementById('request_to_me-desig').classList.toggle('request_to_me-show-hide');
+            document.querySelector('#request_to_me_table-desig-details').classList.toggle('request_to_me-show-hide');
+        }
+
+        function pendingAccept()
+        {
+            let remarks = $('#acc_remarks_new_joining').val();
+            let reqno = $('#txt_request_id').val();
+            if(remarks == '')
+            {
+                alert('please enter remarks');
+                $('#txt_request_id').focus();
+                return false;
+            }
+            if (confirm('Are You sure To Accept')) {
+            let data = {
+                post_type: 'accept',
+                reqno : reqno,
+                remarks : remarks,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    alert(response);
+                    document.getElementById('request_to_me-desig').classList.toggle('request_to_me-show-hide');
+                    document.querySelector('#request_to_me_table-desig-details').classList.toggle('request_to_me-show-hide');
+                    window.location.reload();
+                },
+                error : function(err){
+                    alert('Some error occured');
+                }
+            });
+        }
+        }
+        function pendingReject()
+        {
+            let reqno = $('#txt_request_id').val();
+            let remarks = $('#acc_remarks_new_joining').val();
+            if(remarks == '')
+            {
+                alert('please enter remarks');
+                $('#txt_request_id').focus();
+                return false;
+            }
+            if (confirm('Are You sure To Reject')) {
+            let data = {
+                post_type: 'reject',
+                reqno : reqno,
+                remarks : remarks,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) { 
+                    alert(response);
+                    window.location.reload();
+                    document.getElementById('request_to_me-desig').classList.toggle('request_to_me-show-hide');
+                    document.querySelector('#request_to_me_table-desig-details').classList.toggle('request_to_me-show-hide');
+                },
+                error : function(err){
+                    alert('Some error occured');
+                }
+            });
+        }
+
+
+        }
+        function expandRequestToMe(reqno) {
+            let data = {
+                post_type: 'request_to_me',
+                reqno : reqno,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) { 
+                                      
+                    $('#txt_request_id').val(reqno);
+                    var row = '',row1='';
+                    let emp_details = response.emp_details;
+                    if (emp_details.length)
+                    {
+                        row+= `<tr>
+                            <td>${emp_details[0].prev_desigination}</td>
+                            <td>${emp_details[0].empno_id}</td>
+                            <td>${emp_details[0].empno_id__empname}`
+                                if (emp_details[0].empno_id__empmname == null) {
+                                        row += ` `;
+                                    }
+                                    else {
+                                        row += ` ${emp_details[0].empno_id__empmname}`;
+                                    }
+                                    if (emp_details[0].empno_id__emplname == null) {
+                                        row += ` `;
+                                    }
+                                    else {
+                                        row += ` ${emp_details[0].empno_id__emplname}`;
+                                    }
+
+                        row += `</td>
+                            <td>${emp_details[0].prev_rly_unit_id__location_code}</td>
+                            <td>${emp_details[0].prev_rly_unit_id__location_type}</td>
+                            <td>${emp_details[0].prev_department_code_id__department_name}</td>
+                            <td>${response.p_reporting_officer}</td>
+                            <td>${emp_details[0].prev_contactnumber}</td>
+                            <td>${emp_details[0].prev_official_email_ID}</td>
+                            <td>${emp_details[0].prev_station_name}</td>
+                            </tr>`
+
+                            $('#request_to_me_table_prev-details tbody').empty();
+                            $('#request_to_me_table_prev-details tbody').append(row);
+
+
+                            row1 = `<tr>
+                                <td>${emp_details[0].history_id}</td>
+                                <td>${emp_details[0].done_by}</td>
+                                <td>${emp_details[0].current_desigination}</td>
+                                <td>${emp_details[0].current_rly_unit_id__location_code}</td>
+                                <td>${emp_details[0].current_rly_unit_id__location_type}</td>
+                                <td>${emp_details[0].current_department_code_id__department_name}</td>
+                                <td>${response.c_reporting_officer}</td>
+                                <td>${emp_details[0].current_contactnumber}</td>
+                                <td>${emp_details[0].current_official_email_ID}</td>
+                                <td>${emp_details[0].current_station_name}</td>
+                                    </tr>`;
+
+                                    $('#request_to_me_table_next-details tbody').empty();
+                                    $('#request_to_me_table_next-details tbody').append(row1);
+
+
+                    }
+                       else
+                    {
+                        alert('No employee exists for the selected designation')
+                    }
+           
+
+                },
+                error: function (data) {
+                    alert('Some error occured')
+                }
+            })
+
+            document.getElementById('request_to_me-desig').classList.toggle('request_to_me-show-hide');
+            document.querySelector('#request_to_me_table-desig-details').classList.toggle('request_to_me-show-hide');
+
+        }
+        
+        function expand_all_designation(empno,designation) {
+            let data = {
+                post_type: 'emp_details',
+                designation : designation,
+                empno: empno,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            };
+            $.ajax({
+                url: "{% url 'user_list' %}",
+                method: "POST",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+                    var row = '';
+                    let emp_details = response.emp_details;
+                    if (emp_details.length) {
+                        row += `<tr>
+                                        <td>${emp_details[0].designation}</td>
+                                        <td>${emp_details[0].empno_id}</td>
+                                        <td>${emp_details[0].empno_id__empname}`;
+                        if (emp_details[0].empno_id__empmname == null) {
+                            row += ` `;
+                        }
+                        else {
+                            row += ` ${emp_details[0].empno_id__empmname}`;
+                        }
+                        if (emp_details[0].empno_id__emplname == null) {
+                            row += ` `;
+                        }
+                        else {
+                            row += ` ${emp_details[0].empno_id__emplname}`;
+                        }
+
+                        row += `</td>
+                                        <td>${emp_details[0].rly_unit_id__location_code}</td>
+                                        <td>${emp_details[0].rly_unit_id__location_type}</td>`;
+                        if (emp_details[0].contactnumber == null) {
+                            row += `<td></td> `;
+                        }
+                        else {
+                            row += `<td>${emp_details[0].contactnumber}</td> `;
+                        }
+                        if (emp_details[0].official_email_ID == null) {
+                            row += `<td></td> `;
+                        }
+                        else {
+                            row += `<td>${emp_details[0].official_email_ID}</td>`;
+                        }
+                        row += `<td>
+                                            <button type="button" onclick="shrink_all_designation();"
+                                                style="border-style: none; margin-left: 30%;">
+                                                <i class="fas fa-angle-double-up"
+                                                    style="font-size:24px;color:rgb(105, 174, 238)"
+                                                    title="Click To Expand/Shrink Details"></i>
+                                            </button>
+                                        </td>
+                                    </tr>`;
+
+                        $('#emp-details tbody').empty();
+                        $('#emp-details tbody').append(row);
+                        $('#hrms_id').val(emp_details[0].empno_id__hrms_id_id);
+                        $('#reporting_officer').val(response.reporting_officer);
+                        $('#station').val(emp_details[0].station_name);
+                        $('#department').val(emp_details[0].department_code__department_name);
+                        var options = '';
+                        if (emp_details[0].status == 'D') {
+                            options += `<option value='D'>Dual</option>`;
+                        }
+                        else {
+                            options += `<option value='P'>Primary</option>`;
+                        }
+                        $('#charge_type').empty();
+                        $('#charge_type').append(options);
+                        $('#txt_empno_id').val(empno);
+                        $('#txt_empno_designation').val(emp_details[0].designation);
+                        document.getElementById('div-all-desig').classList.toggle('zonetable-show-hide');
+                        document.querySelector('#div-all-desig-details').classList.toggle('zonetable-show-hide');
+                    }
+
+                    else
+                    {
+                        alert('No employee exists for the selected designation')
+                    }
+
+                },
+                error: function (data) {
+                    alert('Some error occured')
+                }
+            })
+
+        }
+        function shrink_all_designation() {
+            document.getElementById('div-all-desig').classList.toggle('zonetable-show-hide');
+            document.querySelector('#div-all-desig-details').classList.toggle('zonetable-show-hide');
+        }
+
+        function save_release_officer() {
+            let empno = $('#txt_empno_id').val();
+            let charge_type = $('#charge_type').val();
+            let designation = $('#txt_empno_designation').val();
+            if (confirm('Are You sure To Release')) {
+                let data = {
+                    post_type: 'emp_release',
+                    empno: empno,
+                    charge_type: charge_type,
+                    designation : designation,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                };
+                $.ajax({
+                    url: "{% url 'user_list' %}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        alert(response);
+                        window.location.reload();
+                    }, error: function (err) {
+                        alert('Some error occured');
+                    }
+                });
+
+            }
+        }
+
+function clearGetEmpDetailsButton()
+{
+    $('#txt_new_joining').val('');
+}
+
+        function funcGetEmpDetailsButton()
+        {
+            let empno = $('#txt_new_joining').val();
+            if(empno == '')
+            {
+                alert('please select employee number');
+                $('txt_new_joining').val('');
+                $('txt_new_joining').focus();
+                return false;
+            }
+            funcGetEmpDetails(empno)
+        }
+
+        function funcGetEmpDetails(empno) {
+            $('#first_new_joining').hide();
+            $('#second_new_joining').hide();
+            $('#div_new_joining').hide();
+            let data = {
+                post_type: 'new_emp',
+                empno: empno,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+
+            }
+            $.ajax({
+                type: 'POST',
+                url: '{% url "user_list" %}',
+                dataType: 'JSON',
+                data: data,
+                success: function (response) {
+                    let emp_no_details = response.emp_no_details, lev_desig_details = response.lev_desig_details, row = '';
+                    if (emp_no_details.length == 0) {
+                        alert('Employee not exist, please contact Admin');
+                        $('#txt_new_joining').val('');
+                    }
+                    else {
+                        $('#first_new_joining').show();
+                        $('#div_new_joining').show();
+
+                        row += `<tr>
+                                        <td>${emp_no_details[0].hrms_id_id}</td>
+                                        <td>${emp_no_details[0].empno}</td>
+                                        <td>${emp_no_details[0].empname}`;
+                        if (emp_no_details[0].empmname == null) {
+                            row += ` `;
+                        }
+                        else {
+                            row += ` ${emp_no_details[0].empmname}`;
+                        }
+                        if (emp_no_details[0].emplname == null) {
+                            row += ` `;
+                        }
+                        else {
+                            row += ` ${emp_no_details[0].emplname}`;
+                        }
+
+                        row += `</td><td>${emp_no_details[0].pc7_level}</td>`;
+
+                        $('#emp-details-new-joining tbody').empty();
+                        $('#emp-details-new-joining tbody').append(row);
+
+                    }
+                    row = '';
+                    if (lev_desig_details.length > 0) {
+                        $('#second_new_joining').show();
+                        for (let i = 0; i < lev_desig_details.length; i++) {
+
+
+                            row += `<tr>
+                            <td>${lev_desig_details[i].designation}</td>  
+                            <td>${lev_desig_details[i].rly_unit_id__location_type}</td>
+                            <td>${lev_desig_details[i].rly_unit_id__location_code}</td>  
+                            <td>${lev_desig_details[i].reporting_officer}</td> 
+                            <td>${lev_desig_details[i].department_code__department_name}</td>`
+                            if (lev_desig_details[i].contactnumber == null) {
+                                row += `<td></td> `;
+                            }
+                            else {
+                                row += `<td> ${lev_desig_details[i].contactnumber}</td>`;
+                            }
+                            row += `<td>${lev_desig_details[i].official_email_ID}</td>`;
+                            if (lev_desig_details[i].status == 'P') {
+                                row += `<td>Primary</td>`;
+                            }
+                            else {
+                                row += `<td>Dual</td>`;
+                            }
+                             row+= `<td>${lev_desig_details[i].station_name}</td></tr>`
+                        }
+                        $('#desig-details-new-joining tbody').empty();
+                        $('#desig-details-new-joining tbody').append(row);
+
+
+                    }
+                }, error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        function funcGetDesignationDetails(designation) {
+            let data = {
+                post_type: 'desig_search',
+                designation: designation,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+            $.ajax({
+                type: "POST",
+                url: "{% url 'user_list' %}",
+                dataType: "JSON",
+                data: data,
+                success: function (response) {
+
+                    //charge_type_new_joining, department_new_joining, place_new_joining, reporting_officer_new_joining, contact_new_joining, email_new_joining
+
+                    let lev_desig_details = response.lev_desig_details;
+                    let rep_officer = response.rep_officer;
+                    let row ='<option value="" selected disabled hidden>Select Reporting Officer</option>';
+                    $('#reporting_officer_new_joining').empty();
+                    for(let i=0;i<rep_officer.length;i++)
+                    {
+                        row +=`<option value="${rep_officer[i]}">${rep_officer[i]}</option>`;
+                    }
+                    $('#reporting_officer_new_joining').append(row);
+                    
+                    let all_station = response.all_station;
+                    row ='<option value="" selected disabled hidden>Select Station</option>';
+                    $('#station_new_joining').empty();
+                    for(let i=0;i<all_station.length;i++)
+                    {
+                        row +=`<option value="${all_station[i].station_name}">${all_station[i].station_name}</option>`;
+                    }
+                    $('#station_new_joining').append(row);
+
+                    if (lev_desig_details.length > 0) {
+                        $('#department_new_joining').val(lev_desig_details[0].department_code);
+                        $('#place_new_joining').val(lev_desig_details[0].rly_unit_id);
+                        $('#reporting_officer_new_joining').val(lev_desig_details[0].reporting_officer);
+
+                        $("#reporting_officer_new_joining").trigger('change');
+                        $('#contact_new_joining').val(lev_desig_details[0].contactnumber);
+                        $('#email_new_joining').val(lev_desig_details[0].official_email_ID);
+                        $('#station_new_joining').val(lev_desig_details[0].station_name);
+                        $("#station_new_joining").trigger('change');
+
+                    }
+                    else {
+                        alert('Designation not exist');
+                        $('#txt_new_joining_designation').val('');
+                    }
+                },
+                error: function (err) {
+                    alert('Some Error Occured')
+                }
+            })
+
+        }
+
+        function saveNewJoining() {
+            let empno = $("#txt_new_joining").val();
+            let txt_new_joining_designation = $("#txt_new_joining_designation").val();
+            
+            let charge_type_new_joining = $("#charge_type_new_joining").val();
+            
+            let department_new_joining = $("#department_new_joining").val();
+            let place_new_joining = $("#place_new_joining").val();
+            let reporting_officer_new_joining = $("#reporting_officer_new_joining").val();
+            let contact_new_joining = $("#contact_new_joining").val();
+            let email_new_joining = $("#email_new_joining").val();
+            let station_new_joining = $("#station_new_joining").val();
+            let remarks_new_joining = $("#remarks_new_joining").val();
+
+            if (txt_new_joining_designation == '' || txt_new_joining_designation == null) {
+                alert('Please select Designation');
+                $("#txt_new_joining_designation").focus();
+                return false;
+            }
+            
+            if (station_new_joining == ''  || station_new_joining == null) {
+                alert('Station Name Should not be blank');
+                    $("#station_new_joining").focus();
+                    return false;
+                
+            }
+            if (contact_new_joining == '') {
+                alert('Enter Mobile number');
+                $("#contact_new_joining").focus();
+                return false;
+            }
+            if (contact_new_joining.length < 10) {
+                alert('Mobile number should contain 10 digits');
+                $("#contact_new_joining").focus();
+                return false;
+            }
+            var mailformat = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (!email_new_joining.match(mailformat)) {
+                alert("Invalid email address.");
+                $("#email_new_joining").focus();
+                return false;
+            }
+            if(remarks_new_joining == '')
+            {
+                alert("Please Enter Remarks ");
+                $("#remarks_new_joining").focus();
+                return false;
+            }
+            if(txt_new_joining_designation == reporting_officer_new_joining)
+            {
+                alert('designation and reporting officer cannot be same');
+                $("#reporting_officer_new_joining").val('')
+                $("#reporting_officer_new_joining").focus();
+                return false;
+            }
+            if (reporting_officer_new_joining == '') {
+                if (!confirm('Reporting officer is not selected, are you sure to proceed')) {
+                    $("#reporting_officer_new_joining").focus();
+                    return false;
+                }
+            }
+            if (confirm('Are you sure to proceed')) {
+                let data = {
+                    post_type: 'new_joining',
+                    empno: empno,
+                    txt_new_joining_designation: txt_new_joining_designation,
+                    charge_type_new_joining: charge_type_new_joining,
+                    department_new_joining: department_new_joining,
+                    place_new_joining: place_new_joining,
+                    reporting_officer_new_joining: reporting_officer_new_joining,
+                    contact_new_joining: contact_new_joining,
+                    email_new_joining: email_new_joining,
+                    station_new_joining : station_new_joining,
+                    remarks_new_joining : remarks_new_joining,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'user_list' %}",
+                    dataType: "JSON",
+                    data: data,
+                    success: function (response) {
+                        alert(response);
+                        window.location.reload();
+                        // document.getElementById('link_new_joining').click();
+                        // funcGetEmpDetails(empno);
+                        // $("#txt_new_joining_designation").val('');
+
+                    }, error: function (err) {
+                        alert('Some error occured');
+                    }
+                });
+            }
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+        setTimeout(function () {
+            if ($('#msg').length > 0) {
+                $('#msg').remove();
+            }
+        }, 5000);
+    </script>
+</body>
+
+
+{% endblock content %}

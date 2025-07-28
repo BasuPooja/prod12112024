@@ -1,0 +1,446 @@
+{% load static %}
+
+
+<!DOCTYPE>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+  <title>Inspection Report</title>
+  <style>
+
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+    
+    b {
+      color: black;
+    }
+
+    td {
+      padding: 3px;
+    }
+
+    #officer_id {
+      margin-left: 50px;
+    }
+
+    /* table {
+  border-collapse: collapse;
+}
+
+table tr {
+  border-bottom: 1px solid black;
+}
+table td {
+  border: 1px solid black;
+}
+
+table tr:last-child { 
+    border-bottom: none; 
+} */
+    @page {
+      size: A4;
+      margin: 1cm;
+
+
+      @frame footer_frame {
+        /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt;
+        top: 800pt;
+
+      }
+
+    }
+
+    @media all {
+      .page-break {
+        display: none;
+      }
+    }
+
+
+    @media print {
+      .page-break {
+        display: block;
+        page-break-before: always;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- <center>
+        <h3 class="report_heading">REPLY OF {% for ab in ins_title %} {{ab.inspection_note_no|upper}}  DTD.{{ab.inspected_on|date:'d/m/y'}} {% endfor %}</h3>
+    </center> -->
+
+  <form method="POST">
+    {% csrf_token %}
+
+    {% for i in ins_title %}
+    <br>
+    <br>
+    <div class="container">
+      <center>
+        <strong><textarea class="form-control" maxlength="150" id="titleinsp" name="titleinsp" readonly
+            style="font-size: 14px; text-decoration: underline ;">{{i.inspection_title}}</textarea></strong>
+      </center>
+    </div>
+    {% endfor %}
+    <br>
+    <div>
+      <center>
+        {% if Accompany %}
+        <h3 style="text-align: center; font-size: 14px; padding-top: 0px;">Officer Accompanied : {{Accompany}} </h3>
+        {% endif %}
+      </center>
+      <br>
+    </div>
+    <table style="width: 100%; text-align: left; font-size: 1em;">
+      <tr style="text-align: left;">
+        <th style="text-align: left; width: 20%; font-size: 1.1em; font-weight: 800;"><u>Index for the below table:</u></th>
+        <td style="width: 20%;"><span style="color: green; font-weight: bold; font-size: 12px;"> C </span><span style="color: black;">: Completed</span> 
+        <td style="width: 20%;"><span style="color: #FE9200; width: 10%; font-weight: bold; font-size: 12px;"> R </span><span style="color: black;">: Reverted</span>        
+        <td style="width: 20%;"><span style="color: #FE0000; font-weight: bold; font-size: 12px;"> F </span><span style="color: black;">: Forward</span>
+        <td style="width: 20%;"><span style="color: #FE0000; font-weight: bold; font-size: 12px;"> P </span><span style="color: black;">: Pending</span>               
+      </tr>
+    </table>
+    
+    <br>
+    <div class="container">
+
+      <table id="table1" class="table table-striped table-bordered center table-data" border="0.7">
+        <thead>
+          <tr>
+            <th style="width:6%;text-align: center; color:#000; padding-top:6px;">S.NO.</th>
+            <th style="width:34%;text-align: center; color:#000; padding-top:6px;">OBSERVATION </th>
+            <th style="width: 60%;">
+              <table style="width: 100%; border: 0px;" class="table table-striped table-bordered center table-data"
+                border="0.7">
+                <tr>
+                  <th style="width:35%;text-align: center;color:#000; padding-top:6px;">ACTION BY </th>
+                  <!-- <th style="width:25%;text-align: center;color:#000; padding-top:6px;">TYPE </th> -->
+                  <th style="width:11%;text-align: center; color:#000; padding-top:6px;">STATUS </th>
+                  <th style="width:54%;text-align: center; color:#000; padding-top:6px;">COMPLIANCES</th>
+                </tr>
+              </table>
+            </th>
+
+          </tr>
+        </thead>
+
+        <tbody id="addworkmech">
+          {% for j in item_details1 %}
+          {% if j.type == 'S' %}
+          <tr>
+            <td>
+              <div style="text-align: center; width:5px; font-family: verdana;">{{j.des_id}}</div>
+            </td>
+            <td>
+              <div><b>
+                  <p id='heading{{j.des_id}}'>{{j.item_title}}</p>
+          </tr>
+          {% elif j.type == 'H' %}
+          <tr>
+            <td>
+              <div style="text-align: center; width:5px; font-family: verdana;">{{j.des_id}}</div>
+            </td>
+            <td>
+              <div><b>
+                  <p id='heading{{j.des_id}}'>{{j.item_title}}</p>
+                </b>
+                {% if j.tbl_data != '[]' %}
+                <table border="0.7" style="width:100%">
+                  {% for jk in j.tbl_data %}
+                  <tr>
+                    {% for ik in jk %}
+                    <td>{{ik}}</td>
+                    {% endfor %}
+                  </tr>
+                  {% endfor %}
+                </table>
+
+                {% endif %}
+                <b>{% if j.target_date %}<br>Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}
+                  {% if j.priority %}<br> On Priority {% endif %}
+                  <br>
+                  <br>
+                  {% if j.enctype == 'Encl:' %}
+                  {{j.enctype}}
+                  {% for i5 in j.enclen %}
+                  Pic:{{i5}}&nbsp;&nbsp;
+                  {% endfor %}
+                  {% endif %}</b>
+              </div>
+              {% if j.chk_cts == 'YES' %}
+            <td>
+              <table width="100%" class="table table-striped table-bordered center table-data" border="0.7">
+                {% for z in j.mrkoffi %}
+                {% if z.status_flag == 3 or z.status_flag == 4 %}
+                <tr>
+
+                  <td style=" width: 35%;">{% if z.status_flag == 3 %}<span style="color: green;"> {% else %}
+                      <span style="color: rgb(255, 173, 80);">{% endif %} {{z.marked_to__designation}}</span>
+                      <br>
+                      {% if z.action_type == 1 %}
+                      <b>(For Info)</b>
+                      {% else %}
+                      <b>(For Action)</b>
+                      {% endif %}</td>
+                  <td style="width: 11%;">{% if z.status_flag == 3 %}<span style="color: green;"> C </span>
+                    {% else%}
+                    <span style="color: rgb(255, 173, 80);"> R </span>{% endif %}
+                  </td>
+                  {% if z.compliance != null %}
+                  <td style="width: 54%;">{{z.compliance}}</td>
+                  {% else %}
+                  <td style="width: 54%;">-</td>
+                  {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            {% if z.forwrd_ofcs != 0 %}
+            <td style="width: 35%;color: red;"><span>
+                {{z.marked_to__designation}}</span>
+
+              {% else %}
+            <td style="width: 35%;"><span style="color: red;">{{z.marked_to__designation}}</span>
+              {% endif %}
+              <br>
+              {% if z.action_type == 1 %}
+              <b>(For Info)</b>
+              {% else %}
+              <b>(For Action)</b>
+              {% endif %}
+            </td>
+            {% if z.forwrd_ofcs != 0 %}
+            <td style="width: 11%;color: red;" title="Forwarded Further. Click to view Details">
+              <span class="sidebar-link waves-effect waves-dark sidebar-link active" id={{z.marked_no}}
+                href="javascript:void(0)" aria-expanded="false">F</span>
+            </td>
+            {% else %}
+            <td style="width: 11%;"><span style="color: red;">P</span></td>
+            {% endif %}
+            {% if z.compliance != null %}
+            <td style="width: 54%;">{{z.compliance}}</td>
+            {% else %}
+            <td style="width: 54%;">-</td>
+            {% endif %}
+          </tr>
+          {% endif %}
+
+          {% endfor %}
+
+
+      </table>
+
+      </td>
+      {% endif %}
+      </tr>
+      {% elif j.type == 'SH' %}
+      <tr>
+        <td>
+          <p style="text-align: center; width:5px; font-family: verdana;" id='itemno{{j.des_id}}'>{{j.des_id}}</p>
+        </td>
+        <td><b>
+            <p id='observation{{j.des_id}}'>{{j.observation}}</p>
+            <br>
+            {% if j.tbl_data != '[]' %}
+            <table border="1" style="width:100%">
+              {% for jk in j.tbl_data %}
+              <tr>
+                {% for ik in jk %}
+                <td>{{ik}}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </table>
+
+            {% endif %}
+            {% if j.target_date %}<br>Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}
+            {% if j.priority %}<br> On Priority {% endif %}
+            <br>
+            <br>
+            {% if j.enctype == 'Encl:' %}
+            {{j.enctype}}
+            {% for i5 in j.enclen %}
+            Pic:{{i5}}&nbsp;&nbsp;
+            {% endfor %}
+            {% endif %}
+          </b>
+    </div>
+    <td>
+      <table width="100%" class="table table-striped table-bordered center table-data" border="0.7">
+        {% for z in j.mrkoffi %}
+        {% if z.status_flag == 3 or z.status_flag == 4 %}
+        <tr>
+          <td style=" width: 35%;">{% if z.status_flag == 3 %}<span style="color: green;"> {% else %}
+              <span style="color: rgb(255, 173, 80);">{% endif %} {{z.marked_to__designation}}</span>
+              <br>
+              {% if z.action_type == 1 %}
+              <b>(For Info)</b>
+              {% else %}
+              <b>(For Action)</b>
+              {% endif %}</td>
+          <td style="width: 11%;">{% if z.status_flag == 3 %}<span style="color: green;"> C </span>{% else %}
+            <span style="color: rgb(255, 173, 80);"> R </span>{% endif %}
+          </td>
+          {% if z.compliance != null %}
+          <td style="width:54%;">{{z.compliance}}</td>
+          {% else %}
+          <td style="width:54%;">-</td>
+          {% endif %}
+        </tr>
+        {% else %}
+        <tr>
+          {% if z.forwrd_ofcs != 0 %}
+          <td style="width: 35%;color: red;" title="Forwarded Further. Click to view Details">
+            {{z.marked_to__designation}}</span>
+
+            {% else %}
+          <td style="width: 35%;"><span style="color: red;">{{z.marked_to__designation}}</span>
+            {% endif %}
+            <br>
+            {% if z.action_type == 1 %}
+            <b>(For Info)</b>
+            {% else %}
+            <b>(For Action)</b>
+            {% endif %}
+          </td>
+    </td>
+    {% if z.forwrd_ofcs != 0 %}
+    <td style="width: 11%;color: red;" title="Forwarded Further. Click to view Details">
+      <span class="sidebar-link waves-effect waves-dark sidebar-link active" id={{z.marked_no}}
+        href="javascript:void(0)" aria-expanded="false">F</span>
+    </td>
+    {% else %}
+    <td style="width: 11%;"><span style="color: red;">P</span></td>
+    {% endif %}
+    {% if z.compliance != null %}
+    <td style="width:54%;">{{z.compliance}}</td>
+    {% else %}
+    <td style="width:54%;">-</td>
+    {% endif %}
+    </tr>
+    {% endif %}
+
+
+    {% endfor %}
+    </table>
+
+    </td>
+
+
+    </tr>
+
+    {% else %}
+    <tr>
+      <td>
+        <div style="text-align: center; width:5px; font-family:verdana;"></div>
+      </td>
+      <td>{{j.des_id}}<p id='subheading{{j.des_id}}' autocomplete="off" style="margin-left: 80px;">{{j.item_subtitle}}
+        </p>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+
+    </tbody>
+
+    </table>
+    </div>
+
+  </form>
+  <table>
+    <tr>
+      <td>
+        <h3 align="left" style="font-size: 14px; white-space: nowrap;text-decoration: underline;">Note No:
+          {{inspection_note_no}} </h3>
+      </td> 
+      
+      <td>
+        <br><br><br><br>
+        <h3 align="right" style="font-size: 14px;">({{names}})<br>{{designation}}</h3>
+        <h3 align="right" style="font-size: 14px;">Dated: {{final_submit_on|date:'d/m/Y'}}</h3>
+      </td>
+      
+    </tr>
+    <tr>
+      <td>
+        {% if mail_detail.0.receiver_desig %}
+        <h5align="left" style="font-size: 14px; white-space: nowrap;"><b>Copy to:</b></h5>
+        <div id="officer_id">
+            <ol type="1">
+                {% for i in mail_detail.0.receiver_desig %}
+                <li style="font-size: 15px;">{{i}}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+    <!-- <nav style="align-items: normal;">
+      <h5 align="left" style=" white-space: nowrap;" >Note No: {{inspection_note_no}} </h5>
+      <br/>
+      <h3 align="right" style="font-size: 14px;">({{names}})<br>{{designation}}</h3>
+      <h5 align="right">
+          Dated: {{final_submit_on|date:'d/m/Y'}}
+      </h5>
+      {% if mail_detail.0.receiver_desig %}
+      <h5 align="left">Copy to:</h5>
+      <div id="officer_id">
+          <ol type="1">
+              {% for i in mail_detail.0.receiver_desig %}
+              <li style="font-size: 15px;">{{i}}</li>
+              {% endfor %}
+          </ol>
+      </div>
+      {% endif %}
+      
+      
+      
+</nav> -->
+
+
+
+
+
+
+
+
+  {% if img_path %}
+
+
+  <div class="page-break"></div>
+  {% endif %}
+  <table style="text-align: center;">
+    {% for i in img_path %}
+
+    <tr>
+      <td style="text-align: center;">
+        <img src="{{i.path}}" width="800px" height="400px">
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center; font-weight: bold;">Pic:{{forloop.counter}} with reference to S.NO. {{i.id}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <!-- <div id="footer_content"> Page <pdf:pagenumber> of <pdf:pagecount> </div>         -->
+</body>
+
+</html>

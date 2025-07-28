@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        {% include 'inspects_staticProvider.html' %}
+        <style>
+            
+            .btn btn-warning{
+                text-align: left;
+                
+                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>
+                        <center>Home Page</center>
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <div class="row mb-2">
+                        <div class="col-12 ml-2">
+                            <img src="/static/images/irlogo.png" class="img img-responsive img-fluid"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 ml-2" style="text-align:left;">
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('1'); return false;" >SAFETY</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('2'); return false;" >LOADING</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('3'); return false;" >PUNCTUALITY</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('4'); return false;" >EARNINGS & WORKING EXPENSES</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('5'); return false;" >CAPEX</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('6'); return false;" >INFRASTRUCTURE CREATION</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('7'); return false;" >ROLLING STOCK PRODUCTION</button></div>
+                            <div class="row mb-1"><button type="button" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('8'); return false;" >ASSET RELIABILITY</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <table class="table table-bordered table-striped table-sm" id="safety" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:15%; text-align: left;">Type of Accident</th>
+                            <th style="width:10%; text-align: left;">2019-20</th>
+                            <th style="width:15%; text-align: left;" >2020-21</th>
+                            <th style="width:15%; text-align: left;" >2021-22</th>
+                            <th style="width:10%; text-align: left;" >1st April, 2021 to 24th Oct. 2021</th>
+                            <th style="width:15%; text-align: left;" >1st April, 2022 to 24th Oct. 2022</th>
+                            <th style="width:20%; text-align: left;" >Change</th>  
+                        </thead>
+                        <tbody>
+                            {% if safety %}
+                            {% for i in safety %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.type_of_accident}}</td>
+                                <td style="width:15%">{{i.col1}}</td>
+                                <td style="width:15%">{{i.col2}}</td>
+                                <td style="width:15%">{{i.col3}}</td>
+                                <td style="width:15%">{{i.col4}}</td>
+                                <td style="width:15%">{{i.col5}}</td>
+                                <td style="width:15%">{{i.change}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                    <div class="col-12"  id="loading" hidden>
+                        <ul class="nav nav-tabs nav-fill mb-2">
+                            <li class="nav-item">
+                              <a class="nav-link active" data-toggle="tab" href="#Commodity_Wise">Commodity Wise</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" data-toggle="tab" href="#Zone_Wise">Zone Wise</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" data-toggle="tab" href="#B3">B3</a>
+                            </li>
+                          </ul>
+                          <div class="tab-content">
+                            <div id="Commodity_Wise" class="container-fluid tab-pane active">
+                                <table class="table table-bordered table-striped table-sm" id="loading_commodity_wise" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                    <thead style="text-align: center; color: white; background-color: #566573;">
+                                        <th style="width:15%; text-align: left;">Commodity</th>
+                                        <th style="width:10%; text-align: left;">Target</th>
+                                        <th style="width:15%; text-align: left;" >Current Year</th>
+                                        <th style="width:15%; text-align: left;" >Previous Year</th>
+                                        <th style="width:20%; text-align: left;" >Variation(%) (from Target)</th>  
+                                        <th style="width:20%; text-align: left;" >Variation(%) (from Previous Year)</th>  
+                                    </thead>
+                                    <tbody>
+                                        {% if loading_commodity_wise %}
+                                        {% for i in loading_commodity_wise %}
+                                        <tr style="text-align: center;">
+                                            <td style="width:8%; text-align: left;">{{i.commodity}}</td>
+                                            <td style="width:15%">{{i.targets}}</td>
+                                            <td style="width:15%">{{i.actuals}}</td>
+                                            <td style="width:15%">{{i.actuals_current_month}}</td>
+                                            <td style="width:15%">{{i.var_over_ly}}</td>
+                                            <td style="width:15%">{{i.var_over_target}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %} 
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="Zone_Wise" class="container-fluid tab-pane">
+                                <table class="table table-bordered table-striped table-sm" id="loading_zone_wise" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                    <thead style="text-align: center; color: white; background-color: #566573;">
+                                        <th style="width:15%; text-align: left;">Commodity</th>
+                                        <th style="width:10%; text-align: left;">Target</th>
+                                        <th style="width:15%; text-align: left;" >Current Year</th>
+                                        <th style="width:15%; text-align: left;" >Previous Year</th>
+                                        <th style="width:20%; text-align: left;" >Variation(%) (from Target)</th>  
+                                        <th style="width:20%; text-align: left;" >Variation(%) (from Previous Year)</th>  
+                                    </thead>
+                                    <tbody>
+                                        {% if loading_zone_wise %}
+                                        {% for i in loading_zone_wise %}
+                                        <tr style="text-align: center;">
+                                            <td style="width:8%; text-align: left;">{{i.zone}}</td>
+                                            <td style="width:15%">{{i.targets}}</td>
+                                            <td style="width:15%">{{i.actuals}}</td>
+                                            <td style="width:15%">{{i.actuals_current_month}}</td>
+                                            <td style="width:15%">{{i.var_over_ly}}</td>
+                                            <td style="width:15%">{{i.var_over_target}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %} 
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="B3" class="container-fluid tab-pane">
+                                <table class="table table-bordered table-striped table-sm" id="loading_b3" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                    <thead style="text-align: center; color: white; background-color: #566573;">
+                                        <th style="width:15%; text-align: left;">Description</th>
+                                        <th style="width:10%; text-align: left;">2021-22 (S&E Dte.)</th>
+                                        <th style="width:15%; text-align: left;" >Budget Target 2022-23</th>
+                                        <th style="width:15%; text-align: left;" >Actuals to end of September, 2021 (7-A)</th>
+                                        <th style="width:20%; text-align: left;" >BP to end of September 2022 (7-A)</th> 
+                                        <th style="width:20%; text-align: left;" >Approx. to end of September 2022 (7-A)</th>  
+                                        <th style="width:20%; text-align: left;" >Variation over BP</th>  
+                                        <th style="width:20%; text-align: left;" >Increase over September 2021</th> 
+                                    </thead>
+                                    <tbody>
+                                        {% if loading_b3 %}
+                                        {% for i in loading_b3 %}
+                                        <tr style="text-align: center;">
+                                            <td style="width:8%; text-align: left;">{{i.description}}</td>
+                                            <td style="width:15%">{{i.se_dte}}</td>
+                                            <td style="width:15%">{{i.budget_targets}}</td>
+                                            <td style="width:15%">{{i.actuals}}</td>
+                                            <td style="width:15%">{{i.bp}}</td>
+                                            <td style="width:15%">{{i.approx}}</td>
+                                            <td style="width:15%">{{i.variation}}</td>
+                                            <td style="width:15%">{{i.increase}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %} 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- punctuality -->
+                    <table class="table table-bordered table-striped table-sm" id="earnings" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:15%; text-align: left;">Description</th>
+                            <th style="width:10%; text-align: left;">2021-22</th>
+                            <th style="width:15%; text-align: left;" >Budget Target 2022-23</th>
+                            <th style="width:15%; text-align: left;" >Actuals to end of September, 2021</th>
+                            <th style="width:20%; text-align: left;" >BP to end of September 2022</th> 
+                            <th style="width:20%; text-align: left;" >Actual to end of September 2022</th>  
+                            <th style="width:20%; text-align: left;" >Variation over BP</th>  
+                            <th style="width:20%; text-align: left;" >Increase over September 2021</th> 
+                        </thead>
+                        <tbody>
+                            {% if earnings %}
+                            {% for i in earnings %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.description}}</td>
+                                <td style="width:15%">{{i.year}}</td>
+                                <td style="width:15%">{{i.budget_targets}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.bp}}</td>
+                                <td style="width:15%">{{i.approx}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                                <td style="width:15%">{{i.increase}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped table-sm" id="capex" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:15%; text-align: left;">Description</th>
+                            <th style="width:15%; text-align: left;">Annual Exp. 2021-22</th>
+                            <th style="width:10%; text-align: left;">Exp. Sept 2021</th>
+                            <th style="width:15%; text-align: left;" >% Utilizn.</th>
+                            <th style="width:15%; text-align: left;" >BE 2022-23</th>
+                            <th style="width:10%; text-align: left;" >BE Mod 2022-23</th>
+                            <th style="width:15%; text-align: left;" >Exp. Sept 2022</th>
+                            <th style="width:15%; text-align: left;" >%Utilizn. (BE Mod)</th>
+                            
+                        </thead>
+                        <tbody>
+                            {% if capex %}
+                            {% for i in capex %}
+                            {% if i.item is 'Total capex' %}
+                            <tr style="text-align: center; background-color: #566573; "> 
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actual_exp}}</td>
+                                <td style="width:15%">{{i.exp_sept_2021}}</td>
+                                <td style="width:15%">{{i.utilization}}</td>
+                                <td style="width:15%">{{i.be}}</td>
+                                <td style="width:15%">{{i.be_mod}}</td>
+                                <td style="width:15%">{{i.exp_sept_2022}}</td>
+                                <td style="width:15%">{{i.utilization_be_mod}}</td>
+                            </tr>
+                            {% else %}
+                            <tr style="text-align: center; "> 
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actual_exp}}</td>
+                                <td style="width:15%">{{i.exp_sept_2021}}</td>
+                                <td style="width:15%">{{i.utilization}}</td>
+                                <td style="width:15%">{{i.be}}</td>
+                                <td style="width:15%">{{i.be_mod}}</td>
+                                <td style="width:15%">{{i.exp_sept_2022}}</td>
+                                <td style="width:15%">{{i.utilization_be_mod}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped table-sm" id="infrastructure_creation" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:15%; text-align: left;">Infrastructure Works</th>
+                            <th style="width:10%; text-align: left;">Annual Target</th>
+                            <th style="width:15%; text-align: left;" >Cum. Target(Proportionate)</th>
+                            <th style="width:15%; text-align: left;" >Cum. Achieved (upto September 2022)</th>
+                            <th style="width:20%; text-align: left;" >% Variation (w.r.t Cum. Target)</th>  
+                        </thead>
+                        <tbody>
+                            {% if infrastructure_creation %}
+                            {% for i in infrastructure_creation %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.infrastructure_works}}</td>
+                                <td style="width:15%">{{i.annual_target}}</td>
+                                <td style="width:15%">{{i.cum_targets}}</td>
+                                <td style="width:15%">{{i.cummulative_achieved}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped table-sm" id="rolling_stock_production" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:15%; text-align: left;">Description</th>
+                            <th style="width:10%; text-align: left;">Total Previous Year</th>
+                            <th style="width:15%; text-align: left;" >Progressive Current Year</th>
+                            <th style="width:15%; text-align: left;" >Same month of Previous year</th>
+                            <th style="width:20%; text-align: left;" >Progressive Current Month</th>  
+                        </thead>
+                        <tbody>
+                            {% if rolling_stock_production %}
+                            {% for i in rolling_stock_production %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.infrastructure_works}}</td>
+                                <td style="width:15%">{{i.annual_target}}</td>
+                                <td style="width:15%">{{i.cum_targets}}</td>
+                                <td style="width:15%">{{i.cummulative_achieved}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped table-sm" id="asset_reliabilty" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:15%; text-align: left;">Description</th>
+                            <th style="width:15%; text-align: left;">Total Previous Year</th>
+                            <th style="width:10%; text-align: left;">Progressive Current Year</th>
+                            <th style="width:15%; text-align: left;" >Same month of Previous Year</th>
+                            <th style="width:15%; text-align: left;" >Progressive Current Month</th>
+                            <th style="width:10%; text-align: left;" >Same day of Previous Year</th>
+                            <th style="width:15%; text-align: left;" >Yesterday</th>
+                        </thead>
+                        <tbody>
+                            {% if asset_reliabilty %}
+                            {% for i in asset_reliabilty %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets_current_month}}</td>
+                                <td style="width:15%">{{i.progressive_current_month}}</td>
+                                <td style="width:15%">{{i.y_day_actual}}</td>
+                                <td style="width:15%">{{i.today_forecast}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                    
+                </div>
+        </div>
+    </body>
+    <script>
+        function table_view(id) {
+            document.getElementById("safety").hidden=true;
+            document.getElementById("loading").hidden=true;
+            // document.getElementById("punctuality").hidden=true;
+            document.getElementById("earnings").hidden=true;
+            document.getElementById("earnings").hidden=true;
+            document.getElementById("infrastructure_creation").hidden=true;
+            document.getElementById("rolling_stock_production").hidden=true;
+            document.getElementById("asset_reliabilty").hidden=true;
+            if(id==1)
+                document.getElementById("safety").hidden=false;
+            else if(id==2)
+                document.getElementById("loading").hidden=false;
+            else if(id==3)
+                document.getElementById("punctuality").hidden=false;
+            else if(id==4)
+                document.getElementById("earnings").hidden=false;
+            else if(id==5)
+                document.getElementById("capex").hidden=false;   
+            else if(id==6)
+                document.getElementById("infrastructure_creation").hidden=false;
+            else if(id==7)
+                document.getElementById("rolling_stock_production").hidden=false;
+            else if(id==8)
+            document.getElementById("asset_reliabilty").hidden=false;
+        }
+    </script>
+</html>

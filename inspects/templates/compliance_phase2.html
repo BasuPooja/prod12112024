@@ -1,0 +1,639 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <style>
+        .wrap.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    
+    .wrap-1.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap-1 {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    .wrap.active .content,.wrap-1.active .content  {
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    .wrap .content, .wrap-1 .content {
+        opacity: 0;
+    }
+    .wrap.active:before, .wrap-1.active:before {
+        height: 2000px;
+        width: 2000px;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        margin-left: -1000px;
+        margin-top: -1000px;
+        display: block;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap:before, .wrap-1:before {
+        position: fixed;
+        width: 1px;
+        height: 1px;
+        background: white;
+        content: "";
+        bottom: 10px;
+        left: 50%;
+        top: 95%;
+        color: #fff;
+        border-radius: 50%;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+        width: 10px;  /* Remove scrollbar space */
+        background: #dedede;
+    }
+    /* Optional: show position indicator in red */
+    .wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+        background: #FF0000;
+    }
+      </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}"/> 
+ <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+ <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+ <script src="{% static 'js/fontawesomev5.15.js' %}"></script>
+ <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+ 
+ 
+ <link rel="stylesheet" type="text/css" href="{% static 'css/quicksand.css' %} ">
+ <link rel="stylesheet" type="text/css" href="{% static 'css/lato.css' %}">
+ <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+ <script src="{% static '/js/select2.min.js' %}"></script>
+ 
+ <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+ <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+ 
+ <!-- date range -->
+ <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+ <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+ <link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+ 
+ <!-- datepicker,datatable and jquery-ui all -->
+ <link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.css' %}" />
+ <script type="text/javascript" src="{% static 'DataTables/datatables.js' %}"></script>
+ <link rel="stylesheet" type="text/css" href="{% static 'jquery-ui/jquery-ui.css' %}" />
+ <script type="text/javascript" src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+ 
+  
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+ 
+ <!-- timepicker -->
+ <link rel="stylesheet" type="text/css" href="{% static 'timepicker/css/timepicker.css' %}" />
+</head>
+
+
+<body>
+    <div class="container-fluid mt-0">
+        
+        <h3 class="report_heading">List of Pending Replies</h3> 
+        
+        <br>
+        <div class="inpt-container p-2">
+                    
+            <div class="acc-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <div class="row">
+                    <div class="col-11"><h5>Inspection Note Details</h5></div>
+                    <div class="col-1" style="text-align: right;">
+                        <button class="btn btn-sm btn-outline-dark ">
+                            <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                            <i class="fas fa-angle-double-down fa-lg"></i>
+                        </button>
+                        
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" >
+                {% for i in insp_details %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label class="lbl-caption">Inspection Note No</label>
+                            <input type="text" value="{{i.inspection_note_no}}" id="ins_note_id" readonly class="form-control lbl-caption" readonly/>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspecting Officer Designation</label>
+                            <input type="text" value="{{i.designation_id__designation}}" id="ins_desig" readonly class="form-control lbl-caption" readonly/>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspecting Officer Name</label>
+                            <input type="text" value="{{i.insp_name}}" id="ins_officer" class="form-control lbl-caption" readonly/>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspection Date</label>
+                            <input type="text" value="{{i.inspected_on}}" id="ins_date" class="form-control lbl-caption" readonly/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="lbl-caption">Inspection Title</label>
+                                <textarea type="text" class="form-control lbl-caption word-wrap h-90" style="max-width: 100%; " id="ins_title" readonly>{{i.inspection_title}}</textarea>
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <input type="text" value="{{i.einspno}}"  id="ins_id" readonly class="form-control lbl-caption" hidden/>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+        <br>
+        <div id="pending_reply">
+            <table id="mytable1" class="table table-striped table-bordered table-data" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th style="width: 5%;">Item No</th>
+                        <th style="width: 35%;">Insp. Para</th>
+                        <th style="width: 35%;">Compliance Remarks</th>
+                        <th style="width: 15%;">Action</th>
+                        <th style="width: 10%;"> Multiple <input class="checks_new1" type="checkbox" id="check_all" value="all" onclick="checkboxes_clicked_all()"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in listgrid %}
+                    <tr>
+                        <td>{{l.sr_no}}</td>
+                        <td>Question: {{l.question}} <br>
+                            Answer: {{l.value}}<br>
+                            Remarks: {{l.report_act}}
+                        </td>
+                        <td>
+                            {% if l.compliance %}
+                            <textarea type='text' class="form-control" id={{l.marked_no}}/ name="comp_remarks" style="height:90%; background-color: lightblue;" maxlength="3000" readonly>{{l.compliance}}</textarea>
+                            {% else %}
+                            <textarea type='text' class="form-control" id={{l.marked_no}}/ name="comp_remarks" style="height:90%; " maxlength="3000" ></textarea>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-6-xs-12 m-1" style="width: 100%;">
+                                    {% if l.tgt_date != -1 %}
+                                        <div><input type="text"  class="form-control datepker"  value='{{l.tgt_date}}' autocomplete="off" placeholder="Target Date" style="height: 2em; width: 110px;background-color:lightblue; " id=targetdate{{l.marked_no}} readonly > </div>
+                                    {% else %}
+                                        <div><input type="text"  class="form-control datepker"   autocomplete="off" placeholder="Target Date" style="height: 1.7em; width: 110px;  background-color:white;" id=targetdate{{l.marked_no}} readonly> </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6-xs-12 m-1" style="width: 100%;">
+                                    <div class="dropdown" style="width: 100%;">
+                                        <button class="btn btn-info btn-sm  dropdown-toggle tog1" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ACTION
+                                        </button>
+                                        
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%;">
+                                            {% if l.status_flag == 1 and l.reject != 1 %}
+                                            <button type="button" class="dropdown-item" style="width: 100%;" id="noted{{l.marked_no}}" onclick="save_compliance(this,'noted');" >NOTED</button>
+                                            <button type="button" class="dropdown-item" style="width: 100%;" id="//{{l.marked_no}}" onclick="save_compliance(this,'save');">SAVE</button>
+                                            <button type="button" class="dropdown-item" style="width: 100%;" id="///{{l.marked_no}}" onclick="edit_compliance(this);" disabled>EDIT</button>
+                                            
+                                            {% elif l.status_flag == 2 or l.status_flag == 0 or l.reject == 1 %}
+                                            <button type="button" class="dropdown-item" style="width: 100%;" id="noted{{l.marked_no}}" onclick="save_compliance(this,'noted');" disabled>NOTED</button>
+                                            <button type="button" class="dropdown-item" style="width: 100%;" id="//{{l.marked_no}}" onclick="save_compliance(this,'save');" disabled>SAVE</button>
+                                            <button type="button" class="dropdown-item" style="width: 100%;" id="///{{l.marked_no}}" onclick="edit_compliance(this);">EDIT</button>
+                                            
+                                            {% elif l.status_flag == 3 %}
+                                                {% if l.compliance %}
+                                                    <button type="button" class="dropdown-item" style="width: 100%;" id="noted{{l.marked_no}}" onclick="save_compliance(this,'noted');" disabled>NOTED</button>
+                                                    <button type="button" class="dropdown-item" style="width: 100%;" id="//{{l.marked_no}}" onclick="save_compliance(this,'save');" disabled>SAVE</button>
+                                                    <button type="button" class="dropdown-item" style="width: 100%;" id="///{{l.marked_no}}" onclick="edit_compliance(this);">EDIT</button>
+                                                {% else %}
+                                                    <button type="button" class="dropdown-item" style="width: 100%;" id="noted{{l.marked_no}}" onclick="save_compliance(this,'noted');" >NOTED</button>
+                                                    <button type="button" class="dropdown-item" style="width: 100%;" id="//{{l.marked_no}}" onclick="save_compliance(this,'save');" >SAVE</button>
+                                                    <button type="button" class="dropdown-item" style="width: 100%;" id="///{{l.marked_no}}" onclick="edit_compliance(this);" disabled>EDIT</button>
+                                                {% endif %}
+    
+                                            {% endif %}
+    
+                                            {% if request.session.user_role == 'guest' %}
+                                             <button type="button" class="dropdown-item" style="width: 100%;" data-toggle="modal" data-dismiss="modal" data-target="#RevertModal" id="/{{l.marked_no}}" disabled onclick="revert(this)" >REVERT</button>
+                                            {% else %}
+                                            <button type="button" class="dropdown-item" style="width: 100%;" data-toggle="modal" data-dismiss="modal" data-target="#RevertModal" id="/{{l.marked_no}}" onclick="revert(this)" >REVERT</button>
+                                            {% endif %}
+                                            {% if l.status_flag == 3 or l.forwarded %}
+                                            <button type="button" class="dropdown-item" style="width: 100%;color:green" title="{{l.forwarded_to}}" id="{{l.marked_no}}" name="get_data" onclick="fetch_forward_reply(this)">FORWARDED</button>
+                                            {% else %}
+                                            <button type="button" class="dropdown-item" style="width: 100%;" data-toggle="modal" data-dismiss="modal"  id="{{l.marked_no}}" name="get_data" onclick="fetch_forward_reply(this)">FORWARD</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </td>
+                        <td > <input class="checks_new" type="checkbox" id="check{{l.marked_no}}" value="{{l.marked_no}}" onclick="checkboxes_clicked()"> </td>
+    
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="modal-footer modal-footer-full-width ">
+                <div class="row pl-2" style="text-align:left">
+                    <div class="col">
+                        <label class="lbl-caption"><b>Save: </b>Draft the particular reply.</label>
+                    </div>
+                    <div class="col">
+                        <label class="lbl-caption"><b>Edit: </b>Edit the particular reply.</label>
+                    </div>
+                    <div class="col">
+                        <label class="lbl-caption"><b>Revert: </b>Revert the particular reply.</label>
+                    </div>
+                    <div class="col">
+                        <label class="lbl-caption"><b>Forward: </b>To forward item(s) to a group of officers.</label>
+                    </div>
+                    <div class="col">
+                        <label class="lbl-caption"><b> Multiple: </b>To take actions on  multiple items all at once.</label>
+                    </div>
+                    <div class="col">
+                        <label class="lbl-caption"><b>Submit: </b>Final Submit the reply to inspecting officer,after saving the data.</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="btn-group" role="group" id="all_buttons" hidden>
+                        <button type="button" class="btn btn-secondary btn-sm  btn-block " style="margin-top: 8px;" id="forward_btn"  onclick="all_funcs(this)">FORWARD</button>&nbsp;
+                        <button type="button" class="btn btn-info btn-block  btn-sm"  id="noted_btn"  onclick="all_funcs(this)">NOTED</button>&nbsp;
+                        <button type="button" class="btn btn-primary btn-block  btn-sm"  id="save_btn"  onclick="all_funcs(this)">SAVE</button>&nbsp;
+                    </div>
+                    <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                        <div class="btn-group" role="group" style="margin-right: 80%;">
+                            <button type="button" id="submit" class="btn btn-success btn-sm" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Submit all the saved replies." onclick="save_data()" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button> 
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" id="closereply">Close</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="wrap mt-0" id="inside_wrap">
+        <div class="content mt-0">
+          <button class="btn btn-danger" onclick="closePpln(this);" id="close_wrap">&times;</button>
+          <iframe src="" style="width:100%;height:82vh;border:0px;" id="frmDash1"></iframe>
+        </div>
+    </div>
+    
+      
+</body>
+<script>
+    // for save as draft
+    function save_compliance(e,type)
+    {
+        
+        if (type=='noted')
+        {
+            var marked_no_id=e.id;
+            marked_no=marked_no_id.substr(5);
+            var com_id=marked_no+'/';
+            var edit_id='///'+marked_no;
+            var revert_id='/'+marked_no;
+            var compliance=document.getElementById(com_id).value;
+            if(String(compliance).length!=0){
+                // compliance='Noted'+compliance
+                compliance='Noted'
+                document.getElementById(com_id).value=compliance
+            }
+            else{
+                compliance='Noted.'
+                document.getElementById(com_id).value=compliance
+            }
+            data=
+            {
+                'marked_no':marked_no,
+                'byOthersAction':'close',
+                'compliance':compliance,
+                'id':marked_no,
+            }
+        }
+        else
+        {
+            var marked_no_id=e.id;
+            marked_no=marked_no_id.substr(2);
+            var com_id=marked_no+'/';
+            var edit_id='///'+marked_no;
+            var revert_id='/'+marked_no;
+            var compliance=document.getElementById(com_id).value;
+            date_id='targetdate'+marked_no;
+            targetDate=document.getElementById(date_id).value;
+            if (compliance == '' && targetDate=='')
+            {
+                alert("Please enter either target date or compliance")
+                return fasle;
+            }
+            else if (compliance == '' && targetDate!=''){
+                compliance='It will be done by '+targetDate
+                document.getElementById(com_id).value=compliance
+            }
+            data=
+            {
+                'id':marked_no,
+                'byOthersAction':'close',
+                'compliance':compliance,
+                'targetDate':targetDate,
+            }
+        }
+        console.log(data)
+    $.ajax({
+      url: "{% url 'updateEinspUser' %}",
+      type: 'GET',
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        alert(response);
+        document.getElementById(com_id).readOnly = true;
+        document.getElementById(com_id).style.backgroundColor = "lightblue";
+        // document.getElementById(date_id).style.backgroundColor = "lightblue";
+        document.getElementById(marked_no_id).disabled = true;
+        // document.getElementById(revert_id).disabled = true;
+        document.getElementById(edit_id).disabled = false;
+        // document.getElementById(marked_no_id).style.backgroundColor = "lightblue";
+      }
+    })      
+    }
+
+
+    function edit_compliance(e)
+    {
+        var id=e.id;
+        id=id.substr(3);
+        // alert(id)
+        var com_id=id+'/';
+        var c_id='//'+id;
+        var edit_id='///'+id;
+        document.getElementById(com_id).readOnly= false;
+        document.getElementById(com_id).style.backgroundColor = "white";
+        // $('#'+com_id).attr('disabled','disabled');
+        document.getElementById(c_id).disabled = false;
+        document.getElementById(edit_id).disabled= true;
+        // date_id='targetdate'+id;
+        // document.getElementById(date_id).style.backgroundColor = "transparent";
+        // document.getElementById(date_id).disabled= false;
+        // $('#'+c_id).attr('disabled','disabled');
+    }
+    
+    // to open revert modal
+    function revert(e)
+    {
+        var marked_no=e.id.substr(1);
+        var inspection_id=document.getElementById("ins_id").value;
+        // alert(inspection_id)
+        alert('Reverting compliance ');
+        urls='/compliance_phase2/'+"?inspection_id=" + inspection_id + "&type=reply&status=R&marked_no="+marked_no
+            $("#frmDash1").attr("src",urls);
+            $("#inside_wrap").toggleClass('active');
+        // window.open("{% url 'compliance_phase2' %}" + "?inspection_id=" + inspection_id + "&type=reply&status=R&marked_no="+marked_no);           
+    }
+    
+
+    function fetch_forward_reply(e)
+    {
+        var marked_no=(e.id);
+        var inspection_id=document.getElementById("ins_id").value;
+        data={'marked_no':marked_no,}
+        urls='/compliance_phase2/'+"?inspection_id=" + inspection_id + "&type=Forward&status=F&marked_no="+marked_no
+        $("#frmDash1").attr("src",urls);
+        $("#inside_wrap").toggleClass('active');
+    }
+
+
+    //  for final submit
+    function save_data()
+    {
+        ins_id=$('#ins_id').val();
+
+        data={
+            'ins_id':ins_id,
+            'byOthersAction':'submit',    
+        }
+        alert('Do you want to continue?');
+        $.ajax
+        ({
+            url: "{% url 'updateEinspUser' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                alert(response);
+                window.location.reload();
+                window.parent.closePpln();
+            }
+        })
+    }
+
+    
+
+</script>
+
+<!-- <script>
+ 
+    function show_function(status){
+       if (status =='P'){
+        $('#pending_reply').show();
+        $('#revert_remarks').hide();
+       }
+       else if (status =='R'){
+        $('#pending_reply').hide();
+        $('#revert_remarks').show();
+       }
+    }
+</script> -->
+<script>
+
+    $(".datepker").datepicker({	
+        showOn: 'focus',	
+        dateFormat: 'dd/mm/y',	
+        showButtonPanel: true,	
+        closeText: 'Clear', 	
+        minDate: 0,	
+        onClose: function () {	
+            var event = arguments.callee.caller.caller.arguments[0];	
+            if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {	
+                $(this).val('');	
+            }	
+        },	
+        onSelect: function(selectedDate) {	
+            
+        }	
+    });	
+
+
+    function closePpln()
+  {
+      $(".wrap").toggleClass('active');
+      window.location.reload();
+  }
+  </script>
+
+
+<script>
+    function checkboxes_clicked(){
+     let count=0;
+     elements = document.getElementsByClassName("checks_new");
+     for (i = 0; i < elements.length; i++) {
+         if (elements[i].checked == true)
+             count++;
+         }
+     if (count){
+         document.getElementById("all_buttons").hidden=false
+     let elements = document.getElementsByClassName("dropdown");
+         for (i = 0; i < elements.length; i++) {
+             elements[i].hidden=true
+         }
+ 
+     }
+     
+     else{
+         document.getElementById("all_buttons").hidden=true
+         let elements = document.getElementsByClassName("dropdown");
+         for (i = 0; i < elements.length; i++) {
+             elements[i].hidden=false
+         } 
+     }
+     // alert(count)
+    }
+    function all_funcs(e){
+        // alert(e)
+     if (e.id=='forward_btn'){
+        all_fwds=[]
+         elements = document.getElementsByClassName("checks_new");
+         for (i = 0; i < elements.length; i++) {
+             if (elements[i].checked == true)
+                 var dd=elements[i].id
+                 real_id=dd.substr(5);
+                //  alert(real_id)
+                 all_fwds.push(real_id)
+                //  document.getElementById(real_id).click();
+                //  break;
+                 // id="${replydata[i]['item_no']}"
+             } 
+            alert(all_fwds)
+            all_fwds=JSON.stringify(all_fwds)
+            var inspection_id=document.getElementById("ins_id").value;
+            data={'all_fwds':all_fwds,}
+            urls='/compliance_phase2/'+"?inspection_id=" + inspection_id + "&type=Forward&status=M&marked_no="+all_fwds
+            $("#frmDash1").attr("src",urls);
+            $("#inside_wrap").toggleClass('active');
+     }
+     else if(e.id=='save_btn'){
+         elements = document.getElementsByClassName("checks_new");
+         for (i = 0; i < elements.length; i++) {
+             if (elements[i].checked == true){
+                 var dd=elements[i].id
+                 real_id=dd.substr(5);
+                 var com_id=real_id+'/';
+                 if (document.getElementById(com_id).disabled == false){
+                     id="//"+real_id
+                     document.getElementById(id).click();
+                 }
+                 elements[i].checked = false
+             }
+         }
+     }
+     else if(e.id=='noted_btn'){
+         elements = document.getElementsByClassName("checks_new");
+         for (i = 0; i < elements.length; i++) {
+             if (elements[i].checked == true){
+                 var dd=elements[i].id
+                 real_id=dd.substr(5);
+                 var com_id=real_id+'/';
+                 if (document.getElementById(com_id).disabled == false){
+                     id="noted"+real_id
+                     alert(id)
+                     document.getElementById(id).click();
+                 }
+                 elements[i].checked = false
+             }
+         }
+     }
+     checkboxes_clicked()
+    }
+ 
+    function checkboxes_clicked_all(){
+     if (document.getElementById("check_all").checked == true){
+     elements = document.getElementsByClassName("checks_new");
+     for (i = 0; i < elements.length; i++) {
+         elements[i].checked = true
+         }
+     }
+     else{
+         elements = document.getElementsByClassName("checks_new");
+         for (i = 0; i < elements.length; i++) {
+             elements[i].checked = false
+             }
+     }
+         checkboxes_clicked()  
+    }
+    function pan_checks_all_fun(){
+     if (document.getElementById("panel_checks_all").checked == true){
+     elements = document.getElementsByClassName("pan_checks");
+     for (i = 0; i < elements.length; i++) {
+         elements[i].checked = true
+         }
+     }
+     else{
+         elements = document.getElementsByClassName("pan_checks");
+         for (i = 0; i < elements.length; i++) {
+             elements[i].checked = false
+             }
+     }
+    }
+ </script>

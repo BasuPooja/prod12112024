@@ -1,0 +1,235 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <style>
+        .wrap.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    
+    .wrap-1.active {
+        display: block;
+        visibility: visible;
+        box-shadow: 2px 3px 16px silver;
+        transition: all 600ms;
+        transform: translateY(0px);
+        transition: all 0.5s;
+    }
+    .wrap-1 {
+        position: fixed;
+        overflow: hidden;
+        top: 10%;
+        right: 10%;
+        bottom: 85px;
+        left: 10%;
+        padding: 12px;
+        display: block !important;
+        border-radius: 4px;
+        transform: translateY(20px);
+        transition: all 0.5s;
+        visibility: hidden;
+        z-index: 9999;
+        height: 85vh;
+    }
+    .wrap.active .content,.wrap-1.active .content  {
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: all 600ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    .wrap .content, .wrap-1 .content {
+        opacity: 0;
+    }
+    .wrap.active:before, .wrap-1.active:before {
+        height: 2000px;
+        width: 2000px;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        margin-left: -1000px;
+        margin-top: -1000px;
+        display: block;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap:before, .wrap-1:before {
+        position: fixed;
+        width: 1px;
+        height: 1px;
+        background: white;
+        content: "";
+        bottom: 10px;
+        left: 50%;
+        top: 95%;
+        color: #fff;
+        border-radius: 50%;
+        -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+        transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    .wrap::-webkit-scrollbar, .wrap-1::-webkit-scrollbar {
+        width: 10px;  /* Remove scrollbar space */
+        background: #dedede;
+    }
+    /* Optional: show position indicator in red */
+    .wrap::-webkit-scrollbar-thumb,.wrap-1::-webkit-scrollbar-thumb {
+        background: #FF0000;
+    }
+      </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}"/> 
+ <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+ <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+ <script src="{% static 'js/fontawesomev5.15.js' %}"></script>
+ <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+ 
+ 
+ <link rel="stylesheet" type="text/css" href="{% static 'css/quicksand.css' %} ">
+ <link rel="stylesheet" type="text/css" href="{% static 'css/lato.css' %}">
+ <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+ <script src="{% static '/js/select2.min.js' %}"></script>
+ 
+ <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+ <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+ 
+ <!-- date range -->
+ <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+ <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+ <link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+ 
+ <!-- datepicker,datatable and jquery-ui all -->
+ <link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.css' %}" />
+ <script type="text/javascript" src="{% static 'DataTables/datatables.js' %}"></script>
+ <link rel="stylesheet" type="text/css" href="{% static 'jquery-ui/jquery-ui.css' %}" />
+ <script type="text/javascript" src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+ 
+  
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+ 
+ <!-- timepicker -->
+ <link rel="stylesheet" type="text/css" href="{% static 'timepicker/css/timepicker.css' %}" />
+</head>
+
+<body>
+    <div class="container-fluid mt-0">
+        <h3 class="report_heading">List of Accepted Replies</h3> 
+        <br>
+        <div class="inpt-container p-2">
+                    
+            <div class="acc-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <div class="row">
+                    <div class="col-11"><h5>Inspection Note Details</h5></div>
+                    <div class="col-1" style="text-align: right;">
+                        <button class="btn btn-sm btn-outline-dark ">
+                            <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                            <i class="fas fa-angle-double-down fa-lg"></i>
+                        </button>
+                        
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" >
+                {% for i in insp_details %}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label class="lbl-caption">Inspection Note No</label>
+                            <input type="text" value="{{i.inspection_note_no}}" id="ins_note_id" readonly class="form-control lbl-caption" readonly/>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspecting Officer Designation</label>
+                            <input type="text" value="{{i.designation_id__designation}}" id="ins_desig" readonly class="form-control lbl-caption" readonly/>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspecting Officer Name</label>
+                            <input type="text" value="{{i.insp_name}}" id="ins_officer" class="form-control lbl-caption" readonly/>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspection Date</label>
+                            <input type="text" value="{{i.inspected_on}}" id="ins_date" class="form-control lbl-caption" readonly/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="lbl-caption">Inspection Title</label>
+                                <textarea type="text" class="form-control lbl-caption word-wrap h-90" style="max-width: 100%; " id="ins_title" readonly>{{i.inspection_title}}</textarea>
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <input type="text" value="{{i.einspno}}"  id="ins_id" readonly class="form-control lbl-caption" hidden/>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+        <br>
+        <div id="pending_reply">
+            <table id="mytable1" class="table table-striped table-bordered table-data" width="100%">
+                <thead>
+                    <tr align="left">
+                        <th>Item No</th>
+                        <th>Insp. Para</th>
+                        <th>Accepted Compliance Remarks</th>
+                        <th>Target date</th>
+                        <th>Replied on</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in listgrid %}
+                    <tr>
+                        <td>{{l.sr_no}}</td>
+                        <td>Question: {{l.question}} <br>
+                            Answer: {{l.value}}<br>
+                            Remarks: {{l.report_act}}
+                        </td>
+                        <td>
+                            {% if l.compliance %}
+                            <textarea type='text' class="form-control" id={{l.marked_no}}/ name="comp_remarks" style="height:90%; background-color: lightblue;" maxlength="3000" readonly>{{l.compliance}}</textarea>
+                            {% else %}
+                            <textarea type='text' class="form-control" id={{l.marked_no}}/ name="comp_remarks" style="height:90%; " maxlength="3000" ></textarea>
+                            {% endif %}
+                        </td>
+                        {% if l.tgt_date != -1 %}
+                        <td>{{l.tgt_date}}</td>
+                        {% else %}
+                        <td>NA</td>
+                        {% endif %}
+                        <td>{{l.compliance_recieved_on}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</body>

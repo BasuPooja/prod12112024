@@ -1,0 +1,444 @@
+
+9746763900
+2023-11-20 12:01:12.311015
+Total 1 Item(s) of  Insp. note no. 2023/DSC/PGT/SR/Insp/16 marked/forwarded by DSC/PGT/SR marked to you for n/a. Cumulative pending compliance: 169, CRIS/MU.
+
+9746763800
+2023-11-20 12:01:13.371419
+Total 1 Item(s) of  Insp. note no. 2023/DSC/PGT/SR/Insp/16 marked/forwarded by DSC/PGT/SR marked to you for n/a. Cumulative pending compliance: 30, CRIS/MU.
+
+9746763701
+2023-11-20 12:01:14.586485
+Total 1 Item(s) of  Insp. note no. 2023/DSC/PGT/SR/Insp/16 marked/forwarded by DSC/PGT/SR marked to you for n/a. Cumulative pending compliance: 3, CRIS/MU.
+
+8754022325
+2024-01-03 19:09:39.039894
+Total 5 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/3 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 63, CRIS/MU.
+
+9003862202
+2024-01-03 19:09:40.081776
+Total 9 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/3 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 525, CRIS/MU.
+
+9003862211
+2024-01-03 19:09:41.124337
+Total 3 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/3 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 187, CRIS/MU.
+
+8754022325
+2024-01-03 19:31:08.908258
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/4 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 64, CRIS/MU.
+
+9003862202
+2024-01-03 19:31:09.931116
+Total 6 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/4 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 531, CRIS/MU.
+
+8056162319
+2024-01-03 19:31:10.967515
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/4 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 42, CRIS/MU.
+
+9003862202
+2024-01-03 20:11:54.605487
+Total 13 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/5 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 541, CRIS/MU.
+
+9003862402
+2024-01-03 20:11:55.641851
+Total 2 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/5 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 24, CRIS/MU.
+
+9003862400
+2024-01-03 20:11:56.669257
+Total 7 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/5 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 198, CRIS/MU.
+
+9003862950
+2024-01-03 20:11:57.708899
+Total 3 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/5 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 30, CRIS/MU.
+
+9003862405
+2024-01-03 20:11:58.738526
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/5 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 65, CRIS/MU.
+
+9003862301
+2024-01-03 20:11:59.782818
+Total 5 Item(s) of  Insp. note no. 2024/ADRM/MDU/SR/Insp/5 marked/forwarded by ADRM/MDU/SR marked to you for n/a. Cumulative pending compliance: 148, CRIS/MU.
+
+9794843000
+2024-01-31 14:06:01.378590
+Total 12 Item(s) of  Insp. note no. 2024/PCME/NER/Insp/1 marked/forwarded by PCME/NER marked to you for n/a. Cumulative pending compliance: 12, CRIS/MU.
+
+9003161608
+2024-02-07 17:07:36.899073
+Total 1 Item(s) of  Insp. note no. 2024/ACM/I/MAS/SR/Insp/10 marked/forwarded by ACM/I/MAS/SR marked to you for n/a. Cumulative pending compliance: 1, CRIS/MU.
+
+9752876401
+2024-02-07 17:07:59.637756
+Total 4 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/12 marked/forwarded by CRSE/Frt/SECR marked to you for n/a. Cumulative pending compliance: 20, CRIS/MU.
+
+9003169208
+2024-02-15 17:41:06.370454
+Total 1 Item(s) of  Insp. note no. 2024/DyCSO/Mech/SR/Insp/7 marked/forwarded by SrDEN/Co/TVC/SR marked to you for n/a. Cumulative pending compliance: 180, CRIS/MU.
+
+9730078900
+2024-02-15 17:50:41.732013
+Total 1 Item(s) of  Insp. note no. 2023/SrDMM/NAG/SECR/Insp/26 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 14, CRIS/MU.
+
+9730078900
+2024-02-15 17:53:43.910354
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/2 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 15, CRIS/MU.
+
+9746763701
+2024-02-15 17:54:51.002046
+Total 1 Item(s) of  Insp. note no. 2024/DSC/PGT/SR/Insp/10 marked/forwarded by DSC/PGT/SR marked to you for n/a. Cumulative pending compliance: 3, CRIS/MU.
+
+9730078900
+2024-02-15 17:55:15.452855
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/3 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 16, CRIS/MU.
+
+9794833007
+2024-02-15 17:56:47.986765
+Total 3 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 12, CRIS/MU.
+
+9794833202
+2024-02-15 17:56:49.027395
+Total 28 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 33, CRIS/MU.
+
+9760534950
+2024-02-15 17:56:50.075540
+Total 19 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 113, CRIS/MU.
+
+9794833007
+2024-02-15 17:56:50.111349
+Total 3 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 12, CRIS/MU.
+
+9794833300
+2024-02-15 17:56:51.114299
+Total 5 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 42, CRIS/MU.
+
+9794833202
+2024-02-15 17:56:51.150275
+Total 28 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 33, CRIS/MU.
+
+9794833099
+2024-02-15 17:56:52.267237
+Total 2 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 14, CRIS/MU.
+
+9760534950
+2024-02-15 17:56:52.599821
+Total 19 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 113, CRIS/MU.
+
+9794833200
+2024-02-15 17:56:53.912328
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 26, CRIS/MU.
+
+9794833300
+2024-02-15 17:56:54.437534
+Total 5 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 42, CRIS/MU.
+
+9794833700
+2024-02-15 17:56:54.965870
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 25, CRIS/MU.
+
+9794833099
+2024-02-15 17:56:55.484196
+Total 2 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 14, CRIS/MU.
+
+9794833400
+2024-02-15 17:56:56.019865
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 31, CRIS/MU.
+
+9794833200
+2024-02-15 17:56:56.537753
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 26, CRIS/MU.
+
+9794833770
+2024-02-15 17:56:57.089840
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 2, CRIS/MU.
+
+9794833007
+2024-02-15 17:56:57.547004
+Total 3 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 12, CRIS/MU.
+
+9794833700
+2024-02-15 17:56:57.598520
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 25, CRIS/MU.
+
+9794833201
+2024-02-15 17:56:58.134382
+Total 3 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/28 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 37, CRIS/MU.
+
+9794833202
+2024-02-15 17:56:58.595777
+Total 28 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 33, CRIS/MU.
+
+9794833400
+2024-02-15 17:56:58.647126
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 31, CRIS/MU.
+
+9760534950
+2024-02-15 17:56:59.717213
+Total 19 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 113, CRIS/MU.
+
+9794833770
+2024-02-15 17:56:59.717213
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 2, CRIS/MU.
+
+9794833201
+2024-02-15 17:57:00.779076
+Total 3 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/29 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 37, CRIS/MU.
+
+9794833300
+2024-02-15 17:57:00.779076
+Total 5 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 42, CRIS/MU.
+
+9794833099
+2024-02-15 17:57:01.836454
+Total 2 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 14, CRIS/MU.
+
+9794833200
+2024-02-15 17:57:02.894092
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 26, CRIS/MU.
+
+9794833700
+2024-02-15 17:57:03.950377
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 25, CRIS/MU.
+
+9794833400
+2024-02-15 17:57:05.006104
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 31, CRIS/MU.
+
+9794833770
+2024-02-15 17:57:06.044549
+Total 1 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 2, CRIS/MU.
+
+9794833201
+2024-02-15 17:57:07.180437
+Total 3 Item(s) of  Insp. note no. 2024/DRM/LKO/NR/Insp/30 marked/forwarded by DRM/LKO/NR marked to you for n/a. Cumulative pending compliance: 37, CRIS/MU.
+
+9730078201
+2024-02-15 17:57:25.203135
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/4 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 46, CRIS/MU.
+
+9730078201
+2024-02-15 17:57:54.807970
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/4 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 47, CRIS/MU.
+
+9003864208
+2024-02-15 17:58:06.265426
+Total 10 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/31 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 56, CRIS/MU.
+
+9003864201
+2024-02-15 17:58:07.301743
+Total 19 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/31 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 260, CRIS/MU.
+
+9003864700
+2024-02-15 17:58:08.341242
+Total 3 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/31 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 57, CRIS/MU.
+
+9003864800
+2024-02-15 17:58:09.369700
+Total 2 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/31 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 55, CRIS/MU.
+
+9003864600
+2024-02-15 17:58:10.400538
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/31 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 6, CRIS/MU.
+
+9003864208
+2024-02-15 17:58:11.037763
+Total 10 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/32 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 66, CRIS/MU.
+
+9600495029
+2024-02-15 17:58:11.437803
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/31 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 15, CRIS/MU.
+
+9003864201
+2024-02-15 17:58:12.081170
+Total 19 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/32 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 279, CRIS/MU.
+
+9003864700
+2024-02-15 17:58:13.116842
+Total 3 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/32 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 60, CRIS/MU.
+
+9003864800
+2024-02-15 17:58:14.145711
+Total 2 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/32 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 57, CRIS/MU.
+
+9003864600
+2024-02-15 17:58:15.181942
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/32 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 7, CRIS/MU.
+
+9600495029
+2024-02-15 17:58:16.208851
+Total 1 Item(s) of  Insp. note no. 2024/ADRM/TPJ/SR/Insp/32 marked/forwarded by ADRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 15, CRIS/MU.
+
+9730078201
+2024-02-15 17:58:29.234023
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/4 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 48, CRIS/MU.
+
+9730078201
+2024-02-15 17:58:53.992960
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/4 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 49, CRIS/MU.
+
+9730078201
+2024-02-15 17:59:28.494830
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/4 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 50, CRIS/MU.
+
+9730078500
+2024-02-15 18:01:12.112171
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/27 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 44, CRIS/MU.
+
+9730078400
+2024-02-15 18:02:40.865424
+Total 2 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/27 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 4, CRIS/MU.
+
+9730078800
+2024-02-15 18:03:51.878808
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/27 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 485, CRIS/MU.
+
+9730078400
+2024-02-15 18:08:25.185547
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/28 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 5, CRIS/MU.
+
+9730078400
+2024-02-15 18:09:45.030869
+Total 1 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/28 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 6, CRIS/MU.
+
+9730078400
+2024-02-15 18:10:48.948159
+Total 2 Item(s) of  Insp. note no. 2023/PCME/SECR/Insp/28 marked/forwarded by SrDSO/NAG/SECR marked to you for n/a. Cumulative pending compliance: 7, CRIS/MU.
+
+9003864211
+2024-04-03 10:23:13.238290
+Total 6 Item(s) of  Insp. note no. 2024/ABE/Dsg&BL/SR/Insp/12 marked/forwarded by ABE/Dsg&BL/SR marked to you for n/a. Cumulative pending compliance: 82, CRIS/MU.
+
+9003864211
+2024-04-03 10:23:19.729226
+Total 5 Item(s) of  Insp. note no. 2024/ABE/Dsg&BL/SR/Insp/14 marked/forwarded by ABE/Dsg&BL/SR marked to you for n/a. Cumulative pending compliance: 93, CRIS/MU.
+
+9003864212
+2024-04-03 10:23:34.545102
+Total 3 Item(s) of  Insp. note no. 2024/ABE/Dsg&BL/SR/Insp/12 marked/forwarded by ABE/Dsg&BL/SR marked to you for n/a. Cumulative pending compliance: 65, CRIS/MU.
+
+9760536004
+2024-05-01 13:05:16.751198
+Total 1 Item(s) of  Insp. note no. 2024/AEN/AGRA/NCR/Insp/15 marked/forwarded by AEN/AGRA/NCR marked to you for n/a. Cumulative pending compliance: 10, CRIS/MU.
+
+9760536302
+2024-05-01 13:05:17.789310
+Total 3 Item(s) of  Insp. note no. 2024/AEN/AGRA/NCR/Insp/15 marked/forwarded by AEN/AGRA/NCR marked to you for n/a. Cumulative pending compliance: 288, CRIS/MU.
+
+9794866296
+2024-05-01 13:08:16.565913
+Total 12 Item(s) of  Insp. note no. 2024/ADRM/Op/PRYJ/NCR/Insp/42 marked/forwarded by ADRM/Op/PRYJ/NC marked to you for n/a. Cumulative pending compliance: 28, CRIS/MU.
+
+9794835364
+2024-05-01 13:08:17.588975
+Total 12 Item(s) of  Insp. note no. 2024/ADRM/Op/PRYJ/NCR/Insp/42 marked/forwarded by ADRM/Op/PRYJ/NC marked to you for n/a. Cumulative pending compliance: 22, CRIS/MU.
+
+9794835855
+2024-05-01 13:08:18.616032
+Total 12 Item(s) of  Insp. note no. 2024/ADRM/Op/PRYJ/NCR/Insp/42 marked/forwarded by ADRM/Op/PRYJ/NC marked to you for n/a. Cumulative pending compliance: 13, CRIS/MU.
+
+9760536002
+2024-05-01 13:12:50.133299
+Total 1 Item(s) of  Insp. note no. 2024/AGM/NCR/Insp/8 marked/forwarded by DRM/AGRA/NCR marked to you for n/a. Cumulative pending compliance: 48, CRIS/MU.
+
+9760536200
+2024-05-01 13:12:51.187445
+Total 1 Item(s) of  Insp. note no. 2024/AGM/NCR/Insp/8 marked/forwarded by DRM/AGRA/NCR marked to you for n/a. Cumulative pending compliance: 26, CRIS/MU.
+
+9760536900
+2024-05-01 13:12:52.237196
+Total 1 Item(s) of  Insp. note no. 2024/AGM/NCR/Insp/8 marked/forwarded by DRM/AGRA/NCR marked to you for n/a. Cumulative pending compliance: 17, CRIS/MU.
+
+9752418000
+2024-05-01 13:13:48.917037
+Total 6 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 444, CRIS/MU.
+
+9752415200
+2024-05-01 13:13:49.963760
+Total 11 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 35, CRIS/MU.
+
+9752413100
+2024-05-01 13:13:51.008363
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 91, CRIS/MU.
+
+9752416000
+2024-05-01 13:13:52.044650
+Total 16 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 446, CRIS/MU.
+
+9001017000
+2024-05-01 13:13:53.096208
+Total 4 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 106, CRIS/MU.
+
+9752415950
+2024-05-01 13:13:54.155608
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 120, CRIS/MU.
+
+9752415300
+2024-05-01 13:13:55.202712
+Total 2 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 5, CRIS/MU.
+
+9752415500
+2024-05-01 13:13:56.238050
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 20, CRIS/MU.
+
+9752415400
+2024-05-01 13:13:57.276472
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 91, CRIS/MU.
+
+9752415750
+2024-05-01 13:13:58.312433
+Total 4 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 4, CRIS/MU.
+
+9752415900
+2024-05-01 13:13:59.334969
+Total 7 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 94, CRIS/MU.
+
+9752415600
+2024-05-01 13:14:00.354789
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 3, CRIS/MU.
+
+9752415700
+2024-05-01 13:14:01.383351
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 26, CRIS/MU.
+
+9752415650
+2024-05-01 13:14:02.400277
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 53, CRIS/MU.
+
+9752415800
+2024-05-01 13:14:03.435046
+Total 6 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 201, CRIS/MU.
+
+9752415100
+2024-05-01 13:14:04.497142
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 3, CRIS/MU.
+
+9752415002
+2024-05-01 13:14:05.544806
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 3, CRIS/MU.
+
+9752415001
+2024-05-01 13:14:06.580513
+Total 1 Item(s) of  Insp. note no. 2024/GM/WCR/Insp/24 marked/forwarded by GM/WCR marked to you for n/a. Cumulative pending compliance: 3, CRIS/MU.
+
+9003864200
+2024-05-27 15:59:28.524322
+Total 1 Item(s) of  Insp. note no. 2024/GM/SR/Insp/11 marked/forwarded by DRM/TPJ/SR marked to you for n/a. Cumulative pending compliance: 307, CRIS/MU.
+
+9794842400
+2024-05-27 15:59:46.516596
+Total 3 Item(s) of  Insp. note no. 2024/CRSE/NER/Insp/31 marked/forwarded by CRSE/NER marked to you for n/a. Cumulative pending compliance: 8, CRIS/MU.
+
+9794842400
+2024-05-27 16:00:05.530017
+Total 3 Item(s) of  Insp. note no. 2024/CRSE/NER/Insp/32 marked/forwarded by CRSE/NER marked to you for n/a. Cumulative pending compliance: 8, CRIS/MU.
+
+9794834877
+2024-06-18 13:50:11.086130
+Total 1 Item(s) of  Insp. note no. 2024/AOM/BSB/LKO/NR/Insp/60 marked/forwarded by SrDOM/LKO/NR marked to you for n/a. Cumulative pending compliance: 18, CRIS/MU.
+
+9001198201
+2024-06-19 15:14:07.653798
+Total 1 Item(s) of  Insp. note no. 2024/PCE/NWR/Insp/22 marked/forwarded by SrDEN/Co/JU/NWR marked to you for n/a. Cumulative pending compliance: 68, CRIS/MU.
+
+9794837200
+2024-06-19 15:14:17.551750
+Total 1 Item(s) of  Insp. note no. 2024/PCOM/NCR/Insp/37 marked/forwarded by PCE/NCR marked to you for n/a. Cumulative pending compliance: 259, CRIS/MU.

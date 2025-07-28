@@ -1,0 +1,446 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}"> 
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>  
+</head>
+
+<style>
+    .modal-content{
+    border: solid !important;
+    border-width: 1px !important;
+    }
+    .modal-header{
+    background-color: #0066cc!important;
+    color: #fff;
+    border-radius: inherit;
+    }
+    .close span{
+    color: #fff !important;
+    }
+    .close span:hover{
+    color: #fff !important;
+    }
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 1500px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+
+  .modal.right.fade.show .modal-dialog {
+    right: 0;
+  }
+
+  /* ----- MODAL STYLE ----- */
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+  }
+
+  .modal-lg {
+    max-width: 70% !important;
+  }
+
+</style>
+
+<style>
+  * {
+      box-sizing: border-box;
+    }
+    .input,
+    input[type=text]
+    {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 2px 0;
+        display: block;
+        /* border: 1.5px solid rgb(14, 12, 12); */
+        resize: vertical;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=submit] 
+    {
+        width: 40%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: rgb(15, 12, 12);
+        padding: 14px 20px;
+        margin: 2px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=submit]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    input[type=button] 
+    {
+        width: 30%;
+        text-align: center;
+        background-color: #4CAF50;
+        color: white;
+        padding: 6px 6px;
+        margin: 2px 2px 2px 2px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type=button]:hover 
+    {
+        background-color: #45a049;
+        text-align: center;
+    }
+    .inputtag
+    {
+        height:20px;
+    }
+    .container
+    {
+        width:1500px;
+    }
+
+    input[type="radio"]
+    {   margin: 0 5px 0 5px;    }
+
+    div.bold-selected 
+    {   font-weight: bold;  }
+
+    tr.row_selected td{background-color:lightgrey !important;}
+
+    
+    #mon_title{
+        height: 38%;
+    }
+
+
+    
+
+
+
+
+</style>
+
+<body>
+    <h3 class="report_heading"> Draft Minutes of Meeting</h3>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <input id="dis_id" value="{{str}}" hidden>
+                <input id="types_id" value="{{types}}" hidden>
+                <div class="inpt-container p-2">
+                    <div class="row">
+                        {% if str != 'RB' %}
+                        <div class="col-3" >
+                            <label for="type" class="lbl-caption">Meeting Type</label>
+                            <select class="form-control" name="meet_type" id="meet_type" class="custom-select" required>
+                                <option value="All" selected>All</option>
+                                {% for t in meeting %}
+                                    <option value="{{t.meeting_type}}">{{t.meeting_type}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+
+                        <!-- <div class="col-3" >
+                            <label for="status" class="lbl-caption" >Status</label>
+                            <select class="form-control p-0"  name="status" id="status" class="custom-select" style="height:30px; font-size:14px;">
+                                <option value="0" selected>All</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Partial</option>
+                                <option value="3">Completed</option> 
+                                <option value="4">Closed</option>
+                                <option value="R">Rejected</option> 
+                            </select>
+                        </div> -->
+                        <div class="col-3" >
+                            <label for="mon_title" class="lbl-caption" >Mom title</label>
+                            <input type="text" class="form-control" id="mon_title">
+                        </div>
+
+                        <div class="col-3" >
+                            <label for="mdate" class="lbl-caption" >Date of Meeting</label>
+                            <input type="text" style="background-color: #fff;" class="form-control p-0 pl-1"  style="height:30px; font-size:14px;" id="filterdate" name="filterdate" placeholder="Select Date Range.." class="form-control" readonly>                    
+                        </div>
+                        
+                        <div class="col-3">
+                            <div class="btn-toolbar float-right" role="toolbar"  >
+                                <div class="btn-group " role="group" style="height:30px; font-size:14px;margin-top: 30px;">                           
+                                    <button type="button" id="momdone_filter" class="btn btn-warning btn-sm" onclick="momdone_filter(this);">Continue</button> &nbsp;
+                                    <button type="button" id="clear" class="btn btn-secondary btn-sm" onclick="clear_filter();">Reset</button>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <table id="doneTable" class="table table-bordered table-data table-sm" style="width: 100%;" >
+                        <thead>
+                            <tr style="margin-left: 5em;">
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;">S.No.</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">Meeting Date</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 40%;">MOM Title</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">Meeting Type</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 10%;">MOM Date</th>
+                                <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 8%;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in mom_data %}
+                            <tr>
+                                <td style= "text-align: left;">{{forloop.counter}}</td>
+                                <td style= "text-align: left;">{{i.mom_date|date:"d/m/y"}}</td>
+                                <td style= "text-align: left;" data-toggle="tooltip" title="{{i.mom_title}}">{{i.mom_title|slice:80}}..</td>
+                                <td style="text-align:left">{{i.meeting_type}}</td>
+                                <td style="text-align:left">{{i.created_on|date:"d/m/y"}}</td>
+
+                                <td style="text-align:left " >
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="{{i.insp_no}}" onclick="open_inspection(this)"><i class="far fa-edit"></i></button>
+                                    <a href="{% url 'delete_mom_draft' i.insp_no %}" class="btn btn-outline-danger btn-sm" id="{{i.insp_no}}" ><i class="fas fa-trash-alt"></i></a>
+                            
+                                </td>
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>   
+                </table>
+            </div>
+            <div class="col-1"></div>
+        </div>
+   </div>
+</body>
+
+<!-- script for datepicker -->
+<script>
+    $(function() 
+    {
+        $('input[name="filterdate"]').daterangepicker({
+            autoUpdateInput: false,
+            defaultDate: null,
+            maxDate: new Date(),
+            locale: {   cancelLabel: 'Clear'    }
+        });
+    
+        $('input[name="filterdate"]').on('apply.daterangepicker', function(ev, picker) 
+        {
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));
+            if(picker.startDate.format('DD/MM/YYYY') == picker.endDate.format('DD/MM/YYYY'))
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY'))  }
+            else
+            {   $(this).val(picker.startDate.format('DD/MM/YYYY') + ' to ' + picker.endDate.format('DD/MM/YYYY'));  }
+            $('.applyButtonClasses').click()
+        });
+    
+        $('input[name="filterdate"]').on('cancel.daterangepicker', function(ev, picker) 
+        {   $(this).val('');    });
+    });
+
+</script>
+
+<script>
+    
+    $( document ).ready(function(){
+           
+            $('#meet_type').select2();
+    })
+
+    function clear_filter(e)
+    {
+        window.location.reload();
+        // window.location.href='{% url "draft_mom_doneby_list" %}'
+    }
+ 
+   
+    var table = $('#doneTable').DataTable();
+
+    function momdone_filter(e)
+    {
+        
+        table.destroy();
+        
+        str=e.id;
+        var mon_title=$('#mon_title').val();
+        
+        var date_mom=$('#filterdate').val();
+    
+       if (date_mom == ''){
+        startDate=''
+        endDate=''
+       }
+       else{
+        var d=$('#filterdate').data('daterangepicker').startDate;
+        var startDate = new Date(d);
+        startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+        d=$('#filterdate').data('daterangepicker').endDate;
+        var endDate = new Date(d);
+        endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+       }
+       
+
+        if($('#dis_id').val()=='NoRB')
+        {
+            var type=$('#meet_type').val();
+            data={
+                'str':str,
+                'meeting_type':type,
+                'mon_title':mon_title,
+                'startDate':startDate,
+                'endDate': endDate,
+                'types':2,
+            }
+        }
+        else if($('#dis_id').val()=='RB'){
+            
+            data={
+            'str':str,
+            'meeting_type':'Board Meeting',
+            'mon_title':mon_title,
+            'startDate':startDate,
+            'endDate': endDate,
+            'types':2,
+            }
+        }
+        else{
+            var type=$('#meet_type').val();
+            data={
+                'str':str,
+                'meeting_type':type,
+                'mon_title':mon_title,
+                'startDate':startDate,
+                'endDate': endDate,
+                'types':1,
+            }
+        }
+        console.log('filter', data)
+        $.ajax({
+            url: "{% url 'drft_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success:function (response)
+            {
+                
+                console.log(response)
+                let list_filter = response.list_filter;
+                
+                let row = "";
+               
+                   
+                for (let i = 0; i < list_filter.length; i++) 
+                {
+
+                    row += `<tr align="left">`;
+                    row += `<td>${i+1}</td>`;
+                    row += ` <td>${formatDate(list_filter[i].mom_date)}</td>`;
+                    row += `<td data-toggle="tooltip" title="${list_filter[i].mom_title}">${list_filter[i].mom_title.slice(0, 90)}..</td>`;
+                    row += `<td>${list_filter[i].meeting_type}</td>`;
+                    row += `<td>${formatDate(list_filter[i].created_on)}</td>`;
+                    row += `
+                        <td style="text-align:left " >
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="${list_filter[i].insp_no}" onclick="open_inspection(this)"><i class="far fa-edit"></i></button>
+                            <a href="/delete_mom_draft/${list_filter[i].insp_no}" class="btn btn-outline-danger btn-sm" id="${i.insp_no}" ><i class="fas fa-trash-alt"></i></a>
+                    
+                        </td> </tr>`;
+    
+                 
+                
+                }
+                $('#doneTable tbody').empty()
+                $('#doneTable tbody').append(row)
+                
+                table = $('#doneTable').DataTable();
+            }
+
+        })
+    }
+
+  
+
+
+//tarun
+// var types_id={{types | safe}}
+function open_inspection(e) {
+    var mom_no = e.id;
+    var types_id=$('#types_id').val();
+    if(types_id=='rb_minutes')
+    window.open("/create_mom_form?mom_no=" + mom_no)
+    else
+    window.open("/create_rbmom?mom_no=" + mom_no)
+
+  }
+
+  function formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day, month, newyear].join('/');
+  }
+</script>
+
+{% endblock %}
+                
+
+
+                
+            

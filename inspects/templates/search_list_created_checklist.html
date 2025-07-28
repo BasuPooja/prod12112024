@@ -1,0 +1,441 @@
+{% extends 'adminDash.html' %} 
+{% block content %}
+
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+ 
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />  
+  
+
+  
+    
+<style>
+  
+      table,
+      td,
+      th {
+        border: 2px solid rgb(229, 232, 241);
+    
+      }
+    
+      table {
+        border-collapse: collapse;
+        width:100%;
+        table-layout: auto;
+        width: 100%;
+        
+      }
+    
+      th {
+        height: 100%;
+        padding: 15px;
+        border-bottom: 1px snow;
+        text-decoration: black;
+        text-align: center;
+      }
+    
+      td {
+        text-align: center;
+        padding: 15px;
+        table-layout: auto;
+    
+      }
+    
+      tr:hover {
+        background-color: 1px solid rgba(123, 228, 241, 0.884);
+      }
+      /* #viewbtn {
+        margin-left: 1200px;
+        margin-right: 10px;
+      } */
+    </style>
+    
+    
+    
+    <style>
+      body{
+        overflow-x: hidden;
+      }
+      input[type=text]
+      {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              display: block;
+              /* border: 1.5px solid rgb(14, 12, 12); */
+              border-radius: 4px;
+              box-sizing: border-box;
+      }
+    
+      input[type=submit] {
+              width: 20%;
+              text-align: center;
+              background-color: #4CAF50;
+              color: rgb(15, 12, 12);
+              padding: 14px 20px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=submit]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+    
+      input[type=button] {
+              width: 10%;
+              text-align: center;
+              background-color: #4CAF50;
+              color: white;
+              padding: 6px 6px;
+              margin: 8px 0;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+      }
+    
+      input[type=button]:hover {
+              background-color: #45a049;
+              text-align: center;
+      }
+      /* #viewbtn{
+        margin-left:1050px;
+      } */
+    
+      .inputtag{
+        height:20px;
+      }
+
+      
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+{% comment %} .button {
+  background-color: #1c87c9;
+  border: none;
+  color: white;
+  padding: 10px 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 10px 7px;
+  cursor: pointer;
+} {% endcomment %}
+.button {
+  display: inline-block;
+  padding: 10px 7px;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(19, 16, 16);
+  background-color:  #effc3b;
+  border-radius: 6px;
+  outline: none;
+
+}
+
+.modal-lg{
+  max-width: 48%;
+}
+.modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 80%;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+  
+
+    </style>
+<div class="container">
+
+<h3 class="report_heading" >Inspection Checklist</h3>
+  
+    <a href="/search_createchecklist/" class="button"  style="margin-left: 85%;  position: static; ">
+      Create New Checklist 
+    </a> 
+</div><br>
+
+
+<br>
+
+
+<form action="#" method="POST" >
+   {% csrf_token %}
+   <div class="container" style="font-family:'Lato', sans-serif; overflow-x: auto;">
+                               
+    <table style="width:100%" class="table table-data table-sm table-bordered" id="tableid">
+      
+        <thead>
+            <tr>
+            <th>Checklist ID</th> 
+            <!-- <th>S.&nbsp;No</th> -->
+            <th>Checklist&nbsp;Title&nbsp;&nbsp;&nbsp;</th>
+            <th>Checklist&nbsp;Version</th>
+
+            <th>Inspection&nbsp;Type</th>
+            <th>Department</th>
+            {% comment %} <th>Created By</th> {% endcomment %}
+            <th>Created&nbsp;On</th>
+            <th>Status</th>
+            <th>View</th>
+            <th>Edit</th>
+            <th>Action</th>
+            </tr>
+        </thead>
+                                              
+            <tbody>
+              {% for obj in obj %}
+
+
+                <tr>
+                    <!-- <td>{{ forloop.counter }}</td> -->
+                     <td>{{ obj.checklist_id }}</td> 
+                    <td style="text-align-last: left;">{{obj.checklist_title}}</td>
+                    <td style="text-align-last: left;">{{obj.version}}</td>
+                    <td style="text-align-last: left;">{{obj.inspection_type}}</td>
+                    <td style="text-align-last: left;">{% if obj.department_id %}{{obj.department_id}}{% else %} N.A. {% endif %}</td>
+                    {% comment %} <td>{{ obj.created_by }}</td> {% endcomment %}
+                    <td style="text-align-last: left;">{{obj.created_on}}</td>
+                    <td style="text-align-last: left;">{{obj.status}}</td>
+                    <td> 
+
+                      <a type=button class="btn btn-outline-primary btn-sm" href="{% url 'admin_checklistpdf' obj.checklist_id %}" target="_blank"  onclick="checklist_Modal_view(this)" style="width: max-content;">
+                      <i class="fas fa-eye"></i></i></a>
+                      
+                    </td>
+                    <td> 
+                      <a type="button" class="btn btn-outline-secondary btn-sm" href="{% url 'search_editchecklist' obj.checklist_id %}" {% if obj.status == 'Draft' %}  style="width: max-content; color: #22720e;"  {% else %} style="width: max-content; color: gray; pointer-events: none;"{% endif %}>
+                      <i class="fa fa-edit" style="font-size: 25px;"></i></i></a>
+                      
+                      
+                    </td>
+
+                    <td style="text-align-last: left;"> <div class="btn-group" >
+                      {% if obj.status == 'Draft' and obj.delete_flag == False %}
+                      <a  href="{% url 'search_delete_flag' obj.checklist_id %}" id="viewfun" onclick="myfun()" style="width: max-content; color: green;" class = "tooltip-test" data-toggle = "tooltip" 
+                      title = "Click to inactive">
+                      
+                      Active</a>
+                      
+                      {% elif obj.status == "Finalized" %}
+                        <a  href="#" id="viewfun" onclick="deleteChecklist('{{obj.checklist_id}}')" style="width: max-content; color: red;">
+                        Delete</a>
+                      
+                      {% elif  obj.status == 'Draft' and obj.delete_flag == True %}
+                        <a  href="{% url 'search_delete_enable_flag' obj.checklist_id %}" id="viewfun" onclick="myfun1()" style="width: max-content; color: red;" class = "tooltip-test" data-toggle = "tooltip" 
+                        title = "Click to active">
+                        Inactive</i></a>
+                      {% endif %} 
+                      
+                      </div>
+                    </td>
+            
+                        
+                    </tr>
+                    {% endfor %}
+                   
+                    </tbody>
+                    </table>
+                     </div>
+          
+                 
+                
+</form>
+<div class="modal fade right" id="checklist_Modal"  tabindex="-1" role="dialog" aria-labelledby="checklist_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document"  style='width:60%;'>
+      <div class="modal-content modal-content-full-width">
+          {% comment %} <div class="modal-header modal-header-full-width">
+            <h3 class="modal-title w-100 text-center" id="checklist_ModalLabel"></h3><br>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          </div> {% endcomment %}
+          <div class="modal-body" style="text-align: left;">
+              <div class="row">
+                  <div id="preiew_checklist_pdf">
+                      <iframe id="iframepreview"  style="width:800px; height:800px;" frameborder="0"></iframe>
+                  </div>
+              </div>
+          </div>
+          <!--  Modal Body -->
+          <div class="modal-footer modal-footer-full-width">
+              <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+          </div>
+          <!-- Modal Footer-->
+      </div>
+  </div>
+</div>
+
+  <br>
+  <br>
+
+<script>
+  function myfun1(){
+    alert("It is now active")
+  }
+  function myfun(){
+    alert("It is now inactive")
+  }
+
+function viewChecklist(id,title,mwno,schd)
+  {
+   window.open("{%url 'admin_checklistpdf' %}"+"?title="+title+"&mwno="+mwno+"chd="+schd+"&id="+id,"_blank")
+  }
+</script>
+<script>
+ 
+  function checklist_Modal_view(e)
+  {
+      file = "/admin_checklistpdf/"+e.id;
+      $('#iframepreview').attr('src', file);
+  }
+</script>
+<script>
+    function myfunction(el,id){
+      var url="#";
+      el.href=url.replace('id',id);
+    }
+  </script>
+  <script>
+      function not_valid_user(id, created_by)
+  {
+    // alert(id);
+    alert(created_by+" is working on this checklist ")
+     $(id).prop('disabled', true);
+  }
+  </script>
+<!----------arohi-delete-->
+
+<script>
+
+$(function () { $("[data-toggle = 'tooltip']").tooltip(); });
+  function deleteChecklist(checklist_id){
+
+    $.ajax({
+      url: '{% url "delete_checklist_ajax" %}',
+      method: 'GET',
+      dataType: 'JSON',
+      async: false,
+      data: {checklist_id},
+      success: function(res){
+        alert('Successfully deleted record!')
+        window.location.reload()
+      }
+    })
+  }
+
+</script>
+<script>
+    $('#viewbtn').click(function (e) {
+      e.preventDefault();
+      window.open("{%url 'admin_checklistpdf' %}"+"?title="+title+"&mwno="+mwno+"chd="+schd+"&id="+id,"_blank")
+    })
+  </script>
+
+<script>
+
+
+$(document).ready(function () {
+    // Setup - add a text input to each footer cell
+   
+    $('#tableid thead tr')       
+          .clone(true)
+          .addClass('filters123')
+          .appendTo('#tableid thead');
+
+          $('#tableid thead tr:eq(1) th').each( function () {
+              var title = $('#tableid thead tr:eq(0) th').eq( $(this).index() ).text();
+              $(this).html( '<input type="text" class="form-control ll" placeholder="Search " />' );
+          } );
+        
+          var table = $('#tableid').DataTable({
+              orderCellsTop: true,
+              searching:true,
+              "lengthChange":false,
+              // dom: 'Bfrtip',
+              // buttons: [
+              //      'pdf','excel', 'print'
+              // ],
+          });
+        
+          // Apply the search
+          table.columns().every(function (index) {
+              $('#tableid thead tr:eq(1) th:eq(' + index + ') input').on('keyup change', function () {
+                  table.column($(this).parent().index() + ':visible')
+                      .search(this.value)
+                      .draw();
+              });
+          });
+
+          //$('#booktable1').DataTable();
+        $("#altno,#ealtno,#jfdn,#ejfdn").keyup(function () {  
+            $(this).val($(this).val().toUpperCase());  
+          });
+    });
+    
+
+    
+
+</script>
+
+
+{% endblock %}  

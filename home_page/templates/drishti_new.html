@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<head>
+    <style>
+        .loading tr:nth-child(even){
+            background-color: #AF7AC5;
+        }
+        .loading tr:nth-child(odd){
+            background-color: #D2B4DE;
+        }
+        .punctuality tr:nth-child(even){
+            background-color: #5499C7;
+        }
+        .punctuality tr:nth-child(odd){
+            background-color: #7FB3D5;
+        }
+        .earnings tr:nth-child(even){
+            background-color: #27AE60;
+        }
+        .earnings tr:nth-child(odd){
+            background-color: #7DCEA0;
+        }
+        .capex tr:nth-child(even){
+            background-color: #E74C3C;
+        }
+        .capex tr:nth-child(odd){
+            background-color: #F1948A;
+        }
+        .safety tr:nth-child(even){
+            background-color: #5499C7;
+        }
+        .safety tr:nth-child(odd){
+            background-color: #7FB3D5;
+        }
+        .asset_reliabilty tr:nth-child(even){
+            background-color: #27AE60;
+        }
+        .asset_reliabilty tr:nth-child(odd){
+            background-color: #7DCEA0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- <div class="row" style="margin:0">
+            <div class="col-12">
+                <h3>
+                  <center><b>My E-Drishti</b></center>
+                </h3>
+              </div>
+        </div> -->
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-8">
+                        <h3><b>My E-Drishti</b></h3>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-warning" style="width:100%;">Export  to PDF</button>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-warning" style="width: 100%;">Export  to Word</button>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <table class="table table-bordered table-sm" id="drishti_table1" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: white;">
+                        <thead style="text-align: center; color: white; background-color: #566573;">
+                            <th style="width:7%; text-align: left;">Description</th>
+                            <th style="width:8%; text-align: left;">Sub Head</th>
+                            <th style="width:15%; text-align: left;" >Actuals (current month of last FE)</th>
+                            <th style="width:15%; text-align: left;" >Targets <br> (current month)</th>
+                            <th style="width:15%; text-align: left;" >Actuals <br>(current month)</th>
+                            <th style="width:15%; text-align: left;" >Cummulative target (upto last month)</th>
+                            <th style="width:15%; text-align: left;" >Cummulative actuals (upto last month)</th>
+                            <th style="width:15%; text-align: left;">Variation(cumm.)</th>
+                        </thead>
+                    <!-- </table>
+                    <table class="table table-bordered loading"> -->
+                        <tbody class="loading">
+                            {% if loading %}
+                                <tr><td rowspan="5" style="padding-top:4%; width: 7%; background-color: #8E44AD ;"><b>Loading (MT)</b></td></tr>
+                            {% for i in loading %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="punctuality">
+                            {% if punctuality %}
+                            <tr>
+                                <td rowspan="7" style="padding-top:5%; width:7%; background-color: #5DADE2 ;" ><b>Punctuality</b></td></tr>
+                            {% for i in safety %}
+                                <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr></tr>
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="earnings">
+                            {% if earnings %}
+                            <tr>
+                                <td rowspan="6"  style="padding-top:5%; width: 7%; background-color: #229954;"><b>Earnings</b></td></tr>
+                            {% for i in earnings %}
+                                <tr style="text-align: center; ">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="owe">
+                            {% if owe %}
+                            <tr style="background-color:#F39C12; text-align: center;">
+                                <td style="width: 7%; background-color: #DC7633; text-align: left;"><b>OWE</b></td>
+                            {% for i in owe %}
+                                <!-- <tr style="text-align: center; "> -->
+                                <td style="width:8%; text-align: left;"></td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="capex">
+                            {% if capex %}
+                            <tr>
+                                <td rowspan="4"  style="padding-top:2%; width: 7%; background-color: #C0392B;"><b>Capex</b></td></tr>
+                            {% for i in capex %}
+                            <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="pension_bill">
+                            {% if pension_bill %}
+                            <tr style="background-color:#9B59B6; text-align: center;">
+                                <td style="width: 7%; background-color: #633974;text-align: left;"><b>Pension Exp</b></td>
+                            {% for i in pension_bill %}
+                                <!-- <tr style="text-align: center; "> -->
+                                <td style="width:8%; text-align: left;"></td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="safety">
+                            {% if safety %}
+                            <tr>
+                                <td rowspan="7" style="padding-top:4%; width:7%; background-color: #2980B9 ;" ><b>Safety</b></td></tr>
+                            {% for i in safety %}
+                                <tr style="text-align: center;">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                        <tbody class="asset_reliabilty">
+                            {% if asset_reliabilty %}
+                            <tr>
+                                <td rowspan="7"  style="padding-top:5%; width: 7%; background-color: #229954;"><b>Asset Reliability</b></td></tr>
+                            {% for i in asset_reliabilty %}
+                                <tr style="text-align: center; ">
+                                <td style="width:8%; text-align: left;">{{i.item}}</td>
+                                <td style="width:15%">{{i.actuals}}</td>
+                                <td style="width:15%">{{i.targets}}</td>
+                                <td style="width:15%">{{i.actuals_current_month}}</td>
+                                <td style="width:15%">{{i.cummulative_target}}</td>
+                                <td style="width:15%">{{i.cummulative_actuals}}</td>
+                                <td style="width:15%">{{i.variation}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %} 
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

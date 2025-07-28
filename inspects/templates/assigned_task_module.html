@@ -1,0 +1,697 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}"> 
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>  
+    <style>
+        .hiddenRow {
+    padding: 0 !important;
+}
+    </style>
+</head>
+
+
+<body>
+    <h3 class="report_heading">Tasks Assigned by Me</h3>
+    <br>
+    <div class="container">
+        <div class="container" style="overflow-x: auto;">
+            <table id="tableshow" class="table table-striped table-bordered table-data" cellspacing="0" >
+                <thead style="background-color:black; color:white">
+                    <!-- <tr style="text-align:left">
+                        <th>S.No.</th>
+                        <th>Insp. Date</th>
+                        <th>Insp. Note No</th>
+                        <th>Item Details</th>
+                        <th>Assigned Officer</th>
+                        <th>Target Date</th>
+                        <th>Status</th>
+                        <th>Update Date</th>
+                        <th>View</th>
+                    </tr> -->
+                    <tr style="text-align:left">
+                        <th style="width: 5%;">S.No.</th>
+                        <th style="width: 30%;">Task</th>
+                        <th style="width: 10%;">Assigned To</th>
+                        <th style="width: 10%;">Initiation Date</th>
+                        <th style="width: 10%;">Deadline</th>
+                        <th style="width: 10%;">Type of Task</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 10%;">Last updated on</th>
+                        <th style="width: 5%;">View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in listgrid %}
+                    <tr data-toggle="collapse" data-target="#demo{{i.target_id}}" class="accordion-toggle">
+                        <td >{{forloop.counter}}</td>
+                        <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.item_desc}}'>{{i.item_desc|truncatechars:500}}</a></td>
+                        <td >{{i.assgnd_officer}}</td>
+                        <td >{{i.inspected_on}}</td>
+                        {% if i.time_left %}
+                        <td style="color: green;font-weight: 600;">{{i.target_date}}</td>
+                        {% else %}
+                        <td style="color: red;font-weight: 600;">{{i.target_date}}</td>
+                        {% endif %}
+                        {% if i.task_flag == 1 %}
+                        <td><a href="{% url 'inspectionReportPdf' i.inspection_no %}"  id=/{{i.inspection_no}} target="blank">Inspection</a></td>
+                        {% else %}
+                        <td>Task Tracker</td>
+                        {% endif %}
+                        <td >{{i.status}}</td>
+                        <td >{{i.reply_on}}</td>
+                        <td><button class="btn btn-default btn-xs" id={{i.target_id}} onclick="reply(this)"><i class="fas fa-angle-double-down "></i></button></td>
+                         <!-- <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-toggle="modal" title="Click to send Reply" data-target="#ReplyModal" id={{i.marked_no}} onclick="reply(this)" style="width: 85px;">Reply</button>
+                        </td> -->
+                    </tr>
+                    <tr>
+                        <td style="display: none">{{forloop.counter}}</td>
+                        <td colspan="9" class="hiddenRow">
+                            <div class="accordian-body collapse" id="demo{{i.target_id}}" style="background-color: cornsilk;"> 
+                                <table id="mytable3{{i.target_id}}" class="table table-striped table-bordered table-data"  width="90%">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th>Observation</th>
+                                            <th>Compliance</th> -->
+                                            <th>Status</th>
+                                            <th>Updated Remarks </th>
+                                            <th>Remarks Received On</th>
+                                            <th>Reject Remarks</th>
+                                            <th>Remarks rejected On</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <table id="mytable4{{i.target_id}}" class="table table-striped table-bordered table-data"  width="90%">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No</th>
+                                            <th>Status</th>
+                                            <th>Reply</th>
+                                            <th>Reply Sent on</th>
+                                            <th>Rejected Remarks</th>
+                                            <th>Reply Rejected on</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                        
+                        <td style="display: none"></td>
+                        <td style="display: none"></td>
+                        <td style="display: none"></td>
+                        <td style="display: none"></td>
+                        <td style="display: none"></td>
+                        <td style="display: none"></td>
+                        <td style="display: none"></td>
+                    </tr>
+
+                            
+                {% endfor %}  
+                </tbody>
+                <!-- <tbody>
+                    {% for i in listgrid %}
+                    <tr style="text-align:left">
+                        <td style="width:5%">{{forloop.counter}}</td>
+                        <td style="width:10%">{{i.inspected_on}}</td>
+                        <td style="width:45%;"><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.item_desc}}'>{{i.item_desc|slice:500}}..</a></td>
+                        <td style="width:10%">{{i.assgnd_officer}}</td>
+                        {% if i.time_left %}
+                        <td style="width:10%; color: green;">{{i.target_date}}</td>
+                        {% else %}
+                        <td style="width:10%; color: red;">{{i.target_date}}</td>
+                        {% endif %}
+                        <td style="width:5%">{{i.status}}</td>
+                        <td style="width:5%">{{i.reply_on}}</td>
+                         <td style="width:5%">
+                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-toggle="modal" title="Click to send Reply" data-target="#ReplyModal" id={{i.marked_no}} onclick="reply(this)" style="width: 85px;">Reply</button>
+                        </td>
+                    </tr>
+                {% endfor %}  
+                </tbody> -->
+            </table>
+        </div>
+        <hr/>
+        <div class="container" style="overflow-x: auto;">
+            <div class="acc-head" data-toggle="collapse" style="background-color: #C9FAC3; height: 40px; padding: 1PX;" data-target="#collapsecompleted" aria-expanded="true" aria-controls="collapseOne">
+                <div class="row">
+                    <div class="col-11"><h5>COMPLETED TASKS ASSIGNED BY ME</h5></div>
+                    <div class="col-1" style="text-align: right;">
+                        <button class="btn btn-sm btn-outline-dark ">
+                            <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                            <i class="fas fa-angle-double-down fa-lg"></i>
+                        </button>
+                       
+                    </div>
+                </div>    
+            </div>
+            <div id="collapsecompleted" class="collapse" aria-labelledby="headingOne" data-parent="#accordion" >
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="tablecompleted" class="table table-striped table-bordered table-data" cellspacing="0" >
+                                <thead style="background-color:black; color:white">
+                                    <tr style="text-align:left">
+                                        <th style="width: 5%;">S.No.</th>
+                                        <th style="width: 30%;">Task</th>
+                                        <th style="width: 10%;">Assigned To</th>
+                                        <th style="width: 10%;">Initiation Date</th>
+                                        <th style="width: 10%;">Deadline</th>
+                                        <th style="width: 10%;">Type of Task</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 10%;">Last updated on</th>
+                                        <th style="width: 5%;">View</th>
+                                    </tr>
+                                    <!-- <tr style="text-align:left">
+                                        <th>S.No.</th>
+                                        <th>Insp. Date</th>
+                                        <th>Insp. Note No</th>
+                                        <th>Item Details</th>
+                                        <th>Assigned Officer</th>
+                                        <th>Target Date</th>
+                                        <th>View</th>
+                                    </tr> -->
+                                </thead>
+                                <tbody>
+                                    {% for i in completed_list %}
+                                    <tr data-toggle="collapse" data-target="#demo{{i.target_id}}" class="accordion-toggle">
+                                        <td >{{forloop.counter}}</td>
+                                        <td><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.item_desc}}'>{{i.item_desc|truncatechars:500}}</a></td>
+                                        <td >{{i.assgnd_officer}}</td>
+                                        <td >{{i.inspected_on}}</td>
+                                        {% if i.time_left %}
+                                        <td style="color: green;font-weight: 600;">{{i.target_date}}</td>
+                                        {% else %}
+                                        <td style="color: red;font-weight: 600;">{{i.target_date}}</td>
+                                        {% endif %}
+                                        {% if i.task_flag == 1 %}
+                                        <td><a href="{% url 'inspectionReportPdf' i.inspection_no %}"  id=/{{i.inspection_no}} target="blank">Inspection</a></td>
+                                        {% else %}
+                                        <td>Task Tracker</td>
+                                        {% endif %}
+                                        <td >{{i.status}}</td>
+                                        <td >{{i.reply_on}}</td>
+                                        <td><button class="btn btn-default btn-xs" id={{i.target_id}} onclick="reply(this)"><i class="fas fa-angle-double-down "></i></button></td>
+                                         <!-- <td>
+                                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-toggle="modal" title="Click to send Reply" data-target="#ReplyModal" id={{i.marked_no}} onclick="reply(this)" style="width: 85px;">Reply</button>
+                                        </td> -->
+                                    </tr>
+                                    <tr>
+                                        <td style="display: none">{{forloop.counter}}</td>
+                                        <td colspan="9" class="hiddenRow">
+                                            <div class="accordian-body collapse" id="demo{{i.target_id}}" style="background-color: cornsilk;"> 
+                                                <table id="mytable3{{target_id}}" class="table table-striped table-bordered table-data"  width="90%" hidden>
+                                                    <thead>
+                                                        <tr>
+                                                            <!-- <th>Observation</th>
+                                                            <th>Compliance</th> -->
+                                                            <th>Status</th>
+                                                            <th>Updated Remarks </th>
+                                                            <th>Remarks Received On</th>
+                                                            <th>Reject Remarks</th>
+                                                            <th>Remarks rejected On</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                                <table id="mytable4{{target_id}}" class="table table-striped table-bordered table-data"  width="90%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sr. No</th>
+                                                            <th>Status</th>
+                                                            <th>Reply</th>
+                                                            <th>Reply Sent on</th>
+                                                            <th>Rejected Remarks</th>
+                                                            <th>Reply Rejected on</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                        
+                                        <td style="display: none"></td>
+                                        <td style="display: none"></td>
+                                        <td style="display: none"></td>
+                                        <td style="display: none"></td>
+                                        <td style="display: none"></td>
+                                        <td style="display: none"></td>
+                                        <td style="display: none"></td>
+                                    </tr>
+                                    <!-- <tr style="text-align:left">
+                                        <td style="width:5%">{{forloop.counter}}</td>
+                                        <td style="width:10%">{{i.inspected_on}}</td>
+                                        <td style="width:45%;"><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.item_desc}}'>{{i.item_desc|slice:500}}..</a></td>
+                                        <td style="width:10%">{{i.assgnd_officer}}</td>
+                                        {% if i.time_left %}
+                                        <td style="width:10%; color: green;">{{i.target_date}}</td>
+                                        {% else %}
+                                        <td style="width:10%; color: red;">{{i.target_date}}</td>
+                                        {% endif %}
+                                         <td style="width:5%">
+                                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-toggle="modal" title="Click to send Reply" data-target="#ReplyModal" id={{i.marked_no}} onclick="reply(this)" style="width: 85px;">New Reply</button>
+                                        </td>
+                                    </tr> -->
+                                {% endfor %}  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- Modal for reverted compliance -->
+        <!-- <div class="modal right fade" id="ReplyModal" tabindex="-1" role="dialog" aria-labelledby="RevertModalLabel">
+            <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <table style="width: 100%;">
+                        <tr>
+                            <th style="width: 20%;text-align: left;"><h3 class="report_heading" id="RevertModalLabel">Received Reply of Pending Task</h3></th>
+                            <th style="width: 20%;"></th>
+                            <th style="width: 20%; text-align: right;">TARGET DATE</th>
+                            <th style="width: 20%; padding-left: 10px;"><input type="text" style="color: white; width:30%; text-align: center;  font-weight: 600;" value="" id="targetdate" readonly style="width: 100px;"/></th>
+                            <th style="width: 20%;"></th>
+                        </tr>
+                    </table>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="mytable3" class="table table-striped table-bordered table-data"  width="100%">
+                        <thead>
+                            <tr>
+                                <th>Observation</th>
+                                <th>Compliance</th>
+                                <th>Status</th>
+                                <th>Updated Remarks </th>
+                                <th>Remarks Received On</th>
+                                <th>Reject Remarks</th>
+                                <th>Remarks rejected On</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <h3 class="report_heading" style="text-align: left;">Previous Replies</h3>
+                    <table id="mytable4" class="table table-striped table-bordered table-data"  width="100%">
+                        <thead>
+                            <tr>
+                                <th>Sr. No</th>
+                                <th>Status</th>
+                                <th>Reply</th>
+                                <th>Reply Sent on</th>
+                                <th>Rejected Remarks</th>
+                                <th>Reply Rejected on</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+   
+                <div class="modal-footer modal-footer-full-width">
+                    <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                        <div class="btn-group mr-2" role="group" >
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" id="closerevert">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div> -->
+        <!-- modal -->
+</body>
+<script>
+    // for edit
+    function edit_compliance(e)
+    {
+        var id=e.id;
+        id=id.substr(3);
+        var com_id=id+'/';
+        var c_id='//'+id;
+        var edit_id='///'+id;
+        var submit_id='////'+id;
+        document.getElementById(com_id).readOnly= false;
+        document.getElementById(com_id).style.backgroundColor = "transparent";
+        document.getElementById(c_id).disabled = false;
+        document.getElementById(edit_id).disabled= true;
+        document.getElementById(submit_id).disabled= true;
+    }
+   
+    // for save as draft
+    function save_compliance(e)
+    {
+            var item_no_id=e.id;
+            item_no=item_no_id.substr(2);
+            var com_id=item_no+'/';
+            var edit_id='///'+item_no;
+            var submit_id='////'+item_no;
+            // alert(item_no_id)
+            var compliance=document.getElementById(com_id).value;
+            data=
+            {
+                'item_no':item_no,
+                'str':'reject',
+                'compliance':compliance,
+            }
+        console.log(data)
+            $.ajax
+            ({
+                url: "{% url 'pending_reply_ajax' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response)
+                {
+                    if(response.length==0)
+                    {
+                        alert('Kindly Reply First');
+                    }
+                    else
+                    {
+                        alert('Do you want to continue?');
+                        window.location.reload();
+                        // document.getElementById(com_id).readOnly = true;
+                        // document.getElementById(com_id).style.backgroundColor = "lightblue";
+                        // document.getElementById(item_no_id).disabled = true;
+                        // document.getElementById(edit_id).disabled = false;
+                        // document.getElementById(submit_id).disabled= false;
+                    }
+                }
+            })
+        }
+     
+        // for final submit
+    function submit_compliance(e)
+    {
+            var item_no_id=e.id;
+            item_no=item_no_id.substr(4);
+            var com_id=item_no+'/';
+            var edit_id='///'+item_no;
+            var submit_id='////'+item_no;
+            // alert(item_no_id)
+            var compliance=document.getElementById(com_id).value;
+            data=
+            {
+                'item_no':item_no,
+                'str':'submit',
+                'compliance':compliance,
+            }
+        console.log(data)
+            $.ajax
+            ({
+                url: "{% url 'pending_reply_ajax' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response)
+                {
+                    if(response.length==0)
+                    {
+                        alert('Kindly Reply First');
+                    }
+                    else
+                    {
+                        alert('Do you want to continue?');
+                        window.location.reload();
+                        // document.getElementById(com_id).readOnly = true;
+                        // document.getElementById(com_id).style.backgroundColor = "lightgreen";
+                        // document.getElementById(item_no_id).disabled = true;
+                        // document.getElementById(edit_id).disabled = true;
+                        // document.getElementById(submit_id).disabled= true;
+                    }
+                }
+            })
+        }
+     
+    // to open revert modal
+    function reply(e)
+    {
+        var item_id=e.id;
+        // var table = $('#mytable3').DataTable();
+        // table.destroy();
+        // $('#mytable3').hide();
+        var table4 = $('#mytable4'+item_id).DataTable();
+        table4.destroy();
+        $('#mytable4'+item_id).hide();
+        data=
+        {
+            'target_id':item_id,
+            'str':'reply',
+        }
+        $.ajax
+        ({
+            url: "{% url 'pendingtasks_filterdata_ajax' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response)
+            {
+                replydata=response.itemdetails;
+                row =""
+                for (let i = 0; i < replydata.length; i++)
+                {
+                    // document.getElementById('targetdate').value=replydata[i]['target_date']
+                    // if (replydata[i]['time_left'])
+                    // document.getElementById('targetdate').style.backgroundColor = "green";
+                    // else
+                    // document.getElementById('targetdate').style.backgroundColor = "red";
+                    row += "<tr>";    
+                    // row += `<td align="left" width=15%>${replydata[i]['item_desc']}</td>`;
+                    // row +=`<td align="left" style="width:15%">${replydata[i]['reply_sent']}</td>`
+                    if (replydata[i]['status_flag']==0){
+                        row +=`<td style="width:10%">${replydata[i]['status']}</td>`
+                        row +=`<td style="width:15%">NA</td>`
+                        row +=`<td style="width:10%">NA</td>`
+                        row +=`<td style="width:15%">NA</td>`
+                        row +=`<td style="width:10%">NA</td>`
+                        row +=`<td width=10%>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">
+                                    <button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" disabled>REJECT</button>
+                                </div>
+                            </td>`
+                    }
+                    if (replydata[i]['status_flag']==1){
+                        row +=`<td style="width:10%">${replydata[i]['status']}</td>`
+                        row +=`<td style="width:15%">NA</td>`
+                        row +=`<td style="width:10%">${replydata[i]['reply_on']}</td>`
+                        row +=`<td style="width:15%">NA</td>`
+                        row +=`<td style="width:10%">NA</td>`
+                        row +=`<td width=10%>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">
+                                    <button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" disabled>REJECT</button>
+                                </div>
+                            </td>`
+                    }
+                    else if (replydata[i]['status_flag']==2){
+                        row +=`<td style="width:10%">${replydata[i]['status']}</td>`
+                        row +=`<td style="width:15%">${replydata[i]['new_reply']}</td>`
+                        row +=`<td style="width:10%">${replydata[i]['reply_on']}</td>`
+                        row +=`<td style="width:15%"><textarea type="text" id="${replydata[i]['target_id']}/" name="new_remarks" style="width:100%; background-color:lightblue" maxlength="3000" readonly>${replydata[i]['rejected_remarks']}</textarea></td>`
+                        row +=`<td style="width:10%">${replydata[i]['rejected_on']}</td>`
+                        row +=`<td width=10%>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">
+                                    <button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" disabled>REJECT</button>
+                                </div>
+                            </td>`
+                    }
+                    else if (replydata[i]['status_flag']==3){
+                        row +=`<td style="width:10%">${replydata[i]['status']}</td>`
+                        row +=`<td style="width:15%">${replydata[i]['new_reply']}</td>`
+                        row +=`<td style="width:10%">${replydata[i]['reply_on']}</td>`
+                        row +=`<td style="width:15%"><textarea type="text" id="${replydata[i]['target_id']}/" name="new_remarks" style="width:100%; background-color:lightblue" maxlength="3000" readonly>${replydata[i]['rejected_remarks']}</textarea></td>`
+                        row +=`<td style="width:10%">${replydata[i]['rejected_on']}</td>`
+                        row +=`<td width=10%>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">
+                                    <button type="button" class="btn btn-outline-info btn-sm btn-block p-0 " id="///${replydata[i]['target_id']}" onclick="edit_compliance(this);" >EDIT REMARKS</button>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">`
+                        if (response.user_role == 'guest')
+                        row +=`<button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" hidden>REJECT</button>`
+                        else
+                        row +=`<button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" disabled>REJECT</button>`
+                        row +=`</div>
+                            </td>`
+                    }
+                    else if (replydata[i]['status_flag']==4){
+                        row +=`<td style="width:10%">${replydata[i]['status']}</td>`
+                        row +=`<td style="width:15%">${replydata[i]['new_reply']}</td>`
+                        row +=`<td style="width:10%">${replydata[i]['reply_on']}</td>`
+                        row +=`<td style="width:15%"><textarea type="text" id="${replydata[i]['target_id']}/" name="new_remarks" style="width:100%; background-color:lightblue" maxlength="3000" readonly>${replydata[i]['rejected_remarks']}</textarea></td>`
+                        row +=`<td style="width:10%">${replydata[i]['rejected_on']}</td>`
+                        row +=`<td width=10%>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">
+                                    <button type="button" class="btn btn-outline-info btn-sm btn-block p-0 " id="///${replydata[i]['target_id']}" onclick="edit_compliance(this);" >EDIT REMARKS</button>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-lg-12 ">`
+                        if (response.user_role == 'guest')
+                        row +=`<button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" hidden>REJECT</button>`
+                        else
+                        row +=`<button type="button" class="btn btn-outline-success btn-sm btn-block p-0 " id="//${replydata[i]['target_id']}" onclick="save_compliance(this);" disabled>REJECT</button>`
+                        row +=`</div>
+                            </td>`
+                    }
+                   
+                    row +=`</tr>`;
+                }
+                tbdoy='#mytable3'+item_id+' tbody'
+                $(tbdoy).empty();
+                $(tbdoy).append(row);
+                // $('#mytable3').show();
+                // $('#mytable3').DataTable({
+                //     dom: 'Bfrtip',
+                //     "pagingType": "simple",
+                //     "sEmptyTable": 'No data available in table',
+                //     "bSort": false,
+                //     pageLength:1,
+                //     "lengthChange":false,
+                //     "searching":false,
+                //     "language": {
+                //         "info": "",
+                //         "paginate": {
+                //             "previous": "",
+                //             "next":"",
+                //         },
+                //     }
+                // });
+                
+                
+                replydata=response.status_table;
+                datas =""
+                for (let i = 0; i < replydata.length; i++)
+                {
+                        datas += "<tr>";    
+                        datas += `<td align="left" width=5%>${i+1}</td>`;
+                        datas +=`<td align="left" style="width:10%">${replydata[i]['status']}</td>`
+                        datas += `<td align="left" width=35%>${replydata[i]['reply_sent']}</td>`;
+                        datas +=`<td align="left" style="width:7%">${replydata[i]['reply_on']}</td>`
+                        datas += `<td align="left" width=35%>${replydata[i]['remark']}</td>`;
+                        datas +=`<td align="left" style="width:8%">${replydata[i]['rejected_on']}</td>`;
+                        datas +=`</tr>`;
+                }
+                
+                tbdoy='#mytable4'+item_id+' tbody'
+                $(tbdoy).empty();
+                $(tbdoy).append(datas);
+                $('#mytable4'+item_id).show();
+                $('#mytable4'+item_id).DataTable({
+                    dom: 'Bfrtip',
+                    "pagingType": "simple",
+                    "sEmptyTable": 'No data available in table',
+                    "bSort": false,
+                    pageLength:3,
+                    "lengthChange":false,
+                    "searching":false,
+                    "language": {
+                        // "info": "",
+                        "paginate": {
+                            "previous": "Prev",
+                            "next":"Next",
+                        },
+                    },
+                    
+                });
+               
+            }
+        })
+
+
+       
+    }
+    $( document ).ready
+    (
+        function()
+        {
+            $('#tableshow').DataTable({
+                dom: 'Bfrtip',
+                    "pagingType": "simple",
+                    "sEmptyTable": 'No data available in table',
+                    // "bSort": false,
+                    pageLength:10,
+                    // "lengthChange":false,
+                    // "searching":false,
+                    "language": {
+                        "info": "",
+                        "paginate": {
+                            "previous": "Prev",
+                            "next":"Next",
+                        },
+                    },
+                    "aoColumns": [
+                    null,
+                    null,
+                    null,
+                    { "sType": "date-uk" },
+                    { "sType": "date-uk" },
+                    null,
+                    null,
+                    { "sType": "date-uk" },
+                    null
+                ]
+            });
+            $('#tablecompleted').DataTable({
+                dom: 'Bfrtip',
+                    "pagingType": "simple",
+                    "sEmptyTable": 'No data available in table',
+                    // "bSort": false,
+                    pageLength:10,
+                    // "lengthChange":false,
+                    // "searching":false,
+                    "language": {
+                        "info": "",
+                        "paginate": {
+                            "previous": "Prev",
+                            "next":"Next",
+                        },
+                    },
+                    "aoColumns": [
+                    null,
+                    null,
+                    null,
+                    { "sType": "date-uk" },
+                    { "sType": "date-uk" },
+                    null,
+                    null,
+                    { "sType": "date-uk" },
+                    null
+                ]
+            });
+        }
+    );
+</script>
+{% endblock %}
+
+
+

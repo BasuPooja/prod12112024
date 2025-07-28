@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <h3>Dear,</h3><br>
+        {% if copyto %}
+            <h3>
+                <b>{{meeting_type}}</b> minutes of meeting dated <b>{{mom_date}}</b> done by {{mom_officer}} is sent for your kind information.
+                Please visit <a href="einspection.indianrailways.gov.in" style="color:blue"><u><i>einspection.indianrailways.gov.in</i></u></a> for more information.
+            </h3>
+            <br><br>
+            <h4>This is a system generated mail, please do not reply to this mail.</h4>
+            <!-- <h3>Please Find the attached Minutes of Meeting Report for your reference.</h3> -->
+        {% else %}
+            <h3>
+                <b>{{meeting_type}}</b> minutes of meeting dated <b>{{mom_date}}</b> by {{mom_officer}} has been marked to you for necessary action.
+                Please login to <a href="einspection.indianrailways.gov.in" style="color:blue"><u><i>einspection.indianrailways.gov.in</i></u></a> to send complaince of the para(s) marked to you.
+            </h3>
+            <br><br>
+            <h4>This is a system generated mail, please do not reply to this mail.</h4>
+        {% endif %}
+    </body>
+</html>

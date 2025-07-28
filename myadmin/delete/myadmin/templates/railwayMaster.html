@@ -1,0 +1,691 @@
+{% extends 'adminDash.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+   
+    $('#table2 thead tr')       
+          .clone(true)
+          .addClass('filters123')
+          .appendTo('#table2 thead');
+    })
+</script>
+
+  <script>
+      $(document).ready(function(){ 
+        $("#formbutton").click(function(){
+            $("#Form1").toggle();
+          });
+          $('#buttontoggle').click(function(){
+            $('#Form2').toggle();
+          });
+      });
+  </script>
+  
+  <title>Railway Location Master</title>
+  <h2>Railway Location Master</h2>
+
+  <style>
+    h2 {
+      font-family:'Lato', sans-serif;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: bold;
+      color: rgba(16, 12, 11, 0.959);
+      text-align: center;
+      margin-top: 8px;
+
+    }
+
+    form {
+      width: 50%;
+      height: 334px;
+      margin-block: 15px;
+      border: 1px solid #161a1e;
+      padding: 15px 10px;
+      margin-left: 10px;
+    }
+
+    /* table {
+      font-family: verdana;
+      color: rgb(44, 40, 40);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: bold;
+      background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
+      background: #d0d6d8;
+      border-collapse: collapse;
+      border: 2px #000000;
+      border-style: line;
+      padding:  ;
+      margin: 10px 10px;
+      margin-right: 25px;
+      
+
+    }
+
+    table.inner {
+      border: 2px;
+    } */
+
+    #formbutton {
+      display:block;
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: auto;
+      font-size: 1.2rem;
+      background-color: #472b2b;
+    }
+
+    #buttontoggle {
+    margin-top: -42px;
+    margin-left: 289px;
+    margin-right: 95px;
+   
+      font-size: 1.2rem;
+      background-color: #472b2b;
+    }
+
+    #Form1 {
+       display:none;
+       margin-left: 10px;
+
+    }
+
+    #Form2 {
+       display:none;
+       margin-left: 10px;
+
+    }
+
+  
+
+
+  </style>
+  
+  <!-- <table align="center" cellpadding="10"> -->
+
+
+  <!-- <script>
+      $(document).ready(function () {
+          setDataTablePlugin();
+      });
+
+      function setDataTablePlugin() {
+          $('#table2').DataTable({
+              // 'scrollX': true,
+              "scrollY": "65vh",
+              "scrollCollapse": true,
+
+              "pagingType": "full_numbers"
+
+          });
+      }
+      
+  </script> -->
+
+</head>
+
+
+
+<!-- <form method="POST"> -->
+  <!-- {%csrf_token%} -->
+  <!-- <div class="container"> -->  
+       <!-- <table class="table table-borderless"> -->
+          <div class="row-md-3" >                                            
+              <div class="col-md-3">
+
+                  <b><label for="rtype">Add Railway Unit</label></b></div>
+                  <!-- <input type="text" id="rtype"> -->
+                  <div class="col-md-3">
+              <select id="rtype" name="rtype" class="custom-select" onchange="able_rlyorg()" >
+                  <option value="" >--Select Railway Type--</option>
+                  <option value="Railwayunit">Add railway unit</option>
+                  <option value="DIRECTORATE">Directorate</option>
+                  <option value="DIVISION">Division</option>
+                  <option value="RAILWAY BOARD">Railway Board</option>
+                  <option value="INSTITUTE">Institute</option>
+                  <option value="OFFICE">Office</option>
+                  <option value="PRODUCTION UNIT">Production Unit</option>
+                  <option value="PSU">PSU</option>
+                  <option value="WORKSHOP">Workshop</option>
+                  <option value="HEAD QUATER">Zonal Railway</option>
+                  
+              </select>
+              </div>
+              <br>
+              <div class="col" id="unit" style="padding-left: 5px;">
+                <div class="col">
+
+                  <b><label for="rtype">Add Unit</label></b></div>
+                  <div class="col-md-3">
+                    <select id="hashunit" name="hashunit" class="custom-select"  >
+                        <option value="" >--Select Unit--</option>
+                        {% for i in unit %}
+                        <option value=""> {{i.Unit_description}} </option>
+                        {% endfor %}
+                    </select>
+                    </div>
+              </div>
+          <!-- </div> -->
+          </div>
+          
+<!-- </form> -->
+
+      <!-- <button class="showbtn btn btn-primary" id="formbutton">Add Railway / Organization</button>  -->
+      <!-- <br> -->
+      <div >
+      <form id="Form1">
+        <div class="row">
+          <div class="col-md-6">
+        <b>Railway unit parent code  </b><span style="color:red;font-weight:bold">*</span>
+          <!-- <input type="text" name="parentcode" id="parentcode" placeholder="Parent code"><br> <br> -->
+          <select  class="form-control" name="parentcode" id="parentcode" onchange="able()">
+            <option disabled selected  value=""> Select Parent Code</option>
+            
+            {% for i in parent %}
+            <option> {{i.parent_location_code}} </option>
+            {% endfor %}
+        </select>
+      </div>
+      
+      </div>
+        <br>
+          <b>Rly unit short code</b><span style="color:red;font-weight:bold">*</span>
+          <input type="text" name="shortcode" id="shortcode" placeholder='loction code'><br><br>
+          <b>Rly unit description </b><span style="color:red;font-weight:bold">*</span>
+          <input type="text" name="description" id="description" placeholder="location decription"><br> <br>
+          
+          <!-- <b>Station Code </b> -->
+          <!-- <b><label for="station">Station Code</label></b> -->
+          <!-- <input type="text" name="station" id="station" placeholder="Station Code"><br> <br> -->
+          <!-- <div class="row">
+            <div class="col">
+          <select  class="form-control" name="station" id="station" style="max-width:40%">
+            <option disabled selected  value=""> Select Station Code</option>
+            {% for i in station %}
+            <option> {{i.stnshortcode}} </option>
+            {% endfor %}
+        </select>
+      </div>
+    </div> -->
+    <div class="row">
+      <div class="col-md-6">
+        <!-- <b><label for="station">Station Code</label></b> -->
+        <b>Station Code </b><span style="color:red;font-weight:bold">*</span>
+
+        <select  class="form-control" name="station" id="station">
+          <option disabled selected  value=""> Select Station Code</option>
+          {% for i in station %}
+          <option> {{i.stnshortcode}}-{{i.station_name}} </option>
+          {% endfor %}
+      </select>
+      </div>
+    </div>
+    <br>
+          <button type="button" class="btn btn-primary" id="savediv" onclick="savediv()">Save</button> 
+          <button type="reset" class="btn btn-secondary" data-dismiss="modal"
+                onclick="window.location.href=window.location.href;">Close</button>
+      </form>
+      </div>
+      <div>
+      <form id="Form2">
+        <b>Rly unit short code</b><span style="color:red;font-weight:bold">*</span>
+          <input type="text" name="shortcode1" id="shortcode1" placeholder='loction code'><br><br>
+          <b>Rly unit description </b><span style="color:red;font-weight:bold">*</span>
+          <input type="text" name="description1" id="description1" placeholder="location decription"><br> <br>
+          <b>Station Code </b><span style="color:red;font-weight:bold">*</span>
+          <!-- <input type="text" name="station" id="station1" placeholder="Station Code"><br> <br> -->
+          <div class="row">
+            <div class="col-md-6">
+          <select  class="form-control" name="station1" id="station1">
+            <option disabled selected  value=""> Select Station Code</option>
+            {% for i in station %}
+            <option> {{i.stnshortcode}}-{{i.station_name}} </option>
+            {% endfor %}
+        </select>
+          </div>
+        </div><br>
+
+          <button type="button" class="btn btn-primary" id="savehq" onclick="savehq()">Save</button> 
+          <button type="reset" class="btn btn-secondary" data-dismiss="modal"
+          onclick="window.location.href=window.location.href;">Close</button>
+      </form>
+      </div>
+    <br><br>
+
+
+    <!-- <div class="modern" style="margin-left: 10%; margin-right: 10%; margin-bottom: 5%;font-family:'Lato', sans-serif"> -->
+      <div class="table-responsive col-md-12" style=" margin-right: 10%; margin-bottom: 5%;font-family:'Lato', sans-serif">
+  <!-- <table align="center" cellpadding="10"></table> -->
+  <!-- <table class="table table-striped table-bordered table-hover" id="table2"> -->
+    <table class="table table-striped table-bordered table-sm" width="100%" id="table2">
+   
+    <!-- <thead class="thead-dark"> -->
+      <thead style="background-color: #343a40;white-space: nowrap;font-size: 1rem; color:white;text-align: center;">
+      <tr>
+        <th>S.No.</th>
+        <!-- <th>Zone Name</th> -->
+        <th>Rly. Code</th>
+        
+        <th>Description</th>
+        <th>Rly. Type</th>
+        <th>Parent Rly. Code</th>
+        <th>Station</th>
+        <th>Action</th>
+        <th>Delete Action</th>
+      </tr>
+    </thead> 
+    <tbody>
+      {% for g in datatable %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{g.location_code}}</td>
+        
+        <td>{{g.location_description}}</td>
+        <td>{{g.location_type}}</td>
+        <td>{{g.parent_location_code}}</td>
+        <td>{{g.station_code}}</td>
+        <td>
+          <input {% if g.delete_flag != False %} disabled {% endif %} type="button" name="action_1" id="Disable@{{g.rly_unit_code}}" class="btn btn-danger btn-sm float-center" value="Disable" onclick="details(this.id)" >
+          <input {% if g.delete_flag != True %} disabled {% endif %} type="button" name="action_1" id="Enable@{{g.rly_unit_code}}" class="btn btn-success btn-sm float-center" value="Enable" onclick="details(this.id)" >
+
+        </td>
+        <td>
+          <input type="button" name="action_1" id="Deleted@{{g.rly_unit_code}}" class="btn btn-outline-danger btn-sm" value="Delete" onclick="details(this.id)" >
+        </td> 
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+      </div>
+    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- 
+      <script>
+        
+
+        function filter(e)
+        {
+            
+        var table = $('#table2').DataTable();
+        table.destroy();
+        $('#table2').hide();
+        var str=e.id;
+        var data={}
+        if(str=='submit')
+        {
+            var rlycode = $('#rlycode').val();
+            var rlytype = $('#rlytype').val();
+            var parentrlycode = $( "#parentrlycode" ).val();
+            var station1 = $( "#station1" ).val();
+
+          
+
+            data=
+            {
+                'rlycode':rlycode,
+                'rlytype':rlytype,
+                'parentrlycode':parentrlycode,
+                'station1':station1,
+            }
+            alert(rlycode+rlytype+parentrlycode+station1)
+            $.ajax({
+                url: "{% url 'filter' %}",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                method: "GET",
+                success: function (response) 
+                {
+                    let filterdata = response.data;
+                    console.log(filterdata)
+                    let row = "";
+                    let head = 
+                    `<thead style="background-color:black; color:white; ">
+                        <tr align=left>
+                          <th>Sr no.</th>
+                          <th>Location Code</th>
+                          <th>Railway Type</th>
+                          <th>Location Description</th>
+                          <th>Location Type Desc</th>
+                          <th>Station Code</th>
+                    
+                        </thead>`;
+                // <td>${filterdata[i]['viewed_on']}</td>
+                for (let i = 0; i < filterdata.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    row += `<td>${i+1}</td>
+                    <td>${filterdata[i]['location_code']}</td>
+                    <td>${filterdata[i]['location_type']}</td>
+                    <td>${filterdata[i]['location_description']}</td>
+                    <td>${filterdata[i]['parent_location_code']}</td>
+                    <td>${filterdata[i]['station_code']}</td>
+                    `;
+                    
+                    row += "</tr>";                    
+                }
+                $('#table2 thead').remove();
+                $('#table2 tr').remove();
+                $('#table2').append(head);
+                $('#table2 tbody').append(row);
+                $('#table2').show();
+                $('#table2').DataTable();
+
+                }
+            })
+        }
+        }
+    </script>
+ -->
+
+<script>
+
+$(document).ready(function(){
+  $('#unit').hide();
+  $('#formbutton').hide();
+  $('#Form2').hide();
+  document.getElementById('station').disabled=true;
+  document.getElementById('description').disabled=true;
+  document.getElementById('shortcode').disabled=true;
+  
+  $('#table2 thead tr:eq(1) th').each( function () {
+              var title = $('#table2 thead tr:eq(0) th').eq( $(this).index() ).text();
+              $(this).html( '<input type="text" class="form-control ll" placeholder="Search '+title+'" />' );
+          } );
+        
+          var table = $('#table2').DataTable({
+              orderCellsTop: true,
+              searching:true,
+              "lengthChange":false,
+              // dom: 'Bfrtip',
+              // buttons: [
+              //      'pdf','excel', 'print'
+              // ],
+          });
+        
+          // Apply the search
+          table.columns().every(function (index) {
+              $('#table2 thead tr:eq(1) th:eq(' + index + ') input').on('keyup change', function () {
+                  table.column($(this).parent().index() + ':visible')
+                      .search(this.value)
+                      .draw();
+              });
+          });
+      
+        // $('#table2').DataTable();
+        $("#altno,#ealtno,#jfdn,#ejfdn").keyup(function () {  
+            $(this).val($(this).val().toUpperCase());  
+          });
+})
+
+
+
+function details(el)
+        {
+            var _id = el;
+            data={
+                '_id':_id,
+            }
+            $.ajax({
+                    type:'GET',
+                    dataType:'json',
+                    url:'{% url "details" %}',
+                    data:data,
+                    success : function(response){
+                      if(op=[]){
+                      window.location.href = window.location.href;
+                      }
+                    }
+                })
+        }
+
+        
+// function savediv(){
+$('#savediv').on('click', function(){
+  var rlytype = $("#rtype").val();
+  var shortcode=$('#shortcode').val()
+  var description=$('#description').val()
+  var parentcode=$('#parentcode').val()
+  var station=$('#station').val()
+  var rlyunit=$('#hashunit').val()
+  
+  $.ajax({
+    type:'GET',
+    dataType:'json',
+    url:'{% url "savediv" %}',
+    data:{shortcode,description,parentcode,station,rlytype,rlyunit},
+    success : function(response){
+        window.location.reload();
+
+    }
+
+ })
+
+})
+
+$('#savehq').on('click', function(){
+  var rlytype = $("#rtype").val();
+  var shortcode1=$('#shortcode1').val()
+  var description1=$('#description1').val()
+  var station1=$('#station1').val()
+  
+  $.ajax({
+    type:'GET',
+    dataType:'json',
+    url:'{% url "savehq" %}',
+    data:{shortcode1,description1,station1,rlytype},
+    success : function(response){
+        window.location.reload();
+
+    }
+
+ })
+
+})
+
+
+
+$(document).ready(function(){
+  if($('#result') != null){
+      Read();
+  }
+  $('#create').on('click', function(){
+      $firstname = $('#firstname').val();
+      $lastname = $('#lastname').val();
+
+      if($firstname == "" || $lastname == ""){
+          alert("Please complete the required field");
+      }else{
+          $.ajax({
+              url: 'create',
+              type: 'POST',
+              data: {
+                  firstname: $firstname,
+                  lastname: $lastname,
+                  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+              },
+              success: function(){
+                  Read();
+                  $('#firstname').val('');
+                  $('#lastname').val('');
+              }
+          });
+      }
+  });
+
+
+       
+
+  $(document).on('click', '.edit', function(){
+      $id = $(this).attr('name');
+      window.location = "edit/" + $id;
+  });
+
+  $('#update').on('click', function(){
+      $firstname = $('#firstname').val();
+      $lastname = $('#lastname').val();
+
+      if($firstname == "" || $lastname == ""){
+          alert("Please complete the required field");
+      }else{
+          $id = $('#member_id').val();
+          $.ajax({
+              url: 'update/' + $id,
+              type: 'POST',
+              data: {
+                  firstname: $firstname,
+                  lastname: $lastname,
+                  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+              },
+              success: function(){
+                  window.location = '/';
+                  alert('Updated!');
+              }
+          });
+      }
+
+  });
+
+  $(document).on('click', '.delete', function(){
+      $id = $(this).attr('name');
+      $.ajax({
+          url: 'delete/' + $id,
+          type: 'POST',
+          data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(){
+                Read();
+                alert("Deleted!");
+            }
+        });
+    });
+ 
+});
+ 
+function Read(){
+    $.ajax({
+		url: 'read',
+		type: 'POST',
+		async: false,
+		data:{
+			res: 1,
+			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+		},
+		success: function(response){
+			$('#result').html(response);
+    }
+  });
+}
+</script>
+<script>
+  function able() {
+    var par = $("#parentcode").val();
+    if(par!=null){
+      document.getElementById('shortcode').disabled=false;
+      document.getElementById('description').disabled=false;
+      document.getElementById('station').disabled=false;
+
+    }
+  }
+
+  function able_rlyorg() {
+    
+    // hashunit = $("#hashunit").val();
+    // alert(hashunit)
+         var rlytype = $("#rtype").val();
+        //  window.location.reload();
+         if (rlytype == "DIVISION" || rlytype == "OFFICE" ||rlytype == "WORKSHOP" || rlytype == "DIRECTORATE") {
+            // $('#formbutton').show();
+            // window.location.reload();
+            $('#unit').hide();
+            $('#Form1').show();
+            $('#Form2').hide();
+         } 
+         else if(rlytype == "INSTITUTE" || rlytype == "PSU" ||rlytype == "PRODUCTION UNIT" || rlytype=="HEAD QUATER" || rlytype=="RAILWAY BOARD"){
+          // window.location.reload();
+          $('#unit').hide();
+          $('#Form2').show();
+          $('#Form1').hide();
+         }
+
+         else if(rlytype == "Railwayunit"){
+            $('#unit').show();
+            $('#Form1').show();
+            $('#Form2').hide();
+         }
+
+
+         $.ajax({
+        
+         type : 'GET',
+         url : "{% url 'able_rlyorg' %}",
+         dataType : 'json',
+         data : {rlytype},
+   
+         success : function(response){
+          $('#parentcode option').remove();
+          var row='<option disabled selected  value=""> Select Parent Code</option>';
+          for(let i=0;i<response.parent.length;i++)
+          {
+            row+='<option value="'+response.parent[i].parent_location_code+'">'+response.parent[i].parent_location_code+' </option>';
+          }
+          
+          $('#parentcode').append(row);
+
+          $('#hashunit option').remove();
+          var row1='<option disabled selected value="" >--Select Unit--</option>';
+          for(let j=0;j<response.unit.length;j++)
+          {
+            row1+='<option value="'+response.unit[j].Unit_description+'">'+response.unit[j].Unit_description+' </option>';
+          }
+          
+          $('#hashunit').append(row1);
+        
+              
+         }
+            });
+     }
+</script>
+</body>
+{% endblock content %}
+

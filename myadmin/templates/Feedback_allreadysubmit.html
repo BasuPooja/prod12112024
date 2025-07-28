@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Submitted</title>
+    <style>
+        .confirmation-container {
+            text-align: center;
+            margin-top: 80px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .thank-you-heading {
+            font-size: 48px;
+            color: #28a745;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .confirmation-message {
+            font-size: 22px;
+            font-weight: 500;
+            color: #155724;
+            background-color: #d4edda;
+            border: 2px solid #c3e6cb;
+            padding: 25px;
+            margin: 0 auto 30px;
+            border-radius: 12px;
+            max-width: 650px;
+            box-shadow: 0 4px 10px rgba(0, 128, 0, 0.15);
+            animation: fadeInUp 0.6s ease-in-out;
+            line-height: 1.6;
+        }
+
+        .home-button a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 28px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .home-button a:hover {
+            background-color: #218838;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="confirmation-container">
+        <h1 class="thank-you-heading">🙏 ! Thank You ! 🙏</h1>
+
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="confirmation-message">{{ msg }} 😊</div>
+            {% endfor %}
+        {% endif %}
+
+        <p style="font-size: 1em; color: #555;">
+            We truly appreciate your effort in helping us enhance the <strong>e_Inspection</strong> experience.
+        </p>
+
+        <div class="home-button" style="margin-top: 25px;">
+            <a href="{% url 'dash_home' %}">🏠 Go back to Homepage</a>
+        </div>
+    </div>
+</body>
+
+{% endblock content %}

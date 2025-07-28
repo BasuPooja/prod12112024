@@ -1,0 +1,869 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+
+  <title>Einspection | Reported Complaints</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+
+  <div style="overflow-x: scroll;">
+    <div>
+      <h3 id="complaint" class="report_heading">Reported Complaints (Pending)</h3>
+    </div>
+
+    <div class="container" style="font-family:'Lato', sans-serif, width = 100px;">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <form id="radio-form" style="position: relative;">
+          <button type="button" class="btn btn-light" id="option1" value="Pending"
+            onclick="handleClick(this.value,this.id)">
+            Pending</button>&nbsp;
+          <button type="button" class="btn btn-light" id="option2" value="Forwarded"
+            onclick="handleClick(this.value,this.id)">
+            Trasfered</button>&nbsp;
+          <!-- <button type="button" class="btn btn-light" id="frdtome" value="ForwardedToMe"
+            onclick="handleClick(this.value,this.id)">
+            Forwarded To Me</button>&nbsp; -->
+          <button type="button" class="btn btn-light" id="option3" value="Completed"
+            onclick="handleClick(this.value,this.id)">
+            Closed</button>&nbsp;
+          <button type="button" class="btn btn-light" id="option4" value="Reverted"
+            onclick="handleClick(this.value,this.id)">
+            Reverted</button>&nbsp;
+          <!-- <button type="button" class="btn btn-light" id="Rejected" value="Rejected"
+            onclick="handleClick(this.value,this.id)">
+            Rejected</button>&nbsp; -->
+          <button type="button" class="btn btn-light" id="option5" value="In Progress"
+            onclick="handleClick(this.value,this.id)">
+            In Progress</button>&nbsp;
+          <button type="button" class="btn btn-light" id="for-info-btn" style="display:  inline-block;" value="For Info"
+            onclick="handleClick(this.value,this.id)">
+            For Info
+          </button>&nbsp;
+        </form>
+      </div>
+    </div>
+
+    <div class="container mt-5">
+      <table class="table table-sm table-data table-striped table-bordered " id="userData">
+        <thead class="bg-primary">
+          <tr>
+            <th>Image</th>
+            <th>Date|Time</th>
+            <th>Issue Category</th>
+            <th>Issue Des</th>
+            <th>Location</th>
+            <th>Complainant</th>
+            <th>Assigned To</th>
+            <th>Target Date</th>
+            <th>Priority</th>
+            <th>Take Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal fade" id="Modal1" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Update Status</h3>
+          <button class="btn close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form method="GET" id="remarks1">
+            <div class="form-group row">
+              <div class="col-sm-8">
+                <div class="form-check form-check-inline" id="RadioPending">
+                  <input class="form-check-input" type="radio" name="modalStatus" id="pending" value="pending"
+                    onclick="getPendingDetails()" checked>
+                  <label class="form-check-label" for="inlineRadio2">Pending</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="modalStatus" id="close" value="close"
+                    onclick="getCloseDetails()">
+                  <label class="form-check-label" for="inlineRadio1">Close</label>
+                </div>
+                <div class="form-check form-check-inline" id="revertradio">
+                  <input class="form-check-input" type="radio" name="modalStatus" id="revert" value="revert"
+                    onclick="getRevertDetails()">
+                  <label class="form-check-label" for="inlineRadio1">Revert</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mx-auto" id="hidePending">
+              <label for="form-check-input">Will be completed by </label>
+              <div class="col-sm-5">
+                <input type="text" autocomplete="off" placeholder="dd/mm/yyyy" class="form-control modaldate"
+                  id="modalDate" name="modalDate">
+              </div>
+            </div>
+            <div class="form-group" id="hideClose" style="display: none;">
+              <div class="md-10">
+                <label for="remarks" style="font-size:20px;color:black;">Remarks</label><br>
+                <textarea class="form-control" name="modalremarks" id="modalremarks" cols="55" rows="2"></textarea>
+              </div>
+            </div>
+            <br>
+          </form>
+          <button type="submit" id="updateSubmit" onclick="update()" class="btn btn-primary"
+            style="margin-top:5px; padding: 3px 8px 3px 8px;">Submit</button>
+          <button id="remarkSubmit" class="btn btn-danger" type="button" data-dismiss="modal"
+            style="margin-top:5px; margin-left: 309px; padding: 3px 8px 3px 8px;" aria-label="close">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="ModalForward" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Assigned To</h3>
+          <button class="btn close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container form-group mx-5 row" id="forward1">
+            <div class="col-sm-3">
+              <label for="rlyorg" class="col-md-4 col-form-label">Rly/Org</label>
+              <div class="form-group row">
+                <select class="form-control row" id="rlyorg" name="rlyorg" onchange="getdivwisedata(this.id,this.value)"
+                  required>
+                  <option selected value="{{zone}}">{{zone}}</option>
+                  {% for i in result %}
+                  <option value="{{i.location_code}}">{{i.location_code}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+
+            <div class="col-sm-3">
+              <label for="division" class=" col-form-label">Division</label>
+              <div class="form-group row">
+                <select class="form-control row" id="division" name="division" required
+                  onchange="getConcernedOfficer(this.id,this.value)">
+                  <option selected value="{{division}}">{{division}}</option>
+                  {% for i in divisionList %}
+                  <option value="{{i.location_code}}">{{i.location_code}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+            <div class="col-sm-3">
+              <label for="officer" class="col-sm-2 col-form-label">Officers</label>
+              <div class="form-group row">
+                <select class="form-control row" id="officer" name="officer">
+                  <option selected disabled>Select Officer</option>
+                  {% for i in officer %}
+                  <option value="{{i.designation}}">{{i.designation}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <form method="GET" id="remarks1">
+            <label for="remarks" style="font-size:20px;color:black;">Remarks</label><br>
+            <textarea class="form-control" name="remarks" id="remarks" cols="55" rows="2"></textarea>
+            <br>
+          </form>
+          <div class="modal-footer">
+            <button type="submit" id="ForwardSubmit" class="btn btn-primary" onclick="forwardToNext()">Forward</button>
+
+            <button type="close" data-dismiss="modal" aria-label="close" class="btn btn-primary">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="modal fade" id="ModalInfo" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Forward Details</h3>
+          <button class="btn close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container form-group row" id="forward1">
+
+            <div class="col-sm-3">
+              <label for="rlyorg" class="">Forwarded By</label>
+              <div class="form-group row">
+                <input type="text" class="form-control" id="forwardDesig" name="forwardDesig" readonly>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+
+            <div class="col-sm-3">
+              <label for="forwardDate">Forwarded Date-Time</label>
+              <div class="form-group row">
+                <input type="text" class="form-control" id="forwardDate" name="forwardDate" readonly>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+
+            <div class="col-sm-3">
+              <label for="forwardTime" class="">Forwarded To</label>
+              <div class="form-group row">
+                <input type="text" class="form-control" id="forwardTime" name="forwardTime" readonly>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+
+          <button type="close" data-dismiss="modal" aria-label="close" class="btn btn-primary">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div> -->
+
+  <div class="modal fade" id="ModalInfo" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Forward Details</h3>
+          <button class="btn close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="container form-group row" id="forward1">
+
+            <div class="col-sm-4">
+              <label for="rlyorg" class="">Created By</label>
+              <div class="form-group row">
+                <input type="text" class="form-control" id="forwardDesig" name="forwardDesig" readonly>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+
+            <div class="col-sm-4">
+              <label for="rlyorg" class="">Target Date</label>
+              <div class="form-group row">
+                <input type="text" class="form-control" id="target_date" name="target_date" readonly>
+              </div>
+            </div>&nbsp;&nbsp;&nbsp;
+
+          </div>
+          <table class="table table-sm table-data table-striped table-bordered" id="forwardTable">
+            <thead class="bg-primary">
+              <tr>
+                <th>Date</th>
+                <th>Assigned To</th>
+                <th>Remarks</th>
+                <th>Close Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="modal-footer">
+
+          <button type="close" data-dismiss="modal" aria-label="close" class="btn btn-primary">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  </div>
+
+
+  <div class="modal fade" id="ModalImage" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Image</h3>
+          <button class="close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <img id="showimage" width="470" height="300">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script>
+    var target_date = '';
+    var status = '';
+    $(document).ready(function () {
+      // Setup - add a text input to each footer cell
+
+      // $('#userData thead tr')
+      //   .clone(true)
+      //   .addClass('filters123')
+      //   .appendTo('#userData thead');
+      // const userDLevel = '{{ d_level }}'; 
+      console.log('User d_level:', '{{ d_level }}')
+      if ('{{d_level}}' === 'GM' || '{{d_level}}' === 'DRM') {
+        document.getElementById('for-info-btn').style.display = 'inline-block';
+      } else {
+        document.getElementById('for-info-btn').style.display = 'none';
+      }
+    })
+
+    // var table = $('#userData').DataTable();
+    $(document).ready(function () {
+      $('#userData tbody').empty()
+      var currentdate = new Date()
+      // alert(currentdate)
+      $(".date").datepicker({
+        maxDate: currentdate,
+        autoclose: true,
+        dateFormat: "dd/mm/yyyy",
+        endDate: "currentdate",
+        changeMonth: true,
+        changeYear: true,
+        todayHighlight: true,
+        clearBtn: true
+      });
+      $(".modaldate").datepicker({
+        minDate: currentdate,
+        autoclose: true,
+        dateFormat: "dd/mm/yy",
+        endDate: "currentdate",
+        changeMonth: true,
+        changeYear: true,
+        todayHighlight: true,
+        clearBtn: true
+      });
+      var status = $('#complaints').val()
+      // alert(status)
+      data = {
+        'status': status,
+      }
+      $(".radio-buttons input[name='status']").change(function () {
+        const selectedStatus = $(this).val();
+
+        table.rows().every(function () {
+          const rowStatus = $(this.cell(0, 7).node()).text(); // Assuming status is in the 8th column
+          if (selectedStatus === 'All' || selectedStatus === rowStatus) {
+            this.nodes().to$().show();
+          } else {
+            this.nodes().to$().hide();
+          }
+        });
+      });
+
+      var table = $('#userData').DataTable({
+        "ajax": {
+          "url": "{% url 'showUserComaplaints1' %}?status=Pending",
+          "dataType": 'json',
+          "type": 'GET',
+          "dataSrc": "user"
+        },
+        "columnDefs": [
+          {
+            "targets": 4, // Target the 5th column (0-based index) which is the "Location" column
+            "render": function (data, type, row, meta) {
+              return '<div style="width: 190px; overflow: hidden; text-wrap: balance;">' + data + '</div>';
+            },
+          },
+          {
+            "targets": 3, // Target the 5th column (0-based index) which is the "Location" column
+            "render": function (data, type, row, meta) {
+              return '<div style="width: 245px; overflow: hidden; text-wrap: balance;">' + data + '</div>';
+            },
+          }
+        ],
+        "columns": [
+          {
+            "data": "item_no__link_image",
+            "render": function (data, type, row) {
+              return '<img id="' + row.item_no__inspection_no + '" data-toggle="modal" onclick="image(\'/' + data + '\')" class="btn1" data-toggle="modal" data-target="#ModalImage" width="100px" height="100px" src="/' + data + '" style="cursor:pointer;">';
+            }
+          },
+          {
+            "data": "created_on",
+            "render": function (data) {
+              var createdDate = new Date(data);
+              var day = createdDate.getDate();
+              var month = createdDate.getMonth() + 1; // Months are zero-based
+              var year = createdDate.getFullYear();
+              var time = createdDate.toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
+              time = time.slice(0, 5);
+              return day + '/' + month + '/' + year + ' ' + time;
+            }
+          },
+          { "data": "issuetitle" },
+          {
+            "data": "issuedescription",
+            // "render": function (data) {
+            //   return '<td class="text-break" title="' + data + '">' + ((data.length > 100) ? (data.substring(0, 100) + '...') : data) + '</td>';
+            // }
+          },
+          {
+            "data": "location",
+            // "render": function (data) {
+            //   return '<td class="text-break" title="' + data + '">' + ((data.length > 100) ? (data.substring(0, 100) + '...') : data) + '</td>';
+            // }
+          },
+          { "data": "item_no__inspection_no__officer_desig" },
+          { "data": "marked_to_id__designation" },
+          { "data": "target_date", "visible": false },
+          {
+            "data": "priority",
+            "render": function (data) {
+              var priorityText = '';
+              if (data == 0) {
+                priorityText = 'No Priority';
+              } else if (data == 1) {
+                priorityText = 'On Priority'
+              } else if (data == 2) {
+                priorityText = 'Medium'
+              } else if (data == 3) {
+                priorityText = 'Low'
+              }
+              return priorityText;
+            }
+          },
+          {
+            "data": "priority",
+            "render": function (data, type, row) {
+              target_date = `${row.target_date}`
+
+              var priorityText = '';
+              if (data == 0) {
+                priorityText = 'No Priority';
+              } else if (data == 1) {
+                priorityText = 'On Priority'
+              } else if (data == 2) {
+                priorityText = 'Medium'
+              } else if (data == 3) {
+                priorityText = 'Low'
+              }
+
+              var createdDate = new Date(row.created_on);
+              var day = createdDate.getDate();
+              var month = createdDate.getMonth() + 1; // Months are zero-based
+              var year = createdDate.getFullYear();
+              var time = createdDate.toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
+              time = time.slice(0, 5);
+              Created_On = day + '/' + month + '/' + year + ' ' + time;
+
+              const inspectionMessage = `*E-Inspection Click & Report*\nCreated On: ${Created_On}\nReported By: ${row.item_no__inspection_no__officer_desig}\nAssigned To: ${row.marked_to_id__designation}\nIssue Category: ${row.issuetitle}\nIssue Description: ${row.issuedescription}\nPriority: ${priorityText}`;
+
+              const encodedMessage = encodeURIComponent(inspectionMessage);
+              const whatsappLink = `https://wa.me/?text=${encodedMessage}`;
+
+              if (data === 3 | data === 4 | status === 'For Info' | status === 'In Progress') {
+                return (
+                  `<div>` +
+                  `<a href="${whatsappLink}"><img alt="Chat on WhatsApp" src="/media/WhatsApp.png" title="Share Info" height="50px" width="50px"/></a>` +
+                  `</div>` + `<div>` +
+                  `<img src="/media/History1.png" alt="Image Icon" id="${row.item_no__inspection_no}" onclick="modalInfo(this)" class="img-icon" data-toggle="modal" data-target="#ModalInfo" title="History" height="45px" width="45px"/>` +
+                  `</div>`
+                );
+              }
+              else if (data === 5) {
+                return (
+                  `<div style="display: flex; flex-direction: row; align-items: center;">
+                  <a href="${whatsappLink}">
+                  <img alt="Chat on WhatsApp" src="/media/WhatsApp.png" title="Share Info" height="50px" width="50px"/>
+                  </a>
+
+                  <img src="/media/Update1.png" alt="Update Icon" id="${row.item_no__inspection_no}" onclick="modalForward(this)" class="img-icon" data-toggle="modal" data-target="#Modal1"  title="Update" height="40px" width="40px"/>
+                  </div>
+
+                  <img src="/media/History1.png" alt="Image Icon" id="${row.item_no__inspection_no}" onclick="modalInfo(this)" class="img-icon" data-toggle="modal" data-target="#ModalInfo" title="History" height="40px" width="40px"/>
+                  </div>`
+                )
+              }
+              else {
+                return (
+                  `<div style="display: flex; flex-direction: row; align-items: center;">
+                  <a href="${whatsappLink}">
+                  <img alt="Chat on WhatsApp" src="/media/WhatsApp.png" title="Share Info" height="50px" width="50px"/>
+                  </a>
+
+                  <img src="/media/Update1.png" alt="Update Icon" id="${row.item_no__inspection_no}" onclick="modalForward(this)" class="img-icon" data-toggle="modal" data-target="#Modal1"  title="Update" height="50px" width="50px"/>
+                  </div>
+
+                  <div style="display: flex; flex-direction: row; align-items: center;">
+                  <img src="/media/Forward1.png" alt="Forward Icon" id="${row.item_no__inspection_no}" onclick="modalForward(this)" class="img-icon" data-toggle="modal" data-target="#ModalForward"  title="Forward" height="50px" width="50px"/>
+
+                  <img src="/media/History1.png" alt="Image Icon" id="${row.item_no__inspection_no}" onclick="modalInfo(this)" class="img-icon" data-toggle="modal" data-target="#ModalInfo" title="History" height="50px" width="50px"/>
+                  </div>`
+                )
+              }
+            },
+            "orderable": false
+          }
+        ],
+        "orderCellsTop": true,
+        "searching": false,
+        "lengthChange": false
+      });
+
+      // Apply search functionality
+      table.columns().every(function (index) {
+        $('#userData thead tr:eq(1) th:eq(' + index + ') input').on('keyup change', function () {
+          table.column($(this).parent().index() + ':visible')
+            .search(this.value)
+            .draw();
+        });
+      });
+
+      $("#altno, #ealtno, #jfdn, #ejfdn").keyup(function () {
+        $(this).val($(this).val().toUpperCase());
+      });
+
+      // Apply priority colors
+      $('#userData tbody tr').each(function () {
+        var $cell = $(this).find('td:eq(6)'); // Assuming the priority column is the 7th column
+        var priorityText = $cell.text().trim();
+        if (priorityText === 'Low') {
+          $cell.css({ "color": "brown" });
+        } else if (priorityText === 'High') {
+          $cell.css({ "color": "red" });
+        } else if (priorityText === 'Medium') {
+          $cell.css({ "color": "orange" });
+        } else {
+          $cell.css({ "color": "blue" });
+        }
+      });
+
+      // $('#option1').click(function () {
+      //   table.ajax.url("{% url 'showUserComaplaints1' %}?status=Pending").load();
+      // });
+
+      // $('#option2').click(function () {
+      //   table.ajax.url("{% url 'showUserComaplaints1' %}?status=Forwarded").load();
+      // });
+
+      // $('#option3').click(function () {
+      //   table.ajax.url("{% url 'showUserComaplaints1' %}?status=Completed").load();
+      // });
+
+      // $('#option4').click(function () {
+      //   table.ajax.url("{% url 'showUserComaplaints1' %}?status=Reverted").load();
+      // });
+
+      $('#option5').click(function () {
+        table.column(7).visible(true);
+        table.ajax.url("{% url 'showUserComaplaints1' %}?status=In Progress").load();
+      });
+
+      // $('#for-info-btn').click(function () {
+      //   table.ajax.url("{% url 'showUserComaplaints1' %}?status=For Info").load();
+      //   status = 'For Info';
+      // });
+
+      $('#option1, #option2, #option3, #option4, #frdtome, #for-info-btn, #Rejected').click(function () {
+        table.column(7).visible(false);  // Hide "Target Date" column
+        table.ajax.url("{% url 'showUserComaplaints1' %}?status=" + this.value).load();
+      });
+    })
+
+
+    function image(U) {
+      document.getElementById('showimage').src = U;
+    }
+
+    function handleClick(selectedStatus, selectedID) {
+      var status = selectedStatus;
+      var complaintHeading = document.getElementById("complaint");
+      complaintHeading.innerText = `Reported Complaints (${selectedStatus})`;
+
+      targetDate = target_date;
+
+      var createdDate = new Date(targetDate);
+      var date = createdDate.toLocaleDateString();
+      var day = createdDate.getDate();
+      var month = createdDate.getMonth() + 1; //months are zero based
+      var year = createdDate.getFullYear();
+      var time = createdDate.toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
+      time = time.slice(0, 5)
+      targetDate = day + '/' + month + '/' + year
+
+      if (status === 'In Progress') {
+        $('#modalDate').attr('readonly', true).val(targetDate);
+        document.getElementById('modalDate').value = targetDate;
+        document.getElementById('remarkSubmit').disabled = true;
+        document.getElementById("RadioPending").style.display = "none";
+        document.getElementById("close").checked = true;
+        getCloseDetails();
+      } else {
+        $('#modalDate').removeAttr('readonly').val('');
+        document.getElementById('modalDate').readOnly = false;
+        document.getElementById('remarkSubmit').disabled = false;
+        document.getElementById("RadioPending").style.display = "inline-block";  // Show the "Pending" radio button for other options
+        document.getElementById("pending").checked = true;
+        getPendingDetails();
+      }
+      // if (status === 'ForwardedToMe') {
+      //   var container = document.getElementById('revertradio');
+      //   // Check the current display state
+      //   container.style.display = 'none';
+      // } else {
+      //   container.style.display = 'flex';
+
+      // }
+    }
+
+    function update() {
+      var modalremarks = $('#modalremarks').val()
+      if (modalremarks == null) {
+        modalremarks = ''
+      }
+      var date = $('#modalDate').val()
+      if (date == null) {
+        date = ''
+      }
+      var radioValue = $("input[name='modalStatus']:checked").val();
+      console.log('radioValue', radioValue)
+      console.log(id1, "id1")
+      console.log(modalremarks, "modalremarks")
+      console.log(date, "date")
+      data = { 'modalremarks': modalremarks, 'id': id1, 'modalDate': date, 'radioValue': radioValue }
+      $.ajax({
+        url: "{% url 'updateUser1' %}",
+        type: 'GET',
+        dataType: 'json',
+        data: data,
+        success: function (response) {
+          // alert("Thank you")
+
+          window.location.reload()
+        }
+      })
+    }
+
+    function getPendingDetails() {
+      document.getElementById('hideClose').style.display = 'none'
+      document.getElementById('hidePending').style.display = 'flex'
+    }
+
+    function getCloseDetails() {
+      document.getElementById('hideClose').style.display = 'flex'
+      document.getElementById('hidePending').style.display = 'none'
+      document.getElementById('remarkSubmit').disabled = false;
+    }
+
+    function getRevertDetails() {
+      document.getElementById('hideClose').style.display = 'flex'
+      document.getElementById('hidePending').style.display = 'none'
+      document.getElementById('remarkSubmit').disabled = false;
+    }
+
+    function getdivwisedata(id, val) {
+      var rlyorg = val
+      // alert(rlyorg)
+      var division = document.getElementById('division').value;
+      // alert(division)
+      data = {
+        'rlyorg': rlyorg,
+        'division': division,
+      }
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'division_wise' %}",
+        data: data,
+        success: function (response) {
+          $('#division').empty();
+          let row = '<option selected disabled hidden>Select Division</option>';
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+
+            row += '<option value="' + response[i].location_code + '">' + response[i].location_code + ' </option>';
+          }
+          $('#division').append(row);
+        }
+      })
+    }
+
+    function getConcernedOfficer(id, value) {
+      let division = $('#division').val();
+
+      data = {
+        'division': division,
+      }
+
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'getForwardOfficer' %}",
+        data: data,
+        success: function (response) {
+
+          $('#officer').empty();
+          // $('#officer1'+department).empty();
+          // document.getElementById(officer).
+          let row = '<option selected disabled hidden>--Select Concerned Officer--</option>';
+          if (response.length == 0) {
+            row += '<option selected disabled hidden>--No Officer--</option>';
+          }
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value="' + response[i].designation + '">' + response[i].designation + ' </option>';
+          }
+          $('#officer').append(row);
+        }
+      })
+    }
+
+    function forwardToNext() {
+      var div = $('#division').val()
+      var officer = $('#officer').val()
+      var modalremarks = $('#modalremarks').val()
+      console.log(div)
+      console.log(officer)
+      console.log(modalremarks)
+
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'forwardToNext1' %}",
+        data: { div, officer, id1, modalremarks },
+        success:
+          function (response) {
+            window.location.reload()
+          }
+
+      })
+
+    }
+    var id1 = 0;
+    function modalForward(U) {
+      id1 = U.id
+      // alert(id1)
+    }
+
+    function modalInfo(U) {
+      var id = U.id
+      // alert(id)
+      var status_flag;
+      $.ajax({
+        url: "{% url 'modalInfo1' %}",
+        dataType: 'json',
+        type: 'GET',
+        data: { id },
+        success: function (response) {
+          $('#forwardDesig').val(response.name)
+          $('#target_date').val(response.target_date)
+          status_flag = response.status_flag;
+          console.log(status_flag);
+          if (status_flag == 3) {
+            table.column(3).visible(true);
+            // alert(status_flag);
+          } else {
+            table.column(3).visible(false);
+            // alert(status_flag);
+          }
+        }
+      })
+
+
+      if ($.fn.DataTable.isDataTable('#forwardTable')) {
+        $('#forwardTable').DataTable().destroy();
+      }
+      var table = $('#forwardTable').DataTable({
+        "ajax": {
+          "url": "{% url 'forwardInfo1' %}?id=" + id,
+          "dataType": 'json',
+          "type": 'GET',
+          "dataSrc": "user"
+        },
+        "columns": [
+          {
+            "data": "created_on",
+            "render": function (data) {
+              var createdDate = new Date(data);
+              var day = createdDate.getDate();
+              var month = createdDate.getMonth() + 1; // Months are zero-based
+              var year = createdDate.getFullYear();
+              var time = createdDate.toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
+              time = time.slice(0, 5);
+              return day + '/' + month + '/' + year + ' ' + time;
+            }
+          },
+          { "data": "designation" },
+          {
+            "data": "remark",
+            "render": function (data, type, row) {
+              if (data != null) {
+                return data;
+              } else if (data === null) {
+                return 'No Remarks';
+              } else if (`${row.eitemid_id__remarks}` != undefined) {
+                console.log(`${row.eitemid_id__remarks}`)
+                return `${row.eitemid_id__remarks}`;
+              } else if (data === null) {
+                return 'No Remarks';
+              }
+            }
+          },
+          {
+            "data": "compliance"
+          }
+        ],
+        "orderCellsTop": true,
+        "searching": false,
+        "lengthChange": false,
+        "autoWidth": true
+
+      });
+    }
+
+  </script>
+
+
+</body>
+
+
+
+</html>
+{% endblock content %}

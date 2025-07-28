@@ -1,0 +1,272 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>
+      {% include 'dashboard_scripts.html' %}
+</head>
+<body>
+    <form method="POST">{%csrf_token%}
+        <div class="container-fluid" style="margin-top: -25px;">
+            <div class="row gy-4" style="padding-left:1%; padding-right: 1%;">
+                <div class="container-fluid"
+                    style="padding-bottom: 0.5%;padding-top: 0.5%;background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500); ">
+                    <h3 class="font-weight-bold text-black float-justify text-center"> INSPECTION DASHBOARD OF
+                    {{request.session.designation | safe}} 
+        
+                    <!-- <input class="date1 btn-sm font-weight-bold" type="text" id="summarydate" value="({{daterange}})"
+                readonly /> -->
+        
+                    <button class="btn btn-sm" type="submit" name="submit" value="sum5" id="sum5" hidden></button>
+                    <input type="text" value="({{setvalue}})" name="setsummarydatetest" id="setsummarydatetest" hidden>
+        
+        
+        
+        
+                    <div class="font-weight-bold text-primary float-right" style="width: 150px;" >
+        
+                        <div class="dropdown" style="width: 100%;">
+                        <button class="btn1  dropdown-toggle tog1" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="color:black;margin-right:1rem;font-size: 15px;">
+                            <i class="fa fa-calendar"></i> 
+                            {{daterange}} Period
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%;">
+                            <button class="dropdown-item" type="submit" name="submit" value="sum1" data-toggle="modal"
+                            data-target="#loading-modal" id="btnall" style="width: 100%;">All</button>
+                            <button class="dropdown-item" type="submit" name="submit" value="sum2" data-toggle="modal"
+                            data-target="#loading-modal">Last 3
+                            Months</button>
+                            <button class="dropdown-item" type="submit" name="submit" value="sum3" data-toggle="modal"
+                            data-target="#loading-modal">Last 6
+                            Months</button>
+                            <button class="dropdown-item" type="submit" name="submit" value="sum4" data-toggle="modal"
+                            data-target="#loading-modal">Last 12
+                            months</button>
+        
+                            <button class="dropdown-item" type="button" name="submit" value=""
+                            onclick="funclicksummarydate()">Custom Range</button>
+                            <span>
+        
+                            <input hidden class="btn btn-sm font-weight-bold" type="text" id="summarydate" name="daterange"
+                                value="{{daterange}}" onchange="setsummarydate(this.value)" readonly
+                                onclick="setsummarydateclick()" />
+                            </span>
+        
+        
+                        </div>
+                        </div>
+        
+                    </div>
+                    </h3>
+        
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="container-fluid" >
+            <div class="row gy-4" style="padding-left:1%; padding-right: 1%;">
+              <div class="col-sm" style="padding: 0%; " id="myinsp6">
+                <div class="card h-100">
+                  <div class="card-body drft-inspect-val" style="padding: 0%; ">
+                        <h6 class="card-title fw-bold text-center inspect-note1 pt-1 pb-1 m-0">Inspection Notes (Nos/Paras)</h6>
+                        <div class="container-fluid mt-0">
+                        <div class="row no-glutters drft-inspect-lbl">
+                            <div class="col card-text drft-inspect-val" style="padding: 0%; ">
+                                <div class="container-fluid m-0" >
+                                    <div class="row no-glutters drft-inspect-lbl text-center">
+                                        <div class="col card-text" style="padding: 0%; ">In Draft</div>
+                                    </div>
+                                    <div class="row no-glutters text-center drft-inspect-val">
+                                        <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                            {{total_drafts}}/{{total_drafts_items}}<a target="_blank"
+                                            href="{% url 'draft_inspection_form' %}?data3={{color}}&daterange={{daterange}}"
+                                            class="stretched-link" data-toggle="tooltip" title="Total Inspection/Total Items Count"></a>
+                                        </div>
+                                    </div>
+        
+                                
+                                </div>
+                            </div>
+                            <div class="col card-text drft-inspect-val" style="padding: 0%; ">
+                            
+                            <div class="container-fluid  mt-0">
+                                <div class="row no-glutters drft-inspect-lbl text-center ">
+                                    <div class="col card-text" style="padding: 0%; ">Already Issued</div>
+                                </div>
+                                <div class="row no-glutters text-center drft-inspect-val">
+                                    <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                        {{total_issued}}/{{total_issued_items}}<a target="_blank"
+                                        href="{% url 'inspection_doneby_list' %}?data3={{color}}&daterange={{daterange}}"
+                                        class="stretched-link" data-toggle="tooltip" title="Total Inspection/Total Items Count"></a>
+                                    </div>
+                                </div>
+    
+                            
+                            </div>
+                            </div>
+                        </div>
+                        
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm" style="padding: 0%; ">
+                <div class="card h-100">
+                  <div class="card-body" style="padding: 0%; background-color: rgb(245, 198, 184);">
+                        <h6 class="card-title fw-bold text-center inspect-note pt-1 pb-1 m-0">Compliance Status of My Inspections (Nos/Paras)</h6>
+                        <div class="container-fluid m-0" style=" background-color: rgb(245, 198, 184);">
+                            <div class="row no-glutters">
+                                <div class="col text-center card-text" style="padding: 0%; ">
+                                
+                                    <div class="container-fluid m-0">
+                                        <div class="row no-glutters text-center pt-1" style="background-color:#fca7a7;">
+                                            <div class="col card-text" style="padding: 0%; ">Complied</div>
+                                        </div>
+                                        <div class="row no-glutters text-center">
+                                            <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                                <a role="button"
+                                                href="{% url 'close_compliance_checklist' %}?data3={{color}}&daterange={{daterange}}"
+                                                style="color: rgb(34, 152, 18);" target="_blank " data-toggle="tooltip"
+                                                title="Total Inspection/Total Items Count">{{total_complied}}/</a><a role="button"
+                                                href="{% url 'dash_details' %}?data1=fullj&data2=Item&data3={{color}}&daterange={{daterange}}"
+                                                style="color:rgb(34, 152, 18);" target="_blank" data-toggle="tooltip"
+                                                title="Total Inspection/Total Items Count">{{total_complied_items}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col text-center card-text" style="padding: 0%; ">
+                                
+                                <div class="container-fluid m-0">
+                                    <div class="row no-glutters text-center pt-1" style="background-color:#fca7a7;">
+                                    <div class="col card-text" style="padding: 0%; ">Pending</div>
+                                    </div>
+                                    <div class="row no-glutters text-center">
+                                    <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                        <a role="button" href="{% url 'created_checklist' %}?data3={{color}}&daterange={{daterange}}"
+                                    style="color:rgb(238, 55, 55);" target="_blank" data-toggle="tooltip"
+                                    title="Total Inspection/Total Items Count">{{total_pending}}/</a><a role="button" target="_blank"
+                                    href="{% url 'dash_details' %}?data={{i.type}}&data1=pendj&data2=Item&data3={{color}}&daterange={{daterange}}"
+                                    style="color: rgb(238, 55, 55);" data-toggle="tooltip"
+                                    title="Total Inspection/Total Items Count">{{total_pending_items}}</a>
+                                </div>
+                                    </div>
+        
+                                
+                                </div>
+                                </div>
+                                <div class="col text-center card-text" style="padding: 0%; ">
+                                
+                                <div class="container-fluid m-0">
+                                    <div class="row no-glutters text-center pt-1" style="background-color:#fca7a7;">
+                                    <div class="col card-text" style="padding: 0%; ">Forwarded</div>
+                                    </div>
+                                    <div class="row no-glutters text-center">
+                                        <div class="col card-text font-weight-bold" style="padding: 0%; ">
+
+                                        <a role="button" href="{% url 'compliance_forward_all' %}?data3={{color}}&daterange={{daterange}}"
+                                    style="color:rgb(238, 55, 55);" target="_blank" data-toggle="tooltip"
+                                    title="Total Forwarded Items Pending/Total Forwarded Items Complied">{{total_forwarded_items_pending}}/</a><a role="button" target="_blank"
+                                    href="{% url 'compliance_forward_all' %}?data3={{color}}&daterange={{daterange}}"
+                                    style="color: rgb(34, 152, 18);" data-toggle="tooltip"
+                                    title="Total Forwarded Items Pending/Total Forwarded Items Complied">{{total_forwarded_items_complied}}</a>
+                                    </div>
+                                    </div>
+        
+                                
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm" style="padding: 0%; " id="myinsp5">
+                <div class="card h-100">
+                  <div class="card-body" style="padding: 0%; background-color: rgb(255, 255, 147);">
+                    <h6 class="card-title fw-bold text-center pt-1 pb-1 m-0" style="background-color:  #ffcf4a;">My Pending Compliance (Nos/Paras)</h6></h6>
+                    <div class="container-fluid m-0" style="background-color: rgb(255, 255, 147);">
+                      <div class="row no-glutters pb-0">
+                        <div class="col text-center card-text" style="padding: 0%; ">
+                         
+                          <div class="container-fluid m-0">
+                            <div class="row no-glutters text-center pt-1" style="background-color: rgb(249, 249, 104);">
+                              <div class="col card-text" style="padding: 0%; ">Complied</div>
+                            </div>
+                            <div class="row no-glutters text-center" >
+                              <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                <a role="button"
+                          href="{% url 'compliance_form_accept' %}?data3={{color}}&daterange={{daterange}}"
+                          target="_blank" style="color: rgb(46, 196, 27);" data-toggle="tooltip"
+                          title="Total Inspection/Total Items Count">{{total_m2m_complied}}/</a>
+                        <a role="button"
+                          href="{% url 'pending_forme' %}?data=repliedj&data3={{color}}&daterange={{daterange}}"
+                          target="_blank" style="color: rgb(72, 212, 51);" data-toggle="tooltip"
+                          title="Total Inspection/Total Items Count">{{total_m2m_items_complied}}</a>
+                          </div>
+                            </div>
+  
+                          
+                        </div>
+                        </div>
+                        <div class="col text-center card-text" style="padding: 0%; ">
+                          
+                          <div class="container-fluid m-0">
+                            <div class="row no-glutters text-center pt-1" style="background-color: rgb(249, 249, 104);">
+                              <div class="col card-text" style="padding: 0%; ">Pending</div>
+                            </div>
+                            <div class="row no-glutters text-center">
+                              <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                <a role="button"
+                          href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                          style="color: rgb(234, 10, 10);" data-toggle="tooltip"
+                          title="Total Inspection/Total Items Count">{{total_m2m_pending}}/</a>
+                        <a role="button"
+                          href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                          target="_blank" style="color: rgb(228, 9, 9);" data-toggle="tooltip"
+                          title="Total Inspection/Total Items Count">{{total_m2m_items_pending}}</a>
+                          </div>
+                            </div>
+  
+                          
+                        </div>
+                        </div>
+                        <div class="col text-center card-text" style="padding: 0%; ">
+                          
+                          <div class="container-fluid m-0">
+                            <div class="row no-glutters text-center pt-1" style="background-color: rgb(249, 249, 104);">
+                              <div class="col card-text" style="padding: 0%; ">Forwarded</div>
+                            </div>
+                            <div class="row no-glutters text-center">
+                                <div class="col card-text font-weight-bold" style="padding: 0%; ">
+                                    <a role="button"
+                                        href="{% url 'compliance_form' %}?data3={{color}}&daterange={{daterange}}" target="_blank"
+                                        style="color: rgb(234, 10, 10);" data-toggle="tooltip"
+                                        title="Total Forwarded Items Pending/Total Forwarded Items Complied">{{total_forwarded_items_m2m_pending}}/</a>
+                                    <a role="button"
+                                        href="{% url 'pending_forme' %}?data=pendingj&data3={{color}}&daterange={{daterange}}"
+                                        target="_blank" style="color: rgb(72, 212, 51);" data-toggle="tooltip"
+                                        title="Total Forwarded Items Pending/Total Forwarded Items Complied">{{total_forwarded_items_m2m_complied}}</a>
+                                    </div>
+                              </div>
+  
+                          
+                        </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+{% endblock %}

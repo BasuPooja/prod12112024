@@ -1,0 +1,1296 @@
+Date:- 2025-06-05 12:25:25, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\connection.py", line 61, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\socket.py", line 953, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 670, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 381, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 978, in _validate_conn
+    conn.connect()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 309, in connect
+    conn = self._new_conn()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x00000132E560E220>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 726, in urlopen
+    retries = retries.increment(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\retry.py", line 446, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='enterprise.smsgupshup.com', port=443): Max retries exceeded with url: /GatewayAPI/rest?method=SendMessage&send_to=919771425005&msg=Your%20%20OTP%20user%20login%203153%20is%20valid%20for%2005-06-2025.%20Please%20do%20not%20share.CRIS/MU%20&msg_type=TEXT&userid=2000193787&auth_scheme=plain&password=Cris@246&v=1.1&format=text (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x00000132E560E220>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 1200, in loginUser
+    sendOTP(phoneno,newotp,user_role[0]['user_role'],now)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 141, in sendOTP
+    r = req.request("POST", url)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='enterprise.smsgupshup.com', port=443): Max retries exceeded with url: /GatewayAPI/rest?method=SendMessage&send_to=919771425005&msg=Your%20%20OTP%20user%20login%203153%20is%20valid%20for%2005-06-2025.%20Please%20do%20not%20share.CRIS/MU%20&msg_type=TEXT&userid=2000193787&auth_scheme=plain&password=Cris@246&v=1.1&format=text (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x00000132E560E220>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+
+Date:- 2025-06-05 12:25:25, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "POST / HTTP/1.1" 500 145
+Date:- 2025-06-11 13:51:41, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112666, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 13:51:41, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 13:52:56, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112666, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 13:52:56, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 13:55:33, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112666, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 13:55:33, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 13:56:24, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112666, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 13:56:24, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 13:58:01, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112666, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 13:58:01, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:00:36, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112666, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:00:36, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:01:23, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112667, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:01:23, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:43:33, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112672, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1, approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:43:33, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:44:06, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112672, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1, approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:44:06, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:44:07, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112672, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1, approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:44:07, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:46:34, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112677, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1, approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:46:34, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 14:47:11, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112677, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1, approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 14:47:11, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 15:43:28, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112685, in delete_flag
+    print(to_update.value())
+AttributeError: 'Inspection_details' object has no attribute 'value'
+
+Date:- 2025-06-11 15:43:28, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 15:47:40, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112684, in delete_flag
+    to_update = m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).first().value()
+AttributeError: 'Inspection_details' object has no attribute 'value'
+
+Date:- 2025-06-11 15:47:40, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 15:48:12, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112684, in delete_flag
+    to_update = m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).first().value()
+AttributeError: 'Inspection_details' object has no attribute 'value'
+
+Date:- 2025-06-11 15:48:12, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 15:49:07, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112684, in delete_flag
+    to_update = m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).first().value()
+AttributeError: 'Inspection_details' object has no attribute 'value'
+
+Date:- 2025-06-11 15:49:07, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 15:50:59, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 608, in get_field
+    return self.fields_map[field_name]
+KeyError: 'delete_flag'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112682, in delete_flag
+    m1.Inspection_details.objects.filter(inspection_no=i['inspection_no']).update(delete_flag=1,approval_flag=0)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 779, in update
+    query.add_update_values(kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\subqueries.py", line 85, in add_update_values
+    field = self.get_meta().get_field(name)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\options.py", line 610, in get_field
+    raise FieldDoesNotExist("%s has no field named '%s'" % (self.object_name, field_name))
+django.core.exceptions.FieldDoesNotExist: Inspection_details has no field named 'delete_flag'
+
+Date:- 2025-06-11 15:50:59, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/ HTTP/1.1" 500 145
+Date:- 2025-06-11 16:30:11, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1823, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: '2025/DGM/G/ECR/Insp/4'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112820, in delete_flag
+    obj = m1.Inspection_details.objects.filter(inspection_no=i['inspection_note_no']).first()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1396, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1415, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1350, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1196, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 25, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 77, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1825, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'inspection_no' expected a number but got '2025/DGM/G/ECR/Insp/4'.
+
+Date:- 2025-06-11 16:30:11, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/?inspection_note_no=2025/DGM/G/ECR/Insp/4 HTTP/1.1" 500 145
+Date:- 2025-06-11 16:30:20, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1823, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: '2025/DGM/G/ECR/Insp/4'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112820, in delete_flag
+    obj = m1.Inspection_details.objects.filter(inspection_no=i['inspection_note_no']).first()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1396, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1415, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1350, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1196, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 25, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 77, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1825, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'inspection_no' expected a number but got '2025/DGM/G/ECR/Insp/4'.
+
+Date:- 2025-06-11 16:30:20, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/?inspection_note_no=2025/DGM/G/ECR/Insp/4 HTTP/1.1" 500 145
+Date:- 2025-06-11 16:30:22, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1823, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: '2025/DGM/G/ECR/Insp/4'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112820, in delete_flag
+    obj = m1.Inspection_details.objects.filter(inspection_no=i['inspection_note_no']).first()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1396, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1415, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1350, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1196, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 25, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 77, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1825, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'inspection_no' expected a number but got '2025/DGM/G/ECR/Insp/4'.
+
+Date:- 2025-06-11 16:30:22, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/?inspection_note_no=2025/DGM/G/ECR/Insp/4 HTTP/1.1" 500 145
+Date:- 2025-06-11 17:00:20, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /delete_flag/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1823, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: '2025/DGM/G/ECR/Insp/4'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112820, in delete_flag
+    obj = m1.Inspection_details.objects.filter(inspection_no=i['inspection_note_no']).first()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 941, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 961, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\query.py", line 968, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1396, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1415, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1350, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\sql\query.py", line 1196, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 25, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\lookups.py", line 77, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\db\models\fields\__init__.py", line 1825, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'inspection_no' expected a number but got '2025/DGM/G/ECR/Insp/4'.
+
+Date:- 2025-06-11 17:00:20, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /delete_flag/?inspection_note_no=2025/DGM/G/ECR/Insp/4 HTTP/1.1" 500 145
+Date:- 2025-06-11 17:53:08, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112418, in approval_page
+    return render(request,"admin_delete_approval.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: admin_delete_approval.html
+
+Date:- 2025-06-11 17:53:08, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-11 17:54:35, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112420, in approval_page
+    return render(request,"admin_delete_approval.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: admin_delete_approval.html
+
+Date:- 2025-06-11 17:54:35, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-11 17:56:33, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112420, in approval_page
+    return render(request,"admin_delete_approval.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: admin_delete_approval.html
+
+Date:- 2025-06-11 17:56:33, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-11 17:57:08, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112400, in approval_page
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: admin_delete_approval.html
+
+Date:- 2025-06-11 17:57:08, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-11 18:00:19, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112400, in approval_page
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: admin_delete_approval.html
+
+Date:- 2025-06-11 18:00:19, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-11 18:00:46, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 112400, in approval_page
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: admin_delete_approval.html
+
+Date:- 2025-06-11 18:00:46, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:17:28, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66457, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:17:28, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:29:44, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:29:44, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:48:53, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:48:53, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:48:55, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:48:55, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:48:56, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:48:56, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:48:56, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:48:56, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:48:58, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:48:58, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 18:49:09, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47027/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66451, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 18:49:09, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47027/ HTTP/1.1" 500 145
+Date:- 2025-06-13 19:12:16, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47027/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66481, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 19:12:16, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47027/ HTTP/1.1" 500 145
+Date:- 2025-06-13 19:14:39, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66481, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 19:14:39, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-13 19:18:57, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47391/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66481, in inspectionReportPdf
+    img_path = m1.Insp_image_upload.objects.filter(inspection_no=insp_id).values('path', 'id')
+AttributeError: module 'inspects.models' has no attribute 'Insp_image_upload'
+
+Date:- 2025-06-13 19:18:57, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47391/ HTTP/1.1" 500 145
+Date:- 2025-06-16 12:32:41, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\connection.py", line 61, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\socket.py", line 953, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 670, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 381, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 978, in _validate_conn
+    conn.connect()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 309, in connect
+    conn = self._new_conn()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x000001BBEF3FA670>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 726, in urlopen
+    retries = retries.increment(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\retry.py", line 446, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='enterprise.smsgupshup.com', port=443): Max retries exceeded with url: /GatewayAPI/rest?method=SendMessage&send_to=918271339969&msg=Your%20%20OTP%20user%20login%205456%20is%20valid%20for%2016-06-2025.%20Please%20do%20not%20share.CRIS/MU%20&msg_type=TEXT&userid=2000193787&auth_scheme=plain&password=Cris@246&v=1.1&format=text (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000001BBEF3FA670>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 1204, in loginUser
+    sendOTP(phoneno,newotp,user_role[0]['user_role'],now)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 145, in sendOTP
+    r = req.request("POST", url)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='enterprise.smsgupshup.com', port=443): Max retries exceeded with url: /GatewayAPI/rest?method=SendMessage&send_to=918271339969&msg=Your%20%20OTP%20user%20login%205456%20is%20valid%20for%2016-06-2025.%20Please%20do%20not%20share.CRIS/MU%20&msg_type=TEXT&userid=2000193787&auth_scheme=plain&password=Cris@246&v=1.1&format=text (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000001BBEF3FA670>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+
+Date:- 2025-06-16 12:32:41, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "POST / HTTP/1.1" 500 145
+Date:- 2025-06-17 19:52:08, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 109992, in approval_page
+    return render(request, 'yourtemplate.html', context)  # replace 'yourtemplate.html'
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: yourtemplate.html
+
+Date:- 2025-06-17 19:52:08, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-17 19:52:10, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 109992, in approval_page
+    return render(request, 'yourtemplate.html', context)  # replace 'yourtemplate.html'
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 19, in get_template
+    raise TemplateDoesNotExist(template_name, chain=chain)
+django.template.exceptions.TemplateDoesNotExist: yourtemplate.html
+
+Date:- 2025-06-17 19:52:10, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-18 11:58:34, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 111977, in approval_page
+    zone_list = m1.Zone_master.objects.values_list('zone_code', flat=True).distinct()
+AttributeError: module 'inspects.models' has no attribute 'Zone_master'
+
+Date:- 2025-06-18 11:58:34, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-18 11:58:36, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 111977, in approval_page
+    zone_list = m1.Zone_master.objects.values_list('zone_code', flat=True).distinct()
+AttributeError: module 'inspects.models' has no attribute 'Zone_master'
+
+Date:- 2025-06-18 11:58:36, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-18 12:01:17, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 111977, in approval_page
+    zone_list = m1.Zone_master.objects.values_list('zone_code', flat=True).distinct()
+AttributeError: module 'inspects.models' has no attribute 'Zone_master'
+
+Date:- 2025-06-18 12:01:17, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-18 12:01:36, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 111977, in approval_page
+    zone_list = m1.Zone_master.objects.values_list('zone_code', flat=True).distinct()
+AttributeError: module 'inspects.models' has no attribute 'Zone_master'
+
+Date:- 2025-06-18 12:01:36, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-18 12:01:37, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 111977, in approval_page
+    zone_list = m1.Zone_master.objects.values_list('zone_code', flat=True).distinct()
+AttributeError: module 'inspects.models' has no attribute 'Zone_master'
+
+Date:- 2025-06-18 12:01:37, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-18 12:01:38, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /approval_page/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 111977, in approval_page
+    zone_list = m1.Zone_master.objects.values_list('zone_code', flat=True).distinct()
+AttributeError: module 'inspects.models' has no attribute 'Zone_master'
+
+Date:- 2025-06-18 12:01:38, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /approval_page/ HTTP/1.1" 500 145
+Date:- 2025-06-19 13:33:44, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportHtml/47392/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 64549, in inspectionReportHtml
+    return render(request, "inspectionReportHtml.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'inspectionReportHindiPdf' not found. 'inspectionReportHindiPdf' is not a valid view function or pattern name.
+
+Date:- 2025-06-19 13:33:44, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportHtml/47392/ HTTP/1.1" 500 145
+Date:- 2025-06-19 13:34:41, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportHtml/47392/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 64549, in inspectionReportHtml
+    return render(request, "inspectionReportHtml.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'inspectionReportHindiPdf' not found. 'inspectionReportHindiPdf' is not a valid view function or pattern name.
+
+Date:- 2025-06-19 13:34:41, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportHtml/47392/ HTTP/1.1" 500 145
+Date:- 2025-06-19 13:58:17, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportHtml/47392/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 64549, in inspectionReportHtml
+    return render(request, "inspectionReportHtml.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'inspectionReportHindiPdf' not found. 'inspectionReportHindiPdf' is not a valid view function or pattern name.
+
+Date:- 2025-06-19 13:58:17, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportHtml/47392/ HTTP/1.1" 500 145
+Date:- 2025-06-19 14:17:53, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportHtml/47392/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 64549, in inspectionReportHtml
+    return render(request, "inspectionReportHtml.html",context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 170, in render
+    return self._render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\base.py", line 905, in render_annotated
+    return self.render(context)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\template\defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\base.py", line 86, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\urls\resolvers.py", line 694, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'inspectionReportHindiPdf' not found. 'inspectionReportHindiPdf' is not a valid view function or pattern name.
+
+Date:- 2025-06-19 14:17:53, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportHtml/47392/ HTTP/1.1" 500 145
+Date:- 2025-06-19 15:24:43, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /inspectionReportPdf/47392/
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 1503, in open_local_file
+    stats = os.stat(localfile)
+FileNotFoundError: [WinError 2] The system cannot find the file specified: '\\NotoSansDevanagari-Regular.ttf'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 66424, in inspectionReportPdf
+    pdf = pisa.CreatePDF(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\document.py", line 104, in pisaDocument
+    context = pisaStory(src, path, link_callback, debug, default_css, xhtml,
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\document.py", line 67, in pisaStory
+    pisaParser(src, context, default_css, xhtml, encoding, xml_output)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\parser.py", line 755, in pisaParser
+    context.parseCSS()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\context.py", line 470, in parseCSS
+    self.cssDefault = self.cssParser.parse(self.cssDefaultText)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\w3c\cssParser.py", line 454, in parse
+    src, stylesheet = self._parseStylesheet(src)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\w3c\cssParser.py", line 556, in _parseStylesheet
+    src, atResults = self._parseAtKeyword(src)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\w3c\cssParser.py", line 678, in _parseAtKeyword
+    src, result = self._parseAtFontFace(src)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\w3c\cssParser.py", line 853, in _parseAtFontFace
+    result = [self.cssBuilder.atFontFace(properties)]
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\context.py", line 179, in atFontFace
+    src = self.c.getFile(font, relative=self.c.cssParser.rootPath)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\context.py", line 795, in getFile
+    return getFile(name, relative or self.pathDirectory)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\util.py", line 762, in getFile
+    file = pisaFileObject(*a, **kw)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\xhtml2pdf\util.py", line 635, in __init__
+    urlResponse = urllib2.urlopen(uri)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 214, in urlopen
+    return opener.open(url, data, timeout)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 517, in open
+    response = self._open(req, data)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 534, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 494, in _call_chain
+    result = func(*args)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 1481, in file_open
+    return self.open_local_file(req)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\urllib\request.py", line 1520, in open_local_file
+    raise URLError(exp)
+urllib.error.URLError: <urlopen error [WinError 2] The system cannot find the file specified: '\\NotoSansDevanagari-Regular.ttf'>
+
+Date:- 2025-06-19 15:24:43, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "GET /inspectionReportPdf/47392/ HTTP/1.1" 500 145
+Date:- 2025-06-26 14:13:51, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: Internal Server Error: /
+Exception: Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 159, in _new_conn
+    conn = connection.create_connection(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\connection.py", line 61, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\socket.py", line 953, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 670, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 381, in _make_request
+    self._validate_conn(conn)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 978, in _validate_conn
+    conn.connect()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 309, in connect
+    conn = self._new_conn()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connection.py", line 171, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPSConnection object at 0x000002C7B5FEB250>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 439, in send
+    resp = conn.urlopen(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\connectionpool.py", line 726, in urlopen
+    retries = retries.increment(
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\urllib3\util\retry.py", line 446, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='enterprise.smsgupshup.com', port=443): Max retries exceeded with url: /GatewayAPI/rest?method=SendMessage&send_to=918271339969&msg=Your%20%20OTP%20user%20login%202871%20is%20valid%20for%2026-06-2025.%20Please%20do%20not%20share.CRIS/MU%20&msg_type=TEXT&userid=2000193787&auth_scheme=plain&password=Cris@246&v=1.1&format=text (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000002C7B5FEB250>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 1204, in loginUser
+    sendOTP(phoneno,newotp,user_role[0]['user_role'],now)
+  File "C:\Users\dell\Desktop\prod12112024\inspects\views.py", line 145, in sendOTP
+    r = req.request("POST", url)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\requests\adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='enterprise.smsgupshup.com', port=443): Max retries exceeded with url: /GatewayAPI/rest?method=SendMessage&send_to=918271339969&msg=Your%20%20OTP%20user%20login%202871%20is%20valid%20for%2026-06-2025.%20Please%20do%20not%20share.CRIS/MU%20&msg_type=TEXT&userid=2000193787&auth_scheme=plain&password=Cris@246&v=1.1&format=text (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x000002C7B5FEB250>: Failed to establish a new connection: [Errno 11001] getaddrinfo failed'))
+
+Date:- 2025-06-26 14:13:51, Username:- Unknown, ip:- Unknown, Browser: Unknown, OS: Unknown 
+Log Message: "POST / HTTP/1.1" 500 145

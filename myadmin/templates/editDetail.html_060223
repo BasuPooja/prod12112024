@@ -1,0 +1,915 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %}
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"  rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+<head>
+
+
+    <title>Edit Details</title>
+
+    <style>
+        
+
+        .switch {
+    position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+      
+.modal-body{
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: left;
+}
+
+/* swasti start */
+
+
+
+#editpay:hover {
+ 
+  color: aqua;
+}
+
+/* swasti end */
+
+</style>
+    <script>
+        $(document).ready(function () {
+            setDataTablePlugin();
+        });
+
+        function setDataTablePlugin() {
+            $('#instituteTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers",
+
+                "language":{
+                    search:"Keyword Search:"
+                }
+
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <br>
+    <form method="POST" url="{'requests'}">
+    <div class="container-fluid">
+      
+        <h3 class="report_heading">Employee Details</h3>
+
+
+        <button type="button" onclick="editprofile('{{obj.empno_id__empno}}')" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal2" style="margin-left: 85%; " ><i class="fa fa-eye" style="margin-right: 10px;" ></i>Edit Details</button>
+    
+        <button type="button" onclick="show_date();" id="end_date" style="margin-left: 3em;">Filter <i class="fa fa-filter" style="font-size:14px"></i></button>
+
+        <button type="button" onclick="edit_date();" id="start_date" style="margin-left: 3em;">Filter <i class="fa fa-filter" style="font-size:14px"></i></button>
+
+     <div id="myModal2" class="modal fade " role="dialog">
+
+        <div class="modal-dialog modal-xl">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h3 class="report_heading" id="exampleModalLabel">Employee Details</h3>
+                    <span class="close" data-dismiss="modal">×</span>
+                </div>
+                
+               
+                <!-- <label class="switch" id="tbName" style="margin-left: 10px;">
+                    <input type="checkbox" value="false" onclick="enable_disable()" id="submitchk">
+                   
+                     <span class="slider round" float-right ></span>
+                </label><h6 style="text-align:left; margin-left: 10px;">Edit Details</h6> -->
+
+                <p style="padding-top: 1em; margin-left: 10px ;"><b>Note: </b>Please click checkboxes to make fields editable</p>
+                  
+            <div class="modal-body">
+                   
+            <div class="row">
+
+                    <!-- <input type="text" id="institute_code" name="institute_code" value="{{institute_code}} " hidden>-->
+                    <div class="col-sm-4"> 
+                        
+                        <label for="employee_no"><b>Employee Number<sup
+                                    style="font-size: 15px; color:red;">*</sup></b></label>
+
+                        <input type="number" id="empno" name="employee_no" maxlength="20"
+                            class="form-control" onchange="trimtextfield(this);" disabled="disabled" >
+                       
+                           
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="employee_name"><b>Employee Name</b></label>
+                        <input type="text" id="empname" name="employee_name" maxlength="50"
+                            class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="dob"><b>Date of Birth</b></label>
+                        <input type="text" id="birthdate" name="dob" 
+                            class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <label for="gender"><b>Gender</b></label>
+                        <input type="text" id="gender" name="empsex" maxlength="10"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="personal_email"><b>Personal Email</b></label>
+                        <input type="email" id="email" name="personal_email" maxlength="50"
+                            class="form-control" onchange="checkval(this.id);" disabled="disabled">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="personal_contact"><b>Personal Contact No</b></label>
+                        <input type="number" id="contactno" name="personal_contact" maxlength="10"
+                            class="form-control" onchange="checkval(this.id);" disabled="disabled">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="railway"><b>Railway\Org.</b></label>
+                        <input type="text" id="currentzone" name="railway" maxlength="50"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                   </div>
+
+                    <div class="col-sm-4">
+                        <label for="division"><b>Division\Unit</b></label>
+                        <input type="text" id="currentunitdivision" name="division" maxlength="50"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                   </div>
+
+                   <div class="col-sm-4">
+                    <label for="department"><b>Department</b></label>
+                    <input type="text" id="department" name="dept" maxlength="50"
+                    class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                  </div>
+
+                  <div class="col-sm-4">
+                    <label for="designation"><b>Designation</b></label>
+                    <input type="text" id="designation" name="desig" maxlength="100"
+                    class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                  </div>
+
+                  
+                  <div class="col-sm-4">
+                    <label for="appointmentdate"><b>Appointment Date</b></label>
+                    <input type="text" id="appointmentdate" name="appointmentdate" 
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="superannuation_date"><b>Superannuation Date</b></label>
+                    <input type="text" id="superannuation_date" name="superannuation_date" 
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                </div>
+
+                <div class="col-sm-4">
+                    
+                    <label for="paylevel" id="pay"><b>Pay Level </b></label> 
+                  
+                    <a href="#" onMouseOver="this.style.color='red'"
+                    onMouseOut="this.style.color='green'" ></a>
+                    <input type="checkbox" style="margin-left: 15em; cursor: pointer; "  
+                    value="false"  onclick="enable_disable2();setpaylabel('Pay Level','pc7_level');" id="editpay">
+ 
+                    <input type="number" id="pc7_level" name="paylevel" maxlength="10"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                </div>
+
+               
+
+                <div class="col-sm-4">
+                    <label for="service_status"><b>Service Status</b></label>
+                    <input type="checkbox" style="margin-left: 13em; cursor: pointer;" value="false" onclick="enable_disable3();setservicelabel('Service Status','service_status');" id="editservice">
+                    <select id="service_status" name="service_status" class="custom-select" disabled="disabled">
+                        <option value="" disabled>--Select Status--</option>
+                        <option value="SERVING (SALARY)">SERVING (SALARY)</option>
+                        <option value="DEPUTATION OUTSIDE">DEPUTATION OUTSIDE</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <!-- <input type="text" id="service_status" name="service_status"  maxlength="100"
+                    class="form-control" onchange="checkval(this.id);" disabled="disabled"> -->
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="station_des"><b>Station Destination </b></label>
+                    <input type="checkbox" style="margin-left: 10em; cursor: pointer;" value="false" onclick="enable_disable4(); setstationlabel('Station Destination','station_des');" id="editstation">
+                    <input type="text" id="station_des" name="station_des" maxlength="100"
+                        class="form-control" onchange="checkval(this.id);" disabled="disabled">
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="reporting_officer_des"><b>Reporting Officer Designation </b></label>
+                    <input type="checkbox" style="margin-left: 5em; cursor: pointer;" value="false" onclick="enable_disable5();setdesiglabel('Reporting officer Designation','reporting_officer_des');" id="editofficer">
+                    <input type="text" id="reporting_officer_des" name="reporting_officer_des" maxlength="100"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="official_email"><b>Official Email</b></label>
+                    <input type="checkbox" style="margin-left: 13.22em; cursor: pointer;" value="false" onclick="enable_disable6();setemaillabel('Official Email','official_email_ID');" id="editemail">
+                    <input type="email" id="official_email" name="official_email" maxlength="50"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                </div>
+
+                <div class="col-sm-4">
+                    <label for="official_contact"><b>Official Contact No</b></label>
+                    <input type="checkbox" style="margin-left: 10em; cursor: pointer;" value="false" onclick="enable_disable7();setcontactlabel('Official Contact','contactnumber');" id="editcontact">
+                    <input type="number" id="official_contact" name="official_contact" maxlength="20"
+                        class="form-control" onchange="checkval(this.id);"disabled="disabled">
+                </div>
+
+               
+                 
+            </div>
+        </div>
+                <!-- </div> -->
+                
+              
+            
+                <div class="modal-footer">
+                   <button type="reset" class="btn btn-secondary" data-dismiss="modal"
+                    onclick="window.location.href=window.location.href;">Close</button>
+                   <button type="submit" class="btn btn-primary" onclick="saveData();popalert(); message()"; >Save changes</button>
+            
+                    <script>
+                        function popalert(){
+                        var val = confirm("Are you sure you want to raise request ?");
+                        if (val == true) {
+                        alert("Request forwarded to concerned admin");
+                        } else {
+                        alert("You pressed Cancel.");
+                        }
+                        }
+                        
+                    </script>
+                </div>
+            </div>
+
+         </div>
+
+         </div>
+
+           
+              
+            </div>
+        </div>
+    </div>
+
+           
+        
+          
+          <!-- swasti e -->
+
+          {% if messages %}
+          {% for message in messages %}
+          {% if message.tags == 'success' %}
+          <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center;">
+              {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          {% else %}
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+              {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+  
+          {% csrf_token %}
+
+<div class="container p-5">
+
+        
+
+
+    <div id="demo" >
+        <form method="POST" action="{% url 'show_empinfo' %}">
+                {% csrf_token %}
+
+           <div class="container">
+        
+            <div class="inpt-container p-1">
+            
+                <div class="row ml-5">
+
+                <div class="col ">
+                    <label for="start" class="lbl-caption">From Date</label>
+                
+                    <!-- <input type="date"  id="start" name="From-start" value="01/09/2021" min="01/09/2021" required> -->
+
+                    <input  type="text"  class="form-control datepker" name="begin" placeholder="dd/mm/yyyy"  min="01-01-2022" max="today.getDate()" required>
+               </div>
+        
+                <div class="col">
+                    <label for="start" style="margin-left: 2em;" class="lbl-caption" >To Date</label>
+                    <!-- <input type="date" class="disableFuturedate" id="txtDate2" value= "28/02/2022" min="01/09/2021" max="new Date()" required> -->
+                    <input  type="text"  class="form-control datepker" name="end" placeholder="dd/mm/yyyy"  min="01-01-2022" max="today.getDate()" required>
+
+                </div>
+                   <!-- <script>
+                   $(function(){
+                    var dtToday = new Date();
+                
+                    var day = dtToday.getDate();
+                    var month = dtToday.getMonth() + 1;
+                    var year = dtToday.getFullYear();
+                
+                    if(month < 10)
+                        month = '0' + month.toString();
+                    if(day < 10)
+                        day = '0' + day.toString();
+
+
+                
+                    var maxDate = day + '-' + month + '-' + year;    
+                    $('#txtDate2').attr('max', maxDate);
+
+                      
+                });
+               
+            </script> -->
+            <div class="col">
+                <label for="status" style="margin-left: 1em;" class="lbl-caption" >Status </label>
+                <div style="width:10em;" >
+                <select id="status" name="status"  class="custom-select" onclick="getdet()" data-placeholder="Select" >
+                    <!-- <option value="" disabled>--Select--</option> -->
+                    <option value="Pending" selected>Pending</option>
+                    <option value="Accept">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                
+                </select>
+            
+                </div>
+             </div>
+
+
+            <div class="col pt-4">
+                <button type ="submit" onclick="fetch_Details()"  id='submit' class="btn btn-success">Submit</button>
+                <!-- <input type="text"  class="form-control datepicker" id="datefrom" name="datefrom" value=" " hidden> -->
+            </div>
+        </div>
+           
+        </div>
+
+    </div>
+<!-- 
+        <input type="date" class="form-control-datepicker" id="dateto" name="dateto" value=" " hidden> -->
+     </form>
+    </div>
+    
+
+        <div class="container" style="font-family:'Lato', sans-serif; overflow-x: auto;">
+       
+            <br><table class="table table-striped table-bordered table-sm table-data"  style="width:80% ;" id="instituteTable">
+                <thead >
+
+                    <th>S.No</th>
+                    <!-- <th>Request ID</th> -->
+                    <th>Field Name</th>
+                    <th>Old Value</th>
+                    <th>New Value</th>
+                    <th >Requested On</th>
+                    <th >Requested From</th>
+                    <th >Status</th>
+                    {% if r %}
+                    <th>Action</th>
+                    {% endif %}
+
+                </thead>
+                <tbody>
+                    <!-- swasti s -->
+                    {% for g in obj2 %}
+                    <tr>
+                    
+                        <td>{{forloop.counter}}</td>  
+                        <td>{{g.request_type}}</td>                      
+                         <td>{{g.old_value}}</td> 
+                         <td>{{g.remarks}}</td>
+
+                         <td>{{g.requestDate | date:'d/m/Y'}}</td>
+                         <td>{{desig_a}}</td>
+                         <td>{{g.status}}</td>
+                        
+                        
+                        
+
+                                <!-- <form>
+                                    {% csrf_token %}
+                                    <input type="submit" name="action_1" id="Accept" class="btn btn-success btn-sm float-center" value="Accept" onclick="show_detail(this.id)" >
+                                    <input type="submit" name="action_1" id="Reject" class="btn btn-danger btn-sm float-center" value="Reject" onclick="show_detail(this.id)">
+                                    <input type="text" id="req_id" name="req_id" value={{g.id}} hidden>
+
+                                </form>  -->
+                           
+                            
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+         
+       
+          </div>
+</div>
+
+    <script>
+
+        function fetch_Details()
+        {
+        alert('Pressed submit button')
+        
+        // var start_date=$('input#start_date').val();
+        // console.log(start_date,"%%%%%%%%%%")
+         
+        // var end_date=$('input#end_date').val();
+        // console.log(end_date,"%%%%%%%%%%")
+        // $('#datefrom').val(start_date);   
+        // $('#dateto').val(end_date);
+        // var status=$( "#status option:selected" ).text();
+    
+        // console.log(status,"%%%%%%%%%%")
+
+ 
+  
+
+
+        }
+
+    </script>
+
+    <script> 
+
+
+       $('#demo').hide();
+          $('#start_date').hide() 
+          function show_date(){
+            $('#demo').show();
+            $('#start_date').show();
+         
+            $('#end_date').hide();
+          }
+
+        function edit_date(){
+            $('#demo').hide();
+            $('#start_date').hide();
+            $('#end_date').show();
+        }
+    
+        function enable_disable() {
+        
+            // var isChecked = false;
+            var isChecked=document.getElementById("submitchk").checked;
+            console.log(isChecked);
+            if(document.getElementById("submitchk").checked){
+                console.log('hii')
+                // $("#empno").prop('disabled', false);
+                // $("#empname").prop('disabled', false);
+                // $("#birthdate").prop('disabled', false);
+                // $("#gender").prop('disabled', false);
+                // $("#email").prop('disabled', false);
+                // $("#contactno").prop('disabled', false);
+                // $("#currentzone").prop('disabled', false);
+                // $("#currentunitdivision").prop('disabled', false);
+                // $("#department").prop('disabled', false);
+                // $("#designation").prop('disabled', false);
+                // $("#appointmentdate").prop('disabled', false);
+                // $("#superannuation_date").prop('disabled', false);
+
+                $("#pc7_level").prop('disabled', false);
+                $("#service_status").prop('disabled', false);
+                $("#station_des").prop('disabled', false);
+                $("#reporting_officer_des").prop('disabled', false);
+                $("#official_email").prop('disabled', false);
+                $("#official_contact").prop('disabled', false);
+                
+            }
+            else{
+                // $("#empno").prop('disabled', true);
+                // $("#empname").prop('disabled', true);
+                // $("#birthdate").prop('disabled', true);
+                // $("#gender").prop('disabled', true);
+                // $("#email").prop('disabled', true);
+                // $("#contactno").prop('disabled', true);
+                // $("#currentzone").prop('disabled', true);
+                // $("#currentunitdivision").prop('disabled', true);
+                // $("#department").prop('disabled', true);
+          
+                // $("#designation").prop('disabled', true);
+                // $("#appointmentdate").prop('disabled', true);
+                // $("#superannuation_date").prop('disabled', true);
+                $("#pc7_level").prop('disabled', true);
+                
+                $("#service_status").prop('disabled', true);
+                $("#station_des").prop('disabled', true);
+                $("#reporting_officer_des").prop('disabled', true);
+                $("#official_email").prop('disabled', true);
+                $("#official_contact").prop('disabled', true);
+            
+            
+        }
+    }
+
+
+
+    function enable_disable2() {
+        
+        // var isChecked = false;
+        var isChecked=document.getElementById("editpay").checked;
+        console.log(isChecked);
+        if(document.getElementById("editpay").checked){
+          
+            $("#pc7_level").prop('disabled', false);
+   
+        }
+        else{
+         
+            $("#pc7_level").prop('disabled', true);
+
+    }
+}
+
+function enable_disable3() {
+        
+        // var isChecked = false;
+        var isChecked=document.getElementById("editservice").checked;
+        console.log(isChecked);
+        if(document.getElementById("editservice").checked){
+         
+            $("#service_status").prop('disabled', false);
+         
+        }
+        else{
+
+            $("#service_status").prop('disabled', true);
+  
+    }
+}
+
+function enable_disable4() {
+        
+        // var isChecked = false;
+        var isChecked=document.getElementById("editstation").checked;
+        console.log(isChecked);
+        if(document.getElementById("editstation").checked){
+         
+            $("#station_des").prop('disabled', false); 
+        }
+        else{
+         
+            $("#station_des").prop('disabled', true);
+      
+    }
+}    
+
+function enable_disable5() {
+        
+        // var isChecked = false;
+        var isChecked=document.getElementById("editofficer").checked;
+        console.log(isChecked);
+        if(document.getElementById("editofficer").checked){
+        
+            $("#reporting_officer_des").prop('disabled', false);
+        }
+        else{
+         
+            $("#reporting_officer_des").prop('disabled', true);    
+    }
+}
+
+function enable_disable6() {
+        
+        // var isChecked = false;
+        var isChecked=document.getElementById("editemail").checked;
+        console.log(isChecked);
+        if(document.getElementById("editemail").checked){
+       
+            $("#official_email").prop('disabled', false);  
+        }
+        else{
+         
+            $("#official_email").prop('disabled', true);        
+    }
+}
+
+function enable_disable7() {
+        
+        // var isChecked = false;
+        var isChecked=document.getElementById("editcontact").checked;
+        console.log(isChecked);
+        if(document.getElementById("editcontact").checked){
+        
+            $("#official_contact").prop('disabled', false);
+            
+        }
+        else{
+
+            $("#official_contact").prop('disabled', true);
+    
+    }
+}
+var globallabel=[],globalvalue=[];
+
+function setpaylabel(val,id)
+{
+    globallabel.push(val);
+    globalvalue.push($('#'+id).val());
+}
+
+function setservicelabel(val,id)
+{
+    globallabel.push(val);
+    globalvalue.push($('#'+id).val());
+}
+
+function setstationlabel(val,id)
+{
+    globallabel.push(val);
+    globalvalue.push($('#'+id).val());
+}
+
+function setdesiglabel(val,id)
+{
+    globallabel.push(val);
+    globalvalue.push($('#'+id).val());
+}
+
+function setemaillabel(val,id)
+{
+    globallabel.push(val);
+    globalvalue.push($('#'+id).val());
+}
+
+function setcontactlabel(val,id)
+{
+    globallabel.push(val);
+    globalvalue.push($('#'+id).val());
+}
+
+
+
+function saveData(){
+
+    alert(globallabel+' '+globalvalue)
+    let values=[]
+    for(i=0;i<globallabel.length;i++)
+    {
+        if(globallabel[i] == 'Pay Level')
+        {
+            values.push($('#pc7_level').val());
+        }
+
+        else if(globallabel[i] == 'Service Status')
+        {
+            values.push($('#service_status').val());
+        }
+
+        else if(globallabel[i] == 'Station Destination'){
+            
+            values.push($('#station_des').val());
+        }
+        else if(globallabel[i] == 'Official Email'){
+            
+            values.push($('#official_email_ID').val());
+        }
+        else if(globallabel[i] == 'Official Contact No'){
+            
+            values.push($('#contactnumber').val());
+        }
+    }
+//  var paylevel=$('#pc7_level').val()
+var emp=$('#empno').val()
+//  var pay_title=$('#pay').val()
+//  var sts=$('#status').val()
+
+
+ 
+ $.ajax({
+    type:'GET',
+    dataType:'json',
+    url:'{% url "saveData" %}',
+    data:{emp,values,globallabel,globalvalue},
+    success : function(response){
+        window.location.reload();
+
+    }
+
+ })
+ 
+}
+
+
+
+    </script> 
+
+
+<script>
+    var currentDate = new Date();
+    $('.datepker').datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    // minDate: 0,
+                    autoclose: true,
+                    endDate:"currentDate",
+                    maxDate: currentDate,
+                    changeMonth:true,
+                    changeYear:true,
+                    clearBtn:true
+                    
+                  });
+
+    
+</script>
+    
+
+   
+
+    <script>
+        function show_detail(el)
+        {
+            var _id = el;
+            
+            if(el =="Accept")
+            {
+                alert("Changes Saved");
+                
+                // $('#req_id').val(req_id);
+            }
+                
+            else{
+            
+                alert("Changes Rejected");
+           
+            //  $('#req_id').val(req_id);
+
+            }
+        }
+    </script>
+
+    
+
+<script>
+    function showdata(){
+        
+    console.log("sdaf")
+
+    }
+
+</script>
+
+<script>
+    function editprofile(e){
+        console.log("EEEEEEEE",e)
+
+        var mydata={
+            'empno':e,
+        }
+
+        $.ajax({
+                url: "{% url 'editprofile_ajax' %}",
+                method: "GET",
+                dataType: "JSON",
+                data: mydata,
+                
+                success: function (data) 
+                {
+                        console.log("hiiiiiiiii",data);
+                      
+                        if (data.status == 200) {
+                        if (data.mydata != "NULL") {
+
+                            $("#empno").val(data.mydata.empno_id__empno);
+                            $("#empname").val(data.mydata.empno_id__empname+" "+data.mydata.empno_id__empmname+" "+data.mydata.empno_id__emplname);
+                            $("#birthdate").val(data.mydata.empno_id__birthdate);
+                            $("#gender").val(data.mydata.empno_id__gender);
+                            $("#email").val(data.mydata.empno_id__email);
+                            $("#contactno").val(data.mydata.empno_id__contactno);
+                            // $("#currentzone").val(`<option value="${data.mydata.empno_id__currentzone}" selected>${data.mydata.empno_id__currentzone}</option>`);
+                            $("#currentzone").val(data.mydata.empno_id__currentzone)
+                            $("#currentunitdivision").val(data.mydata.empno_id__currentunitdivision); 
+                            $("#department ").val(data.mydata.department);
+                            $("#designation ").val(data.mydata.designation);
+                            $("#appointmentdate").val(data.mydata.empno_id__appointmentdate);
+                            $("#superannuation_date").val(data.mydata.empno_id__superannuation_date);
+                            $("#pc7_level").val(data.mydata.empno_id__pc7_level);
+                           
+                            $("#service_status ").val(data.mydata.empno_id__service_status);
+                            $("#station_des").val(data.mydata.empno_id__station_des);
+                            $("#reporting_officer_des").val(data.mydata.empno_id__reporting_officer_des);
+                            $("#official_email").val(data.mydata.official_email_ID);
+                            $("#official_contact").val(data.mydata.contactnumber);
+ 
+
+                        } 
+                        else {
+                            alert("No Record found, Please contact on helpdesk");
+                            $("#mydata").val('');
+                          
+                        }
+
+                    }
+  
+                            
+                }
+                            
+        });
+      
+    }
+</script>
+
+        
+</body>
+    {% endblock content %}
+

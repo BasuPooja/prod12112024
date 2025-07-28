@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<style>
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+    @page {
+        size: A4 portrait;
+        margin: 1.5cm;
+    }
+
+    body {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+    }
+
+    .botline {
+
+        padding-top: 40px;
+        padding-left: 5px;
+
+    }
+
+    .headings {
+        border: 0;
+        
+    }
+
+    .data th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        padding-top: 5px;
+        
+
+    }
+</style>
+
+<body>
+    <table style="width: 30px;border:whitesmoke" id="Show1">
+        <tr>
+
+            <td colspan="3" style="text-align :center; font-size: 20px; border: none;">
+                <h1>Inspection Summary Report</h1>
+            </td>
+
+        </tr>
+    </table>
+
+    <table style="border:whitesmoke" id="Show1">
+    <tr>
+
+        <td colspan="3" style="text-align :center; font-size: 14px; border: none;">
+            Dated : {{fromdate |date:"d/m/Y"}} - {{todate |date:"d/m/Y"}}
+        </td>
+
+    </tr>
+</table>
+<table style="width: 30px;border:whitesmoke" id="Show1">
+        <tr>
+
+            <td colspan="3" style="text-align :right; font-size: 14px; border: none; font-weight: bold;">
+                As on : {{currDate | date:"d/m/Y"}}
+            </td>
+
+        </tr>
+    </table>
+    <table style="width: 30px;border:0.5px solid  black;  margin-left: 20%;" >
+
+        <thead>
+
+            <b>
+                <tr style="text-align: center; font-size: 10px; background-color: lightgrey;">
+
+
+                    <th scope="col" style="text-align:center; width: 200px;">DESIGNATION</th>
+                    {% for i in shortcode %}
+                    <th scope="col" style="text-align:center; width: 90px; padding: 2px;">{{i}}</th>
+                    {%endfor%}
+                    <th scope="col" style="text-align:center; width: 60px;">TOTAL</th>
+
+                </tr>
+            </b>
+           
+
+
+        </thead>
+        <tbody style="text-align: center;" id="tbody_IC">
+
+            {% for i in finalList %}
+            <tr>
+                <td>{{i.designation__designation}}</td>
+                {% for j in i.header %}
+                <td>{{j}}</td>
+                {% endfor %}
+
+
+                <td>{{i.total}}</td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    </div>
+
+</body>
+
+</html>

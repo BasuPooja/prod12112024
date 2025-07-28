@@ -1,0 +1,783 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<html>
+<head>
+    <title>e-Inspection: Help Menu</title>
+   
+        
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+    .my-heading {
+      font-family: Georgia;
+      margin-top: 0px;
+      font-weight: 500;
+      font-size: 2.5rem;
+      text-align: center;
+      Color: black;
+      font-weight: bold;
+    }
+</style>
+<style type="text/css">
+      
+    body {
+    background: #f6f3f7;
+    }
+    
+    p {
+    margin: 0;
+    }
+    
+    .topbar {
+    font-family: 'Roboto', sans-serif;
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    text-align: center;
+    display: block;
+    background: #730000;
+    color: #fff;
+    padding: 5px 0;
+    background: #730000;
+      background: -moz-linear-gradient(top, #730000 0%, #000000 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#730000), color-stop(100%,#000000));
+      background: -webkit-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -o-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -ms-linear-gradient(top, #730000 0%,#000000 100%);
+      background: linear-gradient(to bottom, #730000 0%, #000000 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#730000', endColorstr='#000000',GradientType=0 );
+    }
+    
+    .topbar p {
+    margin: 0;
+    font-weight: 200;
+    }
+    
+    .topbar p a {
+    font-size: 12px;
+    }
+    
+    .header {
+    background: #fff;
+    padding: 20px 0;
+    padding-top: 60px;
+    }
+    
+    .control-box h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    }
+    
+    .control-box {
+    border: 1px solid #dddcd8;    
+    background-color: #fff;
+    position:relative;
+    padding-top:2rem !important;
+    margin-bottom:2rem;
+    }
+    
+    .control-box .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+    
+    .control-box .links li {
+    margin-bottom: 10px;
+    }
+    
+    .control-box .links li a {
+    color: #aa1212;
+    text-decoration: underline;
+    }
+    
+    .content {
+    margin-top: 10px;
+    }
+    
+    .breadcrumb p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #777;
+    font-size: 14px;
+    }
+    
+    .breadcrumb p a {
+    color: #aa1212;
+    }
+    
+    .main-content h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 27px;
+    color: #000;
+    margin-bottom: 20px;
+    }
+    
+    .main-content p {
+    font-size: 17px;
+    color: #4d4d4d;
+    line-height: 29px;
+    margin-bottom: 20px;
+    }
+    
+    .main-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    }
+    
+    .main-content h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    }
+    h2, h3, h4{
+      padding: 5px;
+      text-align: center;
+    }
+    
+    .text_color{
+    background-color: rgb(95, 225, 230);
+    font-size: 24;
+    }
+    
+    .text_color_h2 {
+    background-color: rgb(109, 109, 214); 
+    }
+
+    .video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heading-title {
+    position: relative;
+    padding-bottom: 16px;
+    font-weight: 600;
+    color: #0f42e9 !important;
+    font-size: 20px;
+    margin-bottom: 1rem;
+    /* margin-left: 2rem; */
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif;
+    margin-bottom:0px;
+} 
+.section-head
+{
+    font-size:14px;
+    font-weight:600;
+    color:#4d4d4d;
+    text-align:left;
+    margin-top:1rem;
+    margin-bottom:10px;
+}
+a.help-link
+{
+    font-weight:500;
+    text-decoration:none;
+    color:#0059b3;
+    font-size:14px;
+}
+.link-list .list-group-item
+{
+    padding:2px !important;
+}
+.dtls-list .list-group-item
+{
+    padding:6px !important;
+    text-align: justify;
+}
+.help-heading
+{
+    position:absolute;
+    top:-20px;
+    right:10px;
+    background:#00ff2a;
+    padding:5px;
+    font-size:15px;
+    font-weight:600;
+    color:#000000 !important;
+    padding-right:1rem;
+    padding-left:1rem;
+    border-left:2px solid #00cc22;
+}
+.ribbon {
+  position: absolute;
+  left: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+hr{
+    margin-bottom:2rem;
+}
+.parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parent button {
+  background-color: #cccdce;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0 1px 2px #AEAEAE;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parent button:active {
+  background-color: #AEAEAE;
+  box-shadow: 0 0 1px #aeaeae;
+  transform: translateY(2px);
+}
+
+.btn-back
+{
+    border-radius: 70%;
+}
+.video-btn{
+    height:40%;
+    color:rgb(3, 3, 3);
+    background-color: rgb(138, 230, 126);
+    color:#000000 !important;
+}
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+</style>
+  <script>
+    function backTop()
+    {
+        $("html, body").animate(
+                { scrollTop: "0" }, 1000);
+    }
+    function playVideo(titl,link)
+    {
+        $('#modtitle').html(titl);
+        $("#vidmodal").modal("show");
+        var htmlstr='<a href="'+link+'" id="vidlink" style="float: right;" download="true"><i class="fa fa-download" aria-hidden="true"></i>';
+            htmlstr+='Click here to download</a>';
+            htmlstr+='<video class="video-element" controls><source src="'+link+'" id="vidsrc" type="video/mp4">Your browser does not support the video tag.</video>';
+        $("#modbody").html(htmlstr);
+
+    }
+    $(document).ready(function(){
+      $('#help_options').width($('#help_options').parent().width()-25)
+    })
+    </script>
+<body>
+    
+    <div class="modal" tabindex="-1" role="dialog" id="vidmodal">
+        <div class="modal-dialog modal-lg modal-xl" style="max-width:95vw !important;height:90vh;margin:1rem;" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id ="modtitle">Login & Signup</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Back">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Back</button>
+              </button>
+            </div>
+            <div class="modal-body" id ="modbody">
+                
+            </div>
+          </div>
+        </div>
+      </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                  <div class="my-heading">
+                    <h1 class="heading-title"><i class="fas fa-angle-right"></i> <font  face = "Comic sans MS" size =" 5"  text = "blue">Let's get you started..</font></h1>
+                  </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3" style="position:relative">
+                        
+                            <div class="control-box p-3 mt-0  sticky-top " style="height: auto;z-index:1;position:fixed;top:7.25em" id="help_options">
+                                <div class="ribbon"><span><font color = "black">Categories</font></span></div>
+                                <div class="fix">
+                                <div class="container-fluid index">
+                                <h3 class="section-head"><font face = "Times New Roman" size = "4">About</font></h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C1" class="help-link"><font face = "Times New Roman" size = "3">e-Inspection</font></a></li>
+                                </ul>
+                                <h3 class="section-head"><font face = "Times New Roman" size = "4">Account Management</font></h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C2" class="help-link"><font face = "Times New Roman" size = "3">Sign In</font></a></li>
+                                    <li class="list-group-item"><a href="#C3" class="help-link"><font face = "Times New Roman" size = "3">Sign Up</font></a>
+                                   <button class="video-btn" style ="float:right" onclick="playVideo('Login & Signup','/media/video/login_&_signup.mp4');">watch video</button>
+                                   <!-- <a href="/media/video/sample_n.mp4" ><button class="video-btn" >Click to download</button></a> -->
+                                </li>
+                                    <li class="list-group-item"><a href="#C4" class="help-link"><font face = "Times New Roman" size = "3">Forgot Password</font></a></li>
+                                  </ul>
+                                <h3 class="section-head"><font face = "Times New Roman" size = "4">Application Features</font></h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C5" class="help-link"><font face = "Times New Roman" size = "3">Home (Dashboard)</font></a>
+                                        <button class="video-btn" style ="float:right"  onclick="playVideo('Homepage Dashboard','/media/video/home_page(dashboard).mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C6" class="help-link"><font face = "Times New Roman" size = "3">My Inspections</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('My Inspection','/media/video/my_insp.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C7" class="help-link"><font face = "Times New Roman" size = "3">My Compliances</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('My Compliance','/media/video/my_comp.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C8" class="help-link"><font face = "Times New Roman" size = "3">Query</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('Forwarded Compliance','/media/video/forwarded_comp.mp4');" >watch video</button></li>
+                                    <li class="list-group-item"><a href="#C9" class="help-link"><font face = "Times New Roman" size = "3">RB Minutes</font></a>
+                                        <button class="video-btn" style ="float:right" onclick="playVideo('Minutes of Meeting','/media/video/mom.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C9" class="help-link"><font face = "Times New Roman" size = "3">Search Inspaction Notes</font></a></li>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('Search Inspaction Notes','/media/video/search_insp_notes.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C11" class="help-link"><font face = "Times New Roman" size = "3">Schedule Inspection</font></a></li>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('Schedule Inspection','/media/video/schedule_insp.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C12" class="help-link"><font face = "Times New Roman" size = "3">Mails</font></a></li>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('Mails','/media/video/mails.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C13" class="help-link"><font face = "Times New Roman" size = "3">D.O Letters</font></a>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('D.O Letter','/media/video/d.o_letter.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C14" class="help-link"><font face = "Times New Roman" size = "3">Task Tracker</font></a>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('Task Tracker','/media/video/d.o_letter.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C15" class="help-link"><font face = "Times New Roman" size = "3">Hierarchy</font></a>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('Hierarchy','/media/video/d.o_letter.mp4');">watch video</button></li>
+                                    <li class="list-group-item"><a href="#C16" class="help-link"><font face = "Times New Roman" size = "3">Feedback</font></a>
+                                        <button class="video-btn" style ="float:right"onclick="playVideo('Feedback','/media/video/d.o_letter.mp4');">watch video</button></li>
+                                    </ul>
+                                    
+                            </div>
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                <div class="col-md-9">
+                
+                    <div class="control-box p-3 main-content" id="C1">
+                        <p class="help-heading">About e-Inspection</p>
+                        <ul class="list-group list-group-flush dtls-list">
+                            <li class="list-group-item"> <font face = "Times New Roman" size = "5">
+                                The e-Inspection website is accessible through any  web-browser viz. Google Chrome, Mozilla Firefox, Internet Explorer, Apple Safari etc. through the url: <a href="https://einspection.indianrailways.gov.in/" target="_self" class="help-link"><font face = "Times New Roman" size = "4">https://einspection.indianrailways.gov.in/</font></a></font>
+                            </li>
+                            <li class="list-group-item"> <font face = "Times New Roman" size = "5">
+                                The website provides a convenient online platform for the inspecting officers to draft/submit their observations along with marking officers</font>
+                            </li>
+                        </ul>
+              <!-- <img src="\static\inspects\images\help menusample\inspection2.png" alt="Login" style="width: 100%;height: auto;" class="img img-fluid img-responsive"><br> -->
+              <img src="\static\inspects\images\help menusample\inspection2.jpg" alt="Login" style="width: 100%;height: auto;"><br>
+              <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+             <hr id="C2" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Sign In</p>
+            <p><font face = "Times New Roman" size = "5"> 
+                This is the first page that opens when the e-Inspection website is opened. Through this form users can Login into this website using the user id and password provided by the CRIS admin. On successful login, a user dashboard with full access to their inspection record will be available to the user. </p></font>
+                <img src="\static\inspects\images\help menusample\login1.png" alt="Login" style="width: 100%;height: auto;"><br>        
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div> 
+<hr id="#C3" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Sign Up</p> 
+             
+            <p><font face = "Times New Roman" size = "5">This feature is provided to update employee number(IPAS no.) posted on a particular designation or to change posting status, password etc related to that designation.  Firstly, users have to enter their valid Email Address, if not available then user can raise a request to register email id. Once email id is entered, Designation corresponding to email entered, will be autofetched then click on Get OTP to authenticate via email OTP. On successful verification user can enter their employee number and this will change the incumbent posted on selected designation along with posting status as Primary or Dual charge. Users are required to change password during successful signup. 
+            </font></p>
+            <img src="\static\inspects\images\help menusample\signup.png" alt="Sign Up" style="width: 100%;height: auto;"><br>  
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+
+            <hr id="C4"  />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Forgot Password</p>
+                
+            <p> <font face = "Times New Roman" size = "5"> In the event that a user forgets their password, they can easily reset it by clicking the 'Forgot Password' option available in login form. Following that, the user will need to provide their registered email address to receive an OTP to reset their password. On successful verification, user can provide a new password in a given combination and format and click on Submit button to make the changes.</font></p>
+               <img src="\static\inspects\images\help menusample\forget1.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+                <hr id="C5" />
+                <div class="control-box p-3 main-content">
+                    <p class="help-heading">Home Page (Dashboard)</p>
+                    
+            <p><font face = "Times New Roman" size = "5"> After signing in, the user will be redirected to the dashboard page, which provides an overview of the website. At the top of the page, there are three cards that display the status of inspections that have been created, drafted, or submitted, as well as the status of compliances that are pending, received, or closed. Additionally, there are cards for D.O. letters, minutes of meetings, and location wise summary of inspections carried out by the officer. All data available in dashboard are interactive in nature and it will show detailed information on click tooltip is also provided for better understading.
+            </font></p>
+            
+            <img src="\static\inspects\images\help menusample\dashboard1.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+            
+            <p><font face = "Times New Roman" size = "5"> Customized Dashboard for CRB & CEO</font></p>
+            <img src="\static\inspects\images\help menusample\dashboard2.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+      </div>
+      <hr id="C6" />
+      <div class="control-box p-3 main-content">
+          <p class="help-heading">My Inspections</p>
+          <p><font face = "Times New Roman" size = "5"> This menu is given for inspecting officer where they can create, draft new inspection notes, view already issued inspection notes, new compliancestatus along with the reply received.</font></p>
+          <font face = "Times New Roman" size = "5"> 
+            <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Create Notes</li>
+                    <li>Draft Notes</li>
+                    <li>Completed Notes</li>
+                    <li>Pending Compliance</li>
+                    <li>Closed Compliance</li>
+                    <li>Received Compliance</li>
+                    <li>Reverted Compliance</li>
+                </ul>
+            </p></font>
+            <!-- <img src="\static\inspects\images\help menusample\my_insp.png" alt="My Inspection" style="width: 100%;height: auto;"> -->
+            <!-- <br> -->
+            <p><font face = "Times New Roman" size = "6"><b>Create Notes</b></font></p>
+            <p><font face = "Times New Roman" size = "5">Under the 'Create Notes' menu, inspecting officers can generate inspection notes and assign them to the appropriate officers with a target date, as well as set priority levels.
+                <br><br>
+                First of all, inspecting locations (ZR/PU/PSU/CTI) where the inspection has been conducted need to be selected from ‘Rly./Org’ field (compulsory field)  then corresponding divisions/unit, if any, can be selected from ‘Div./Unit’ field (optional field). Specific Railway units like station, section, running room etc. can also be selected after selecting ‘Location Type’ (optional field) then selecting respective Railway units from ‘Location’ field.  Date of inspection can be fed using double click on single date or single clicks on two dates to select range of date from ‘Insp. Date’ field (compulsory field).
+                <br><br>
+                After entering data pertaining to inspection, the user can set the Title of Inspection and list of officials accompanied while inspection (select designation from ‘Accompanied By’ field, if designation doesn’t exist in the dropdown then it will take the value entered by the user).
+
+             </font></p>
+            <p><font face = "Times New Roman" size = "5"> For adding inspection para, following options have been provided:<br><br>
+               1. Add Para: can be either used to enter heading without marking to any officer or to enter inspection point along with marking to concerned officer(s). <br>
+               2. Add Sub Para: to enter inspection point or sub point after adding or   along with marking to concerned officer(s).<br>
+               3. Initially, 'Save as Draft' button is visible and the 'Submit' button will be visible when  'Add Para' is clicked. <br><br>
+               Under select officer field there is a filter searched where user can search on the bases of railway, divison, department and designation after that user can set the target date and priority.User can also add an image in it by selecting the reference number then select the image from your folder and upload it,and you can also seee the preview of the image. Under copy to field we send a copy of the inspection notes to the 'marked officer'.
+            </font></p>
+          
+            <img src="\static\inspects\images\help menusample\create_notes1.png" alt="Create Notes" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"> At bottom there are three option:-<br><br>
+                <b>1. Save as Draft:</b>It partially fill the data and save as draft for further editing.<br>
+                <b>2. View:</b>user can see the preview of there inspection notes.<br>
+                <b>3. Submit:</b>user can submit ther inspection notes.
+
+              <img src="\static\inspects\images\help menusample\create_notes2.png" alt="Create Notes" style="width: 100%;height: auto;"><br>
+
+            <p><font face = "Times New Roman" size = "6"><b>Draft Notes</b></font></p>
+            <p><font face = "Times New Roman" size = "5">  If saved as a draft, the inspection notes will be accessible on the 'Draft Report' page, where it can be edited again. On submit action further editing won't be possible and inspection note will be issued and accessible under completed notes.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\draft_insp.png" alt="Draft Notes" style="width: 100%;height: 50;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Completed Notes</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> Under the "Completed Notes" section, user can view all list of the inspection notes issued along with the option to view inspection note as PDF and to make duplicate draft inspection note using the existing one for creating another similar inspection note. By default all inspection note are visible to user but specific inspection note can be searche between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\complete_notes.PNG" alt="Completed Notes" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Pending Compliance</b></font></p>
+             <p><font face = "Times New Roman" size = "5"> The "Pending Compliance" section contains the details or list of inspection note which are closed and some or all of its insp. paras marked for action are pending for compliance. User can view the inspection notes in pdf form and user can view the pending reply of the marked officer. if user want a specific isnpection note can be search between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise. 
+            </font></p>
+            <img src="\static\inspects\images\help menusample\pending_comp.png" alt="Pending Compliance" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Closed Compliance</b></font></p>
+            <p><font face = "Times New Roman" size = "5">  Under the "Closed Compliance" section a list of inspection notes which are closed and all of the items para marked to concerned officers have been complied and accepted by the inspecting officer(by default the compliance rec'd is accepted and inspecting officer can reject the compliance rec'd with remarks at any point of time). Users can also view the Inspection Note in PDF form and  if user want a specific inspection note can be search between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\closed_comp.png" alt="Closed Compliance" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Reverted Compliance</b></font></p>
+             <p><font face = "Times New Roman" size = "5"> Under the "Reverted Compliance" section a list of inspection notes in which any important para marked to a particular officer is reverted back with remarks(reason for reverting) to inspection officer for marking to concerned officer. User can see the inspection note in PDF form and if  if user want a specific inspection note can be search between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise.</font></p>
+            <img src="\static\inspects\images\help menusample\reverted_comp.png" alt="Reverted Compliance" style="width: 100%;height: auto;"><br>
+            
+        </div>
+<hr id="C7" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">My Compliances</p>
+    <p><font face = "Times New Roman" size = "5">This menu is given for marked officers where they can view inspection para marked to them. sent reply or revert back to inspecting officer. provision to forward any inspection para to their subordinate officers for getting reply of any particular para if required.</p>
+    <font face = "Times New Roman" size = "5"> 
+            <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Pending</li>
+                    <li>Sent</li>
+                    <li>Rejected</li>
+                    <li>Reverted</li>
+                    <li>Forwarded by me</li>
+                </ul>
+            </p></font>
+            <img src="\static\inspects\images\help menusample\my_comp.png" alt="My Compliance" style="width: 100%;height: auto;">
+            <br>
+            <p><font face = "Times New Roman" size = "6"><b>Pending</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> Under 'Pending' it allow the user to search for specific inspection notes between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise. The pending reply feature allows the marked officer to view the inspection note and send compliance of an inspection para marked to them by the inspecting officer. The officer can also choose to either forward the inspection para to their subordinate officers for getting the compliance and finally sent it back to inspecting officers or revert the inspection para back to the inspecting officer with remark for reverting the correcting concerned officer. User can also view the inspection notes by click on the inspection note no. in PDF format. There are three buttons given under Action,forwarded and complied columns.<br><br>
+             </font></p>
+            <img src="\static\inspects\images\help menusample\pending.PNG" alt="Pending" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\pending_view.png" alt="View" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"> <b>1.Action button</b> in red color shows the number of inspection para pending for compliance and Click on the button will show a list of pending paras. The marked officer can give compliance and choose to either save para, edit the saved compliance, forward the inspection para to their subordinate officers for getting the compliance and finally sent it back to inspecting officers or revert the inspection para back to the inspecting officer with remark for reverting the correcting concerned officer. On hovering the cursor at the forwarded button,the designation of the forwarded officer can be seen.</font></p>
+            <img src="\static\inspects\images\help menusample\pending_reply.png" alt="Pending Reply" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"><b>2.Forwarded button</b> in yellow color shows the number of inspection para forwarded. click on the button will display a list of forwarded para. The marked officer can use this feature to keep track of which replies they have already forwarded. The user can edit forwarded reply by select the rly./org, div./unit and choose to either move the received reply after moving the reply will be shown below the edit section where you can save reply or reject the reply. </font></p>
+            <img src="\static\inspects\images\help menusample\forwarded_reply.png" alt="Forwarded Reply" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\edit_forwarded_reply.PNG" alt="Edit Forward Reply" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"><b>3.Complied button</b> in green color shows the number of received compliance from forwarded officer and click on the button will display a list of accepted paras.This feature allows the marked officer to keep track of forwarded paras which have been complied by the forwarded officer.</font></p>
+            <img src="\static\inspects\images\help menusample\complied_reply.PNG" alt="Complied Reply" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5">Multiple selection is given to apply an action on multiple paras simultaneously.<br>At bottom submit button is provided to send saved compliance of any inspection note.(before submitting it is mandatory to save the compliance first).</font></p>
+            <p><font face = "Times New Roman" size = "6"><b>Sent Reply </b></font></p>
+            <p> <font face = "Times New Roman" size = "5"> It allows the marked officer to view their respective compliance sent marked inspection para. This feature enable the officer to search for specific inspection notes between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise or to view previously sent compliance to inspection paras marked for the compliance. Users can also view the inspection notes by click on the inspection note number in the form of a PDF. </font></p>
+            <img src="\static\inspects\images\help menusample\sent_reply.PNG" alt="Sent" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\view_sent.png" alt="View" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\reply_sent.png" alt="Reply" style="width: 100%;height: auto;"><br> 
+            <p><font face = "Times New Roman" size = "6"><b>Rejected Reply </b></font></p>
+            <p><font face = "Times New Roman" size = "5"> The Rejected feature informs the marked officer that their compliance  has been rejected for a respective inspection para of any particular inspection notes. This feature enable the officer to search for specific inspection notes between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise and also alerts the marked  officer that they need to review and revise their compliance as per remarks (Rejected) send by inspecting officer.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\rejected_reply.png" alt="Rejected Reply" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Reverted Reply </b></font></p>
+            <p> <font face = "Times New Roman" size = "5"> List of Inspection notes which are marked by the inspecting officer for any inspection para to marked officer and for some reason marked officer has reverted that inspection para back to inspecting officer with reverted remarks for rectifying the marked officer to concerned officer. This feature enable the officer to search for specific inspection notes between any date range or any inspection railway location or designation unit using the filter given i.e date range or rly/org wise or div/org wise.</font></p>
+            <img src="\static\inspects\images\help menusample\reverted_reply.png" alt="Reverted" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Forwarded by me</b></font></p>
+            <p> <font face = "Times New Roman" size = "5">Under this section, officer can view list of inspection notes which me marked to the officer for any inspection para & the same have been forwarded to subordinate officer for getting the compliance of that inspection para.  user  can view the report in PDF form, and if user want, you can edit the forwarded compliance also.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\forwarded_by_me .PNG" alt="Forwarded by me" style="width: 100%;height: auto;"><br>
+             <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+            
+<hr id="C8" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Forwarded Compliance</p>
+    <font face = "Times New Roman" size = "5"> 
+            <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Pending</li>
+                    <li>Sent</li>
+                </ul>
+            </p></font>
+            <img src="\static\inspects\images\help menusample\Query.png" alt="Query" style="width: 100%;height: auto;">
+            <br>
+            <p><font face = "Times New Roman" size = "6"><b>Pending</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> Clicking on <b><i>Pending</i></b> new page will appear. Pending Query, provides facility for the marked forward officer to view the report and reply to the officer as this contains those observation which has been forwarded. User can also view the Report and Reply on it.</font></p>
+            <img src="\static\inspects\images\help menusample\pending1.PNG" alt="Pending" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Sent</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b><i>sent</i></b> new page will appear. Sent Query, provides facility for the marked forward officer to see their respective reply for the marked forwarded observation. User can also view the Report and Reply on it.</font></p>
+            <img src="\static\inspects\images\help menusample\sent1.PNG" alt="Sent" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+            
+<hr id="C9" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Minutes of Meeting</p>
+    <p><font face = "Times New Roman" size = "5">This section allows user to create, draft in minutes of meeting for any given meeting type or as per their choice , view already issued MoM, view compliance status along with reply. Rec’d, send reply of any items marked user in the MoM.</font></p>
+    <font face = "Times New Roman" size = "5"> 
+            <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Create Minutes</li>
+                    <li>Completed Minutes</li>
+                    <li>Draft Minutes</li>
+                    <li>Send Reply</li>
+                    <li>Recieved Reply</li>
+
+                </ul>
+            </p></font>
+            <img src="\static\inspects\images\help menusample\RB Minutes.png" alt="RB Minutes" style="width: 100%;height: auto;">
+            <br>
+            <p><font face = "Times New Roman" size = "6"><b>Create Minutes</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> Clicking on <b><i>Create</i></b> new page will appear. In Create form user can <b><i>Create Minutes Of Meeting</i></b> with the MOM Title, Meeting of type, List of members(s) present, Date of meeting, after that the user can <b><i>Add para, Add Sub para</i></b> and can also copy to different members.</font></p>
+            <img src="\static\inspects\images\help menusample\create_mom1.png" alt="Create MoM" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\create_mom2.PNG" alt="Create MoM" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Completed Minutes</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b><i>Saved</i></b> new page will appear with new form. In Saved form user can view all the saved meetings.</font></p>
+            <img src="\static\inspects\images\help menusample\saved.png" alt="Saved" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\view_mom.PNG" alt="View MoM" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Draft Minutes</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b><i>Draft</i></b> new page will appear with new form. On draft, the meetings will be present in the draft mom page which provides a facility to edit it and submit it whenever done.</font></p>
+            <img src="\static\inspects\images\help menusample\draft_mom.PNG" alt="Draft MOM" style="width: 100%;height: auto;"><br>  
+            <p><font face = "Times New Roman" size = "6"><b>Send Reply</b></font></p>  
+            <p><font face = "Times New Roman" size = "5">After clicking on <b><i>send</i></b> new page will appear with new form. In send Compliance form user can reply to all the meetings.</font></p>
+            <img src="\static\inspects\images\help menusample\send_rply.PNG" alt="Send Reply" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\list_of_pending_replies.PNG" alt="List Of Pending Replies" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Received Reply</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b><i>Reply</i></b> new page will appear with new form. In Reply form user can reply to all the meetings.</font></p>
+            <img src="\static\inspects\images\help menusample\received_mom.PNG" alt="Received MOM" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\reply_received_mom.PNG" alt="Reply Received MOM" style="width: 100%;height: auto;"><br>
+          <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C10" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Search </p>
+    <p><font face = "Times New Roman" size = "5"> This menu will show all the inspection notes that have been created in the "Search Inspection Notes" section.</font></p>
+    <font face = "Times New Roman" size = "5"> 
+        <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through side bar provided:-</font>
+            <ul>
+                <li>Search Inspection Notes</li>
+                <li>Search MoM Notes</li>
+            </ul>
+        </p></font>
+            <img src="\static\inspects\images\help menusample\search_insp_note.png" alt="Search " style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Search Inspection Notes</b></font></p>
+            <p><font face = "Times New Roman" size = "5">This feature enable the officer to search for specific inspection notes between any date range or any inspection railway location designation wise or status using the filter given i.e date range or rly/org wise or div/org wise. Click on "Continue", it will display all the inspection notes. User can view the inspection report in the form of pdf and the red button indicates that the inspection is still pending or the green button indicates that designation officer has sent compliance to marked officer. for search a specific keyword by selecting "Search Insp Para" the system will show the paragraph number(s) where the word appears in all pending or closed inspection reports.</font></p>
+            <img src="\static\inspects\images\help menusample\search_inspection_notes.PNG" alt="Search Inspection Notes" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Search MoM Notes</b></font></p>
+            <p><font face = "Times New Roman" size = "5">This feature enable the officer to search for specific MoM notes between any date range or any meeting type designation wise or status using the filter given i.e date range.meeting type.  Click on "Continue", it will display all the MoM  notes.  User can view the MoM notes in the form of pdf. the red button indicates that the MoM is still pending or the green button indicates that designation officer has sent MoM to marked officer. for search a specific keyword by selecting "Search Insp Para" the system will show the paragraph number(s) where the word appears in all pending or closed MoM notes.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\search_mom_notes.PNG" alt="Search MoM Notes" style="width: 100%;height: auto;"><br>
+             <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C11" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Schedule Inspection</p>
+    <font face = "Times New Roman" size = "5"> 
+            <p><font face = "Times New Roman" size = "5"> Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Create Schedule</li>
+                    <li>Draft Schedule</li>
+                    <li>List of Schedule</li>
+                    <li>Other Officer's Schedule</li>
+
+                </ul>
+            </p></font>
+            <img src="\static\inspects\images\help menusample\schedule_insp.png" alt="Schedule Inspection" style="width: 100%;height: auto;">
+            <br>
+             <p><font face = "Times New Roman" size = "5"> After clicking on <b><i>Create Schedule</i></b>, new window will appear with new form. the inspecting officer can create inspection schedule with the facility to select the inspection types , Description, rly.org, division , major location and mark to the relevant officers with a target date and can set priority.</font></p>
+              <img src="\static\inspects\images\help menusample\create_schedule.PNG" alt="Create Schedule" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"> Clicking on <b><i>Draft Schedule</i></b>, new page will appear. After creating the respective above report, the officers have a choice to save it as draft or submit it.On draft, the report will be present in the draft report page which provides a facility to edit it and submit it whenever done.</font></p>
+            <img src="\static\inspects\images\help menusample\draft_schedule.PNG" alt="Draft Schedule" style="width: 100%;height: auto;"><br>
+            <p> <font face = "Times New Roman" size = "5"> After clicking on <b><i>List of Scedule</i></b> new page will appear with new form. Under list of schedule we can see the list of created schedules. In that a feature is also added for creating a New Schedule</font></p>
+            <img src="\static\inspects\images\help menusample\list_of_schedule.PNG" alt="List Of Schedule" style="width: 100%;height: auto;"><br> 
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b><i>Other officer's</i></b> new page will appear with new form. It shows the list of insecting officers who want to inspect.</font></p>
+            <img src="\static\inspects\images\help menusample\other_officer_schedule.PNG" alt="Other Officer's Schedule" style="width: 100%;height: auto;"><br>
+           <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C12" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Mails</p>
+    <font face = "Times New Roman" size = "5"> 
+            <p> <font face = "Times New Roman" size = "5">Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>e-Mails</li>
+                </ul>
+            </p></font>
+            <p><font face = "Times New Roman" size = "5">When a user creates a new note, they have the option to add officers in the 'Copy To’ field, who will receive the note via email. This feature enable the officer to search for specific inspection report and MoM report  between any date range, any document type, designation wise or filter given i.e date range, document type or designation wise. Click on "Continue", it will display all the inspection report or MoM report. User can view the inspection notes or MoM notes in the form of pdf.  A red button indicates that the officer has not yet viewed the report. When clicked on the button turns green it  indicate that the officer has seen the report.
+            </font></p>
+            <img src="\static\inspects\images\help menusample\mails.PNG" alt="Mail" style="width: 100%;height: auto;">
+            <br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C13" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">D.O Letters</p>
+    <font face = "Times New Roman" size = "5"> 
+            <p> <font face = "Times New Roman" size = "5">Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Letters Marked to Me</li>
+                    <li>Letters Issued by Me</li>
+                    <li>Upload D.O Letter</li>
+                </ul>
+            </p></font>
+            <img src="\static\inspects\images\help menusample\d.o letters.PNG" alt="D.O Letters" style="width: 100%;height: auto;">
+            <br> 
+             <p><font face = "Times New Roman" size = "5">User will first create a new D.O letters from dashboard.</font></p>   
+            <img src="\static\inspects\images\help menusample\create_d.o_letters.PNG" alt="Create_D.O_Letters" style="width: 100%;height: auto;"><br>
+            <br>
+            <p><font face = "Times New Roman" size = "6"><b>D.O Marked to Me</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> After Clicking on <b>D.O Marked to Me</b> new page will appear.The details of the designation that has been marked to the officers will be visible in the D.O letters marked by me and the reply given by the user will be shown in view repy.</font></p>
+            <img src="\static\inspects\images\help menusample\d.o_marked_by_me.PNG" alt="D.O Marked to Me" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\details_marked.PNG" alt="Details Marked" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menusample\view_marked.PNG" alt="Views Marked" style="width: 100%;height: auto;"><br> 
+            <p><font face = "Times New Roman" size = "6"><b>D.O Issued by Me</b></font></p> 
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b>D.O Issued by Me</b> new page will appear. It shows the replies to the letters issued by the user.</font></p>
+            <img src="\static\inspects\images\help menusample\d.o_issued_by_me.PNG" alt="D.O Issued by Me" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "6"><b>Upload D.O Letter</b></font></p>
+            <p><font face = "Times New Roman" size = "5"></font>
+                <img src="\static\inspects\images\help menusample\upload_d.o_letter.PNG" alt="Upload D.O Letter" style="width: 100%;height: auto;"><br>
+             <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+
+<hr id="C14" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Task Tracker</p>
+    <font face = "Times New Roman" size = "5"> 
+            <p> <font face = "Times New Roman" size = "5">Following option are available in this menu accessible through side bar provided:-</font>
+                <ul>
+                    <li>Assigned By Me</li>
+                    <li>Pending On Me</li>
+                    <li>Create Task</li>
+                </ul>
+            </p></font>
+            <img src="\static\inspects\images\help menu\TaskTracker.PNG" alt="Task Tracker" style="width: 100%;height: auto;">
+            <br> 
+             <p><font face = "Times New Roman" size = "5">Here the user can see all the details regarding task whether it is being assigned.</font></p>   
+            <br>
+            <p><font face = "Times New Roman" size = "6"><b>Assigned By Me</b></font></p>
+            <p><font face = "Times New Roman" size = "5"> After Clicking on <b>Assigned By Me</b> new page will appear. The details of the task that has been marked by the user to it's subordinates will be shown.</font></p>
+            <img src="\static\inspects\images\help menu\AssignedPage.PNG" alt="Task Assigned to Me" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5"> The user can perform several operations such as following </font></p>
+            <ul>
+                <li>To update the remarks</li>
+                <li>To view the completed task</li>
+                <img src="\static\inspects\images\help menu\TasTracker2.PNG" alt="Task Assigned to Me" style="width: 100%;height: auto;"><br>
+                <li>To reject reply</li>
+                <img src="\static\inspects\images\help menu\TaskTracker4.PNG" alt="Task Assigned to Me" style="width: 100%;height: auto;"><br>
+            </ul>
+
+            <p><font face = "Times New Roman" size = "6"><b>Task Pending on Me</b></font></p> 
+            <p><font face = "Times New Roman" size = "5"> After clicking on <b>Task Pending on Me</b> new page will appear. It shows the pending task on the user.</font></p>
+            <img src="\static\inspects\images\help menu\TaskPending.PNG" alt="D.O Issued by Me" style="width: 100%;height: auto;"><br>
+            <p><font face = "Times New Roman" size = "5">It provides users with detailed information about each task, including the full task description, the person or entity from whom it is assigned, the designated deadline, the type of task, the current status, the date of the last update, and the actions taken on the assigned task.</font></p>
+            <p><font face = "Times New Roman" size = "6"><b>Create Task</b></font>
+                <p><font face = "Times New Roman" size = "5"> After clicking on <b>Create Task</b> new page will appear. It shows the form where the user can create task.</font></p>
+            <img src="\static\inspects\images\help menu\CreateTask.PNG" alt="Upload D.O Letter" style="width: 100%;height: auto;"><br>
+             <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+<hr id="C15" />
+<div class="control-box p-3 main-content">
+     <p class="help-heading">Hierarchy</p>
+     <font face = "Times New Roman" size = "5"> 
+            <p> <font face = "Times New Roman" size = "5">After Clicking on <b>Hierarchy</b>the officers will have access to the comprehensive hierarchy of railway staff, which proves to be highly convenient for allocating tasks and assignments for various purposes.-</font>
+                </p></font>
+                <img src="\static\inspects\images\help menu\Hierarchy.PNG" alt="Task Tracker" style="width: 100%;height: auto;">
+                <br> 
+                <p><font face = "Times New Roman" size = "5">Beneath the hierarchical tree, a hovering feature is incorporated. When activated, this feature displays a menu providing officers with additional information as follow: </font></p>   
+                <br>
+                <img src="\static\inspects\images\help menu\Hover.PNG" alt="Task Assigned to Me" style="width: 100%;height: auto;"><br>
+                <p><font face = "Times New Roman" size = "5"> The user can perform several operations such as following </font></p>
+                <ul>
+                    <li>User's Pending task</li>
+                    <li>User's Created Task</li>
+                    <li>MOM</li>
+                    <li>D.O. Letter</li>
+                </ul>
+                </div>
+
+<hr id="C16" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Feedback</p>
+    <font face = "Times New Roman" size = "5"> 
+    <p> <font face = "Times New Roman" size = "5">After Clicking on <b>Feedback</b></font>a form will appear where the user can write it's feedback.
+    </p></font>
+    <br>
+    <img src="\static\inspects\images\help menu\Feedback.PNG" alt="Feedback" style="width: 100%;height: auto;"><br>
+    <br> 
+    <p><font face = "Times New Roman" size = "5">This form includes fields such as Railway Zones, Division, Designation, Feedback Type, and Sub Category. To streamline the feedback process, the fields are dynamically activated based on the user's selection of the appropriate Category. </font></p>   
+    <br>
+    <p><font face = "Times New Roman" size = "5">USER'S are also provided with the capability to check the status of their feedback. This is facilitated by a set of multiple options to choose from, including Pending, Resolved, In Progress, and Not Feasible. By selecting the desired option, officers can obtain the latest information on the progress of their feedback. Additionally, officers have the convenience of downloading comprehensive lists for each section in either Excel or PDF format. </font></p>
+    <img src="\static\inspects\images\help menu\Feedback1.PNG" alt="Feedback" style="width: 100%;height: auto;"><br>
+    <img src="\static\inspects\images\help menu\Feedback2.PNG" alt="Feedback" style="width: 100%;height: auto;"><br>
+    </div>
+{% endblock content %}
+        </body>
+</html>

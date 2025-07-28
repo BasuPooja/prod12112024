@@ -1,0 +1,380 @@
+{% extends 'base.html' %} 
+ {% block content %}
+{% load static %}
+
+<head>
+    <title>Feedback Report</title>
+    
+  <style>
+    h3{
+        text-align: center;
+        color: #343a40!important;
+
+    }
+    #submit:disabled {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
+      opacity: 0.6;
+      position:'absolute';
+      right:50%;
+      margin-left: 50%;
+      display: block;
+      margin: 20px auto;
+    }
+  
+    #submit {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      position:absolute;
+      right:50%;
+      margin-left: 50%;
+      display: block;
+      margin: 20px auto;
+    }
+    .rating-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 15px;
+      }
+
+      .rating-table th,
+      .rating-table td {
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+
+      .rating-table th {
+        background-color: #1f3c88;
+        color: white;
+      }
+
+      .rating-table tr:nth-child(even) {
+        background-color: #e6f0ff;
+      }
+
+
+      .star-rating {
+        display: flex;
+        flex-direction: row-reverse; /* Reverses visual order */
+        justify-content: center;
+        gap: 10px;
+        margin-top: 6px;
+        }
+        
+        .star-rating input {
+          display: none;
+        }
+        
+        .star-rating label {
+          font-size: 40px;
+          color: #ccc;
+          cursor: pointer;
+        }
+        
+        .star-rating input:checked ~ label {
+          color: #0074d9;
+        }
+        
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+          color: #0074d9;
+        }
+        
+        h3.report_heading
+        {
+        position: relative;
+        padding-bottom: 10px;
+        font-weight: 600;
+        color: #262626 !important;
+        text-transform: uppercase;
+        font-size: 22px;
+        text-align: center;
+      }
+      .report_heading::after {
+        position: absolute;
+        content: "";
+        background: #C20E39;
+        height: 3px;
+        width: 64px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0 auto;
+      }
+
+      .emoji {
+        filter: grayscale(100%);
+        transition: transform 0.2s, filter 0.2s;
+      }
+      .emoji.selected {
+        filter: grayscale(0%);
+        transform: scale(1.2);
+      }
+
+ </style>
+
+</head>
+
+<body>
+  <h3 class="report_heading">Feedback</h3>
+
+  <br>
+  <div class="container">
+  
+    <form id="feedbackForm" method="post" >
+      {% csrf_token %}
+
+      <label style="font-weight: bold;">How would you rate your overall experience with the application?<span style="color: red;">*</span></label>
+      <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;">
+        <div id="emojiRating" style="display: flex; gap: 20px; font-size: 40px; cursor: pointer;">
+          <span class="emoji" data-value="1">😡</span>
+          <span class="emoji" data-value="2">😕</span>
+          <span class="emoji" data-value="3">😐</span>
+          <span class="emoji" data-value="4">🙂</span>
+          <span class="emoji" data-value="5">🤩</span>
+        </div>
+
+        <input type="hidden" name="emojiRating" id="emojiRatingInput" required>
+
+        <div style="display: flex; justify-content: space-between; width: 300px; font-size: 10px; color: #555; margin-top: 10px;">
+          <span>Poor</span>
+          <span>Fair</span>
+          <span>Good</span>
+          <span>Very Good</span>
+          <span>Excellent</span>
+        </div>
+      </div>
+      <br>
+
+      <div class="form-row">
+        <div class="form-group">
+            <label for="inputAddress">Do you have any suggestions for improving the eInspection application?/Remark</label>
+            <textarea id="suggestions" name="suggestions" class="form-control" rows="4"></textarea>
+            <br>
+        </div>
+        <br>
+      </div>
+      <label style="font-weight: bold; ">Evaluate our e_inspection application: </label>
+          
+        <table class="rating-table">
+        <tr>
+          <th>Question</th>
+          <th>Poor</th>
+          <th>Fair</th>
+          <th>Good</th>
+          <th>Very Good</th>
+          <th>Excellent</th>
+        </tr>
+        <tr>
+          <td style= "text-align: left;">How satisfied are you with the accuracy of the inspection data displayed?</td>
+          <td><input type="radio" name="inspection_accuracy_rating" value="1"></td>
+          <td><input type="radio" name="inspection_accuracy_rating" value="2"></td>
+          <td><input type="radio" name="inspection_accuracy_rating" value="3"></td>
+          <td><input type="radio" name="inspection_accuracy_rating" value="4"></td>
+          <td><input type="radio" name="inspection_accuracy_rating" value="5"></td>
+        </tr>
+        <tr>
+          <td style= "text-align: left;">How would you rate the user interface (UI) design of the application?</td>
+          <td><input type="radio" name="ui_design_rating" value="1"></td>
+          <td><input type="radio" name="ui_design_rating" value="2"></td>
+          <td><input type="radio" name="ui_design_rating" value="3"></td>
+          <td><input type="radio" name="ui_design_rating" value="4"></td>
+          <td><input type="radio" name="ui_design_rating" value="5"></td>
+        </tr>
+        <tr>
+          <td style= "text-align: left;">How would you rate the performance speed of the application?</td>
+          <td><input type="radio" name="performance_speed_rating" value="1"></td>
+          <td><input type="radio" name="performance_speed_rating" value="2"></td>
+          <td><input type="radio" name="performance_speed_rating" value="3"></td>
+          <td><input type="radio" name="performance_speed_rating" value="4"></td>
+          <td><input type="radio" name="performance_speed_rating" value="5"></td>
+        </tr>
+        <tr>
+          <td style= "text-align: left;">How smooth was the application to use?</td>
+          <div class="rating-group" data-field="application_smoothness_rating">
+            <td><input type="radio" name="application_smoothness_rating" value="1"></td>
+            <td><input type="radio" name="application_smoothness_rating" value="2"></td>
+            <td><input type="radio" name="application_smoothness_rating" value="3"></td>
+            <td><input type="radio" name="application_smoothness_rating" value="4"></td>
+            <td><input type="radio" name="application_smoothness_rating" value="5"></td>
+          </div>
+        </tr>
+      </table>
+      <br>
+
+      <label style="font-weight: bold; ">Evaluate e_inspection application module: </label>
+      <table class="rating-table">
+        <tr>
+          <th>Question</th>
+          <th>Poor</th>
+          <th>Fair</th>
+          <th>Good</th>
+          <th>Very Good</th>
+          <th>Excellent</th>
+        </tr>
+ 
+        <tr>
+          <td style="text-align: left;">How would you rate your experience with the Dashboard?</td>
+          <td><input type="radio" name="dashboard_rating" value="1"></td>
+          <td><input type="radio" name="dashboard_rating" value="2"></td>
+          <td><input type="radio" name="dashboard_rating" value="3"></td>
+          <td><input type="radio" name="dashboard_rating" value="4"></td>
+          <td><input type="radio" name="dashboard_rating" value="5"></td>
+        </tr>
+ 
+        <tr>
+          <td style="text-align: left;">How satisfied are you with the My Inspection feature?</td>
+          <td><input type="radio" name="my_inspection_rating" value="1"></td>
+          <td><input type="radio" name="my_inspection_rating" value="2"></td>
+          <td><input type="radio" name="my_inspection_rating" value="3"></td>
+          <td><input type="radio" name="my_inspection_rating" value="4"></td>
+          <td><input type="radio" name="my_inspection_rating" value="5"></td>
+        </tr>
+
+        <tr>
+          <td style="text-align: left;">How well does the Compliances section meet your needs?</td>
+          <td><input type="radio" name="compliance_marked_rating" value="1"></td>
+          <td><input type="radio" name="compliance_marked_rating" value="2"></td>
+          <td><input type="radio" name="compliance_marked_rating" value="3"></td>
+          <td><input type="radio" name="compliance_marked_rating" value="4"></td>
+          <td><input type="radio" name="compliance_marked_rating" value="5"></td>
+        </tr>
+
+        <tr>
+          <td style="text-align: left;">How effective do you find the Minutes of Meeting module?</td>
+          <td><input type="radio" name="mom_rating" value="1"></td>
+          <td><input type="radio" name="mom_rating" value="2"></td>
+          <td><input type="radio" name="mom_rating" value="3"></td>
+          <td><input type="radio" name="mom_rating" value="4"></td>
+          <td><input type="radio" name="mom_rating" value="5"></td>
+        </tr>
+        <tr>
+          <td style="text-align: left;">How smoothly does the Search function work for you?</td>
+          <td><input type="radio" name="search_rating" value="1"></td>
+          <td><input type="radio" name="search_rating" value="2"></td>
+          <td><input type="radio" name="search_rating" value="3"></td>
+          <td><input type="radio" name="search_rating" value="4"></td>
+          <td><input type="radio" name="search_rating" value="5"></td>
+        </tr>
+
+        <tr>
+          <td style="text-align: left;">How convenient is the Copy To feature for your tasks?</td>
+          <td><input type="radio" name="copy_to_rating" value="1"></td>
+          <td><input type="radio" name="copy_to_rating" value="2"></td>
+          <td><input type="radio" name="copy_to_rating" value="3"></td>
+          <td><input type="radio" name="copy_to_rating" value="4"></td>
+          <td><input type="radio" name="copy_to_rating" value="5"></td>
+        </tr>
+
+        <tr>
+          <td style="text-align: left;">How useful are the Reports in your workflow?</td>
+          <td><input type="radio" name="reports_rating" value="1"></td>
+          <td><input type="radio" name="reports_rating" value="2"></td>
+          <td><input type="radio" name="reports_rating" value="3"></td>
+          <td><input type="radio" name="reports_rating" value="4"></td>
+          <td><input type="radio" name="reports_rating" value="5"></td>
+        </tr>
+        
+      </table>
+      <br>
+
+    
+      <button type="submit" id="submit" class="btn btn-primary">Submit Feedback</button>
+
+    </form>
+  </div>
+     
+ 
+
+   <script>
+    const emojis = document.querySelectorAll('.emoji');
+    const hiddenInput = document.getElementById('emojiRatingInput');
+    const submitButton = document.getElementById('submit');
+    const suggestions = document.getElementById('suggestions');
+  
+    submitButton.disabled = true;
+  
+    emojis.forEach(emoji => {
+      emoji.addEventListener('click', () => {
+        emojis.forEach(e => e.classList.remove('selected'));
+        emoji.classList.add('selected');
+        const value = emoji.getAttribute('data-value');
+        hiddenInput.value = value;
+  
+        submitButton.disabled = false;
+  
+        if (value === '1') {
+          suggestions.setAttribute('required', 'required');
+        } else {
+          suggestions.removeAttribute('required');
+        }
+      });
+    });
+  
+    $('#submit').click(function (e) {
+      e.preventDefault();
+  
+      const emojiValue = $('#emojiRatingInput').val();
+      const suggestionText = $('#suggestions').val().trim();
+      const stars = $('input[name="stars"]:checked').val();
+  
+  
+      if ((emojiValue === '1') && suggestionText === "") {
+        alert("Please provide suggestions/remarks for poor experience.");
+        document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+  
+      const csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+  
+      const formData = {
+        'csrfmiddlewaretoken': csrfToken,
+        'inspection_accuracy_rating': $('input[name="inspection_accuracy_rating"]:checked').val(),
+        'ui_design_rating': $('input[name="ui_design_rating"]:checked').val(),
+        'performance_speed_rating': $('input[name="performance_speed_rating"]:checked').val(),
+        'application_smoothness_rating': $('input[name="application_smoothness_rating"]:checked').val(),
+        'dashboard_rating': $('input[name="dashboard_rating"]:checked').val(),
+        'my_inspection_rating': $('input[name="my_inspection_rating"]:checked').val(),
+        'compliance_marked_rating': $('input[name="compliance_marked_rating"]:checked').val(),
+        'forwarded_compliance_rating': $('input[name="forwarded_compliance_rating"]:checked').val(),
+        'help_rating': $('input[name="help_rating"]:checked').val(),
+        'mom_rating': $('input[name="mom_rating"]:checked').val(),
+        'search_rating': $('input[name="search_rating"]:checked').val(),
+        'tour_programme_rating': $('input[name="tour_programme_rating"]:checked').val(),
+        'copy_to_rating': $('input[name="copy_to_rating"]:checked').val(),
+        'task_tracker_rating': $('input[name="task_tracker_rating"]:checked').val(),
+        'reports_rating': $('input[name="reports_rating"]:checked').val(),
+        'suggestions': suggestionText,
+        'stars': emojiValue,
+      };
+  
+      $.ajax({
+        type: 'POST',
+        url: '{% url "feedback_submit" %}',
+        data: formData,
+      
+        success: function (response) {
+          if (response.redirect_url) {
+            window.location.href = response.redirect_url;
+          } else {
+            alert("Feedback submitted, but no redirect URL provided.");
+          }
+        },
+        
+        error: function (xhr) {
+          console.error(xhr.responseText);
+          alert("Failed to submit feedback. Please try again.");
+        }
+      });
+    });
+  </script>
+  
+</body>
+  {% endblock content %}

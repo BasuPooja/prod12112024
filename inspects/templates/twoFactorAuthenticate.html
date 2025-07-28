@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'inspects_staticProvider.html' %}
+    <title>Log In</title>
+    
+    <script type="text/javascript">
+        if(self===top){
+          var antiClickjack = document.getElementById("antiClickjack");
+          antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else{
+          top.location= self.location;
+        }
+      </script>
+
+    <style>
+        /* new changes in login */
+        .lbl-caption
+{
+    font-weight:600;
+    font-size:12px;
+    color:#4d4d4d;
+}
+/* CSS */
+.button-5 {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #fa6400;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.button-5:hover,
+.button-5:focus {
+  background-color: #fb8332;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.button-5:hover {
+  transform: translateY(-1px);
+}
+
+.button-5:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
+}
+.login-link
+{
+    font-weight:600;
+    /* color: blue; */
+    
+}
+
+    </style>
+
+    <style>
+        @media screen and (min-width:500px) {
+            .myFormCard {
+                background-color: #fff;
+                border: 1px solid rgb(236, 236, 236);
+                padding: 3%;
+                margin-top: 6%;
+                /* margin: 3%; */
+                margin-left: 30%;
+                margin-right: 30%;
+                border-radius: 10px;
+            }
+
+            .myFormCard {
+                /* Add shadows to create the "card" effect */
+                box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+                transition: 0.3s;
+            }
+
+            /* On mouse-over, add a deeper shadow */
+            .myFormCard:hover {
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+            }
+
+
+        }
+
+        @media screen and (max-width:500px) {
+            .myFormCard {
+                padding: 10px;
+                margin: 10px;
+                box-sizing: border-box;
+            }
+        }
+        .crislogo
+        {
+	    position:absolute;
+	    right:40px;
+	    top:40px;
+	    z-index:9999;
+        }
+        .my-heading {
+            font-family:Georgia;
+            margin-top:1rem;
+            font-weight : 500;
+            font-size : 2.5rem;
+            text-align : center;
+            Color : black;
+            font-weight: bold; 
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        .left-part {
+            width: 30%;
+            align-self: center;
+        }
+
+        .right-part {
+            width: 60%;
+            align-self: center;
+        }
+        html,body
+{ 
+    /* background-color: #039be5; */
+  /* background-image: url('/static/images/pic7.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; */
+  background: url(/static/images/bg.jpg) no-repeat center center fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+
+}
+
+
+    </style>
+    <style>
+      .form-control1{
+        border: none;
+        font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    </style>
+
+</head>
+
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+    </script>
+
+<body>
+    <div class="demo form-bg">
+      <img src="/static/images/crislogo.png" class="img crislogo hidden-sm hidden-xs" />
+      <form method="POST" action="{% url 'twoFactorAuthenticate' %}">{% csrf_token %}
+        <div class="myFormCard">
+            <div class="flex-container">
+                
+                <div class="left-part">
+                          
+                    <img src="{% static 'inspects/images/logo_inspection.png' %}" alt="Logo Inspection" width="60%" height="60%">
+                </div>
+                
+                <div class="my-heading right-part">
+
+                        <!-- <span style="color: #4285f4;"></span> -->
+                        <span style="color: hwb(226 21% 3%);">INSPECTION</span>                   
+                        <span style="color: #34a853"></span>
+                        <span style="color: #fbbc05"></span>
+                  
+                    <h3>Welcome {{designation}} ({{user_role}})</h3>
+                    
+                    <input class="form-control1" type="text" id="user_id" name="user_id" placeholder="{{userid}}" value="{{userid}}" style="display: none;">
+                    <!-- <input class="form-control1" type="text" id="user_role" placeholder="({{user_role}})" disabled value="{{user_role}}" hidden> -->
+                    
+                      
+                    <input type="text" id="username" placeholder=""  value="{{username}}" hidden >
+                    <input type="text" id="designation_id" name="designation_id" placeholder=""  value="{{designation}}" style="display: none;" >
+                    
+                      
+                </div>
+                
+            </div>
+            <br>
+            <br>
+            <br>
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <p class="alert alert-danger" style="padding:5px;">{{message}}</p>
+            {% elif message.tags == 'success' %}
+            <p class="alert alert-success" style="padding:5px;">{{message}}</p>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <div class="row">
+                <div class="col-sm">
+                    <h5>Please enter the {{message_otp}}</h5>
+                    <div class="input-group mb-3">
+                      <input type="password" class="form-control" placeholder="Enter OTP" id="your_otp" name ="your_otp" autocomplete="off" maxlength="4" minlength="4" required>                      
+                      <div class="input-group-append">
+                          <span class="input-group-text"><i class="fa fa-eye" id="togglePassword" onclick="seePassword(this);"></i></span>
+                        </div>
+                    </div>
+                    <div id="otpcurrent"  style="font-size: 20; color: #b32400;font-weight: 600;"></div>
+                    <br>
+                    <br>
+                    <br>
+                    <input class="button-5" type="submit" id="submit1111" name="submit1111" value="Proceed to Log In"  >
+                    <br>
+                    <!-- onclick="loginSuccess()" -->
+                    <a href="" onclick="event.preventDefault();resend_otp('mobile')" class="login-link">Resend OTP on Mobile Number</a>
+                    <br>
+                    <!-- <a href="" onclick="event.preventDefault();resend_otp('email')" class="login-link">Resend OTP on Email</a> -->
+                </div>
+            </div>
+            <br>
+            
+
+            
+        </div>
+      </form>
+    </div>
+
+</body>
+<script>
+  // function loginSuccess(){
+  //   const myotp = document.getElementById('your_otp').value;
+  //   const userid = document.getElementById('user_id').value;
+  //   // const designation = document.getElementById('designation').value;
+  //   // const user_role = document.getElementById('user_role').value;
+  //   $.ajax({
+  //         type : 'POST',
+  //         url : "{% url 'twoFactorAuthenticate' %}",
+  //         dataType : 'json',
+  //         data: {
+  //           csrfmiddlewaretoken: '{{csrf_token}}',
+  //           'myotp': myotp, 
+  //           'userid' : userid,
+  //           // 'designation' : designation,
+  //           // 'user_role' : user_role,
+  //         },
+  //         success : function(response){
+  //           // if(response.ret == 'True')
+  //           //    html = `<div class="alert alert-success" role="alert">OTP matched</div>`
+  //           if(response.ret == 'False'){
+  //             html = `<div class="alert alert-danger" role="alert">OTP didn't match</div>`
+  //             $('#otpcurrent').html(html)
+  //           }
+               
+  //           else{
+  //             window.open(response.ret, '_self');
+  //           }
+  //         }
+  //   })
+  // }
+  const password = document.querySelector('#your_otp');
+  function seePassword(el) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye slash icon
+            const clas = el.classList.contains("fa-eye");
+            if (clas) {
+                el.classList.add("fa-eye-slash")
+                el.classList.remove("fa-eye");
+            } else {
+                el.classList.add("fa-eye");
+                el.classList.remove("fa-eye-slash")
+
+            }
+
+        }
+
+  function resend_otp(x){
+    const userid = document.getElementById('user_id').value;
+    $.ajax({
+          type : 'GET',
+          url : "{% url 'twoFactorAuthenticate' %}",
+          dataType : 'json',
+          data: {
+            // csrfmiddlewaretoken: '{{csrf_token}}',
+            'userid' : userid,
+            'message_fn':x
+          },
+          success : function(response){
+            if(response.ret == 'False'){
+              html = `<div class="alert alert-danger" role="alert">OTP cannot be resend</div>`
+              $('#otpcurrent').html(html)
+            }
+               
+            else{
+              if (x =='mobile')
+                html = `<div class="alert alert-success" role="alert"> OTP sent Successfully on mobile no.</div>`
+              else
+                html = `<div class="alert alert-success" role="alert"> OTP sent Successfully on email. Kindly check your spam folder too</div>`
+              $('#otpcurrent').html(html)
+            }
+          },
+          error: function (exception) {
+             html = `<div class="alert alert-danger" role="alert">Some Error Occurred </div>`
+              $('#otpcurrent').html(html)
+          }
+    })
+  }
+</script>
+</html>

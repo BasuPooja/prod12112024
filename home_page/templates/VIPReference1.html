@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>My VIP References</title>
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/vipreference.css"> -->
+<!-- home_page\templates\vipreference.css -->
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+$(function(){
+    $(".dropdown-menu1").on('click', 'a', function(){
+      $("#btnFirst").text($(this).text());
+      $("#btnFirst").val($(this).text());
+   });
+    $(".dropdown-menu2").on('click', 'a', function(){
+      $("#btnSecond").text($(this).text());
+      $("#btnSecond").val($(this).text());
+   });
+
+});
+</script>
+</head>
+<head>
+
+	{% include 'inspects_staticProvider.html' %}
+	<link rel="stylesheet" type="text/css" href="{% static '/css/daterangepicker.css' %}" />
+	<script type="text/javascript" src="{% static '/js/chart.min2.js'%}"></script>
+	<script type="text/javascript" src="{% static '/js/chartjs-plugin-datalabels.min.js'%}"></script>
+	<script type="text/javascript" src="{% static '/js/chart.min.js'%}"></script>
+	<!-- <link rel="stylesheet" href="parliament.css"> -->
+	<style>
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			border: 0px;
+			background-color: rgb(255, 255, 255, 0) !important;
+			color: #007bff !important;
+
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			background-color: rgba(23.32, 77, 77, 0) !important;
+			color: #007bff !important;
+
+		}
+
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+		.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			color: rgba(51, 51, 51, 0) !important;
+			border: 1px solid rgba(0, 0, 0, 0);
+			background-color: rgba(23.32, 77, 77, 0);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			color: #007bff !important;
+			border: 1px solid rgba(17, 17, 17, 0);
+			background-color: #58585800;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			outline: none;
+			background-color: #2b2b2b00;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* W3C */
+			box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			border: 0px;
+			background-color: rgb(255, 255, 255, 0) !important;
+			color: #007bff !important;
+
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			background-color: rgba(23.32, 77, 77, 0) !important;
+			color: #007bff !important;
+
+		}
+
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+		.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			color: #333 !important;
+			border: 1px solid rgba(0, 0, 0, 0);
+			background-color: rgba(23.32, 77, 77, 0);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, rgba(23.30, 23.30, 23.30, 0) 0%, rgba(0, 0, 0, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+			color: #007bff !important;
+			border: 1px solid rgba(17, 17, 17, 0);
+			background-color: #58585800;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+			/* W3C */
+		}
+
+		.tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+			border: 0px;
+			padding-left: 0px;
+			padding-right: 0px;
+			padding-bottom: 0px;
+			margin-left: 0.25rem;
+			margin-right: 0.5rem;
+			outline: none;
+			background-color: #2b2b2b00;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+			/* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Chrome10+,Safari5.1+ */
+			background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* FF3.6+ */
+			background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* IE10+ */
+			background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* Opera 11.10+ */
+			background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+			/* W3C */
+			box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+		}
+
+		table.dataTable tbody th,
+		table.dataTable tbody td {
+			padding: 5px 10px;
+		}
+	</style>
+	<style>
+		@media only screen and (max-width: 400px) and (min-width: 300px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 17px;
+				padding-left: 0;
+				margin-left: 0;
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		@media only screen and (max-width: 450px) and (min-width: 401px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 20px;
+				padding-left: 0;
+				margin-left: 0;
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		@media only screen and (max-width: 700px) and (min-width: 451px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 25px;
+				padding-left: 0;
+				margin-left: 0;
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		@media only screen and (max-width: 299px) and (min-width: 200px) {
+
+			.row h3 {
+				color: whitesmoke;
+				font-size: 10px;
+				padding-left: 0;
+				margin-left: 0;
+
+
+			}
+
+			.Container {
+				width: 100%;
+			}
+
+			#notificationContainer {
+				margin-left: 1%;
+			}
+		}
+
+		.t2 {
+			font-size: 100%;
+			color: white !important;
+		}
+
+		.t2:hover {
+			background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white);
+			text-transform: uppercase;
+			font-weight: bold;
+			color: black !important;
+		}
+
+		.t2:hover #menu_icon {
+			color: black !important;
+		}
+
+		.dropdown:hover {
+			/* background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white); */
+			/* text-transform: uppercase; */
+		}
+
+		.dropdown:hover .dropdown-toggle {
+			font-weight: bold;
+			color: white !important;
+		}
+
+		.dropdown:hover .dropdown-menu {
+			display: block;
+			text-transform: none;
+		}
+
+		.dropdown-menu .dropdown-item:hover {
+			background-image: linear-gradient(to bottom right, rgb(98, 132, 245), white);
+			/* text-transform: uppercase; */
+		}
+
+		.dropdown-menu {
+			margin-top: 0;
+		}
+
+		.menu li {
+			display: inline-block;
+			font-family: Lato;
+			padding-right: 0%;
+		}
+
+		.menu {
+			/* padding:0%; */
+			margin-bottom: 0%;
+		}
+
+		.dropdown-toggle::after {
+			display: inline-block;
+			margin-left: .255em;
+			vertical-align: .255em;
+			content: "";
+			color: white;
+			border-top: .3em solid;
+			border-right: .3em solid transparent;
+			border-bottom: 0;
+			border-left: .3em solid transparent;
+		}
+	</style>
+	<style>
+		
+		.sidebar {
+			position: fixed;
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: 15%;
+			/* background: #11101d; */
+			background: #2c3e50;
+			/* background: #12161D; */
+			z-index: 100;
+			margin-top: 3rem;
+			background: #4072CC;
+			/* background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+				background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+				background: linear-gradient(to bottom right, #4072CC, #7C72EA); */
+		}
+
+		.sidebar.close {
+			width: 78px;
+		}
+
+		.sidebar .logo-details {
+			height: 60px;
+			width: 100%;
+			display: flex;
+			align-items: center;
+		}
+
+		.sidebar .logo-details i {
+			font-size: 30px;
+			color: #fff;
+			height: 50px;
+			min-width: 78px;
+			text-align: center;
+			line-height: 50px;
+		}
+
+		.sidebar .logo-details .logo_name {
+			font-size: 22px;
+			color: #fff;
+			font-weight: 600;
+			transition: 0.3s ease;
+			transition-delay: 0.1s;
+		}
+
+		.sidebar.close .logo-details .logo_name {
+			transition-delay: 0s;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.sidebar .nav-links {
+			height: 100%;
+			padding: 30px 0 150px 0;
+			overflow: auto;
+		}
+
+		.sidebar.close .nav-links {
+			overflow: visible;
+		}
+
+		.sidebar .nav-links::-webkit-scrollbar {
+			display: none;
+		}
+
+		.sidebar .nav-links li {
+			position: relative;
+			list-style: none;
+			transition: all 0.4s ease;
+		}
+
+		.sidebar .nav-links li {
+			/* color: #1c81d9; */
+			color: white;
+		}
+
+		.sidebar .nav-links li:hover {
+			background: #1d1b31;
+		}
+
+		.sidebar .nav-links li .iocn-link {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.sidebar.close .nav-links li .iocn-link {
+			display: block
+		}
+
+		.sidebar .nav-links li {
+			height: 50px;
+			padding-left: 8%;
+			min-width: 48px;
+			text-align: left;
+			line-height: 50px;
+			color: #fff;
+			font-size: 16px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+
+		.sidebar.close .nav-links li i {
+			min-width: 70px;
+		}
+
+		.sidebar .nav-links li.showMenu i.arrow {
+			transform: rotate(-180deg);
+		}
+
+		.sidebar.close .nav-links i.arrow {
+			display: none;
+		}
+
+		.sidebar .nav-links li a {
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+		}
+
+		.sidebar .nav-links li a .link_name {
+			font-size: 14px;
+			font-weight: 400;
+			color: #fff;
+			transition: all 0.4s ease;
+		}
+
+		.sidebar.close .nav-links li a .link_name {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.sidebar .nav-links li .sub-menu {
+			padding: 6px 6px 14px 30px;
+			margin-top: -10px;
+			background: #1d1b31;
+			display: none;
+		}
+
+		.sidebar .nav-links li.showMenu .sub-menu {
+			display: block;
+		}
+
+		.sidebar .nav-links li .sub-menu a {
+			color: #fff;
+			font-size: 15px;
+			padding: 5px 0;
+			white-space: nowrap;
+			opacity: 0.6;
+			transition: all 0.3s ease;
+		}
+
+		.sidebar .nav-links li .sub-menu a:hover {
+			opacity: 1;
+		}
+
+		.sidebar.close .nav-links li .sub-menu {
+			position: absolute;
+			left: 100%;
+			top: -10px;
+			margin-top: 0;
+			padding: 10px 20px;
+			border-radius: 0 6px 6px 0;
+			opacity: 0;
+			display: block;
+			pointer-events: none;
+			transition: 0s;
+		}
+
+		.sidebar.close .nav-links li:hover .sub-menu {
+			top: 0;
+			opacity: 1;
+			pointer-events: auto;
+			transition: all 0.4s ease;
+		}
+
+		.sidebar .nav-links li .sub-menu .link_name {
+			display: none;
+		}
+
+		.sidebar.close .nav-links li .sub-menu .link_name {
+			font-size: 18px;
+			opacity: 1;
+			display: block;
+		}
+
+		.sidebar .nav-links li .sub-menu.blank {
+			opacity: 1;
+			pointer-events: auto;
+			padding: 3px 20px 6px 16px;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.sidebar .nav-links li:hover .sub-menu.blank {
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		.sidebar .profile-details {
+			position: fixed;
+			bottom: 0;
+			width: 260px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			background: #1d1b31;
+			padding: 12px 0;
+			transition: all 0.5s ease;
+		}
+
+		.sidebar.close .profile-details {
+			background: none;
+		}
+
+		.sidebar.close .profile-details {
+			width: 78px;
+		}
+
+		.sidebar .profile-details .profile-content {
+			display: flex;
+			align-items: center;
+		}
+
+		.sidebar .profile-details img {
+			height: 52px;
+			width: 52px;
+			object-fit: cover;
+			border-radius: 16px;
+			margin: 0 14px 0 12px;
+			background: #1d1b31;
+			transition: all 0.5s ease;
+		}
+
+		.sidebar.close .profile-details img {
+			padding: 10px;
+		}
+
+		.sidebar .profile-details .profile_name,
+		.sidebar .profile-details .job {
+			color: #fff;
+			font-size: 18px;
+			font-weight: 500;
+			white-space: nowrap;
+		}
+
+		.sidebar.close .profile-details i,
+		.sidebar.close .profile-details .profile_name,
+		.sidebar.close .profile-details .job {
+			display: none;
+		}
+
+		.sidebar .profile-details .job {
+			font-size: 12px;
+		}
+
+		.home-section {
+			position: relative;
+			height: 100vh;
+			left: 260px;
+			top: 48px;
+			width: calc(100% - 260px);
+			transition: all 0.5s ease;
+		}
+
+		.sidebar.close~.home-section {
+			left: 78px;
+			width: calc(100% - 78px);
+		}
+
+		.home-section .home-content .bx-menu,
+		.home-section .home-content .text {
+			color: #11101d;
+			font-size: 35px;
+		}
+
+		.home-section .home-content .bx-menu {
+			margin: 0 0%;
+			cursor: pointer;
+		}
+
+		.home-section .home-content .text {
+			font-size: 26px;
+			font-weight: 600;
+		}
+
+		@media (max-width: 400px) {
+			.sidebar {
+				width: 100%;
+				height: auto;
+			}
+
+			.sidebar.close {
+				width: 0;
+			}
+
+			.home-section {
+				left: 78px;
+				width: calc(100% - 78px);
+
+			}
+
+			/* .sidebar.close ~ .home-section{
+					width: 100%;
+					left: 0;
+				}*/
+		}
+
+		/* nav ul {
+			list-style: none;
+		} */
+
+		.listRight {
+			left: auto !important;
+			right: 0 !important;
+		}
+	</style>
+	<style>
+		h3 {
+			font-family: "Lato";
+			font-size: 20px;
+			font-weight: 700;
+			/* text-shadow: rgba(0, 0, 0, 0.5) 0 10px 10px; */
+		}
+
+		h2 {
+			font-family: "Lato";
+			font-size: 20px;
+			font-weight: 700;
+		}
+
+		.back {
+			cursor: pointer;
+		}
+
+
+		.colornav {
+			background-color: #3f51b5;
+			background-image: -webkit-linear-gradient(left, #3f51b5, #03a9f4);
+			background-image: linear-gradient(to right, #3f51b5, #03a9f4);
+		}
+
+		/* Apeksha Styles */
+		th {
+			text-align: center;
+		}
+
+		tr {
+			text-align: center;
+		}
+
+		thead {
+			color: black;
+			background-color: #bfccf0;
+		}
+
+		
+
+		/* .nav-item {
+			background-color: #f2ecf5;
+
+		} */
+	   
+	</style>
+</head>
+
+<body>
+
+<!-- <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">VIP References</li>
+  </ol>
+</nav>
+<table class="table table-heading">
+<tr>
+<td>
+<h3 class="report-heading">VIP References</h3>
+</td>
+</div>
+</td>
+</tr>
+</table> -->
+
+<div class=" navbar-dark bg-dark mb-2 sticky-top colornav" style="margin:0 auto ;">
+	<ul class="navbar" style="list-style: none;padding: 0rem 1rem;">
+		<ul style="padding: 0 !important;width:40%;">
+			{% if request.session.d_level == 'CRB' %}
+			<li style="width:3%;display:inline-block;" class="back">
+				<!-- <a href="/home_page"><img src="/static/images/home.png" class="img img-responsive img-fluid" /></a> -->
+				<a href="/home_page" id="notificationLink1" style="color:white;font-size: 23px;" data-toggle="tooltip" title="Home"><i class="bx bxs-home"
+					aria-hidden="true"></i></a>
+			</li>
+			{% endif %} 
+			<li style="display:inline-block;width:60%">
+				<h2
+					style="color:#fff; font-family:Lato, sans-serif; padding-left: 5%;text-align: Left;font-size: 1.6rem;font-weight: 600;">
+					<a onClick="window.location.reload()"> My VIP References</a></h2>
+			</li>
+			
+		</ul>
+		<ul>
+			<li style="display:inline-block;">
+				<h4
+					style="margin:0%;color:#fff; font-family:Lato,font-weight-bold, sans-serif;font-size:16px;font-weight:600;">
+					Welcome&nbsp; {{request.session.designation|safe}}</h4>
+			</li>
+			<li class="nav-item dropdown" style="display:inline-block;background-color:#03a9f4">
+				<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img
+						src="/static/images/profile2.webp" class="rounded-circle" style="width: 2.00rem;"
+						alt="Profile" style="padding: 0 !important;" /></a>
+				<div class="dropdown-menu dropdown-menu-left" style="left:-90px !important;">
+					<a href="/viewDetail" class="dropdown-item">View Profile</a>
+					<a href="/inspect_changePassword" class="dropdown-item">Change Password</a>
+					<div class="dropdown-divider"></div>
+					<a href='/inspect_logout' onclick='logoutConfirm();' class="dropdown-item">Logout</a>
+				</div>
+			</li>
+		</ul>
+	</ul>
+</div>
+<div class="container-fluid">
+	<div class="row" style="margin: 0;">
+			<div class="col-12">
+				<div class="page-wrapper">
+					<div class="row">
+					<div class="col-lg-7 col-sm-12">
+						<div class="stats-card">
+							<table class="table table-striped table-bordered table-stats">
+								<tr>
+									<th colspan="3" class="text-center td-link" data-toggle="tooltip" title="Click to get detail !" 
+										style="text-align:center;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);">
+										<!-- <a href="javascript:void(0);" style="color: black;" id="RBwise" role="button" onclick="RBwise()"> -->
+											Pendency (Railway Board)
+										<!-- </a> -->
+										
+										<span class="badge badge-return pull-right float-right"><h6>{{viprbdata.total}}</h6></span>
+									</th>
+								</tr>
+								<tr>
+									<th>With Directorates<span class="badge badge-accepted float-right"><h6>{{viprbdata.withdir}}</h6></span></th>
+									<th>Submitted<span class="badge badge-putup float-right"><h6>{{viprbdata.draftreply}}</h6></span></th>
+									<th>Forwarded to Railways<span class="badge badge-testing float-right"><h6>{{viprbdata.withzone}}</h6></span></th>
+								</tr>
+							</table>
+						</div>
+					</div>
+
+					<div class="col-lg-5 col-sm-12">
+						<div class="stats-card">
+							<table class="table table-striped table-bordered table-stats">
+								<tr>
+									<th colspan="2"class="text-center td-link" data-toggle="tooltip" title="Click to get detail !"
+									style="text-align:center;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d); ">
+									<!-- <a href="javascript:void(0);"  style="color:black ;" id="RBwise" role="button" onclick="zone_pu_divwise()"> -->
+										Pendency (Zone/PU/Division)
+									<!-- </a> -->
+										
+										<span class="badge badge-ri pull-right float-right"><h6>{{vip_zone_pu_div.total}}</h6></span>
+									</th>
+								</tr>
+								<tr>
+									<th>Zone/PU<span class="badge  float-right"><h6>{{vip_zone_pu_div.zone}}</h6></span></th>
+									<th>Division<span class="badge badge-testing float-right"><h6>{{vip_zone_pu_div.div}}</h6></span></th>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			<hr/>
+			<div class="row">
+			<div class="col-lg-12">
+			<div id="accordion">
+				<div class="card">
+					<div class="card-header" id="headingOne" style="text-align:center;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d); height: 65px;">
+						<table class="table">
+							<tr>
+								<td align="left" style="padding-bottom:5px; text-align: left; margin-bottom: 5px; border-top: 0;"  class="acc-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									<h4>Pendency Status (Railway Board)</h4>
+								</td>
+								<td align="right" style="padding-bottom:5px; text-align: right; margin-bottom: 5px; border-top: 0;">
+									<button type="button" class="btn btn-info btn-sm" id="dir" onclick="directorate()">Directorate</button>&nbsp;
+									<button type="button" class="btn btn-outline-info btn-sm" id="bord" onclick="boardmember()">Board Member</button>&nbsp;
+									<button type="button" class="btn btn-success btn-sm" onclick="show_table()"><i class="fa fa-table"></i></button>&nbsp;
+									<button type="button" class="btn btn-primary btn-sm" onclick="show_graph()"><i class="fas fa-chart-bar"></i></button>&nbsp;
+								</td>
+								<td style="padding-bottom:5px; text-align: right; margin-bottom: 5px; border-top: 0;">
+									<!-- <div class="btn-group" style="width:10%;  padding-left: 40px;"> -->
+												<button class="btn btn-outline-dark btn-sm" id="btncl1" onclick="close_acc1()">
+													<i class="fas fa-angle-double-up fa-lg"></i>
+												</button>
+												<button class="btn btn-outline-dark btn-sm" id="btnop1" onclick="open_acc1()">
+													<i class="fas fa-angle-double-down fa-lg"></i>
+												</button>
+												
+									<!-- </div> -->
+								</td>
+							</tr>
+					</table>
+					</div>
+			
+					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" >
+						<div class="card-body">
+							<div class="row">
+								<div class="col-12">
+									<div class="table_class" id="table_iddir">
+										<div class="col-12">
+											<table class="table table-data table-striped table-bordered" id="show_details1">
+												<thead>
+													<tr>
+														<th colspan="4" style="text-align:center">Pendency Status</th>
+														<th rowspan="2" style="text-align:center">Total</th>
+														<th colspan="4" style="text-align:center">Pendency Period</th>
+													</tr>
+													<tr>
+														<th style="text-align:center">Directorate</th>
+														<th style="text-align:center">With Directorate</th>
+														<th style="text-align:center">Forwarded to Railways</th>
+														<th style="text-align:center">Submitted</th>
+														<!-- <th>Total</th> -->
+														<th style="text-align:center">0-3 Months</th>
+														<th style="text-align:center">3-6 Months</th>
+														<th style="text-align:center">6-9 Months</th>
+														<th style="text-align:center">>12 Months</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for i in vip_dir %}
+													<tr>			
+														<td style="text-align:left">{% if i.unitcode %}{{i.unitcode}} {% else %}{{0}} {%endif%}</td> 
+														<td style="text-align:center">{% if i.pendcountdir %}{{i.pendcountdir}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcountzone %}{{i.pendcountzone}} {% else %}{{0}} {%endif%}</td>
+				
+														<td style="text-align:center">{% if i.countdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.counttotal %}{{i.counttotal}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</td>
+				
+														<td style="text-align:center">{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</td>
+													</tr>
+													{%endfor%}
+											
+												</tbody>
+												<tfoot align="center">
+													<tr style="background-color: #FBEFBE; color:black; text-align: left; font-weight: 600;">
+														<th style="text-align:left"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+													</tr>
+												</tfoot>
+											</table>
+											<!-- <table  class="table table-data table-striped table-bordered">
+												<thead>
+													{% for i in total_dir %}
+													<tr style="background-color: #FBEFBE; color:black; text-align: center; font-weight: 600;">			
+														<th style="width:225px">{% if i.unitcode %}{{i.unitcode}} {% else %}{{0}} {%endif%}</th> 
+														<th>{% if i.pendcountdir %}{{i.pendcountdir}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcountzone %}{{i.pendcountzone}} {% else %}{{0}} {%endif%}</th>
+				
+														<th>{% if i.countdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.counttotal %}{{i.counttotal}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</th>
+				
+														<th>{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</th>
+													</tr>
+													{%endfor%}
+												</thead>
+											</table> -->
+										</div>	
+									</div>
+									
+									<div class="table_class" id="table_idbm">
+										<div class="col-12">
+											<table class="table table-data table-striped table-bordered" id="show_details11">
+												<thead>
+													<tr>
+														<th colspan="4" style="text-align:center">Pendency Status</th>
+														<th rowspan="2" style="text-align:center">Total</th>
+														<th colspan="4" style="text-align:center">Pendency Period</th>
+													</tr>
+													<tr>
+														<th style="text-align:center">Board Member</th>
+														<th style="text-align:center">With Board Member</th>
+														<th style="text-align:center">Forwarded to Railways</th>
+														<th style="text-align:center">Submitted</th>
+														<th style="text-align:center">0-3 Months</th>
+														<th style="text-align:center">3-6 Months</th>
+														<th style="text-align:center">6-9 Months</th>
+														<th style="text-align:center">>12 Months</th>
+													</tr>
+												</thead>
+												<tbody>
+													{% for i in vip_bm %}
+													<tr>
+														<td style="text-align:left">{% if i.unitcode %}{{i.unitcode}} {% else %}{{0}} {%endif%}</td> 
+														<td style="text-align:center">{% if i.pendcountdir %}{{i.pendcountdir}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcountzone %}{{i.pendcountzone}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.countdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.counttotal %}{{i.counttotal}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</td>
+														<td style="text-align:center">{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</td>
+														<!-- <td>{{i.unitcode}}</td> 
+														<td>{{i.pendcountdir}}</td>
+														<td>{{i.pendcountzone}}</td>
+														<td>{{i.countdraft}}</td>
+														<td>{{i.counttotal}}</td>
+														<td>{{i.pendcount0_3}}</td>
+														<td>{{i.pendcount3_6}}</td>
+														<td>{{i.pendcount6_12}}</td>
+														<td>{{i.pendcount12}}</td> -->
+													</tr>
+													{%endfor%}
+											
+												</tbody>
+												<tfoot align="center" >
+													<tr style="background-color: #FBEFBE; color:black; text-align: left; font-weight: 600;">
+														<th style="text-align:left"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+														<th style="text-align:center"></th>
+													</tr>
+												</tfoot>
+											</table>
+											<!-- <table  class="table table-data table-striped table-bordered">
+												<thead>
+													{% for i in total_bm %}
+													<tr style="background-color: #FBEFBE; color:black; text-align: center; font-weight: 600;">			
+														<th style="width:225px">{% if i.unitcode %}{{i.unitcode}} {% else %}{{0}} {%endif%}</th> 
+														<th>{% if i.pendcountdir %}{{i.pendcountdir}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcountzone %}{{i.pendcountzone}} {% else %}{{0}} {%endif%}</th>
+				
+														<th>{% if i.countdraft %}{{i.countdraft}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.counttotal %}{{i.counttotal}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</th>
+				
+														<th>{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</th>
+														<th>{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</th>
+													</tr>
+													{%endfor%}
+												</thead>
+											</table> -->
+										</div>	
+									</div>
+		
+									<div  id="board_member_graph">
+										<div class="row">
+											<div class="col-3"></div>
+											<div class="col-6">
+												<center>
+													<button type="button" class="btn btn-danger btn-sm" onclick="movebgraphl();"><i class="fa fa-fw fa-backward"></i></button>
+													<button type="button" class="btn btn-danger btn-sm" onclick="movebgraphr();"><i class="fa fa-fw fa-forward"></i></button>
+												</center>
+												<canvas id="boardmember_graph"></canvas>
+											</div>
+											<div class="col-3"></div>
+										</div>
+									</div>
+									<div  id="directorate_graph">
+										<div class="row">
+											<div class="col-3"></div>
+											<div class="col-6">
+												<center>
+													<button type="button" class="btn btn-danger btn-sm" onclick="movedgraphl();"><i class="fa fa-fw fa-backward"></i></button>
+													<button type="button" class="btn btn-danger btn-sm" onclick="movedgraphr();"><i class="fa fa-fw fa-forward"></i></button>
+												</center>
+												<canvas id="graph_directorate"></canvas>
+											</div>
+											<div class="col-3"></div>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<!-- <button class="btn btn-light btn-sm" onclick="openModal();">Open Modal</button> -->
+						</div>
+					</div>
+				</div>
+				<hr/>
+				<div class="card">
+					<div class="card-header" id="headingTwo" style="text-align:center;background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d); height: 65px;">
+			
+						<table class="table table-options" >
+							<tr>
+								<th style="padding:10px; text-align: left; margin-bottom: 5px; border-top: 0;" class="collapsed acc-head"  data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+									<h4>Pendency Status (Zone/PU/Division)</h4>
+								</th>
+								<th style="padding:10px; width:150px; margin-bottom: 5px; border-top: 0; text-align: left;">
+									<select class="form-control" id="dropd1" data-live-search="true" onchange="getvipdata()" data-actions-box="true" style="max-width:100%;">
+										<option value="all">All</option>
+										{% for i in zones %}
+										<option value="{{i.zoneunitcode}}">{{i.zoneunitcode}}</option>
+										{%endfor%}
+									</select>
+									<!-- </div> -->
+								</th>
+								<!-- <th style="width: 120px;"></th> -->
+								<th style="border-top: 0;width:150px; margin-bottom: 5px;padding-left: 110px;">
+									<!-- <div class="btn-group" style="width:10%; padding-left: 30%; margin-bottom: 5px;"> -->
+										<button class="btn btn-outline-dark btn-sm" id="btnop2" onclick="open_acc2()">
+											<i class="fas fa-angle-double-down fa-lg"></i>
+										</button>
+										<button class="btn btn-outline-dark btn-sm" id="btncl2" onclick="close_acc2()">
+											<i class="fas fa-angle-double-up fa-lg"></i>
+										</button>														
+									<!-- </div> -->
+								</th>
+							</tr>
+						</table>
+
+					</div>
+					
+					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+						<div class="card-body" id="table_id2">
+							<div class="col-12">
+								<table class="table table-data table-striped table-bordered" style="width:100%" id="show_details2">
+									<thead >
+										<tr style="text-align:center">
+											<th colspan="3" style="text-align:center">Pendency Status</th>
+											<th rowspan="2" style="text-align:center">Total</th>
+											<th colspan="4" style="text-align:center">Pendency Period</th>
+										</tr>
+										<tr>
+											<th style="text-align:center">Zone/PU</th>
+											<th style="text-align:center">Pending with Zonal HQ</th>
+											<th style="text-align:center">Pending with Division</th>
+											<th style="text-align:center">0-3 Months</th>
+											<th style="text-align:center">3-6 Months</th>
+											<th style="text-align:center">6-9 Months</th>
+											<th style="text-align:center">>12 Months</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for i in vip_zone_div %}
+										<tr>
+											
+											<td style="text-align:left">{% if i.zoneunitcode %}{{i.zoneunitcode}} {% else %}{{0}} {%endif%}</td> 
+											<td style="text-align:center">{% if i.zonecountpend %}{{i.zonecountpend}} {% else %}{{0}} {%endif%}</td>
+											<td style="text-align:center">{% if i.divcountpend %}{{i.divcountpend}} {% else %}{{0}} {%endif%}</td>
+											<td style="text-align:center">{% if i.zonecountall %}{{i.zonecountall}} {% else %}{{0}} {%endif%}</td>
+											<td style="text-align:center">{% if i.pendcount0_3 %}{{i.pendcount0_3}} {% else %}{{0}} {%endif%}</td>
+											<td style="text-align:center">{% if i.pendcount3_6 %}{{i.pendcount3_6}} {% else %}{{0}} {%endif%}</td>
+											<td style="text-align:center">{% if i.pendcount6_12 %}{{i.pendcount6_12}} {% else %}{{0}} {%endif%}</td>
+											<td style="text-align:center">{% if i.pendcount12 %}{{i.pendcount12}} {% else %}{{0}} {%endif%}</td>
+										</tr>
+										{%endfor%}
+									</tbody>
+									<tfoot align="center">
+										<tr style="background-color: #FBEFBE; color:black; text-align: left; font-weight: 600;">
+											<th style="text-align:left"></th>
+											<th style="text-align:center"></th>
+											<th style="text-align:center"></th>
+											<th style="text-align:center"></th>
+											<th style="text-align:center"></th>
+											<th style="text-align:center"></th>
+											<th style="text-align:center"></th>
+											<th style="text-align:center"></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			
+				<!-- <div style="height:100px;"></div>
+				<div class="modal fade zoom-in" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-xl" role="document">
+						<div class="modal-content">
+						<div class="modal-header" style="padding:12px;">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							...
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+						</div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<!-- <div class="container-fullwidth my-2 footer"> -->
+		<div class="row" style="width: 100%;">
+			<!-- <div class="col-2"><h6 style="color: blue; text-align: left;">Source: S & T</h6></div> -->
+			<div class="col-7"><h6 style="color: blue; text-align: left; padding-left: 1%;">Source: S & T (For more information visit: <a  href="https://morpr.cris.org.in/pat/login" target="blank">https://morpr.cris.org.in/</a>)</h6></div>
+			<div class="col-5"><h6 style="color: blue; text-align: right; ">This report was last updated on {{vip_day}} at {{vip_time}}</h6></div>
+		</div>
+	<!-- </div> -->
+</div>
+
+
+
+<script>
+function openModal()
+{
+	$("#dataModal").modal('show');
+}
+</script>
+
+<script>
+
+	
+	var table_show_details2=$('#show_details2').DataTable({
+		"footerCallback": function ( row, data, start, end, display ) {
+				var api = this.api(), data;
+	 
+				// converting to interger to find total
+				var intVal = function ( i ) {
+					return typeof i === 'string' ?
+						i.replace(/[\$,]/g, '')*1 :
+						typeof i === 'number' ?
+							i : 0;
+				};
+	 
+				// computing column Total of the complete result 
+				var col1Total = api
+					.column( 1 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			var col2Total = api
+					.column( 2 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+				var col3Total = api
+					.column( 3 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col4Total = api
+					.column( 4 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col5Total = api
+					.column( 5 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+			var col6Total = api
+					.column( 6 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col7Total = api
+					.column( 7 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+				
+					
+				// Update footer by showing the total with the reference of the column index 
+			$( api.column( 0 ).footer() ).html('Total');
+				$( api.column( 1 ).footer() ).html(col1Total);
+				$( api.column( 2 ).footer() ).html(col2Total);
+				$( api.column( 3 ).footer() ).html(col3Total);
+				$( api.column( 4 ).footer() ).html(col4Total);
+				$( api.column( 5 ).footer() ).html(col5Total);
+				$( api.column( 6 ).footer() ).html(col6Total);
+				$( api.column( 7 ).footer() ).html(col7Total);
+			},
+				dom: 'Bfrtip',
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+                // "bSort": True,
+                pageLength:5,
+                lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+                "lengthChange":false,
+                // "searching":false,
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                "previous": "Prev",},}
+				
+		   
+		 } )
+	
+	table11= $('#show_details11').DataTable({
+		"footerCallback": function ( row, data, start, end, display ) {
+				var api = this.api(), data;
+	 
+				// converting to interger to find total
+				var intVal = function ( i ) {
+					return typeof i === 'string' ?
+						i.replace(/[\$,]/g, '')*1 :
+						typeof i === 'number' ?
+							i : 0;
+				};
+	 
+				// computing column Total of the complete result 
+				var col1Total = api
+					.column( 1 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			var col2Total = api
+					.column( 2 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+				var col3Total = api
+					.column( 3 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col4Total = api
+					.column( 4 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col5Total = api
+					.column( 5 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+			var col6Total = api
+					.column( 6 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col7Total = api
+					.column( 7 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+			var col8Total = api
+					.column( 8 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+				
+					
+				// Update footer by showing the total with the reference of the column index 
+			$( api.column( 0 ).footer() ).html('Total');
+				$( api.column( 1 ).footer() ).html(col1Total);
+				$( api.column( 2 ).footer() ).html(col2Total);
+				$( api.column( 3 ).footer() ).html(col3Total);
+				$( api.column( 4 ).footer() ).html(col4Total);
+				$( api.column( 5 ).footer() ).html(col5Total);
+				$( api.column( 6 ).footer() ).html(col6Total);
+				$( api.column( 7 ).footer() ).html(col7Total);
+				$( api.column( 8 ).footer() ).html(col8Total);
+			},
+				dom: 'Bfrtip',
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+                // "bSort": false,
+                pageLength:5,
+                lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+                "lengthChange":false,
+                // "searching":false,
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                "previous": "Prev",},}
+		   
+		 })
+	
+	table1=	 $('#show_details1').DataTable({
+		"footerCallback": function ( row, data, start, end, display ) {
+				var api = this.api(), data;
+	 
+				// converting to interger to find total
+				var intVal = function ( i ) {
+					return typeof i === 'string' ?
+						i.replace(/[\$,]/g, '')*1 :
+						typeof i === 'number' ?
+							i : 0;
+				};
+	 
+				// computing column Total of the complete result 
+				var col1Total = api
+					.column( 1 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			var col2Total = api
+					.column( 2 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+				var col3Total = api
+					.column( 3 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col4Total = api
+					.column( 4 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col5Total = api
+					.column( 5 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+			var col6Total = api
+					.column( 6 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col7Total = api
+					.column( 7 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+			var col8Total = api
+					.column( 8 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+				
+					
+				// Update footer by showing the total with the reference of the column index 
+			$( api.column( 0 ).footer() ).html('Total');
+				$( api.column( 1 ).footer() ).html(col1Total);
+				$( api.column( 2 ).footer() ).html(col2Total);
+				$( api.column( 3 ).footer() ).html(col3Total);
+				$( api.column( 4 ).footer() ).html(col4Total);
+				$( api.column( 5 ).footer() ).html(col5Total);
+				$( api.column( 6 ).footer() ).html(col6Total);
+				$( api.column( 7 ).footer() ).html(col7Total);
+				$( api.column( 8 ).footer() ).html(col8Total);
+			},
+				dom: 'Bfrtip',
+                "pagingType": "simple",
+                "sEmptyTable": 'No data available in table',
+                // "bSort": false,
+                pageLength:5,
+                lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+                "lengthChange":false,
+                // "searching":false,
+                "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                "previous": "Prev",},}
+		   
+		 })	 
+
+		//  function zone_pu_divwise(){
+		// 	// alert('zone_pu_divwise called' )
+		// 	$('#on_firstcard').hide();
+		// 	$('#on_secondcard').show();
+		// 	// $('#show_details2').show();
+		// // 	$('#show_details2').DataTable({
+		// // 		dom: 'Bfrtip',
+        // //         "pagingType": "simple",
+        // //         "sEmptyTable": 'No data available in table',
+        // //         "bSort": false,
+        // //         pageLength:5,
+        // //         lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+        // //         "lengthChange":false,
+        // //         "searching":false,
+        // //         "language": {
+        // //         "info": "Page _PAGE_ of _PAGES_",
+        // //         "paginate": {
+        // //         "previous": "Prev",},}
+		   
+		// //  } )
+		// //  var dropdownvalue=$('#dropd').val();
+	
+		// }
+		
+		// function RBwise(){
+		// 	// alert('rbwise called')
+		// 	$('#on_firstcard').show();
+		// 	$('#on_secondcard').hide();
+		  
+		// }
+</script>
+
+<script>
+	var click_value=0; // 0 for directorate
+    var click_button=0; // 0 for table
+	function open_acc1(){
+			document.getElementById("collapseOne").className = "collapse show";
+			document.getElementById("collapseTwo").className = "collapse";
+			$('#btncl1').show(); 
+			$('#btnop1').hide();
+			$('#btncl2').hide(); 
+			$('#btnop2').show();
+		}
+		function open_acc2(){
+			document.getElementById("collapseOne").className = "collapse";
+			document.getElementById("collapseTwo").className = "collapse show";
+			$('#btncl1').hide(); 
+			$('#btnop1').show();
+			$('#btncl2').show(); 
+			$('#btnop2').hide();
+		}
+		function close_acc1(){
+			document.getElementById("collapseOne").className = "collapse";
+			$('#btncl1').hide(); 
+			$('#btnop1').show();
+			$('#btncl2').hide(); 
+			$('#btnop2').show();
+			// document.getElementById("collapseTwo").className = "collapse";
+		}
+		function close_acc2(){
+			document.getElementById("collapseTwo").className = "collapse";
+			$('#btncl1').hide(); 
+			$('#btnop1').show();
+			$('#btncl2').hide(); 
+			$('#btnop2').show();
+			// document.getElementById("collapseTwo").className = "collapse show";
+		}
+		function directorate(){
+			// alert('directorate clicked')
+			document.getElementById("dir").className="btn btn-info btn-sm";
+			document.getElementById("bord").className="btn btn-outline-info btn-sm";
+			click_value=0;
+			document.getElementById("collapseOne").className = "collapse show";
+			document.getElementById("collapseTwo").className = "collapse";
+			if (click_button==0){
+        //directorate
+        $('#table_iddir').show(); 
+        $('#table_idbm').hide();
+        $('#directorate_graph').hide(); 
+        $('#board_member_graph').hide();
+    }
+    else{
+        //board member
+        $('#table_iddir').hide(); 
+        $('#table_idbm').hide();
+        $('#directorate_graph').show(); 
+        $('#board_member_graph').hide();
+    }
+
+		}
+	
+		function boardmember(){
+			// alert('board member clicked')
+			click_value=1;
+			document.getElementById("bord").className="btn btn-info btn-sm";
+			document.getElementById("dir").className="btn btn-outline-info btn-sm";
+			document.getElementById("collapseOne").className = "collapse show";
+			document.getElementById("collapseTwo").className = "collapse";
+			if (click_button==0){
+        //directorate
+        $('#table_iddir').hide(); 
+        $('#table_idbm').show();
+        $('#directorate_graph').hide(); 
+        $('#board_member_graph').hide();
+    }
+    else{
+        //board member
+        $('#table_iddir').hide(); 
+        $('#table_idbm').hide();
+        $('#directorate_graph').hide(); 
+        $('#board_member_graph').show();
+    }
+			
+		}
+
+		function show_graph(){
+			click_button=1;
+			if (click_value==0){
+				document.getElementById("collapseOne").className = "collapse show";
+				document.getElementById("collapseTwo").className = "collapse";
+				$('#table_iddir').hide();
+				$('#table_idbm').hide();
+				$('#board_member_graph').hide(); 
+				$('#directorate_graph').show(); 
+			}
+			if (click_value==1){
+				document.getElementById("collapseOne").className = "collapse show";
+				document.getElementById("collapseTwo").className = "collapse";
+				$('#table_iddir').hide();
+				$('#table_idbm').hide();
+				$('#board_member_graph').show(); 
+				$('#directorate_graph').hide(); 
+			}
+			
+			
+		}
+		function show_table(){
+			click_button=0;
+			document.getElementById("collapseOne").className = "collapse show";
+			document.getElementById("collapseTwo").className = "collapse";
+			if (click_value==0){
+				//directorate
+				$('#table_iddir').show(); 
+				$('#table_idbm').hide();
+				$('#directorate_graph').hide(); 
+				$('#board_member_graph').hide();
+			}
+			else{
+				//board member
+				$('#table_iddir').hide(); 
+				$('#table_idbm').show();
+				$('#directorate_graph').hide(); 
+				$('#board_member_graph').hide();
+			}
+    
+
+		}
+	   
+		 $(document).ready(function(){
+			$('#on_secondcard').hide();
+			$('#table_idbm').hide();
+			$('#board_member_graph').hide(); 
+			$('#directorate_graph').hide(); 
+			$('#btncl1').show(); 
+			$('#btnop1').hide();
+			$('#btncl2').hide(); 
+			$('#btnop2').show();
+			// $('#mychartdir').hide()
+	 });
+	
+	 function getvipdata(){
+		let data1 = {
+			dropd1: $('#dropd1').val(),
+
+		}
+		// alert($('#dropd1').val())
+		$.ajax({
+			type : 'GET',
+			url : "{% url 'getvipdata' %}",
+			dataType : 'json',
+			data : data1,
+
+			success : function(res){
+				finallist1=res.finallist;
+				console.log(finallist1);
+				table_show_details2.destroy();
+
+				document.getElementById("collapseOne").className = "collapse";
+				document.getElementById("collapseTwo").className = "collapse show";
+
+				$('#show_details2 tbody').empty();
+				// alert($('#show_details2 tbody').val())
+				content='';
+				for(var i=0; i<finallist1.length; i++)
+					{	
+						if (finallist1[i]['zoneunitcode'])
+							content+='<tr><td>'+finallist1[i]['zoneunitcode']+'</td>';
+						else
+							continue;
+							// content+='<td>0</td>'
+
+						if (finallist1[i]['zonecountpend'])
+							content+='<td>'+finallist1[i]['zonecountpend']+'</td>';
+						else
+							content+='<td>0</td>'
+						
+						if (finallist1[i]['divcountpend'])
+							content+='<td>'+finallist1[i]['divcountpend']+'</td>';
+						else
+							content+='<td>0</td>'
+
+						if (finallist1[i]['zonecountall'])
+							content+='<td>'+finallist1[i]['zonecountall']+'</td>';
+						else
+							content+='<td>0</td>'
+
+						if (finallist1[i]['pendcount0_3'])
+							content+='<td>'+finallist1[i]['pendcount0_3']+'</td>';
+						else
+							content+='<td>0</td>'
+
+							if (finallist1[i]['pendcount3_6'])
+							content+='<td>'+finallist1[i]['pendcount3_6']+'</td>';
+						else
+							content+='<td>0</td>'
+
+							if (finallist1[i]['pendcount6_12'])
+							content+='<td>'+finallist1[i]['pendcount6_12']+'</td>';
+						else
+							content+='<td>0</td>'
+
+							if (finallist1[i]['pendcount12'])
+							content+='<td>'+finallist1[i]['pendcount12']+'</td>';
+						else
+							content+='<td>0</td>'
+
+							content+='</tr>'
+					}
+					
+					
+					
+					$('#show_details2 tbody').append(content)
+
+					table_show_details2 = $('#show_details2').DataTable({
+						"footerCallback": function ( row, data, start, end, display ) {
+				var api = this.api(), data;
+	 
+				// converting to interger to find total
+				var intVal = function ( i ) {
+					return typeof i === 'string' ?
+						i.replace(/[\$,]/g, '')*1 :
+						typeof i === 'number' ?
+							i : 0;
+				};
+	 
+				// computing column Total of the complete result 
+				var col1Total = api
+					.column( 1 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			var col2Total = api
+					.column( 2 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+				var col3Total = api
+					.column( 3 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col4Total = api
+					.column( 4 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col5Total = api
+					.column( 5 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+			var col6Total = api
+					.column( 6 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+					
+			 var col7Total = api
+					.column( 7 )
+					.data()
+					.reduce( function (a, b) {
+						return intVal(a) + intVal(b);
+					}, 0 );
+				
+					
+				// Update footer by showing the total with the reference of the column index 
+			$( api.column( 0 ).footer() ).html('Total');
+				$( api.column( 1 ).footer() ).html(col1Total);
+				$( api.column( 2 ).footer() ).html(col2Total);
+				$( api.column( 3 ).footer() ).html(col3Total);
+				$( api.column( 4 ).footer() ).html(col4Total);
+				$( api.column( 5 ).footer() ).html(col5Total);
+				$( api.column( 6 ).footer() ).html(col6Total);
+				$( api.column( 7 ).footer() ).html(col7Total);
+			},
+						dom: 'Bfrtip',
+							"pagingType": "simple",
+							"sEmptyTable": 'No data available in table',
+							// "bSort": false,
+							pageLength:5,
+							lengthMenu: [[2,5,10,25, 100, -1], [2,5,10,25, 100, "All"]],
+							"lengthChange":false,
+							// "searching":false,
+							"language": {
+							"info": "Page _PAGE_ of _PAGES_",
+							"paginate": {
+							"previous": "Prev",},}
+							// drawCallback: function () {
+							// 	var api = this.api();
+							// 	$( api.table().footer() ).html(
+							// 		api.column( 4, {page:'current'} ).data().sum()
+							// 	);
+							// 	}
+						
+					});
+			}
+		});
+}
+</script>
+
+<script>
+    const ctx11 = document.getElementById("boardmember_graph").getContext('2d');
+   
+   let bmember_x = {{ bm_names | safe}};
+   let b_countass = {{ bm_count | safe}};
+   let b_submitted = {{ bm_submitted | safe}};
+   let b_ford_rlys = {{ bm_ford_rlys | safe}};
+
+
+   const boardmember_graph = new Chart(ctx11, {
+     type: 'bar',
+     data: {
+       labels: bmember_x,
+       labelAngle: 90,
+       datasets: [
+         {
+           label: 'With Member',
+           data: b_countass,
+           backgroundColor: '#F7AA00',
+           borderColor: 'red',
+           borderWidth: 0,
+         },
+         {
+           label: 'Forwarded with Rly',
+           data: b_ford_rlys,
+           backgroundColor: '#2F31F8',
+           borderColor: '#FD5D5D',
+           borderWidth: 0,
+         },
+         {
+           label: 'Submitted',
+           data: b_submitted,
+           backgroundColor: '#F83A3A',
+           borderColor: '#FD5D5D',
+           borderWidth: 0,
+         },
+        ]},
+        options: {
+            interaction: {
+        mode: 'index'
+      },
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+            scales: {
+        x: {
+        //   stacked: true,
+          min: 0,
+          max: 5,
+        //   ticks: {
+        //     maxRotation: 0,
+        //   },
+        //   title: {
+        //     display: false,
+        //     text: 'RB/ZONE'
+        //   },
+        },
+    }
+        } 
+    });
+</script>
+
+ <script>
+    const ctx21 = document.getElementById("graph_directorate").getContext('2d');
+   
+   let dmember_x = {{ dir_names | safe}};
+   let d_countass = {{ dir_count | safe}};
+   let d_submitted = {{ dir_submitted | safe}};
+   let d_ford_rlys = {{ dir_ford_rlys | safe}};
+
+
+   const graph_directorate = new Chart(ctx21, {
+     type: 'bar',
+     data: {
+       labels: dmember_x,
+       labelAngle: 90,
+       datasets: [
+         {
+           label: 'With Directorate',
+           data: d_countass,
+           backgroundColor: '#F7AA00',
+           borderColor: 'red',
+           borderWidth: 0,
+         },
+         {
+           label: 'Forwarded with Rly',
+           data: d_ford_rlys,
+           backgroundColor: '#2F31F8',
+           borderColor: '#FD5D5D',
+           borderWidth: 0,
+         },
+         {
+           label: 'Submitted',
+           data: d_submitted,
+           backgroundColor: '#F83A3A',
+           borderColor: '#FD5D5D',
+           borderWidth: 0,
+         },
+        ]},
+        options: {
+            interaction: {
+        mode: 'index'
+      },
+      layout: {
+        padding: {
+          right: 16.5
+        }
+      },
+            scales: {
+        x: {
+        //   stacked: true,
+          min: 0,
+          max: 5,
+        //   ticks: {
+        //     maxRotation: 0,
+        //   },
+        //   title: {
+        //     display: false,
+        //     text: 'RB/ZONE'
+        //   },
+        },
+    }
+        } 
+    });
+ </script>
+
+ <script>
+    function movedgraphr(){
+        graph_directorate.options.scales.x.min = graph_directorate.options.scales.x.min + 4;
+        graph_directorate.options.scales.x.max = graph_directorate.options.scales.x.max + 4;
+        graph_directorate.update();
+
+    }
+    function movedgraphl(){
+        graph_directorate.options.scales.x.min = graph_directorate.options.scales.x.min - 4;
+        graph_directorate.options.scales.x.max = graph_directorate.options.scales.x.max - 4;
+        graph_directorate.update();
+    }
+	function movebgraphr(){
+        boardmember_graph.options.scales.x.min = boardmember_graph.options.scales.x.min + 4;
+        boardmember_graph.options.scales.x.max = boardmember_graph.options.scales.x.max + 4;
+        boardmember_graph.update();
+
+    }
+    function movebgraphl(){
+        boardmember_graph.options.scales.x.min = boardmember_graph.options.scales.x.min - 4;
+        boardmember_graph.options.scales.x.max = boardmember_graph.options.scales.x.max - 4;
+        boardmember_graph.update();
+
+    }
+</script>
+
+<!-- <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-primary navbar-footer">
+<p class="copyright">Copyright@2022: Designed and Developed by Centre for Railway Information Systems (CRIS)</p>
+</nav> -->
+</body>
+
+</html>

@@ -1,0 +1,2826 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+
+{% load static %}
+{% include 'inspects_staticProvider.html' %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">		
+    
+    <style>
+        
+        /* General Modal Styles */
+.modal-dialog-marks {
+    width: 50% !important;
+    height: 70% !important;
+    margin: 10% 30% !important;
+    padding: 3% !important;
+    max-width: none !important;
+    text-align: center !important;
+    background-color: white;
+}
+
+.modal-content-marks {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+}
+
+.modal-header-marks, .modal-footer-marks {
+    border: 0px solid #9ea2a2 !important;
+}
+
+/* Icon User Styling */
+.icon-user-div {
+    position: relative;
+}
+
+.icon-user {
+    position: absolute;
+    right: 0px;
+    top: 1px;
+}
+
+/* Wrap Styling */
+.wrap, .wrap-1 {
+    position: fixed;
+    overflow: hidden;
+    top: 10%;
+    right: 10%;
+    bottom: 85px;
+    left: 10%;
+    padding: 12px;
+    display: block !important;
+    border-radius: 4px;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    visibility: hidden;
+    z-index: 9999;
+    height: 85vh;
+}
+
+.wrap.active, .wrap-1.active {
+    display: block;
+    visibility: visible;
+    box-shadow: 2px 3px 16px silver;
+    transform: translateY(0px);
+}
+
+/* Button Hover Effects */
+.button:hover, .button1:hover, .button2:hover, .button3:hover, .button4:hover, .button5:hover {
+    box-shadow: inset 0 0 .125em rgba(255, 255, 255, .75);
+    background: linear-gradient(#f8e7e8, #e30001, #bc0000) content-box;
+}
+
+.button:active {
+    transform: translateY(0.5em);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Button Styles */
+.btn-save, .btn-draft {
+    align-items: center;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    text-decoration: none;
+    transition: all 250ms;
+}
+
+.btn-save {
+    background-color: #fa6400;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background-color: #fb8332;
+}
+
+.btn-save:active {
+    background-color: #c85000;
+}
+
+.btn-draft {
+    background-color: #666699;
+    color: #fff;
+}
+
+.btn-draft:hover {
+    background-color: #666699;
+}
+
+.btn-draft:active {
+    background-color: #666699;
+}
+
+/* Search Field */
+form.example input[type=text] {
+    padding: 8px;
+    font-size: 17px;
+    border: 1px solid grey;
+    width: 60%;
+    background: #f1f1f1;
+}
+
+form.example button {
+    width: 15%;
+    padding: 8px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+
+form.example button:hover {
+    background: #0b7dda;
+}
+
+/* Strikeout Styles */
+.strikeout {
+    position: relative;
+    text-decoration-line: line-through;
+    text-decoration-thickness: 0.2rem;
+    text-decoration-color: red;
+}
+
+.strikeoutbg {
+    background-color: lightyellow;
+    text-decoration-line: line-through;
+    text-decoration-thickness: 0.2rem;
+    text-decoration-color: red;
+}
+
+/* Popup Styling */
+.popup .popuptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: white;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 0%;
+    left: -110%;
+    margin-left: -150px;
+}
+
+.popup .show {
+    visibility: visible;
+    animation: fadeIn 1s;
+}
+
+.sethover:hover {
+    background-color: lightblue;
+    cursor: grab;
+    font-size: 140%;
+}
+
+/* Toggle Button */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+}
+
+.switch input { display: none; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ca2222;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2ab934;
+}
+
+input:checked + .slider:before {
+    transform: translateX(55px);
+}
+
+.slider:after {
+    content: 'OFF';
+    color: white;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    font-size: 10px;
+    font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider:after {
+    content: 'ON';
+}
+
+    </style>
+</head>
+<body>
+    <div id="mainShowDiv">
+        <ul class="nav nav-tabs marginleft" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Finalized">General Inspection</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Pending">Field Inspection</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="Finalized" class="container-fluid  tab-pane active">
+                <br>
+                <div id="divGeneralInspectionSecondary">
+                    <div class="loader123"></div>
+                    <div class="loader1234" style="margin-top: 6%;margin-left: -3%;"></div>
+                </div>
+                <div id="divGeneralInspectionMain">
+                    <!-- <div id="message_container">
+                        <div id="message_content">Data Auto Saved </div>
+                    </div> -->
+                    <input type="hidden" id="inspection_id_edit" value="{{ins_id}}">
+                    <input type="hidden" id="ins_flag_edit" value="{{ins_flag}}">
+                    <div class="container">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'success' %}
+                                  <div class="alert alert-success">
+                                    <strong>Success </strong>{{ message }}
+                                  </div>
+                                {% elif message.tags == 'error' %}
+                                  <div class="alert alert-danger">
+                                    <strong>Error </strong>{{ message }}
+                                  </div>
+                                {% elif message.tags == 'info' %}
+                                  <div class="alert alert-info">
+                                    <strong>Info </strong>{{ message }}
+                                  </div>
+                                {% else %}
+                                
+                                {% endif %}
+                              
+                            
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <h3 class="report_heading">Create My Inspection Notes</h3>
+                    <!-- {% if ins_flag != 1 %}
+                        <div style="margin-right: 10%;">
+                            <label style="padding-left: 82%">Click To Enable Auto Save</label>
+                            <label class="switch" style="float: right;" title="Switch On For Auto Update">
+                            <input type="checkbox" onclick="getOnOffStatus()" id='onOffIdForAutoUpdate' >
+                            <span class="slider round"></span>
+                            </label>
+                        </div>
+                    {% endif %} -->
+                    <br>
+                    <br>
+                    <div class="container">
+                        <div class="inpt-container" style="padding:10px;">
+                            <div class="row" >
+                                <div class="col-3">
+                                    <label for="Zone" class="lbl-caption">Rly./Org.</label><span style="color:red;font-weight:bold">*</span>
+                                    <select class="form-control" id="zone" name="zone"  style="max-width:100%;" data-placeholder="Select zone.."  multiple required onchange="zone_change()">
+                                        <option value=""  disabled hidden>select</option>
+                                        {% if option_val == 'edit' %}
+                                            {% for zn in all_zones %}
+                                            {% if zn in multi_loc_zone %}
+                                              <option value="{{zn}}" selected>{{zn}}</option>
+                                            {% else %}
+                                              <option value="{{zn}}" >{{zn}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                              {% for z in all_zones %}
+                                              {% if z == zone_of_officer %}
+                                                    <option value="{{z}}" selected>{{z}}</option>
+                                              {%else%}
+                                                    <option value="{{z}}">{{z}}</option>
+                                              {% endif %}
+                                              {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <label for="division" class="lbl-caption">Div./Unit</label>
+                                    <select class="form-control" id="division" data-placeholder="Select division.." name="division" style="max-width:100%;" multiple>
+                                        <option value=""  disabled hidden>select</option>
+                                        {% if option_val == 'edit' %}
+                                              {% for div in all_divisions %}
+                                              {% if div.location_code in multi_loc_div %}
+                                                  <option value="{{div.location_code}}" selected>{{div.location_code}}</option>
+                                                {% else %}
+                                                <option value="{{div.location_code}}">{{div.location_code}}</option>
+                                                {% endif %}
+                                              {% endfor %}
+                                        {% else %}
+                                            {% for d in all_divisions %}
+                                            {% if d.location_code == division_of_officer %}
+                                                <option value="{{d.location_code}}" selected>{{d.location_code}}</option>
+                                              {%else%}
+                                            <option value="{{d.location_code}}">{{d.location_code}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                            
+                                    </select>
+                                </div>
+                                <div class="col" hidden>
+                                    <label for="division" class="lbl-caption">Location type</label>
+                                    <select class="form-control" id="locationType" data-placeholder="Select location type.."  name="department" style="max-width:100%;" onchange="fun_en_dl(this.value)" multiple>
+                                        {% if option_val == 'edit' %}
+                                            {% for i in location_array %}
+                                            {% if i.type_code in multi_loc_from %}
+                                              <option value="{{i.type_code}}" selected>{{i.type}}</option>
+                                            {% else %}
+                                              <option value="{{i.type_code}}" >{{i.type}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for i in location_array %}
+                                            <option value="{{i.type_code}}">{{i.type}}</option>
+                                            {% endfor %}
+                                        {% endif %}
+                                            
+                                    </select>
+                                </div>
+                                <div  class="col" hidden >
+                                    <label for="location" class="lbl-caption">Location Name</label><br>
+                                    <div>
+                                      <select name="location" id="location" data-placeholder="Select location.." class="form-control" {% if option_val != 'edit' %} disabled {% endif %} multiple>
+                                        <option value=""   disabled hidden>select</option>
+                                        {% if option_val == 'edit' %}
+                                          {% for g in multi_loc %}
+                                          {% if g.type == 'LOC' %}
+                                              <option value="{{g.item}}#{{g.table_from}}#{{g.item_code}}" selected>{{g.item}}</option>
+                                          {% endif %}
+                                          {% endfor %}
+                                        {% endif %}
+                                      </select>
+                                    </div>
+                                    <button type="button" id="orlType" class="btn btn-outline-secondary btn-sm" style="margin-top: 5px;" data-toggle="modal" data-target="#ORLModal" >Select Locations</button>
+                                </div>
+                                <div class="col-2" >
+                                    <label for="txtDate2" class="lbl-caption">Insp. Date<span style="color:red;font-weight:bold">*</span></label><br>
+                                    {% if option_val == 'edit' %}
+                                          {% for date in ins_detail %}
+                                            {% if date.start_date|date:'d/m/Y' == date.inspected_on|date:'d/m/Y' %}
+                                            <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1"   class="form-control" style="margin-top:0em ;height: 36px; background-color: #fff; max-width: 100%;" id="txtDate2"  value="{{date.start_date|date:'d/m/y'}}" readonly>
+                                            {% else %}
+                                            <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1"   class="form-control" style="margin-top:0em ;height: 36px; background-color: #fff; max-width: 100%;" id="txtDate2"  value="{{date.start_date|date:'d/m/y'}} to {{date.inspected_on|date:'d/m/y'}}" readonly>
+                                            {% endif %}
+                                          {% endfor %}
+                                    {% else %}
+                                      <input type="text" autocomplete="off" placeholder="Select daterange.."  name="daterange1" required class="form-control" style="margin-top:0em; height: 36px; background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;" id="txtDate2"   readonly requied>
+                                    {% endif %}
+                                </div>
+                                <div class="col-2" style="padding-top: 10px;" >
+                                    <input type="checkbox" {% if gooWorkFlag %} checked {% endif %} id="goodWork">&nbsp;&nbsp;<label>Good Work</label>
+                                </div>
+                                <div  class="col-3">
+                                    <button class="btn btn-success btn-sm mt-1"  data-toggle="modal" data-target="#chooseLocation" onclick="setChooseLocationData()"  id="genSections" >Choose Location</button>
+                                    <button class="btn btn-warning btn-sm mt-1" onclick="setTitle()">&nbsp;&nbsp; Generate Title &nbsp;&nbsp;</button>
+                                </div>
+                                <div class="col" hidden>
+                                    <button class="btn btn-success btn-sm mt-1" onclick="setSections()" id="genSections">Generate Sections</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-sm-12">
+                                    <label for="start" class="lbl-caption">Title<span style="color:red;font-weight:bold">*</span></label>
+                                    <textarea class="form-control" maxlength="1000"   id="titleinsp"  name="titleinsp" style="color:red !important;">{{inspection_title}}</textarea>
+                                    <input type="text" value="{{i.inspection_no}}" id="inspection_no" hidden>
+                                </div>
+                                <div class="col-lg-3 col-sm-12">
+                                    <label for="start"  class="lbl-caption">Accompanied By</label>	
+                                    <select id="accompany"  class="form-control" data-placeholder="Search Designation.."  multiple></select>
+                                    <p style="font-size: 15px;">Note: To add other accompanying officials, type the Designation in the search box & enter to select.</p>
+                                </div>
+                                <div class="col-lg-3 col-sm-12">
+                                    <label for="start" class="lbl-caption"> Inspection Type<span style="color:red;font-weight:bold">*</span></label>
+                                    <select name="insp_type" id="insp_type" data-placeholder="Select Inspection Type.." class="form-control">
+                                        <option value=""   disabled hidden>select</option>
+                                        {% for i in insp_type %}
+                                          <option  value="{{i.code}}">{{i.types}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <table id="sectionsRow" class="sectionsRow" style="width: 100%;margin-left: 20px;margin-top: 10px;">
+                              <thead></thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="container p-0">
+                        <form action="{% url 'create_inspection_form' %}" method="POST"> 
+                            {% csrf_token %}
+                            <table id="table1" class="table table-striped table-bordered center table-input" >
+                                <thead>
+                                    <tr style="margin-left: 5em;">
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;" hidden>Type</th>
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;" >Item No.</th>
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;" hidden>Item No.</th>
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 50%;"> Inspection Para</th>
+                                        <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 12%;">Location</th> -->
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 13%;">Item Pertains To</th>
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 15%;">Select Officer</th>
+                                        <!-- <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 13%;">Type</th> -->
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 3%;">Action</th>
+                                        <th style= "text-align: left; border-top: 1px solid black; border-bottom: 1px solid black;width: 5%;" hidden>ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody  id="addworkmech"></tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-sm"  style="margin-left: 6em;"  id="addsection" onclick="changeColorBtn(this);addsec(this);" hidden>Add Section</button> &nbsp;
+                        <button type="button" class="btn btn-primary btn-sm"  id="addheading" onclick="addpara('P','-2');changeColorBtn(this);">Add Para</button> &nbsp;
+                        <button  type="button"  class="btn btn-primary btn-sm" id="addmech" onclick="addpara('SP','-2');changeColorBtn(this);">Add Sub Para</button>&nbsp;
+                        <button  type="button"  class="btn btn-primary btn-md" id="addSubmech" onclick="addpara('SSP','-2');changeColorBtn(this);">Add Sub Subpara</button>&nbsp;
+                        <button  type="button"  name="addimage"  id="addimage" onclick="add_row_image()" class="btn btn-primary btn-md">Add Image</button>&nbsp;
+                        <button type="button"  class="btn btn-danger btn-md"  onclick="delete_para()" >Delete</button> 
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal choose location -->
+    <div class="modal" tabindex="-1" id="chooseLocation" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel"><b> Select Location from Drop Down</b></h4>
+        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close" id="closeChoosemodal">Close
+        </button>
+        
+        </div>
+        <div class="modal-body">
+            <div style="overflow-x: hidden ;overflow-y: auto; height:500px; ">
+            {% for i in location_array %}
+            <div class="row form-group">
+                <div class="col-12"><label  for="{{i.type_code}}5551"><b>{{i.type}}
+                {% if i.type_code == 'ORL' %} (From the dropdown Select Rly/Div and Location then click + To Add ) {% endif %}
+                {% if i.type_code == 'TRN' %} (From the dropdown Select Rly,Div and Train then click + To Add ) {% endif %}
+                
+                </b></label></div>
+                {% if i.type_code == 'ORL' %}
+                <div class="col-4">
+                <select class="form-control"    id="railway5551" name="railway5551" onchange="getDivisionForRailway(this.value,'ORL')" >
+                    <option selected disabled hidden value="">Select Railway</option>
+                </select>
+                </div> 
+                <div class="col-4">
+                    <select class="form-control"  id="division5551" name="division5551">
+                    <option selected disabled hidden value="">Select Division</option>
+                    </select>
+                    </div>
+                    <div class="col-3">
+                    <input type="text" class="form-control"  id="text5551" name="text5551" >
+                    </div>
+                    <div class="col-1">
+                    <input type="button" class="form-control btn btn-default" style="width:100%;" value="+" onclick="addOtherLocationData()">
+                    </div>
+                {% endif %}
+                {% if i.type_code == 'TRN' %}
+                <div class="col-3">
+                <select class="form-control"    id="trnrailway5551" name="trnrailway5551" onchange="getDivisionForRailway(this.value,'TRN')" >
+                    <option selected disabled hidden value="">Select Railway</option>
+                </select>
+                </div> 
+                <div class="col-4">
+                    <select class="form-control"  id="trndivision5551" name="trndivision5551" onclick="getTrainData()">
+                    <option selected disabled hidden value="">Select Division</option>
+                    </select>
+                    </div>
+                    <div class="col-4">
+                    <select class="form-control"    id="trntext5551" name="trntext5551">
+                        <option selected disabled hidden value="">Select Train No.</option>
+                    </select>
+                    </div>
+                    <div class="col-1">
+                    <input type="button" class="form-control btn btn-default" style="width:100%;"  value="+" onclick="addTrainLocationData()">
+                    </div>
+                
+                {% endif %}
+                <div class="col-12">
+                <select class="form-control setLocationClass" data-placeholder="Search {{i.type}}.."   id="{{i.type_code}}5551" name="{{i.type_code}}5551" multiple>
+                </select>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" name="submit" value="delete" class="btn btn-danger" onclick="removeLocationFromModal()">Clear</button>
+            <button type="button" name="submit" value="delete" class="btn btn-primary" onclick="setLocationFromModal()">Done</button>
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- mark officers modal -->
+    <div class="modal fade right" tabindex="-1" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-full-width modal-dialog-scrollable"role="document">
+            <div class="modal-content modal-content-full-width">
+                    <div class="modal-header modal-header-full-width"  style="height:50px">
+                        <h3 class="report_heading" id="ReplyModalLabel">Mark Officers</h3>
+                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" aria-label="Close" id="close1">Close</button>
+                    </div>
+                
+                    <div class="modal-body">
+                        <form   action="" method="POST" >
+                            {% csrf_token %}
+                            <input type="text" value="" id="mark_officersss" hidden/>
+                            <div class="inpt-container" style="padding:10px;"> 
+                                <br>
+                                <div class="row" style=" margin: 0%;">
+                                    <div class="col">
+                                        <input type="checkbox"  id="allgm" style="zoom: 1.5;">
+                                        <label class="lbl-caption" style="font-size:15px ;"> All GM/ZR</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="checkbox"  id="alldrm" style="zoom: 1.5;">
+                                        <label class="lbl-caption" style="font-size:15px ;"> All DRM</label>
+                                        
+                                    </div>
+                                    <div class="col">
+                                        <input type="checkbox"  id="allphod" style="zoom: 1.5;">
+                                        <label class="lbl-caption" style="font-size:15px ;"> All PHOD</label>
+                                        
+                                    </div>
+                                    <div class="col">
+                                        <input type="checkbox"  id="allboard" style="zoom: 1.5;">
+                                        <label class="lbl-caption" style="font-size:15px ;"> All Board Members</label>
+                                        
+                                    </div>
+                                    <div class="col">
+                                        <input type="checkbox"  id="allbo" style="zoom: 1.5;">
+                                        <label class="lbl-caption" style="font-size:15px ;"> All BO</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="checkbox"  id="allpanel" style="zoom: 1.5;">
+                                        <label class="lbl-caption" style="font-size:15px ;">Panel Members</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <textarea class="form-control" maxlength="150"   id="alltext" placeholder="Selected Designation"  readonly></textarea>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group">
+                                    <button type="button" class="form-control  btn btn-info btn-sm" id="add_save_marked_officer" onclick="add_save_marked_officers();" >Add Designation</button>&nbsp;
+                                    <button type="button" class="form-control btn btn-success btn-sm" onclick="save_marked_officers();">Save</button>&nbsp;
+                                    <button type="button" class="form-control btn btn-danger btn-sm" onclick="remove_save_marked_officers();">Reset</button>&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row" id="showdiv1">
+                                <div class="col-md-6">
+                                    <table id="text" class="table table-striped table-bordered table-data">
+                                        <thead>
+                                        <tr><th></th>
+                                            <th></th></tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>  
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table id="text1" class="table table-striped table-bordered table-data">
+                                        <thead>
+                                            <tr><th></th><th></th></tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" id="showdiv2">
+                                <div class="col-md-6">
+                                        <table id="textdesig" class="table table-striped table-bordered "><thead></thead><tbody></tbody></table>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5" hidden>
+                                    <table id="textdesigselect" class="table table-striped table-bordered ">
+                                    <thead>
+                                        <tr>
+                                        <th hidden></th>
+                                        <th>Selected Employee/Designation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>  
+                                    </table>
+                                </div>
+                            </div>
+                            <br>
+                    
+                            <input type="hidden" value="0" id="s1" name="s1">
+                        </form>
+                    </div>
+                    <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+<script>
+    $(".sidebar").addClass('close');
+    
+    function setTitle() {
+    
+    let zone = $('#zone').val()
+    let division = $('#division').val()
+    let department = $('#department').val()
+    let txtDate = $('#txtDate2').val()
+    let user = '{{desig|safe}}'
+    let title = 'Inspection of'
+    //alert(zone+'----'+ user +'----'+department)
+  
+    
+    var loca = $("#location").val();
+    
+    
+  
+    if(zone==null){
+      alert('Please select Rly/Org')
+      return false;
+    }
+    // alert(txtDate)
+    if(txtDate==null || txtDate==''){
+      alert('Please enter date')
+      return false;
+    }
+   
+    else{
+      let data={
+          'zone': JSON.stringify(zone),
+          'division': JSON.stringify(division),
+          'loca': JSON.stringify(loca)
+        }
+        $.ajax({
+          type : 'GET',
+          url : "{% url 'generateTitle' %}",
+          dataType : 'json',
+          data : data,
+          success : function(response){
+            Title=response.Title;
+            // if(division == '' || division == null){
+              if(Title.length>1000)
+              {
+                alert('Cannot generate Title, as size is greater then required title size. please type manually')
+              }
+              else{
+              if (txtDate.includes('to'))
+                txtDate=' from '+txtDate
+              else
+                txtDate=' dated '+txtDate
+              $('#titleinsp').val(title+' '+Title+' by '+user+txtDate)
+              }
+            // }
+            // else{
+              // $('#titleinsp').val(title+' '+loca+'  '+zone +'/'+division+' by '+user+' date: '+txtDate)
+            // }
+    
+          }
+          });
+    }
+    
+   
+  }
+
+    var globalTimerIDAutoSave ='';
+    function getOnOffStatus()
+    {
+        var zone=$("#zone").val();
+        var inspection_date=$('#txtDate2').val();
+        
+                
+        if(document.getElementById('onOffIdForAutoUpdate').checked == true)
+        {
+            document.getElementById('onOffIdForAutoUpdate').checked = false;
+                
+            if(zone =='' || zone == null){
+                alert("Please fill Rly/Org ")
+                return false;
+                }
+                if(inspection_date=='' || inspection_date==undefined){
+                    alert("Please fill date of inspection ")
+                    return false;
+                }
+                if($('#titleinsp').val()==''){
+                alert("Please fill title of inspection ")
+                return false;
+                }
+                if($('#sttninsp').val()==''){
+                alert("Please fill Station of Inspecting Officer ")
+                return false;
+                }
+                if($('#desiginsp').val()==''){
+                alert("Please fill Designation of Inspecting Officer ")
+                return false;
+                }
+                if($('#ofcnameinsp').val()==''){
+                alert("Please fill Name of Inspecting Officer ")
+                return false;
+                }
+                document.getElementById('onOffIdForAutoUpdate').checked = true;
+                
+                globalTimerIDAutoSave = setInterval(function() {
+                autoSaveFunction();
+                    }, 5 * 60 * 1000); 
+        }	
+        else
+        {
+            clearInterval(globalTimerIDAutoSave);
+        }
+    }
+
+    function plsWaitDiv(selector, visibility) {
+      let divheight;
+          if ('show' == visibility) {
+              $(selector).css('position', 'relative');
+              $(selector).append('<div id="foobar" class="plswait_overlay "></div>');
+              try{
+                divheight = $("#mainShowDiv").height() + 50;
+              }
+              catch{
+                divheight = 1200;
+              }
+              document.getElementById("foobar").style.height = divheight + "px";
+          } else {
+              $(selector).css('position', 'static');
+              $('.plswait_overlay').remove();
+          }
+      }
+  // to show  plsWaitDiv('body', 'show');
+  // to hide  plsWaitDiv('body', 'hidden');
+</script>
+
+
+<!-- location data set -->
+<script>
+
+    var supportedbrowser = false;
+    var editLocationData =  $('#location').val();
+    
+    function setChooseLocationData()
+    {
+      
+      
+      let rly_zone = JSON.stringify($('#zone').val());
+      let division_id = JSON.stringify($('#division').val());
+      let data = {
+        typ:'allLocation',
+        rly_zone:rly_zone,
+        division_id:division_id,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+                    method: "POST",
+                    url: "{% url 'setChooseLocationData' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                        let row='',rly_zone1=$('#zone').val();
+                        for(let i=0;i<response.length;i++)
+                        {
+                          let id = response[i].id+'5551';
+                          let prev_data = $('#'+id).val();
+                          let data = response[i].data,option='',val;
+                          for(let j=0;j<data.length;j++)
+                          {
+                            val=`${data[j].city}#${data[j].table_from}#${data[j].loc_code}`;
+                            if(prev_data.includes(val) || editLocationData.includes(val))
+                                option += `<option value="${data[j].city}#${data[j].table_from}#${data[j].loc_code}" selected>${data[j].city}</option>`;
+                            else
+                              option += `<option value="${data[j].city}#${data[j].table_from}#${data[j].loc_code}">${data[j].city}</option>`;
+                          }
+                          $('#'+id).empty();
+                          $('#'+id).select2();
+                          $('#'+id).append(option);
+                          if(response[i].id == 'ORL')
+                          {
+                            
+                            row+='<option selected disabled hidden value="">Select Railway</option>';
+                            for(let j=0;j<rly_zone1.length;j++)
+                            {
+                              row+=`<option value="${rly_zone1[j]}">${rly_zone1[j]}</option>`;
+                            }
+                            $('#railway5551').empty();
+                            $('#railway5551').append(row);
+    
+                            row=`<option selected disabled hidden value="">Select Division</option>`;
+                            $('#division5551').empty();
+                            $('#division5551').append(row);
+                     
+                            
+                            for(let j=0;j<prev_data.length;j++)
+                            {
+                              let text = String(prev_data[j]).split('#');
+                              option+=`<option value="${prev_data[j]}" selected>${text[0]}</option>`;
+                            }
+    
+    
+    
+    
+                            for(let j=0;j<editLocationData.length;j++)
+                            {
+                              if((editLocationData[j].split('#'))[1] == 'ORL')
+                              {
+                                let text = String(editLocationData[j]).split('#');
+                                option+=`<option value="${editLocationData[j]}" selected>${text[0]}</option>`;
+                                let index = editLocationData.indexOf(editLocationData[j]);
+                                if(index != -1)
+                                {
+                                  editLocationData.splice(index,1);
+                                }
+                              }
+                            }
+    
+    
+                            $('#'+id).append(option);
+    
+    
+    
+                          }
+                          if(response[i].id == 'TRN')
+                          {
+                            
+                            row+='<option selected disabled hidden value="">Select Railway</option>';
+                            for(let j=0;j<rly_zone1.length;j++)
+                            {
+                              row+=`<option value="${rly_zone1[j]}">${rly_zone1[j]}</option>`;
+                            }
+                            $('#trnrailway5551').empty();
+                            $('#trnrailway5551').append(row);
+    
+                            row=`<option selected disabled hidden value="">Select Division</option>`;
+                            $('#trndivision5551').empty();
+                            $('#trndivision5551').append(row);
+                     
+                            
+                            for(let j=0;j<prev_data.length;j++)
+                            {
+                              let text = String(prev_data[j]).split('#');
+                              option+=`<option value="${prev_data[j]}" selected>${text[0]}</option>`;
+                            }
+                            for(let j=0;j<editLocationData.length;j++)
+                            {
+                              if((editLocationData[j].split('#'))[1] == 'TRN')
+                              {
+                                let text = String(editLocationData[j]).split('#');
+                                option+=`<option value="${editLocationData[j]}" selected>${text[0]}</option>`;
+                                let index12 = editLocationData.indexOf(editLocationData[j]);
+                                if(index12 > -1)
+                                {
+                                 
+                                  editLocationData.splice(index12,1);
+                                }
+                              }
+                            }
+                            $('#'+id).append(option);
+                          }
+                          
+                        }
+                        
+                    }
+                });
+    
+    }
+    
+    function removeLocationFromModal()
+    {
+    
+      
+      let rly_zone = JSON.stringify($('#zone').val());
+      let division_id = JSON.stringify($('#division').val());
+      let data = {
+        typ:'allLocation',
+        rly_zone:rly_zone,
+        division_id:division_id,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+                    method: "POST",
+                    url: "{% url 'setChooseLocationData' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                        let row='',rly_zone1=$('#zone').val();
+                        for(let i=0;i<response.length;i++)
+                        {
+                          let id = response[i].id+'5551';
+                          let prev_data = $('#'+id).val();
+                          let data = response[i].data,option='',val;
+                          for(let j=0;j<data.length;j++)
+                          {
+                              option += `<option value="${data[j].city}#${data[j].table_from}#${data[j].loc_code}">${data[j].city}</option>`;
+                          }
+                          $('#'+id).empty();
+                          $('#'+id).select2();
+                          $('#'+id).append(option);
+                          if(response[i].id == 'ORL')
+                          {
+                            
+                            row+='<option selected disabled hidden value="">Select Railway</option>';
+                            for(let j=0;j<rly_zone1.length;j++)
+                            {
+                              row+=`<option value="${rly_zone1[j]}">${rly_zone1[j]}</option>`;
+                            }
+                            $('#railway5551').empty();
+                            $('#railway5551').append(row);
+    
+                            row=`<option selected disabled hidden value="">Select Division</option>`;
+                            $('#division5551').empty();
+                            $('#division5551').append(row);
+                     
+                            
+                            // for(let j=0;j<prev_data.length;j++)
+                            // {
+                            //   let text = String(prev_data[j]).split('#');
+                            //   option+=`<option value="${prev_data[j]}" selected>${text[0]}</option>`;
+                            // }
+    
+    
+    
+    
+                            for(let j=0;j<editLocationData.length;j++)
+                            {
+                              if((editLocationData[j].split('#'))[1] == 'ORL')
+                              {
+                                let text = String(editLocationData[j]).split('#');
+                                option+=`<option value="${editLocationData[j]}" selected>${text[0]}</option>`;
+                                let index = editLocationData.indexOf(editLocationData[j]);
+                                if(index != -1)
+                                {
+                                  editLocationData.splice(index,1);
+                                }
+                              }
+                            }
+    
+    
+                            $('#'+id).append(option);
+    
+    
+    
+                          }
+                          if(response[i].id == 'TRN')
+                          {
+                            
+                            row+='<option selected disabled hidden value="">Select Railway</option>';
+                            for(let j=0;j<rly_zone1.length;j++)
+                            {
+                              row+=`<option value="${rly_zone1[j]}">${rly_zone1[j]}</option>`;
+                            }
+                            $('#trnrailway5551').empty();
+                            $('#trnrailway5551').append(row);
+    
+                            row=`<option selected disabled hidden value="">Select Division</option>`;
+                            $('#trndivision5551').empty();
+                            $('#trndivision5551').append(row);
+                     
+                            
+                            // for(let j=0;j<prev_data.length;j++)
+                            // {
+                            //   let text = String(prev_data[j]).split('#');
+                            //   option+=`<option value="${prev_data[j]}" selected>${text[0]}</option>`;
+                            // }
+                            for(let j=0;j<editLocationData.length;j++)
+                            {
+                              if((editLocationData[j].split('#'))[1] == 'TRN')
+                              {
+                                let text = String(editLocationData[j]).split('#');
+                                option+=`<option value="${editLocationData[j]}" selected>${text[0]}</option>`;
+                                let index12 = editLocationData.indexOf(editLocationData[j]);
+                                if(index12 > -1)
+                                {
+                                 
+                                  editLocationData.splice(index12,1);
+                                }
+                              }
+                            }
+                            $('#'+id).append(option);
+                          }
+                          
+                        }
+                        setLocationFromModal();
+                        
+                    }
+                });
+    
+    }
+     
+    function getDivisionForRailway(val,seltyp)
+    {
+      
+      let data = {
+        typ:'allDivision',
+        rly_zone:val,
+       
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+                    method: "POST",
+                    url: "{% url 'setChooseLocationData' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                      let option=`<option selected disabled hidden value="">Select Division</option>`;
+                      for(let i=0;i<response.length;i++)
+                      {
+                        option += `<option value="${response[i].location_code}">${response[i].location_code}</option>`;
+                      }
+                      if(seltyp == 'ORL')
+                      {
+                        $('#division5551').empty();
+                        $('#division5551').append(option);
+                      }
+                      if(seltyp == 'TRN')
+                      {
+                        $('#trndivision5551').empty();
+                        $('#trndivision5551').append(option);
+                      }
+                    }
+                  });
+    }
+      
+    function addTrainLocationData()
+    {   
+      let rly = $('#trnrailway5551').val();
+      let div = $('#trndivision5551').val();
+      let txt = $('#trntext5551').val();
+      if(rly == null)
+      {
+        alert('Select Railway First');
+        $('#trnrailway5551').focus();
+        return false;
+      }
+      if(div == null)
+      {
+        alert('Select Division First');
+        $('#trndivision5551').focus();
+        return false;
+      }
+      if(txt == null)
+      {
+        alert('Select Train number');
+        $('#trntext5551').focus();
+        return false;
+      }
+    
+      let option='',text;
+      text = (txt).split('#')[0];
+      txt = txt+'#'+div+'@'+rly;
+      let data = $('#TRN5551').val();
+      if(data.includes(txt))
+      {
+        alert('Train Already Present with these combination');
+        return false;
+      }
+      option += `<option value="${txt}" selected>${text}</option>`
+      $('#TRN5551').append(option).trigger('change');
+      $('#trntext5551').val('').trigger('change');
+    
+    }
+    
+    function addOtherLocationData()
+    {
+      let rly = $('#railway5551').val();
+      let div = $('#division5551').val();
+      let txt = $('#text5551').val();
+      if(rly == null)
+      {
+        alert('Select Railway First');
+        $('#railway5551').focus();
+        return false;
+      }
+      if(txt.trim() == '')
+      {
+        alert('Enter Location Text To add');
+        $('#text5551').focus();
+        return false;
+      }
+      let val,option='',text;
+      if(div!= null)
+      {
+        val = txt+'/'+div+'/'+rly;
+        text = val+'#ORL#0#'+div+'@'+rly;
+      }
+      else 
+      {
+        val = txt+'/'+rly;
+        text = val+'#ORL#0#'+rly;
+      }
+      let data = $('#ORL5551').val();
+      
+      if(data.includes(text))
+      {
+        alert('Location Already Present');
+        return false;
+      }
+      option += `<option value="${text}" selected>${val}</option>`
+      $('#ORL5551').append(option).trigger('change');
+      $('#text5551').val('');
+    
+    }
+    
+    function getTrainData()
+    {
+        let data = {
+        typ:'allTrain',
+        rly_zone:$('#trnrailway5551').val(),
+        div_ws:$('#trndivision5551').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      }
+      $.ajax({
+                    method: "POST",
+                    url: "{% url 'setChooseLocationData' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+                      let option=`<option selected disabled hidden value="">Select Train No.</option>`;
+                      for(let i=0;i<response.length;i++)
+                      {
+                        option += `<option value="${response[i].city}#TRN#${response[i].loc_code}">${String(response[i].city)}</option>`;
+                      }
+                      $('#trntext5551').empty();
+                        $('#trntext5551').append(option);
+                    }
+                  });
+    }
+ 
+    function setLocationFromModal()
+    {
+      //closeChoosemodal
+      let idSel,allDD = document.querySelectorAll('.setLocationClass'),option='',val;
+      for(let i=0;i<allDD.length;i++)
+      {
+        idSel = allDD[i].id;
+        val = $('#'+idSel).val();
+        for(let j=0;j<val.length;j++)
+        {
+          option += `<option value="${val[j]}" selected >${val[j]}</option>`;
+        }
+        
+      }
+        $('#location').empty();
+        $('#location').append(option);
+        document.getElementById('closeChoosemodal').click();
+        setSections();
+      
+    }
+
+    function fun_en_dl(val)
+    {
+    locs_val=$('#locationType').val()
+    val=locs_val
+    if(String(val).length > 0)
+    {
+        $('#location').attr('disabled', false);
+        locs_val=$('#locationType').val()
+        if (locs_val.includes('SEM')){
+        $('#section').show()
+        }
+        else $('#section').hide()
+        if (locs_val.includes('ORL')){
+        $('#orlType').show()
+        }
+        else $('#orlType').hide()
+        
+    }
+    else{
+        $('#location').attr('disabled', true);
+        $('#location').empty();
+        $('#section').hide()
+    }
+
+    }
+</script>
+
+<!-- top filter functions -->
+<script>
+    $(document).ready(function(){
+        zone_change();
+        setSections();
+        $('#divGeneralInspectionMain').show();
+        $('#divGeneralInspectionSecondary').hide();
+        $('#section').hide();
+        $('#orlType').hide();
+        fun_en_dl('');
+        $('#message_container').hide();;
+    });
+
+    function zone_change() {
+        var rly=$('#zone').val();
+        let divisiondata = $('#division').val();
+        data={'rly_data': JSON.stringify(rly)}
+            $.ajax({
+            type : 'GET',
+            url : "{% url 'getdiv_rly' %}",
+            dataType : 'json',
+            data : data,
+
+            success : function(response){
+                let division=response.division;
+                if (division.length == 0){
+                $('#division').empty();
+                $('#division').prop('disabled', true);
+                }else{
+                $('#division').empty();
+                $('#division').prop('disabled', false);
+                $('#division').append(`<option value="" disabled>NA</option>`);
+                    for (let i = 0; i < division.length; i++) {
+                    if(divisiondata.includes(division[i].location_code))
+                        $('#division').append(`<option selected value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+                    else
+                        $('#division').append(`<option value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+                    }
+                }
+                
+                setLocationFromModal();
+            }
+            })
+        }
+
+    $('#division').change(function() {setLocationFromModal();})
+    
+    $("#zone").select2();
+    $("#zone").next(".select2").mouseenter(function() {
+      $('body').trigger('mousedown');
+      $("#zone").select2('open');
+    }); 
+
+    $("#division").select2();
+              
+    $("#division").next(".select2").mouseenter(function() {
+      $('body').trigger('mousedown');
+      $("#division").select2('open');
+    });  
+
+    $("#accompany").select2({
+        tags: true,
+        tokenSeparators: [','],  
+        minimumInputLength: 0,
+        maximumInputLength: 50,
+        language: {
+            inputTooShort: function() {
+              return 'Please Add One or More Location';
+            }
+          },
+       
+        ajax: {
+            url: '{% url "autoFetchAccompany" %}',
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (term) {
+              // let stype = JSON.stringify($('#locationType').val())
+              let rly_zone = JSON.stringify($('#zone').val())
+              let division_id = JSON.stringify($('#division').val())
+                return {
+                    last_val: term.term,
+                    rly_zone: rly_zone,
+                    division_id : division_id
+                };
+            },
+            processResults: function (data) {
+              
+                return {
+                    results: $.map(data, function (item) {
+                 
+                        return{
+                          text: item.designation,
+                          
+                          id: item.designation,
+                          
+                        }
+                    })
+                };
+              
+              },
+            
+            
+        }
+    });
+
+    $('#locationType').select2();
+ 
+    $("#location").select2({
+            minimumInputLength: 0,
+            language: {
+                inputTooShort: function() {
+                return 'Please Add One or More Location';
+                }
+            },
+        
+            ajax: {
+                url: '{% url "autoFetchLocation" %}',
+                dataType: 'json',
+                type: "GET",
+                quietMillis: 50,
+                data: function (term) {
+                let stype = JSON.stringify($('#locationType').val())
+                let rly_zone = JSON.stringify($('#zone').val())
+                let division_id = JSON.stringify($('#division').val())
+                    return {
+                        last_val: term.term,
+                        stype: stype,
+                        rly_zone: rly_zone,
+                        division_id : division_id
+                    };
+                },
+                processResults: function (data) {
+                
+                    return {
+                        results: $.map(data, function (item) {
+                    
+                            return{
+                            text: item.city,
+                            id: item.city+'#'+item.table_from+'#'+ item.loc_code,
+                            
+                            }
+                        })
+                    };
+                
+                },
+    
+            }
+        });
+
+    $("#locationType").next(".select2").mouseenter(function() {
+      $('body').trigger('mousedown');
+      $("#locationType").select2('open');
+    }); 
+
+    $("#insp_type").select2();
+              
+    $("#insp_type").next(".select2").mouseenter(function() {
+      $('body').trigger('mousedown');
+      $("#insp_type").select2('open');
+    }); 
+</script>
+
+
+<!-- daterange functions -->
+<script>
+    $(function() {
+
+        $('input[name="daterange1"]').daterangepicker({
+            autoUpdateInput: false,
+            autoApply: true,
+            maxDate: new Date(),
+            "opens": "left",
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        });
+
+        $('input[name="daterange1"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+        
+        if(picker.startDate.format('DD/MM/YY') == picker.endDate.format('DD/MM/YY')){
+            $(this).val(picker.startDate.format('DD/MM/YY'))
+            }
+            else{
+            $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+            
+            }
+        
+        $('.applyButtonClasses').click()
+
+        
+        });
+
+        $('input[name="daterange1"]').on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('');
+        });
+
+    });
+
+    $('#txtDate2').hover(function(){
+  $('body').trigger('mousedown');
+ document.getElementById('txtDate2').click();
+});
+
+  
+</script>
+
+<!-- Add sections,paras,etc in form -->
+<script>
+    var changeLocationId=[];
+    var deleteLocationId=[];
+
+    function setSections(){
+        deleteLocationId = changeLocationId;
+        changeLocationId=[];
+        let locs_val=$('#location').val()
+        let zones_val=$('#zone').val()
+        let divs_val=$('#division').val()
+        if (locs_val.length==0 && zones_val.length==0 && divs_val.length==0){
+        alert("Location can't be empty, Please add location.")
+        $('#sectionsRow thead').empty();
+        }
+        else{
+        let secRowCount = 0;
+        row='<tr>'
+        for(i=0;i<zones_val.length;i++){
+            if (secRowCount % 4 == 0)
+                row+='</tr><tr>';
+            secRowCount++;
+            changeLocationId.push(zones_val[i]+'#zone');
+            row+=`<th><input class="sectionChecksClass" type="checkbox" id="${zones_val[i]}#zone" style="zoom:1.5;" onclick="addsections(this);">&nbsp;<label class="lbl-caption" title = "${zones_val[i]}" style="font-size:18px;">${zones_val[i]}</th>`
+        }
+        
+        for(i=0;i<divs_val.length;i++){
+            if (secRowCount % 4 == 0)
+                row+='</tr><tr>';
+            secRowCount++;
+            changeLocationId.push(divs_val[i]+'#div');
+            row+=`<th><input class="sectionChecksClass" type="checkbox" id="${divs_val[i]}#div" style="zoom:1.5;" onclick="addsections(this);">&nbsp;<label class="lbl-caption" title = "${divs_val[i]}" style="font-size:18px;">${divs_val[i]}</th>`
+        }
+        
+        for(i=0;i<locs_val.length;i++){
+            if (secRowCount % 4 == 0)
+                row+='</tr><tr>';
+            secRowCount++;
+            x=locs_val[i].split('#');
+            showLoc = x[0]
+            if(showLoc.length > 30)
+            {
+            showLoc = showLoc.substring(0,30)+'...'
+            }
+            changeLocationId.push(locs_val[i]+'#loc');
+            row+=`<th><input class="sectionChecksClass" type="checkbox" id="${locs_val[i]}#loc" style="zoom:1.5;" onclick="addsections(this);">&nbsp;<label class="lbl-caption" title = "${x[0]}" style="font-size:18px;">${showLoc}</th>`
+        }
+        row+='</tr>'
+        $('#sectionsRow thead').empty();
+        $('#sectionsRow thead').append(row);
+        }
+        reviewSections();
+        for(let k=0;k<deleteLocationId.length;k++)
+        {
+        if(!changeLocationId.includes(deleteLocationId[k]))
+        {
+            var table123 = document.getElementById("addworkmech");
+            for(let i=0;i<table123.rows.length;i++){
+                value = table123.rows[i].cells[0].innerHTML;
+                if( value == 'S'){
+                x=table123.rows[i].cells[7].innerHTML
+                var id='location_at'+x;
+                opt = document.getElementById(id).value;
+                cheks= opt.substring(3);
+                
+                if (cheks==deleteLocationId[k]){
+                    if(table123.rows[i].cells[2].className != 'strikeout')
+                    {
+                    del_section(deleteLocationId[k]);
+                    }
+                }
+                }
+            }
+
+
+        }
+        }
+    }
+    
+    deleted_sections=[]
+    function addsections(e){
+        sec_id=e.id
+        if (document.getElementById(sec_id).checked==true && !(deleted_sections.includes(sec_id))){
+        val = sec_id.split('#')
+        row=`<option value="opt${sec_id}" selected="true" disabled="true"> ${val[0]}</option>`
+
+        var table = document.getElementById("addworkmech");
+        var ap = addpara('S','-2');
+        if (ap!=false){
+        pl=para_array.length-1
+        pa=para_array[pl]
+        x= table.rows.length-1;
+        value = table.rows[x].cells[0].innerHTML;
+        if( value == 'S'){
+            var id='#location_at'+pa
+            $(id).empty()
+            $(id).append(row);
+        }
+        // document.getElementById(sec_id).disabled=true;
+        addpara('P','-2');
+        }
+        else{
+        document.getElementById(sec_id).checked=false;
+        }
+    }
+        else{
+        // if(confirm("Are you sure you want to delete the entire section?"))
+        del_section(e.id)
+        }
+    
+    }
+    
+    function reviewSections(){
+    var table = document.getElementById("addworkmech");
+    all_sections=[]
+    for(let i=0;i<table.rows.length;i++){
+        value = table.rows[i].cells[0].innerHTML;
+        if( value == 'S'){
+        x=table.rows[i].cells[7].innerHTML
+        var id='location_at'+x;
+        opt = document.getElementById(id).value
+        cheks= opt.substring(3)
+        all_sections.push(cheks)
+        }
+    }
+    elements = document.getElementsByClassName("sectionChecksClass");
+        for (i = 0; i < elements.length; i++) {
+        elements[i].checked = false
+            id=elements[i].id
+            if (all_sections.includes(id)){
+            if(deleted_sections.includes(id))
+                elements[i].checked = false
+            else
+                elements[i].checked = true
+            }
+        }
+    }
+    
+    function del_section(e){
+    
+    var loc_val=e
+    var index=-1
+    var table = document.getElementById("addworkmech");
+    all_sections=[]
+    for(let i=0;i<table.rows.length;i++){
+        value = table.rows[i].cells[0].innerHTML;
+        if( value == 'S'){
+        x=table.rows[i].cells[7].innerHTML
+        var id='location_at'+x;
+        opt = document.getElementById(id).value
+        cheks= opt.substring(3)
+        if (cheks==loc_val){
+            index=i
+        }
+        }
+    }
+    val = para_array[index]
+    
+    if(deleted_sections.includes(loc_val))
+        {
+        $(table.rows[index].cells[2]).removeClass("strikeout");
+        $(table.rows[index].cells[3]).removeClass("strikeout");
+        $(table.rows[index].cells[3]).find('textarea').removeClass("strikeoutbg");
+        index1 = del_array.indexOf(val);
+        if (index1 > -1) { 
+            del_array.splice(index1, 1); 
+        }
+        index2 = deleted_sections.indexOf(loc_val);
+        if (index2 > -1) { 
+            deleted_sections.splice(index2, 1); 
+        }
+
+
+        for(let i=index+1;i<table.rows.length;i++)
+        {
+            typ1 = table.rows[i].cells[0].innerHTML;
+            if(typ1 != 'S')
+            {
+            val = para_array[i]
+            $(table.rows[i].cells[2]).removeClass("strikeout");
+            $(table.rows[i].cells[3]).removeClass("strikeout");
+            $(table.rows[i].cells[3]).find('textarea').removeClass("strikeoutbg");
+            let btnid = 'popupbutton'+table.rows[i].cells[7].innerHTML;
+            $('#'+btnid).show();
+            index1 = del_array.indexOf(val);
+            if (index1 > -1) { 
+                del_array.splice(index1, 1); 
+            }
+            }
+            else
+            {
+            break;
+            }
+        }
+        return true
+        }
+        else{
+        try{
+        $(table.rows[index].cells[2]).addClass("strikeout")
+        $(table.rows[index].cells[3]).addClass("strikeout")
+        }
+        catch{pass}
+        del_array.push(val)
+        
+        deleted_sections.push(loc_val)
+        for(let i=index+1;i<table.rows.length;i++)
+            {
+            typ1 = table.rows[i].cells[0].innerHTML;
+            if(typ1 != 'S')
+            {
+                val = para_array[i]
+                del_array.push(val);
+                $(table.rows[i].cells[2]).addClass("strikeout");
+                $(table.rows[i].cells[3]).addClass("strikeout");
+                $(table.rows[i].cells[3]).find('textarea').addClass("strikeoutbg");
+                let btnid = 'popupbutton'+table.rows[i].cells[7].innerHTML;
+                $('#'+btnid).hide();
+            }
+            else
+            {
+                break;
+            }
+            }
+        }
+    }
+
+    function changeColorBtn(el){
+      let val = el.id
+      if (val == 'addheading'){
+        document.getElementById('addheading').style.backgroundColor = "#3333ff";
+        document.getElementById('addmech').style.backgroundColor = "#337AB7";
+        document.getElementById('addSubmech').style.backgroundColor = "#337AB7";
+      }
+      else if(val == 'addmech'){
+        document.getElementById('addheading').style.backgroundColor = "#337AB7";
+        document.getElementById('addmech').style.backgroundColor = "#3333ff";
+        document.getElementById('addSubmech').style.backgroundColor = "#337AB7";
+      }
+      else if(val == 'addSubmech'){
+        document.getElementById('addheading').style.backgroundColor = "#337AB7";
+        document.getElementById('addmech').style.backgroundColor = "#337AB7";
+        document.getElementById('addSubmech').style.backgroundColor = "#3333ff";
+      }
+    
+    }
+
+    function addsec(e){
+    let locs_val=$('#location').val()
+    if (locs_val.length==0){
+      alert('Please add location first.')
+      return false;
+    }
+    locats=[]
+    added_sec=[]
+    var row=''
+    var table = document.getElementById("addworkmech");
+    let tbl_r_count = table.rows.length;
+    if (tbl_r_count !=0){
+      for(let i=0;i<tbl_r_count-1;i++){
+        value = table.rows[i].cells[0].innerHTML;
+          if( value == 'S'){
+            var id='#location_at'+i
+            sec=$(id).val()
+            added_sec.push(sec)
+          }
+      }
+    }
+    if (added_sec.length == locs_val.length){
+      alert('Cannot add more sections')
+      return false;
+    }
+    addpara('S','-2');
+    for (var i=0; i<locs_val.length;i++){
+      x=locs_val[i].split('#')
+      locats.push(x[0])
+      if (added_sec.includes(locs_val[i]))
+        continue
+      else
+        row+=`<option value="${locs_val[i]}"> ${x[0]}</option>`
+    }
+        
+  
+    pl=para_array.length-1
+    i=para_array[pl]
+    x=tbl_r_count
+ 
+        value = table.rows[x].cells[0].innerHTML;
+        if( value == 'S'){
+          var id='#location_at'+i
+      
+          $(id).empty()
+          $(id).append(row);
+        }
+  }
+
+    Array.prototype.insert = function ( index, ...items ) {
+        this.splice( index, 0, ...items );
+    };
+
+    var chkSectionCond = false;
+    
+    var para_count = -1;
+    var para_array = [], para_array_marked = [];
+    var full_array = [];
+    var del_array = [];
+    var no_of_row = 0;
+    var copy_offier_id,set_offier_id='';
+    var hli = 0
+    var sli = []
+    var ssli = []
+
+    function addpara(typ_id , tbl_row_count)
+    {
+        if(typ_id == 'S' && !chkSectionCond) chkSectionCond = true;
+        
+
+        var table = document.getElementById("addworkmech");
+        var tbl_len = table.rows.length,paraClass='';
+        let locs_val=$('#location').val()
+        let zones_val=$('#zone').val()
+        let divs_val=$('#division').val()
+        var sectionReq=false
+        if (locs_val.length>1 || zones_val.length>1 || divs_val.length>1) sectionReq=true
+        if (sectionReq && typ_id != 'S' && table.rows.length == 0){
+            alert('Please add section first.')
+            return true;
+        }
+        if(!chkSectionCond && table.rows.length > 0)
+        {
+        for(let tl = tbl_len -1; tl>=0;tl--)
+        {
+            textdata = table.rows[tl].cells[0].innerHTML;
+            if(textdata !='S')
+            {
+                chkSectionCond=true;
+                break;
+            }
+        }
+        }
+        if(table.rows.length > 0) paraClass = table.rows[tbl_len-1].cells[3].className;
+
+        if (chkSectionCond && table.rows.length > 0 && paraClass == 'strikeout' && typ_id != 'S' && tbl_row_count == '-2')
+        {
+            let chkCond=false,textdata='';
+            for(let tl = tbl_len -1; tl>=0;tl--)
+            {
+                paraClass = table.rows[tl].cells[3].className;
+                textdata = table.rows[tl].cells[0].innerHTML;
+                if( paraClass == 'strikeout')
+                {
+                    if(textdata !='S') chkCond=false;
+                    if(textdata =='S')
+                    {
+                        chkCond=true;
+                        break;
+                    }
+                
+                }
+                else{
+                    chkCond=false;
+                    break;
+                }
+            }
+            if(chkCond)
+            {
+                if(typ_id == 'P')
+                alert('Item cannot be Added, either Add Section then Add para or Add para from the toolbox');
+                else if(typ_id == 'SP')
+                alert('Item cannot be Added, either Add Section then Add Sub-para or Add Sub-para from the toolbox');
+                else if(typ_id == 'SSP')
+                alert('Item cannot be Added, either Add Section then Add Sub sub-para or Add Sub sub-para from the toolbox');
+                return true;
+            }
+            else{
+                if(textdata == 'P' && typ_id == 'SSP')
+                {
+                alert('Add sub para first before adding sub subPara');
+                return true;
+                }
+            }
+        
+        }
+
+        if (tbl_len == 0){
+            if (typ_id == 'SP'){
+                alert('Add para first before adding sub Para');
+                return true;
+            }
+            else if (typ_id == 'SSP'){
+                alert('Add sub para first before adding sub subPara');
+                return true;
+            }
+            else if (typ_id == 'P'){
+                var confrm = confirm('You will not be able to add sections. Do you wish to continue?')
+                if (confrm){
+                $('#sectionsRow').hide();
+                document.getElementById("genSections").disabled=true;
+                }
+                else{
+                return true
+                }
+                
+            }
+        } 
+        
+        else if(tbl_row_count === '-2'){
+            let index_1 = table.rows.length - 1;
+            let tp_1 = table.rows[index_1].cells[0].textContent;
+
+            if (tp_1 == 'S'){
+                if (typ_id == 'SP'){
+                alert('Add para first before adding sub Para');
+                return false;
+                }
+                else if (typ_id == 'SSP'){
+                alert('Add sub para first before adding sub subPara');
+                return false;
+                }
+                else if(typ_id == 'S'){
+                alert('Cannot add two sections simultaneously');
+                return false;
+                }
+            }
+            if(tp_1 == 'P'){
+                if (typ_id == 'SSP'){
+                alert('Add sub para first before adding sub subPara');
+                    return true;
+                }
+            }
+        }                   
+        
+        para_count ++;
+        for(let ok1=0;ok1<set_option_val.length;ok1++)
+                set_option_val[ok1] = 0;
+        $('#submit2').show()
+        
+        if(tbl_row_count == '-2')
+            tbl_row_count = table.rows.length;
+            
+        var row1 = table.insertRow(tbl_row_count);
+        
+        var index = para_array.indexOf(tbl_row_count);
+        if (index == -1) 
+        {
+        para_array.push(para_count);
+        }
+        else
+        {
+        para_array.insert(tbl_row_count, para_count);
+        }
+        var cell0 = row1.insertCell(0);
+        var cell1 = row1.insertCell(1);
+        var cell9 = row1.insertCell(2);
+        var cell2 = row1.insertCell(3);
+        var cell4 = row1.insertCell(4);
+        var cell5 = row1.insertCell(5);
+        var cell7 = row1.insertCell(6);
+        var cell8 = row1.insertCell(7);
+                
+        var row1Count = 1;
+        hli++;
+        sli.push(0)
+        full_array.push(String(para_count))
+
+        var heading1='heading'+para_count;
+        addid = 'add' + para_count;
+        delid11 = 'del' + para_count;
+        spanid = 'span' +para_count;
+        var officer='officer'+para_count;
+        var markeofficer='markeofficer'+para_count
+        var targetdate='targetdate'+para_count;
+        var divofficer='divofficer'+para_count;
+        var divmarkeofficer='divmarkeofficer'+para_count;
+        var divtargetdate='divtargetdate'+para_count;
+        var divcheckbox='divcheckbox'+para_count;
+        var checkbox='check'+para_count;
+        var typeofaction='type'+para_count;
+        let delid='del1'+String(para_count);
+
+        //let delid='del1'+String(no_of_row);
+        no_of_row +=1;
+
+        cell0.innerHTML = typ_id;
+        cell0.style.display = 'none';
+        
+        cell1.innerHTML= para_count;
+        cell1.style = "text-align: center; width:5px; font-family:verdana;"
+        
+
+        cell9.innerHTML= para_count;
+        cell9.style = "text-align: center; width:5px; font-family:verdana;"
+        cell9.style.display = 'none';
+
+        cell8.innerHTML = para_count;
+        cell8.style.display = 'none';
+        
+        if (typ_id == 'S'){
+            cell2.innerHTML=`<td>
+            <div id="divitemtype${para_count}">
+                Observations at 
+                    <select name="location_at" id="location_at${para_count}" data-placeholder="Select Category.." class="form-control">
+                    </select>
+                </div>
+            </td>`
+        }
+        else{
+
+            cell2innerHTML =`
+            <td>
+                <div class="autocomplete1 icon-user-div">
+                    <textarea maxlength="3000" placeholder="Maximum character limit 3000" id='${heading1}'  autocomplete1=off  style="height:30px;" class="form-control"/></textarea> 
+                    <span class="icon-user">
+                        <button title="Click to start or stop recording" class="speechtotext" style="border:none;background:none;cursor:pointer;" type="button" id="button${heading1}" onclick="toggleStartStop(this.id,'${heading1}')">
+                            <i class="fas fa-microphone-alt" style="font-size:20px;color:green"></i>
+                        </button>
+                    </span>
+                </div>`; 
+            cell2innerHTML +='<button type="button" hidden class="btn btn-outline-success btn-sm" id="'+addid+'" value="'+ para_count+'" onclick="get_table_data(this);" ><i class="fa fa-table " aria-hidden="true" title="Click to Add table"></i></button>'
+            cell2innerHTML +='<button type="button" hidden class="btn btn-outline-danger btn-sm" id="'+delid11+'" value="'+ para_count+'" onclick="remove_table_data(this);"><i class="fa fa-minus " aria-hidden="true" title="Click to modify/alter table"></i></button>'
+            cell2innerHTML +='<span id="'+spanid+'"></span>';
+            cell2innerHTML +='</td>'
+            cell2.innerHTML =cell2innerHTML;
+        
+            $("textarea").each(function () {	
+                this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");	
+                    }).on("input", function () {	
+                    this.style.height = "auto";	
+                    this.style.height = (this.scrollHeight) + "px";	
+                });	
+
+
+            if(typ_id != 'SSP')
+            {
+                cell4.innerHTML=`<td>
+                    <div id="divitemtype${para_count}">
+                    <select name="item_type${para_count}" id="item_type${para_count}" data-placeholder="Select Category.." class="form-control item_type_select2">
+                        
+                        <option value="1" selected>Railway User Safety</option>
+                        <option value="2">Rly Employee Safety</option>
+                        <option value="0">Others</option>
+                    </select>
+                    </div>
+                </td>`
+                para_array_marked.push(para_count)
+                data_add = `<td>
+                    <div id="showhide${para_count}">
+                        <div class="mycls">
+                            <div class="multi_select_box" id="divdesgn${para_count}">
+                                <select id="desgn${para_count}" class="desgn${para_count} demo w-60 form-control form-control-sm dropup" data-size="6" data-dropup-auto="false" data-live-search="true" multiple data-actions-box="true" multiple onclick="set_designation_dropdown(${para_count},${divmarkeofficer},${officer})"></select>	
+                                <input type="button" id="desgnbtn${para_count}" value="Ok" onclick="getOption('desgn${para_count}')" hidden>	
+                                <input type="text" id="desgninp${para_count}" hidden >	
+                    
+                            </div>
+                            &nbsp;
+
+                            <div class="autocomplete1 m-0" id="${divmarkeofficer}">
+                                <button hidden class="btn btn-outline-primary" type="button" id="cpy${para_count}" value="Copy" onclick="copy_mark_officer(this)" ><i class='fas fa-copy' style='font-size:24px;'></i></button>  
+                
+                                <a hidden id="tooltip${para_count}"  data-toggle="tooltip" >Add From D...</a>  	
+                                <a id="tooltipi${para_count}" data-placement="top" data-toggle="tooltipi" title="Add From Dropdown" hidden></a>
+                                <button type="button" class="btn btn-success btn-sm ml-0 mt-1" title="Click to add instructions" id="instdesgn${para_count}" onclick="open_wrap(this)" ><i class="fa fa-tasks" aria-hidden="true"></i></button>
+                                <textarea hidden type="text" placeholder="Add officer" class="form-control" value="" custom-offic="" custom-info="" custom-key="" id='${markeofficer}' class="autocomplete1" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </td>`
+                $(`#tooltip${para_count}`).tooltip();	
+                $(`#tooltipi${para_count}`).tooltip();
+                $('.demo').selectpicker();	
+                $(".demo").removeClass("dropdown");	
+                var button = $(`#divdesgn${para_count} .bs-actionsbox .btn-group`);	
+                button.append(`<button type="button" id="bdesgn${para_count}" class="btn btn-default btn-light" onclick="getOption('desgn${para_count}')" hidden>Save</button>`)	
+                button.append(`<button  type="button" class="btn btn-default btn-light" onclick="removePopupForBtn('desgn${para_count}');">Go/Close</button>`)	
+                button.append(`&nbsp;<button style="box-shadow: none;" type="button" class="btn btn-primary btn-md" id='${officer}'  data-toggle="modal" data-target="#exampleModal" onclick="hidetable(this); setvalueIN()" ><i class="fas fa-search"></i></button>`);	
+                button.append(`<button type="button" id="btndel${para_count}" class="actions-btn bs-deselect-all btn btn-default btn-light" hidden >Remove</button>`)	
+
+
+
+                $(`#desgn${para_count}`).on("changed.bs.select", function(e, clickedIndex, isSelected, oldValue){	
+                    let his_id= this.id;
+                    getOption(`${his_id}`);
+                });	
+                function removePopupForBtn(el){	
+                    let idpattern = '#'+el +' '+'.bootstrap-select'	
+                    $(idpattern).removeClass('show')	
+                };	
+                cell5.innerHTML = data_add;	
+                }
+        }
+            let add7 =''; 
+            add7 +=`<td>
+                <div class="popup">
+                    <button type="button" class="btn btn-outline-info btn-sm chkbtnclass CLOSEALLOPTIONS" id="popupbutton${para_count}" onmouseleave="funccloseallspan()"  onmouseenter="myFunction('myPopup${para_count}')" onclick="myFunction('myPopup${para_count}')">
+                        <i class="fas fa-tools fa-2x" title="Click to Add"></i>
+                    </button>
+                
+                    <span class="popuptext" id="myPopup${para_count}" onclick="myFunction(this.id)" onmouseleave="funccloseallspan1()" onmouseenter="funccloseallspanset()"></span>
+                </div>
+                &nbsp;
+                <button hidden class="btn btn-outline-danger btn-sm" type="button" id="'+delid+'" value="'+ para_count+'" onclick="get_del_id(this)"></button>&nbsp;
+            </td>`
+            
+            if (typ_id == 'S'){
+            add7 =`<td></td>`
+            }
+            cell7.innerHTML = add7;
+            set_para_no(table);
+            if(!supportedbrowser)
+            $('.speechtotext').hide();
+        
+        }    
+    
+    function set_para_no(table)
+    {
+        let tbl_r_count = table.rows.length, tbl_p=0,tbl_sp=0,tbl_ssp=0, tbl_typ_id,val,chk_mrk ='Y', section_cnt='A',tbl_p1=0,tbl_sp1=0,tbl_ssp1=0;
+        for(let i=0;i<tbl_r_count;i++)
+        {
+            value = table.rows[i].cells[0].innerHTML;
+            if( value == 'S'){
+                
+                tbl_sp=0;
+                tbl_ssp=0;
+                tbl_typ_id = String(section_cnt);
+                section_cnt=String.fromCharCode(section_cnt.charCodeAt(0) + 1)
+                table.rows[i].cells[1].innerHTML = tbl_typ_id;
+                table.rows[i].cells[2].innerHTML = tbl_typ_id;
+                //changes for
+                tbl_p1=0;
+                tbl_sp1=0;
+                tbl_ssp1=0;
+                
+            }
+            else if( value == 'P')
+            {
+                tbl_p++;
+                tbl_sp=0;
+                tbl_ssp=0;
+
+                tbl_p1++;
+                tbl_sp1=0;
+                tbl_ssp1=0;
+
+                tbl_typ_id = String(tbl_p);
+                table.rows[i].cells[2].innerHTML = String(tbl_p1);
+                table.rows[i].cells[1].innerHTML = tbl_typ_id;
+                $(`#showhide${para_array[i]}`).show();
+                $(`#divitemtype${para_array[i]}`).show();
+                $(`#divtargetdate${para_array[i]}`).show();
+                $(`#divcheckbox${para_array[i]}`).show();
+                $(`#divtypeboxtype${para_array[i]}`).show();
+            }
+            else if(value == 'SP')
+            {
+                tbl_sp++;
+                tbl_ssp=0;
+
+                tbl_sp1++;
+                tbl_ssp1=0;
+
+                tbl_typ_id = String(tbl_p)+'.'+String(tbl_sp);
+                table.rows[i].cells[1].innerHTML = tbl_typ_id;
+                table.rows[i].cells[2].innerHTML = String(tbl_p1)+'.'+String(tbl_sp1);
+                for(let j=i;j<tbl_r_count;j++)
+                {
+                val =para_array[j];
+                
+                if(table.rows[j].cells[0].innerHTML != 'P')
+                {
+                    if((table.rows[j].cells[0].innerHTML == 'SP' || table.rows[j].cells[0].innerHTML == 'SSP') && del_array.includes(val))
+                    {
+                    chk_mrk = 'N';
+                    }
+                    else
+                    {
+                    chk_mrk = 'Y';
+                    break;
+                    }
+                }
+                
+                }
+                if(table.rows[i-1].cells[0].innerHTML == 'P' && chk_mrk == 'Y' )
+                {
+                    $(`#showhide${para_array[i-1]}`).hide();
+                    $(`#divitemtype${para_array[i-1]}`).hide();
+                    $(`#divtargetdate${para_array[i-1]}`).hide();
+                    $(`#divcheckbox${para_array[i-1]}`).hide();
+                    $(`#divtypeboxtype${para_array[i-1]}`).hide();
+                }
+            }
+            else{
+                tbl_ssp++;
+                tbl_ssp1++;
+                tbl_typ_id = String(tbl_p)+'.'+String(tbl_sp)+'.'+String(tbl_ssp);
+                table.rows[i].cells[1].innerHTML = tbl_typ_id;
+                table.rows[i].cells[2].innerHTML = String(tbl_p1)+'.'+String(tbl_sp1)+'.'+String(tbl_ssp1);
+            }   
+        }
+    }
+
+</script>
+
+<!-- for speech to text -->
+<script type="text/javascript">
+
+    if (navigator.userAgent.indexOf("Chrome") != -1) supportedbrowser=true;
+    else if (navigator.userAgent.indexOf("Safari") != -1) supportedbrowser=true;
+    else supportedbrowser=false;
+    
+    if(supportedbrowser)
+    {
+        var speakId = '',textareaId = '';
+        var recognizing;
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.onresult = function (event) {
+            let textarea = document.getElementById(textareaId);
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    textarea.value += event.results[i][0].transcript;
+                    textarea.setAttribute("style", "height:" + (textarea.scrollHeight) + "px;overflow-y:hidden;");
+                    textarea.addEventListener("input", OnInput, false);
+                    function OnInput() {
+                            this.style.height = 0;
+                            this.style.height = (this.scrollHeight) + "px";
+                        }
+                    $("#"+textareaId).trigger("input");
+                }
+            }
+        }
+    
+        function reset() {
+            recognizing = false;
+            let but=document.getElementById(speakId);
+            but.innerHTML = `<i class='fas fa-microphone-alt' style='font-size:24px;color:green'></i>`;
+        }
+    
+        function toggleStartStop(id,textId) {
+            if(speakId != '')
+            {
+                let but=document.getElementById(speakId);
+                but.innerHTML = `<i class='fas fa-microphone-alt' style='font-size:24px;color:green'></i>`;
+            }
+            speakId = id;
+            textareaId = textId;
+                
+            if(recognizing) {
+                recognition.stop();
+                reset();
+            } 
+            else {
+                recognition.start();
+                recognizing = true;
+                let but=document.getElementById(speakId);
+                but.innerHTML = `<i class='fas fa-microphone-alt' style='font-size:24px;color:red'></i>`;
+                beep(50, 1200, 30);
+            }
+        }
+        
+    }
+    else  $('.speechtotext').hide(); 
+
+    function beep(vol, freq, duration){
+      a=new AudioContext();
+      v=a.createOscillator();
+      u=a.createGain();
+      v.connect(u);
+      v.frequency.value=freq;
+      v.type="square";
+      u.connect(a.destination);
+      u.gain.value=vol*0.01;
+      v.start(a.currentTime);
+      v.stop(a.currentTime+duration*0.001);
+    }
+    
+</script>
+
+<!-- to set designations in dropdown -->
+<script>
+    function set_designation_dropdown(para_count,divmarkeofficer,officer){
+    let marked_zone = $('#zone').val();
+    let divisionss=$("#division").val();
+    plsWaitDiv('body', 'show');
+    $.ajax({	
+        type: 'GET',	
+            url: "{% url 'zone_get_marked_officers' %}",	
+            dataType: 'json',	
+            data: {'zone':String(marked_zone), 'divs':String(divisionss)},	
+            success: function (response) 
+            {	 
+                for(ii=0;ii<response.length;ii++)	
+                {	
+                    data_add +=  '<option  value="'+response[ii].designation_code+'" data-tokens="'+response[ii].empnoser+'">'+response[ii].designation+'</option>';	
+                }   	
+                
+                
+
+                plsWaitDiv('body', 'hidden');
+            },
+            error:function(err){
+                plsWaitDiv('body', 'hidden');
+            }
+
+        });	
+    }
+
+    var globalfavlst=[];
+
+    function getOption(e){
+        let id=e.substring(5,e.length);
+        
+        var options = document.getElementById(e).selectedOptions;
+        
+        var values = Array.from(options).map(({ value }) => value);
+        let tooltipid='tooltip'+ id.replaceAll('.','a');
+        let tooltipiId = 'tooltipi'+ id.replaceAll('.','a');
+        let markofficer='markeofficer'+ id;
+
+        let lt='desgninp'+id;
+        let notexist=[], altext=document.getElementById(lt).value;
+        altext=altext.split(',');
+        
+        var myInput = document.getElementById(markofficer);
+        var officer_id=myInput.getAttribute('custom-offic');
+        
+        if(officer_id.length!=0)
+        {
+            officer_id=officer_id.split(',');
+        }
+        else
+        {
+            officer_id=[];
+        }
+    
+        officer_id=[...new Set(officer_id.concat(values))]
+        
+        for(let i=0;i<altext.length;i++)
+        {
+            if(values.includes(String(altext[i])))
+            {
+            continue;
+            }
+            else
+            {
+                var index = officer_id.indexOf(altext[i]);
+                if (index !== -1) {
+                    officer_id.splice(index, 1);
+                }
+            }
+                
+        }
+
+        document.getElementById(lt).value=values;
+        
+        data={
+            'officer_id': JSON.stringify(values),
+            'csrfmiddlewaretoken': '{{csrf_token}}'
+            }
+    
+            $.ajax({
+            type : 'POST',
+            url : "{% url 'desig_changecode' %}",
+            dataType : 'json',
+            data : data,
+    
+            success : function(response){
+                marked_id=JSON.parse(response.marked_id);
+                marked_desig=response.marked_desig;
+                marked_key=JSON.parse(response.marked_key);
+    
+                document.getElementById(markofficer).value=marked_desig;
+                var myInput = document.getElementById(markofficer);
+                myInput.setAttribute('custom-offic', marked_id);
+            
+    
+                const tx = document.getElementsByTagName("textarea");
+                for (let i = 0; i < tx.length; i++) {
+                tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+                tx[i].addEventListener("input", OnInput, false);
+                }
+    
+                function OnInput() {
+                this.style.height = 0;
+                this.style.height = (this.scrollHeight) + "px";
+                }
+                // $("textarea").trigger("input");
+                var myInput = document.getElementById(markofficer);
+                myInput.setAttribute('custom-key',JSON.stringify(marked_key));
+
+                myInput = document.getElementById(tooltipid);
+                
+                if(marked_desig.length==0)
+                {
+                marked_desig='Add From Dropdown'
+                }
+                myInput.innerHTML=truncateString(marked_desig,10);
+                marked_desig=marked_desig.replaceAll(',',', ')
+                myInput.title=marked_desig;
+                $('#'+tooltipid).tooltip();
+
+
+                myInput = document.getElementById(tooltipiId);
+                if(marked_desig.length==0)
+                {
+                marked_desig='Add From Dropdown'
+                }
+                marked_desig=marked_desig.replaceAll(',',', ')
+                //myInput.title=marked_desig;
+                $('#tooltipi'+String(0)).tooltip();
+
+
+            }
+            })
+        }
+    
+
+    $('.demo-copy').selectpicker()
+    $(".demo-copy").removeClass("dropdown");
+    var button = $(`#copy_divdesgn .bs-actionsbox .btn-group`);
+    button.append(`<button hidden type="button" class="btn btn-default btn-light" onclick="copyToOption();">Save</button>`)
+    button.append(`<button  type="button" class="btn btn-default btn-light" onclick="removePopup();">Go/Close</button>`)
+    button.append(`<button type="button" id="copybtndel" class="actions-btn bs-deselect-all btn btn-default btn-light" onclick="copyTofungettest()" hidden >Remove</button>`)
+    button.append(`<button id="copytobtn" class="btn btn-default btn-light" value="Copy To" data-toggle="modal" data-target="#exampleModal" onclick="hidetable(this); setCopyValue(); setvalueIN()" ><i class="fas fa-search"></i></button>`)
+    $(".demo-copy").on("changed.bs.select", function(clickedIndex, isSelected, oldValue) {copyToOption();});
+
+    function removePopup(){
+        $('#demo-copy .bootstrap-select').removeClass('show')
+    }
+
+    function copy_mark_officer(th)
+{
+ 
+    copy_offier_id = th.id;
+    let copy_id = parseInt((copy_offier_id).substring(3,(copy_offier_id).length));
+    let tableid = document.getElementById('addworkmech'), typ,val,id,itm,count_row=0,count_col=0, showHideId='showhide'+String(copy_id);
+    if(document.getElementById(showHideId).style.display === 'none')
+    {
+      alert('Cannot use copy because, nothing to set copied value');
+      return false;
+    }
+    if(para_array.length == 0)
+    {
+      alert('Nothing is present to Copy from');
+      return false;
+    }
+    $('#add_officer_tbl tbody').empty();
+    let row='<tr><td><label style="font-weight:bold;"> Select From Paragraph</label><br>';
+    for(let j=0;j<tableid.rows.length;j++)
+    {
+      typ = tableid.rows[j].cells[0].innerHTML;
+      itm = tableid.rows[j].cells[1].innerHTML;
+      val = para_array[j];
+      id='showhide'+String(val);
+      if(!$('#'+id).is(':hidden') && typ == 'P' && copy_id != val)
+        {  
+          row += `<input type="radio" name="deletion_type" value="${val}" onclick="fun_set_officer_copy('${val}')">
+                  <label>Para ${itm}</label>&nbsp;`;
+                  count_row ++;
+        }
+      
+    }
+    row += '</td></tr><tr><td><label style="font-weight:bold;"> Select From Sub Paragraph</label><br>'
+    for(let j=0;j<tableid.rows.length;j++)
+    {
+      typ = tableid.rows[j].cells[0].innerHTML;
+      itm = tableid.rows[j].cells[1].innerHTML;
+      val = para_array[j];
+      id='showhide'+String(val);
+      if(!$('#'+id).is(':hidden') && typ == 'SP' && copy_id != val)
+        {  
+          row +=`<input type="radio" name="deletion_type" value="${val}" onclick="fun_set_officer_copy('${val}')">
+            <label>Subpara ${itm}</label>&nbsp;`
+            count_col ++;
+        }
+    }
+    row += '</td></tr>';
+    if(count_col ==0 && count_row ==0)
+    {
+      alert('Nothing to copy From');
+      return false;
+    }
+    $('#add_officer_tbl tbody').append(row);
+    document.getElementById('openofficeremodal').click();
+}
+
+    function open_wrap(e){
+    var id=e.id.substr(4)
+    var desigs=$("#"+id).val()
+
+
+    var no=e.id.substr(9)
+    markid='markeofficer'+no
+    var info_id = document.getElementById(markid).getAttribute('custom-info');
+    
+    if(info_id!=''){
+    info_id=JSON.parse(info_id)
+    
+    }
+    if(desigs == '')
+    {
+        alert("Select Officer First")
+        return false;
+    }
+    document.getElementById('openModalOpenWrap').click();
+    data={
+        'id':id,
+        'desigs':JSON.stringify(desigs),
+    }
+    $.ajax({
+        type : 'GET',
+        url : "{% url 'officertask' %}",
+        dataType : 'json',
+        data : data,
+        success : function(response)
+        {
+        var idsss='saveinfo'+response.id
+        // alert(idsss)
+        var myEle = document.getElementById("saveinfo")
+        if(myEle) {
+            document.getElementById("saveinfo").name =idsss ;
+        }
+        table=$('#mytable1').DataTable();
+        table.destroy();
+            $('#mytable1 tbody').empty();
+            if(response.designations){
+            
+            row=''
+            for(var i=0;i<response.designations.length;i++){
+                row+=`
+                <tr>
+                            <td style="display:none">${response.designations[i]['designation_code']}</td>
+                            <td>${i+1}</td>
+                            <td style="text-align:center"><input hidden id="designation${response.designations[i]['designation_code']}" value="${response.designations[i]['designation']}">${response.designations[i]['designation']}</td>
+                            <td> <div class="form-check">
+                                <input class="form-check-input" value="info" type="radio" name="flexRadioDefault${response.designations[i]['designation_code']}" id="type${response.designations[i]['designation_code']}"  onclick="disable_boxes(this)">
+                                <label class="form-check-label" for="info">
+                                For Information
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" value="action" type="radio" name="flexRadioDefault${response.designations[i]['designation_code']}" id="type1${response.designations[i]['designation_code']}" checked onclick="disable_boxes(this)">
+                                <label class="form-check-label" for="action">
+                                For Compliance
+                                </label>
+                            </div></td>
+                            <td hidden><div class="autocomplete1" id="divtargetdate${response.designations[i]['designation_code']}">
+                                    
+                                    <input type="text"  class="form-control datepker" autocomplete="off" placeholder="dd/mm/yy" style="height: 2em; width: 118px;background-color:white;" id='targetdate${response.designations[i]['designation_code']}' readonly> 
+                                </div></td>
+                                <td hidden><div class="autocomplete1 mt-1" id="divcheckbox${response.designations[i]['designation_code']}"><input type="checkbox" value="1" autocomplete="off" id='checkbox${response.designations[i]['designation_code']}'>&nbsp; <label for="priority" class="lbl-caption"></label> </div></td>
+                        </tr>
+                `
+            }
+            
+            $('#mytable1 tbody').append(row);
+            
+            
+            
+            $('#mytable1').DataTable({
+                pageLength:4,
+                dom: 'Bfrtip',
+                "bSort": false,
+                "pagingType": "simple",
+                "lengthChange":false,
+                "sEmptyTable": 'Please Select Officers First',
+                "language":{
+                    "search": "Keyword search:"
+                    
+                }
+                })
+                
+                
+                
+                $(".datepker").datepicker({	
+                    showOn: 'focus',	
+                    dateFormat: 'dd/mm/y',	
+                    showButtonPanel: true,	
+                    closeText: 'Clear', 	
+                    minDate: 0,	
+                    onClose: function () {	
+                    var event = arguments.callee.caller.caller.arguments[0];	
+                    if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {	
+                        $(this).val('');	
+                    }	
+                    },	
+                    onSelect: function(selectedDate) {
+                }	
+                });	
+                set_values_info(e)
+            }
+        }
+        
+        })
+    }
+
+</script>
+
+
+<!-- image upload -->
+<script>
+
+    $('#table_img').hide();
+    
+    var img_ref_no = [],img_count=0, set_option_val = [];
+    function set_option_value(id)
+      {
+        let tableid = document.getElementById('addworkmech');
+        let id1 = id.substring(11,id.length),set_option;
+        set_option = set_option_val[parseInt(id1)-1]
+        if(set_option == 0)
+        {
+          set_option = 1;
+          $('#'+id).empty();
+          let row = '',ref_no='';
+          row += `<option value="" selected disabled hidden>Select refrence number</option>`;
+          for(let i =0; i<tableid.rows.length;i++)
+          {
+            if(tableid.rows[i].cells[0].innerHTML == 'S'){
+            
+              ref_no = tableid.rows[i].cells[2].innerHTML;
+              continue;
+            
+            }
+            if(ref_no!='')
+            {
+            if(((tableid.rows[i].cells[2].innerHTML).split('.')).length == 1)
+              row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> ${ tableid.rows[i].cells[1].innerHTML}</option>`;
+            else if(((tableid.rows[i].cells[1].innerHTML).split('.')).length == 2)
+              row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> &nbsp;&nbsp;${tableid.rows[i].cells[1].innerHTML}</option>`;
+            else 
+                row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> &nbsp;&nbsp;&nbsp;&nbsp;${tableid.rows[i].cells[1].innerHTML}</option>`;
+            }
+            else{
+              if(((tableid.rows[i].cells[2].innerHTML).split('.')).length == 1)
+              row += `<option value="${ tableid.rows[i].cells[1].innerHTML}"> ${tableid.rows[i].cells[1].innerHTML}</option>`;
+            else if(((tableid.rows[i].cells[1].innerHTML).split('.')).length == 2)
+              row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> &nbsp;&nbsp;${tableid.rows[i].cells[1].innerHTML}</option>`;
+            else 
+                row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> &nbsp;&nbsp;&nbsp;&nbsp;${tableid.rows[i].cells[1].innerHTML}</option>`;
+            }
+            }
+          $('#'+id).append(row);
+        }
+        set_option_val[parseInt(id1)-1] = set_option;
+      }
+    function preview_img(id)
+    {
+      let id1 = 'frame'+id;
+      var x = document.getElementById(id1);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
+    function preview(id)
+    {
+      // upload_img_r(id);
+      let id1 = 'frame'+id;
+      let do_file = 'ipfile_'+id,btn_do_file = 'btn_img_'+id
+      document.getElementById(id1).src="";
+      const fi = document.getElementById(do_file);
+    
+        if (fi.files.length > 0) {
+          for (let i = 0; i <= fi.files.length - 1; i++) {
+    
+            const fsize = fi.files.item(i).size;
+            const file = Math.round((fsize / 1024));
+            if (file > 100) {
+              document.getElementById(do_file).value='';
+              alert("File too Big, please select a file less than 100KB");
+            }
+            else {
+              // let btn_do_file = 'btn_img_'+id, sel_text = 'ipfile_'+id,txt_img = 'img_text_'+id,frameid='frame'+id,file = "";
+              // document.getElementById(btn_do_file).style.backgroundColor='blue';
+              // document.getElementById(sel_text).value = file;
+              // document.getElementById(txt_img).value = file;
+              // //document.getElementById(frameid).src = file;
+              // document.getElementById(btn_do_file).disabled = false;
+              document.getElementById(btn_do_file).style.backgroundColor='blue';
+              document.getElementById(btn_do_file).disabled = false;
+              document.getElementById(id1).style.display = "none";
+        
+              document.getElementById(id1).src=URL.createObjectURL(event.target.files[0]);
+            }
+          }
+        }
+    }
+    function add_row_image()
+     {
+        let tableid = document.getElementById('addworkmech');
+        let img_row_count = document.getElementById('table_img').rows.length;
+        if(img_row_count == 6)
+        {
+          alert(' Maximum Number of image to add is 5');
+          return false;
+        }
+    
+        img_count ++;
+        set_option_val.push(0);
+        
+        let row = '<tr>';
+        row += `<td style="width:10%"><select id="select_img_${img_count}" onclick="set_option_value(this.id)" style="height:40px;"><option value="" selected disabled hidden>Select refrence number</option>`;
+        for(let i =0; i<tableid.rows.length;i++)
+        {
+            if(((tableid.rows[i].cells[1].innerHTML).split('.')).length == 1)
+              row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> ${tableid.rows[i].cells[1].innerHTML}</option>`;
+            else if(((tableid.rows[i].cells[1].innerHTML).split('.')).length == 2)
+              row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> &nbsp;&nbsp;${tableid.rows[i].cells[1].innerHTML}</option>`;
+            else 
+                row += `<option value="${tableid.rows[i].cells[1].innerHTML}"> &nbsp;&nbsp;&nbsp;&nbsp;${tableid.rows[i].cells[1].innerHTML}</option>`;
+        }
+        row += `</select></td>`;
+        row += `<td style="width:40%"> 
+          <div class="row form-group">
+            <div class="col-9">
+          <input type="file" id="ipfile_${img_count}" name="ipfile_${img_count}" class="form-control" onchange="preview('${img_count}')" accept="image/jpeg, image/x-png" >
+          </div> <div class="col-3">
+          <input type="button" id="btn_img_${img_count}" class="form-control" onclick="upload_img('${img_count}')" style="background-color:blue;height:40px;width:100%;" value="Upload Image" >          
+        </div></div>
+          <p style="color: blue;">Accepted types:  .png, .jpeg, .jpg and max file size: 100 KB</p>           
+                    
+                    
+                    <input type="button" id="btn_img_r${img_count}" onclick="upload_img_r('${img_count}')" style="background-color:red;" value="Reset Image" hidden disabled>
+    
+                     <input type="text" id="img_text_${img_count}" value="" hidden>
+                     
+                </td>
+                <td style="width:30%"> 
+                  
+                     <img class="imgFrame" id="frame${img_count}"  src="" width="400px" height="280px" style="display:none;"/>
+                   
+                     <input type="button" onclick="preview_img('${img_count}')" style="background-color:blue;" value="Preview" hidden>
+                </td>
+                <td style="width:20%"> 
+                     <input type="button" id="delete_img_${img_count}" class="form-control" onclick="delete_img(this)" style="background-color:red;height:40px;width:100%;" value="Delete">
+                </td>
+                `
+        row += '</tr>';
+        $('#table_img').append(row);
+        //preview_img(img_count);
+        img_ref_no.push(String(img_count));
+        img_row_count = document.getElementById('table_img').rows.length;
+        if(img_row_count > 1)
+        {
+          $('#table_img').show();
+        }
+      
+     }
+    function delete_img(btn) {
+     
+      
+      let id=btn.id, id1 = id.substring(11,id.length);
+      let img_row_count = document.getElementById('table_img').rows.length;
+      if(img_row_count == 1)
+      {
+        alert(' Nothing to delete');
+        return false;
+      }
+      
+      for(let ij=0;ij<img_ref_no.length;ij++)
+      { 
+        if(id1 == String(img_ref_no[ij]))
+        {
+          let txt_img = 'img_text_'+id1,file_name = document.getElementById(txt_img).value;
+          if(file_name != '')
+                {
+                var data= new FormData();
+                data.append('file',file_name)
+                data.append('csrfmiddlewaretoken',"{{csrf_token}}");
+                data.append('op',"delete");
+                $.ajax({
+                    method: "POST",
+                    url: "{% url 'upload_img' %}",
+                    dataType: 'json',
+                    processData:false,
+                    contentType: false,
+                    mimeType: 'multipart/form-data',
+                    data: data,
+                    success: function (response) {
+                        file = "";
+                    }
+                });
+              }
+              break;
+          
+        }
+    
+      }
+    
+      var row = btn.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+      img_row_count = document.getElementById('table_img').rows.length;
+      if(img_row_count == 1)
+        {
+          $('#table_img').hide();
+        }
+        index = img_ref_no.indexOf(id1);
+        if (index > -1) { 
+          img_ref_no.splice(index, 1); 
+        }
+        
+    }
+    function upload_img_r(id)
+    {
+      let do_file = 'img_text_'+id, file_name = document.getElementById(do_file).value,sel_text = 'ipfile_'+id;
+      let btn_do_file = 'btn_img_'+id, txt_img = 'img_text_'+id,frameid='frame'+id,btn_reset = 'btn_img_r'+id;
+      if(file_name == '')
+      {
+        alert('Nothing to reset');
+        return false;
+      }
+      var data= new FormData();
+      data.append('file',file_name)
+      data.append('csrfmiddlewaretoken',"{{csrf_token}}");
+      data.append('op',"delete");
+      $.ajax({
+          method: "POST",
+          url: "{% url 'upload_img' %}",
+          dataType: 'json',
+          processData:false,
+          contentType: false,
+          mimeType: 'multipart/form-data',
+          data: data,
+          success: function (response) {
+              document.getElementById(btn_do_file).style.backgroundColor='blue';
+              file = "";
+              document.getElementById(sel_text).value = file;
+              document.getElementById(txt_img).value = file;
+              document.getElementById(frameid).src = file;
+              document.getElementById(btn_do_file).disabled = false;
+              document.getElementById(btn_reset).disabled = true;   
+          }
+      });
+    
+    }
+    function upload_img(id)
+    {
+      let do_file = 'ipfile_'+id;
+      let refNoId = 'select_img_'+id;
+      if($('#'+refNoId).val() == null)
+      {
+        alert('Select Reference Number');
+        return false;
+      }
+      if(document.getElementById(do_file).value == '')
+      {
+        alert('Select Image First');
+        return false;
+      }
+      let btn_do_file = 'btn_img_'+id, txt_img = 'img_text_'+id,frameid='frame'+id,btn_reset = 'btn_img_r'+id;
+      var data= new FormData();
+      data.append('file',$('#'+do_file)[0].files[0])
+      data.append('csrfmiddlewaretoken',"{{csrf_token}}");
+      data.append('op',"upload");
+      $.ajax({
+          method: "POST",
+          url: "{% url 'upload_img' %}",
+          dataType: 'json',
+          processData:false,
+          contentType: false,
+          mimeType: 'multipart/form-data',
+          data: data,
+          success: function (response) {
+              alert("Image uploaded Successfully");
+              document.getElementById(btn_do_file).style.backgroundColor='green';
+              file = "/media/Inspection/" + response.file;
+              document.getElementById(txt_img).value = file;
+              document.getElementById(frameid).src = file;
+              document.getElementById(btn_do_file).disabled = true;
+              document.getElementById(btn_reset).disabled = false;
+              preview_img(id);
+    
+              
+              
+          }
+      });
+    
+    }
+    
+    
+    
+</script>
+{% endblock %}

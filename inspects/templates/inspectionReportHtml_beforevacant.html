@@ -1,0 +1,406 @@
+{% load static %}
+
+
+<!DOCTYPE >
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Inspection Report</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+            
+</head>  
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{%static '/bootstrap-4.0.0/dist/css/bootstrap.min.css'%}"/> 
+ <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+ <script type="text/javascript" src="{% static '/bootstrap-4.0.0/dist/js/bootstrap.bundle.min.js'%}"></script>
+ <script src="{% static 'js/fontawesomev5.15.js' %}"></script>
+ <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+ 
+ 
+ <link rel="stylesheet" type="text/css" href="{% static 'css/quicksand.css' %} ">
+ <link rel="stylesheet" type="text/css" href="{% static 'css/lato.css' %}">
+ <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+ <script src="{% static '/js/select2.min.js' %}"></script>
+ 
+ <link href="{% static '/css/jquery.dataTables.min.css' %}"  rel="stylesheet"/>
+ <script src="{% static '/js/jquery.dataTables.min.js' %}"></script>
+ 
+ <!-- date range -->
+ <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+ <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+ <link rel="stylesheet" type="text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+ 
+ <!-- datepicker,datatable and jquery-ui all -->
+ <link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.css' %}" />
+ <script type="text/javascript" src="{% static 'DataTables/datatables.js' %}"></script>
+ <link rel="stylesheet" type="text/css" href="{% static 'jquery-ui/jquery-ui.css' %}" />
+ <script type="text/javascript" src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+ 
+  
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+ 
+ <!-- timepicker -->
+ <link rel="stylesheet" type="text/css" href="{% static 'timepicker/css/timepicker.css' %}" />
+</head>      
+<style>
+    @media all {
+        .page-break { display: none; }
+        }
+         @media print {
+        .page-break { display: block; page-break-before: always; }
+        }
+        .print {
+        display:none
+        }
+        @media print {
+        .print {display:block}
+        .btn-print {display: none; }
+       
+        }
+</style>
+
+<body>
+    <div class="container-fluid">
+        <div style="padding: 15px;">
+            <div class="printable">
+            {% for i in ins_detail %}
+                <h3 style="text-align: center; padding-top: 0px;" class="report_heading">
+                    {{i.inspection_title}}
+                </h3>
+                </br>
+                {% if Accompany %}
+                    <h3 style="text-align: center; font-size: 15px; padding-top: 0px;">Accompanied By: {{Accompany}} </h3>
+                    <br>
+                {% endif %}      
+                <table border="1" class="table table-bordered table-data"  style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th  style="width: 5%;"> Item No.</th>
+                            <th  style="width: 60%;">Inspection Para</th>
+                            <th  style="width: 35%;">Action By
+                            </th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for j in i.item_details1 %}
+                        {% if j.type == 'S' %}
+                        <tr>
+                            <td style="width: 8%; height: auto; font-size: 13px; font-weight: bold;">{{j.des_id}}</td>
+                            <td style="width: 50%;height: auto;  font-size: 13px;"><b>{{j.item_title}}</b></td>
+                           
+                            <td></td>
+                        </tr>
+                        {% elif j.type == 'H' %}
+                           
+                            {% if j.chk_cts == 'YES' %}
+                                <tr>
+                                    <td style="width: 8%; height: auto; font-size: 13px; font-weight: bold;">{{j.des_id}}</td>
+                                    {% if j.bol %}
+                                    <td style="width: 70%;height: auto;  font-size: 13px;"><b>{{j.item_title}}</b>
+                                    {% else %}
+                                    <td style="width: 70%;height: auto;  font-size: 13px;">{{j.item_title}}
+                                    {% endif %}
+                                        <br>
+                                    {% if j.tbl_data != '[]' %}
+                                            <table  border="1"  style="width:100%">
+                                            {% for jk in j.tbl_data %}
+                                           
+                                            <tr>
+                                            {% for ik in jk %}
+                                            <td>{{ik}}</td>
+                                            {% endfor %}
+                                            </tr>
+                                           
+                                            {% endfor %}
+                                        </table>
+                                       
+                                    {% endif %}
+                                    {% if j.target_date %}<br>Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}
+                                    {% if j.priority %}<br> On Priority {% endif %}
+                                   
+                                    <br>
+                                   
+                                    {% if j.enctype == 'Encl:' %}
+                                    <table>
+                                        <tr>
+                                            <td style="width: 10%; font-weight: bold;">{{j.enctype}}</td>
+                                            <td style="width: 90%;">
+                                                {% for i5 in j.enclen %}
+                                                        Pic:{{i5}}&nbsp;&nbsp;
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    {% endif %}
+                                    </td>
+                                  
+                                    <td style="width: 22%; height: auto; font-size: 13px; ">
+                                        {% if j.mrkofficomplen %}
+                                            <p style="text-decoration: underline;"><b>For Information</b></p>
+                                            {{j.mrkofficomp.desig_longdesc}}
+                                        {% endif %}
+                                        {% if j.mrkoffiactionlen %}
+                                            <p style="text-decoration: underline;"><b>For Action</b></p>
+                                            {{j.mrkoffiaction.desig_longdesc}}
+                                        {% endif %}
+                                    
+                                    </td>    
+                                      
+                                </tr>
+                                
+                                
+                            {% else %}
+                                <tr>
+                                    <td style="width: 8%; height: auto; font-size: 13px; font-weight: bold;">{{j.des_id}}</td>
+                                    <td style="width: 70%;height: auto;  font-size: 13px;"><b>{{j.item_title}}</b>
+                                        <br>
+                                        {% if j.tbl_data != '[]' %}
+                                            <table  border="1"  style="width:100%">
+                                                {% for jk in j.tbl_data %}
+                                               
+                                                <tr>
+                                                {% for ik in jk %}
+                                                <td>{{ik}}</td>
+                                                {% endfor %}
+                                                </tr>
+                                               
+                                                {% endfor %}
+                                            </table>
+                                                {% endif %}
+                                                <br>
+                                                {% if j.enctype == 'Encl:' %}
+                                                <table>
+                                                    <tr>
+                                                        <td style="width: 10%; font-weight: bold;">{{j.enctype}}</td>
+                                                        <td style="width: 90%;">
+                                                            {% for i5 in j.enclen %}
+                                                                    Pic:{{i5}}&nbsp;&nbsp;
+                                                            {% endfor %}
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                {% endif %}
+                                            </td>
+                                    <!-- <td style="width: 20%; height: auto; font-size: 13px;">
+                                        {% if j.mrkoffi.desig_longdesc %}
+                                        {% if j.item_type == 0 %}
+                                        Others
+                                    {% elif j.item_type == 1 %}
+                                        Passenger & Other User Safety
+                                    {% else %}
+                                        Rly Employee Safety 
+                                    {%endif%}
+                                    {%endif%}
+                                </td> -->
+                                    
+                                    <td style="width: 22%; height: auto; font-size: 15px; ">
+                                        {% if j.mrkofficomplen %}
+                                            <p style="text-decoration: underline;"><b>For Information</b></p>
+                                            {{j.mrkofficomp.desig_longdesc}}
+                                        {% endif %}
+                                        {% if j.mrkoffiactionlen %}
+                                            <p style="text-decoration: underline;"><b>For Action</b></p>
+                                            {{j.mrkoffiaction.desig_longdesc}}
+                                        {% endif %}
+                                    </td> 
+                                    
+                                </tr>
+                            {% endif %}
+                           
+                       
+                       
+                        {% elif j.type == 'SH' %}
+                            <tr>
+                                <td style="width: 8%; height: auto; font-size: 13px;">{{j.des_id}}</td>
+                                <td style="width: 70%; height: auto; font-size: 13px;">{{j.observation}}
+                                    <br>
+                                    {% if j.tbl_data != '[]' %}
+                                            <table  border="1"  style="width:100%">
+                                            {% for jk in j.tbl_data %}
+                                           
+                                            <tr>
+                                            {% for ik in jk %}
+                                            <td>{{ik}}</td>
+                                            {% endfor %}
+                                            </tr>
+                                           
+                                            {% endfor %}
+                                        </table>
+                                            {% endif %}
+                                            {% if j.target_date %}<br> Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}
+                                            {% if j.priority %}<br> On Priority {% endif %}
+                                            <br>
+                                           
+                                            {% if j.enctype == 'Encl:' %}
+                                            <table>
+                                                <tr>
+                                                    <td style="width: 10%; font-weight: bold;">{{j.enctype}}</td>
+                                                    <td style="width: 90%;">
+                                                        {% for i5 in j.enclen %}
+                                                                Pic:{{i5}}&nbsp;&nbsp;
+                                                        {% endfor %}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            {% endif %}
+                                        </td>
+                                <!-- <td style="width: 20%;height: auto;  font-size: 13px;">
+                                    {% if j.item_type == 0 %}
+                                    Others
+                                {% elif j.item_type == 1 %}
+                                    Passenger & Other User Safety
+                                {% else %}
+                                    Rly Employee Safety 
+                                {%endif%}
+                            </td> -->
+                                <td style="width: 22%; height: auto; font-size: 13px; ">
+                                    {% if j.mrkofficomplen %}
+                                            <p style="text-decoration: underline;"><b>For Information</b></p>
+                                            {{j.mrkofficomp.desig_longdesc}}
+                                        {% endif %}
+                                        {% if j.mrkoffiactionlen %}
+                                            <p style="text-decoration: underline;"><b>For Action</b></p>
+                                            {{j.mrkoffiaction.desig_longdesc}}
+                                        {% endif %}
+                                </td>      
+                            </tr>
+                        {% else %}
+                        <tr>
+                            <td style="width: 8%; height: auto; font-size: 13px;">{{j.des_id}}</td>
+                            <td style="width: 70%; height: auto; font-size: 13px;">{{j.item_subtitle}}
+                                <br>
+                                {% if j.tbl_data != '[]' %}
+                                        <table  border="1"  style="width:100%">
+                                        {% for jk in j.tbl_data %}
+                                       
+                                        <tr>
+                                        {% for ik in jk %}
+                                        <td>{{ik}}</td>
+                                        {% endfor %}
+                                        </tr>
+                                       
+                                        {% endfor %}
+                                    </table>
+                                        {% endif %}
+                                        <br>
+                                    {% if j.enctype == 'Encl:' %}
+                                    <table>
+                                        <tr>
+                                            <td style="width: 10%; font-weight: bold;">{{j.enctype}}</td>
+                                            <td style="width: 90%;">
+                                                {% for i5 in j.enclen %}
+                                                        Pic:{{i5}}&nbsp;&nbsp;
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    {% endif %}
+                            </td>
+                            <!-- <td style="width: 20%; height: auto; font-size: 13px;"></td> -->
+                            <td style="width: 22%; height: auto; "></td>  
+                        </tr>
+                       
+                        {% endif  %}  
+                        {% endfor %}    
+                    </tbody>
+                </table>
+                <br><br>
+                    <nav style="align-items: normal;">
+                            <h5 align="left" style=" white-space: nowrap;" >Note No: {{inspection_note_no}} </h5>
+                            <br/>
+                            <h5 align="right">({{insp_ofc_name}}) <br>{{insp_desig}}</h5>
+                            <h5 align="right">
+                                {% if station_name and station_name != 'None' %}
+                                {{station_name}} Dated: {{final_submit_on|date:'d/m/Y'}}
+                                {% else %}
+                                    Dated: {{final_submit_on|date:'d/m/Y'}}
+                                {% endif %}
+                            </h5>
+                            <br/>
+                           
+                            {% if mail_detail.0.receiver_desig %}
+                            <h5 align="left">Copy to:</h5>
+                            <div id="officer_id">
+                                <ol type="1">
+                                    {% for i in mail_detail.0.receiver_desig %}
+                                    <li style="font-size: 15px;">{{i}}</li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
+                            {% endif %}
+                           
+                           
+                           
+                    </nav>
+        
+            {% if img_path %}  
+            <div class="page-break"></div>
+            {% endif %}
+            <div style="display:flex;justify-content:center;align-items:center;">
+            <table style="text-align: center;">
+                {% for i in img_path %}
+                <tr>
+                    <td style="text-align: center;">
+                        <img src="/{{i.path}}" width="800px" height="400px">
+                        <p style="text-align: center; font-weight: bold;">Pic:{{forloop.counter}} with reference to Item No. {{i.id}}</p>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+            </div>
+            {% endfor %}
+            </div>
+            <span style="display: contents;" >
+             <center>
+                <div class="btn-group mr-2" role="group" >
+                    <button  onclick="printable()" class="btn-print btn-warning">Print</button>   &nbsp;                 
+                    <button onclick="openpdf()"  class="btn-print btn-success" >Open as PDF</button>                
+                </div>
+                <!-- <button  onclick="window.print()" class="btn-print"   style="background-color: #c4dcfb; height: 40px; width: 100px; ">
+                    Print</button>
+                 <a type="button" class="btn btn-primary" href="{% url 'inspectionReportPdf' insp_id %}"   target="blank" style="background-color: lightgreen; height: 40px; width: 100px; ">View as PDF</a>
+                <button onclick="openpdf()"  class="btn-print" style="background-color: rgb(211, 242, 211); height: 40px; width: 100px; ">
+                    Open as PDF
+                        </button> -->
+            </center>
+            </span>
+        
+        
+        </div>
+    </div>
+    
+</body>
+<script>
+    function printable(){
+    var pCon = $('.printable').html();
+    w=window.open();
+    w.document.write(pCon);
+    w.print();
+    w.close();
+    }
+    function openpdf()
+    {
+        window.location.href='{% url "inspectionReportPdf" insp_id %}';
+    }
+   
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

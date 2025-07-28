@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Scheduled Inspection of Marked Officer</title>
+  <!-- CSS only -->
+  <!-- {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> {% endcomment %}
+
+      -->
+
+
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.print.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+
+  <style>
+    table {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10px 0 0 0;
+      table-layout: auto;
+    }
+
+    table td,
+    table th {
+
+      /* max-width: 0; */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      word-break: break-all;
+      white-space: nowrap;
+
+      text-align: left;
+      padding: 10px;
+    }
+
+    table th {
+      width: auto !important;
+    }
+
+    table td {
+      max-width: 0;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #E8E8E8;
+    }
+
+    table td:hover {
+      background-color: rgb(210, 211, 207);
+      overflow: visible;
+      white-space: normal;
+      height: auto;
+    }
+
+    table .t8 {
+      width: 20%;
+    }
+
+    */
+  </style>
+</head>
+
+<body onload=show_data(this);>
+  <h3 class="report_heading"> Schedule Inspection of Other Officers </h3>
+  <br>
+  <!-- <br><br>
+  <form target="_blank"  method="POST" class="d-inline" action = '{% url "Showpdf" %}'>
+    {% csrf_token %}
+     {% csrf_token %} 
+    <button type="submit" name="submitpdf" id="report" class="btn btn-danger" value="PDF">PDF <i class="fa fa-file-pdf"></i></button>
+    <button type="submit" name="submitpdf" id="report1" class="btn btn-success" value="excel">Excel <i class="fa fa-file-excel"></i></button>  
+  </form>     
+
+  <br> -->
+  <div class="container">
+
+    <div class="inpt-container">
+    <div class="row">
+      
+      <div class="col-3">
+        <label class="lbl-caption"for="exampleFormControlSelect1">Date of Inspection</label>
+        <!-- <input id="date1" type="text" class="form-control datepker" name="date_to_act" placeholder="dd-mm-yy" readonly> -->
+        <input type="text" autocomplete="off" placeholder="Select daterange.."  id ="date1" name="daterange1" required class="form-control" style="margin-top:0em; height: 36px; background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;" id="txtDate2"   readonly requied>
+            
+      </div>
+
+      <div class="col-4" >
+        <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+          <div class="btn-group mr-2" role="group" >
+        <button class="btn btn-warning btn-sm" onclick="searchDetails2()">Continue</button>
+        <button type="submit" class="btn btn-secondary btn-sm" onclick="refreshPage()">Reset</button>
+      </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    <br>
+
+    <table class="table table-data" id="Show1">
+      <thead>
+        <tr>
+          <th >S.No</th>
+          <th >Insp. Date</th>
+          <th >Designation</th>
+          <th >Rly./Org.</th>
+          <th >Div./Unit</th>
+          <th >Major Location</th>
+          <th >Details of inspection</th>
+
+          <th >Status</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+
+    </table>
+  </div>
+  <!--    
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com//ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+  <script>
+    //for date range
+    $(function() {
+
+$('input[name="daterange1"]').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    // maxDate: new Date(),
+    "opens": "right",
+    locale: {
+        cancelLabel: 'Clear'
+    }
+});
+
+$('input[name="daterange1"]').on('apply.daterangepicker', function(ev, picker) {
+  $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+  
+  if(picker.startDate.format('DD/MM/YY') == picker.endDate.format('DD/MM/YY')){
+      $(this).val(picker.startDate.format('DD/MM/YY'))
+    }
+    else{
+      $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+    
+    }
+  
+  $('.applyButtonClasses').click()
+
+  
+});
+
+$('input[name="daterange1"]').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+});
+
+  $(".datepker").datepicker({
+    
+    dateFormat: 'dd/mm/y',
+    showButtonPanel: true,
+    closeText: 'Clear',
+    
+    onClose: function () {
+       var event = arguments.callee.caller.caller.arguments[0];
+       // If "Clear" gets clicked, then really clear it
+       if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+          $(this).val('');
+       }
+    }
+  });
+  
+  //date range end
+    $(function () {
+      $('#Show1').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+          'excel', 'print',
+
+        ],
+      });
+
+
+    });
+  </script>
+</body>
+
+
+<script>
+
+  function show_data(e) {
+
+    $.ajax
+      (
+        {
+          url: '{% url "Show1" %}',
+          datatype: 'json',
+          type: 'GET',
+          success: function (response) {
+
+            var table = $('#Show1').DataTable();
+            table.destroy();
+            $('#Show1 tbody').empty();
+            console.log(response.donor)
+            var s = 0;
+            for (i in response.donor) {
+              s = s + 1
+              $('#Show1 tbody').append
+                (
+                  `<tr>
+                                 <td >${s}</td>
+                                 <td>${response.donor[i][0].date_to_act}</td>
+                                 <td>${response.donor[i][0].designation}</td>
+                                 <td>${response.donor[i][0].Railways_act}</td>
+                                 <td>${response.donor[i][0].Division_act}</td>
+                                 <td>${response.donor[i][0].location3_act}</td>
+                                 <td >${response.donor[i][0].event}:${response.donor[i][0].description}</td>
+                                 <td>${response.donor[i][0].statusNew}</td>
+     
+                             </tr> `
+                )
+            }
+            var table = $('#Show1').DataTable({
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                  extend: 'excel',
+                  messageTop: 'Schedule Inspection of other officer'
+
+                },
+                {
+                  extend: 'pdf',
+                  messageTop: 'Schedule Inspection of other officer'
+
+                },
+
+              ],
+            });
+          }
+        }
+      )
+  }
+
+  $(".datepker").datepicker({
+
+    dateFormat: 'dd/mm/y',
+    showButtonPanel: true,
+    closeText: 'Clear',
+
+    onClose: function () {
+      var event = arguments.callee.caller.caller.arguments[0];
+      // If "Clear" gets clicked, then really clear it
+      if ($(event.delegateTarget).hasClass('ui-datepicker-close')) {
+        $(this).val('');
+      }
+    }
+  });
+  function refreshPage() {
+    location.reload();
+
+  }
+  function searchDetails2() {
+
+    var date1 = $('#date1').val();
+
+    data = { 'date': date1 }
+
+    $.ajax({
+      url: '{% url "searchDetails2" %}',
+      dataType: 'json',
+      type: 'GET',
+      data: data,
+      success: function (response) {
+        var table = $('#Show1').DataTable();
+        table.destroy();
+        $('#Show1 tbody').empty();
+
+        console.log(response.details)
+        var s = 0;
+        for (i in response.donor) {
+          s = s + 1
+          $('#Show1 tbody').append
+            (
+              `<tr>
+                                 <td>${s}</td>
+                                 <td>${response.donor[i][0].date_to_act}</td>
+                                 <td>${response.donor[i][0].designation}</td>
+                                 <td>${response.donor[i][0].Railways_act}</td>
+                                 <td>${response.donor[i][0].Division_act}</td>
+                                 <td>${response.donor[i][0].location3_act}</td>
+                                 <td >${response.donor[i][0].event}:${response.donor[i].description}</td>
+                                 <td>${response.donor[i][0].status}</td>
+     
+                             </tr> `
+            )
+        }
+        var table = $('#Show1').DataTable({
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              extend: 'excel',
+              messageTop: 'Schedule Inspection of other officer',
+              messageTop: 'On(' + date1 + ')'
+            },
+            {
+              extend: 'pdf',
+              messageTop: 'Schedule Inspection of other officer',
+              messageTop: 'On(' + date1 + ')'
+            },
+
+          ],
+        });
+
+      }
+    })
+  }
+
+</script>
+
+
+
+</html>
+{% endblock content %}

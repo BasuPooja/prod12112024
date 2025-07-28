@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ 
+<style>
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt;
+        
+    }
+    }
+   
+ 
+</style>
+<body>
+<h3 align="center" style="font-size: 15px;" ><b>Checklist Template Of  <td>{{one}} </td> 
+    
+</h3>
+</b>
+       
+ 
+
+    <!-- /.box-body -->
+
+    <h3  style="font-size: 15px;" >Title:<td>{{ two }} </td>
+    <br>
+    Version:<td>{{ four }} </td>
+    <br>
+    Status:{{ ten }}
+    <br>
+        Date:<td>{{three|date:"d/m/y"}} </td> 
+    
+    </h3>
+
+     
+{%if lent %}
+    <table class='b' border="1" align="center">
+        <thead >
+    
+                <tr>
+                    <th style="font-size: 14px; padding: 2px; ">S.No.</th>
+                    <th style="font-size: 14px; padding: 2px; ">Activity</th>
+                    {% comment %} <th style="font-size: 14px; padding: 2px; ">Action By</th> {% endcomment %}
+                </tr>
+        </thead>
+        
+        <tbody id="row">
+            
+            {% for key,values in obj.items %}  
+            <tr style="width:100%;">
+                <td style="width: 8%; height: auto; font-size: 13px; font-weight: bold;">{{key}}</td>
+                <td style="width: 92%;height: auto;  font-size: 13px;"><b>{{values.activities}}</b>
+
+                    {% comment %} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                     <b>{{ values.created_on }}</b> </td> {% endcomment %}
+
+                {% comment %} <td style="width: 22%; height: auto; font-size: 13px;"> {{values.created_by }}</td> {% endcomment %}
+
+                {% comment %} <td align="center" style="width: 10%;"><p style="font-size: 15px; padding: 50px;">{{key}} </p></td>
+                <td align="center" style="width: 70%; height: auto; font-size: 13px;"><p style="font-size: 15px;">{{ values.activities }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ values.created_on }} </p></td>
+                <td align="center"  style="width: 15%;"><p style="font-size: 15px; padding: 50px;">{{values.inspection_officer__designation }}</p></td>
+                 {% endcomment %}
+                
+                
+            </tr>
+            {% endfor %}
+            
+        </tbody>   
+    </table>
+    {%else%}
+    <table class='b' border="1" align="center" id="gi10form">
+        <thead>
+            <tr >  
+                <th class='b'><p style="font-size: 15px; padding: 10px;">S.N.</p></th>
+                <th class='b'><p style="font-size: 15px;padding: 10px;" >Activity </p></th> 
+                  
+                
+            </tr>
+        </thead>
+        <tr >
+            <td class="b" colspan="5"><h1>No Data Available.</h1></td>
+        </tr>
+         
+    </table>
+
+    {% endif %}
+
+    <br>
+    <br>
+    <br>
+    
+    <br>
+{% comment %} <table>
+
+    <tr>
+        <td> 
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h3 align="left" style="font-size: 15px;" ><b>Note No
+                {{ values.inspection_note_no }} 
+             </b></h3>
+              <h3 align="left" style="font-size: 15px;" ><b>Copy To:</b></h3>
+        
+                <ol type="1">
+                    <li style="font-size: 15px;">{{  values.inspection_note_no }} </li>
+                    <li style="font-size: 15px;">{{ values.inspected_on }} </li>
+        
+                </ol>
+
+        </td>
+
+        <td>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </td>
+
+        <td>
+            <h3 align="left" style="font-size: 15px;" >( {{ values.inspection_officer__designation }} )
+               
+             </h3>
+
+              <h3 align="left" style="font-size: 15px;" ><b>{{values.inspection_officer__designation}}</b></h3>
+                <br>
+                <h3 align="left" style="font-size: 15px;" ><b>{{values.location}} Dated {{values.inspected_on}}</b></h3>
+             </td>
+
+    </tr>
+</table> {% endcomment %}
+
+
+</body>
+</html>
+

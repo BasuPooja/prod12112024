@@ -1,0 +1,314 @@
+{% extends 'base.html' %} 
+  {% load static %}
+  {% block content %}
+ 
+<head>
+
+  <title>Add New Task</title>
+
+  <script type="text/javascript">
+      if(self===top){
+        var antiClickjack = document.getElementById("antiClickjack");
+        antiClickjack.parentNode.removeChild(antiClickjack);
+      }
+      else{
+        top.location= self.location;
+      }
+  </script>
+  <script type="text/javascript">
+    $(".sidebar").addClass('close');
+  </script>
+
+  <style>
+      @media screen and (min-width:500px) {
+          .myFormCard {
+              border: 1px solid rgb(236, 236, 236);
+              padding: 3%;
+              margin-top: 2%;
+              /* margin: 3%; */
+              margin-left: 30%;
+              margin-right: 30%;
+              border-radius: 10px;
+          }
+
+          .myFormCard {
+              /* Add shadows to create the "card" effect */
+              box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+              transition: 0.3s;
+          }
+
+          /* On mouse-over, add a deeper shadow */
+          .myFormCard:hover {
+              box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+          }
+
+
+      }
+
+      @media screen and (max-width:500px) {
+          .myFormCard {
+              padding: 10px;
+              margin: 10px;
+              box-sizing: border-box;
+          }
+      }
+
+      .flex-container {
+          display: flex;
+          /* justify-content: space-between; */
+      }
+
+      .left-part {
+          width: 30%;
+          align-self: center;
+      }
+
+      .right-part {
+          width: 60%;
+          align-self: center;
+      }
+      .my-heading {
+          font-family:Georgia;
+          margin-top:1rem;
+          font-weight : 500;
+          font-size : 2.5rem;
+          text-align : center;
+          Color : black;
+          font-weight: bold;
+
+      }
+  </style>
+</head>
+ <body>
+  <div class="myFormCard">
+    <div class="flex-container">
+        <!-- <div class="left-part">
+            <img src="{% static 'inspects/images/logo_inspection.png' %}" alt="Logo Inspection" width="80%" height="80%">
+        </div> -->
+        <div class="my-heading ">
+            <!-- <h1>
+                <span style="color: #ea4335;">INSPECTION</span>
+            </h1> -->
+            <div class="my-heading">
+                <h3>ADD NEW TASK</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                  <div class="alert alert-success">
+                    <strong>Success </strong>{{ message }}
+                  </div>
+                {% elif message.tags == 'error' %}
+                  <div class="alert alert-danger">
+                    <strong>Error </strong>{{ message }}
+                  </div>
+                {% elif message.tags == 'info' %}
+                  <div class="alert alert-info">
+                    <strong>Info </strong>{{ message }}
+                  </div>
+                {% else %}
+               
+                {% endif %}
+               
+           
+            {% endfor %}
+        {% endif %}
+      </div>
+
+
+
+ <div class="container-fluid">
+    <div class="row">
+      <div class="col" style="background-color: white;">
+        <form action="" method="POST" class="form-group" enctype="multipart/form-data">
+          {% csrf_token %}
+          <!-- Task Description -->
+          <div class="row">
+            <div class="col-md-4">
+              <label for='subject' class="mr-sm-2">Task</label><span style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+              <textarea class="form-control mb-2 mr-sm-2" name="subject" id="subject" placeholder="Task Description"
+                required></textarea>
+            </div>
+          </div>
+          <!-- Assigned To -->
+          <div class="row">
+            <div class="col-md-4">
+              <label for='action_by' class="mr-sm-2">Assign To</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+              <div class="multi_select_box">
+                <input type="text" id="action_by_test" name="action_by_test" hidden>
+                <!-- <select id="action_by" name="action_by" class="form-control" style="width: 100%;"
+                  placeholder="--Select One Officer--" data-live-search="true" multiple data-actions-box="true" > -->
+                  <select class="form-control p-0"  name="action_by" id="action_by" class="custom-select" style="height:30px; font-size:14px;" >
+                    <option style="width:20px" value="NA" data-tokens="-Select One Officer--" selected disabled>-Select One Officer--</option>
+                  {% for i in officers %}
+                  <option style="width:20px" value="{{i.designation_code}}" data-tokens="{{i.designation}}">
+                    {{i.designation}}</option>
+                  {% endfor %}
+
+                </select>
+              </div>
+
+            </div>
+          </div>
+           <!--Task Type -->
+         <!-- <div class="row">
+            <div class="col-md-4">
+              <label for='task_type' class="mr-sm-2">Task Type</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+              <div class="multi_select_box">
+                <select class="form-control p-0"  name="task_type" id="task_type" class="custom-select" style="height:30px; font-size:14px;" >
+                    
+                </select>
+              </div>
+
+            </div>
+          </div> -->
+          <!-- Initiation Date -->
+          <div class="row">
+            <div class="col-md-4">
+              <label for='init_date' class="mr-sm-2">Initiation Date</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+
+
+              <input type="text" class="form-control mb-2 mr-sm-2" autocomplete="off" name="init_date"
+                style="background-color: #fff;" placeholder="Select Date" id="init_date" required readonly>
+            </div>
+          </div>
+          <!-- Deadline Date -->
+          <div class="row">
+            <div class="col-md-4">
+              <label for='deadline' class="mr-sm-2">Deadline</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+
+
+              <input type="text" class="form-control mb-2 mr-sm-2" autocomplete="off" name="deadline"
+                style="background-color: #fff;" placeholder="Select Date" id="deadline" required readonly>
+            </div>
+          </div>
+         <!--Status -->
+         <div class="row">
+            <div class="col-md-4">
+              <label for='status' class="mr-sm-2">Status</label><span
+                style="color:red;font-weight:bold">*</span>
+            </div>
+            <div class="col-md-8">
+              <div class="multi_select_box">
+                <select class="form-control p-0"  name="status" id="status" class="custom-select" style="height:30px; font-size:14px;" >
+                    <option value="0">Not Yet Started</option>
+                    <option value="1">Started</option>
+                    <option value="2">On Track</option>
+                    <option value="3">Partially Completeted</option>
+                    <option value="4">Delayed</option>
+                    <option value="5">Completed</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+          
+          
+          <br>
+          <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 mr-3" id="submitdos">
+                <button type="button" id="submit1" class="btn btn-success" 
+                style=" width: 100%;" onclick="task_submit()" {% if request.session.userrole == 'guest' %} disabled {% endif %}>Save</button>
+            
+              <button type="submit" id="submit" class="btn btn-success" 
+                style=" width: 100%;" hidden>Save</button>
+            
+            </div>
+            <div class="col-4"></div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+ </div>
+</body>
+<script>
+     $("#action_by").select2();
+</script>
+<script>
+    $(function () {
+  
+      $('#init_date').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        autoApply: true,
+        maxDate: new Date(),
+        "opens": "left",
+        locale: {
+          cancelLabel: 'Clear'
+        }
+      });
+      $('#deadline').daterangepicker({
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        autoApply: true,
+        minDate: new Date(),
+        "opens": "left",
+        locale: {
+          cancelLabel: 'Clear'
+        }
+      });
+  
+      $('input[name="init_date"]').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YY'));
+      });
+      $('input[name="deadline"]').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YY'));
+      });
+  
+  
+    });
+</script>
+<script>
+    function task_submit(){
+        var descp=$("#subject").val();
+        if (descp==''){
+            alert("Please add Task Description");
+            return false;
+        }
+        var action_by=$("#action_by").val();
+        if (action_by){}
+        else{
+            alert("Please add Officer");
+            return false;
+        }
+        var init_date=$("#init_date").val();
+        if (init_date==''){
+            alert("Please add Initiation Date");
+            return false;
+        }
+        var deadline=$("#deadline").val();
+        if (deadline==''){
+            alert("Please add Deadline Date");
+            return false;
+        }
+        var status=$("#status").val();
+        if (status){}
+        else{
+            alert("Please Status");
+            return false;
+        }
+        $('#submit').click();
+    }
+</script>
+    
+  {% endblock %}

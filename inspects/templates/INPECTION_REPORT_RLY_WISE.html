@@ -1,0 +1,997 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<style>
+  .modal-lg {
+    max-width: 48%;
+  }
+
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 80%;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    ;
+    height: 100%;
+    margin: 0;
+  }
+
+
+
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: block;
+    /* border: 1.5px solid rgb(14, 12, 12); */
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  input[type=submit] {
+    width: 40%;
+    text-align: center;
+    background-color: #4CAF50;
+
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+    text-align: center;
+  }
+
+
+  input[type=button]:hover {
+    background-color: #45a049;
+    text-align: center;
+  }
+
+  /* #viewbtn{
+        margin-left:1050px;
+      } */
+
+  .inputtag {
+    height: 20px;
+  }
+
+  .button {
+    padding: 15px 25px;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 2em;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 15px;
+
+  }
+
+  .button:hover {
+    background-color: #3e8e41
+  }
+
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+</style>
+<style>
+  #viewbtn {
+    margin-left: 1200px;
+    margin-right: 10px;
+  }
+
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  /* The Close Button */
+  .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  /* #tableid thead tr td{
+  word-wrap: break-word;
+} */
+  /* #tableid tbody tr td:last-child {
+ position: sticky; 
+ top: 0px;
+} */
+
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .inpt-container {
+    background-image: linear-gradient(#cce3fc, #FFFFFF);
+    border-bottom: 2px solid #b0d8f5;
+    margin-bottom: 1rem;
+  }
+
+  .dataTables_filter {
+    position: relative;
+  }
+
+  .dataTables_filter input {
+    width: 250px;
+    height: 32px;
+    background: #fcfcfc;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+    text-indent: 10px;
+  }
+
+  .table-stats td {
+    padding: 8px !important;
+  }
+
+  td.progress-stats {
+    padding: 0px !important;
+    background: #fff !important;
+  }
+
+  td.progress-stats table tr td {
+    padding: 6px;
+    background: #fff;
+    border: 0px;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  .table-stats {
+    margin-bottom: 0px !important;
+  }
+
+  .table-entry tr th {
+    /* background: #b32400; */
+    background: #d85c64;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: white;
+    padding: 5px;
+  }
+
+  .table-entry tr td {
+    font-size: 13px;
+    color: #000;
+    padding: 5px;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(182, 179, 179);
+  }
+
+  .table-entry tr :nth-child(even) {
+    /* background-color: #fcdcdc; */
+    /* border-bottom: 1px solid black; */
+  }
+
+  th.sorting_asc {
+    background-color: #888;
+  }
+
+  .heading-title {
+    position: relative;
+    padding-bottom: 8px;
+    font-weight: 600;
+    color: #262626 !important;
+    /* text-transform: uppercase; */
+    font-size: 18px;
+    /* font-family: 'Josefin Sans', sans-serif; */
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+    margin-left: 0.5rem;
+    /* margin-left: 2rem; */
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .heading-title::after {
+    position: absolute;
+    content: "";
+    background: #C20E39;
+    height: 2px;
+    width: 230px;
+    left: 42%;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+  }
+
+  .dt-button {
+    margin-top: 31px;
+    padding: 5px 20px 5px 20px;
+  }
+
+  table.dataTable thead th,
+  table.dataTable thead td {
+    /* padding: 10px 18px; */
+    border-bottom: none;
+    text-align: center;
+  }
+
+  table.dataTable tbody th,
+  table.dataTable tbody td {
+    /* padding: 10px 18px; */
+    border-bottom: none;
+    text-align: center;
+  }
+
+  .loader {
+    display: none;
+    position: sticky;
+    left: 45%;
+    top: 45%;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    z-index: 999;
+    --webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter,
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_processing,
+  .dataTables_wrapper .dataTables_paginate {
+    color: inherit;
+    margin-top: 2.2rem;
+    margin-left: 10px;
+  }
+</style>
+
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/css/datatables/jquery.dataTables.min.css' %}" />
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css" />
+
+</head>
+<style>
+  table.dataTable tfoot th,
+  table.dataTable tfoot td {
+    /* padding: 10px 18px; */
+    border-bottom: none;
+    text-align: center;
+  }
+</style>
+<h3 class="report_heading">Inspection Report</h3>
+
+<br>
+<div class="loader"></div>
+<div class="container">
+  <div class="inpt-container">
+    <form method="post" action="{% url 'ByPDFtorender' %}">
+      {% csrf_token %}
+      <table>
+        <tr>
+          <th style="width: 35%;">
+            <div class="row">
+
+              <div class="col-md-3"></div>
+              <div class="col-md-9" id='prod_unit'>
+                <label>Production Units</label><br>
+
+                <input class="searchType1" type="checkbox" name="chk1[]" id="type" onchange="typechange(),myFunction()"
+                  value="All">&nbsp;All&nbsp;
+                <input class="searchType" type="checkbox" name="chk[]" value="ZR" onchange="myFunction()"
+                  checked>&nbsp;ZR&nbsp;
+                <input class="searchType" type="checkbox" name="chk[]" value="RB" onchange="myFunction()"
+                  checked>&nbsp;RB&nbsp;
+                <input class="searchType" type="checkbox" name="chk[]" value="PU" onchange="myFunction()"
+                  checked>&nbsp;PU&nbsp;
+                <input class="searchType" type="checkbox" name="chk[]" value="CTI" onchange="myFunction()"
+                  checked>&nbsp;CTI&nbsp;
+
+              </div>
+            </div>
+          </th>
+
+
+
+          <th style="width: 65%;">
+
+            <div class="row">
+              <!-- <div class="col-3">
+
+    </div> -->
+              <div class="col-3" style="margin-top: 0.5rem;">
+                <label for="date" class="lbl-caption">From</label>
+                <input required class="form-control" id="datefrom" style="height: 38px !important;" name="datefrom"
+                  type="text" value="{{app_date}}" autocomplete="off" readonly />
+              </div>
+              <div class="col-3" style="margin-top: 0.5rem;">
+                <label for="date" class="lbl-caption">To</label>
+                <input required class="form-control" id="dateto" style="height: 38px !important;" name="dateto"
+                  type="text" value="{{curr_date}}" autocomplete="off" readonly />
+              </div>
+              <div class="col">
+                <label>&nbsp;</label>
+                <input style="max-width:25%; margin-top: 45px; background-color:#f0ad4e ; height: 2.8em" type="button"
+                  value="Continue" id="submit" class="btn btn-primary btn-sm" name="submit" onclick="myFunction()">
+                <button type="button" class="btn btn-secondary" ; onClick="window.location.href=window.location.href" ;
+                  style="max-width:25%;margin-top:42px">Reset</button>
+                <input type="submit" value="PDF" class="btn btn-secondary"
+                  style="margin-top: 45px;padding: 8px;padding-left: 4px;padding-right: 4px;color:white">
+              </div>
+            </div>
+          </th>
+
+        </tr>
+      </table>
+    </form>
+    <!-- <div class="row">
+    
+        <div class="col-md-3"></div>
+        <div class="col-md-9" id = 'prod_unit'>
+            <label>Production Units</label><br>
+
+            <input class="searchType1" type="checkbox" name="chk[]" id="type" onchange="typechange(),myFunction()" value="All" >&nbsp;All&nbsp;
+            <input class="searchType" type="checkbox" name="chk[]" value="ZR" onchange="myFunction()" checked>&nbsp;ZR&nbsp;
+            <input class="searchType" type="checkbox" name="chk[]" value="RB" onchange="myFunction()" checked>&nbsp;RB&nbsp;
+            <input class="searchType" type="checkbox" name="chk[]" value="PU" onchange="myFunction()" checked>&nbsp;PU&nbsp;
+            <input class="searchType" type="checkbox" name="chk[]" value="CTI" onchange="myFunction()" checked>&nbsp;CTI&nbsp;
+            
+        </div>
+    </div> -->
+
+    <!-- <br>
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-2" style="margin-top: 0.30rem;">
+            <label for="date" class="lbl-caption">From</label>
+            <input required class="form-control" id="datefrom" style="border-top-right" name="datefrom"
+                type="text" value="{{min_complaint_date}}" autocomplete="off" />
+        </div>
+        <div class="col-2" style="margin-top: 0.5rem;">
+            <label for="date" class="lbl-caption">To</label>
+            <input required class="form-control" id="dateto" style="height: 38px !important;" name="dateto"
+                type="text" value="{{max_complaint_date}}" autocomplete="off" />
+        </div>
+        <div class="col">
+            <label>&nbsp;</label>
+            <input style="width: 8em; margin-top: 45px; background-color:#007bff ; height: 2.5em" type="button"
+                value="Show" id="submit" class="btn btn-primary btn-sm" name="submit" onclick="myFunction()">
+        </div>
+    </div> -->
+  </div>
+</div>
+<br>
+
+
+<!-- Search Location modal -->
+
+<div class="modal left fade" id="Search_Modal" tabindex="-1" role="dialog" aria-labelledby="MOM_ModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-lg" role="document" style='width:60%;'>
+    <div class="modal-content modal-content-full-width ">
+
+
+      <div class="modal-body" style="text-align: left;">
+
+        <div class="row">
+
+          <div id="preiew_mom_pdf">
+
+            <iframe id="iframepreview" style="width:900px; height:900px;" frameborder="0"></iframe>
+          </div>
+
+        </div>
+
+      </div><!--  Modal Body -->
+      <div class="modal-footer modal-footer-full-width">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+      </div><!-- Modal Footer-->
+    </div>
+  </div>
+</div>
+<!-- Search Location Modal -END -->
+
+<!-- Search InSP Para modal -->
+
+<div class="modal left fade" id="Insp_Modal" tabindex="-1" role="dialog" aria-labelledby="Insp_ModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-lg" role="document" style='width:60%;'>
+    <div class="modal-content modal-content-full-width ">
+
+
+      <div class="modal-body" style="text-align: left;">
+        <div class="row">
+
+          <div id="preiew_insp_pdf">
+            <iframe id="iframepreviews" style="width:900px; height:900px;" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div><!--  Modal Body -->
+      <div class="modal-footer modal-footer-full-width">
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+      </div><!-- Modal Footer-->
+    </div>
+  </div>
+</div>
+<!-- Search Inss Para modal End -->
+
+
+
+
+<div class="container">
+
+  <div class="row" style="overflow-x: auto;">
+    <form method="POST" id='indexForm'>
+      {% csrf_token %}
+      <div id="tablediv" class="box-body no-padding">
+        <table id="tableid" name="tableid" class="table table-data table-bordered" cellspacing="0" style="width: 100%;">
+          <thead style="color:white; background-color:#d85c64;">
+
+            <tr>
+              <th>Railway</th>
+              <th>Created Inspection Notes</th>
+              <th>Fully Complied Inspection Notes</th>
+              <th>Pending Compliance Inspection Note</th>
+              <th>Total Inspection Points</th>
+              <th>Pending Inspection Points</th>
+              <th>Overdue Inspection Points</th>
+              <th>%Complied Inspection</th>
+
+              <th>MOM Issued</th>
+              <!-- <th>DO Issued</th>
+              <th>Task Tracker Assigned</th>
+              <th>Task Tracker Completed</th> -->
+            </tr>
+          </thead>
+
+          <tbody>
+          </tbody>
+          <tfoot>
+          </tfoot>
+        </table>
+
+        <!-- /.box-body -->
+
+      </div>
+      <hr>
+      <br>
+
+      <div class="container-fluid" id="summarybuttons">
+        <p class="btn btn-lg btn-primary" id='total_total_inspection'>Total Inspection :
+          <b>{{total_lodged_count|default:0}}</b>
+        </p>
+        <p class="btn btn-lg btn-primary" id='total_total_closed'>Total Closed : <b>{{total_closed|default:0}}</b></p>
+        <p class="btn btn-lg btn-primary" id='total_total_open'>Total Open: <b>{{total_pending|default:0}}</b></p>
+        <p class="btn btn-lg btn-primary" id='total_total_item'>Total Item: <b>{{total_total_item|default:0}}</b></p>
+        <p class="btn btn-lg btn-primary" id='total_total_item_pending'>Total Item Pending:
+          <b>{{total_total_item_pending|default:0}}</b>
+        </p>
+        <p class="btn btn-lg btn-primary" id='total_total_item_overdue'>Total Item Overdue:
+          <b>{{total_pendingatudm|default:0}}</b>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+
+  $(function () {
+
+    $('input[name="created_on"]').daterangepicker({
+      autoUpdateInput: false,
+      autoApply: true,
+      maxDate: new Date(),
+      "opens": "left",
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    });
+
+
+
+
+    $('input[name="created_on"]').on('apply.daterangepicker', function (ev, picker) {
+      $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+
+      if (picker.startDate.format('DD/MM/YY') == picker.endDate.format('DD/MM/YY')) {
+        $(this).val(picker.startDate.format('DD/MM/YY'))
+      }
+      else {
+        $(this).val(picker.startDate.format('DD/MM/YY') + ' to ' + picker.endDate.format('DD/MM/YY'));
+
+      }
+
+      $('.applyButtonClasses').click()
+
+
+    });
+
+    $('input[name="created_on"]').on('cancel.daterangepicker', function (ev, picker) {
+      $(this).val('');
+    });
+
+  });
+
+
+  var table = $('#tableid').DataTable({
+    dom: 'Blfrtip',
+    buttons: [
+      {
+        extend: 'excel',
+        footer: true,
+        title: function (e) {
+          var e1 = $('#datefrom').val();
+          var e2 = $('#dateto').val();
+          return 'Inspection Report from ' + e1 + ' to ' + e2;
+        },
+        orientation: 'landscape',
+        pageSize: 'LEGAL',
+      },
+      {
+        extend: 'pdfHtml5',
+        footer: true,
+        title: function (e) {
+          var e1 = $('#datefrom').val();
+          var e2 = $('#dateto').val();
+          return 'Inspection Report from ' + e1 + ' to ' + e2;
+        },
+        exportOptions: {
+          stripHtml: false,
+          format: {
+            body: function (data, row, column, node) {
+              return $(node).find('a').length ? $(node).find('a').text() : data;
+            }
+          }
+        },
+        customize: function (doc) {
+          // Adjusting the page size and content margins
+          doc.pageMargins = [10, 20, 10, 20];
+          doc.defaultStyle.fontSize = 6;
+          doc.styles.tableHeader.fontSize = 7;
+
+          // Set the column widths
+          doc.content[1].table.widths = [
+            '8%', // Railway
+            '8%', // Created Inspection Notes
+            '8%', // Fully Complied Inspection Notes
+            '8%', // Pending Compliance Inspection Note
+            '8%', // Total Inspection Points
+            '8%', // Pending Inspection Points
+            '8%', // Overdue Inspection Points
+            '8%', // % Complied Inspection
+            '8%', // MOM Issued
+            '8%', // DO Issued
+            '8%', // Task Tracker Assigned
+            '8%'  // Task Tracker Completed
+          ];
+
+          var objLayout = {};
+          objLayout['hLineWidth'] = function (i) { return 0.5; };
+          objLayout['vLineWidth'] = function (i) { return 0.5; };
+          objLayout['hLineColor'] = function (i) { return '#aaa'; };
+          objLayout['vLineColor'] = function (i) { return '#aaa'; };
+          objLayout['paddingLeft'] = function (i) { return 2; };
+          objLayout['paddingRight'] = function (i) { return 2; };
+          doc.content[1].layout = objLayout;
+        },
+        text: 'PDF',
+        fontSize: 'LEGAL'
+      },
+      {
+        extend: 'print',
+        footer: true,
+        title: function (e) {
+          var s1 = $('#datefrom').val();
+          var s2 = $('#dateto').val();
+          return 'Inspection Report from ' + s1 + ' to ' + s2;
+        },
+        customize: function (doc) {
+          $(doc.document.body).find('tableid').css('text-align', 'center');
+        }
+      }
+    ],
+    headers: true
+  });
+
+  function myFunction() {
+    let mydata = [];
+    const checkbox = document.querySelectorAll('input[type="checkbox"]:checked');
+    for (let i = 0; i < checkbox.length; i++) {
+      if (checkbox[i].value == "All") {
+        continue;
+      } else {
+        mydata.push(checkbox[i].value);
+      }
+    }
+
+    let datefrom = $("#datefrom").val();
+    let dateto = $("#dateto").val();
+    data = {
+      "rly_list": JSON.stringify(mydata),
+      "datefrom": datefrom,
+      "dateto": dateto
+    };
+    $('.loader').show();
+    $.ajax({
+      type: 'GET',
+      url: "{% url 'fetch_desig_ajax2' %}",
+      dataType: 'json',
+      data: data,
+      success: function (response) {
+        table.destroy();
+        $('#tableid tbody').empty();
+        $('#tableid tfoot').empty();
+        let myhtml2 = '';
+        for (i = 0; i < response.rly_list.length; i++) {
+          myhtml2 += '<tr>';
+          myhtml2 += '<td>' + response.rly_list[i]['rly'] + '</td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/CINOTE/">' + response.rly_list[i]['total_inspection'] + '</a></td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/FCINOTE/">' + response.rly_list[i]['total_closed'] + '</a></td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/PCINOTE/">' + response.rly_list[i]['total_open'] + '</a></td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/TIPOINT/">' + response.rly_list[i]['total_item'] + '</a></td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/PIPOINT/">' + response.rly_list[i]['total_item_pending'] + '</a></td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/OIPOINT/">' + response.rly_list[i]['total_item_overdue'] + '</a></td>';
+          myhtml2 += '<td>' + response.rly_list[i]['per_complied'].toFixed(2) + '</td>';
+          myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/MOMISSUED/">' + response.rly_list[i]['total_mom_inspection'] + '</a></td>';
+          // myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/DOISSUED/">' + response.rly_list[i]['total_do_inspection'] + '</a></td>';
+          // myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/TTASSIGNED/">' + response.rly_list[i]['task_assigned'] + '</a></td>';
+          // myhtml2 += '<td><a href="/inspection_report_details_view/' + response.rly_list[i]['rly'] + '/' + datefrom + '/' + dateto + '/TTCOMPLETED/">' + response.rly_list[i]['task_completed'] + '</a></td>';
+          myhtml2 += '</tr>';
+        }
+        myhtml3 = '<tr>';
+        myhtml3 += '<td>Total</td>';
+        myhtml3 += '<td>' + response.total_total_inspection + '</td>';
+        myhtml3 += '<td>' + response.total_total_closed + '</td>';
+        myhtml3 += '<td>' + response.total_total_open + '</td>';
+        myhtml3 += '<td>' + response.total_total_item + '</td>';
+        myhtml3 += '<td>' + response.total_total_item_pending + '</td>';
+        myhtml3 += '<td>' + response.total_total_item_overdue + '</td>';
+        myhtml3 += '<td>' + response.total_total_per_complied.toFixed(2) + '</td>';
+        myhtml3 += '<td>' + response.total_total_mom + '</td>';
+        // myhtml3 += '<td>' + response.total_total_do + '</td>';
+        // myhtml3 += '<td>' + response.total_total_task_assign + '</td>';
+        // myhtml3 += '<td>' + response.total_total_task_completed + '</td>';
+        myhtml3 += '</tr>';
+
+        $('#tableid tbody').append(myhtml2);
+        $('#tableid tfoot').append(myhtml3);
+        $('#tablediv').show();
+        $('.loader').hide();
+        table = $('#tableid').DataTable({
+          "iDisplayLength": 15,
+          'order': [
+            [1, 'desc']
+          ],
+          "lengthChange": true,
+          "lengthMenu": [15, 30, 50, 75, 100],
+          dom: 'Blfrtip',
+          buttons: [
+            {
+              extend: 'excel',
+              footer: true,
+              title: function (e) {
+                var e1 = $('#datefrom').val();
+                var e2 = $('#dateto').val();
+                return 'Inspection Report from ' + e1 + ' to ' + e2;
+              },
+            },
+            {
+              extend: 'pdfHtml5',
+              footer: true,
+              title: function (e) {
+                var e1 = $('#datefrom').val();
+                var e2 = $('#dateto').val();
+                return 'Inspection Report from ' + e1 + ' to ' + e2;
+              },
+              exportOptions: {
+                stripHtml: false,
+                format: {
+                  body: function (data, row, column, node) {
+                    return $(node).find('a').length ? $(node).find('a').text() : data;
+                  }
+                }
+              },
+              customize: function (doc) {
+                doc.pageMargins = [10, 20, 10, 20];
+                doc.defaultStyle.fontSize = 6;
+                doc.styles.tableHeader.fontSize = 7;
+                var objLayout = {};
+                objLayout['hLineWidth'] = function (i) { return 0.5; };
+                objLayout['vLineWidth'] = function (i) { return 0.5; };
+                objLayout['hLineColor'] = function (i) { return '#aaa'; };
+                objLayout['vLineColor'] = function (i) { return '#aaa'; };
+                objLayout['paddingLeft'] = function (i) { return 2; };
+                objLayout['paddingRight'] = function (i) { return 2; };
+                doc.content[1].layout = objLayout;
+                doc.content[1].table.widths = [
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%',
+                  '8%'
+                ];
+              },
+              text: 'Pdf',
+              title: "Inspection Report ",
+              fontSize: 'LEGAL'
+            },
+            {
+              extend: 'print',
+              footer: true,
+              title: function (e) {
+                var s1 = $('#datefrom').val();
+                var s2 = $('#dateto').val();
+                return 'Inspection Report from ' + s1 + ' to ' + s2 + ' for ' + mydata;
+              },
+              customize: function (doc) {
+                $(doc.document.body).find('tableid').css('text-align', 'center');
+              },
+              "pagingType": "simple",
+              "sEmptyTable": 'No data available in table',
+              "oLanguage": {
+                "sInfoEmpty": "Page 0 of 0 ",
+              },
+              "language": {
+                "info": "Page _PAGE_ of _PAGES_",
+                "paginate": {
+                  "previous": "Prev",
+                },
+              },
+            },
+          ],
+        });
+      }
+    });
+  }
+
+
+  $(".dataTables_wrapper > .dt-buttons").appendTo("div.buttonpdf");
+</script>
+
+<script>
+  $("#check").click(function () {
+    var value = $("#check").is(':checked');
+    if (value) {
+      console.log("inside value")
+      $("#search_text").show();
+    }
+    else {
+      console.log('insode else')
+      $("#search_text").hide();
+    }
+  });
+
+
+  $(document).ready(function () {
+
+    $('.js-btn-tooltip').tooltip();
+
+    $('.js-btn-tooltip--custom-alt').tooltip({
+      customClass: 'tooltip-custom-alt'
+    });
+
+  });
+</script>
+
+<script>
+  function formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+    let newyear = String(year).slice(2, 5)
+    return [day, month, newyear].join('/');
+  }
+
+
+</script>
+
+<script>
+  function search_modal_view(e) {
+    //alert(e.id)
+    file = "/inspectionReportPdf/" + e.id;
+    $('#iframepreview').attr('src', file);
+
+    $('#aiframetest1').attr('href', file);
+  }
+</script>
+
+<script>
+  var today = new Date();
+  // var today1 = new Date(2022,10,30);
+  var today1 = new Date();
+
+  $("#datefrom").datepicker({
+    // maxDate: currentdate,
+    // enddate:"currentdate",
+    dateFormat: "dd-mm-yy",
+    changeMonth: true,
+    changeYear: true,
+    todayHighlight: true,
+    clearBtn: true,
+    autoclose: true,
+
+    // minDate: today1,
+    maxDate: today,
+    // defaultDate: currentdate,
+    // beforeShowDay: 
+    // function(fdate){     
+    //         dmy = jQuery.datepicker.formatDate('dd-mm-yy', fdate); 
+    //         // alert("hi",dmy)         
+    //         return [disableDates.indexOf(dmy) == -1];        
+    //     },  
+
+    onSelect: function (val) {
+      startDate = $(this).val();
+      // alert(startDate)
+      var parts = String(startDate).split('-');
+      chkdate = parts[2] + '-' + parts[1] + '-' + parts[0]
+      $('#dateto').datepicker('option', 'minDate', startDate);
+      console.log("startDate", startDate)
+      const date = new Date(chkdate);
+
+      //xyz=date.getDate() + 7;
+      //   xyz=date.setDate(date.getDate() + 6);
+      //   console.log("xyz",xyz)
+
+      //   xyz=new Date(xyz)
+      //   console.log("xyz",xyz)
+      //var enddate = date.addDays(7); 
+      var today = new Date();
+      console.log("today", today)
+      xyz1 = formatDate(today)
+      console.log("xyz", xyz1)
+      //alert(xyz)
+      $('#dateto').datepicker('option', 'maxDate', xyz1);
+      //   $('#dateto').val(xyz)
+
+    },
+  });
+
+  $("#dateto").datepicker({
+    dateFormat: "dd-mm-yy",
+    changeMonth: true,
+    changeYear: true,
+    todayHighlight: true,
+    clearBtn: true,
+    autoclose: true,
+  })
+
+  function typechange() {
+    // const checkbox =  document.querySelectorAll('input[type="checkbox"]:checked');
+    // alert(data.getAttribute('checked'))
+    const checkbox1 = document.querySelectorAll(".searchType");
+    let data = $("#type").prop('checked')
+    if (data == true) {
+      for (let i = 0; i < checkbox1.length; i++) {
+        checkbox1[i].checked = true
+      }
+      $("#type").attr('checked', true)
+    }
+    else {
+      // for(let i = 0;i<checkbox1.length;i++){
+      //     checkbox1[i].checked = false
+      // }
+      console.log("hello")
+    }
+  }
+</script>
+{% endblock %}

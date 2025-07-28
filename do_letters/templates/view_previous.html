@@ -1,0 +1,450 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<head>
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+  <script type="text/javascript">
+    $(".sidebar").addClass('close');
+  </script> 
+</head>
+
+<style>
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 1200px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+  /*Left*/
+  .modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+
+  .modal.left.fade.show .modal-dialog {
+    left: 0;
+  }
+
+  /*Right*/
+  .modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+
+  .modal.right.fade.show .modal-dialog {
+    right: 0;
+  }
+
+  /* ----- MODAL STYLE ----- */
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+  }
+
+  .modal-lg {
+    max-width: 70% !important;
+  }
+
+  .modal {
+    pointer-events: none;
+  }
+ </style>
+
+
+<body>
+
+        <h3 class="report_heading">D.O. Letters Issued by me</h3>
+        <br>
+       
+    <div class="container">
+      <div class="inpt-container" id="container1" style="padding-bottom:10px;">    
+        <form  method="POST" class="d-inline " >
+              
+        {% csrf_token %}
+        <div class="row" id="row1" style="font-family: 'Lato', sans-serif;font-size: 1em; margin-left: 2em;">
+
+   
+
+        <div class="col">
+          <label for="location" class="lbl-caption">Date Range</label>
+          <input id="date_range" class="form-control" name="date_range" autocomplete="off" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="col">
+          <label for='subject' class="lbl-caption">Subject</label>
+          <input class="form-control " name="subject" placeholder="Enter Subject of D.O. Letter">
+        </div>
+        <div class="col">
+          <!-- <label for ='action_by' class="mr-sm-2">Marked Officers</label>
+                 <select id="desig" name="desig" placeholder="--Select--" style="height: 35px; width:180px">
+                                <option value="" selected disabled hidden>--Select--</option>
+                                {% for i in officers %}
+                                <option value="{{i.designation}}">{{i.designation}}</option>
+                                {% endfor %}
+                            </select>  -->
+          <label for='action_by' class="lbl-caption">Marked Officers</label>
+          <div class="multi_select_box">
+            <input type="text" id="action_by_test" name="action_by_test" hidden>
+            <select id="action_by" name="action_by" class="form-control" data-live-search="true" multiple
+              data-actions-box="true" multiple data-selected-text-format="count > 2" multiple>
+
+              {% for i in officers %}
+              <option style="width:20px" value="{{i.designation_code}}" data-tokens="{{i.designation}}">
+                {{i.designation}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+            <div class="btn-group mr-2" role="group" >
+               
+              <button type="submit" id="submit" class="btn btn-warning btn-sm">Continue</button>
+              <!-- <button  type="button"  name="zone_loc_submit"  style="margin-top:2em; " class="btn btn-success" id="insp_submit" onclick="view_previous_value()">Search</button> -->
+              <button type="button"  class="btn btn-secondary btn-sm" id="insp_clear">
+                <a
+                  href="{% url 'view_previous'  %}" style="color:white">Reset</a></button>
+            </div>
+          </div>
+        </div>
+
+      
+
+      </div>
+    
+  </form>
+  </div>
+  </div>
+
+
+  <br>
+  
+     <div class="container"  style="font-family:'Lato', sans-serif; overflow-x: auto;"> 
+    
+      <table class="table  table-bordered table-data table-sm" id="view_tablesss"
+      style="width: 100%; font-size: 1em; font-family:'Lato', sans-serif">
+      <thead style="white-space: nowrap; color:white;text-align: center; height: 35px;">
+          <th>D.O. Date</th>
+          <th>Letter No.</th>
+          <th>Subject</th>
+          <th >Marked To</th>
+        </thead>
+        <tbody>
+          {% if letters %}
+          {% for i in letters %}
+          <tr>
+            <!-- <td style="width: 3%;"> {{forloop.counter}}</td> -->
+            <td style="width: 8%;">{{i.do_letter_date }}</td>
+            <td style="width: 15%;"><a href="" class="stretched-link" onclick="open_do('{{i.id}}'); return false;"
+                title="Click to view D.O. PDF"> {{i.do_letter_no}}</a></td>
+            <td style="width: 40%;">{{i.subject}}</td>
+
+            <td style="width: 37%;">
+              {% for j in i.marked_to %}
+              {% if j.abc is True %}
+              <p style="color: green;">{{j.xyz}}</p>
+              <!-- <b> <p ><a  href="" class="stretched-link"  data-toggle="modal" data-target="#reply_view"  onclick="reply_view('{{i.id}}', '{{j.ofc}}');" style="color: green;"  title="Click to view reply">{{j.xyz}} </a> </p> </b> -->
+              {% else %}
+              <p style="color: red;">{{j.xyz}}</p>
+              {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    
+
+  <br>
+  <br>
+  <div class="modal right fade" id="pdf_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content ">
+        <div class="modal-header " style="background-color: #3c84cd; color: white;" >
+          <h5 class="modal-title" id="myModalLabel">Details of D.O. <label id="dodetails"></label></h5>
+
+          <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" id="pdfclose"
+            onclick="funpdfclose()" >Close
+            <!-- <span aria-hidden="true">&times;</span> -->
+          </button>
+            
+        </div>
+        
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <textarea class="form-control mb-2 mr-sm-2" id="piframetest" style="width: 100%; height:100%" readonly></textarea>
+              <a style="float: right;" class="btn btn-primary" target="_blank" id="aiframetest"><i class="fas fa-arrow-right" ></i></a>
+              <br>
+              <iframe id="iframetest" style="width:100%; height:720px;" frameborder="0"></iframe>
+
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table  table-bordered table-data table-sm" id="dotbl"
+                  style="width: 100%; font-size: 1em; font-family:'Lato', sans-serif">
+                  <thead style="white-space: nowrap; color:white;text-align: center; height: 35px;">
+                    <th style="width: 30%;">Action By</th>
+                    <th style="width: 50%;">Reply Rec'd (Yes/No)</th>
+                    <th style="width: 10%;">Date</th>
+                    <th style="width: 10%;">Attachement</th>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+              </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <a style="float: right;" class="btn btn-primary" target="_blank" id="aiframetest1"><i
+                      class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                  <br>
+                  <iframe id="iframetest1" style="width:100%; height:500px;" frameborder="0"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="reply_view" tabindex="-1" role="dialog" aria-labelledby="reply_view" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <h5 class="modal-title" id="pdf_view">Reply</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea id="remark" style="width:100%" readonly></textarea>
+          <!-- <iframe id="iframetest1"  style="width:718px; height:700px;" frameborder="0"></iframe> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" hidden id="btnpdfshow" data-toggle="modal" data-target="#pdf_view">
+    Right Sidebar Modal</button>
+</body>
+<script>
+
+  var pdfmodal = 0;
+  function funpdfclose() {
+    pdfmodal = 0;
+    $('#adjustdiv').show();
+    $('#adjustfilter').show();
+  }
+  $(document).ready(function () {
+    $('#view_tablesss').DataTable();
+    $('#adjustdiv').show();
+    $('#adjustfilter').show();
+  });
+
+var table=$('#view_tablesss').DataTable({
+
+    "language": {
+      "search": "Keyword search:"
+    },
+
+  });
+  table.$('tr').tooltip({
+    placement: '',
+    html: true
+  })
+  var table1;
+
+  function open_do(id) {
+    if (pdfmodal == 0) {
+      document.getElementById('btnpdfshow').click();
+      $('#adjustdiv').hide();
+      $('#adjustfilter').hide();
+    }
+    $('#piframetest').show();
+      $('#iframetest').show();
+      $('#aiframetest').show();
+    pdfmodal = 1;
+    data = {
+      'id': id
+
+    }
+    $.ajax
+      ({
+        url: "{% url 'view_ajax2' %}",
+        method: "GET",
+        dataType: "JSON",
+        async: false,
+        data: data,
+        success: function (response) {
+          if (table1 instanceof $.fn.dataTable.Api) {
+            table1.destroy();
+          }
+          console.log(response.letters[0].do_letter_no)
+          data = '<b>Letter No.</b>-' + response.letters[0].do_letter_no + ' <b>Date</b>- ' + response.letters[0].do_letter_date + '       <b>Issued by</b>- ' + response.letters[0].created_by_id;
+          document.getElementById('dodetails').innerHTML = data;
+          file = "/media/" + response.do_file;
+
+          if(response.do_text == null)
+          {
+            $('#piframetest').hide();
+            $('#iframetest').show();
+            $('#aiframetest').show();
+            $('#iframetest').attr('src', file);
+            $('#aiframetest').attr('href', file);
+          }
+          else 
+          {
+            file = "/do_pdf_create/" + response.id;
+            
+            $('#piframetest').hide();
+            $('#iframetest').show();
+            $('#aiframetest').show();
+            $('#iframetest').attr('src', file);
+            $('#aiframetest').attr('href', file);
+            document.getElementById('piframetest').innerHTML=response.do_text;
+            
+          }
+
+          var row = '';
+          $('#dotbl tbody').empty();
+          $('#iframetest1').hide();
+          $('#aiframetest1').hide();
+          for (i = 0; i < (response.letters[0].marked_to).length; i++) {
+            if (response.letters[0].marked_to[i].abc == true) {
+              row += '<tr><td style="color: green;"><b>' + response.letters[0].marked_to[i].xyz + '</b></td>';
+              row += '<td>Yes</td>';
+              row += '<td>' + response.letters[0].marked_to[i].date + '</td>'
+              reply_file = "/media/" + response.letters[0].marked_to[i].reply_path;
+              if (reply_file != '/media/')
+                row += `<td style="text-align: center;"><button type="submit" name="submit" class="b1" value="${reply_file}" onclick="funopenreply(this.value)"><i class="fa fa-paperclip" style="font-size:20px;color:rgb(64, 112, 243)"></i></button></td></tr>`;
+              else
+                row += '<td>-</td></tr>'
+            }
+            else {
+              row += '<tr><td style="color: red;"><b>' + response.letters[0].marked_to[i].xyz + '</b></td>';
+              row += '<td>No</td><td>-</td><td>-</td></tr>';
+            }
+
+          }
+          $('#dotbl tbody').append(row);
+          table1 = $('#dotbl').DataTable({
+            "lengthChange": false,
+            pageLength: 5,
+            "bFilter": false,
+            "bInfo": false, language: {
+              paginate: {
+                next: '<i class="fa fa-arrow-right"></i>', 
+                previous: '<i class="fa fa-arrow-left"></i>'
+              }
+            }
+          });
+
+
+        }
+      });
+  }
+  function funopenreply(val) {
+    if (val != '/media/') {
+      $('#iframetest1').attr('src', val);
+      $('#aiframetest1').attr('href', val);
+      $('#iframetest1').show();
+      $('#aiframetest1').show();
+    }
+  }
+  $(function () {
+
+    $('input[name="date_range"]').daterangepicker({
+      autoUpdateInput: false,
+      autoApply: true,
+      maxDate: new Date(),
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    });
+
+    $('input[name="date_range"]').on('apply.daterangepicker', function (ev, picker) {
+      $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+      $('.applyButtonClasses').click()
+
+
+    });
+
+    $('input[name="date_range"]').on('cancel.daterangepicker', function (ev, picker) {
+      $(this).val('');
+    });
+
+
+
+  });
+
+  function reply_view(id, ofc) {
+    data = {
+      'id': id,
+      'ofc': ofc
+    };
+    $.ajax
+      ({
+        url: "{% url 'reply_view'  %}",
+        method: "GET",
+        dataType: "JSON",
+        async: false,
+        data: data,
+        success: function (response) {
+          reply23 = response.reply;
+          $('#remark').val(reply23);
+        }
+      });
+  }
+
+  $('#action_by').select2({ placeholder: "Select Designation to Search" })
+
+  $(document).ready(function () {
+    $('#submit').click(function () {
+      var selected = $("#action_by :selected").map((_, e) => e.value).get();
+      document.getElementById('action_by_test').value = selected;
+      //alert(document.getElementById('action_by_test').value)
+
+
+    });
+  });
+
+</script>
+{% endblock %}

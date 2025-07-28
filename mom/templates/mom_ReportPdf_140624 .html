@@ -1,0 +1,194 @@
+{% load static %}
+
+<!DOCTYPE >
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Minutes of Meeting Report</title>
+
+</head>
+ 
+
+<style>
+    
+    @font-face {
+            font-family: Hindi;
+            src: url('{% static "font/Hind-Regular.ttf" %}');
+        }
+    
+                                                                                                                                                         
+    
+    
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt;
+        
+    }
+    
+    }
+    
+ 
+</style>
+
+<body>
+    
+    {% for i in insp_details %}
+        {% if i.type == 0 %}
+        <h1 style="text-align:right"><u>CONFIDENTIAL</u></h1>
+            <h1 style="text-align:center">{{i.mom_title}}</h1>
+        {% else %}
+            <h1 style="text-align:center">{{i.mom_title}} </h1>
+                <!-- &nbsp;held on {{i.mom_date|date:'d/m/y'}}</h1> -->
+        {% endif %}
+        <h1 style="text-align:center"></h1>
+        <h1 style="text-align:left">Member(s) Present<br>Ms./Mr.</h1>
+        <!-- <h1 style="text-align:left">Ms./Mr.</h1> -->
+        
+        <!-- present members -->
+        <table>
+            <tbody>
+                <p style="font-size: 13px; word-wrap: normal;">
+                    {% for j in present %}
+                        <!-- <tr> -->
+                            
+                            {% if j.status_flag != 1 %}
+                            <!-- {{j.name}}: -->
+                            {{j.desig}}, 
+                                <!-- <td style="font-size: 13px" width="30%">{{j.name}}</td>
+                                <td style="font-size: 13px" width="5%">:</td>
+                                <td style="font-size: 13px">{{j.desig}}</td> -->
+                            {% else %}  
+                            {{j.name}} : Secretary, 
+                                <!-- <td style="font-size: 13px" width="30%">{{j.name}}</td>
+                                <td style="font-size: 13px" width="5%">:</td>
+                                <td style="font-size: 13px">Secretary</td> -->
+                            {% endif %}
+                        <!-- </tr> -->
+                    {% endfor %} 
+                </p>   
+            </tbody>
+        </table>
+        <br><br>
+
+        <!-- observations table -->
+        <table border="1">
+            <thead>
+                <tr>
+                    <th style="font-size: 13px; text-align: left; padding: 2px; " width="5%"><b>S.No.</b></th>
+                    <th style="font-size: 13px; text-align: left; padding: 2px; " width="70%"><b>Point(s) Discussed</b></th>
+                    <th style="font-size: 13px; text-align: left; padding: 2px; " width="25%"><b>Dealt By</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for j in item_details %}
+                    {% if j.type == 'H' %}
+                        <tr>
+                            <td style="font-size: 13px; text-align: left;" width="5%">{{j.des_id}}</td>
+                            <td style="font-size: 13px; text-align: left;" width="70%"><b><u>{{j.item_heading}}{% if j.target_date %}<br>Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}</u></b></td>
+                            <td style="font-size: 13px; text-align: left;" width="25%">
+                                <div class="row">
+                                    {% for k in dealt %}
+                                    {% if k.item_no == j.des_id %}
+                                        {{k.dealt}}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                {% if j.remarks != "NA" %}
+                                <div class="row">
+                                    <p style="font-size: 13px; text-align: left;">Remarks: {{j.remarks}}</p>
+                                </div>
+                                {% endif %}
+                                
+                            </td>
+                        </tr>
+                    {% elif j.type == 'SH' %}
+                        <tr>
+                            <td style="font-size: 13px; text-align: left;" width="5%">{{j.des_id}}</td>
+                            <td style="font-size: 13px; text-align: left;" width="70%"><b>{{j.item_subheading}} {% if j.target_date %}<br>Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}</b><br>
+                                {% if j.item_description %}
+                                {{j.item_description}}
+                                {% endif %}
+                            </td>
+                            <td style="font-size: 13px; text-align: left;" width="25%">
+                                <div class="row">
+                                    {% for k in dealt %}
+                                    {% if k.item_no == j.des_id %}
+                                        {{k.dealt}}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                {% if j.remarks != "NA" %}
+                                <div class="row">
+                                    <p style="font-size: 13px; text-align: left;">Remarks: {{j.remarks}}</p>
+                                </div>
+                                {% endif %}
+                                
+                            </td>
+                        </tr>
+                    {% elif j.type == 'D' %}
+                        <!-- <tr>
+                            <td style="font-size: 13px" width="30%"></td>
+                            <td style="font-size: 13px" width="40%"><b>Decision</b></td>
+                            <td style="font-size: 13px" width="30%"></td>
+                        </tr> -->
+                        <tr>
+                            <td style="font-size: 13px; text-align: left;" width="5%">{{j.des_id}}</td>
+                            <td style="font-size: 13px; text-align: left;" width="70%">{{j.item_decision}} {% if j.target_date %}<br>Target Date: {{j.target_date|date:'d/m/y'}} {% endif %}</td>
+                            <td style="font-size: 13px; text-align: left;" width="25%">
+                                <div class="row">
+                                    {% for k in dealt %}
+                                    {% if k.item_no == j.des_id %}
+                                        {{k.dealt}}
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                {% if j.remarks != "NA" %}
+                                <div class="row">
+                                    <p style="font-size: 13px; text-align: left;">Remarks: {{j.remarks}}</p>
+                                </div>
+                                {% endif %}
+                                
+                            </td>
+                        </tr>
+                    {% else %}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <br><br><br><br>
+
+        
+        <br>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td><h1>Note No: {{i.mom_note_no}}<br>Dated: {{i.mom_date|date:"d/m/y"}}</h1></td>
+                    <td style="text-align:right;"><h1>Signature<br>{{mom_officer_name}}</h1></td>
+                </tr>
+                <tr>
+                    
+                    <td style="font-size: 13px">
+                        Copy To:<br>
+                        {{copyto}}
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        <br>
+    {% endfor %}
+</body>

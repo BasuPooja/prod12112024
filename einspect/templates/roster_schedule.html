@@ -1,0 +1,197 @@
+{% extends 'adminDash.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static '/js/jquery-3.4.1.min.js' %}" ></script>
+    <script src="{% static '/js/popper.min.js' %}" ></script>
+    <script src="{% static '/js/Chart.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}" ></script>
+    <script src="{% static '/js/bootstrap.min.js' %}" ></script>
+    <script src="{% static '/js/jquery-ui.js' %}"></script>
+    <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+    <script src="{% static '/js/select2.min.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+    <script src="{% static '/js/moment.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static '/js/sweetalert.min.js' %}"></script>
+    <script src="{% static '/js/jquery.min.js' %}"></script>
+    <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+    <script src="{% static '/js/jquery.min1.js' %}"></script>
+    <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static '/js/jspdf.min.js' %}"></script>
+    <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+    <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}"  />
+    <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}"  />
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}"  />
+    
+    <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}"  />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <style type="text/css">
+		body
+		{
+		    counter-reset: Serial;          
+		}
+
+		table
+		{
+		    border-collapse: separate;
+		}
+
+		tr td:first-child:before
+		{
+		  counter-increment: Serial;      
+		  content: counter(Serial); 
+		}
+	</style>
+</head>
+    <title>Einspection | Roster Schedule Form</title>
+</head>
+<body>
+    <div class="row mt-5" style="padding-left :380px ;">
+        <div class="col-sm-3">
+            <input type="radio" onclick="ds()" name="DS" id="DS" value="ds" required=""><b>Due Schedule</b>
+        </div>
+        <div class="col-sm-3">
+            <input type="radio" onclick="ds()" name="DS" id="CS" value="cs"><b>Completed Schedule</b>
+        </div>
+        <div class="col-sm-3">
+            <input type="radio" onclick="ds()" name="DS" id="OS" value="os"><b>Overdue Schedule</b>
+        </div>
+        
+    </div>
+    <div class="row mt-3">
+        <div class="container">
+
+            <div id="divds" style="display:none; width: 100%;">
+
+                <div class="table-responsive"style="margin-top: 57px;" >
+                    <table class="table table-bordered table-striped table-highlight" id="userData">
+                    <thead >
+                        <h2 style="text-align:center;">Due Schedule</h2><br>
+                        <tr>
+                            <th style="text-align:center">Sr.No</th>
+                            <th style="text-align:center">Date</th>
+                            <th style="text-align:center">Section</th>
+                            <th style="text-align:center">Inpection Type</th>
+                            <th style="text-align:center">Detail</th>
+                            <th style="text-align:center">Status</th>
+                            <th style="text-align:center">Action</th>
+                        </tr>
+                    </thead>
+                        <tbody></tbody>     
+                  </table>
+                </div>
+            </div>
+
+        <div id="divcs" style="display:none; width: 100%">
+            <div class="table-responsive"style="margin-top: 57px;" >
+        
+                <table class="table table-bordered table-striped table-highlight" id="userData">
+                <thead >
+                    <h2 style="text-align:center;">Completed Schedule</h2><br>
+                    <tr>
+                        <th style="text-align:center">Sr.No</th>
+                        <th style="text-align:center">Date</th>
+                        <th style="text-align:center">Section</th>
+                        <th style="text-align:center">Inpection Type</th>
+                        <th style="text-align:center">Detail</th>
+                        <th style="text-align:center">Status</th>
+                        <th style="text-align:center">Action</th>
+                    </tr>
+                </thead>
+                    <tbody></tbody>     
+              </table>
+            </div>
+        </div>
+
+        <div id="divos" style="display:none; width: 100%;">
+
+            <div class="table-responsive"style="margin-top: 57px;" >
+                <table class="table table-bordered table-striped table-highlight" id="userData">
+                <thead >
+                    <h2 style="text-align:center;">Overdue Schedule</h2><br>
+                    <tr>
+                        <th style="text-align:center">Sr.No</th>
+                        <th style="text-align:center">Date</th>
+                        <th style="text-align:center">Section</th>
+                        <th style="text-align:center">Inpection Type</th>
+                        <th style="text-align:center">Detail</th>
+                        <th style="text-align:center">Status</th>
+                        <th style="text-align:center">Action</th>
+                    </tr>
+                </thead>
+                    <tbody></tbody>     
+              </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+</body>
+<script>
+    function ds() {
+        if (document.getElementById('DS').checked) {
+            document.getElementById('divds').style.display = 'block';
+            document.getElementById('divcs').style.display = 'none';
+            document.getElementById('divos').style.display = 'none';
+            //$('#DOL').attr('required');
+        } else if(document.getElementById('CS').checked){
+            document.getElementById('divds').style.display = 'none';
+            document.getElementById('divcs').style.display = 'block';
+            document.getElementById('divos').style.display = 'none';
+            //$('#DOL').removeAttr('required');
+        }
+        else{
+            document.getElementById('divds').style.display = 'none';
+            document.getElementById('divcs').style.display = 'none';
+            document.getElementById('divos').style.display = 'block';
+        }
+    }
+
+
+    $('#userData tbody').empty()
+            $.ajax({
+                url:"{% url 'showUserDataa' %}",
+                dataType: 'json',
+                type:'GET',
+                success: function(response){
+                    for(i in response.user){
+                      
+                      // alert(response.user[i].imagepath)
+                        $('#userData tbody').append(
+                        `<tr id="tr">
+                            <td>{{forloop.counter}}</td>
+                            <td> ${response.user[i].doi}</td>
+                           <td> ${response.user[i].section}</td>
+                            <td> ${response.user[i].abc}</td>
+                            <td> ${response.user[i].detail}</td>
+                            <td> ${response.user[i].status}</td>
+                               
+                        
+                            <div>
+                            <td></td>
+                           
+    </div>
+                            
+                            </tr>`
+            )
+          }
+                }
+            })
+
+
+</script>
+
+</html>
+{% endblock content %}

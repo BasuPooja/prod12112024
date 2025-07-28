@@ -1,0 +1,524 @@
+{% extends 'adminDash.html' %}
+
+{% block content %}
+{% load static %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"  rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head>
+    <title>Employee Master</title>
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else {
+            top.location = self.location;
+        }
+    </script>
+
+
+
+ <style>
+   
+   .table-data {
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+.table-data th {
+    background:#0066cc;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.25rem;
+}
+.table-data td {
+    color: #000;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0.25rem;
+}
+.table-data tr:nth-child(even) {
+    background-color: #f8f8f8 !important;
+}
+        .my-heading {
+            font-family: Georgia;
+            /* margin-top: 2%; */
+            font-weight: 500;
+            font-size: 2.5rem;
+            text-align: center;
+            Color: black;
+            font-weight: bold;
+        }
+
+
+
+
+</style>
+
+    <script>
+        $(document).ready(function () {
+            setDataTablePlugin();
+        });
+
+        function setDataTablePlugin() {
+            $('#instituteTable').DataTable({
+                // 'scrollX': true,
+                "scrollY": "65vh",
+                "scrollCollapse": true,
+
+                "pagingType": "full_numbers"
+
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <br>
+    <form method="POST" url="{'requests'}" autocomplete="off">
+    <div class="container-fluid">
+        <div class="my-heading">
+            <h3 style="padding-bottom:5px; font-family: 'Lato', sans-serif;"><b>User Change Requests</b></h3>
+        </div>
+        <div style="display:flex; margin-left: 100px; flex-direction: row; justify-content: center; align-items: center;" >
+
+            <div class="col-sm-3 form-group">
+                <label for="datestart">From Date:</label>
+                <input type="date" autocomplete="off" id="datefrom" name="minDate" placeholder="dd-mm-yyyy" min="01-01-2018" max="today.getDate()" class="form-control" maxlength="6" required>
+                </div>
+                <div class="col-sm-3 form-group">
+                <label for="dateto">To Date:</label>
+                <input type="date" autocomplete="off" id="dateto" name="maxDate" placeholder="dd-mm-yy" min="01-01-2018" max="today.getDate()" class="form-control" maxlength="6">
+                </div>
+                <div class="col-sm-3 form-group">
+                <label for="status" style="margin-left: 1em;" >Status : </label>
+                <div style="width:10em;">
+                
+                         <select id="status" name="status"  class="custom-select"> 
+                        <!-- <select id="status" name="status"  class="custom-select" > -->
+   
+
+                            <option value="" selected>Select Status</option> 
+
+                            {% if status == 'Pending' or status == None %}
+                            <option value="Pending" selected>Pending</option>
+                            <option value="Accepted" >Accepted</option>
+                            <option value="Rejected">Rejected</option>
+        
+                            {% elif  status == 'Accepted' %}
+                            <option value="Accepted" selected>Accepted</option>
+                            <option value="Pending" >Pending</option>
+                            <option value="Rejected">Rejected</option>
+        
+                            {% elif status == 'Rejected' %}
+                            <option value="Rejected" selected>Rejected</option>
+                            <option value="Pending" >Pending</option>
+                            <option value="Accepted" >Accepted</option>
+        
+                            {% endif %}
+                </select>       
+                </div>
+                </div>
+                <div class="col-sm-3 form-group">
+                <button type ="submit" value="submit" class="btn btn-warning btn-sm">Submit</button>
+                <button type ="reset"  value="Reset" onclick="Reset_Details()" id='Reset' class="btn btn-secondary btn-sm" href="/requests111/">Reset</button>
+                 </div>    
+            </div>   
+
+               <!-- <button type ="button" style="margin-left: 1em;" onclick="fetch_Details(this)" id='submit' class="btn btn-primary">Submit</button>
+                <button type ="button"  style="margin-left: 1em;" onclick="window.location.href=window.location.href;" id='submit' class="btn btn-primary">Clear</button> -->
+                    
+                
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center;">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% else %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="text-align: center;">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      
+        {% csrf_token %}
+
+     
+    
+        <br><br>
+        <!-- <input type="text" id="req_id2" name="req_id2" value={{status}} hidden> -->
+
+      
+        <br>
+        <div class="modern" style="margin-left: 10%; margin-right: 10%; margin-bottom: 5%;">
+            <table class="table table-striped table-bordered table-sm table-data" width="700" id="instituteTable">
+                <thead >
+                    <th>S.No</th>
+                    <!-- <th>Request ID</th> -->
+                    <!-- <th >Name</th> -->
+                    <th >Employee No.</th>
+                    <th>Field Name</th>
+                    <th>Old Value</th>
+                    <th>New Value</th>
+                    <th >Requested On</th>
+                    <th >Status</th>
+                    <th>Action</th>
+                    <!-- <th>Request</th>  -->
+                       <!-- ujjwala -->
+                    <!-- {% if r %} -->
+                    <!-- <th>Action</th> -->
+                    <!-- {% endif %} -->
+                </thead>
+                <tbody>
+                    {% for g in lst %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>  
+                        <!-- <td>{{g.empno_id.empname}}</td>  -->
+                         <td>{{g.empno}}</td> 
+                         <td>{{g.request_type}}</td>
+
+                         <td>{{g.old_value}}</td>
+                         <td>{{g.remarks}}</td>
+                         <td>{{g.requestDate | date:'d/m/y'}}</td>
+                      
+                         <td>{{g.status}}</td>
+                         <!-- <td>{{g.action}}</td>  -->
+                        {% if r %}
+                            <td>
+                                    {% csrf_token %}
+                                    <input type="submit" name="action_1" id="Accept" class="btn btn-success btn-sm float-center" value="Accept" onclick="show_detail(this.id)" >
+                                    <input type="submit" name="action_1" id="Reject" class="btn btn-danger btn-sm float-center" value="Reject" onclick="show_detail(this.id)">
+                                  
+                                    <input type="text" id="req_id" name="req_id" value={{g.id}} hidden>
+                                </form> 
+                            </td>
+                            {% endif %}
+                            <td>
+                         <input {% if g.status != 'Pending' %} disabled {% endif %} type="button" name="action_1" id="Accept@{{g.id}}" class="btn btn-success btn-sm float-center" value="Accept" onclick="show_detail(this.id)" >
+                                    <input {% if g.status != 'Pending' %} disabled {% endif %} type="button" name="action_1" id="Reject@{{g.id}}" class="btn btn-danger btn-sm float-center" value="Reject" onclick="show_detail(this.id)">
+                                </td>      
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        
+    </div>
+</body>
+       
+<script>
+    function Reset_Details()
+   {
+  
+    //if ("#indexForms" ==true)  {
+ 
+count=0;
+//document.getElementById("getdet").reset();
+var start_date=$('#from_date').val()
+var end_date=$('#end_date').val()
+var status=$('#status').val()
+var query=$('#query').val()
+//alert(query)
+
+   }
+
+//console.log(from_date,end_date, status,query);
+ data={
+  /* 'from_date':JSON.stringify(begin), */
+   'end_date':JSON.stringify(end),
+   'status':JSON.stringify(status),
+   'query':query
+   }
+
+   $.ajax({
+type:'GET',
+url:"{% url 'fetch_desig_ajax' %}",
+dataType:'json',
+data: data,
+//data:{from_date,end_date,status}
+
+success: function (response) {
+ table.destroy();
+ table1.destroy();
+if(query == ''){
+ 
+ 
+ $('#tableid tbody').empty();
+ 
+     count=1;
+     //myhtml = '';
+     let myhtml2='';
+
+     //console.log(response,"$$$$$$$$")
+
+               
+     $('#tableid tbody').empty();   
+     
+
+     for (i = 0; i <response.ins.length; i++) {
+       
+     //console.log("@@@@@@@@@@");
+      let begin=''
+      let end=''
+      let status=''
+
+         for (j in  response.ins[i].location_item) {
+       //console.log(response.ins[i].location_item)
+       if (response.ins[i].location_item[j].type=='start_date')
+           begin+='<span>'+response.ins[i].location_item[j].item+'<br></span>'
+       else if (response.ins[i].location_item[j].type=='end_date')
+           end+='<span>'+response.ins[i].location_item[j].item+'<br></span>'
+       else if (response.ins[i].location_item[j].type=='status')
+           status+='<span>'+response.ins[i].location_item[j].item+'<br></span>'
+
+       
+       }    
+      
+     console.log(response.ins[i].status_flag)
+     //if( response.ins[i].status_flag=1){
+         myhtml2 += '<tr>' 
+         myhtml2 += ' <td>' + [i+1] +'</td>'
+         myhtml2 += ' <td>' +  formatDate (response.ins[i].inspected_on) +'</td>'
+         myhtml2 += ' <td>' + response.ins[i].inspection_note_no +'</td>'
+         myhtml2 += ' <td>' + rly +'</td>'
+         myhtml2 += ' <td>' + div +'</td>'
+
+         if(response.ins[i].status_flag==4){
+         myhtml2 += ' <td id='+response.ins[i].inspection_no+' onclick="search_modal_view(this);"> <a title="Click to view details" href="#"  target="blank" data-toggle="modal" data-target="#Search_Modal" class="stretched-link"> <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px; color:green;" > </i> </a> </td>'
+         }else{
+         myhtml2 += ' <td id='+response.ins[i].inspection_no+' onclick="search_modal_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Search_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;color:red;"> </i> </a> </td>'
+         }
+
+         myhtml2 += '</tr>'
+   
+         }
+         //href="/inspectionReportPdf/'+response.ins[i].inspection_no+'/" 
+         //<th style="font-weight:normal; padding-left:10px; padding-right:0px;" data-toggle="modal" data-target="#Search_Modal" onclick="mom_modal_view('{{i.mom_no}}')"><a href="#" style="color:blue">{{i.mom_date|date:"d/m/y"}}</a></th>
+         //myhtml2 += ' <td> <a title="Click to view details" href="/inspectionReportPdf/'+response.ins[i].inspection_no+'/"  target="blank"> <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px; color:green;" > </i> </a> </td>'
+
+
+
+   $('#tableid tbody').append(myhtml2); 
+   $('#tablediv').show();
+
+   //$('#tableid').DataTable(); 
+   table=$('#tableid').DataTable();
+   $('#tabledivs').hide();
+
+ 
+   //table=$('#tableid').DataTable(); 
+
+ }
+
+ else {
+   $('#tableids tbody').empty();
+   
+   let row = "";
+   console.log(response.listsearch)
+     //   alert(response.inspect_details.length)
+       for (let i = 0; i < response.listsearch.length; i++) 
+   {
+     
+       row += "<tr>";
+       row += `<td>${i+1}</td>
+       <td>${response.listsearch[i].inspection_no_id__inspected_on}</td>
+
+       <td><a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top"
+          title="${response.listsearch[i].observation}">
+          ${response.listsearch[i].observation.slice(0, 50)}
+         </a></td>
+
+       <td>${response.listsearch[i].inspection_no_id__inspection_officer_id__designation}</td>`
+       if(response.listsearch[i].inspection_no_id__status_flag == 4){
+         // alert("gf")
+         row += `<td id=${response.listsearch[i].inspection_no_id} onclick="search_insp_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;color:green"> </i> </a> </td>`
+         }else{
+           // alert("gf");
+           // console.log(response.listsearch[i].inspection_no_id);
+           row += `<td id=${response.listsearch[i].inspection_no_id} onclick="search_insp_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;color:red "> </i> </a> </td>`
+           // console.log("hg")
+         }
+       // row += `<td id=${response.listsearch[i].inspection_no_id} onclick="search_insp_view(this);"> <a title="Click to view details" href="#" target="blank" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" > <i class="fa fa-eye" style="margin-left: 1em; font-size: 30px;"> </i> </a> </td>`
+
+
+       row += "</tr>";                    
+   }
+   // alert("kjf")
+   //$('#tableid').append(head);
+   //$('#tableid tbody').empty();
+   $('#tableids tbody').append(row);
+   table1=$('#tableids').DataTable();
+   $('#tablediv').hide();
+   $('#tabledivs').show();
+   // alert("DNJF")
+ }
+
+}
+});
+
+
+/*}
+else {
+document.getElementById("#indexForms" ==true)
+}
+
+}
+*/
+
+</script>
+
+
+    <script>
+        $(document).ready(function () {
+    var currentDate = new Date();
+           $('.calendardate').datepicker({
+           dateFormat: 'dd-mm-yyyy',
+           autoclose:true,
+           endDate: "currentDate",
+           maxDate: currentDate,
+           changeMonth: true,
+           changeYear: true,
+           clearBtn: true
+           })
+        });
+
+        function fetch_Details(e)
+        {
+            var table = $('#instituteTable').DataTable();
+        table.destroy();
+        $('#instituteTable').hide();
+        var str=e.id;
+        var data={}
+        if(str=='submit')
+        {
+            var datefrom = $('#datefrom').val();
+            var dateto = $('#dateto').val();
+            var status = $( "#status option:selected" ).text();
+            data=
+            {
+                'datefrom':datefrom,
+                'dateto':dateto,
+                'status':status,
+            }
+            $.ajax({
+                url: "{% url 'fetch_Details' %}",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                method: "GET",
+                success: function (response) 
+                {
+                    let filterdata = response.data;
+                    
+                let row = "";
+                let head = 
+                    `<thead style="background-color:black; color:white">
+                        <tr align=left>
+                            <th>S.No</th>
+                            <th >Email ID</th>
+                            <th>Field Name</th>
+                            <th>Old Value</th>
+                            <th>New Value</th>
+                            <th >Requested On</th>
+                            <th >Status</th>
+                            <th>Action</th>
+                    </thead>`;
+                // <td>${filterdata[i]['viewed_on']}</td>
+                for (let i = 0; i < filterdata.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    row += `<td>${i+1}</td>
+                    <td>${filterdata[i]['empno']}</td>
+                    <td>${filterdata[i]['request_type']}</td>
+                    <td>${filterdata[i]['old_value']}</td>
+                    <td>${filterdata[i]['remarks']}</td>
+                    <td>${filterdata[i]['requestDate']}</td>
+                    <td>${filterdata[i]['status']}</td>
+                    <td width="10%">
+                        <input type="button" class="btn btn-success btn-sm float-center" name="action_1" id="Accept@${filterdata[i]['id']}" value="Accept" onclick="show_detail(this.id)">
+                        <input type="button" name="action_1" id="Reject@${filterdata[i]['id']}" class="btn btn-danger btn-sm float-center" value="Reject" onclick="show_detail(this.id)">
+                               
+                    </td>`;
+                    row += "</tr>";                    
+                }
+                $('#instituteTable thead').remove();
+                $('#instituteTable tr').remove();
+                $('#instituteTable').append(head);
+                $('#instituteTable tbody').append(row);
+                $('#instituteTable').show();
+                $('#instituteTable').DataTable();
+
+                }
+            })
+        }
+        
+        }
+    </script>
+    <script>
+        function show_detail(el)
+        {
+            var _id = el;
+            // $("#instituteTable").on('click','.btn',function(){
+            //     var currentRow=$(this).closest('tr');
+            //     var empno=currentRow.find("td:eq(1)").text();
+            //     var request_type=currentRow.find("td:eq(2)").text();
+            //     var oldvalue=currentRow.find("td:eq(3)").text();
+            //     var newvalue=currentRow.find("td:eq(4)").text();
+            //     var statuss=currentRow.find("td:eq(6)").text();
+            //     alert(request_type)
+            //     alert(oldvalue)
+            //     alert(empno)
+            //     alert(newvalue)
+            //     alert(statuss)
+            // });
+            data={
+                '_id':_id,
+                // 'empno':empno,
+                // 'request_type':request_type,
+                // 'oldvalue':oldvalue,
+                // 'newvalue':newvalue,
+                // 'statuss':statuss,
+            }
+
+            $.ajax({
+                    type:'GET',
+                    dataType:'json',
+                    url:'{% url "show_detail" %}',
+                    data:data,
+                    success : function(response){
+                        window.location.reload();
+
+                    }
+
+                })
+            
+        }
+    </script>
+
+    {% endblock content %}

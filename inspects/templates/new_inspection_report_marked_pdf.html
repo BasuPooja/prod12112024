@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<style>
+
+    @page{
+        size:letter;
+        size:landscape;
+        margin-top:2.5cm;
+        margin-button:1cm;
+        margin-center:0cm;
+        margin-right:0cm;
+        thead {display: table-header-group;}
+    }
+
+    @page {
+            
+      margin: 1cm;
+      @frame footer {
+          -pdf-frame-content: footerContent;
+          bottom: 0cm;
+          margin-center: 9cm;
+          margin-right: 9cm;
+          height: 2cm;
+      }
+    }
+    th, td {
+        padding: 5px;
+        
+      }
+
+      .pagination {
+        display: inline-block;
+      }
+      
+      .pagination a {
+        color: black;
+        float: center;
+        padding: 8px 16px;
+        text-decoration: none;
+      }
+      #watermark {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        opacity: 0.1;
+        align:center;
+      }
+      {% comment %} #logo1 {
+        position: fixed;
+        flex:no-wrap;
+        bottom: 10px;
+        center: 10px;
+        opacity: 0.1;
+        align:right;
+      }
+      .logo2{
+        position: absolute;
+        top: 8px;
+        right: 16px;
+        
+      } {% endcomment %}
+      
+     
+       table, th, td {
+        border: 0.5px solid grey;
+        padding-bottom:-0.2px;
+      }
+</style>
+</head>
+<body>
+  {% comment %} <div style="text-align=1px;" id="footerContent">
+    {%block page_foot%}
+        Page <pdf:pagenumber>
+    {%endblock%}
+  </div> {% endcomment %}
+   
+<div class="row" style="border: 1px;">
+  
+<div style="font-size:22px; text-align: center; width:300px; ">Officer Wise Report</div>
+{% comment %} <h1 style="font-size:20px;">Inspection Report<h1> {% endcomment %}
+  {% comment %} <div >
+    <table class="table table-light">
+        <thead>
+         
+          <tr style="font-size: 12px ;background-color:#DFF5C3; padding:5px;padding:-5px;">
+            <th scope="col"  ><label for="cc"><b>Rly./Org. Wise :</b></label><span>{{location_code}}</span></th>
+            <th scope="col" ><label for="aa" ><b>Div./Unit Wise :</b></label><span>{{location_type}}</span></th>
+          </tr>
+          <tr style="font-size: 12px ;background-color:#DFF5C3; padding:5px;padding:-5px;">
+            <th scope="col"  ><label for="dd"><b>Designation Wise :</b></label><span>{{designation}}</span></th>
+            <th scope="col" ><label for="date1"><b>Date Range :</b></label><span>{{created_on}}</span></th>
+          </tr>
+        </thead>
+    </table>
+  </div> {% endcomment %}
+  <br>
+<div id="table-wrapper" style="margin:1%;">
+
+  <table id="table3" class="table"  style="width: 100%;background-color: white; ">
+
+      <thead style="background-color:blue;" class="thead-dark ">
+    
+          <tr style="background-color:#F8FDCF;">
+  
+            <th style="text-align:center;width:25%;">Officer Desig</th>
+            <th style="text-align: center;width:10%;">Created Notes</th>
+            <th style="text-align: center;width:11%;">Pending comply<br> Created Notes</th>
+            <th style="text-align: center;width:10%;">% comply created <br>Notes</th>
+            <th style="text-align: center;width:10%;">Marked Notes</th>
+            <th style="text-align: center;width:10%;">Marked Pending comply</th>
+            <th style="text-align: center;width:11%;">% comply Marked Notes</th>
+            <th style="text-align: center;width:11%;">MOM Created</th>
+            <th style="text-align:center;width:11%;">MOM Pending comply</th>
+            <th style="text-align: center;width:11%;">% comply MOM Notes</th>
+            <th style="text-align: center;width:11%;">MOM Marked</th>
+            <th style="text-align: center;width:11%;">MOM Marked Pending comply</th>
+            <th style="text-align: center;width:11%;">% comply MOM Marked Notes</th>
+            <th style="text-align: center;width:11%;">DO Created</th>
+            <th style="text-align: center;width:11%;">DO Pending comply</th>
+            <th style="text-align: center;width:11%;">% DO comply</th>
+            <th style="text-align: center;width:11%;">DO Marked</th>
+            <th style="text-align: center;width:11%;">DO Marked Pending comply</th>
+            <th style="text-align: center;width:11%;">% comply DO Marked</th>
+            <th style="text-align: center;width:11%;">Task Created</th>
+            <th style="text-align: center;width:11%;">Task Pending comply</th>
+            <th style="text-align: center;width:11%;">Task Assigned</th>
+            <th style="text-align: center;width:11%;">Task Assigned Pending comply</th>
+          </tr>
+      </thead>
+     
+      <tbody>
+        {% for i in rly_list %}
+        <tr>
+          <td style="text-align:center;width:25%;">{{i.rly}}</td>
+          <td style="text-align:center;width:10%;">{{i.created_insp_notes}}/{{i.created_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.pending_insp_notes}}/{{i.pending_insp_para}}</td>
+          <td style="text-align:center;width:10%;">{{i.per_created_insp_notes}}/{{i.per_created_insp_notes}}</td>
+          <td style="text-align:center;width:10%;">{{i.marked_created_insp_notes}}/{{i.marked_created_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.marked_pending_insp_notes}}/{{i.marked_pending_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.per_marked_created_insp_notes}}/{{i.per_marked_created_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.mom_created_insp_notes}}/{{i.mom_created_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.mom_pending_insp_notes}}/{{i.mom_pending_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.per_mom_created_insp_notes}}/{{i.per_mom_pending_insp_notes}}</td>
+          <td style="text-align:center;width:11%;">{{i.marked_mom_created_insp_notes}}/{{i.marked_mom_created_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.marked_mom_pending_insp_notes}}/{{i.marked_mom_pending_insp_para}}</td>
+          <td style="text-align:center;width:11%;">{{i.per_marked_mom_created}}/{{i.per_marked_mom_pending}}</td>
+          <td style="text-align:center;width:11%;">{{i.do_total_open}}</td>
+          <td style="text-align:center;width:11%;">{{i.do_total_pending}}</td>
+          <td style="text-align:center;width:11%;">{{i.do_per_complied}}</td>
+          <td style="text-align:center;width:11%;">{{i.mark_do_total_open}}</td>
+          <td style="text-align:center;width:11%;">{{i.mark_do_total_pending}}</td>
+          <td style="text-align:center;width:11%;">{{i.mark_do_per_complied}}</td>
+          <td style="text-align:center;width:11%;">{{i.task_assigned}}</td>
+          <td style="text-align:center;width:11%;">{{i.task_completed}}</td>
+          <td style="text-align:center;width:11%;">{{i.mark_task_assigned}}</td>
+          <td style="text-align:center;width:11%;">{{i.mark_task_completed}}</td>
+      </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+<br>
+
+</body>     
+
+</html>
+
+
+
+
+

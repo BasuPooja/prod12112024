@@ -1,0 +1,139 @@
+<head>
+    <title>Parliamentary References Pending Position</title>
+   <style>
+   body{
+    font-size:1.3em; 
+   }
+    thead tr{
+        background-color: #914600;
+        color: white;
+        border: 1px;
+        text-align:center;
+        padding: 3px;
+        
+    }
+    tbody tr{
+        text-align:center;
+        padding: 3px;
+        
+        
+    }
+    table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  
+}
+td{
+    word-wrap: break-word;
+    word-break: break-all;
+}
+    
+   </style> 
+</head>
+<body>
+    <h1 style="text-align:center"><u>Parliamentary References Pending Position<br>(as on {{date1}} )</u></h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="table_class" id="table_idbm">
+                    <table style="width: 100%;  background-color: #fff;"class="table table-bordered table-striped table-sm table-hover" cellspacing="0"  id="show_details11">
+                        <thead>
+                        <tr>
+                            <th style="width:25%;  ">Board Member</th>
+                            <th style="width:15%">Assurance</th>
+                            <th style="width:15%">Rule377</th>
+                            <th style="width:15%">Special Mention</th>
+                            <th style="width:15%">Zero Hour</th>
+                            <th style="width:15%">Petition</th>
+                       
+                        </tr>
+                    </thead>
+                        <tbody >
+                            {% for i in parlia_bmwise %}
+                            {% if i.designame == 'Total' %}
+                            <tr style="background-color: #035027; color: white;">
+                                <td style="width:25%; ">TOTAL</td>
+                            {% else %}   
+                            <tr>
+                                <td style="width:25%;  ">{% if i.designame %}{{i.designame}} {% else %}{{0}} {%endif%}</td>
+                            {% endif %} 
+                                <td style="width:15%">{% if i.countass %}{{i.countass}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:15%">{% if i.countrule377 %}{{i.countrule377}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:15%">{% if i.countspecialmention %}{{i.countspecialmention}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:15%">{% if i.countzerohour %}{{i.countzerohour}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:15%">{% if i.countpetition %}{{i.countpetition}} {% else %}{{0}} {%endif%}</td>
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="col-12">
+                <div class="table_class" id="table_officer">
+                    <table class="table table-data table-striped table-bordered" id="table2" repeat="1">
+                        <thead style="text-align:center">
+                            <tr>
+                                <th style="width:10%;  ">Board Member</th>
+                                <th style="width:25%">Directorate</th>
+                                <th style="width:23%">Officer</th>
+                                <th style="width:10%">Assurance</th>
+                                <th style="width:8%">Rule 377</th>
+                                <th style="width:8%">Special Mention</th>
+                                <th style="width:8%">Zero Hour</th>
+                                <th style="width:8%">Petition</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for j in officer_list %}
+                                        {% for i in parlia_officer %}
+                                            {% if i.bm_desig == j.bm_desig %}
+                                                <tr>
+                                                    {% if i.counts != 0 %}
+                                                    <td style="width:10%; text-align: center;" rowspan="{{j.counts}}">{{j.bm_desig}}</td>
+                                                    {% endif %}
+                                                    {% if i.designame == 'Sub Total' %}
+                                                    <td style="width:23%; background-color: #BBE5F5;" colspan="2" >SUB TOTAL</td>
+                                                    <td style="width:10%; background-color: #BBE5F5;">{% if i.countass %}{{i.countass}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%; background-color: #BBE5F5;">{% if i.countrule377 %}{{i.countrule377}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%; background-color: #BBE5F5;">{% if i.countspecialmention %}{{i.countspecialmention}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%; background-color: #BBE5F5;">{% if i.countzerohour %}{{i.countzerohour}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%; background-color: #BBE5F5;">{% if i.countpetition %}{{i.countpetition}} {% else %}{{0}} {%endif%}</td>
+                                                    {% else %}
+                                                    <td style="width:25%">{% if i.dir_desig %}{{i.dir_desig}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:23%">{% if i.designame %}{{i.designame}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:10%">{% if i.countass %}{{i.countass}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%">{% if i.countrule377 %}{{i.countrule377}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%">{% if i.countspecialmention %}{{i.countspecialmention}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%">{% if i.countzerohour %}{{i.countzerohour}} {% else %}{{0}} {%endif%}</td>
+                                                    <td style="width:8%">{% if i.countpetition %}{{i.countpetition}} {% else %}{{0}} {%endif%}</td>
+                                                    {% endif %}   
+                                                </tr>
+                                            {%endif%}
+                                        {%endfor%}
+                                
+                            {%endfor%}
+                        </tbody>
+                        <tbody>
+                            {% for i in total %}
+                            <tr style="background-color: #035027; color: white;">
+                                
+                                <td style="width:23%" colspan="3">TOTAL</td>
+                                <td style="width:10%">{% if i.countass %}{{i.countass}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:8%">{% if i.countrule377 %}{{i.countrule377}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:8%">{% if i.countspecialmention %}{{i.countspecialmention}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:8%">{% if i.countzerohour %}{{i.countzerohour}} {% else %}{{0}} {%endif%}</td>
+                                <td style="width:8%">{% if i.countpetition %}{{i.countpetition}} {% else %}{{0}} {%endif%}</td>
+                                
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</body>

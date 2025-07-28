@@ -1,0 +1,256 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+   
+</head>
+  <style>
+    body {
+     font-family: 'Quicksand', sans-serif;;
+     height: 100%;
+     margin: 0;
+     }
+  </style>
+  <br>
+  <body>
+
+    <div>
+      <h3 id="h6" class="report_heading">Draft Tour</h3>
+    </div>
+    <div class="container" style="font-family:'Lato', sans-serif">
+      <div class="container " id="row1">
+          <div class="row inpt-container">
+            <div  class="col-3" >
+              <label class="lbl-caption" for="exampleFormControlSelect1">Date of Inspection</label>
+              <input type="text" autocomplete="off" placeholder="Select date range"  id ="date1" name="daterange1" required class="form-control" style="margin-top:0em; height: 36px; width:200px;background-color: #fff;border:1px solid rgb(138, 136, 136);box-shadow: none; max-width: 100%;" id="txtDate2"   readonly requied>
+            </div>
+            <div class="col-lg-3"></div>
+            <div class="col-6" >
+              <div class="btn-toolbar float-right" role="toolbar" style="margin-top:30px;">
+                <div class="btn-group mr-2" role="group" >
+                  <button class="btn btn-warning btn-sm" onclick="searchDraft()">Search</button>
+                  <button type="submit" class="btn btn-secondary btn-sm" onclick="refreshPage()">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+        
+      <div class="container mt-4" style="font-family:'Lato', sans-serif">        
+        <table id="mytable" class="table table-hover table-data table-sm table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Events</th>
+                <th scope="col">Description</th>
+                <th scope="col">Insp. Date</th>
+                <th scope="col">Rly./Org.</th>
+                <th scope="col">Div./Unit</th>
+                <th scope="col">Major Location</th>                    
+                <th scope="col" >Action</th>
+              </tr>
+            </thead>
+            <tbody  id="Show1"> 
+                {% for i in list2 %}
+                <tr>              
+                  <td>{{forloop.counter}}</td>
+                  <td>{{i.event_title}}</td>
+                  <td>{{i.description}}</td>
+                  <td>
+                      {% for j in i.list1 %}
+
+                      {{j.date_to_act|date:"d-m-y"}}<br>
+
+                      {% endfor %}
+                  </td>               
+                  <td>
+                      {% for j in i.list1 %}
+
+                      {{j.Railways_act}}<br>
+
+                      {% endfor %}
+                  </td>
+                  <td>
+                      {% for j in i.list1 %}
+
+                      {{j.Division_act}}<br>
+
+                      {% endfor %}
+                  </td>
+                  <td>
+                      {% for j in i.list1 %}
+
+                      {{j.location3_act}}<br>
+
+                      {% endfor %}
+                  </td>
+                  <td style="white-space: nowrap;">
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="{{i.event_id}}" onclick="open_inspection(this)"><i class="fas fa-edit"></i></button> &nbsp;
+                    <button type="button" class="btn btn-sm btn-outline-danger" id="{{i.event_id}}"onclick="delete_schedule(this)" ><i class="fas fa-trash-alt"></i></button>
+                  </td>               
+                </tr>
+            {%endfor%}
+          </tbody>
+        
+        </table>
+      </div>
+    </div>
+</body>
+<script>
+
+    $( document ).ready(function() {
+        $('#mytable').DataTable();
+});
+function refreshPage() {
+    location.reload();
+
+  }
+//for date
+$(function() {
+
+$('input[name="daterange1"]').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    // maxDate: new Date(),
+    "opens": "right",
+    locale: {
+        cancelLabel: 'Clear'
+    }
+});
+
+$('input[name="daterange1"]').on('apply.daterangepicker', function(ev, picker) {
+  $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+  
+  
+      $(this).val(picker.startDate.format('DD/MM/YY') + ' - ' + picker.endDate.format('DD/MM/YY'));
+    
+    
+  
+  $('.applyButtonClasses').click()
+
+  
+});
+
+$('input[name="daterange1"]').on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('');
+});
+
+});
+
+function open_inspection(e)
+{
+    var event_id=e.id;
+    // alert(event_id);
+    window.open("/form?event_id="+event_id)
+    
+   
+}
+function delete_schedule(el){
+   
+    r = confirm('Are you sure you want to delete!')
+    if ( r == true){
+    console.log("true")
+    }
+    else{
+    window.location.reload();
+    }
+    const event_id = el.id
+    $.ajax({
+        
+      url: '{% url "deletionFunction" %}',
+      method: 'GET',
+      dataType: 'json',
+      async: false,
+      data: {event_id},
+      success: function(res){
+        alert('Tour deleted successfully!')
+        window.location.reload()
+      }
+    })
+  }
+
+  function searchDraft() {
+
+var date1 = $('#date1').val();
+
+data = { 'date': date1 }
+//alert(date1)
+$.ajax({
+      url: '{% url "searchDraft" %}',
+      dataType: 'json',
+      type: 'GET',
+      data: data,
+      success: function (response) {
+       
+        var table = $('#mytable').DataTable();
+        table.destroy();
+        $('#mytable tbody').empty();
+
+       
+        
+        
+        var row=''
+        for (let i=0;i<response.list1.length;i++) {
+          var s = i+1
+          let listData = response.list1[i]['event_list']
+          let dat = ''
+          let zon=''
+          let div=''
+          let loc=''
+          for (let j=0;j< listData.length;j++)
+            {
+              dat += listData[j]['date_to_act'] + '<br>'
+              zon += listData[j]['Railways_act'] + '<br>'
+              div += listData[j]['Division_act'] + '<br>'
+              loc += listData[j]['location3_act'] + '<br>'
+              
+             
+            }
+        
+
+            row += `<tr><td>${s}</td>`
+            row += `<td>${response.list1[i]['event_title']}</td>`
+            row += `<td>${response.list1[i]['description']}</td>`
+            row += `<td>${dat}</td>`
+            row += `<td>${zon}</td>`
+            row += `<td>${div}</td>`
+            row += `<td>${loc}</td>`
+            row += `<td> <button id="${response.list1[i]['event_id']}" type="button" class="btn btn-sm btn-outline-primary"  onclick="open_inspection(this)"><i class="fas fa-edit"></i></button> <button type="button" class="btn btn-sm btn-outline-danger "  id="${response.list1[i]['event_id']}" onclick="delete_schedule(this)" ><i class="fas fa-trash-alt"></button></td>`
+            // row += ' <td><button type="button" class="btn btn-sm btn-outline-primary" id="${response.list1[i]['event_id']}" onclick="open_inspection(this)"><i class="fas fa-edit"></i></button> &nbsp;<button type="button" class="btn btn-sm btn-outline-danger" id="{{i.event_id}}"onclick="delete_schedule(this)" ><i class="fas fa-trash-alt"></i></button></td>'
+              row+=`</tr>`
+              
+          // $('#mytable tbody').append(
+          
+          //     `<tr>
+          //                        <td>${s}</td>
+          //                        <td>${response.list1[i].event_id_id__event_title}</td>
+          //                        <td>${response.list1[i].event_id_id__description}</td>
+          //                        <td>${response.list1[i].date_to_act}</td>
+          //                        <td>${response.list1[i].Railways_act}</td>
+          //                        <td>${response.list1[i].Division_act}</td>
+          //                        <td>${response.list1[i].location3_act}</td>
+                                //  <td> <button type="button" class="btn " style="background-color: #4169E1; color: #fff; margin-left: 1%;" id="${response.list1[i].event_id}" onclick="open_inspection(this)">Edit</button> &nbsp;
+                                //   <button type="button" class="btn " style="background-color: #DC3545; color: #fff; margin-left: 1%; " id="${response.list1[i].event_id}" onclick="delete_schedule(this)" ><i class="fas fa-trash-alt"></i></button></td>
+          //                    </tr> `
+          // )
+                            
+            
+        }
+        // alert(row)
+
+        $('#mytable').append(row)
+      
+        var table = $('#mytable').DataTable();
+      }
+    })
+    
+
+
+
+}
+
+
+</script>
+</script>
+{% endblock %}  

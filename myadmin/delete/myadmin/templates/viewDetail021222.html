@@ -1,0 +1,176 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% load static %}
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"  rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<style>
+
+form{
+    text-align: left;
+    margin: 20px 20px 20px 20px;
+    border: 1px solid #ced4da;
+    padding: 50px 20px;
+}
+
+
+
+</style>
+
+
+<body>
+
+<form action="POST">{%csrf_token%}
+
+    <h3 class="title" style="padding-bottom: 30px;"><b>Employee Details</b></h3>
+   
+                <div class="row">
+                    <div class="col-md-3"><label><b>Employee Number</b></label></div>
+                    <div class="col-md-3"><label id="empid"></label>{{obj.empno_id__empno}}</div>
+                   <div class="col-md-3"><label><b>Employee Name</b></label></div>
+                   <div class="col-md-3"><label id="empname">
+                    {% if obj.empno_id__emplname == null and obj.empno_id__empmname == null %}
+                    {{obj.empno_id__empname}}
+                    {% elif obj.empno_id__empmname == null %}
+                    {{obj.empno_id__empname}} {{obj.empno_id__emplname}}
+                    
+                    {% elif obj.empno_id__emplname == null %}
+                    {{obj.empno_id__empname}} {{obj.empno_id__empmname}}
+                    {% else %}
+                    {{obj.empno_id__empname}} {{obj.empno_id__empmname}} {{obj.empno_id__emplname}}
+                    {% endif %}
+
+
+
+                </label></div>
+                </div>
+   
+              <div class="row">
+
+                <!-- <div class="col-md-3"><label><b>Date of Birth</b></label></div>
+                <div class="col-md-3"><label id="dobdate">{{obj.empno_id__birthdate}}</label></div> -->
+
+                <div class="col-md-3"><label><b>Station Destination</b></label></div>
+                <div class="col-md-3"><label id="station_des">{{obj.empno_id__station_des}}</label></div>
+
+                <div class="col-md-3"><label><b>Gender</b></label></div>
+                <div class="col-md-3"><label id="empsex">{{obj.empno_id__gender}}</label></div>
+                
+                
+            </div>
+
+             <div class="row">
+
+                <div class="col-md-3"><label><b>Personal Email</b></label></div>
+                <div class="col-md-3"><label id="peremail">{{obj.empno_id__email}}</label></div>
+
+                <div class="col-md-3"><label><b>Personal Contact No</b></label></div>
+                <div class="col-md-3"><label id="percontact">{{obj.empno_id__contactno}}</label></div>
+
+
+            </div>
+       
+   
+             <div class="row">
+
+                <div class="col-md-3"><label><b>Railway/Org.</b></label></div>
+                <div class="col-md-3"><label id="railway">{{obj.empno_id__currentzone}}</label></div>
+   
+                <div class="col-md-3"><label><b>Division/Unit</b></label></div>
+                <div class="col-md-3"><label id="division">{{obj.empno_id__currentunitdivision}}</label></div>
+
+            </div>
+
+            
+            <div class="row">
+
+                <div class="col-md-3"><label><b>Department</b></label></div>
+                <div class="col-md-3"><label id="empdepartment">{{obj.department}}</label></div>
+            
+                <div class="col-md-3"><label><b>Designation</b></label></div>
+                <div class="col-md-3"><label id="designation">{{obj.designation}}</label></div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3"><label><b>Appointment Date</b></label></div>
+                <div class="col-md-3"><label id="appointment_date">{{obj.empno_id__appointmentdate}}</label></div>
+                
+                <div class="col-md-3"><label><b>Superannuation Date</b></label></div>
+                <div class="col-md-3"><label id="superannuation_date">{{obj.empno_id__superannuation_date}}</label></div> 
+                  
+            </div>
+             
+               <div class="row">
+                   
+                   <div class="col-md-3"><label><b>Pay Level</b></label></div>
+                   <div class="col-md-3"><label id="paylevel">{{obj.empno_id__pc7_level}}</label></div>
+
+                   <div class="col-md-3"><label><b>Service Status</b></label></div>
+                   <div class="col-md-3"><label id="service_status">{{obj.empno_id__service_status}}</label></div>
+                  
+               </div>
+
+               <div class="row">
+
+                
+                 
+                <div class="col-md-3"><label><b>Reporting Officer Designation</b></label></div>
+                <div class="col-md-3"><label id="rod"></label></div>
+
+                <div class="col-md-3"><label><b>Official Contact Number</b></label></div>
+                <div class="col-md-3"><label id="Official_contact">{{obj.contactnumber}}</label></div>
+
+               </div>
+
+             <div class="row">
+
+               
+
+                
+                <div class="col-md-3"><label><b>Official Email</b></label></div>
+                <div class="col-md-3"><label id="Official_email">{{obj.official_email_ID}}</label></div>
+
+             </div>
+
+                        
+</form>     
+
+ <div class="btn" style="margin-left: 40%; ">
+
+    <a href="{% url 'editDetail' %}"><button type="button" class="btn btn-success" style="margin-left: 60%;">Raise Change Request</button></a>
+    <a href="{% url 'userHome' %}"><button type="button" class="btn btn-secondary" style="margin-left: 80%;">Close</button></a>
+       
+ </div>
+
+</body>
+
+
+<script  type="text/javascript">
+
+
+
+
+
+
+
+
+
+</script>
+{% endblock content %}

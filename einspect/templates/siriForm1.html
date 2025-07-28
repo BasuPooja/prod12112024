@@ -1,0 +1,1061 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+
+  <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+  <script src="{% static '/accordian/bootstrap.bundle.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/accordian/bootstrap.min.css' %}" />
+
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>  
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>   -->
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link rel="stylesheet" type="text/css" href="{% static '/accordian/bootstrap.min.css' %}" />
+  <script src="{% static '/accordian/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}" />
+  <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+  <link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+  <script type="text/javascript" src="{% static '/js/jquery.mask.js'%}"></script>
+  <!-- neilotpal -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+  <!-- neilotpal -->
+  <link rel="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+
+  <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+  <!-- <script src="{% static '/accordian/bootstrap.bundle.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/accordian/bootstrap.min.css' %}" /> -->
+
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+
+
+  <title>Einspection | Click and Report</title>
+  <style>
+    #save {
+      margin-left: 12em;
+    }
+
+    #formFileSm {
+      padding-bottom: 32px;
+    }
+
+    #imagepath {
+      padding-bottom: 31px;
+    }
+
+    .btn {
+      color: white;
+    }
+
+    .accordion-button:not(.collapsed) {
+      background: -webkit-linear-gradient(top left, #4072CC, #7C72EA);
+      background: -moz-linear-gradient(top left, #4072CC, #7C72EA);
+      background: linear-gradient(to bottom right, #4072CC, #7C72EA);
+      color: white;
+      border: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h3 id="h6" class="report_heading">Click And Report</h3>
+  </div>
+
+  <div id="form" class="mx-5 mt-5">
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show " role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+
+    <div class="accordion container my-5" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Add New Complaint
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <form id="form1" enctype="multipart/form-data" method="POST">
+
+              {%csrf_token%}
+              <input type="text" id="inspectionType" name="inspectionType" hidden>
+
+              <div class="row">
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="priority" class="col-lg-4 lbl-caption">Type<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Description" id="section" value="section"
+                        onclick="getSection()" checked onchange="checker(this.id,this.value)">
+                      <label class="lbl-caption" for="inlineRadio2">Section</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Description" id="station" value="station"
+                        onclick="getStation()" onchange="checker(this.id,this.value)">
+                      <label class="lbl-caption" for="inlineRadio1">Station</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Description" id="train" value="train"
+                        onclick="getTrainNumber()" onchange="checker(this.id,this.value)">
+                      <label class="lbl-caption" for="inlineRadio2">Train</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Description" id="other" value="other"
+                        onclick="getOther()" onchange="checker(this.id,this.value)">
+                      <label class="lbl-caption" for="inlineRadio2">Other</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="priority" class="col-sm-2 lbl-caption">Priority<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+
+                    <!-- <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="priority" id="priority" value="Low">
+                      <label class=" lbl-caption" for="inlineRadio1">Low</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="priority" id="priority" value="Medium">
+                      <label class=" lbl-caption" for="inlineRadio2">Medium</label>
+                    </div> -->
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input High" type="radio" name="priority" id="priority" value="High">
+                      <label class=" lbl-caption" for="inlineRadio2">On Priority</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input High" type="radio" name="priority" id="priority" value="NA"
+                        checked>
+                      <label class=" lbl-caption" for="inlineRadio2">No Priority</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="rlyorg" class="col-lg-4 lbl-caption">Rly/Org<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="rlyorg" name="rlyorg" onchange="getdivwisedata()" required
+                      style="width: 100%;">
+                      <option selected value="{{zone}}">{{zone}}</option>
+                      {% for i in result %}
+                      <option value="{{i.location_code}}">{{i.location_code}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="division" class="col-lg-4 lbl-caption">Division<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="division" name="division" required onchange="getdivwise(); getConcernedOfficer();"
+                      style="width: 100%;">
+                      <option selected value="{{division}}">{{division}}</option>
+                      {% for i in divisionList %}
+                      <option value="{{i.location_code}},{{i.rly_unit_code}}">{{i.location_code}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2" id="hideStation" style="display: none; ">
+                  <label for="section" class="col-lg-4 lbl-caption">Station Name<sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2 " id="stationname" name="stationname" required
+                      onchange="getStationCode()" style="width: 100%;">
+                      <option selected disabled="true">--Select Station--</option>
+                      {% for i in station %}
+                      <option value="{{i.stnshortcode}}">{{i.stnshortcode}}-{{i.station_name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2" id="hideSection">
+                  <label for="section" class="col-lg-4 lbl-caption">Section Name<sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="sectionname" name="sectionname" required
+                      onchange="getSectionCode()" style="width: 100%;">
+                      <option selected disabled="true" value="--Select Section--">--Select Section--</option>
+                      {% for i in section_code1 %}
+                      <option value="{{i}}">{{i}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2" id="hideAutoSection">
+                  <label for="division" class="col-lg-4 lbl-caption">Section Code<sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control select2" id="autoSection" name="autoSection"
+                      placeholder="Code" readonly>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2" id="hideTrain" style="display: none;">
+                  <label for="trainNo" class="col-lg-4 lbl-caption">Train No.<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="trainNo" name="trainNo" required style="width:100%;">
+                      <option selected disabled="true">--Select Train No--</option>
+                      {% for i in train %}
+                      <option value="{{i.train_no}}">{{i.train_no}} ({{i.train_name}})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2" id="hideTrain" style="display: none;">
+                  <label for="trainNo" class="col-lg-4 lbl-caption">Train No.<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="trainNo" name="trainNo" required style="width:100%;">
+                      <option selected disabled="true">--Select Train No--</option>
+                      {% for i in train %}
+                      <option value="{{i.train_no}}">{{i.train_no}} ({{i.train_name}})</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2" id="hideOther" style="display: none;">
+                  <label for="division" class="col-lg-4 lbl-caption">Other<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="addOther" name="addOther" placeholder="Other"
+                      maxlength="50">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="department" class="col-lg-4 lbl-caption">Department<sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="department" name="department" required
+                      onchange="getConcernedOfficer()" style="width: 100%;">
+                      <option selected value="{{department_name}}">{{department_name}}</option>
+                      {% for i in result2 %}
+                      <option value="{{i.department_name}},{{i.department_code}}">{{i.department_name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="officer" class="col-lg-4 lbl-caption">Concerned Officer<sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="officer" name="officer" required style="width: 100%;">
+                      <option selected disabled hidden value="">Select Concerned Officer</option>
+                      {% for i in officers %}
+                      <option value="{{i.designation_code}}">{{i.designation}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="location" class="col-lg-4 lbl-caption">Location<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="location" placeholder="Location" name="location"
+                      maxlength="100" required>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="issuetitle" class="col-lg-4 lbl-caption">Issue Category <sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-lg-10">
+                    <select class="form-control select2" id="issuetitle" name="issuetitle" required
+                      style="width: 100%;">
+                      <option selected disabled hidden value="">Select Issue Category</option>
+                      {% for i in asset %}
+                      <option value="{{i.sub_id}}">{{i.sub_category}}</option>
+                      {% endfor %}
+                      <!-- <option value="Passenger Safety">Passenger Safety</option>>
+                      <option value="Employee Safety">Employee Safety</option>>
+                      <option value="ARME">ARME</option>
+                      <option value="ART">ART</option>
+                      <option value="Cleanliness">Cleanliness</option>
+                      <option value="Colony">Colony</option>
+                      <option value="Encroachment">Encroachment</option>
+                      <option value="GOOD WORK">GOOD WORK</option>
+                      <option value="INNOVATIONS">INNOVATIONS</option>
+                      <option value="Maintenance">Maintenance</option>
+                      <option value="Operations">Operations</option>
+                      <option value="Passenger Amenities">Passenger Amenities</option>
+                      <option value="Security">Security</option>
+                      <option value="Staff Grievances">Staff Grievances</option>
+                      <option value="SUGGESTIONS">SUGGESTIONS</option>
+                      <option value="Trespassing">Trespassing</option>
+                      <option value="Work Place">Work Place</option>
+                      <option value="Others">Others</option> -->
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="issuedescription" class="col-lg-4 lbl-caption">Issue Description<sup class="text-danger">
+                      *</sup></label>
+                  <div class="col-lg-10">
+                    <textarea class="form-control" id="issuedescription" placeholder="Issue Description"
+                      name="issuedescription" maxlength="250" rows="3" cols="10" required></textarea>
+                  </div>
+                </div>
+
+                <!-- <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="imagepath" class="col-lg-4 lbl-caption">Upload Image<sup class="text-danger"> *</label>
+                  <div class="col-lg-10">
+                    <input class="form-control form-control-sm" id="imagepath" onchange="validateTypeAndSize(this)"
+                      name="imagepath" type="file" required>
+                    <span style="font-size: 13px;color:red;">Upload only .jpg, .jpeg, .png image </span>
+                    <span style="font-size: 13px;">| Max Size 1MB</span>
+                  </div>
+                  <span id="spnMessage" class="error" style="display: none; color:red;"></span></p>
+                </div> -->
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <label for="imagepath" class="col-lg-4 lbl-caption">Upload Image<sup class="text-danger"> *</sup></label>
+                  <div class="col-lg-10">
+                    <input class="form-control form-control-sm" id="imagepath" onchange="validateTypeAndSize(this)"
+                           name="imagepath" type="file" accept=".jpg, .jpeg, .png" required>
+                    <span style="font-size: 13px;color:red;">Upload only .jpg, .jpeg, .png image</span>
+                    <span style="font-size: 13px;">| Max Size 1MB</span>
+                  </div>
+                  <span id="spnMessage" class="error" style="display: none; color:red;"></span>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <br>
+                  <div class="col-lg-10" id="forw">
+                    <label class="col-lg-4 lbl-caption " for="forward">
+                      Also Forward to
+                      <br>
+                    </label>
+                    <input type="checkbox" value="yes" name="namegm" id="gm">
+                    <label class="lbl-caption" for="gm">GM</label>
+                    <input type="checkbox" class="" value="yes" name="drm" id="drm" style="margin-left:5px;">
+                    <label class="lbl-caption" for="drm">DRM</label>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mt-2">
+                  <div class="col-lg-10" hidden>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="is_scheduled" id="superiseInsp"
+                        value="Surprise" checked>
+                      <label class=" lbl-caption" for="inlineRadio1">Surprise Inspection</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" name="is_scheduled" id="nightInsp" value="Night">
+                      <label class=" lbl-caption" for="inlineRadio2">Night Inspection</label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-2">
+                  <button type="submit" id="save" class="btn btn-success btn-block btn-sm float-right"
+                    onclick="return validate(this);">Submit</button>
+                </div>
+                <div class="col-lg-2">
+                  <button type="reset" id="clear" onclick="myFunction()"
+                    class="btn btn-secondary btn-block btn-sm">Reset</button>
+                </div>
+                <div class="col-lg-4"></div>
+              </div>
+
+              <div>
+
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+            View Reported Complaints
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="container ">
+              <table class="table table-sm table-data table-striped table-bordered " id="userData">
+                <thead class="bg-primary">
+                  <tr>
+                    <th>Image</th>
+                    <th>Reported On</th>
+                    <th>Issue</th>
+                    <th>Description</th>
+                    <th>Dept</th>
+                    <th>Assigned To</th>
+                    <th>Location</th>
+                    <th>Priority</th>
+                    <th>Action</th>
+                    <th>Forward</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+  <div class="modal fade" id="ModalIssue" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Add Issue</h3>
+          <button class="btn close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        </form>
+        <button type="submit" id="remarkSubmit" onclick="saveIssue()" class="btn btn-primary"
+          style="padding: 3px 8px 3px 8px; margin-top: 5px;">Submit</button>
+        <button id="remarkSubmit" class="btn btn-danger" type="button" data-dismiss="modal"
+          style="margin-top:5px; margin-left: 309px; padding: 3px 8px 3px 8px;" aria-label="close">Close</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="modal fade" id="Modal" role="dialog" aria-labelledby="userModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title text-center" id="userModal">Image</h3>
+          <button class="close" type="button" data-dismiss="modal" aria-label="close" style="color:black;"><span
+              class="glyphicon glyphicon-remove">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <img id="showimage" width="470" height="300">
+        </div>
+        <div>
+
+          <button type="button" class="btn"><i class="bi bi-zoom-out" onclick="zoomout()"></i></button>
+          <button type="button" class="btn"><i class="bi bi-zoom-in" onclick="zoomin()"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+
+    $(document).ready(function () {
+      // Setup - add a text input to each footer cell
+      $('#department').select2();
+      $('#issuetitle').select2();
+      $('#officer').select2();
+      $('#userData thead tr')
+        .clone(true)
+        .addClass('filters123')
+        .appendTo('#userData thead');
+    })
+
+    // var table = $('#userData').DataTable();
+    $(document).ready(function () {
+      var sectionname11 = $('#sectionname').val();
+      console.log('sada', sectionname11)
+      $('#userData tbody').empty()
+      var rlyorg = document.getElementById('rlyorg').value;
+      var division = document.getElementById('division').value;
+      data = {
+        'rlyorg': rlyorg,
+        'division': division,
+      }
+      console.log(data)
+      $.ajax({
+        url: "{% url 'showUserDataa1' %}",
+        dataType: 'json',
+        data: data,
+        type: 'GET',
+        success: function (response) {
+          console.log('response.user: ', response.user)
+          // table.destroy();
+          console.log(response.dlevel)
+
+          for (i in response.user) {
+            console.log(response.dlevel, 'response.dlevel')
+            var createdDate = new Date(response.user[i].created_on);
+            var date = createdDate.toLocaleDateString();
+            // var table=$('#userData').DataTable();
+            // table.destroy()
+            var status = response.user[i].status
+            var action = ''
+            if (status == 1) {
+              action = 'Pending'
+            } else if (status == 4) {
+              action = 'Closed'
+            }
+            var priority1 = response.user[i].priority
+            var priority
+            if (priority1 == 0) {
+              priority = 'NA'
+            } else if (priority1 == 1) {
+              priority = 'High'
+            } else if (priority1 == 2) {
+              priority = 'Medium'
+            } else if (priority1 == 3) {
+              priority = 'Low'
+            }
+            var day = createdDate.getDate();
+            var month = createdDate.getMonth() + 1; //months are zero based
+            var year = createdDate.getFullYear();
+            // console.log("yearrrrr", typeof (year))
+            year = year - 2000;
+            // console.log("year after", year)
+            // console.log(year)
+            var time = createdDate.toLocaleTimeString().replace(/(.*)\D\d+/, '$1');
+            // console.log("timeeeeeeee", typeof (time))
+            // console.log(time.slice(0, 5))
+            time = time.slice(0, 5)
+            var created_on = day + '/' + month + '/' + year + '  ' + time
+            // console.log(day + '/' + month + '/' + year + '  ' + time);
+            // alert(response.user[i].imagepath)
+
+            var inspectionMessage = `*E-Inspection Click & Report*\nCreated On: ${created_on}\nReported By: ${response.user[i].officer_desig}\nAssigned To: ${response.user[i].designation}\nPriority: ${priority}\nIssue Category: ${response.user[i].issuetitle}\nIssue Description: ${response.user[i].issuedescription}\nAction: ${action}`;
+
+            const encodedMessage = encodeURIComponent(inspectionMessage);
+            const whatsappLink = `https://wa.me/?text=${encodedMessage}`;
+
+            console.log('response.user[i].issuedescription',response.user[i].issuedescription)
+            $('#userData tbody').append(
+              `<tr id="tr">
+                <td><img id="${response.user[i].id}" data-toggle="modal" onclick="image('/media/${response.user[i].documents}')" class="btn1" data-toggle="modal" data-target="#Modal"  width="128px" height="128px" src="/media/${response.user[i].documents}" style="cursor:pointer;"></td>
+                <td> ${created_on}</td>
+                <td> ${response.user[i].issuetitle}</td>
+                <td class="text-break" title="${response.user[i].issuedescription}"> ${(response.user[i].issuedescription.length > 60) ? (response.user[i].issuedescription.substring(0, 60) + '...') : (response.user[i].issuedescription)}</td>
+                <td>${response.user[i].dept_id__department_name}</td>
+                <td>${response.user[i].designation}</td>
+                <td class="text-break" title="${response.user[i].location}"> ${(response.user[i].location.length > 100) ? (response.user[i].location.substring(0, 100) + '...') : (response.user[i].location)}</td>
+                <td> ${priority}</td>
+                <td> ${action}</td>
+                <td><a href="${whatsappLink}">
+                  <img alt="Chat on WhatsApp" src="/media/WhatsApp.png" title="Share Info" height="50px" width="50px"/>
+                  </a></td>
+              </tr>`
+            )
+            // console.log("year after", year)
+            // elements = document.getElementsByTagName('td')
+
+          }
+
+          // Setup - add a text input to each header cell
+          $('#userData thead tr:eq(1) th').each(function () {
+            var title = $('#userData thead tr:eq(0) th').eq($(this).index()).text();
+            $(this).html('<input type="text" class="form-control ll" placeholder="Search " />');
+          });
+
+          var table = $('#userData').DataTable({
+            orderCellsTop: true,
+            searching: false,
+            "lengthChange": false,
+            // dom: 'Bfrtip',
+            // buttons: [
+            //      'pdf','excel', 'print'
+            // ],
+          });
+
+          // Apply the search
+          table.columns().every(function (index) {
+            $('#userData thead tr:eq(1) th:eq(' + index + ') input').on('keyup change', function () {
+              table.column($(this).parent().index() + ':visible')
+                .search(this.value)
+                .draw();
+            });
+          });
+
+          //$('#booktable1').DataTable();
+          $("#altno,#ealtno,#jfdn,#ejfdn").keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+          });
+
+
+
+          var prority = $("#userData tbody").children();
+
+          for (var i = 0; i < prority.length; i++) {
+
+            if (prority.eq(i).children().eq(6).text() === ' Low') {
+              prority.eq(i).children().eq(6).css({ "color": "brown" })
+            }
+            else if (prority.eq(i).children().eq(6).text() === ' High') {
+              prority.eq(i).children().eq(6).css({ "color": "red" })
+            }
+            else if (prority.eq(i).children().eq(6).text() === ' Medium') {
+              prority.eq(i).children().eq(6).css({ "color": "orange" })
+            }
+            else {
+              prority.eq(i).children().eq(6).css({ "color": "blue" })
+            }
+          }
+          // table = $("#userData").DataTable()
+        }
+      })
+    })
+
+
+    function image(U) {
+      document.getElementById('showimage').src = U;
+    }
+
+    function getConcernedOfficer() {
+      var division = document.getElementById('division').value;
+      var department = document.getElementById('department').value;
+      var parts = department.split(',');
+      var DepName = parts[0];
+      var part1 = division.split(',');
+      var Div = part1[0];
+      data = {
+        'department': DepName,
+        'division': Div,
+      }
+      // var officer = "officer11" + forloop.counter;
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'getConcernedOfficerList' %}",
+        data: data,
+        success: function (response) {
+          $('#officer').empty();
+          let row = '<option selected disabled hidden value="">--Select Concerned Officer--</option>';
+          console.log('response.length', response.length);
+          if (response.length === 0) {
+            row += '<option selected disabled hidden value="">--No Officer--</option>';
+          }
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value="' + response[i].designation_code + '">' + response[i].designation + ' </option>';
+          }
+          $('#officer').append(row);
+        }
+      })
+    }
+
+
+    function getStationCode() {
+      var station = document.getElementById('stationname').value
+      // alert(station)
+      $.ajax({
+        url: "{% url 'getStationCode1' %}",
+        dataType: 'json',
+        data: { station },
+        type: 'GET',
+        success: function (response) {
+          console.log(response.code)
+          // alert(code)
+          // $('#autoStation').val(code)
+          $('#autoStation').empty();
+          let row = '<option selected disabled>--Select Section Code--</option>';
+          console.log('response.length', response.code.length);
+          console.log('response.length', response.code[0]);
+          for (let i = 0; i < response.code.length; i++) {
+
+            row += '<option value="' + response.code[i] + '">' + response.code[i] + ' </option>';
+          }
+          $('#autoStation').append(row);
+        }
+      })
+    }
+    function getSectionCode() {
+      var section = document.getElementById('sectionname').value
+      // alert(section)
+      $.ajax({
+        url: "{% url 'getSectionCode1' %}",
+        dataType: 'json',
+        data: { section },
+        type: 'GET',
+        success: function (response) {
+          var code = response.code
+          // alert(code)
+          $('#autoSection').val(code)
+        }
+      })
+    }
+
+
+
+    function getdivwisedata() {
+      var rlyorg = document.getElementById('rlyorg').value;
+      // alert(rlyorg)
+      var division = document.getElementById('division').value;
+      // alert(division)
+      data = {
+        'rlyorg': rlyorg,
+        'division': division,
+      }
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'division_wise' %}",
+        data: data,
+        success: function (response) {
+          $('#division').empty();
+          let row = '<option selected disabled hidden>--Select Division--</option>';
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+
+            row += '<option value="' + response[i].location_code + '">' + response[i].location_code + ' </option>';
+          }
+          $('#division').append(row);
+        }
+      })
+    }
+
+    function zoomin() {
+      var image = document.getElementById("showimage");
+      var currHeight = image.clientHeight;
+      image.style.height = (currHeight + 10) + "px";
+      image.style.width = (currHeight + 10) + "px";
+    }
+    function zoomout() {
+      var image = document.getElementById("showimage");
+      var currHeight = image.clientHeight;
+      image.style.height = (currHeight - 10) + "px";
+      image.style.width = (currHeight - 10) + "px";
+    }
+
+    $(document).ready(function () {
+      let rlyorg = $('#rlyorg').val()
+      let division = $('#division').val()
+      // let department1 = $('#department').val()
+      // console.log('division',division)
+      // let department_name = department1.split(',')[0]
+      // let department_code = department1.split(',')[1]
+      let officer = $('#officer').val()
+      let issuetitle = $('#issuetitle').val()
+      let issuedescription = $('#issuedescription').val()
+      let priority = $('#priority').val()
+      let location = $('#location').val()
+      let imagepath = $('#imagepath').val()
+      let imagepath1 = $('#imagepath')[0].files[0];
+      let asset = $('#asset').val()
+
+      // alert(department_name)
+      // alert(department_code)
+      // alert($('#imagepath')[0].files[0])
+      var token = '{{ csrf_token }}';
+      $.ajax({
+        type: 'POST',
+        data: { rlyorg, division, issuetitle, issuedescription, location, priority, imagepath, imagepath1, gm, drm, inspectionType, csrfmiddlewaretoken: token },
+        url: '{% url "saveData" %}',
+        dataType: 'json',
+        success: function (response) {
+          alert('Data saved successfully')
+
+        }
+      })
+    })
+
+    function getTrainNumber() {
+      // alert('Train')
+      var station = document.getElementById("hideStation");
+      var section = document.getElementById("hideSection").style.display = 'none';
+      // var hideAutoStation = document.getElementById("hideAutoStation").style.display='none';
+      var hideAutoSection = document.getElementById("hideAutoSection").style.display = 'none';
+      var other = document.getElementById("hideOther").style.display = 'none';
+      var hideTrain = document.getElementById("hideTrain");
+      station.style.display = 'none';
+      hideTrain.style.display = 'block';
+    }
+
+    function getSection() {
+      // alert("Section")
+      var station = document.getElementById("hideStation").style.display = 'none';
+      var section = document.getElementById("hideSection").style.display = 'block';
+      // var hideAutoStation = document.getElementById("hideAutoStation").style.display='none';
+      var hideAutoSection = document.getElementById("hideAutoSection").style.display = 'block';
+      var other = document.getElementById("hideOther").style.display = 'none';
+      var hideTrain = document.getElementById("hideTrain").style.display = 'none';
+    }
+
+    function getStation() {
+      // alert('Station')
+      var train = document.getElementById("hideTrain").style.display = 'none';
+      var station = document.getElementById("hideStation").style.display = 'block';
+      var section = document.getElementById("hideSection").style.display = 'none';
+      // var hideAutoStation = document.getElementById("hideAutoStation").style.display='flex';
+      var hideAutoSection = document.getElementById("hideAutoSection").style.display = 'none';
+      var other = document.getElementById("hideOther").style.display = 'none';
+    }
+
+    function getOther() {
+      // alert('Other')
+      var station = document.getElementById("hideStation").style.display = 'none';
+      var section = document.getElementById("hideSection").style.display = 'none';
+      // var hideAutoStation = document.getElementById("hideAutoStation").style.display='none';
+      var hideAutoSection = document.getElementById("hideAutoSection").style.display = 'none';
+      var hideTrain = document.getElementById("hideTrain").style.display = 'none';
+      var other = document.getElementById("hideOther").style.display = 'block';
+    }
+
+
+    function myFunction() {
+      document.getElementById("form1").reset();
+
+
+    }
+
+    var description1 = 'section';
+    function checker(id, value) {
+      description1 = value;
+      // alert(description1)
+    }
+
+    function getdivwise() {
+      var rlyorg = $('#rlyorg').val()
+      // alert(rlyorg)
+      var division = $('#division').val()
+      // alert(division)
+      var description = description1
+      // alert(description)
+      if (description1 == "section") {
+        $.ajax({
+          url: "{% url 'getdescripwise' %}",
+          dataType: 'json',
+          data: { description, rlyorg, division },
+          type: 'GET',
+          success: function (response) {
+            $('#sectionname').empty();
+            let row = '<option selected disabled hidden value="--Select Section--">--Select Section--</option>';
+            // console.log('response.length', response.section_code1.length);
+            // console.log(response.section_code1[0])
+            for (let i = 0; i < response.section_code1.length; i++) {
+
+              row += '<option value="' + response.section_code1[i] + '">' + response.section_code1[i] + ' </option>';
+            }
+            $('#sectionname').append(row);
+          }
+        })
+      }
+      if (description == 'train') {
+        $.ajax({
+          url: "{% url 'getdescripwise' %}",
+          dataType: 'json',
+          data: { description, rlyorg, division },
+          type: 'GET',
+          success: function (response) {
+            $('#trainNo').empty();
+            let row = '<option selected disabled hidden>--Select Train--</option>';
+            console.log('response.length', response.train.length);
+            console.log(response.train[0])
+            console.log(response.train[0]['train_name'])
+            for (let i = 0; i < response.train.length; i++) {
+
+              row += '<option value="' + response.train[i]['train_no'] + '">' + response.train[i]['train_no'] + ' (' + response.train[i]['train_name'] + ')' + ' </option>';
+            }
+            $('#trainNo').append(row);
+          }
+        })
+      }
+      if (description == 'station') {
+        $.ajax({
+          url: "{% url 'getdescripwise' %}",
+          dataType: 'json',
+          data: { description, rlyorg, division },
+          type: 'GET',
+          success: function (response) {
+            $('#stationname').empty();
+            let row = '<option selected disabled hidden>--Select Section--</option>';
+            console.log('response.length', response.stationname.length);
+            console.log(response.stationname[0])
+            for (let i = 0; i < response.stationname.length; i++) {
+
+              row += '<option value="' + response.stationname[i] + '">' + response.stationname[i] + ' </option>';
+            }
+            $('#stationname').append(row);
+          }
+        })
+      }
+    }
+
+
+
+    function validateTypeAndSize(uploadCtrl) {
+      var extension = $(uploadCtrl).val().split('.').pop().toLowerCase();
+      var validFileExtensions = ['jpeg', 'jpg', 'png'];
+      if ($.inArray(extension, validFileExtensions) == -1) {
+        $('#spnMessage').text("Upload only .jpg, .jpeg, .png image").show();
+        $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
+        $('#imagepath').prop('src', '');
+      }
+      else {
+        if ($(uploadCtrl).get(0).files[0].size > (1048576)) {
+          $('#spnMessage').text("Max allowed image size is 1MB").show();
+          $(uploadCtrl).replaceWith($(uploadCtrl).val('').clone(true));
+          $('#imagepath').prop('src', '');
+        }
+        else {
+          $('#spnMessage').text('').hide();
+        }
+      }
+    }
+
+
+    function validate(i) {
+      var check = i.id;
+      // alert(i);
+      // var issueTitle = document.getElementById("issuetitle").value;
+      // if (issueTitle === "--Select Category--") {
+      //   alert("Please select a category.");
+      // }
+      var type = document.getElementsByName('Description')
+      if ($('#division').val() == '' || $('#division').val() == null) {
+        $('#division').focus();
+        alert('Select Division')
+        return false
+      }
+      for (var i of type) {
+        if (i.checked) {
+          type = i.value;
+          break;
+        }
+      }
+
+      var inspectionType = document.getElementsByName('is_scheduled');
+      var xx = ''
+      for (var r1 of inspectionType) {
+        if (r1.checked) {
+          xx += ' ' + r1.value;
+        }
+      }
+
+      document.getElementById('inspectionType').value = xx;
+
+      // alert(type)
+      if (type == 'section') {
+        var sectionname = $('#sectionname').val()
+        if (sectionname == null || sectionname == "") {
+          document.getElementById('sectionname').focus();
+          alert('Please fill Section Name')
+          return false;
+        }
+      }
+      else if (type == 'station') {
+        var stationname = $('#stationname').val()
+        if (stationname == null || stationname == "") {
+          document.getElementById('stationname').focus();
+          alert('Please fill Station Name')
+          return false;
+        }
+      }
+      else if (type == 'train') {
+        var trainNo = $('#trainNo').val()
+        if (trainNo == null || trainNo == "") {
+          document.getElementById('trainNo').focus();
+          alert('Please fill Train Number')
+          return false;
+        }
+      }
+      return true;
+    }
+
+
+
+
+
+  </script>
+  <script>
+    $('.select2').select2();
+  </script>
+</body>
+
+</html>
+{% endblock content %}

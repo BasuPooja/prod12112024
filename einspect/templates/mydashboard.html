@@ -1,0 +1,1782 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Einspection | User Form</title>
+
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  
+  <script src="{% static '/js/moment.min.js' %}"></script>
+
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static '/js/dataTables.bootstrap4.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}"  />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+  <script src="{% static '/js/jquery.timepicker.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery.timepicker.min.css' %}" />
+  <script type="text/javascript" src="{% static '/daterangepicker-master/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static '/daterangepicker-master/daterangepicker.js'%}"></script>
+ <link rel="stylesheet" type="  text/css" href="{%static '/daterangepicker-master/daterangepicker.css'%}" />
+
+  <!-- for daterangepicker -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.js" integrity="sha512-W76C8qrNYavcaycIH9EijxRuswoS+LCqA1+hq+ECrmjzAbe/SHhTgrwA1uc84husS/Gz50mxOEHPzrcd3sxBqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.css" integrity="sha512-rBi1cGvEdd3NmSAQhPWId5Nd6QxE8To4ADjM2a6n0BrqQdisZ/RPUlm0YycDzvNL1HHAh1nKZqI0kSbif+5upQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+
+</head>
+
+<style>
+  .card1 :hover {
+    background-color: red;
+  }
+
+  .button123 {
+    font-size: 25px;
+    cursor: pointer;
+    text-decoration: wavy;
+    outline: none;
+    color: #fff;
+    margin: 10px;
+    text-align: center;
+    /* text-transform: uppercase; */
+    transition: 0.5s;
+    background-size: 100% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+
+  .button123:hover {
+    background-position: right center;
+    /* change the direction of the change here */
+    color: #fff;
+    text-decoration: wavy;
+  }
+
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+/* 
+  div.scrollmenu {
+    background-color: rgb(255, 255, 255);
+    overflow: auto;
+    white-space: nowrap;
+  }
+
+  div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    word-wrap: break-word;
+  }
+
+  div.scrollmenu a:hover {
+    background-color: #777;
+  } */
+
+  #regForm {
+    background-color: #ffffff;
+    margin: 100px auto;
+    padding: 40px;
+    width: 70%;
+    min-width: 300px;
+  }
+
+  /* Style the input fields */
+  input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #aaaaaa;
+  }
+
+  /* Mark input boxes that gets an error on validation: */
+  input.invalid {
+    background-color: #ffdddd;
+  }
+
+  /* Hide all steps by default: */
+  .tab {
+    display: none;
+  }
+
+  /* Make circles that indicate the steps of the form: */
+  .step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+  }
+
+  /* Mark the active step: */
+  .step.active {
+    opacity: 1;
+  }
+
+  /* Mark the steps that are finished and valid: */
+  .step.finish {
+    background-color: #04AA6D;
+  }
+
+  .sidenav {
+    height: 200%;
+    width: 300px;
+    color: black;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(74, 72, 72);
+    margin-left: 1%;
+  }
+
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    
+  }
+
+  .sidenav a:hover {
+    color: #f1f1f1;
+
+  }
+
+  .main {
+    margin-left: 3%;
+    /* Same as the width of the sidenav */
+    font-size: 15%;
+    /* Increased text to enable scrolling */
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidenav {
+      padding-top: 15px;
+    }
+
+    .sidenav a {
+      font-size: 18px;
+    }
+  }
+  .rating {
+display: flex;
+flex-direction: row-reverse;
+justify-content: center;
+}
+
+
+.rating > input{ display:none;}
+
+.rating > label {
+position: relative;
+width: 1em;
+font-size: 2vw;
+color: #FFD700;
+cursor: pointer;
+}
+
+.rating > label::before{
+content: "\2605";
+position: absolute;
+opacity: 0;
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before {
+opacity: 1 !important;
+}
+
+.rating > input:checked ~ label:before{
+opacity:1;
+}
+
+.rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
+
+.active{
+  background-color: red;
+}
+.child:hover{
+  background-color: gray;
+}
+</style>
+{% csrf_token %}
+
+<body class="mt-4 bg-white">
+  <div class="sticky-top bg-white" style="position: fixed; top: 10% ; text-align: right;">
+    <!-- <header><h3 class="text-justify text-center text-nowrap ">{{name.name}} Inspection By {{request.user.first_name}} {% if request.user.last_name %}{{request.user.last_name}}{% endif %} {{designations1}} at 
+      <input class="col-sm-2 input-sm" id="railwaysE" type="text"  value="{{divisionParent.location_description}}" readonly/> / 
+      <input class="col-sm-2 input-sm" id="divisionE" type="text" value=" {{userDivision.location_description}}" readonly />
+      <button class="col-pb-12" id="responsePlay" type="button" onclick="responsePlayFun()"><i class="bx bx-train"></i></button>
+    </h3></header> -->
+    <h3 class="text-justify text-center text-nowrap ">{{name.name}} Inspection of {{designations1}} on Date {{dateNo}} at  
+      <!-- <p id="divisionE" value=" {{userDivision.location_description}}" >{{userDivision.location_description}}</p>
+      <p id="railwaysE" value=" {{divisionParent.location_code}}" >{{divisionParent.location_code}}</p> -->
+      <input class="col-sm-2 input-sm text-wrap" id="divisionE" type="text" value=" {{userDivision.location_description}}" readonly />,
+      <input class="col-sm-2 input-sm text-wrap" id="railwaysE" type="text"  value="{{divisionParent.location_code}}" readonly/>
+      
+      <button class="col-pb-12" id="responsePlay" type="button" onclick="responsePlayFun()"><i class="bx bx-train"></i></button>
+    </h3>
+  </div>
+  <div class="d-flex py-2">
+    <div class="container d-flex col" id="menu1">
+      <div class="col-lg-3" style="overflow: hidden; position: fixed;">
+        
+        <nav class="sidenav" style="height:550px ; overflow-y:auto">
+          <div class="align-items-start  text-wrap sticky-left" >
+
+            <div class="sticky-top bg-white justify-content-center text-center">
+              <img  style="height: 100px; width: 100px; ;" src="/media/{{name.inspection_image}}"  alt="" class="pic rounded card-img-top mx-auto mb-1"
+              alt="..." id="{{i.instypeid}}">
+            </div>            
+              
+              <div >
+                  <input name="cardId" id="cardId" value="{{id}}" hidden>
+                  <input name="officerval" id="officerval" value="" hidden>
+                  <input name="departmentval" id="departmentval" value="" hidden>
+
+                  <a class="btn-group text-wrap mydata1" onclick="mydata(0)" 
+                  style="color: rgb(255, 255, 255); text-align: left; border-style: solid; padding-bottom: 10px;" 
+                  id="v-pills-settings-tab firstPage" 
+                  data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" 
+                  role="tab" aria-controls="v-pills-settings" aria-selected="false" >Inspection Details</a>
+                  {% for i in sideMenu %}
+
+                  <div class="child" >
+                    <a class="btn-group text-wrap mydata1" 
+                    onclick="mydata({{forloop.counter}})" style="color: rgb(255, 255, 255); 
+                    text-align: left; border-style: solid; padding-bottom: 10px;" id="v-pills-settings-tab middlePage"
+                    data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" 
+                    aria-selected="false">{{i.instypeid_id.name}}</a>
+                  </div>    
+                  
+
+                {% endfor %}
+                
+                <div class="child">
+                  <a class="btn-group text-wrap mydata1" 
+                  onclick="mydata({{sideMenu|length|add:1}})" style="color: rgb(255, 255, 255); 
+                  text-align: left; border-style: solid; padding-bottom: 10px;" id="v-pills-settings-tab lastPage" 
+                  data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" 
+                  aria-selected="false" >Inspection Conclusion</a>
+                </div>
+              </div>
+            
+          </div>
+        </nav>
+      </div>
+
+      <div class="col-lg-9 shadow mt-3" style="float: right; margin-top: 0%; padding-top: 0%; position: relative; margin-left: 350px;" >
+        <form action="" method="POST" class="form-group bg-light font-weigth-bold " id="userForm" value="userForm" autocomplete="off"
+            name="userForm" style="text-align: center;" enctype="multipart/form-data" enctype="multipart/form-data">{% csrf_token %}
+            <div class="tab-content" id="v-pills-tabContent showquestionsid "
+              style="width: 100%; margin-left:25px;text-align: left;">
+                <input name="id" id="id" value="{{id}}" hidden>
+              <br>
+              <div class="tab">
+                <h2 class="text-justify text-nowrap " >1. Inspection Details</h2>
+              
+
+                <!-- Railways and Division changing Div -->
+                <div class="form-row" id="playBetweenRD"  >
+                  
+                  <div class="form-group col-md-6" id="">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Railways
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <select id="userdata0" name="name1"  class="form-control select2" style="width: 91%" onchange="getZoneEinsp()" required>
+                      <option value="{{divisionParent.rly_unit_code}}" selected>{{divisionParent.location_description}}</option>
+                      {% for i in railwayZone %}
+                      <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>                      
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Division
+                      <sup class="text-danger">*</sup></label><br>
+                    
+                      <!-- <select id="userdata1" name="name1"  class="form-control select2" style="width: 91%" onchange="getSatrtEndStation()" required> -->
+                      <select id="userdata1" name="name1"  class="form-control select2" style="width: 91%" required onchange="getSectionDash(this)">
+                        <option selected value="{{userDivision.rly_unit_code}}" >{{userDivision.location_description}}</option>
+                        {% for i in newdivision %}
+                        <option value="{{i.rly_unit_code}}">{{i.location_description}}</option>
+                        
+                        {% endfor %}
+                      </select>
+                  </div>
+
+                </div>
+
+                <!-- Section  Div -->
+                <div class="form-row">
+                  <!-- <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Inspection Of
+                      <sup class="text-danger">*</sup></label><br>
+                    <input type="text" name="name1" id="userdata8" class="form-control" style="width: 91%" value="{{name.name}}" disabled />
+                  </div> -->
+                  <div class="form-group col-md-12">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Section
+                      <sup class="text-danger">*</sup></label><br>
+                      <select id="userdata17" name="name1"  class="form-control select2" style="width: 91%" required>
+                        <option selected disabled="true">----- Select Section -----</option>
+                        {% for i in defaultSection %}
+                          <option value="{{i.secid}}">{{i.section_name}}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+
+
+                <!-- Start Station and End Station  Div -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Start Station
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <select id="userdata10" name="name1"  class="form-control select2" style="width: 91%"  onchange="endStation(this.value)" required>
+                      <option selected disabled="true">----- Select Start Station -----</option>
+                      {% for i in defaultStation %}
+                        <option value="{{i.stnshortcode}}">{{i.station_name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">End Station
+                      <sup class="text-danger">*</sup></label><br>
+                    
+                      <select id="userdata11" name="name1"  class="form-control select2" style="width: 91%" onchange="checkFillofStation(this.value)" required>
+                        <option selected disabled="true">----- Select End Station -----</option>
+                        {% for i in defaultStation %}
+                          <option value="{{i.stnshortcode}}">{{i.station_name}}</option>
+                        {% endfor %}
+                      </select>
+                  </div>
+                </div>
+
+
+
+                <!-- Entity and Train Type  Div -->
+                <div class="form-row">
+                  <!-- <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Inspection Of
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata8" class="form-control" style="width: 91%" value="{{name.name}}" disabled />
+                  </div> -->
+                  <div class=" form-group col-md-6">
+                    <input type="text" hidden value="{{name.entity.dmaster}}" id="entitylbl">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold"  name="userLabel">{{name.entity.dmaster}}{{' Details'}}
+                      <sup class="text-danger">*</sup></label><br>
+                    <!-- <input type="text" name="name1" id="userdata9" class="form-control" style="width: 91%" value="" maxlength="6"/> -->
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select id="userdata9" name="name1"  class="form-control select2" style="width: 91%"  required>
+                          <option selected disabled="true" >----Select {{name.entity.dmaster}} Details----</option>
+                          <!-- <option selected disabled="true" >Please Select Station First</option> -->
+                        </select>
+                        {% if name.entity.dmaster == 'Train' or name.entity.dmaster == 'Loco' %}
+                        <button class="btn btn-secondary float-right btn-sm" type="button" data-target="#entityModal" data-toggle="modal" onclick="getDataEntity()"><i class="fa fa-info"></i></button>&nbsp;
+                        {% endif %}
+                      </div>  
+                    </div>
+                  </div>
+                    <!-- <small id="HelpInline" class="text-muted">
+                      Must be 2-6 characters long.
+                    </small> -->
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                      <!-- <button class="btn btn-secondary" type="button" data-target="#entityModal" data-toggle="modal" onclick="getDataEntity()"><i class="fa fa-info"></i></button>&nbsp; -->
+                      <div id="entityModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog"> 
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h4 style="text-align: center; font-weight: bold; color: black;">{{name.entity.dmaster}} Details</h4>
+                                      <button type="button" class="close" data-dismiss="modal" id="closeupdate" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span></button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="col-lg-12 shadow">
+                                          <form action="" method="GET" id="entityDetails" class="form-group bg-light font-weight-bold" value="entityDetails" name="entityDetails">
+                                            <div class="form-group">
+                                              {% if name.entity.dmaster == 'Train' %}
+                                              <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Train No.
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata1"  readonly/>
+                                                </div>
+                                                <div class="form-group col-md-8">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Train Type
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata3"  readonly/>
+                                                </div>
+                                              </div>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Train Name
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata2" class="form-control" value="" readonly/>
+                                                </div>
+                                              </div>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Source
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control" id="formdata4"  readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Destination
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata5" class="form-control" value="" readonly/>
+                                                </div>
+                                                
+                                              </div>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Coaches
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control" id="formdata6"  readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Owning Railways
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control" id="formdata7"  readonly/>
+                                                </div>
+                                              </div>
+                                              <div class="form-row">
+                                                
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Primary Maintenance
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata8" class="form-control" value="" readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Secondary Maintenance
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata9"  readonly/>
+                                                </div>
+                                              </div>
+
+                                              {% elif name.entity.dmaster == 'Loco' %}
+                                              <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Loco No.
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata1"  readonly/>
+                                                </div>
+                                                <div class="form-group col-md-8">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Loco Type
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata3"  readonly/>
+                                                </div>
+                                              </div>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Manufacturer's Name
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata2" class="form-control" value="" readonly/>
+                                                </div>
+                                              </div>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Loco Shed
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="forsm-control" id="formdata4"  readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Gauge
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata5" class="form-control" value="" readonly/>
+                                                </div>
+                                                
+                                              </div>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Wheel Array
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control" id="formdata6"  readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Quantity Built
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control" id="formdata7"  readonly/>
+                                                </div>
+                                              </div>
+                                              <div class="form-row">
+                                                
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Built Year
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata8" class="form-control" value="" readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Turned Out Date
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata9"  readonly/>
+                                                </div>
+                                              </div>
+
+                                              <div class="form-row">
+                                                
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Power
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata10" class="form-control" value="" readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Running Status
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata11"  readonly/>
+                                                </div>
+                                              </div>
+
+                                              <div class="form-row">
+                                                
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Maximum Capacity
+                                                  </label><br>
+                                                  <input type="text" name="name1" id="formdata12" class="form-control" value="" readonly/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Maximum Speed
+                                                  </label><br>
+                                                  <input type="text" name="name1" class="form-control"  id="formdata13"  readonly/>
+                                                </div>
+                                              </div>
+                                              {% endif %}
+                                            </div>
+                                              <div class="row col-4 mx-auto">
+                                                <input type="button" class="btn btn-secondary mx-auto btn-sm " data-dismiss="modal" value="Close">
+                                              </div>&nbsp;   
+                                          </form>       
+                                      </div>  
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+
+                  
+                </div>
+
+
+
+                <!-- <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Officer's Name
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata2" class="form-control" style="width: 91%" value="{{request.user.first_name}} {% if request.user.last_name %}{{request.user.last_name}}{% endif %}" disabled />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Officer's Designation
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata3" class="form-control" style="width: 91%" value="{{designations1}}" disabled />
+                  </div>
+                </div> -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Start Date
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata4" placeholder="Select Start Date" onchange="validatedate(this.value),changedate()" readonly class="form-control" style="width: 91%" value="" required />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Start Time
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata5" onfocus="settime()" class="form-control" style="width: 91%" value="" placeholder="Select Start Time" readonly/>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">End Date
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata6" placeholder="Select End Date" readonly class="form-control"  style="width: 91%" value="" required />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">End Time
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata7" onfocus="validatetime()" class="form-control" style="width: 91%" value="" placeholder="Select End Time" readonly/>
+                  </div>
+                </div>
+                
+                
+                <!-- <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Section
+                      <sup class="text-danger">*</sup>
+                    </label><br>
+                    <input type="text" name="name1" id="userdata16" class="form-control" style="width: 91%" value="{{name.name}}" disabled />
+                  </div>
+                </div> -->
+
+                <label for="priority" class="col-sm-12 col-form-label font-weight-bold">Inspection Type<sup class="text-danger"> *</sup></label>
+
+                <div class="col-sm-9">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="is_scheduled" id="userdata12" value="Surprise" checked>
+                      <label class="form-check-label" for="inlineRadio1">Surprise</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="is_scheduled" id="userdata12" value="Scheduled">
+                      <label class="form-check-label" for="inlineRadio2">Schedule</label>
+                    </div>    
+                </div><br>
+                  
+                  <large id="requiredFields" class="text-danger">
+                    * required field
+                  </large>
+              </div>
+              {% if questform %}
+              <div class="tab">
+                {% for i in questform %}
+                        {% if i.divtype == 'open' and forloop.counter != 1 %}
+                            </div>
+                            <div class="tab">
+                        {% endif %}
+                {% ifchanged i.instypeid_id__name %}
+                
+                <div class="form-row">
+                  <h2>{{forloop.counter|add:1}}. {{i.instypeid_id__name}}</h2>
+                    <div class="form float-lg-right ml-auto">
+
+                      <div class="form-group  pull-right float-right">
+                        <label for="fromstation" class="col-sm-12 col-form-label  font-weight-bold" name="userLabel">Concerned Officer
+                          <!-- <sup class="text-danger">*</sup> -->
+                        </label>
+                        <select id="officer1{{forloop.counter}}" name="officer1"  class="form-control select2" style="width: 91%" required>
+                          <option selected disabled="true" value="">----Select Concerned Officer----</option>
+                          
+                        </select>
+                      </div>
+
+                      <div class="form-group pull-right float-right">
+                        <label for="fromstation" class="col-sm-12 col-form-label font-weight-bold" name="userLabel">Concerned Department
+                          <!-- <sup class="text-danger">*</sup> -->
+                        </label>
+                        <select id="department1{{forloop.counter}}" name="department1"  class="form-control select2" style="width: 91%" onchange="  getConcernedOfficer(this.id,this.value)" required>
+                          <option selected value="{% if instypeid_id__concerned_dept__department_name %}{{i.instypeid_id__concerned_dept__department_name}}{% endif %}"></option>
+                          {% for i in departmentsAll %}
+                          <option value="{{i.department_code}}">{{i.department_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      
+                    </div>
+                </div>
+                <input type="text" value="{{i.qid}}" id="subcategory_id" name="subcategory_id" hidden readonly />
+                
+                
+                
+                {% endifchanged %}
+
+                <div class="row">
+
+                  <label for="fromstation" class="col-sm-12 col-form-label font-weight-bold" name="userLabel"
+                    id="{{i. }}">{{i.activity}}</label><br>
+
+                </div>
+                {% if i.choicetype__cid == 1 %}
+                <div class="row">
+                  <div class="col-lg-12" style="width: 90%; padding-left: 25px;">
+                    <input type="text" name="name1" id="userinput{{forloop.counter}}" class="form-control"
+                      style="width: 91%" />
+                  </div>
+                  <br>
+                </div>
+                {% elif i.choicetype__cid == 2 %}
+                <div class="row mx-2">
+
+                  <div class="col-lg-3">
+                    <div class=" form-check form-check-inline ms-2 mt-2" >
+                        <input class="form-check-input" type="radio" id="roption1{{forloop.counter}}" 
+                        name="roption{{forloop.counter}}" value="{{i.data1}}" onclick="blockNextPrev(this.id,this.value)">
+                        <label class="form-check-label col-lg-12" for="roption1">{{i.data1}}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-check form-check-inline ms-2 mt-2" >
+                      <input class="form-check-input" type="radio" id="roption2{{forloop.counter}}"
+                      name="roption{{forloop.counter}}" value="{{i.data2}}" >
+                    <label class="form-check-label col-lg-12" for="roption2">{{i.data2}}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="form-check form-check-inline ms-2 mt-2" >
+                      <input class="form-check-input" type="radio" id="roption3{{forloop.counter}}"
+                        name="roption{{forloop.counter}}" value="Null" disabled checked hidden>
+                      <label class="form-check-label" for="roption3"></label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12" style="width: 90%; padding-left: 25px;">
+                    <input type="text" placeholder="Remarks" name="name1" id="remarks{{forloop.counter}}" class="form-control mt-2"
+                      style="width: 91%" />
+                  </div>
+                  <br>
+                </div>
+                {% elif i.choicetype__cid == 3 %}
+                <div class="row">
+
+                  <div class="col-lg-12  mx-1" style="width: 90%; padding-left: 25px;">
+
+                    <select class="select2 my-1 mx-auto" style="width: 90%;"  id="doption{{forloop.counter}}" name="doption" >
+                      <option selected disabled="true" value="">----- Select Answer Choice -----</option>
+                      {% if i.doption__did == 1 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 2 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 3 %}
+                      {% for k in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 4 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% elif i.doption__did == 5 %}
+                      {% for j in i.data %}
+                      <option value="{{j}}">{{j}}</option>
+                      {% endfor %}
+                      {% endif %}
+
+                    </select>
+                  </div><br>
+
+                </div>
+                {% elif i.choicetype__cid == 4 %}
+                <div class="row">
+
+                  <div class="col" style="width: 90%; padding-left: 25px;">
+                    <input type="date" id="date{{forloop.counter}}" name="date" style="width: 91%;" required />
+                  </div><br>
+                </div>
+                {% elif i.choicetype__cid == 5 %}
+                <div class="row">
+
+                  <div class="col" style="width: 91%; padding-left: 25px;">
+                    <input type="time" id="time{{forloop.counter}}" name="time" required /><br>
+                  </div>
+                </div>
+                {% elif i.choicetype__cid == 6 %}
+                <div class="row">
+
+                  <div class="col" style="width: 91%; padding-left: 25px;">
+                    <input class="form-control form-control-sm" name="file" id="file{{forloop.counter}}" type="file"
+                      required /><br>
+                  </div>
+                </div>
+
+                <!-- choicetype == 7 is list -->
+                {% elif i.choicetype__cid == 7 %}
+                <div class="row" id="fieldAdd">
+                  <div class="col-lg-10" style="padding-left: 25px;">
+                    <input type="text" name="name1" id="userinput{{forloop.counter}}" class="form-control input-sm"/>
+                  </div>
+                  <div class="col-lg-1">
+                    <button class="btn btn-secondary btn-block float-right btn-sm" id="btnFieldAdd" type="button"><i class="fa fa-plus"></i></button>
+                  </div>
+                  <br>
+                </div>
+                <!-- choicetype == 7 is rating -->
+                {% elif i.choicetype__cid == 8 %}
+                <div class="row">
+                  <div class="col-lg-12" style="width: 90%; padding-left: 25px;">
+                    <input type="text" name="name1" id="userinput{{forloop.counter}}" class="form-control"
+                      style="width: 91%" />
+                  </div>
+                  <br>
+                </div>
+
+                {% endif %}
+
+                {% endfor %}
+              </div>
+              {% endif %}
+              <div class="tab">
+                <h2 class="text-justify form-row text-nowrap " id="finalSave">{{sideMenu|length|add:2}}. Inspection Conclusion</h2><br>
+                <div class="form-row">
+                  <label for="priority" class="col-form-label font-weight-bold">Any Other Abnormality Noticed? (if Yes, enter remarks.)<sup class="text-danger"> *</sup></label>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="abnormal" id="userdata13" value="no" checked>
+                    <label class="form-check-label" for="inlineRadio1">No</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="abnormal" id="userdata13" value="yes" onchange="abnormality(this.value)">
+                    <label class="form-check-label" for="inlineRadio2" >Yes</label>
+                  </div> 
+                  
+                </div>
+                <div class="col-sm-12" style="width: 100%;">
+                  <span id="abnormality11"></span>
+                </div> 
+
+                <div class="form-row">
+                  <label for="docUpload" class="col-sm-12 col-form-label font-weight-bold">Upload Document</label>
+                  <div class="custom-file input-group-prepend" style="width: 90%; padding-left: 2.5%;">
+                    <input type="file" class="form-control form-control-sm" style="width: 90%; padding-left: 2.5%;" id="userdata14">
+                    <!-- <label class="custom-file-label col-11" for="userdata14"  >Choose file</label>   -->
+                  </div>
+                </div>
+                <small id="HelpInline" class="text-muted">
+                  Must be .jpg, .png, .jpeg, .dox, .xls format.
+                </small><br>
+
+                <div class="form-row">
+                  <label for="priority" class="col-sm-12 col-form-label font-weight-bold">Overall Rating</label>
+                <div class="rating col-2">
+                  
+                  <input type="radio" name="ratings1" value="5" id="5" onchange="checker(this.id,this.value)"><label for="5">☆</label>
+                  <input type="radio" name="ratings1" value="4" id="4" onchange="checker(this.id,this.value)"><label for="4">☆</label>
+                  <input type="radio" name="ratings1" value="3" id="3" onchange="checker(this.id,this.value)"><label for="3">☆</label>
+                  <input type="radio" name="ratings1" value="2" id="2" onchange="checker(this.id,this.value)"><label for="2">☆</label>
+                  <input type="radio" name="ratings1" value="1" id="1" onchange="checker(this.id,this.value)"><label for="1">☆</label>
+                </div>
+              </div>
+              </div>
+
+              <div class="row">
+                <div class="col" style="width: 90%; padding-left: 25px;">
+                  <input type="text" id="userinputlength" value="{{queslen}}" class="form-control" hidden>
+                </div>
+
+              </div>
+              <br><br>
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-2">
+                    <button type="button" class="btn btn-dark btn-block" id="prevBtn" onclick="nextPrev(-1)">&laquo; Previous</button>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-2 d-block">
+                    <button type="button" id="useradd" name="useradd" value="useradd"  onclick=" addQ145()"
+                    class=" btn btn-secondary  pull-right btn-block">Save</button>
+                  </div>
+                  <div class="col-lg-2 d-block ">  
+                    <button type="button" class="btn btn-white bg-white border-dark pull-left btn-block"
+                    onclick="reset('userForm')">Clear</button>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-2">
+                    <button type="button" class="btn btn-dark btn-block" id="nextBtn" onclick="nextPrev(1)">Next &raquo;</button>
+                  </div>
+                </div>
+              </div>
+              <br>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+
+
+<script>
+
+
+
+var countEinspection=0;
+var ratingsEinpection=5;
+$(".select2").select2();
+
+$(document).ready(function () {
+    $("#card1").show();
+    $("#menu1").show();
+    $(".select2").select2();
+    $('#playBetweenRD').hide();
+
+      var max_fields = 5; //maximum input boxes allowed
+      var wrapper  = $("#fieldAdd"); //Fields wrapper
+      var add_button = $("#btnFieldAdd"); //Add button ID
+
+      var x = 1; //initlal text box count
+      $(add_button).click(function(e){ //on add input button click
+      e.preventDefault();
+          if(x < max_fields){ //max input box allowed
+              x++; //text box increment
+             $(wrapper).append(
+              '<div class="col-lg-10" style="padding-left: 25px;"><input placeholder="Remarks" type="text" name="name1" class="form-control input-sm"><div class="col-md-1"><button class="btn btn-secondary btn-block float-right btn-sm remove_field" type="button"><i class="fa fa-minus"></i></button></div></div>'
+              ); //add input box
+          }
+      });
+
+      $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+          e.preventDefault(); $(this).parent('div').parent('div').remove(); x--;
+          })
+  });
+
+
+// $('#responsePlay').click(function(){
+//   console.log('Play Request Received')
+//   $('#playBetweenRD').prop('hiddden', false)
+// })
+
+
+  function blockNextPrev(id,val){
+    // alert(id)
+    // alert(val)
+  }
+
+  function responsePlayFun(){
+    console.log('Play Request Received')
+    $('#playBetweenRD').show();
+  }
+  
+
+  $('#userdata1').change(function(){
+    railways=$('#userdata0').val();
+    division=$('#userdata1').val();
+    console.log('railways: ',railways, 'division: ',division)
+    data={
+      'railways':railways,
+      'division':division,
+    }
+    $.ajax({
+      type:'GET',
+      url:"{% url 'palyResponse' %}",
+      data:data,
+      success:function(response){
+        // console.log(response.result[0]['location_description'])
+
+        $('#railwaysE').val(response.railways)
+        $('#divisionE').val(response.division)
+
+        $('#playBetweenRD').hide();
+        
+      }
+    })
+
+  })
+
+function getSectionDash(val)
+  {
+    // alert(val)
+    division=$('#userdata1').val()
+    data={
+      'division':division,
+    }
+    // alert(division)
+    $.ajax({
+      type:'GET',
+      url:"{% url 'getSectionDash' %}",
+      data:data,
+      success:function(response){
+        $('#userdata17').empty();
+        let row='<option selected disabled hidden>--Select Section--</option>';
+        if(response.length==0){
+          row+='<option selected disabled hidden>--No Section--</option>';
+          }
+          console.log('response.length111', response.length);
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value = '+response[i].secid+'>'+response[i].section_name+"</option>";
+          }
+          $('#userdata17').append(row);
+      }
+    })
+  }
+
+  
+  
+  
+  $('#userdata17').change(function(){
+    section=$('#userdata17').val();
+    // alert(section)
+    console.log('section choosen',section)
+    data={
+      'section':section,
+    }
+    $.ajax({
+        type:'GET',
+        url:  "{% url 'getStationSectionWise' %}",
+        data:data,
+        success:function(response){
+          $('#userdata10').empty();
+        $('#userdata11').empty();
+        let row = '<option selected disabled hidden>--Select Start Station--</option>';
+        let row1 = '<option selected disabled hidden>--Select End Station--</option>';
+
+          if(response.length==0){
+          row+='<option selected disabled hidden>--No Start Station--</option>';
+          row1+='<option selected disabled hidden>--No End Station--</option>';
+
+          }
+          console.log('response.length111', response.length);
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value = '+response[i].stnshortcode+'>'+response[i].station_name+"</option>";
+            row1 += '<option value = '+response[i].stnshortcode+'>'+response[i].station_name+"</option>";
+          }
+          
+          $('#userdata10').append(row);
+          $('#userdata11').append(row1);
+        }
+      })    
+
+  })
+
+
+  function getDataEntity(){
+    let entity=document.getElementById('entitylbl').value;
+    let entityNo=$('#userdata9').val();
+    data={
+      'entity':entity,
+      'entityNo':entityNo,
+    }
+    if(entityNo=='' || entityNo==null){
+      alert('Select The Entity First')
+    }
+    else{
+      $.ajax({
+        type:'GET',
+        url:"{% url 'getDataEntity' %}",
+        data:data,
+        success: function(response){
+
+          if(entity=='Train'){
+            document.getElementById('formdata1').value = response[0]['train_no'];
+            document.getElementById('formdata2').value = response[0]['train_name'];
+            document.getElementById('formdata3').value = response[0]['tn_category']==''||response[0]['tn_category']==null ?'NA' : response[0]['tn_category'];
+            document.getElementById('formdata4').value = response[0]['stnsource_code']==''||response[0]['stnsource_code']==null ?'NA' : response[0]['stnsource_code'];
+            document.getElementById('formdata5').value = response[0]['stndest_code']==''||response[0]['stndest_code']==null ?'NA' : response[0]['stndest_code'];
+            document.getElementById('formdata6').value = response[0]['total_coach']==''||response[0]['total_coach']==null ?'NA' : response[0]['total_coach'];
+            document.getElementById('formdata7').value = response[0]['trainowngrly2']==''||response[0]['trainowngrly2']==null ?'NA' : response[0]['trainowngrly2'];
+            document.getElementById('formdata8').value = response[0]['primary_maint_depot']==''||response[0]['primary_maint_depot']==null ?'NA' : response[0]['primary_maint_depot'];
+            document.getElementById('formdata9').value = response[0]['secondary_maint_depot']==''||response[0]['secondary_maint_depot']==null ?'NA' : response[0]['secondary_maint_depot'];
+          }
+
+          else if(entity=='Loco'){
+            document.getElementById('formdata1').value = response[0]['loco_no'];
+            document.getElementById('formdata2').value = response[0]['mfg_full_name']==''||response[0]['mfg_full_name']==null ?'NA' : response[0]['mfg_full_name'];
+            document.getElementById('formdata3').value = response[0]['loco_type']==''||response[0]['loco_type']==null ?'NA' : response[0]['loco_type'];
+            document.getElementById('formdata4').value = response[0]['loco_shed']==''||response[0]['loco_shed']==null ?'NA' : response[0]['loco_shed'];
+            document.getElementById('formdata5').value = response[0]['gauge']==''||response[0]['gauge']==null ?'NA' : response[0]['gauge'];
+            document.getElementById('formdata6').value = response[0]['wheel_arr']==''||response[0]['wheel_arr']==null ?'NA' : response[0]['wheel_arr'];
+            document.getElementById('formdata7').value = response[0]['qty_built']==''||response[0]['qty_built']==null ?'NA' : response[0]['qty_built'];
+            document.getElementById('formdata8').value = response[0]['built_year']==''||response[0]['built_year']==null ?'NA' : response[0]['built_year'];
+            document.getElementById('formdata9').value = response[0]['turned_out_date']==''||response[0]['turned_out_date']==null ?'NA' : response[0]['turned_out_date'];
+            document.getElementById('formdata10').value = response[0]['power']==''||response[0]['power']==null ?'NA' : response[0]['power'];
+            document.getElementById('formdata11').value = response[0]['running_status']==''||response[0]['running_status']==null ?'NA' : response[0]['running_status'];
+            document.getElementById('formdata12').value = response[0]['max_capacity']==''||response[0]['max_capacity']==null ?'NA' : response[0]['max_capacity'];
+            document.getElementById('formdata13').value = response[0]['max_speed']==''||response[0]['max_speed']==null ?'NA' : response[0]['max_speed'];
+          }
+
+          else if(entity=='Running Room'){
+            document.getElementById('formdata1').value = response[0]['rr_code'];
+            document.getElementById('formdata2').value = response[0]['rr_name']==''||response[0]['rr_name']==null ?'NA' : response[0]['rr_name'];
+            document.getElementById('formdata3').value = response[0]['stnshortcode']==''||response[0]['stnshortcode']==null ?'NA' : response[0]['stnshortcode'];
+            
+          }
+
+          else if(entity=='Station'){
+            document.getElementById('formdata1').value = response[0]['stnshortcode'];
+            document.getElementById('formdata2').value = response[0]['station_cat']==''||response[0]['station_cat']==null ?'NA' : response[0]['station_cat'];
+            document.getElementById('formdata3').value = response[0]['secid']==''||response[0]['secid']==null ?'NA' : response[0]['secid'];
+            
+          }
+
+          else if(entity=='Section'){
+            document.getElementById('formdata1').value = response[0]['section_code'];
+            document.getElementById('formdata2').value = response[0]['secstart_code']==''||response[0]['secstart_code']==null ?'NA' : response[0]['secstart_code'];
+            document.getElementById('formdata3').value = response[0]['secend_code']==''||response[0]['secend_code']==null ?'NA' : response[0]['secend_code'];
+            document.getElementById('formdata4').value = response[0]['via']==''||response[0]['via']==null ?'NA' : response[0]['via'];
+            document.getElementById('formdata5').value = response[0]['startkm']==''||response[0]['startkm']==null ?'NA' : response[0]['startkm'];
+            document.getElementById('formdata6').value = response[0]['endkm']==''||response[0]['endkm']==null ?'NA' : response[0]['endkm'];
+            
+          }
+          
+          
+        }
+      })
+  }
+  }
+
+
+  function endStation(value){
+    data={
+      'start_station':value,
+    }
+    let entity=document.getElementById('entitylbl').value;
+    $.ajax({
+        type:'GET',
+        url:  "{% url 'endStation' %}",
+        data:data,
+        success:function(response){
+          let row = '<option selected value ="' + response[0].stnshortcode + '">' + response[0].station_name + ' </option>';
+          $('#userdata11').append(row);
+          document.getElementById("userdata11").addEventListener("change", checkFillofStation(entity));
+        }
+      })    
+  }
+
+  function checker(id,value){
+    console.log(value)
+    ratingsEinpection=value;
+  }
+
+  
+  function getConcernedOfficer(id,value){
+    //document.getElementById('departmentval').value=value;
+    let departmentId = id.split('department1')
+    department=departmentId[1];
+    let officer='officer1'+department;
+    let division = $('#userdata1').val();
+    
+    console.log(value)
+    console.log('departmentId',department)
+    data={
+      'department':value,
+      'officer':officer,
+      'division':division,
+    }
+    if(division=='' || division==null){
+      alert('Please Select Railways and Division First')
+      document.getElementById("userdata0").focus();
+      document.getElementById("userdata1").focus();
+    }
+    else{
+      $.ajax({
+        type:'GET',
+        url:  "{% url 'getConcernedOfficer' %}",
+        data:data,
+        success:function(response){
+          
+          $('#'+officer).empty();
+          // $('#officer1'+department).empty();
+          // document.getElementById(officer).
+          let row = '<option selected disabled hidden>--Select Concerned Officer--</option>';
+            if(response.length==0){
+            row+='<option selected disabled hidden>--No Officer--</option>';
+            }
+            console.log('response.length', response.length);
+            for (let i = 0; i < response.length; i++) {
+              row += '<option value="' + response[i].designation_code + '">' + response[i].designation + ' </option>';
+            }
+            $('#'+officer).append(row);
+        }
+      })
+    }
+  }
+
+
+  function getSatrtEndStation(){
+    var rail = $("#userdata1").val();
+    // alert(rail)
+    data1 = {"rail":rail};
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      data: data1,
+      url: '{% url "getstations" %}',
+      success: function (response) {
+        $('#userdata10').empty();
+        $('#userdata11').empty();
+        let row = '<option selected disabled hidden>--Select Start Station--</option>';
+        let row1 = '<option selected disabled hidden>--Select End Station--</option>';
+
+          if(response.length==0){
+          row+='<option selected disabled hidden>--No Start Station--</option>';
+          row1+='<option selected disabled hidden>--No End Station--</option>';
+
+          }
+          console.log('response.length111', response.length);
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value = '+response[i].stnshortcode+'>'+response[i].station_name+"</option>";
+            row1 += '<option value = '+response[i].stnshortcode+'>'+response[i].station_name+"</option>";
+          }
+          
+          $('#userdata10').append(row);
+          $('#userdata11').append(row1);
+      }
+  })
+  
+  }
+
+
+  function getZoneEinsp(){
+    let zone = $('#userdata0').val();
+    let division = $('#userdata1').val();
+    data = {
+      'zone':zone,
+      'division':division,
+    }
+    $.ajax({
+      type: 'GET',
+        url: "{% url 'getZoneEinsp' %}",
+        data: data,
+        success: function (response){
+          $('#userdata1').empty();
+          let row = '<option selected disabled hidden>--Select Division--</option>';
+          if(response.length==0){
+          row+='<option selected disabled hidden>--No Division--</option>';
+          }
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+            row += '<option value="' + response[i].rly_unit_code + '">' + response[i].location_description + ' </option>';
+          }
+          $('#userdata1').append(row);
+        }
+    })
+  }
+
+  
+  function abnormality(value){
+    if(value="yes" && countEinspection==0){
+      let v = ''
+      v+='<div class="col-lg-12" style="width: 90%; padding-left: 2.5%;">'
+      v+='<input type="text" name="name1" id="userdata15" class="form-control" placeholder="Please Enter Remarks" style="width: 91%" />'
+      v+='</div>'
+      $('#abnormality11').append(v)
+      countEinspection=countEinspection+1
+    }
+    
+  }
+  
+  
+  function reset(id) {
+    
+    document.getElementById('id').reset();
+  }
+
+  
+
+  function checkFillofStation(entity){
+    entity=document.getElementById('entitylbl').value;
+    var start_station=$('#userdata10').val();
+    var end_station=$('#userdata11').val();
+    if(start_station=='' ||  start_station==null){
+      document.getElementById("userdata10").focus();
+      alert('Start Station not Choosen!!')
+    }
+    else if(end_station=='' ||  end_station==null){
+      document.getElementById("userdata11").focus();
+      alert('End Station not Choosen!!')
+    }
+    else{
+      data={
+        'start_station':start_station,
+        'end_station':end_station,
+        'entity':entity,
+       }
+      
+      $.ajax({
+      type: "GET",
+      dataType: "json",
+      data: data,
+      url: '{% url "checkFillofStation" %}',
+      success: function (response) {
+        $('#userdata9').empty();
+          let row = '<option selected disabled hidden>--Select Data--</option>';
+          console.log('response.length', response.length);
+          for (let i = 0; i < response.length; i++) {
+            if(entity=='Train'){
+            row += '<option value="' + response[i].train_no + '">' + response[i].train_no + ' </option>';
+          }
+          else if(entity=='Running Room'){
+            row += '<option value="' + response[i].rr_code + '">' + response[i].rr_name + ' </option>';
+          }
+          else if(entity=='Station'){
+            row += '<option value="' + response[i].stnshortcode + '">' + response[i].station_name + ' </option>';
+          }
+          else if(entity=='Loco'){
+            row += '<option value="' + response[i].loco_id + '">' + response[i].loco_no + ' </option>';
+          }
+          }
+          $('#userdata9').append(row);
+      }
+
+    })
+    }
+  }
+
+  
+  function addQ145() {
+    var data = {{ ajaxdata | safe }}
+    // console.log(data)
+    var cardId = $('#cardId').val();
+    var id = $('#id').val();
+    var id1 = $('#id').val();
+    var railways=$('#userdata0').val();
+    var division=$('#userdata1').val();
+    var start_date=$('#userdata4').val();
+    var start_time=$('#userdata5').val();
+    var end_date=$('#userdata6').val();
+    var end_time=$('#userdata7').val();
+    // var inspection_of=$('#userdata8').val();
+    var detail=$('#userdata9').val();
+    var start_station=$('#userdata10').val();
+    var end_station=$('#userdata11').val();
+    var radios1 = document.getElementsByName('is_scheduled');
+    var radios2 = document.getElementsByName('abnormal');
+    var is_scheduled='Surprise';
+    var abnormal='no';
+    var remarks11=$('#userdata15').val();
+    var section=$('#userdata17').val();
+    
+    
+    for (var r1 of radios1)
+    {
+        if (r1.checked) {
+          is_scheduled=r1.value;
+      }
+     }
+
+     for (var r2 of radios2)
+    {
+        if (r2.checked) {
+          abnormal=r2.value;
+      }
+     }
+    
+    
+    console.log('ratingsEinpection:',ratingsEinpection)
+    console.log(is_scheduled,abnormal)
+    console.log(abnormal)
+    console.log(id)
+    var str2 = [],fdid;
+    for (let i = 0; i < data.length; i++) {
+      let a = data[i].split('@#@'), val;
+      
+      if(a[2]=='C')
+      {
+        
+        fdid=i+1;
+      }
+      if (a[0] == '1') {
+        id = 'userinput' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      else if (a[0] == '2') {
+        id = 'roption' + String(i + 1)
+        val = document.querySelector('input[name=' + id + ']:checked').id;
+        val2 = document.querySelector('input[name=' + id + ']:checked').value;
+        remarks = 'remarks' + String(i + 1)
+        val3 = document.getElementById(remarks).value;
+        let officerVal=''
+        let departmentVal=''
+        if(val.substring(0, 8)=='roption1'){
+          
+          officerId='officer1' + String(fdid)
+          console.log(officerId,"officerif")
+          departmentId='department1' + String(fdid)
+          // alert(officerId);
+          officerVal = document.getElementById(officerId).value;
+          departmentVal = document.getElementById(departmentId).value;
+          // if(officerVal=='' || officerVal==null){
+
+          // }
+
+        }
+        str2[i] = val+'@@@'+val2+'@@@' + val3 + '@@@' + officerVal + '@@@' + departmentVal;
+        // console.log('STR2: ',str2[i])
+      }
+      else if (a[0] == '3') {
+        id = 'doption' + String(i + 1);
+        val = document.getElementById(id).value
+        str2[i] = val;
+      }
+      else if (a[0] == '4') {
+        id = 'date' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      else if (a[0] == '5') {
+        id = 'time' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      else if (a[0] == '6') {
+        id = 'file' + String(i + 1);
+        val = document.getElementById(id).value;
+        str2[i] = val;
+      }
+      qid = a[1]
+      // alert(val+" "+ qid);
+      str2[i] = str2[i] + '@#@' + qid + '@#@' + a[0];
+    }
+    console.log(start_station,end_station)
+    var data1 = {
+      'str2': str2,
+      'cardId': cardId,
+      'id': id1,
+      'railways':railways,
+      'division':division,
+      'start_date':start_date,
+      'start_time':start_time,
+      'end_date':end_date,
+      'end_time':end_time,
+      'start_station':start_station,
+      'end_station':end_station,
+      // 'inspection_of':inspection_of,
+      'detail':detail,
+      'is_scheduled':is_scheduled,
+      'abnormal':abnormal,
+      'remarks':remarks11,
+      'ratingsEinpection':ratingsEinpection,
+      'section':section,
+      csrfmiddlewaretoken:'{{ csrf_token }}'
+    }
+    if(start_station=='' ||  start_station==null){
+      document.getElementById("userdata10").focus();
+      alert('Start Station not Choosen!!')
+    }
+    else if(end_station=='' ||  end_station==null){
+      document.getElementById("userdata11").focus();
+      alert('End Station not Choosen!!')
+    }
+    else if(start_date=='' || start_date==null){
+      document.getElementById("userdata4").focus();
+      alert('Start Date not Choosen!!')
+    }
+    else if(end_date=='' || end_date==null){
+      document.getElementById("userdata6").focus();
+      alert('End Date not Choosen!!')
+    }
+    else if(start_time=='' || start_time==null){
+      document.getElementById("userdata5").focus();
+      alert(' Start Time not Choosen!!')
+    }
+    else if(end_time=='' || end_time==null){
+      document.getElementById("userdata7").focus();
+      alert(' End Time not Choosen!!')
+    }
+    else if(railways=='' || railways==null){
+      document.getElementById("userdata0").focus();
+      alert(' Railway Zone not Choosen!!')
+    }
+    else if(division=='' || division==null){
+      document.getElementById("userdata1").focus();
+      alert(' Railway Division not Choosen!!')
+    }
+    else if(section=='' || section==null){
+      document.getElementById("userdata17").focus();
+      alert('Section not Choosen!!')
+    }
+    else{
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      data: data1,
+      url: '{% url "addQ145" %}',
+      success: function (response) {
+        alert('Inspection Record Saved Successfully');
+        // reset('userForm');
+        window.location.href="{% url 'frontpage' %}";
+        
+      },
+      error: function(request,error){
+        alert('Select Marked Officer')
+      }
+
+    })
+    
+  }
+}
+
+</script>
+
+
+<script>
+  var currentTab = 0; // Current tab is set to be the first tab (0)
+  showTab(currentTab); // Display the current tab
+  // $('#useradd').hide();
+  $('#useradd').prop('disabled', true)
+  $('#useradd').prop('title', 'Cannot Save Data')
+// saud faisal
+  
+function showTab(n) {
+    // This function will display the specified tab of the form ...
+    $('#useradd').prop('disabled', true)
+    $('#useradd').prop('title', 'Cannot Save Data')
+    var x = document.getElementsByClassName("tab");
+    var y = document.getElementsByClassName("mydata1");
+    y[currentTab].style.backgroundColor = "gray";
+    console.log("end pagination",x.length,n)
+    x[n].style.display = "block";
+    // ... and fix the Previous/Next buttons:
+    if (n == 0) {
+      document.getElementById("prevBtn").style.display = "none";
+    } else {
+      document.getElementById("prevBtn").style.display = "inline";
+    }
+    if (n == (x.length - 1)) {
+      document.getElementById("nextBtn").style.display = "none";
+      $('#useradd').prop('disabled', false)
+      $('#useradd').prop('title', 'Save Available')
+
+      // $('#useradd').show();
+      
+    } 
+    else if (n < (x.length - 1)) {
+      document.getElementById("nextBtn").style.display = "inline-block";
+     
+      
+    } 
+    else {
+      document.getElementById("nextBtn").innerHTML = "Next";
+    }
+    // ... and run a function that displays the correct step indicator:
+  }
+  
+  // function nextPrev(n) {
+  //   // This function will figure out which tab to display
+  //   var x = document.getElementsByClassName("tab");
+  //   // Exit the function if any field in the current tab is invalid:
+  //   // Hide the current tab:
+  //   x[currentTab].style.display = "none";
+  //   // Increase or decrease the current tab by 1:
+   
+  //   // if you have reached the end of the form... :
+  //   if(currentTab < n && (n-currentTab)!=1){
+  //     currentTab = n
+  //   }
+  //   else if(currentTab > n && (currentTab - n)!=1){
+  //     currentTab = n
+  //   }
+  //   else if(currentTab < n && (n-currentTab)==1){
+  //     currentTab = currentTab+ (n-currentTab)
+  //   }
+  //   else if(currentTab > n && (currentTab - n)==1){
+  //     currentTab = currentTab+ (n-currentTab)
+  //   }
+  //   else{
+  //     currentTab = currentTab + n;
+  //   }
+  //   if (currentTab >= x.length) {
+  //     //...the form gets submitted:
+  //     document.getElementById("regForm").submit();
+  //     return false;
+  //   }
+  //   // Otherwise, display the correct tab:
+  //   showTab(currentTab);
+  // }
+  
+  
+  
+  function nextPrev(n) {
+    // This function will figure out which tab to display
+    var x = document.getElementsByClassName("tab");
+    var y = document.getElementsByClassName("mydata1");
+    y[currentTab].style.backgroundColor = "rgb(74,72,72)";
+    // $('#useradd').hide();
+    $('#useradd').prop('disabled', true)
+    // title="click here"
+    $('#useradd').prop('title', 'Cannot Save Data')
+    // Exit the function if any field in the current tab is invalid:
+    // Hide the current tab:
+    x[currentTab].style.display = "none";
+    // Increase or decrease the current tab by 1:
+    currentTab = currentTab + n;
+    // if you have reached the end of the form... :
+    console.log('currentTab:',currentTab,' x.length:',x.length)
+    if (currentTab >= x.length) {
+      //...the form gets submitted:
+      
+      document.getElementById("regForm").submit();
+      
+      
+      return false;
+    }
+    if(x.length - currentTab == 1){
+      // $('#useradd').show();
+      $('#useradd').prop('disabled', false)
+      $('#useradd').prop('title', 'Save')
+    }
+    // Otherwise, display the correct tab:
+    showTab(currentTab);
+  }
+  
+  function mydata(da){
+    var x = document.getElementsByClassName("tab");
+    var y = document.getElementsByClassName("mydata1");
+    console.log("y",y)
+    y[currentTab].style.backgroundColor = "rgb(74,72,72)";
+    x[currentTab].style.display = "none";
+    if(da>=1){
+      currentTab = da
+      // y[currentTab].style.backgroundColor = "red";
+      // y[currentTab].className.replace("mydata1",'active')
+      console.log(currentTab)
+    }
+    else{
+      currentTab = 0
+    }
+    showTab(currentTab)
+  }
+
+
+
+
+var currentdate= new Date();
+  $("#userdata4").datepicker({
+      minDate: currentdate,
+      autoclose:true,
+      dateFormat: "dd-mm-yy",
+      endDate:"currentdate",
+      changeMonth : true,
+      changeYear : true,
+      todayHighlight: true,
+      clearBtn : true 
+  })
+  
+  $("#userdata6").datepicker({ minDate: currentdate,
+      autoclose:true,
+      dateFormat: "dd-mm-yy",
+      endDate:"currentdate",
+      changeMonth : true,
+      changeYear : true,
+      todayHighlight: true,
+      clearBtn : true });
+
+function changedate(){
+  let startdate = $("#userdata4").val();
+  if(startdate == ''){
+    alert("Please Select Start Date First");
+    $("#userdata4").focus()
+  }
+  else{
+    var date1 = $('#userdata4').datepicker('getDate'); 
+    $("#userdata6").datepicker("option","minDate",date1); 
+    
+  }
+}
+
+  </script>
+<script>
+  function settime(){
+  $('#userdata5').daterangepicker({
+            autoApply:true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+            timePickerSeconds: false,
+            singleDatePicker:true,
+            locale: {
+                format: 'HH:mm'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+  $("#userdata7").empty()
+  }
+    
+  function validatetime(){
+  var starttime = $("#userdata5").val();
+  $('#userdata7').daterangepicker({
+            minDate:starttime,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 1,
+            timePickerSeconds: false,
+            singleDatePicker:true,
+            locale: {
+                format: 'HH:mm'
+            }
+        }).on('show.daterangepicker', function (ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+}
+
+</script>
+<script>
+  function validatedate(value){
+    var inspected_of = $("#userdata8").val()
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      data: {
+        "value":value,
+        'inspected_of':inspected_of
+      },
+      url: '{% url "ValidateDateOfInsp" %}',
+      success: function (response) {
+        if(response.status == 1){
+          alert('Inspection Already Done On '+value);
+          $("#userdata4").val('');
+          $("#userdata4").focus();
+
+        }
+      }
+    });
+  }
+</script>
+
+</html>
+{% endblock content %}

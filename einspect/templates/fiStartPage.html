@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FI</title>
+  <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static '/js/popper.min.js' %}"></script>
+  <script src="{% static '/js/Chart.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.slim.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <script src="{% static '/js/jquery-ui.js' %}"></script>
+  <script src="{% static '/js/jquery-1.12.4.js' %}"></script>
+  <script src="{% static '/js/select2.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/select2.min.css' %}" />
+  <script src="{% static '/js/moment.min.js' %}"></script>
+  <script src="{% static '/js/jquery-3.3.1.js' %}"></script>
+  <script src="{% static '/js/sweetalert.min.js' %}"></script>
+  <script src="{% static '/js/jquery.min.js' %}"></script>
+  <script src="{% static '/js/bootstrap.min1.js' %}"></script>
+  <script src="{% static '/js/jquery.min1.js' %}"></script>
+  <script src="{% static '/js/jquery-ui.min.js' %}"></script>
+  <script src="{% static '/js/jspdf.min.js' %}"></script>
+  <script src="{% static '/DataTables/datatables.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/DataTables/datatables.min.css' %}" />
+
+
+
+  <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static '/css/jquery-ui.css' %}" />
+
+ 
+  <link rel="stylesheet" type="text/css" href="{% static '/css/forms_common.css' %}" />
+
+
+<style>
+  .divFirst {
+    background-color: #8ecae6;
+    width: 10%;
+    border: 5px solid rgb(85, 124, 234);
+    padding: 1%;
+    margin: 1.5%;
+  }
+  
+  .divFirst1 {
+    background-color: white;
+    width: 100%;
+    border: 10px solid #219ebc;
+
+  }
+  .divFirst2 {
+    background-color: white;
+    width: 100%;
+    border: 10px solid rgb(47, 241, 167);
+
+  }
+.qdiv {
+    background-color: purple;
+    width: 10%;
+    border: 5px solid #0077b6;
+    padding: 1%;
+    margin: 1%;
+    color: white;
+    transform: perspective(600px) rotateX(0deg) scale(1);
+    box-shadow: 0px 10px 50px #f4b1b1;
+    transition: 0.5s ease all;
+}
+
+.qdiv:hover {
+    cursor: pointer;
+    background-color: #e9ecef;
+    border: 5px solid #6a040f;
+    color: black;
+    transform: rotate(1deg) scale(1.4) translateY(10px);
+    z-index:1;
+  
+}
+#title {
+        text-align: center;
+        float: left;
+      padding: 0 1px;
+      margin: -20px 0 0 0px;
+      background-color: #fff;
+      color: crimson;
+    }
+    .clickColor{
+        background-color: #8cb369;
+    }
+</style>
+</head>
+
+
+<body>
+  <script type="text/javascript">
+    $(".sidebar").addClass('close');
+</script>
+    <div>
+        <h3 id="h6" class="report_heading">Field Inspection</h3>
+    </div>
+ <br>
+    <div class="container divFirst1">
+        <div id="title"><strong>Department Wise</strong></div>
+
+        <div class="row">
+            
+            {% for i in allDepartment %}
+            <div class="col-lg-2 col-md-4 col-sm-1 qdiv {% if i.department_code == deptId %} clickColor {% endif %}" id="dept{{i.department_code}}" onclick="getInspectionType(this.id,'{{i.department_code}}')">
+                <strong>{{i.department_name}}</strong>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+<br>
+<br>
+    <div class="container divFirst2">
+        <div id="title"><strong>Inspection Type</strong></div>
+
+        <div class="row">
+            
+            {% for i in inspType %}
+            <div class="col-lg-2 col-md-4 col-sm-1 qdiv" onclick="window.location.href='/showMenu/?id={{i.instypeid}}'">
+                <strong>{{i.name}}</strong>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <form method="POST">
+        {%csrf_token%}
+        <input type="hidden" id="department_code" name="department_code">
+        <button type="submit" hidden name="submit" value="deptTypeId" id="submit"></button>
+    </form>
+
+    <script>
+        function getInspectionType(id,val)
+        {
+            $(".clickColor").removeClass("clickColor");
+            $('#'+id).addClass('clickColor');
+
+            $('#department_code').val(val);
+            document.getElementById('submit').click();
+            
+        }
+    </script>
+</body>
+
+</html>
+{% endblock content %}

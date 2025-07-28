@@ -1,0 +1,319 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+
+   <head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}"> 
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>  
+  </head>
+  <style>
+    .modal-content{
+    border: solid !important;
+    border-width: 1px !important;
+    }
+    .modal-header{
+    background-color: #0066cc!important;
+    color: #fff;
+    border-radius: inherit;
+    }
+    </style>
+<body>
+    <h3 class="report_heading">Received Reply</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col" style="padding-left:3%">
+            {% for i in mom_title %}
+                <label for="start" >MOM Title</label>
+                <textarea class="form-control" style="width:98%" id="titleinsp"  name="titleinsp" readonly>{{i.mom_title}}</textarea>
+            {% endfor %}
+            </div>
+        </div>
+        <br>
+            <div class="container" style="overflow-x: auto;">
+
+            <table id="tablereply" class="table table-striped table-bordered table-data">
+                <thead>
+                    <tr>
+                        <th style= "text-align: left;">Item No.</th>
+                        <th style= "text-align: left;"> Minutes of Meeting</th>
+                        <th style= "text-align: left;">Dealt By</th>
+                        <th style= "text-align: left;">Reply Received</th>
+                        <th style= "text-align: left; ">Reply Date</th>
+                        <th style= "text-align: left; ">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tablereplybody">
+                    {% for i in final_list %}
+                        {% if i.type == 'P' or i.type == 'H' %}
+                            {% if i.chk == 'YES' %}
+                                <tr>
+                                    <td>{{i.item_no}}</td>
+                                    <td><b>{{i.item_heading}}</b></td>
+                                        <td><table width="100%">
+                                            {% for j in i.marked %}
+                                                <tr><td>{{j.marked_to__designation}}</td></tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                        <td><table width="100%">
+                                            {% for j in i.marked %}
+                                                <tr>
+                                                    {% if j.reply_text == none and j.reply_file == '' %}
+                                                        <td style="width:60%">-</td>
+                                                        <td style="width:10%">-</td>
+                                                    {% elif j.reply_text == none and j.reply_file != '' %}
+                                                        <td style="width:60%">-</td>
+                                                        <td style="width:10%"><a href="{{j.reply_file}}" target="_blank"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>
+                                                    {% elif j.reply_text != none and j.reply_file == '' %}
+                                                        <td style="width:60%">{{j.reply_text}}</td>
+                                                        <td style="width:10%">-</td>
+                                                    {% elif j.reply_text != none and j.reply_file != '' %}
+                                                        <td style="width:60%">{{j.reply_text}}</td>
+                                                        <td style="width:10%"><a href="{{j.reply_file}}" target="_blank"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>
+                                                    {% else %}
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                        <td><table width="100%">
+                                            {% for j in i.marked %}
+                                                <tr><td>{{j.reply_on|date:'d/m/y'}}</td></tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                    <!-- <td><div style="text-align: center;"><button type="button" value="reject"  class="btn btn-danger" id="{{i.marked_no}}" onclick="rejectBtnFunction(this)" data-toggle="modal" data-target="#rejectModal">
+                                        <span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button></div>
+                                    </td> -->
+                                    <td><table>
+                                        {% for j in i.marked %}
+                                            <tr><td>
+                                                <div style="text-align: center;">
+                                                    <!-- {{j.marked_no}}__{{j.marked_to__designation}} -->
+                                                    <button type="button" value="reject"   class="btn btn-success  btn-sm" id="{{j.marked_no}}" onclick="rejectBtnFunction(this)" data-toggle="modal" data-target="#rejectModal">
+                                                        <i class="fas fa-solid fa-circle"></i>
+                                                    </button>
+                                                </div>
+                                            </td></tr>
+                                        {% endfor %}
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% elif i.type == 'SP' or i.type == 'SH' %}
+                            {% if i.chk == 'YES' %}
+                                <tr>
+                                    <td>{{i.item_no}}</td>
+                                    <td>
+                                        <b>{{i.item_subheading}}</b>
+                                        {% if i.item_desciption != '' %}
+                                            <br>
+                                            {{i.item_description}}
+                                        {% endif %}
+                                    </td>
+                                        <td><table>
+                                            {% for j in i.marked %}
+                                                <tr><td>{{j.marked_to__designation}}</td></tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                        <td><table>
+                                            {% for j in i.marked %}
+                                                <tr>
+                                                    {% if j.reply_text == none and j.reply_file == '' %}
+                                                        <td style="width:60%">-</td>
+                                                        <td style="width:10%">-</td>
+                                                    {% elif j.reply_text == none and j.reply_file != '' %}
+                                                        <td style="width:60%">-</td>
+                                                        <td style="width:10%"><a href="{{j.reply_file}}" target="_blank"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>
+                                                    {% elif j.reply_text != none and j.reply_file == '' %}
+                                                        <td style="width:60%">{{j.reply_text}}</td>
+                                                        <td style="width:10%">-</td>
+                                                    {% elif j.reply_text != none and j.reply_file != '' %}
+                                                        <td style="width:60%">{{j.reply_text}}</td>
+                                                        <td style="width:10%"><a href="{{j.reply_file}}" target="_blank"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>
+                                                    {% else %}
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                        <td><table>
+                                            {% for j in i.marked %}
+                                                <tr><td>{{j.reply_on|date:'d/m/y'}}</td></tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                    <!-- <td><div style="text-align: center;"><button type="button" value="reject"  class="btn btn-danger" id="{{i.marked_no}}" onclick="rejectBtnFunction(this)" data-toggle="modal" data-target="#rejectModal">
+                                        <span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button></div>
+                                    </td>   -->
+                                    <td><table>
+                                        {% for j in i.marked %}
+                                        <tr><td>
+                                            <div style="text-align: center;">
+                                                <!-- {{j.marked_no}}__{{j.marked_to__designation}} -->
+                                                <button type="button" value="reject"  class="btn btn-danger btn-sm" id="{{j.marked_no}}" onclick="rejectBtnFunction(this)" data-toggle="modal" data-target="#rejectModal">
+                                                    <i class="fas fa-solid fa-circle"></i>
+                                                </button>
+                                            </div>
+                                        </td></tr>
+                                        {% endfor %}
+                                        </table>
+                                    </td>                      
+                                </tr>
+                            {% endif %}
+                        {% elif i.type == 'SSP' or i.type == 'D' %}
+                            {% if i.chk == 'YES' %}
+                                <tr>
+                                    <td>{{i.item_no}}</td>
+                                    <td>{{i.item_decision}}</td>
+                                        <td><table>
+                                            {% for j in i.marked %}
+                                                <tr><td>{{j.marked_to__designation}}</td></tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                        <td><table>
+                                            {% for j in i.marked %}
+                                                <tr>
+                                                    {% if j.reply_text == none and j.reply_file == '' %}
+                                                        <td style="width:60%">-</td>
+                                                        <td style="width:10%">-</td>
+                                                    {% elif j.reply_text == none and j.reply_file != '' %}
+                                                        <td style="width:60%">-</td>
+                                                        <td style="width:10%"><a href="{{j.reply_file}}"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>
+                                                    {% elif j.reply_text != none and j.reply_file == '' %}
+                                                        <td style="width:60%">{{j.reply_text}}</td>
+                                                        <td style="width:10%">-</td>
+                                                    {% elif j.reply_text != none and j.reply_file != '' %}
+                                                        <td style="width:60%">{{j.reply_text}}</td>
+                                                        <td style="width:10%"><a href="{{j.reply_file}}"><i class="fa fa-paperclip" aria-hidden="true"></i></a></td>
+                                                    {% else %}
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                        <td><table>
+                                            {% for j in i.marked %}
+                                                <tr><td>{{j.reply_on|date:'d/m/y'}}</td></tr>
+                                            {% endfor %}   
+                                        </table></td>
+                                    <!-- <td><div style="text-align: center;"><button type="button" value="reject"  class="btn btn-danger" id="{{i.marked_no}}" onclick="rejectBtnFunction(this)" data-toggle="modal" data-target="#rejectModal">
+                                        <span style="font-weight: bold;"><i class="fas fa-window-close"></i></span></button></div>
+                                    </td>   -->
+                                    <td><table>
+                                        {% for j in i.marked %}
+                                            <tr><td>
+                                                <div style="text-align: center;">
+                                                    <!-- {{j.marked_no}}__{{j.marked_to__designation}} -->
+                                                    <button type="button" value="reject" class="btn btn-danger  btn-sm" id="{{j.marked_no}}" onclick="rejectBtnFunction(this)" data-toggle="modal" data-target="#rejectModal">
+                                                        <i class="fas fa-solid fa-circle"></i>
+                                                    </button>
+                                                </div>
+                                            </td></tr>
+                                        {% endfor %}
+                                        </table>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                        {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            </div>
+    </div> 
+
+    <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #696969">
+                    <!-- <h5 class="modal-title" id="rejectModalLabel" style="color: white">Specify reason of Rejecting Reply<br><label id="head_reject_modal"></label></h5> -->
+                    <h5>Specify Reason</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="containar">
+                        <div class="row">
+                            <input type="text" id="marked_no" hidden>
+                            <input type="text" id="insp_no" hidden>
+                            <input type="text" id="item_no" hidden>
+                            <div class="col">
+                                <div><textarea class="form-control" placeholder="Rejected Remark" style="height: 50px;" name="remark_id" id="remark_id" cols="30" rows="10" maxlength="200"></textarea></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="close" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="reject_reply" onclick="reject_reply();">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $( document ).ready
+    (
+       function() 
+       {
+            $('#tablereply').DataTable();
+       }
+    )
+</script>
+
+<script>
+    
+    function rejectBtnFunction(e)
+    {
+        let marked_no=e.id;
+        $('#marked_no').val(marked_no);
+        data={'marked_no':marked_no}
+        $.ajax
+        ({
+            type:'GET',
+            url:"{% url 'reject_action_data' %}",
+            datatype:'json',
+            data:data,
+            success: function(response)
+            {
+                console.log(response);
+                // alert(response.insp_no+"  "+response.item_no)
+                reject_desig=response.reject_desig;
+                $('#insp_no').val(response.insp_no);
+                $('#item_no').val(response.item_no);
+                document.getElementById('head_reject_modal').innerHTML="Designation : "+reject_desig[0]['marked_to__designation']+"<br>Item No : "+response.item_no_des;
+            }
+        })
+    }
+
+    function reject_reply()
+    {
+        let insp_no = $('#insp_no').val()
+        let item_no = $('#item_no').val()
+        let marked_no= $('#marked_no').val()
+        let remark_id= $('#remark_id').val()
+        // alert(marked_no+"  "+remark_id+"  "+insp_no+"  "+item_no);
+        data={
+            'insp_no':insp_no,
+            'item_no':item_no,
+            'marked_no':marked_no,
+            'remark_id':remark_id
+        }
+        $.ajax
+        ({
+            type:'GET',
+            url:"{% url 'reject_reply_ajax' %}",
+            datatype:'json',
+            data:data,
+            success: function(response)
+            {
+                $('#close').click();
+                window.location.reload();
+            }
+        })
+    }
+
+</script>
+
+{% endblock %} 

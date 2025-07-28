@@ -1,0 +1,139 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+{% load static %}
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h3>
+                  <center><b>MAILS</b></center>
+                </h3>
+              </div>
+        </div>
+        <div class="row">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="container-fluid" id="adjustfilter">
+                  <div class="row" style="margin-left: 18em; margin-right: 15em; margin-bottom: 2em;">
+            
+                    <div class="col-4">
+                      <label for="location">Date Range</label>
+                      <input id="date_range" class="form-control" name="date_range" autocomplete="off" placeholder="dd/mm/yyyy - dd/mm/yyyy" >
+                    </div>
+                    <div class="col-4">
+                        <label for='action_by'>Sender</label>
+                        <div class="multi_select_box">
+                          <input type="text" id="action_by_test" name="action_by_test" hidden>
+                          <select id="action_by" name="action_by" class="form-control" data-live-search="true" multiple
+                            data-actions-box="true" multiple data-selected-text-format="count > 2" multiple>
+              
+                            {% for i in officers %}
+                            <option value="{{i.designation_code}}" data-tokens="{{i.designation}}">
+                              {{i.designation}}</option>
+                            {% endfor %}
+              
+                          </select>
+                        </div>
+                      </div>
+                    <div class="col-2">
+                     <label for ='subject'>Doc. Type</label>
+                     <select id="subject" name="subject" placeholder="--Select--" style="height: 35px;">
+                                <option value="" selected disabled hidden>---Select---</option>
+                                <option value="Inspection">Inspection</option>
+                                <option value="Minutes">RB Minutes</option>
+                                <option value="Letters">D.O. Letters</option>
+                     </select> 
+                    </div>
+                    
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="col-6"><button type="submit" id="submit" class="btn btn-success" style="margin-top:2em;">Search</button></div>
+                            <div class="col-6"> <button type="button" style="margin-top:2em; " class="btn btn-success" id="insp_clear"><a href="{% url 'copyto_list'  %}" style="color:white">Clear</a></button></div>
+                        </div>
+                    </div>
+            
+                  </div>
+                </div>
+              </form>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+               
+          <table class="table table-striped table-bordered table-sm" id="copyto_list_table1" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; ">
+                <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+                    <th style="width:8%">Date</th>
+                    <th style="width:10%">Sender</th>
+                    <th style="width:70%">Subject</th>
+                    <th style="width:7%">Doc. Type</th>
+                    <th style="width:5%">View Doc</th>
+                </thead>
+                <tbody>
+                        {% if mails %}
+                        {% for i in mails %}
+                        <tr>
+                            <td style="width:8%">{{i.created_on}}</td>
+                            <td style="width:10%">{{i.inspection_officer__designation}}</td>
+                            <td style="width:70%">{{i.body}}</td>
+                            <td style="width:7%">Inspection</td>
+                            <td style="width:5%">
+                                <!-- <a type="button" class="btn btn-primary" href="{% url 'inspectionReportPdf' i.inspection_no %}"  id=/{{i.inspection_no}} target="blank" style="color: #fff;" onclick="viewdate(this)"><i class="far fa-file-alt"></i></a> -->
+                                <a type="button" class="btn btn-primary" href="{% url 'inspectionReportPdf' i.inspection_no %}" target="blank" style="color: #fff;"><i class="far fa-file-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}             
+                </tbody>
+          </table>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('#copyto_list_table1').DataTable();
+    });
+
+    $('#action_by').select2({ placeholder: "Select Designation to Search" })
+
+$(document).ready(function () {
+  $('#submit').click(function () {
+    var selected = $("#action_by :selected").map((_, e) => e.value).get();
+    document.getElementById('action_by_test').value = selected;
+    //alert(document.getElementById('action_by_test').value)
+
+
+  });
+});
+
+$(function () {
+
+$('input[name="date_range"]').daterangepicker({
+  autoUpdateInput: false,
+  autoApply: true,
+  maxDate: new Date(),
+  locale: {
+    cancelLabel: 'Clear'
+  }
+});
+
+$('input[name="date_range"]').on('apply.daterangepicker', function (ev, picker) {
+  $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+  $('.applyButtonClasses').click()
+
+
+});
+
+$('input[name="date_range"]').on('cancel.daterangepicker', function (ev, picker) {
+  $(this).val('');
+});
+
+
+
+});
+
+</script>
+
+{% endblock %}

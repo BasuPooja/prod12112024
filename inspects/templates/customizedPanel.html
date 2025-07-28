@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<head>
+
+    <title>Panel Members</title>
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <script type="text/javascript">
+        if(self===top){
+          var antiClickjack = document.getElementById("antiClickjack");
+          antiClickjack.parentNode.removeChild(antiClickjack);
+        }
+        else{
+          top.location= self.location;
+        }
+      </script>
+
+
+
+
+    <style>
+         .strikeout  {
+  position: relative;
+  text-decoration: line-through;
+  text-decoration-color: red;
+}
+        @media screen and (min-width:400px) {
+            .myFormCard {
+                border: 1px solid rgb(236, 236, 236);
+                padding: 3%;
+                margin-top: 2%;
+                margin-left: 30%;
+                margin-right: 30%;
+                border-radius: 10px;
+            }
+
+            .myFormCard {
+                /* Add shadows to create the "card" effect */
+                box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+                transition: 0.3s;
+            }
+
+            /* On mouse-over, add a deeper shadow */
+            .myFormCard:hover {
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+            }
+
+
+        }
+
+        @media screen and (max-width:400px) {
+            .myFormCard {
+                padding: 10px;
+                margin: 10px;
+                box-sizing: border-box;
+            }
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        .left-part {
+            width: 30%;
+            align-self: center;
+        }
+
+        .right-part {
+            width: 60%;
+            align-self: center;
+        }
+        .my-heading {
+            font-family:Georgia;
+            margin-top:1rem;
+            font-weight : 500;
+            font-size : 2.5rem;
+            text-align : center;
+            Color : black;
+            font-weight: bold;
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <div class="myFormCard">
+        <div class="flex-container">
+            <div class="left-part">
+                <img src="{% static 'inspects/images/logo_inspection.png' %}" alt="Logo Inspection" width="80%" height="80%">
+            </div>
+            <div class="my-heading right-part">
+                <h1>
+                    <span style="color: #ea4335;">Customized Panel</span>
+                </h1>
+                <div class="my-heading">
+                    <h3>Panel of {{desig}}</h3>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+        <p class="alert alert-danger" style="padding:5px;">{{message}}</p>
+        {% elif message.tags == 'success' %}
+        <p class="alert alert-success" style="padding:5px;">{{message}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        <p class="alert alert-danger" id="myMessage" style="display: none;"></p>
+
+        <div class="container-fluid">
+            <div class="row ">
+                <div class="col-md-4" >
+                  <label style="font-weight: 600;">Add New Members</label>
+                </div>
+                <div class="col-md-8">
+                    <select class="form-control" id="new_desig" name="new_desig"  style="max-width:100%;" data-placeholder="Select officers.."  multiple>
+                    {% for i in officers %}
+                    <option value="{{i.designation_code}}" data-tokens="{{i.designation}}">{{i.designation}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <br>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-striped table-bordered center table-input" id="tableshow">
+                        <thead>
+                            <tr>
+                                <th>Sl. No</th>
+                                <th>Designation</th>
+                                <th hidden>Designation Code</th>
+                                <th>Remove Member <input class="checks_new1" type="checkbox" id="check_all" value="all" onclick="checkboxes_clicked_all()"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in panel_exsisting %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{i.panel_member__designation}}</td>
+                                <td hidden>{{i.panel_member_id}}</td>
+                                <td><input class="checks_new" type="checkbox" id="check{{i.panel_member_id}}" value="{{i.panel_member_id}}" onclick="checkboxes_clicked(this)"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <button type="button" id="submit" name="submit" value="Submit"  class="btn btn-success" onclick="updatepanel();">Submit</button> 
+        </div>
+</body>
+<script>
+    $( document ).ready(function() {
+        $('#tableshow').DataTable({
+            "language":{
+                "search":"Keyword search:"
+            },
+        })
+    });
+    $("#new_desig").select2();
+
+    function checkboxes_clicked_all(){
+        if (document.getElementById("check_all").checked == true){
+        elements = document.getElementsByClassName("checks_new");
+        for (i = 0; i < elements.length; i++) {
+            elements[i].checked = true
+            checkboxes_clicked(elements[i])
+            }
+        }
+        else{
+            elements = document.getElementsByClassName("checks_new");
+            for (i = 0; i < elements.length; i++) {
+                elements[i].checked = false
+                }
+        }
+        
+   }
+    let items =[]
+    let items_deleted = []
+    function checkboxes_clicked(e){
+        id=e.id
+        let tableid = document.getElementById('tableshow');
+        for(let i=0;i<tableid.rows.length;i++){
+            index1=-1
+            var desig_code=tableid.rows[i].cells[2].innerHTML
+            var x = 'check'+desig_code
+            if (x == id){
+                if (e.checked == true){
+                    $(tableid.rows[i].cells[1]).addClass("strikeout");
+                    $(tableid.rows[i].cells[0]).addClass("strikeout");
+                    index1 = items_deleted.indexOf(desig_code);
+                    if (index1 == -1) { 
+                        items_deleted.push(desig_code)
+                    }
+                }
+                else{
+                    $(tableid.rows[i].cells[1]).removeClass("strikeout");
+                    $(tableid.rows[i].cells[0]).removeClass("strikeout");
+                    index1 = items_deleted.indexOf(desig_code);
+                    if (index1 > -1) { 
+                        items_deleted.splice(index1, 1); 
+                    }
+                }   
+            }
+        }
+    }
+   function updatepanel(){
+    
+    let data={
+        new_desig: JSON.stringify($('#new_desig').val()),
+        items_deleted : JSON.stringify(items_deleted),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+    }
+    $.ajax({
+            type: 'POST',
+            url: "{% url 'customizedPanel' %}",
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                window.location.href='{% url "customizedPanel" %}';
+            },
+            error: function (exception) {
+            alert("oops error!");
+            }
+                
+        });
+   }
+</script>
+{% endblock content %}

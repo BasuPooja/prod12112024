@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @font-face {
+            font-family: 'NotoSansDevanagari';
+            src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+        }
+
+        body {
+            font-family: 'NotoSansDevanagari', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+    
+        .header {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 30px;
+            background-color: #0ab2c2;
+            color: white;
+            padding-top: 15px;
+            padding-right: 15px;
+            padding-left: 15px;
+            padding-bottom: 4px;
+            border: 1px solid black;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 65px;
+            height: 65px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 0px solid black
+        }
+
+        .header-table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        .header-heading {
+            font-weight: bold;
+            font-size: 22px;
+            color: black;
+        }
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .content-table th,
+        .content-table td {
+            padding-top: 8px;
+            padding-bottom: 4px;
+            border: 1px solid black;
+            vertical-align: middle;
+        }
+
+        .green-row {
+            background-color: #ccffcc;
+            color: rgb(0, 0, 0);
+            font-size: 12px;
+            text-align: center;
+            vertical-align: middle;
+
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #000;
+            padding-top: 5px;
+        }
+
+        .data-table th {
+            background-color: #e7e4e4af;
+            font-weight: bold;
+        }
+
+        .data-table td {
+            text-align: center;
+        }
+
+        .table-heading {
+            background-color: black;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 5px;
+            padding-bottom: -10px;
+            margin-bottom: 10px;
+            height:auto;
+        }
+
+        .table-heading th {
+            padding: 0px;
+            font-weight: bold;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="header-table">
+            <tr>
+                <td>
+                    <img class="logo" src="http://127.0.0.1:8000/media/images/rail_logo.jpeg" alt="First Image">
+                </td>
+                <td class="header-heading" colspan="4">
+                    INSPECTION REPORT OFFICER WISE
+                </td>
+                <td>
+                    <img class="logo" src="http://127.0.0.1:8000/media/images/azadi.png" alt="Second Image">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="header">
+        <b>Inspection Report Officer Wise</b>
+    </div>
+
+
+    <table class="content-table">
+        <tr class="green-row">
+            
+            <th>Rly./ Org. Wise : {% for i in location_code %} {{ i }}, {% endfor %}</th>
+            <th>Div/Unit wise : {% for i in location_type %} {{ i }},  {% endfor %}</th>
+
+        </tr>
+        <tr class="green-row">
+            
+            <th>Designation Wise :{% for i in designation %} {{ i }}, {% endfor %}</th>
+            <th>Date Range : {{created_on}} </th>
+        </tr>
+        <!-- Add more rows if needed -->
+    </table>
+    <table class="data-table">
+        <tr class="table-heading">
+            <th colspan="8">INSPECTION REPORT</th>
+        </tr>
+        <thead>
+            <tr>
+                <td>Officer Desig </td>
+                <td>Created Inspection Notes </td>
+                <td>Fully Complied Inspection Notes </td>
+                <td>Pending Compliance Inspection Notes</td>
+                <td>Total Inspection Point</td>
+                <td>Pending Inspection Point</td>
+                <td>Overdue Inspection Point</td>
+                <td>%Complied</tr>
+            </tr>   
+        </thead>
+        <tbody>
+                {% for i in data.rly_list %}
+                    <tr>
+                        <td> {{ i.rly }}</td>
+                        <td>{{ i.total_inspection }}</td>
+                        <td>{{ i.total_closed }}</td>
+                        <td>{{ i.total_open }}</td>
+                        <td>{{ i.total_item }}</td>
+                        <td>{{ i.total_item_pending }}</td>
+                        <td>{{ i.total_item_overdue }}</td>
+                        <td>{{ i.per_complied }}</td>
+                    </tr>   
+                {% endfor %}
+                
+        </tbody>
+    </table>
+    <table class="data-table">
+        <tr class="table-heading">
+            <th colspan="8">MOM</th>
+        </tr>
+        <thead>
+            <tr>
+                <td>Officer Desig </td>
+                <td>MOM Created Inspection Notes </td>
+                <td>MOM Fully Complied Inspection Notes </td>
+                <td>MOM Pending Compliance Inspection Notes</td>
+                <td>MOM Total Inspection Point</td>
+                <td>MOM Pending Inspection Point</td>
+                <td>MOM Overdue Inspection Point</td>
+                <td>MOM %Complied</tr>
+            </tr>   
+        </thead>
+        <tbody>
+                {% for i in data.rly_list %}
+                    <tr>
+                        <td> {{ i.rly }}</td>
+                        <td> {{ i.mom_total_inspection }}</td>
+                        <td>{{ i.mom_total_closed }}</td>
+                        <td>{{ i.mom_total_open }}</td>
+                        <td>{{ i.mom_total_item }}</td>
+                        <td>{{ i.mom_total_item_pending }}</td>
+                        <td>{{ i.mom_total_item_overdue }}</td>
+                        <td>{{ i.mom_per_complied }}</td>
+                    </tr>   
+                {% endfor %}
+                
+        </tbody>
+    </table>
+    <table class="data-table">
+        <tr class="table-heading">
+            <th colspan="5">DO</th>
+        </tr>
+        <thead>
+            <tr>
+                <td>Officer Desig </td>
+                <td>Created DO Letters</td>
+                <td>Pending DO Letters</td>
+                <td>Completed DO Letters</td>
+                <td>%Complied</tr>
+            </tr>   
+        </thead>
+        <tbody>
+                {% for i in data.rly_list %}
+                    <tr>
+                        <td> {{ i.rly }}</td>
+                        
+                        <td>{{ i.do_total_open }}</td>
+                        <td>{{ i.do_total_pending }}</td>
+                        <td>{{ i.do_total_closed }}</td>
+                        <td>{{ i.do_per_complied }}</td>
+                    </tr>   
+                {% endfor %}
+                
+        </tbody>
+    </table>
+    <table class="data-table">
+        <tr class="table-heading">
+            <th colspan="5">TASKS</th>
+        </tr>
+        <thead>
+            <tr>
+                <td>Officer Desig </td>
+                <td>Created Task Tracker</td>
+                <td>Pending Task Tracker</td>
+                <td>Completed Task Tracker</td>
+                <td>%Complied Task Tracker</tr>
+            </tr>   
+        </thead>
+        <tbody>
+                {% for i in data.rly_list %}
+                    <tr>
+                        <td> {{ i.rly }}</td>
+                        <td>{{ i.total_open }}</td>
+                        <td>{{ i.task_assigned }}</td>
+                        <td>{{ i.task_completed }}</td>
+                        <td>{{ i.task_per_complied }}</td>
+                    </tr>   
+                {% endfor %}
+                
+        </tbody>
+    </table>
+    
+    <!--   momhtml += "<tr>";
+                    momhtml += " <td>" + response.rly_list[i]["rly"] + "</td>";
+                    momhtml +=
+                    " <td>" + response.rly_list[i]["mom_total_inspection"] + "</td>";
+                    momhtml +=
+                    " <td>" + response.rly_list[i]["mom_total_closed"] + "</td>";
+                    momhtml += " <td>" + response.rly_list[i]["mom_total_open"] + "</td>";
+                    momhtml += " <td>" + response.rly_list[i]["mom_total_item"] + "</td>";
+                    momhtml +=
+                    " <td>" + response.rly_list[i]["mom_total_item_pending"] + "</td>";
+                    momhtml +=
+                    " <td>" + response.rly_list[i]["mom_total_item_overdue"] + "</td>";
+                    momhtml +=
+                    " <td>" +
+                    response.rly_list[i]["mom_per_complied"].toFixed(2) +
+                    "</td>";
+                    momhtml += "</tr>";
+
+                    // do letter data
+                    dohtml += "<tr>";
+                    dohtml += " <td>" + response.rly_list[i]["rly"] + "</td>";
+                    dohtml += " <td>" + response.rly_list[i]["do_total_open"] + "</td>";
+                    dohtml +=
+                    " <td>" + response.rly_list[i]["do_total_pending"] + "</td>";
+                    dohtml += " <td>" + response.rly_list[i]["do_total_closed"] + "</td>";
+                    dohtml +=
+                    " <td>" +
+                    response.rly_list[i]["do_per_complied"].toFixed(2) +
+                    "</td>";
+                    dohtml += "</tr>";
+
+                    // task tracker data
+                    taskhtml += "<tr>";
+                    taskhtml += " <td>" + response.rly_list[i]["rly"] + "</td>";
+                    taskhtml += " <td>" + response.rly_list[i]["totol_open"] + "</td>";
+                    taskhtml += " <td>" + response.rly_list[i]["task_assigned"] + "</td>";
+                    taskhtml +=
+                    " <td>" + response.rly_list[i]["task_completed"] + "</td>";
+                    taskhtml +=
+                    " <td>" +
+                    response.rly_list[i]["task_per_complied"].toFixed(2) +
+                    "</td>";
+                    taskhtml += "</tr>";
+                } -->
+    
+    <div style="margin-top: 100px; text-align: center;">
+        <br>
+        <br>
+        <p><b>&copy; Banaras Locomotive Works</b></p>
+        
+    </div>
+</body>
+</html>

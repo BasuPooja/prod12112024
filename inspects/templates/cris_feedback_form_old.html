@@ -1,0 +1,374 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+
+<head>
+  <title>Feedback Report</title>
+  <script src="{% static '/js/autosize.min.js' %}"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="{% static '/css/forms_common.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="{% static '/css/forms_common.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static '/css/datatables/jquery.dataTables.min.css' %}"
+  />
+  <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+  />
+  <style>
+    h3 {
+      text-align: center;
+    }
+    #submit {
+      position: "absolute";
+      right: 50%;
+    }
+    @media only screen and (max-width: 200px) {
+    #images {
+        width: 200px;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <h3>Reply To Feedback Report</h3>
+  <br /><br />
+
+  <!-- TABLE TO SHOW DATA -->
+  <div class="container">
+    <table
+      id="tableid"
+      name="tableid"
+      class="table table-data table-bordered"
+      cellspacing="0"
+    >
+      <thead style="background-color: #d85c64; text-align: left">
+        <tr>
+          <th>S.NO.</th>
+          <th>Category</th>
+          <th>Sub Category</th>
+          <th>Issue Details</th>
+          <th>Document Attached</th>
+          <th>CRIS Remarks</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for i in data %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{i.category}}</td>
+          <td>{{i.sub_category}}</td>
+          <td>{{i.description}}</td>
+          <td>
+            {% if i.images %}
+            <a href="{{i.images.url}}" target="_blank">Reported Images</a>
+            {% else %}
+            <a>Not Uploaded</a>
+            {% endif %}
+          </td>
+          <td>{{i.cris_remarks|default:''}}</td>
+          {% if i.status == 0 %}
+          <td>Pending</td>
+          {% elif i.status == 1 %}
+          <td>Resolved</td>
+          {% elif i.status == 2 %}
+          <td>In Progress</td>
+          {% elif i.status == 3 %}
+          <td>Not Feasible</td>
+          {%endif%}
+          <td>
+            <button
+              class="btn btn-success" data-toggle="modal" data-target="#Insp_Modal" class="stretched-link" 
+              onclick="viewFeedback('{{i.id}}')"
+            >
+              Action
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot></tfoot>
+    </table>
+  </div>
+
+  <!-- MODAL FOR VIEW -->
+
+  <!-- <div
+    class="modal left fade"
+    id="Insp_Modal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="Insp_ModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document" style="width: 60%">
+      <div class="modal-content modal-content-full-width">
+        <div class="modal-body" style="text-align: left">
+          <div class="row">
+            <div id="preiew_insp_pdf">
+   
+                <p>THIS IS BODY</p>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer modal-footer-full-width">
+          <button
+            type="button"
+            class="btn btn-success"
+            data-dismiss="modal"
+            id="closereply"
+          >
+            Close
+          </button>
+        </div>
+      
+      </div>
+    </div>
+  </div> -->
+
+
+  <div class="modal fade" id="Insp_Modal" role="dialog" aria-labelledby="Insp_Modal">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+			<div class="modal-content">
+			
+			  <!-- Modal Header -->
+			  <div class="modal-header">
+				<h5 class="modal-title" >Reply Of Feedback Report</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			  </div>
+			  
+			  <!-- Modal body -->
+			  <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Railway</label>
+                          <input type="text" class="form-control" id="Railway" value = '' readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Division</label>
+                          <input type="text" class="form-control" id="Division" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Email</label>
+                          <input type="text" class="form-control" id="Email" value = '' readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Contact Number</label>
+                            <input type="text" class="form-control" id="contactNo" value = '' readonly>
+                          </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputState">Designation</label>
+                            <input type="text" class="form-control" id="Designation" value="" readonly>
+                            <!-- <input type="hidden" class="form-control" id="Designation1" name="desig" value="{{desig_code}}" readonly> -->
+                          </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputState">Date Of Complain</label>
+                          <input type="text" class="form-control" id="dateOfComp" value="" readonly>
+                          <!-- <input type="hidden" class="form-control" id="Designation1" name="desig" value="{{desig_code}}" readonly> -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Category</label>
+                        <input type="text" class="form-control" id="Category" value="" readonly>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Sub Category</label>
+                        <input type="text" class="form-control" id="sub_Category" value="" readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputAddress">Issue In Details</label>
+                      <textarea class="form-control" name="issue_detials" id="issue_detials" cols="30" rows="5" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="images">Image</label>
+                        <img src="" alt="" height="300" width="762" id="images">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Cris Remarks</label>
+                        <textarea class="form-control" name="cris_remarks" id="cris_remarks" cols="30" rows="5"></textarea>
+                      </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputCity">Update Status</label>
+                        <select id="category" class="form-control" name="status">
+                            <option selected disabled>Choose...</option>
+                            <option value="0">Pending</option>
+                            <option value="1">Resolved</option>
+                            <option value="2">In Progress</option>
+                            <option value="3">Not Feasible</option>
+                          </select>
+                      </div>
+                    </div>
+                    <input type="hidden" id="hiddenId" name="hiddenId" class="btn btn-primary">
+                    <button id = 'submit' type="submit" class="btn btn-primary">Update</button>
+                  </form>
+				</div>
+                <div class="modal-footer modal-footer-full-width">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="closereply">Close</button>
+                </div>
+			</div>
+		</div>
+		
+	  </div> 
+  <script>
+
+    var table = $("#tableid").DataTable({
+      iDisplayLength: 15,
+      order: [[1, "desc"]],
+      // "ordering": false,
+      lengthChange: true,
+      lengthMenu: [15, 30, 50, 75, 100],
+      dom: "Blfrtip",
+
+      buttons: [
+        {
+          extend: "excel",
+          title: function (e) {
+            var e1 = $("#datefrom").val();
+            console.log("datefrom", e1);
+            var e2 = $("#dateto").val();
+            var stre = "Inspection Report from " + e1 + " to " + e2;
+            return stre;
+          },
+          // orientation: 'landscape',
+          // pageSize: 'LEGAL',
+        },
+        {
+          extend: "pdfHtml5",
+          title: function (e) {
+            var e1 = $("#datefrom").val();
+            var e2 = $("#dateto").val();
+            console.log("datefrom1", e1);
+            console.log("datefrom1", datefrom);
+            var stre = "Inspection Report from " + e1 + " to " + e2;
+            console.log("insode inspection report", stre);
+            return stre;
+          },
+          exportOptions: {
+            alignment: "right",
+          },
+          customize: function (doc) {
+            console.log("doc", doc);
+            console.log("doc", doc.defaultStyle);
+            console.log("doc2", doc.styles.tableBodyEven);
+            console.log("doc3", doc.styles.tableBodyOdd);
+            doc.content.splice(0, 1);
+
+            doc.styles.tableBodyEven.alignment = "center";
+            doc.styles.tableBodyOdd.alignment = "center";
+          },
+          text: "Pdf",
+          title: "Inspection Report ",
+          fontSize: "LEGAL",
+        },
+        {
+          extend: "print",
+          footer: true,
+          title: function (e) {
+            var s1 = $("#datefrom").val();
+            var s2 = $("#dateto").val();
+            var str =
+              "Inspection Report from " + s1 + " to " + s2 + " for " + mydata;
+            return str;
+          },
+          customize: function (doc) {
+            $(doc.document.body).find("tableid").css("text-align", "center");
+
+            //  $(doc.document.body).find('table').css('border', '1px solid #000');
+            //  $(doc.document.body).find('table td').css('border-left', '1px solid #000');
+            //  $(doc.document.body).find('table td').css('border-top', '1px solid #000');
+            //  $(doc.document.body).find('table td').css('border-right', '1px solid #000');
+            //  $(doc.document.body).find('table td').css('border-bottom', '1px solid #000');
+          },
+          pagingType: "simple",
+          sEmptyTable: "No data available in table",
+
+          // "bSort": true,
+
+          oLanguage: {
+            sInfoEmpty: "Page 0 of 0 ",
+          },
+          language: {
+            info: "Page _PAGE_ of _PAGES_",
+            paginate: {
+              previous: "Prev",
+            },
+          },
+        },
+      ],
+    });
+  
+    function viewFeedback(id){
+    $.ajax({
+      url: "{% url 'CrisFeedbackReport' %}",
+      method: "GET",
+      dataType: "JSON",
+      data: {
+        'ajaxname': 'viewfeedback',
+        'id':id,
+      },
+      async: false,
+      success: function (response) {
+        console.log(response)
+        $('#hiddenId').val(response.data[0].id)
+        $('#images').attr('src','/media/'+response.data[0].images)
+        $('#Email').val(response.data[0].level_desig__official_email_ID)
+        $('#Designation').val(response.data[0].level_desig__designation)
+        $('#Railway').val(response.rly)
+        $('#Division').val(response.div)
+        $('#Category').val(response.data[0].category)
+        $('#sub_Category').val(response.data[0].sub_category)
+        $('#issue_detials').val(response.data[0].description)
+        $('#contactNo').val(response.data[0].level_desig__contactnumber)
+        let date = response.data[0].reported_date.split('T')[0].split('-')
+        date = date[2]+'-'+date[1]+'-'+date[0]
+        console.log(date)
+
+        $('#dateOfComp').val(date)
+      }
+    });
+
+    }
+  
+  </script>
+</body>
+
+{% endblock content %}

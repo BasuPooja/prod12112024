@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Inspection Report</title>
+</head>
+ 
+<style>
+    @font-face {
+        font-family: 'NotoSansDevanagari';
+        src: url("C:\\Users\\Administrator\\Documents\\misiprod\\static\\fonts\\NotoSans-Regular.ttf") format('truetype');
+     }
+
+    body {
+      font-family: 'NotoSansDevanagari', sans-serif;
+     }
+
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+      @frame footer_frame {           /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt;
+        
+    }
+    }
+   
+ 
+</style>
+<body>
+   
+        <b><h1 style="text-align: center; font-size: 18px; padding-top: 40px;">Corrigendum Report</h1></b>
+        
+        <b><h1 style="text-align: center; font-size: 15px; padding-top: 0px;">Issue Date: {{todaydate|date:'d/m/Y'}}</h1></b>
+        
+           <p style="text-align: center; font-size: 15px; padding-top: 40px;">In partial modification of old value {{obj_all.0.old_value}} change to {{obj_all.0.new_value}}
+            <b>dated: {{obj_all.0.created_on|date:'d/m/Y'}}</b> the Knowledge {{desig}}
+           </p>
+           <p></p>
+        
+        
+           <div id="footer_content"> Page <pdf:pagenumber> of <pdf:pagecount> </div>       
+      
+    
+</body>
+</html>

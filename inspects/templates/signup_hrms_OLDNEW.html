@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'inspects_staticProvider.html' %}
+    <title>Signup</title>
+
+<style>
+    @media screen and (min-width:500px) {
+        .myFormCard {
+                background-color: #fff;
+                border: 1px solid rgb(236, 236, 236);
+                padding: 3%;
+                margin-top: 7%;
+                /* margin: 3%; */
+                margin-left: 30%;
+                margin-right: 30%;
+                border-radius: 10px;
+            }
+            .myFormCard {
+                /* Add shadows to create the "card" effect */
+                box-shadow: 0 8px 12px 0 rgba(141, 141, 141, 0.5);
+                transition: 0.3s;
+            }
+
+            /* On mouse-over, add a deeper shadow */
+            .myFormCard:hover {
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+            }
+
+        }
+        @media screen and (max-width:500px) {
+            .myFormCard {
+                padding: 10px;
+                margin: 10px;
+                box-sizing: border-box;
+            }
+        }
+        .my-heading {
+            font-family:Georgia;
+            margin-top:1rem;
+            font-weight : 500;
+            font-size : 2.5rem;
+            text-align : center;
+            Color : black;
+            font-weight: bold; 
+        }
+
+        .flex-container {
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        .left-part {
+            width: 30%;
+            align-self: center;
+        }
+
+        .right-part {
+            width: 60%;
+            align-self: center;
+        }
+        .modal-dialog{
+          width: 70%;
+        }
+
+        .modal-content{
+          width: auto;
+        }
+        .crislogo
+        {
+        position:absolute;
+        right:40px;
+        top:40px;
+        z-index:9999;
+        }
+        html,body
+{ 
+    /* background-color: #039be5; */
+  /* background-image: url('/static/images/pic7.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; */
+  background: url(/static/images/bg.jpg) no-repeat center center fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
+
+</head>
+
+<body>
+  <div class="demo form-bg">
+    <img src="/static/images/crislogo.png" class="img crislogo hidden-sm hidden-xs" />
+    <div class="myFormCard">
+        <div class="flex-container">
+            <div class="left-part">
+                <img src="{% static 'inspects/images/logo_inspection.png' %}" alt="Logo Inspection" width="60%" height="60%">
+            </div>
+            <div class="my-heading right-part">
+
+                <!-- <span style="color: #4285f4;"></span> -->
+                <span style="color: hwb(226 21% 3%);">INSPECTION</span>                   
+                <span style="color: #34a853"></span>
+                <span style="color: #fbbc05"></span>
+           
+                <h3>Sign up</h3>
+            </div>
+        </div>
+        <br>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success">
+                    <strong>Success </strong>{{ message }}
+                </div>
+                {% elif message.tags == 'error' %}
+                <div class="alert alert-danger">
+                    <strong>Error </strong>{{ message }}
+                </div>
+                {% elif message.tags == 'info' %}
+                <div class="alert alert-info">
+                    <strong>Info </strong>{{ message }}
+                </div>
+                {% else %}
+                
+                {% endif %}
+                
+            
+            {% endfor %}
+        {% endif %}
+    </div>
+      
+
+
+    <form method="POST" >
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+              <div class = 'row'>
+                <div class="col-6">
+                    <label class="form-label" for="firstName"> HRMS ID</label><span style="color:red;font-weight:bold">*</span> <br>
+                    <input type="text" id="hrms_id" maxlength="10" placeholder="Enter Your HRMS ID" name="hrms_id" class="form-control"  value="" required/>
+                
+                </div>
+                <div class="col-6">
+                  <label></label>
+                  <input class="btn btn-info " style="margin-left:10px; margin-top:32px;" type="button" value="Verify" id="otpp" onclick="fetch_hrms();"/>
+              
+              </div>
+            </div>
+
+                 <div class="col">
+              
+                <div id="verify_text_div">
+                    
+                </div>
+            
+                <div id="otp_div" style="display: block;margin-top:1%;" >
+        
+                    <!-- <label for="email">OTP</label> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                        <input type="number" min="0" maxlength="4" onkeypress="if(this.value.length==4) return false;" class="form-control" placeholder="- - - -" name="otp" id="otp" >
+                        </div>
+                        <div class="col-md">
+                        <input type="button" class="btn btn-info" id="btsubmit" value="Submit"  class="btn btn-default" disabled  onclick="verify_otp();"/>
+                        </div>
+                    </div>
+                    <div>Time remaining <span id="timer"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id='credential' >
+            <div class="col form-group">
+                <label for="rly_id" class="lbl-caption">Rly./Org. Wise</label>
+                <select class="form-control self-control" id="zone"  name="zone" class="custom-select" 
+                   placeholder="Rly/Org..." >
+                    <option value=""  disabled hidden>All</option>
+                    <option value="{{Zone1.0}}" >{{Zone1.0}}</option>
+                    {% for z in Zone %}
+                    
+                    <option value="{{z}}">{{z}}</option>
+                    {% endfor %} 
+        
+                </select>
+              </div>
+              
+        
+              <div class="col form-group">
+                <label for="div_id" class="lbl-caption" >Div./Unit Wise</label>
+                
+                 <select class="form-control self-control" id="location_type" 
+                 name="location_type" class="custom-select" placeholder="Div/Unit..." onchange="getdesigdivwise()">
+                        <option value="" selected>select</option>
+                        
+                        <!-- <option value="{{division1.0.location_code}}-{{division1.0.location_type}}" >{{division1.0.location_code}}-{{division1.0.location_type}}</option> -->
+                        {% for d in division %}
+                        <!-- {% comment %} <option value="{{d}}">{{d}}</option> {% endcomment %} -->
+                        <option value="{{d.location_code}}-{{d.location_type}}">{{d.location_code}}-{{d.location_type}}</option> 
+        
+                        {% endfor %}
+            
+                </select>
+                
+              </div>
+               <div class="col form-group">
+                <label for="designation"  class="lbl-caption">Designation</label>
+                <select class="form-control sel-control" id="designation"
+                      name="designation" class="custom-select" placeholder="Designation..." onchange='openbutton()'>
+                    <option value="" disabled hidden >select</option>
+                    <option >Select</option>
+                    {% for d in desi %}
+                    <option value="{{d.designation_code}}">{{d.designation}}</option>
+                    {% endfor %}
+        
+                </select>
+              </div>
+        </div>
+        <div class="row">
+          <!-- <div class="col-3">
+          </div>
+          <div class="col-3">
+          </div>
+          <div class="col-3">
+          </div> -->
+          <div class="col-3">
+            <input type="button" class="btn btn-info" id="OpenModal1"  value="Next" class="btn btn-primary"  onclick="OpenModal();"/>
+        </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <ul>
+              <li>
+                <p>this is the information regarding the how to use it</p>
+              </li>
+              <li>
+                <p>If you are not getting your designation please go through this url <button class="btn btn-primary"  onclick="registerthis()">Register</button></p>
+              </li>
+              <li>
+                <p></p>
+              </li>
+            </ul>
+            
+          </div>
+        </div>
+</form>
+</div>
+
+
+<button type="button" class="btn btn-primary" id = 'modalbutton' data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" hidden>Open</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">HRMS UPDATE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+
+
+            <div class="form-group"  >
+                <label for="Mobile_no" class="col-form-label" >EmpNo:</label> 
+             
+                <input type="button" class="btn btn-primary btn-sm float-right "id="empbtnid"  value="Edit/Add" onclick="empbtn()" >
+            </div>
+
+            <div class="form-group" style="margin-top:-15px">
+            <select class='form-control' id='empnum' name="empnum">
+             
+            <option value="{{empno}}">{{empno}} </option>
+            </select>
+          </div>
+            <div class="form-group"  >
+                <label for="email" class="col-form-label" >Mobile No: </label>   
+                <input type="button" class="btn btn-primary btn-sm float-right "  value="Edit/Add" style="margin-top:0px" ></input>
+            </div>
+                <div class="form-group" style="margin-top:-15px">
+                <input type="number" min="0" maxlength="10" onkeypress="if(this.value.length==10) return false;"  placeholder="Mobile Number" id='contact' name = 'contact' class="form-control" >
+              </div>
+
+
+              <div class="form-group"  >
+                <label for="Mobile_no" class="col-form-label" >Email:</label> 
+              
+                <input type="button" class="btn btn-primary btn-sm float-right "  value="Edit/Add" style="margin-top:0px" ></input>
+            </div>
+                <div class="form-group" style="margin-top:-15px">
+                <input type="text" id='empemail' name = 'empemail' placeholder="Email Address" onchange="checkifexist()" class="form-control" >
+                <!-- <p id ="msg"></p> -->
+              </div>
+              
+              <div class="form-group" >
+                <label for="Mobile_no" class="col-form-label" >Posting Status: </label> 
+                <input type="button" class="btn btn-primary btn-sm float-right " value="Edit/Add" style="margin-top:0px" ></input>
+              
+            </div>
+              
+                <div class="form-group" style="margin-top:-15px">
+              <select id='status' name="status" class='form-control'>
+                <option value='' disabled>Select</option>
+                <option value='P'>Primary</option>
+                <option value='D'>Dual Charge</option>
+              </select>
+              </div>
+              <div class="form-group" hidden>
+                <label for="Mobile_no" class="col-form-label" >Reporting Officer:</label> 
+                <input type="button" class="btn btn-primary btn-sm float-right " value="Edit/Add" style="margin-top:0px" ></input>
+            </div>
+
+
+            
+                <div class="form-group" style="margin-top:-15px" hidden>
+                <input type="text" placeholder="Reporitng Officer" class="form-control" id="rep_off">
+              </div>
+              <label for="Mobile_no" class="col-form-label" >Reporting Officer:</label> 
+                <div class = 'form-group'>
+                  <div class="row" id='credential1' >
+                    <div class="col form-group">
+                        <label for="rly_id" class="lbl-caption">Rly./Org. Wise</label>
+                        <select class="form-control self-control" id="zone1"  name="zone1" class="custom-select" 
+                           placeholder="Rly/Org..." >
+                            <option value=""  disabled hidden>All</option>
+                            <option value="">Select Railway</option>
+                            {% for z in Zone %}
+                            
+                            <option value="{{z}}">{{z}}</option>
+                            {% endfor %} 
+                
+                        </select>
+                      </div>
+
+                
+                      <div class="col form-group">
+                        <label for="div_id" class="lbl-caption" >Div./Unit Wise</label>
+                        
+                         <select class="form-control self-control" id="location_type1" 
+                         name="location_type1" class="custom-select" placeholder="Div/Unit..." onchange ="changeDivision(this),getdesigdivwise1()">
+                                <option value="" disabled hidden>All</option>
+                                <option value="">Select Division</option>
+                                
+                                <option value="{{division1.0.location_code}}-{{division1.0.location_type}}" >{{division1.0.location_code}}-{{division1.0.location_type}}</option>
+                                {% for d in division %}
+                                <!-- {% comment %} <option value="{{d}}">{{d}}</option> {% endcomment %} -->
+                                <option value="{{d.location_code}}-{{d.location_type}}">{{d.location_code}}-{{d.location_type}}</option> 
+                
+                                {% endfor %}
+                    
+                        </select>
+                        
+                      </div>
+                       <div class="col form-group">
+                        <label for="designation"  class="lbl-caption">Designation</label>
+                        <select class="form-control sel-control" id="designation1"
+                              name="designation1" class="custom-select" placeholder="Designation...">
+                            <option value="">select</option>
+                            {% for d in desi %}
+                            <option value="{{d.designation_code}}">{{d.designation}}</option>
+                            {% endfor %}
+                
+                        </select>
+                      </div>
+                  
+                </div>
+               </div>
+              
+
+              <div class="form-group">
+                <label for="Mobile_no" class="col-form-label" >Password:</label>  
+                <input type="button" class="btn btn-primary btn-sm float-right " id='c_u' value="Create/Update" onclick="Updatepsd()" style="margin-top:0px" ></input>
+            </div>
+                <div class="form-group" style="margin-top:-15px">
+                <input type="text" placeholder="Your Password" class="form-control" id="passw" disabled>
+              </div>
+
+
+              
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id='proceed' onclick='validate_email()' >Proceed</button>
+        <button type="button" class="btn btn-primary" id ='updateotp' data-toggle="modal" data-target="#exampleModalCenter" hidden> Demo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                      <!-- Button trigger modal -->
+                     
+ 
+                          <!-- Modal -->
+  <div class="modal fade"  id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content center">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLongTitle">OTP Verification</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+        <div id="verify_text_div1">
+          
+        </div>
+        <div id="otp_div1" style="display: block;margin-top:1%;" >
+          
+          <!-- <label for="email">OTP</label> -->
+          <div class="row">
+              <div class="col">
+              <input type="number" min="0" maxlength="4" onkeypress="if(this.value.length==4) return false;" class="form-control" placeholder="- - - -" name="otp" id="otp1" >
+              </div>
+              
+          </div>
+          <div>Time remaining <span id="timer1"></span>
+          </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <button type="button" onclick = "verify_otp1()" class="btn btn-primary" aria-label="Close">Submit</button>
+       </div>
+     </div>
+   </div>
+</div>
+   
+</div>
+
+
+<!-- MODAL FOR REGISTER -->
+
+<div class="modal fade"  role="dialog" id="myModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Email is not registered.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal1" data-dismiss="modal" id="btn">Register</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade"  role="dialog" id="myModal1">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Email Registration</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            onclick="window.location.href=window.location.href;">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="{% url 'signup_hrms' %}" enctype="multipart/form-data" >
+        {% csrf_token %}
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">
+            <label>Employee Number</label><span style="color:red;font-weight:bold">*</span></div>
+             <div class="col-md-3">
+              <input type="text" class="form-control" id="employeeno" maxlength="12" onkeypress="alphanumeric(event)" name="employeeno" onchange="fetch_name()"></input>
+          </div> 
+          <div class="col-md-3">
+            <label>Employee Name</label></div>
+            <div class="col-md-3">
+            <input type="text" class="form-control" id="employeename" readonly></input>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-3">
+            <label>Designation</label><span style="color:red;font-weight:bold">*</span></div>
+            <div class="col-md-3" >
+                <select  class="form-control" id="designation" name="designation" style="width: 180px ;">
+                    <option disabled selected  value=""> Select designation</option>
+                    {% for i in desi %}
+                    <option value="{{i.designation_code}}"> {{i.designation}} </option>
+                    {% endfor %}
+                </select>
+          </div>
+          <div class="col-md-3">
+            <label>Email ID</label><span style="color:red;font-weight:bold">*</span>
+          </div>
+          <div class="col-md-3">
+            <!-- <input type="email" maxlength="50" class="form-control" id="emailid" name="emailid" required ></input> -->
+            <input type="email" maxlength="50" class="form-control" id="emailid" name="emailid" onchange="checkifexist()" required></input>
+          </div>
+        </div>
+        <br>
+        <div class ="row">
+          <div class="col">
+          <div id="email_div1" style="display: block;margin-top:1%;" >
+            <input class="btn btn-info" type="button" value="GET OTP" id="otpp1" onclick="ajax_send_otp2();"/>
+          </div>
+          
+          <div id="verify_text_div2"></div>
+          
+          <div id="otp_div2" style="display: block;margin-top:1%;" >
+             <div class="row">
+            <div class="col-md-6">
+            <input type="number" maxlength="4" onkeypress="if(this.value.length==4) return false;" class="form-control" placeholder="- - - -" name="otp1" id="otp2">
+          </div>
+          <div class="col-md-3">
+           <input type="button" class="btn btn-info" value="Verify"  class="btn btn-default" onclick="verify_otp3();"/></div></div>
+            <div>Time remaining <span id="timer3"></span></div>
+          </div>
+        </div></div>
+        <br>
+        <div class="row">
+         
+        <div class="col-md-3">
+          <label>Provide office order</label>
+        </div>
+        <div class="col-md-1">
+          <input type="file" id="img" name="img" width="48" height="48"></input>
+        </div>
+        <div class="col-md-6"></div>
+        </div>
+    <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" name="submit_form" value="register" id="register" disabled>Register</button>
+    <button type="reset" class="btn btn-secondary" data-dismiss="modal"
+    onclick="window.location.href=window.location.href;">Close</button>               
+  </div>
+</form>
+</div></div>
+</div>
+<!-- END HERE -->
+
+<script>
+  $(document).ready(function(){
+  // $("#credential").hide()
+  });
+ 
+
+    function fetch_hrms()
+
+                {
+
+                    var hrms_id=document.getElementById('hrms_id').value;
+                    data={
+                    'hrms_id':hrms_id,
+                    'ajaxname':'fetch_hrms',
+                    }
+                    $.ajax({
+                        
+                        url: "{% url 'signup_hrms' %}",
+                        type: "GET",
+                        data: data,
+                        dataType: "json",
+                        success: function (response) {
+
+                            if(response.alert){
+                                alert(response.alert)
+                            }
+                            else{
+                                // console.log('response.division1[0].location_code',response.division1)
+                                ajax_send_otp()
+
+                                // $("#zone option[value^='"+response.Zone1[0]+"']").attr('selected','selected')
+                                // if(response.division1.length == 0){
+                                //   $("#location_type option[value^='']").attr('selected','selected')
+                                // }
+                                // else{
+                                //   $("#location_type option[value^='"+response.division1[0].location_code+"-"+response.division1[0].location_type+"']").attr('selected','selected')
+                                // }
+                                
+                                // $("#designation").empty()
+                                // console.log(response.allDesignations)
+                                // let d = '<option value = "">select</option>'
+                                // for(let i =0;i<response.allDesignations.length;i++){
+                                //   d +='<option value = "'+response.allDesignations[i].designation_code+'">'+response.allDesignations[i].designation+'</option>'
+                                // }
+                                // $("#designation").append(d)
+                                // $("#designation option[value='"+response.desi[0].designation_code.toString()+"']").attr('selected','selected')
+
+                                // // ZONE DIVISION TO BE DISABLE
+                                // $('#zone').prop('disabled',true)
+                                // $('#location_type').prop('disabled',true)
+                            }
+                         
+                            
+                        }
+                    });
+                };
+
+var otp_from_back="";
+function ajax_send_otp(){
+  //document.getElementById("email_div").style.display='none';
+  hrms_id = document.getElementById("hrms_id").value;
+ 
+   $.ajax({
+       
+   type : 'GET',
+   url : "{% url 'signup_hrms' %}",
+   dataType : 'json',
+   data : {"hrms_id":hrms_id, "ajaxname":'send_otp',
+       //"csrfmiddlewaretoken":"{{csrf_token}}"
+   },
+
+   success : function(response){
+            console.log(response.msg,"myemail")
+            if(response.msg){
+                alert(response.msg)
+                $('#myModal').modal('show');
+                // return false
+            }
+            else{
+                console.log('response,',response)
+                alert('Email send to your email id '+response.email)
+                $('#otp_div').show();
+                timer(300);
+                otp_from_back = response.otp;
+                
+                $('#btsubmit').prop('disabled',false)
+                document.getElementById("otp_div").style.display='block';
+                return true
+            }
+            
+          
+   }
+   
+   })
+
+};
+
+
+
+function verify_otp(){
+   
+
+  var user_otp=document.getElementById("otp").value;
+  if (user_otp==otp_from_back){
+      document.getElementById("verify_text_div").style.color="green";        
+      document.getElementById("verify_text_div").innerHTML="OTP Verified";
+      $("#verify_text_div").fadeOut(5000)
+
+      $('#credential').show()
+      FetchEmployee()
+      timerOn = false;
+      // $("#timer").html('00:00')
+      // openbutton()
+  }
+  else{
+      document.getElementById("verify_text_div").style.color="red";
+      document.getElementById("verify_text_div").innerHTML="Try Again!!";
+  }
+} 
+
+let timerOn = true;
+function timer(remaining) {
+
+let m = Math.floor(remaining / 60);
+let s = remaining % 60;
+
+m = m < 10 ? '0' + m : m;
+s = s < 10 ? '0' + s : s;
+document.getElementById('timer').innerHTML = m + ':' + s;
+remaining -= 1;
+
+if(remaining >= 0 && timerOn) {
+ setTimeout(function() {
+     timer(remaining);
+ }, 1000);
+ return;
+}
+
+if(!timerOn) {
+ // Do validate stuff here
+ 
+ return;
+}
+alert('Timeout for OTP');
+
+ window.location.reload();
+// Do timeout stuff here
+
+}
+
+</script>
+
+<script>
+globalemail =''
+    function openbutton(){
+      desig_code= document.getElementById("designation").value;
+  
+   $.ajax({
+       
+   type : 'GET',
+   url : "{% url 'signup_hrms' %}",
+   dataType : 'json',
+   data : {"desig_code":desig_code, "ajaxname":'employee_details',
+       //"csrfmiddlewaretoken":"{{csrf_token}}"
+   },
+   success : function(response){
+    console.log(response)
+    $('#modalbutton').click()
+    //$("#empnum").val(response.emp[0].empno)
+
+    $("#empnum option").remove()
+    $("#empnum").append('<option value = '+response.emp[0].empno+'>'+response.emp[0].empno+'</option>')
+
+    console.log(response.Reporting_officerZone)
+    console.log(response.Reporting_officerDiv)
+    $("#contact").val(response.emp[0].contactnumber)
+    $("#empemail").val(response.emp[0].official_email_ID)
+    globalemail = response.emp[0].official_email_ID
+
+    $("#status").val(response.emp[0].status)
+
+    // $("#rep_off").val(response.Reporting_officer.designation)
+
+    if (response.password!= ''){
+      $("#c_u").val('Update')
+    }
+    else if (response.password == ''){
+      $("#c_u").val('Create')
+      $("#passw").prop('disabled',false)
+      $("#passw").prop('required',true)
+
+    }
+
+    //for zone list for reporting officer
+    $("#zone1").append('<option value="">Select</option>')
+    for(let i = 0;i<response.Zone.length;i++){
+      $("#zone1").append('<option value="'+response.Zone[i]+'">'+response.Zone[i]+'</option>')
+    }
+
+    //for designation list for reporting officer
+    $("#designation1").append('<option value="">Select</option>')
+    for(let i = 0;i<response.desi.length;i++){
+      $("#designation1").append('<option value="'+response.desi[i]+'">'+response.desi[i]+'</option>')
+    }
+
+    //for division list for reporting officer
+    $("#location_type1").append('<option value = "undefined">select</option>')
+    for(let i = 0;i<response.division.length;i++){
+      $("#location_type1").append('<option value="'+response.division[i]['location_code']+'-'+response.division[i]['location_type']+'">'+response.division[i]['location_code']+'-'+response.division[i]['location_type']+'</option>')
+    }
+    // selected zone,division and designation for reorting officer
+    if(response.Reporting_officerZone.length == 0){
+      alert('Reporting officer is not available')
+      $("#zone1 option[value^='']").attr('selected','selected')
+      $("#location_type1 option[value^='']").attr('selected','selected')
+      $("#designation1 option[value^='']").attr('selected','selected')
+    }
+    else{
+      // $("#zone1 option[value^='"+response.Reporting_officer.rly_unit__location_code+"']").attr('selected','selected')
+      // $("#location_type1 option[value^='"+response.Reporting_officer.rly_unit__location_type+"']").attr('selected','selected')
+      // $("#designation1 option[value^='"+response.Reporting_officer.designation+"']").attr('selected','selected')
+      $("#zone1 option[value^='"+response.Reporting_officerZone+"']").attr('selected','selected')
+      $("#location_type1 option[value^='"+response.Reporting_officerDiv.rly_unit__location_type+"']").attr('selected','selected')
+      $("#designation1 option[value^='"+response.Reporting_officerDiv.designation_code+"']").attr('selected','selected')
+    }
+    
+
+    // if(response.Reporting_officer.rly_unit__location_type == null){
+ 
+    //   console.log(response.Reporting_officer.rly_unit__location_type)
+    // }
+    
+    //$("#passw").val(response.password[0].password)
+   }
+})
+        
+    }
+</script>
+
+<script>
+
+  $('#zone1').change(function() {
+    var rly=$('#zone1').val();
+
+        data={  
+            'rly_data_hrms': JSON.stringify(rly)
+            
+          }
+
+          $.ajax({
+            type : 'GET',
+            url : "{% url 'getdiv_rly_hrms' %}",
+            dataType : 'json',
+            data : data,
+
+            success : function(response)
+            {
+                console.log("myresponse",response)
+                if(response.desig){
+                  $('#designation1').empty()
+                  // alert("inside if ")
+                  $('#designation1').append(`<option value="">Select Designation</option>`);
+                  for (let i = 0; i < response.desig.length; i++) {
+                    $('#designation1').append(`<option value="${response.desig[i].designation_code}"> ${response.desig[i].designation}</option>`);
+                    // $("#location_type").empty()
+                }
+                  $('#location_type1').empty()
+                  $('#location_type1').append(`<option value="">Select Division</option>`);
+                  for (let i = 0; i < response.division.length; i++) {
+                      $('#location_type1').append(`<option value="${response.division[i].location_code}-${response.division[i].location_type}"> ${response.division[i].location_code}-${response.division[i].location_type}</option>`);
+                  }
+                }
+                else{
+                  let division=response.division;
+                  // alert("inside else")
+                  // $('#location_type').empty()
+                  $('#location_type1').append(`<option value="">Select Division</option>`);
+                  for (let i = 0; i < division.length; i++) {
+                      $('#location_type1').append(`<option value="${division[i].location_code}-${division[i].location_type}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                  }
+                  $('#designation1').empty()
+                  // alert("inside if ")
+                  $('#designation1').append(`<option value="">Select Designation</option>`);
+                  for (let i = 0; i < response.desig.length; i++) {
+                    $('#designation1').append(`<option value="${response.desig[i].designation_code}"> ${response.desig[i].designation}</option>`);
+                    // $("#location_type").empty()
+                }
+                }
+                
+            }
+            // {
+            //     console.log(response)
+            //     let division=response.division;
+            //     $('#location_type1').empty()
+            //     for (let i = 0; i < division.length; i++) {
+            //         $('#location_type1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+            //     }
+            //  }
+
+          });
+  });
+
+
+  $('#zone').change(function() {
+    var rly=$('#zone').val();
+
+        data={  
+            'rly_data_hrms': JSON.stringify(rly)
+            
+          }
+
+          $.ajax({
+            type : 'GET',
+            url : "{% url 'getdiv_rly_hrms' %}",
+            dataType : 'json',
+            data : data,
+
+            success : function(response){
+                console.log("myresponse",response)
+                if(response.desig){
+                  $('#designation').empty()
+                  alert("inside if ")
+                  $('#designation').append(`<option value="">Select Designation</option>`);
+                  for (let i = 0; i < response.desig.length; i++) {
+                    $('#designation').append(`<option value="${response.desig[i].designation_code}"> ${response.desig[i].designation}</option>`);
+                    // $("#location_type").empty()
+                }
+                  $('#location_type').empty()
+                  $('#location_type').append(`<option value="">Select Division</option>`);
+                  for (let i = 0; i < response.division.length; i++) {
+                      $('#location_type').append(`<option value="${response.division[i].location_code}-${response.division[i].location_type}"> ${response.division[i].location_code}-${response.division[i].location_type}</option>`);
+                  }
+                }
+                else{
+                  let division=response.division;
+                  alert("inside else")
+                  // $('#location_type').empty()
+                  $('#location_type').append(`<option value="">Select Division</option>`);
+                  for (let i = 0; i < division.length; i++) {
+                      $('#location_type').append(`<option value="${division[i].location_code}-${division[i].location_type}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                  }
+                  $('#designation').empty()
+                  // alert("inside if ")
+                  $('#designation').append(`<option value="">Select Designation</option>`);
+                  for (let i = 0; i < response.desig.length; i++) {
+                    $('#designation').append(`<option value="${response.desig[i].designation_code}"> ${response.desig[i].designation}</option>`);
+                    // $("#location_type").empty()
+                }
+                }
+                
+            }
+          })
+  })
+
+</script>
+
+<script>
+
+    function Proceedbtn(){
+      var zone = $('#zone').val()
+        var location_type = $('#location_type').val()
+        var designation = $('#designation').val()
+
+        var empnum = $('#empnum').val()
+        var mobno = $('#contact').val()
+        var empemail = $('#empemail').val()
+        var status = $('#status').val()
+
+        var zone1 = $('#zone1').val()
+        var location_type1 = $('#location_type1').val()
+        var designation1 = $('#designation1').val()
+        var password = $('#passw').val()
+     
+        // if(validate_email(designation) == false){
+        // return false
+        // }
+        $.ajax({
+            url: "{% url 'signup_hrms' %}",
+            method: "GET",
+            dataType: "JSON",
+            data: {"ajaxname": 'proceed',"zone":zone,'location_type':location_type,'designation':designation,"zone1":zone1,'location_type1':location_type1,
+            'designation1':designation1,'empnum':empnum,'contact':mobno ,'empemail':empemail,'status':status,'password':password},
+            //'repofficer':repoff,'password':password},
+        
+            success: function (response) {
+               console.log(response)
+               if(response.alert1){
+                alert(response.alert1)
+               }
+               else{
+                alert("Data Saved Successfully")
+                window.location.reload()
+               }
+              //  else{
+              //  alert("Data Saved Successfully")
+              //  window.location.reload()
+              //  }
+            
+            }
+        }) 
+
+
+    }
+</script>
+
+ <script>
+function Updatepsd(){
+
+  var bt = document.getElementById('passw');
+  var bt1 = document.getElementById('c_u');
+  if(bt1.value=='Update'){
+    bt.disabled = false;
+  }
+  else if(bt1.value=='Create'){
+    bt.disabled= false ;
+  }
+  else {
+    bt.disabled = true;
+  }
+}
+</script> 
+
+<script>
+    function empbtn(){
+  
+    var bt = document.getElementById('empnum');
+    var bt1 = document.getElementById('empbtnid');
+    var hrms_id=document.getElementById('hrms_id').value;
+    if(bt1.value=='Edit/Add'){
+      bt.disabled = false;
+    }
+    else {
+      bt.disabled = true;
+    }
+    
+    $.ajax({
+       
+      type : 'GET',
+      url : "{% url 'signup_hrms' %}",
+      dataType : 'json',
+      data : {"ajaxname":'employee_numbers','hrms_id':hrms_id,
+        
+          //"csrfmiddlewaretoken":"{{csrf_token}}"
+      },
+      success : function(response){
+        alert('empno')
+       console.log(response)
+       $("#empnum option:not(:first)").remove()
+       $("#empnum").append('<option value = '+response.empno[0].empno+'>'+response.empno[0].empno+'</option>')
+       //$("#empnum").val(response.emp[0].empno)
+       
+       
+      }
+
+      });
+
+
+  };
+</script>
+
+<script>
+
+function changeDivision(val){
+  var division = $("#location_type1").val()
+  $.ajax({
+    type : 'GET',
+      url : "{% url 'signup_hrms' %}",
+      dataType : 'json',
+      data : {"ajaxname":'changeDivision','division':division},
+      success : function(response){
+        console.log(response.div[0].parent_location_code)
+        $("#zone1 option[value^='"+response.div[0].parent_location_code+"']").attr('selected','selected') 
+      }
+  })
+}
+
+function validate_email(){
+  var desig_id = $("#designation").val()
+  $.ajax({
+    type : 'GET',
+      url : "{% url 'signup_hrms' %}",
+      dataType : 'json',
+      data : {"ajaxname":'validate_email','desig_id':desig_id},
+      success : function(response){
+        console.log(response.otp)
+        otp_from_back = response.otp
+        $('#updateotp').click()
+        timer1(300);
+        
+      }
+  })
+}
+
+
+function verify_otp1(){
+   
+
+  var user_otp=document.getElementById("otp1").value;
+  if (user_otp==otp_from_back){
+      alert("otp matched")
+      document.getElementById("verify_text_div1").style.color="green";        
+      document.getElementById("verify_text_div1").innerHTML="OTP Verified";
+
+      document.getElementById("otp_div1").style.display='block';
+      timerOn1 = false;
+      Proceedbtn()
+  }
+  else{
+      document.getElementById("verify_text_div1").style.color="red";
+      document.getElementById("verify_text_div1").innerHTML="Try Again!!";
+  }
+} 
+
+
+let timerOn1 = true;
+function timer1(remaining1) {
+
+let m1 = Math.floor(remaining1 / 60);
+let s1 = remaining1 % 60;
+
+m1 = m1 < 10 ? '0' + m1 : m1;
+s1 = s1 < 10 ? '0' + s1 : s1;
+console.log("minutes an sec", m1, s1)
+document.getElementById('timer1').innerHTML = m1 + ':' + s1;
+remaining1 -= 1;
+
+if(remaining1 >= 0 && timerOn1) {
+ setTimeout(function() {
+     timer1(remaining1);
+ }, 1000);
+ return;
+}
+
+if(!timerOn1) {
+ // Do validate stuff here
+ 
+ return;
+}
+alert('Timeout for OTP');
+
+ window.location.reload();
+// Do timeout stuff here
+
+}
+
+function getdesigdivwise(){
+  let zones = $('#zone').val()
+  let div = $("#location_type").val()
+
+  $.ajax({
+    type : 'GET',
+      url : "{% url 'signup_hrms' %}",
+      dataType : 'json',
+      data : {"ajaxname":'getdesigdivwise','zones':zones,"div":div},
+      success : function(response){
+        console.log(response)
+        $('#designation').empty()
+          for (let i = 0; i < response.desig.length; i++) {
+            $('#designation').append(`<option value="${response.desig[i].designation_code}"> ${response.desig[i].designation}</option>`);
+        }
+      }
+  });
+}
+
+
+function getdesigdivwise1(){
+  let zones = $('#zone1').val()
+  let div = $("#location_type1").val()
+
+  $.ajax({
+    type : 'GET',
+      url : "{% url 'signup_hrms' %}",
+      dataType : 'json',
+      data : {"ajaxname":'getdesigdivwise','zones':zones,"div":div},
+      success : function(response){
+        console.log(response)
+        $('#designation1').empty()
+          for (let i = 0; i < response.desig.length; i++) {
+            $('#designation1').append(`<option value="${response.desig[i].designation_code}"> ${response.desig[i].designation}</option>`);
+        }
+      }
+  });
+}
+
+
+function OpenModal(){
+  var desig = $("#designation").val()
+  alert(desig)
+  if(desig){
+    alert('inside open ')
+    openbutton();
+  }
+  else{
+    console.log("pass")
+  }
+}
+
+
+function checkifexist(){
+  email = document.getElementById("empemail").value;
+  $.ajax({
+    type : 'GET',
+    url : "{% url 'checkifexist' %}",
+    dataType : 'json',
+    data : {"email":email,
+   },
+   success : function(response){
+    if(response.length==0){
+      alert("This email is already registered with another designation")
+      $("#empemail").val(globalemail)
+    }
+   }
+  })
+};
+
+
+function FetchEmployee(){
+    {
+
+        var hrms_id=document.getElementById('hrms_id').value;
+        data={
+        'hrms_id':hrms_id,
+        'ajaxname':'FetchEmployee',
+        }
+        $.ajax({
+            
+            url: "{% url 'signup_hrms' %}",
+            type: "GET",
+            data: data,
+            dataType: "json",
+            success: function (response) {
+
+                if(response.alert){
+                    alert(response.alert)
+                }
+                else{
+                    // console.log('response.division1[0].location_code',response.division1)
+                    $("#zone option[value^='"+response.Zone1[0]+"']").attr('selected','selected')
+                    if(response.division1.length == 0){
+                    $("#location_type option[value^='']").attr('selected','selected')
+                    }
+                    else{
+                    $("#location_type option[value^='"+response.division1[0].location_code+"-"+response.division1[0].location_type+"']").attr('selected','selected')
+                    }
+                    
+                    $("#designation").empty()
+                    console.log(response.allDesignations)
+                    let d = '<option value = "">select</option>'
+                    for(let i =0;i<response.allDesignations.length;i++){
+                    d +='<option value = "'+response.allDesignations[i].designation_code+'">'+response.allDesignations[i].designation+'</option>'
+                    }
+                    $("#designation").append(d)
+                    $("#designation option[value='"+response.desi[0].designation_code.toString()+"']").attr('selected','selected')
+
+                    // ZONE DIVISION TO BE DISABLE
+                    $('#zone').prop('disabled',true)
+                    $('#location_type').prop('disabled',true)
+                }
+            
+                
+            }
+        });
+        };
+}
+</script> 
+<script>
+  // SCRIPTS FOR REGISTER
+  
+function ajax_send_otp2(){
+  
+  email = document.getElementById("emailid").value;
+
+$.ajax({
+       
+   type : 'GET',
+   url : "{% url 'send_otp1' %}",
+   dataType : 'json',
+   data : {"email":email,
+       //"csrfmiddlewaretoken":"{{csrf_token}}"
+   },
+
+   success : function(response){
+           $('#otp_div2').show();
+           timer3(300);
+           otp_from_back = response.otp;
+           alert(otp_from_back);
+           
+           document.getElementById("otp_div2").style.display='block';
+   }
+   
+} );
+
+Filevalidation = () => {
+  alert("1")
+const fi = document.getElementById('img');
+alert(fi)
+// Check if any file is selected.
+if (fi.files.length > 0) 
+{
+for (const i = 0; i <= fi.files.length - 1; i++) {
+
+const fsize = fi.files.item(i).size;
+const file = Math.round((fsize / 1024));
+// The size of the file.
+if (file >= 4096) {
+alert(
+"File too Big, please select a file less than 4mb");
+} else if (file < 2048) {
+alert(
+"File too small, please select a file greater than 2mb");
+} else {
+// document.getElementById('size').innerHTML = '<b>'
+// + file + '</b> KB';
+// document.getElementById('register').disabled=false;
+
+}
+}
+
+}
+}
+
+function enableotp() {
+	if(document.getElementById("desig").value===""){ 
+      document.getElementById('empno').disabled = true; 
+  } 
+  else{ 
+      document.getElementById('empno').disabled = false;
+  }
+  }
+
+}
+
+
+
+let timerOn3 = true;
+function timer3(remaining3) {
+
+var m3 = Math.floor(remaining3 / 60);
+var s3 = remaining3 % 60;
+
+m3 = m3 < 10 ? '0' + m3 : m3;
+s3 = s3 < 10 ? '0' + s3 : s3;
+document.getElementById('timer3').innerHTML = m3 + ':' + s3;
+remaining3 -= 1;
+
+if(remaining3 >= 0 && timerOn3) {
+ setTimeout(function() {
+     timer3(remaining3);
+ }, 1000);
+ return;
+}
+
+if(!timerOn3) {
+ // Do validate stuff here
+ 
+ return;
+}
+alert('Timeout for OTP');
+
+ window.location.reload();
+// Do timeout stuff here
+
+}
+
+
+
+function fetch_name()
+     {
+        var empid=document.getElementById('employeeno').value;
+        data={
+            'empid':empid,
+        }
+        $.ajax({
+             url: "{% url 'fetch_name' %}",
+             method: "GET",
+             dataType: "JSON",
+             async: false,
+             data: data,
+             success: function (response) {
+              if(response.length==0)
+              {
+                alert("Enter Valid Employee Number")
+                window.location.reload();
+              }
+              else{
+              document.getElementById('employeename').value=response.name; 
+              }            
+             }
+  }) 
+     }
+
+
+function verify_otp3(){
+  var user_otp=document.getElementById("otp2").value;
+  if (user_otp==otp_from_back){
+      document.getElementById("verify_text_div2").style.color="green";        
+      document.getElementById("verify_text_div2").innerHTML="OTP Verified";
+      document.getElementById("otp_div1").style.display="none";
+      $('#email_div1').hide();
+      // $('#btn1').show();
+      document.getElementById('register').disabled=false;
+
+      timerOn3 = false
+  }
+  else{
+      document.getElementById("verify_text_div2").style.color="red";
+      document.getElementById("verify_text_div2").innerHTML="Try Again!!";
+  }
+} 
+
+function registerthis(){
+  $('#myModal').modal('show');
+}
+</script>
+</body>
+</html>

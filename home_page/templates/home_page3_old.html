@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        {% include 'inspects_staticProvider.html' %}
+        <style>
+            .row{
+                margin-left:2%;
+            }
+            .card{
+                margin-bottom: 1%;
+                margin-top: 1%;
+                width:15%;
+                /* height: 35%; */
+                /* width: 280px;
+                height: 250px; */
+                /* height: 220px; */
+                /* box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+                border-radius: 5px;
+                backdrop-filter: blur(14px);
+                background-color: rgba(255, 255, 255, 0.2); */
+                border: none;
+                text-align: center;
+            }
+            img{
+                margin:5%;
+                width:30%;
+                height:40%;
+            }
+            h3{
+                font-family: "Playfair Display";
+                font-size: 17px;
+                font-weight: 700;
+                
+            }
+            h2{
+                font-family: "Playfair Display";
+                font-size: 20px;
+                font-weight: 700;
+            }
+            .card-top{
+                height:80%;
+                width:100%;
+                cursor: pointer;
+            }
+            .subdiv{
+                height:10%;
+                width:15%;
+                padding:1%;
+            }
+            .navcard{
+                margin-bottom: 1%;
+                margin-top: 1%;
+                width:7.8%;
+                box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+                border-radius: 5px;
+                backdrop-filter: blur(14px);
+                background-color: rgba(255, 255, 255, 0.2);
+                text-align: center;
+            }
+            .navcard .card-top{
+                height:70%;
+                width:100%;
+            }
+            .card-body{
+                margin-left:0% ;
+                margin-right: 0%;
+                padding-left: 0%;
+                padding-right: 0%;
+            }
+            .navcard img{
+                width:50%;
+            }
+            .drishti{
+                width:20%;
+            }
+            .bottom{
+                position: absolute;
+                bottom: 0px;
+            }
+            .back{
+                cursor: pointer;
+            }
+            .btn btn-warning active {
+                background-color: #5F0587;
+                color: white;
+            }
+            
+
+            /* Apeksha Styles */
+            .earnings_body tr:nth-child(4n + 1){
+            background-color: #e5b1fd ;
+                 }
+
+            .earnings_body tr:nth-child(4n + 2){
+            background-color: #D39BEA ;
+                 }
+                 .earnings_body tr:nth-child(4n + 3){
+            background-color: #AFF2F3 ;
+            
+                 }
+                 
+            .earnings_body tr:nth-child(4n + 4){
+            background-color: #95D9DA ;
+                 }
+                 .owe_body tr:nth-child(4n + 3){
+            background-color: #98EF99  ;
+        }
+        .owe_body tr:nth-child(4n + 1){
+            background-color: #F7DC6F  ;
+        }
+        .owe_body tr:nth-child(4n + 2){
+            background-color: #FCF3CF  ;
+        }
+        .owe_body tr:nth-child(4n + 4){
+            background-color: #d0f0d1  ;
+        }
+
+        .nav-item{
+                background-color: #f2ecf5;
+                
+            }
+        
+        </style>
+         <style>
+            .card{
+                margin-bottom: 1%;
+                margin-top: 1%;
+                width:15%;
+                /* height: 35%; */
+                /* width: 280px;
+                height: 250px; */
+                /* height: 220px; */
+                /* box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+                border-radius: 5px;
+                backdrop-filter: blur(14px);
+                background-color: rgba(255, 255, 255, 0.2); */
+                border: none;
+                text-align: center;
+            }
+            img{
+                margin:5%;
+                width:30%;
+                height:40%;
+            }
+            h3{
+                font-family: "arial";
+                font-size: 16px;
+                font-weight: 600;
+            }
+            h2{
+                font-family: "Playfair Display";
+                font-size: 20px;
+                font-weight: 700;
+            }
+            .card-top{
+                height:80%;
+                width:100%;
+                cursor: pointer;
+            }
+            .subdiv{
+                height:10%;
+                width:15%;
+                padding:1%;
+            }
+            .navcard{
+                margin-bottom: 1%;
+                margin-top: 1%;
+                width:7.8%;
+                box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+                border-radius: 5px;
+                backdrop-filter: blur(14px);
+                background-color: rgba(255, 255, 255, 0.2);
+                text-align: center;
+            }
+            .navcard .card-top{
+                height:70%;
+                width:100%;
+            }
+            .card-body{
+                margin-left:0% ;
+                margin-right: 0%;
+                padding-left: 0%;
+                padding-right: 0%;
+            }
+            .navcard img{
+                width:50%;
+            }
+            .drishti{
+                width:20%;
+            }
+            .bottom{
+                position: absolute;
+                bottom: 0px;
+            }
+            .back{
+                cursor: pointer;
+            }
+            .btn btn-warning active {
+                background-color: #5F0587;
+                color: white;
+            }
+
+
+            /* Apeksha Styles */
+            .earnings_body tr:nth-child(4n + 1){
+            background-color: #e5b1fd ;
+                 }
+
+            .earnings_body tr:nth-child(4n + 2){
+            background-color: #D39BEA ;
+                 }
+                 .earnings_body tr:nth-child(4n + 3){
+            background-color: #AFF2F3 ;
+
+                 }
+
+            .earnings_body tr:nth-child(4n + 4){
+            background-color: #95D9DA ;
+                 }
+                 .owe_body tr:nth-child(4n + 3){
+            background-color: #98EF99  ;
+        }
+        .owe_body tr:nth-child(4n + 1){
+            background-color: #F7DC6F  ;
+        }
+        .owe_body tr:nth-child(4n + 2){
+            background-color: #FCF3CF  ;
+        }
+        .owe_body tr:nth-child(4n + 4){
+            background-color: #d0f0d1  ;
+        }
+
+        .nav-item{
+                background-color: #f2ecf5;
+
+            }
+.page-heading
+{
+    background-image:linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+    font-size:2.0rem;
+    font-weight:600;
+    padding:6px;
+    border-bottom:1px solid #4d4d4d;
+    margin-top:0.7rem;
+    text-align:center;
+}
+.card{
+    box-shadow: none;
+    border: none;
+}
+.card-icons {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  padding:1rem;
+  margin-top:10px;
+  padding-bottom:0px;
+  padding-top:0px;
+  margin:1rem;
+}
+.card-icons:after {
+content: ""; /* This is necessary for the pseudo element to work. */
+display: block; /* This will put the pseudo element on its own line. */
+margin: 0 auto; /* This will center the border. */
+width: 50%; /* Change this to whatever width you want. */
+padding-top: 5px; /* This creates some space between the element and the border. */
+border-bottom: 1px solid #ff6600; /* This creates the border. Replace black with whatever color you want. */
+}
+.card-icons2:after {
+content: ""; /* This is necessary for the pseudo element to work. */
+display: block; /* This will put the pseudo element on its own line. */
+margin: 0 auto; /* This will center the border. */
+width: 50%; /* Change this to whatever width you want. */
+padding-top: 5px; /* This creates some space between the element and the border. */
+border-bottom: 1px solid #005ce6; /* This creates the border. Replace black with whatever color you want. */
+}
+.card-icons3:after {
+content: ""; /* This is necessary for the pseudo element to work. */
+display: block; /* This will put the pseudo element on its own line. */
+margin: 0 auto; /* This will center the border. */
+width: 50%; /* Change this to whatever width you want. */
+padding-top: 5px; /* This creates some space between the element and the border. */
+border-bottom: 1px solid #339933; /* This creates the border. Replace black with whatever color you want. */
+}
+#borderLeft {
+border-left: 2px solid #0004ff;
+position: absolute;
+top: 50%;
+bottom: 0;
+}
+.card-icons2 {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  padding:1rem;
+  margin-top:5px;
+  padding-bottom:0px;
+  padding-top:0px;
+  margin:1rem;
+}
+.card-icons3 {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  padding:1rem;
+  margin-top:5px;
+  padding-bottom:0px;
+  padding-top:0px;
+  margin:1rem;
+}
+td.part2
+{
+font-weight:600;
+color:#4d4d4d;
+font-family:'Sans serif';
+text-align:center;
+cursor:pointer;
+}
+
+td.part1
+{
+text-align:center;
+height:80px;
+cursor:pointer;
+}
+td.part1 img
+{
+width:50%;
+text-align:center;
+cursor:pointer;
+}
+
+.card-icon table
+{
+margin-bottom:0px;
+}
+td.part2 {
+color: #0000;
+background:
+linear-gradient(90deg,#cc5200 50%,#000 0)
+var(--_p,100%)/200% no-repeat;
+-webkit-background-clip: text;
+      background-clip: text;
+transition: .4s;
+}
+td.part2:hover {
+--_p: 0%;
+}
+.highlight-1
+{
+background:#e65c00;
+font-size:1rem;
+font-weight:600;
+color:#fff;
+padding:5px;
+margin:0px;
+text-align:center;
+}
+.highlight-2
+{
+background:#ffeb99;
+font-size:0.9rem;
+font-weight:600;
+color:#000;
+padding:5px;
+margin:0px;
+text-align:center;
+border-top:1px solid #e65c00;
+}
+:root{
+--bordersize: 1px;
+}
+.brands{
+display: flex;
+flex-wrap: wrap;
+overflow: hidden;
+}
+.td.part2{
+flex: 1 0 25%;
+border-left: var(--bordersize) dashed #ccc;
+border-bottom: var(--bordersize) dashed #ccc;
+margin-left: calc(-1 * var(--bordersize));
+margin-bottom: calc(-1 * var(--bordersize));
+}
+
+.wrapper {
+display: table;
+margin: 0 auto;
+margin-top: 200px;
+}
+.col-lg-2, .col-sm-3
+{
+border:1px solid #f2f2f2;
+}
+
+.dropdown:hover{
+            /* background-image: linear-gradient(to bottom right, rgb(98, 98, 245), white); */
+            /* text-transform: uppercase; */
+        }
+        .dropdown:hover .dropdown-toggle{
+            font-weight: bold;
+            color:white!important;
+        }
+        .dropdown:hover .dropdown-menu{
+            display: block;
+            text-transform: none;
+        }
+        .dropdown-menu .dropdown-item:hover{
+            background-image: linear-gradient(to bottom right, rgb(98, 132, 245), white);
+            /* text-transform: uppercase; */
+        }
+        .dropdown-menu{
+            margin-top: 0;
+        }
+        
+        .menu li{
+          display:inline-block;
+          font-family: Arial;
+          padding-right: 0%;
+        }
+
+        .menu
+        {
+          margin-bottom: 0%;
+        }
+
+        .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    color: white;
+    border-top: .2em solid;
+    border-right: .2em solid transparent;
+    border-bottom: 0;
+    border-left: .2em solid transparent;
+    margin: 0;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+}
+    </style>
+    <script>
+        $(document).ready(function(){
+            $(".dropdown").hover(function(){
+                var dropdownMenu = $(this).children(".dropdown-menu");
+                if(dropdownMenu.is(":visible")){
+                    dropdownMenu.parent().toggleClass("open");
+                }
+            });
+        });     
+</script>
+    </head>
+
+    <body>
+        <div class="container-fluid nav1" style="display:none;">
+            <nav class="navbar navbar-light bg-dark">
+                <div class="container-fluid" style="width: 100%;">
+                  <h4 style="color: white; text-align:center">My e-Drishti</h4>
+                  <div style="width:7%; float:right; " class="back">
+                    <span onclick="back()"><img src="/static/images/home4.png" class="img img-responsive img-fluid"/></span>
+                </div>
+                </div>
+              </nav>
+            <!-- <div style="width:3%;float:right;margin-top:1%;" class="back">
+                <span onclick="back()"><img src="/static/images/home.png" class="img img-responsive img-fluid"/></span>
+            </div> -->
+            <div class="row" style="margin: 0;">
+                <div class="col-3">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <img src="/static/images/myed.jpeg" class="img img-responsive img-fluid" style="height: 80%; width:80%"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            <div class="row mb-1"><button type="button" id="btn1" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('1'); return false;" >SAFETY</button></div>
+                            <div class="row mb-1"><button type="button" id="btn2" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('2'); return false;" >LOADING</button></div>
+                            <div class="row mb-1"><button type="button" id="btn3" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('3'); return false;" >PUNCTUALITY</button></div>
+                            <div class="row mb-1"><button type="button" id="btn4" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('4'); return false;" >EARNINGS & OWE</button></div>
+                            <div class="row mb-1"><button type="button" id="btn5" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('5'); return false;" >CAPEX</button></div>
+                            <div class="row mb-1"><button type="button" id="btn6" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('6'); return false;" >INFRASTRUCTURE CREATION</button></div>
+                            <div class="row mb-1"><button type="button" id="btn7" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('7'); return false;" >ROLLING STOCK PRODUCTION</button></div>
+                            <div class="row mb-1"><button type="button" id="btn8" class="btn btn-warning" style="background-color: #BB8FCE; width: 85%; text-align: left;" onclick="table_view('8'); return false;" >ASSET RELIABILITY</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9"  style="margin-top: 1%;">
+                    <div class="row">
+                        <!-- <div class="col-6">
+                            <h4>
+                                <center>My E-Drishti</center>
+                            </h4>
+                        </div> -->
+                        <div class="col-12">
+                            <h4 id="title" style="text-align: center;"></h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" id="safetyrow">
+                            <table class="table table-bordered table-striped table-sm" id="safety" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:22%; text-align: center;">Type of Accident</th>
+                                    <!-- <th style="width:13%; text-align: center;">2019 - 20</th>
+                                    <th style="width:13%; text-align: center;" >2020 - 21</th>
+                                    <th style="width:13%; text-align: center;" >2021 - 22</th>
+                                    <th style="width:13%; text-align: center;" >April 21 - Oct 22</th>
+                                    <th style="width:13%; text-align: center;" >April 22 - Oct 22</th> -->
+                                    {% if safety_heads %}
+                                    {% for i in safety_heads %}
+                                     <th style="width:13%; text-align: center;">{{i.col1}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col2}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col3}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col4}}</th>
+                                    <th style="width:13%; text-align: center;" >{{i.col5}}</th>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <th style="width:13%; text-align: center;" >Variation</th>  
+                                </thead>
+                                <tbody>
+                                    {% if safety %}
+                                    {% for i in safety %}
+                                    {% if i.type_of_accident == 'Total' %}
+                                    <tr style="text-align: center; background-color: #566573; color: white;">
+                                        {% else %}
+                                        <tr style="text-align: center;">
+                                        {% endif %}
+                                        <td style="width:22%; text-align: left;">{{i.type_of_accident}}</td>
+                                        <td style="width:13%">{{i.col1}}</td>
+                                        <td style="width:13%">{{i.col2}}</td>
+                                        <td style="width:13%">{{i.col3}}</td>
+                                        <td style="width:13%">{{i.col4 | default:'-' }}</td>
+                                        <td style="width:13%">{{i.col5 | default:'-' }}</td>
+                                        <!-- <td style="width:13%">{{i.change | default:'-' }}</td> -->
+    
+                                        <!-- {% if i.col4 is None %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.col4}}</td>
+                                        {% endif %}
+                                        {% if i.col5 is None %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.col5}}</td>
+                                        {% endif %}-->
+                                        {% if i.change == 'None' %}
+                                        <td style="width:13%">-</td>
+                                        {% else %}
+                                        {% if i.value == 'positive' and i.type_of_accident != 'Total' %}
+                                        <td style="width:13%; color: green">{{i.change}}</td>
+                                        {% elif i.value == 'negative' and i.type_of_accident != 'Total' %}
+                                        <td style="width:13%; color: red">{{i.change}}</td>
+                                        {% else %}
+                                        <td style="width:13%">{{i.change}}</td>
+                                        {% endif %} 
+                                        {% endif %} 
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="col-12"  id="loadingrow" >
+                            <ul class="nav nav-pills nav-fill mb-2"  style="border: #566573; border-width: 10px;">
+                                <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#B3">Overall Loading</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Commodity_Wise">Commodity Wise</a>
+                                    </li>
+                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#Zone_Wise">Zone Wise</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="Commodity_Wise" class="container-fluid tab-pane ">
+                                    <h6 style="text-align: center;">Cummulative (upto Sept.) (in million tonnes)</h6>
+                                    <table class="table table-bordered table-striped table-sm" id="loading_commodity_wise" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:20%; text-align: center;">Commodity</th>
+                                            {% if loading_heads %}
+                                            {% for i in loading_heads %}
+                                            <th style="width:16%; text-align: center;">Target upto {{i.col1}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col2}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col3}}</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <th style="width:16%; text-align: center;" >% var over LY</th>  
+                                            <th style="width:16%; text-align: center;" >% var over Target</th>  
+                                        </thead>
+                                        <tbody>
+                                            {% if loading_commodity_wise %}
+                                            {% for i in loading_commodity_wise %}
+                                            {% if i.commodity == "Total" %}
+                                            <tr style="background-color: #566573; color:white; text-align: center;">
+                                            {% else %}
+                                            <tr style="text-align: center;">
+                                            {% endif %}
+                                                <td style="width:20%; text-align: left;">{{i.commodity}}</td>
+                                                <td style="width:16%">{{i.targets}}</td>
+                                                <td style="width:16%">{{i.actuals}}</td>
+                                                <td style="width:16%">{{i.actuals_current_month}}</td>
+                                                <td style="width:16%">{{i.var_over_ly}}</td>
+                                                <td style="width:16%">{{i.var_over_target}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="Zone_Wise" class="container-fluid tab-pane">
+                                    <h6 style="text-align: center;">Cummulative (upto Sept.) (in million tonnes)</h6>
+                                    <table class="table table-bordered table-striped table-sm" id="loading_zone_wise" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:20%; text-align: left;">Rly</th>
+                                            {% if loading_heads %}
+                                            {% for i in loading_heads %}
+                                            <th style="width:16%; text-align: center;">Target upto {{i.col1}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col2}}</th>
+                                            <th style="width:16%; text-align: center;" >Actual upto {{i.col3}}</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <th style="width:16%; text-align: center;" >% var over LY</th>
+                                            <th style="width:16%; text-align: center;" >% var over Target</th>  
+                                        </thead>
+                                        <tbody>
+                                            {% if loading_zone_wise %}
+                                            {% for i in loading_zone_wise %}
+                                            {% if i.zone == "TOTAL" %}
+                                            <tr style="background-color: #566573; color:white; text-align: center;">
+                                            {% else %}
+                                            <tr style="text-align: center;">
+                                            {% endif %}
+                                                <td style="width:20%; text-align: left;">{{i.zone}}</td>
+                                                <td style="width:16%">{{i.targets}}</td>
+                                                <td style="width:16%">{{i.actuals}}</td>
+                                                <td style="width:16%">{{i.actuals_current_month}}</td>
+                                                <td style="width:16%">{{i.var_over_ly}}</td>
+                                                <td style="width:16%">{{i.var_over_target}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="B3" class="container-fluid tab-pane active">
+                                    <table class="table table-bordered table-striped table-sm" id="loading_b3" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if loading_b3_heads %}
+                                            {% for i in loading_b3_heads %}
+                                            <th style="width:12%; text-align: center;">{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;" >Budget Target <br>{{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >Actuals to end of <br>{{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BP to end of <br>{{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >Actual to end of <br>{{i.col5}}</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <th style="width:12%; text-align: center;" >% Increase/Decrease</th>  
+                                            <th style="width:12%; text-align: center;" >% Over COPPY</th>
+                                        </thead>
+                                        <tbody>
+                                            {% if loading_b3 %}
+                                            {% for i in loading_b3 %}
+                                            <tr style="text-align: center;">
+                                                <td style="width:16%; text-align: left;">{{i.description}}</td>
+                                                <td style="width:12%">{{i.se_dte}}</td>
+                                                <td style="width:12%">{{i.budget_targets}}</td>
+                                                <td style="width:12%">{{i.actuals}}</td>
+                                                <td style="width:12%">{{i.bp}}</td>
+                                                <td style="width:12%">{{i.approx}}</td>
+                                                <td style="width:12%">{{i.variation}}</td>
+                                                <td style="width:12%">{{i.increase}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" id="punctualityrow">
+                            <ul class="nav nav-pills nav-fill mb-2"  style="border: #566573; border-width: 10px;">
+                                <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#zone">Zone Wise</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#Department_Wise">Department Wise</a>
+                                    </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="zone" class="container-fluid tab-pane active show">                            
+                                     <table class="table table-bordered table-striped table-sm" id="punctuality" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                    <thead style="text-align: center; color: white; background-color: #566573;">
+                                        <th style="width:3%; text-align: center;">Zone</th>
+                                        <th style="width:3%; text-align: center;">Train Count</th>
+                                        <th style="width:2%; text-align: center;" >PP%</th>
+                                        <th style="width:5%; text-align: center;" >Total Delay (Minutes)</th>
+                                        <th style="width:5%; text-align: center;" >Delay per Train (Minutes)</th>
+                                        <th style="width:5%; text-align: center;" >Path</th>  
+                                        <th style="width:5%; text-align: center;" >INC</th>
+                                        <th style="width:5%; text-align: center;" >ENG</th>
+                                        <th style="width:5%; text-align: center;" >TFC</th>
+                                        <th style="width:5%; text-align: center;" >PBOL</th>
+                                        <th style="width:5%; text-align: center;" >ORL</th>
+                                        <th style="width:5%; text-align: center;" >WEA</th>
+                                        <th style="width:5%; text-align: center;" >CNST</th>
+                                        <th style="width:5%; text-align: center;" >CONNI</th>
+                                        <th style="width:5%; text-align: center;" >ST</th>
+                                        <th style="width:5%; text-align: center;" >RUNO</th>
+                                        <th style="width:5%; text-align: center;" >ACP</th>
+                                        <th style="width:5%; text-align: center;" >ACC</th>
+                                        <th style="width:5%; text-align: center;" >IELC</th>
+                                        <th style="width:5%; text-align: center;" >LC</th>
+                                        <th style="width:5%; text-align: center;" >DCW</th>
+                                        <th style="width:5%; text-align: center;" >Others</th>
+                                    </thead>
+                                    <tbody>
+                                        {% if punctuality %}
+                                        {% for i in punctuality %}
+                                        <tr style="text-align: center;">
+                                            <td style="width:3%; text-align: left;">{{i.zone}}</td>
+                                            <td style="width:5%">{{i.train_count}}</td>
+                                            <td style="width:2%">{{i.pp}}</td>
+                                            <td style="width:5%">{{i.total_delay}}</td>
+                                            <td style="width:5%">{{i.delay_per_train}}</td>
+                                            <td style="width:5%">{{i.cause1 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause2 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause3 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause4 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause5 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause6 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause7 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause8 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause9 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause10 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause11 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause12 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause13 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause14 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause15 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.cause16 | default:'0' }}</td>
+                                            <td style="width:5%">{{i.others | default:'0' }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </tbody>
+                                </table> 
+                            </div>
+                                <div id="Department_Wise" class="container-fluid tab-pane ">
+                                    <table class="table table-bordered table-striped table-sm" id="punctuality_dept" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:3%; text-align: center;">Department</th>
+                                            <th style="width:3%; text-align: center;">Train Count</th>
+                                            <th style="width:2%; text-align: center;" >PP%</th>
+                                            <th style="width:5%; text-align: center;" >Total Delay (Minutes)</th>
+                                            <th style="width:5%; text-align: center;" >Delay per Train (Minutes)</th>
+                                            <th style="width:5%; text-align: center;" >Path</th>  
+                                            <th style="width:5%; text-align: center;" >INC</th>
+                                            <th style="width:5%; text-align: center;" >ENG</th>
+                                            <th style="width:5%; text-align: center;" >TFC</th>
+                                            <th style="width:5%; text-align: center;" >PBOL</th>
+                                            <th style="width:5%; text-align: center;" >ORL</th>
+                                            <th style="width:5%; text-align: center;" >WEA</th>
+                                            <th style="width:5%; text-align: center;" >CNST</th>
+                                            <th style="width:5%; text-align: center;" >CONNI</th>
+                                            <th style="width:5%; text-align: center;" >ST</th>
+                                            <th style="width:5%; text-align: center;" >RUNO</th>
+                                            <th style="width:5%; text-align: center;" >ACP</th>
+                                            <th style="width:5%; text-align: center;" >ACC</th>
+                                            <th style="width:5%; text-align: center;" >IELC</th>
+                                            <th style="width:5%; text-align: center;" >LC</th>
+                                            <th style="width:5%; text-align: center;" >DCW</th>
+                                            <th style="width:5%; text-align: center;" >Others</th>
+                                        </thead>
+                                        <tbody>
+                                            {% if punctuality_dept %}
+                                            {% for i in punctuality_dept %}
+                                            <tr style="text-align: center;">
+                                                <td style="width:3%; text-align: left;">{{i.dept}}</td>
+                                                <td style="width:5%">{{i.train_count}}</td>
+                                                <td style="width:2%">{{i.pp}}</td>
+                                                <td style="width:5%">{{i.total_delay}}</td>
+                                                <td style="width:5%">{{i.delay_per_train}}</td>
+                                                <td style="width:5%">{{i.cause1 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause2 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause3 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause4 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause5 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause6 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause7 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause8 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause9 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause10 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause11 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause12 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause13 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause14 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause15 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.cause16 | default:'0' }}</td>
+                                                <td style="width:5%">{{i.others | default:'0' }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" id="earningsrow">
+                            <table class="table table-bordered table-sm" id="earnings" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <label id="cr" hidden>(Rs. in cr.)</label>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                                <th style="width:16%; text-align: center;">Description</th>
+                                                {% if loading_b3_heads %}
+                                                {% for i in loading_b3_heads %}
+                                                <th style="width:12%; text-align: center;">{{i.col1}}</th>
+                                                <th style="width:12%; text-align: center;" >Budget Target <br>{{i.col2}}</th>
+                                                <th style="width:12%; text-align: center;" >Actuals to end of <br>{{i.col3}}</th>
+                                                <th style="width:12%; text-align: center;" >BP to end of <br>{{i.col4}}</th>
+                                                <th style="width:12%; text-align: center;" >Actual to end of <br>{{i.col5}}</th>  
+                                                <th style="width:12%; text-align: center;" >Variation over <br>BP</th>  
+                                                <th style="width:12%; text-align: center;" >Increase over <br>{{i.col3}}</th>
+                                                {% endfor %}
+                                                {% endif %}
+                                </thead>
+                                <tbody class="earnings_body">
+                                    {% if earnings %}
+                                    {% for i in earnings %}
+                                    {% if i.description == 'Growth' %}
+                                                <tr style="text-align: center; font-style: italic;">
+                                                    <td style="width:16%; text-align: left;">Growth over last year</td>
+                                                {% else %}
+                                                <tr style="text-align: center;">
+                                                    <td style="width:16%; text-align: left;">{{i.description}}</td>
+                                                {% endif %}
+                                        <!-- <td style="width:16%; text-align: left;">{{i.description}}</td> -->
+                                        <td style="width:12%">{{i.year}}</td>
+                                        <td style="width:12%">{{i.budget_targets}}</td>
+                                        <td style="width:12%">{{i.actuals}}</td>
+                                        <td style="width:12%">{{i.bp}}</td>
+                                        <td style="width:12%">{{i.approx}}</td>
+                                        <td style="width:12%">{{i.variation}}</td>
+                                        <td style="width:12%">{{i.increase}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                </table>
+                                <table class="table table-bordered table-sm" id="owe" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                    <thead></thead>
+                                    <tbody class="owe_body">
+                                    {% if owe %}
+                                    {% for i in owe %}
+                                    {% if i.description == 'Growth' or i.description == 'Growth.' %}
+                                                <tr style="text-align: center; font-style: italic;">
+                                                    <td style="width:16%; text-align: left;">Growth over last year</td>
+                                                {% else %}
+                                                <tr style="text-align: center;">
+                                                    <td style="width:16%; text-align: left;"><b>{{i.description}}</b></td>
+                                                {% endif %}
+                                        <!-- <td style="width:16%; text-align: left;"><b>{{i.description}}</b></td> -->
+                                        <td style="width:12%">{{i.year}}</td>
+                                        <td style="width:12%">{{i.budget_targets}}</td>
+                                        <td style="width:12%">{{i.actuals}}</td>
+                                        <td style="width:12%">{{i.bp}}</td>
+                                        <td style="width:12%">{{i.approx}}</td>
+                                        <td style="width:12%">{{i.variation}}</td>
+                                        <td style="width:12%">{{i.increase}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        
+                        <!-- <table class="table table-bordered table-striped table-sm" id="capex" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                            <thead style="text-align: center; color: white; background-color: #566573;">
+                                <th style="width:16%; text-align: center;">Description</th>
+                                <th style="width:12%; text-align: center;">Annual Exp. <br>2021-22</th>
+                                <th style="width:12%; text-align: center;">Exp. Sept <br>2021</th>
+                                <th style="width:12%; text-align: center;" >% Utilizn.</th>
+                                <th style="width:12%; text-align: center;" >BE 2022-23</th>
+                                <th style="width:12%; text-align: center;" >BE Mod 2022-23</th>
+                                <th style="width:12%; text-align: center;" >Exp. Sept 2022</th>
+                                <th style="width:12%; text-align: center;" >%Utilizn. (BE Mod)</th>
+                               
+                            </thead>
+                            <tbody>
+                                {% if capex %}
+                                {% for i in capex %}
+                                {% if i.item == 'Total Capex' %}
+                                <tr style="text-align: center; background-color: #566573; ">
+                                    {% else %}
+                                    <tr style="text-align: center; ">
+                                    {% endif %}  
+                                    <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                    <td style="width:12%">{{i.actual_exp}}</td>
+                                    <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                    <td style="width:12%">{{i.utilization}}</td>
+                                    <td style="width:12%">{{i.be}}</td>
+                                    <td style="width:12%">{{i.be_mod}}</td>
+                                    <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                    <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table> -->
+                        <div class="col-12"  id="capex" >
+                            <ul class="nav nav-pills nav-fill mb-2">
+                                <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#itemrow">Head Wise</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#headrow">Source of Fund Wise</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#resourcerow">Overall</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="itemrow" class="container-fluid tab-pane active">
+                                    <table class="table table-bordered table-striped table-sm" id="item" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if capex_heads %}
+                                            {% for i in capex_heads %}
+                                            <th style="width:12%; text-align: center;">Annual Exp. <br>{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;">Exp. <br>{{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >% Utilizn.</th>
+                                            <th style="width:12%; text-align: center;" >BE {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BE Mod {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >Exp. {{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >%Utilizn. (BE Mod)</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </thead>
+                                        <tbody>
+                                            {% if capex_item_wise %}
+                                            {% for i in capex_item_wise %}
+                                            {% if i.item == 'Total Capex' %}
+                                            <tr style="text-align: center; background-color: #566573; color:white">
+                                                {% else %}
+                                                <tr style="text-align: center; ">
+                                                {% endif %}  
+                                                <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                                <td style="width:12%">{{i.actual_exp}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                                <td style="width:12%">{{i.utilization}}</td>
+                                                <td style="width:12%">{{i.be}}</td>
+                                                <td style="width:12%">{{i.be_mod}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                                <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="headrow" class="container-fluid tab-pane">
+                                    <table class="table table-bordered table-striped table-sm" id="head" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;">
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if capex_heads %}
+                                            {% for i in capex_heads %}
+                                            <th style="width:12%; text-align: center;">Annual Exp. <br>{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;">Exp. <br>{{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >% Utilizn.</th>
+                                            <th style="width:12%; text-align: center;" >BE {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BE Mod {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >Exp. {{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >%Utilizn. (BE Mod)</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </thead>
+                                        <tbody>
+                                            {% if capex_head_wise %}
+                                            {% for i in capex_head_wise %}
+                                            {% if i.item == 'Total Capex' %}
+                                            <tr style="text-align: center; background-color: #566573; color: white; ">
+                                                {% else %}
+                                                <tr style="text-align: center; ">
+                                                {% endif %}  
+                                                <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                                <td style="width:12%">{{i.actual_exp}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                                <td style="width:12%">{{i.utilization}}</td>
+                                                <td style="width:12%">{{i.be}}</td>
+                                                <td style="width:12%">{{i.be_mod}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                                <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>  
+                                </div>
+                                <div id="resourcerow" class="container-fluid tab-pane">
+                                    <table class="table table-bordered table-striped table-sm" id="resource" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                        <thead style="text-align: center; color: white; background-color: #566573;">
+                                            <th style="width:16%; text-align: center;">Description</th>
+                                            {% if capex_heads %}
+                                            {% for i in capex_heads %}
+                                            <th style="width:12%; text-align: center;">Annual Exp. <br>{{i.col1}}</th>
+                                            <th style="width:12%; text-align: center;">Exp. <br>{{i.col2}}</th>
+                                            <th style="width:12%; text-align: center;" >% Utilizn.</th>
+                                            <th style="width:12%; text-align: center;" >BE {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >BE Mod {{i.col3}}</th>
+                                            <th style="width:12%; text-align: center;" >Exp. {{i.col4}}</th>
+                                            <th style="width:12%; text-align: center;" >%Utilizn. (BE Mod)</th>
+                                            {% endfor %}
+                                            {% endif %}
+                                           
+                                        </thead>
+                                        <tbody>
+                                            {% if capex_resource_wise %}
+                                            {% for i in capex_resource_wise %}
+                                            {% if i.item == 'Total Capex' %}
+                                            <tr style="text-align: center; background-color: #566573; color: white;">
+                                                {% else %}
+                                                <tr style="text-align: center; ">
+                                                {% endif %}  
+                                                <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                                <td style="width:12%">{{i.actual_exp}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2021}}</td>
+                                                <td style="width:12%">{{i.utilization}}</td>
+                                                <td style="width:12%">{{i.be}}</td>
+                                                <td style="width:12%">{{i.be_mod}}</td>
+                                                <td style="width:12%">{{i.exp_sept_2022}}</td>
+                                                <td style="width:12%">{{i.utilization_be_mod}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" id="infrastructurerow">
+                            <table class="table table-bordered table-striped table-sm" id="infrastructure_creation" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:20%; text-align: center;">Infrastructure Works</th>
+                                    <th style="width:20%; text-align: center;">Annual Target</th>
+                                    <th style="width:20%; text-align: center;" >Cum. Target<br>(Proportionate)</th>
+                                    {% if infrastructure_heads %}
+                                    {% for i in infrastructure_heads %}
+                                    <th style="width:20%; text-align: center;" >Cum. Achieved<br> (upto {{i.col1}})</th>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <th style="width:20%; text-align: center;" >% Variation <br>(w.r.t Cum. Target Proportionate)</th>  
+                                </thead>
+                                <tbody>
+                                    {% if infrastructure_creation %}
+                                    {% for i in infrastructure_creation %}
+                                    <tr style="text-align: center;">
+                                        <td style="width:20%; text-align: left;">{{i.infrastructure_works}}</td>
+                                        <td style="width:20%">{{i.annual_target}}</td>
+                                        <td style="width:20%">{{i.cum_targets}}</td>
+                                        <td style="width:20%">{{i.cummulative_achieved}}</td>
+                                        <td style="width:20%">{{i.variation}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12" id="rolling_stockrow">
+                            <table class="table table-bordered table-striped table-sm" id="rolling_stock_production" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" >
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:20%; text-align: center;">Description</th>
+                                    <th style="width:20%; text-align: center;">Total Previous Year</th>
+                                    <th style="width:20%; text-align: center;" >Cummulative for Current Year</th>
+                                    <th style="width:20%; text-align: center;" >Same month of Previous year</th>
+                                    <th style="width:20%; text-align: center;" >Cummulative for Current Month</th>  
+                                </thead>
+                                <tbody>
+                                    {% if rolling_stock_production %}
+                                    {% for i in rolling_stock_production %}
+                                    <tr style="text-align: center;">
+                                        <td style="width:20%; text-align: left;">{{i.item}}</td>
+                                        <td style="width:20%">{{i.total_previous_year | default:'NA' }}</td>
+                                        <td style="width:20%">{{i.progressive_current_year | default:'NA' }}</td>
+                                        <td style="width:20%">{{i.same_month_of_previous_year | default:'NA' }}</td>
+                                        <td style="width:20%">{{i.progressive_current_month | default:'NA' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12" id="asset_reliabiltyrow">
+                            <table class="table table-bordered table-striped table-sm" id="asset_reliabilty" style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; color: black;" hidden>
+                                <thead style="text-align: center; color: white; background-color: #566573;">
+                                    <th style="width:16%; text-align: center;">Description</th>
+                                    {% if asset_reliabilty_heads %}
+                                    {% for i in asset_reliabilty_heads %}
+                                    <th style="width:14%; text-align: center;">Cummulative for Previous Year <br> Till {{i.col1}}</th>
+                                    <th style="width:14%; text-align: center;">Cummulative for Current Year <br> {{i.col2}}</th>
+                                    <th style="width:14%; text-align: center;" >{{i.col1}}</th>
+                                    <th style="width:14%; text-align: center;" >{{i.col2}}</th>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <!-- <th style="width:14%; text-align: center;">Cummulative for Previous Year <br> Till Oct.'21</th>
+                                    <th style="width:14%; text-align: center;">Cummulative for Current Year <br> Oct'22</th>
+                                    <th style="width:14%; text-align: center;" >Same month of Previous Year</th>
+                                    <th style="width:14%; text-align: center;" >Current Month</th> -->
+                                    <!-- <th style="width:14%; text-align: center;" >Same day of Previous Year</th>
+                                    <th style="width:14%; text-align: center;" >Yesterday</th> -->
+                                </thead>
+                                <tbody>
+                                    {% if asset_reliabilty %}
+                                    {% for i in asset_reliabilty %}
+                                    <tr style="text-align: center;">
+                                        <td style="width:16%; text-align: left;">{{i.item}}</td>
+                                        <td style="width:14%">{{i.targets}}</td>
+                                        <td style="width:14%">{{i.actuals}}</td>
+                                        <td style="width:14%">{{i.targets_current_month}}</td>
+                                        <td style="width:14%">{{i.progressive_current_month}}</td>
+                                        <!-- <td style="width:14%">{{i.y_day_actual}}</td>
+                                        <td style="width:14%">{{i.today_forecast}}</td> -->
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table> 
+                        </div>
+                         
+                    </div>  
+                </div>
+            </div>
+            <!-- <div class="row bottom">
+                <div class="card navcard">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="https://edrishti.indianrailways.gov.in/eDrishti/login.jsp"><img src="/static/images/eDrishtiIcon.png" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>e-Drishti</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://railmadad.indianrailways.gov.in/"><img src="/static/images/logo_new.png" style="width:70% !important;" class="img img-responsive img-fluid"   /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>Rail Madad</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://morpr.cris.org.in/pat/login"><img src="/static/images/par.png" style="width:70% !important;"  class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>Parliament References</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://morpr.cris.org.in/pat/login"><img src="/static/images/vip.png" style="width:70% !important;"  class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>VIP References</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://parichay.nic.in/"><img src="/static/images/eparichay.png" class="img img-responsive img-fluid"  /></a>
+                        </div>  
+                        <div class="card-text">
+                            <h6>e-Parichay</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://indianrailways.gov.in/"><img src="/static/images/irlogo.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>Indian Railways</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="https://ircep.gov.in/IRPSM/"><img src="/static/images/bridge1.png" style="width:40% !important;height:60% !important;" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>IRPSM</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href=""><img src="/static/images/e inspection.jpg" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>e-Inspection</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href=""><img src="/static/images/inspection logo.png" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>My MCDO</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href=""><img src="/static/images/rbmin.png" style="margin-top:4%" class="img img-responsive img-fluid"   /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>RB Minutes</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card navcard" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href=""><img src="/static/images/letter.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h6>D.O. Letters</h6>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="container-fluid home" >
+            <div class="row" style="margin: 0%;">
+                <div class="col-12 page-heading" style="text-align:center;padding:0px 0px 0px 0px !important;">
+                    <!-- <h1 class="page-heading">Dashboard of {{request.session.designation | safe}}
+                    </h1> -->
+                    <ul style="padding:0;margin:0">
+                        <li style="display:inline-block;">
+                            <h1 style="font-size: 2.0rem;">Dashboard of {{request.session.designation | safe}}</h1>
+                        </li>
+                        <li class="nav-item dropdown" style="display:inline-block;width: 5%;float: right;background: transparent;">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="padding: 0;"><img src="/static/images/profile2.webp" class="rounded-circle" style="width: 2.00rem;"
+                              alt="Profile" style="padding: 0 !important;"/></a>
+                              <div class="dropdown-menu dropdown-menu-left" style="left: -100px !important">
+                                <a href="/viewDetail" class="dropdown-item">View Profile</a>
+                                <a href="/inspect_changePassword" class="dropdown-item">Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a href='/inspect_logout'  onclick='logoutConfirm();' class="dropdown-item">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    
+<!-- tO BE REMOVED -->
+<!-- <input class="btn btn-success" style="float: right;" type="button" id="submit" name="submit" value="Log In with E-pramaan" onclick="function_authenticateprod()">
+
+                    <a href="https://einspection.indianrailways.gov.in/user_authenticate/">click me</a> -->
+<!-- tO BE REMOVED -->
+                </div>
+            </div>
+            <div class="container-fullwidth card-icons" style="margin:0;padding: 0;">
+            <div class="row" style="padding-left:0%;margin: 0%;">
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top ">  
+                            <a href="/my_edrishti1"><img src="/static/images/myed.jpeg" style="width:50% !important;" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#ffe1e9;"><h3 style="padding:5px 14px 0px 14px;">My e-Drishti</h3></button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="/dash_home"><img src="/static/images/e inspection.jpg" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#f6eac2;"><h3 style="padding:5px 14px 0px 14px;">e-Inspection</h3></button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3" >
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="/rbmins"><img src="/static/images/meet5.png" class="img img-responsive img-fluid"  style="width: 48% !important;" /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#dae4fc;"><h3 style="padding:5px 14px 0px 14px;">Board Meeting Minutes</h3></button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="/do_dashboard"><img src="/static/images/letter.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#ffdbcc;"><h3 style="padding:5px 14px 0px 14px;">D.O. Letters</h3></button>
+                            <!-- <h3>D.O. Letters</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="/budget_dashboard"><img src="/static/images/budget.PNG" class="img img-responsive img-fluid" /></a>
+                        </div>
+                        <div class="card-text">
+                            <!-- <h3>Budget Pronouncements</h3> -->
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#fddcb6;"><h3 style="padding:5px 14px 0px 14px;">Budget Pronouncements</h3></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="/media/document/CRBMISupto31012023.pdf" target="blank"><img src="/static/images/inspection logo.png" class="img img-responsive img-fluid"/></a>
+                           
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#c1d7eb;"><h3 style="padding:5px 14px 0px 14px;">My MCDO</h3></button>
+                            <!-- <h3>My MCDO</h3> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="container-fullwidth card-icons2" style="margin:0;padding: 0;">
+            <div class="row" style="padding-left:0%;margin: 0%;">
+                <div class="card col-lg-2 col-sm-3" style="background-color:#fdd7c200;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="/rail_madad"><img src="/static/images/logo_new.png" style="margin-top:8%;width:38% !important;" class="img img-responsive img-fluid"   /></a>
+                        </div>
+                        <!-- <a href="https://railmadad.indianrailways.gov.in/" target="_blank"> -->
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#fdd7c2;"><h3 style="padding:5px 14px 0px 14px;">Rail Madad</h3></button>
+                            <!-- <h3>Rail Madad</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3" style="background-color:#f6eac200;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="/parliament" ><img src="/static/images/par.png" style="width:50% !important;" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#ddf6c2;"><h3 style="padding:5px 14px 0px 14px;">Parliament References</h3></button>
+                            <!-- <h3>Parliament References</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3" style="background-color:#ffb7b100;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="/vip_references"><img src="/static/images/vip2.jpeg" style="width:50% !important;"  class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#ffb8b1;"><h3 style="padding:5px 14px 0px 14px;">VIP References</h3></button>
+                            <!-- <h3>VIP References</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3" style="background-color:#fee2a400;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <!-- <a href="/irpsm" ><img src="/static/images/rpsm2.jpg" style="width:50% !important;height:70% !important;" class="img img-responsive"  /></a> -->
+                            <a href="https://ircep.gov.in/IRPSM/IRPSMDashboard/IRPSMDashboardInner.jsp" target="_blank"><img src="/static/images/rpsm2.jpg" style="width:50% !important;height:70% !important;" class="img img-responsive"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#fee2a4;"><h3 style="padding:5px 14px 0px 14px;">IRPSM</h3></button>
+                            <!-- <h3>IRPSM</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3" style="background-color:#b6dbda00;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="https://edrishti.indianrailways.gov.in/eDrishti/login.jsp" target="_blank"><img src="/static/images/eDrishtiIcon.png" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#b6dbda;"><h3 style="padding:5px 14px 0px 14px;">e-Drishti</h3></button>
+                            <!-- <h3>e-Drishti</h3> -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card col-lg-2 col-sm-3"  style="background-color:#e2f0cb00;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://indianrailways.gov.in/" target="_blank"><img src="/static/images/irlogo.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#e2f0cb;"><h3 style="padding:5px 14px 0px 14px;">Indian Railways</h3></button>
+                            <!-- <h3>Indian Railways</h3> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="container-fullwidth card-icons3" style="margin:0;padding: 0;">
+            <div class="row" style="padding-left:0%;margin: 0%;">
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://pmg.dpiit.gov.in/" target="_blank"><img src="/static/images/pmg.png" class="img img-responsive img-fluid" style="width: 60%;" /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#d3d9f7;"><h3 style="padding:5px 14px 0px 14px;">PMG</h3></button>
+                            <!-- <h3>PMG</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://esamiksha.gov.in/" target="_blank"><img src="/static/images/esamiksha_logo.png" style="width:50% !important;margin-top:15% !important;" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#e7d1d1;"><h3 style="padding:5px 14px 0px 14px;">e-Samiksha</h3></button>
+                            <!-- <h3>e-Samiksha</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://email.gov.in/" target="_blank"><img src="/static/images/email.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#b6dbda;"><h3 style="padding:5px 14px 0px 14px;">My Email</h3></button>
+                            <!-- <h3>My Email</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://pragati.nic.in/en/" target="_blank"><img src="/static/images/pragati.PNG" style="width:60% !important;margin-top:10%" class="img img-responsive img-fluid" /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#ffe1e9;"><h3 style="padding:5px 14px 0px 14px;">Pragati</h3></button>
+                            <!-- <h3>Pragati</h3> -->
+                        </div>
+                    </div>
+                </div>
+           
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://parichay.nic.in/" target="_blank"><img src="/static/images/eparichay.png" class="img img-responsive img-fluid"  /></a>
+                        </div>  
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#edcff4;"><h3 style="padding:5px 14px 0px 14px;">Parichay</h3></button>
+                            <!-- <h3>Parichay</h3> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-2 col-sm-3">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://eoffice.gov.in/" target="_blank"><img src="/static/images/eoofice.PNG" style="width:50% !important;margin-top:8% !important;" class="img img-responsive img-fluid" /></a>
+                        </div>
+                        <div class="card-text">
+                            <button class="btn-lg" style="border: none;box-shadow: none;margin: 0%;padding: 0%;background-color:#f5d2d3;"><h3 style="padding:5px 14px 0px 14px;">e-Office</h3></button>
+                            <!-- <h3>e-Office</h3> -->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="container-fullwidth my-2 footer">
+            <div class="row" style="padding-left:0%;margin: 0%;">
+            <div class="col-lg-1 col-sm-4 highlight-1" style="background:#e65c00;color:#fff;font-weight:600;font-size:14px;">Highlights</div>
+            <div class="col-lg-11 col-sm-8 highlight-2">
+                <marquee>
+                    &nbsp; 1. PUNCTUALITY- Zone with Lowest Percentage improvement in Punctuality (current year vs. last year): LAST 3 MONTHS ({{punc_zone}} ({{punc_val}}%))
+                    <!-- &nbsp; 3. PUNCTUALITY- Top most delayed Train(s): YESTERDAY (12130 - HWH PUNE AZAD HIND EXP(11 HRS 38 MIN), 22462 - SHRI SHAKTI EXP(11 HRS 36 MIN), 22906 - SHM - OKHA S.F.EXP(9 HRS 15 MIN)) -->
+                    <!-- &nbsp; 4. EXPENDITURE- Zones As per percentage variation in Revenue Expenditure(Current year vs Last year): YEAR TO DATE (SWR (22.91%), WR (22.63%), NER (19.35%)) -->
+                    &nbsp; 2. FREIGHT LOADING- Commodity with Highest Percentage decrease in Loading (current year vs. last year): YEAR TO DATE ({{load_com}} ({{load_com_val}}%)) 
+                    &nbsp; 3. FREIGHT LOADING- Zone with Highest Percentage decrease in Loading (current year vs. last year): YEAR TO DATE ({{load_zon}} ({{load_zon_val}}%)) 
+                    <!-- &nbsp; 4. EARNINGS- Earnings from Passenger  increase/decrease over last year: Till {{month_earnings1}} {{year_earnings}} ({{earning}}) -->
+                </marquee>
+        </div>
+            </div>
+            </div>
+        </div>
+        <!-- <div class="container-fluid home">
+            <div class="row">
+                <div class="col-12" style="text-align:center;">
+                    <h1>Dashboard of CRB & CEO</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="https://edrishti.indianrailways.gov.in/eDrishti/login.jsp"><img src="/static/images/eDrishtiIcon.png" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>e-Drishti</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body" onclick="toggnav()">
+                        <div class="card-top">  
+                            <img src="/static/images/myed.jpeg" style="width:45% !important;" class="img img-responsive img-fluid"/>
+                        </div>
+                        <div class="card-text">
+                            <h3>My e-Drishti</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://railmadad.indianrailways.gov.in/"><img src="/static/images/logo_new.png" style="margin-top:8%;width:38% !important;" class="img img-responsive img-fluid"   /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>Rail Madad</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://morpr.cris.org.in/pat/login"><img src="/static/images/par.png" style="width:45% !important;" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>Parliament References</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="row myDrishti" style="display:none;">
+                <div class="card subdiv">
+                    <a href="https://esamiksha.gov.in/"><img src="/static/images/.png" class="img img-responsive img-fluid"  /></a>
+                    <h2>Sub division of Rail Madad</h2>
+                </div>
+            </div> {% endcomment %}
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://morpr.cris.org.in/pat/login"><img src="/static/images/vip.png" style="width:38% !important;"  class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>VIP References</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://parichay.nic.in/"><img src="/static/images/eparichay.png" class="img img-responsive img-fluid"  /></a>
+                        </div>  
+                        <div class="card-text">
+                            <h3>e-Parichay</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card"  style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://indianrailways.gov.in/"><img src="/static/images/irlogo.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>Indian Railways</h3>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href="https://ircep.gov.in/IRPSM/"><img src="/static/images/bridge1.png" style="width:40% !important;height:60% !important;" class="img img-responsive"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>IRPSM</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href=""><img src="/static/images/e inspection.jpg" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>e-Inspection</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">  
+                            <a href=""><img src="/static/images/inspection logo.png" class="img img-responsive img-fluid"/></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>My MCDO</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href=""><img src="/static/images/rbmin.png" class="img img-responsive img-fluid"   /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>RB Minutes</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href=""><img src="/static/images/letter.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>D.O. Letters</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://esamiksha.gov.in/"><img src="/static/images/esamiksha_logo.png" class="img img-responsive img-fluid"  /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>e-Samiksha</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-left: 1%;">
+                    <div class="card-body">
+                        <div class="card-top">
+                            <a href="https://eoffice.gov.in/"><img src="/static/images/eoofice.PNG" class="img img-responsive img-fluid" /></a>
+                        </div>
+                        <div class="card-text">
+                            <h3>e-Office</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+                <div class="col-3"></div>
+            </div>
+        </div> -->
+        
+    </body>
+</html>
+<script>
+ function function_authenticateprod()
+        {
+            window.location.href="{% url 'user_authenticateprod' %}"
+        }
+
+
+
+    var mini = true;
+    function toggnav() {
+        elements=document.getElementsByClassName("nav1");
+            for(i=0;i<elements.length;i++){
+                elements[i].style.display='block';
+            }
+        elementshide=document.getElementsByClassName("home");
+            for(i=0;i<elementshide.length;i++){
+                elementshide[i].style.display='none';
+            }
+    }
+    function back() {
+        elements=document.getElementsByClassName("home");
+            for(i=0;i<elements.length;i++){
+                elements[i].style.display='block';
+            }
+        elementshide=document.getElementsByClassName("nav1");
+            for(i=0;i<elementshide.length;i++){
+                elementshide[i].style.display='none';
+            }
+    }
+
+// Apeksha Scripts
+// $('#safety').DataTable({});
+// $('#loading_commodity_wise').DataTable({"bSort": false,  "iDisplayLength": 25,});
+// $('#punctuality').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// // $('#earnings').DataTable({});
+// //$('#owe').DataTable({ });
+// $('#item').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#head').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#resource').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#infrastructure_creation').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#rolling_stock_production').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#asset_reliabilty').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#loading_zone_wise').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+// $('#loading_b3').DataTable({ "bSort": false,  "iDisplayLength": 25, });
+
+$(document).ready(function() {
+ 
+ $('#safetyrow').hide();
+ $('#loadingrow').hide();
+ $('#punctualityrow').hide();
+ $('#earningsrow').hide();
+ $('#owerow').hide();
+ $('#capex').hide();
+ $('#infrastructurerow').hide();
+ $('#rolling_stockrow').hide();
+ $('#asset_reliabiltyrow').hide();
+ $('#owerow').hide();
+
+ 
+
+});
+function table_view(id) {
+    elements=document.getElementsByClassName("btn btn-warning");
+            for(i=0;i<elements.length;i++){
+                elements[i].style.backgroundColor='#B3A5B9';
+                elements[i].style.color='#FDFDFE';
+            }
+            // document.getElementById("safety").hidden=true;
+            // document.getElementById("loading").hidden=true;
+            // document.getElementById("punctuality").hidden=true;
+            // document.getElementById("earnings").hidden=true;
+            // document.getElementById("owe").hidden=true;
+            // document.getElementById("cr").hidden=true;
+            // document.getElementById("capex").hidden=true;
+            // document.getElementById("infrastructure_creation").hidden=true;
+            // document.getElementById("rolling_stock_production").hidden=true;
+            // document.getElementById("asset_reliabilty").hidden=true;
+
+            $('#safetyrow').hide();
+            $('#loadingrow').hide();
+            $('#punctualityrow').hide();
+            $('#earningsrow').hide();
+            $('#owerow').hide();
+            $('#crrow').hide();
+            $('#capex').hide();
+            $('#infrastructurerow').hide();
+            $('#rolling_stockrow').hide();
+            $('#asset_reliabiltyrow').hide();
+
+            if(id==1){
+                //document.getElementById("safety").hidden=false;
+                // $('#safety').DataTable();
+                $('#safetyrow').show();
+                document.getElementById("title").innerHTML = "Consequential Accident";
+                document.getElementById("btn1").style.backgroundColor='#7A04AD';
+                document.getElementById("btn1").style.color='#FDFDFE';
+            }  
+            else if(id==2){
+                //document.getElementById("loading").hidden=false;
+                $('#loadingrow').show();
+                document.getElementById("title").innerHTML = "Loading Performance";
+                document.getElementById("btn2").style.backgroundColor='#7A04AD';
+                document.getElementById("btn2").style.color='#FDFDFE';
+            }
+               
+            else if(id==3)
+                {
+                    $('#punctualityrow').show();
+                    //document.getElementById("punctuality").hidden=false;
+                    document.getElementById("title").innerHTML = "Punctuality";
+                    document.getElementById("btn3").style.backgroundColor='#7A04AD';
+                    document.getElementById("btn3").style.color='#FDFDFE';
+                }
+            else if(id==4)
+                {
+                    $('#earningsrow').show();
+                    document.getElementById("earnings").hidden=false;
+                    document.getElementById("owe").hidden=false;
+                    document.getElementById("cr").hidden=false;
+                    document.getElementById("title").innerHTML = "Earnings & OWE";
+                    document.getElementById("btn4").style.backgroundColor='#7A04AD';
+                    document.getElementById("btn4").style.color='#FDFDFE';
+                }
+            else if(id==5){
+                $('#capex').show();
+                document.getElementById("title").innerHTML = "Capex";  
+                document.getElementById("btn5").style.backgroundColor='#7A04AD';
+                document.getElementById("btn5").style.color='#FDFDFE';
+            }
+            else if(id==6)
+            {
+                $('#infrastructurerow').show();
+                //document.getElementById("infrastructure_creation").hidden=false;
+                document.getElementById("title").innerHTML = "Infrastructure Creation";
+                document.getElementById("btn6").style.backgroundColor='#7A04AD';
+                document.getElementById("btn6").style.color='#FDFDFE';
+
+            }
+            else if(id==7){
+                $('#rolling_stockrow').show();
+                document.getElementById("rolling_stock_production").hidden=false;
+                document.getElementById("title").innerHTML = "Rolling Stock Production";
+                document.getElementById("btn7").style.backgroundColor='#7A04AD';
+                document.getElementById("btn7").style.color='#FDFDFE';
+            }
+            else if(id==8){
+                $('#asset_reliabiltyrow').show();
+                document.getElementById("asset_reliabilty").hidden=false;
+                document.getElementById("title").innerHTML = "Asset Reliability";
+                document.getElementById("btn8").style.backgroundColor='#7A04AD';
+                document.getElementById("btn8").style.color='#FDFDFE';
+            }      
+        }
+// function end
+
+</script>

@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<head>
+
+  <style>
+    .modal.left .modal-dialog,
+    .modal.right .modal-dialog {
+      position: fixed;
+      margin: auto;
+      width: 1200px;
+      height: 100%;
+      -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+      -o-transform: translate3d(0%, 0, 0);
+      transform: translate3d(0%, 0, 0);
+    }
+
+    .modal.left .modal-content,
+    .modal.right .modal-content {
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .modal.left .modal-body,
+    .modal.right .modal-body {
+      padding: 15px 15px 80px;
+    }
+
+    /*Left*/
+    .modal.left.fade .modal-dialog {
+      left: -320px;
+      -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+      -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+      -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+      transition: opacity 0.3s linear, left 0.3s ease-out;
+    }
+
+    .modal.left.fade.show .modal-dialog {
+      left: 0;
+    }
+
+    /*Right*/
+    .modal.right.fade .modal-dialog {
+      right: -320px;
+      -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+      -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+      -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+      transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    .modal.right.fade.show .modal-dialog {
+      right: 0;
+    }
+
+    /* ----- MODAL STYLE ----- */
+    .modal-content {
+      border-radius: 0;
+      border: none;
+    }
+
+    .modal-header {
+      border-bottom-color: #EEEEEE;
+      background-color: #FAFAFA;
+    }
+
+    .modal-lg {
+      max-width: 70% !important;
+    }
+
+    .modal {
+      pointer-events: none;
+    }
+
+    .modal-backdrop {
+      display: none;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- <div class="col-3"></div> -->
+      <div class="col-12">
+        <h3>
+          <center><b>D.O. Letters Issued by me</b></center>
+        </h3>
+      </div>
+      <!-- <div class="col-3"></div> -->
+    </div>
+  </div>
+
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="container-fluid" id="adjustfilter">
+      <div class="row" style="margin-left: 18em; margin-right: 15em;">
+
+        <div class="col-3">
+          <label for="location">Date Range</label>
+          <input id="date_range" class="form-control" name="date_range" autocomplete="off" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="col-4">
+          <label for='subject'>Subject</label>
+          <input class="form-control " name="subject" placeholder="Enter Subject of D.O. Letter">
+        </div>
+        <div class="col-3">
+          <!-- <label for ='action_by' class="mr-sm-2">Marked Officers</label>
+                 <select id="desig" name="desig" placeholder="--Select--" style="height: 35px; width:180px">
+                                <option value="" selected disabled hidden>--Select--</option>
+                                {% for i in officers %}
+                                <option value="{{i.designation}}">{{i.designation}}</option>
+                                {% endfor %}
+                            </select>  -->
+          <label for='action_by'>Marked Officers</label>
+          <div class="multi_select_box">
+            <input type="text" id="action_by_test" name="action_by_test" hidden>
+            <select id="action_by" name="action_by" class="form-control" data-live-search="true" multiple
+              data-actions-box="true" multiple data-selected-text-format="count > 2" multiple>
+
+              {% for i in officers %}
+              <option style="width:20px" value="{{i.designation_code}}" data-tokens="{{i.designation}}">
+                {{i.designation}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+        </div>
+        <div class="col-1">
+          <button type="submit" id="submit" class="btn btn-success" style="margin-top:2em;">Search</button>
+          <!-- <button  type="button"  name="zone_loc_submit"  style="margin-top:2em; " class="btn btn-success" id="insp_submit" onclick="view_previous_value()">Search</button> -->
+        </div>
+          <div class="col-1">
+          <button type="button" style="margin-top:2em; " class="btn btn-secondary" id="insp_clear"><a
+              href="{% url 'view_previous'  %}" style="color:white">Clear</a></button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+  <br>
+  <div class="row">
+    <div class="col-2" id="adjustdiv"></div>
+    <div class="col-8">
+
+      <table class="table table-striped table-bordered table-sm" id="view_table"
+        style="width: 100%; font-family: 'Lato', sans-serif;font-size: 1em; ">
+        <thead style="background-color: #343a40;white-space: nowrap; color:white;text-align: left;">
+          <!-- <th style="width: 3%;"> S.No.</th> -->
+          <th style="width: 8%;">D.O. Date</th>
+          <th style="width: 15%;">Letter No.</th>
+          <th style="width: 40%;">Subject</th>
+          <th style="width: 37%;">Marked To</th>
+        </thead>
+        <tbody>
+          {% if letters %}
+          {% for i in letters %}
+          <tr>
+            <!-- <td style="width: 3%;"> {{forloop.counter}}</td> -->
+            <td style="width: 8%;">{{i.do_letter_date }}</td>
+            <td style="width: 15%;"><a href="" class="stretched-link" onclick="open_do('{{i.id}}'); return false;"
+                title="Click to view D.O. PDF"> {{i.do_letter_no}}</a></td>
+            <td style="width: 40%;">{{i.subject}}</td>
+
+            <td style="width: 37%;">
+              {% for j in i.marked_to %}
+              {% if j.abc is True %}
+              <p style="color: green;">{{j.xyz}}</p>
+              <!-- <b> <p ><a  href="" class="stretched-link"  data-toggle="modal" data-target="#reply_view"  onclick="reply_view('{{i.id}}', '{{j.ofc}}');" style="color: green;"  title="Click to view reply">{{j.xyz}} </a> </p> </b> -->
+              {% else %}
+              <p style="color: red;">{{j.xyz}}</p>
+              {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-2"></div>
+  </div>
+  <br>
+  <br>
+  <!-- <div class="col-6">
+            <iframe id="iframetest"  style="width:718px; height:700px;" frameborder="0"></iframe>
+           </div> -->
+
+
+  <!-- Modal -->
+  <!-- <div class="modal left fade" id="pdf_view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header"> -->
+  <div class="modal right fade" id="pdf_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="myModalLabel"><label id="dodetails"></label></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="pdfclose"
+            onclick="funpdfclose()"><span aria-hidden="true">&times;</span></button>
+
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <textarea class="form-control mb-2 mr-sm-2" id="piframetest" style="width: 100%; height:100%" readonly></textarea>
+              <a style="float: right;" class="btn btn-primary" target="_blank" id="aiframetest"><i class="fas fa-arrow-right" ></i></a>
+              <br>
+              <iframe id="iframetest" style="width:100%; height:720px;" frameborder="0"></iframe>
+
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                <table id="dotbl" border="1" width="100%">
+                  <thead>
+                    <th style="width: 30%;">Action By</th>
+                    <th style="width: 10%;">Date</th>
+                    <th style="width: 50%;"> Reply Received</th>
+                    <th style="width: 10%;">Attachement</th>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+              </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <a style="float: right;" class="btn btn-primary" target="_blank" id="aiframetest1"><i
+                      class="fas fa-arrow-right" aria-hidden="true"></i></a>
+                  <br>
+                  <iframe id="iframetest1" style="width:100%; height:500px;" frameborder="0"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="reply_view" tabindex="-1" role="dialog" aria-labelledby="reply_view" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+      <div class="modal-content">
+        <div class="modal-header ">
+          <h5 class="modal-title" id="pdf_view">Reply</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <textarea id="remark" style="width:100%" readonly></textarea>
+          <!-- <iframe id="iframetest1"  style="width:718px; height:700px;" frameborder="0"></iframe> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" hidden id="btnpdfshow" data-toggle="modal" data-target="#pdf_view">
+    Right Sidebar Modal</button>
+</body>
+<script>
+
+  var pdfmodal = 0;
+  function funpdfclose() {
+    pdfmodal = 0;
+    $('#adjustdiv').show();
+    $('#adjustfilter').show();
+  }
+  $(document).ready(function () {
+    $('#view_table').DataTable();
+    $('#adjustdiv').show();
+    $('#adjustfilter').show();
+  });
+
+var table=$('#view_table').DataTable({
+
+    "language": {
+      "search": "Keyword search:"
+    },
+
+  });
+  table.$('tr').tooltip({
+    placement: '',
+    html: true
+  })
+  var table1;
+  function open_do(id) {
+    if (pdfmodal == 0) {
+      document.getElementById('btnpdfshow').click();
+      $('#adjustdiv').hide();
+      $('#adjustfilter').hide();
+    }
+    $('#piframetest').show();
+      $('#iframetest').show();
+      $('#aiframetest').show();
+    pdfmodal = 1;
+    data = {
+      'id': id
+
+    }
+    $.ajax
+      ({
+        url: "{% url 'view_ajax2' %}",
+        method: "GET",
+        dataType: "JSON",
+        async: false,
+        data: data,
+        success: function (response) {
+          if (table1 instanceof $.fn.dataTable.Api) {
+            table1.destroy();
+          }
+          console.log(response.letters[0].do_letter_no)
+          data = '<b>Letter No.</b>-' + response.letters[0].do_letter_no + '        <b>Date</b>- ' + response.letters[0].do_letter_date + '       <b>Issued by</b>- ' + response.letters[0].created_by_id;
+          document.getElementById('dodetails').innerHTML = data;
+          file = "/media/" + response.do_file;
+
+          if(response.do_text == null)
+          {
+            $('#piframetest').hide();
+            $('#iframetest').show();
+            $('#aiframetest').show();
+            $('#iframetest').attr('src', file);
+            $('#aiframetest').attr('href', file);
+          }
+          else 
+          {
+            file = "/do_pdf_create/" + response.id;
+            $('#piframetest').hide();
+            $('#iframetest').show();
+            $('#aiframetest').show();
+            $('#iframetest').attr('src', file);
+            $('#aiframetest').attr('href', file);
+            document.getElementById('piframetest').innerHTML=response.do_text;
+            
+          }
+
+          var row = '';
+          $('#dotbl tbody').empty();
+          $('#iframetest1').hide();
+          $('#aiframetest1').hide();
+          for (i = 0; i < (response.letters[0].marked_to).length; i++) {
+            if (response.letters[0].marked_to[i].abc == true) {
+              row += '<tr><td style="color: green;"><b>' + response.letters[0].marked_to[i].xyz + '</b></td>';
+              row += '<td>' + response.letters[0].marked_to[i].date + '</td>'
+              row += '<td>' + response.letters[0].marked_to[i].remarks + '</td>';
+              reply_file = "/media/" + response.letters[0].marked_to[i].reply_path;
+              if (reply_file != '/media/')
+                row += `<td style="text-align: center;"><button type="submit" name="submit" class="b1" value="${reply_file}" onclick="funopenreply(this.value)"><i class="fa fa-paperclip" style="font-size:20px;color:rgb(64, 112, 243)"></i></button></td></tr>`;
+              else
+                row += '<td>-</td></tr>'
+              //row+='<td><i class="fa fa-paperclip" aria-hidden="true"></i></td>'
+              // reply_file = "/media/" + response.letters[0].marked_to[i].reply_path;
+              // if (response.letters[0].marked_to[i].reply_path){
+              //   row+=`<td><div class="rectangle m-3" id="preiew_div">
+              //   <iframe  src="${reply_file}" style="width:100%; height:300px;" frameborder="0" ></iframe>
+              //   <br>
+              //   <a  style="float: right;" href="${reply_file}" class="btn btn-primary" target="_blank" >Open</a></div></td></tr>`
+              // }
+              // else 
+              //   row+='<td>-</td></tr>';
+            }
+            // else {
+            //   row += '<tr><td style="color: red;"><b>' + response.letters[0].marked_to[i].xyz + '</b></td>';
+            //   row += '<td>-</td><td>-</td><td>-</td></tr>';
+            // }
+
+          }
+          $('#dotbl tbody').append(row);
+          table1 = $('#dotbl').DataTable({
+            "lengthChange": false,
+            pageLength: 5,
+            "bFilter": false,
+            "bInfo": false, language: {
+              paginate: {
+                next: '<i class="fa fa-arrow-right"></i>', 
+                previous: '<i class="fa fa-arrow-left"></i>'
+              }
+            }
+          });
+
+
+        }
+      });
+  }
+  function funopenreply(val) {
+    if (val != '/media/') {
+      $('#iframetest1').attr('src', val);
+      $('#aiframetest1').attr('href', val);
+      $('#iframetest1').show();
+      $('#aiframetest1').show();
+    }
+  }
+  $(function () {
+
+    $('input[name="date_range"]').daterangepicker({
+      autoUpdateInput: false,
+      autoApply: true,
+      maxDate: new Date(),
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    });
+
+    $('input[name="date_range"]').on('apply.daterangepicker', function (ev, picker) {
+      $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+      $('.applyButtonClasses').click()
+
+
+    });
+
+    $('input[name="date_range"]').on('cancel.daterangepicker', function (ev, picker) {
+      $(this).val('');
+    });
+
+
+
+  });
+
+  function reply_view(id, ofc) {
+    data = {
+      'id': id,
+      'ofc': ofc
+    };
+    $.ajax
+      ({
+        url: "{% url 'reply_view'  %}",
+        method: "GET",
+        dataType: "JSON",
+        async: false,
+        data: data,
+        success: function (response) {
+          reply23 = response.reply;
+          $('#remark').val(reply23);
+        }
+      });
+  }
+
+  $('#action_by').select2({ placeholder: "Select Designation to Search" })
+
+  $(document).ready(function () {
+    $('#submit').click(function () {
+      var selected = $("#action_by :selected").map((_, e) => e.value).get();
+      document.getElementById('action_by_test').value = selected;
+      //alert(document.getElementById('action_by_test').value)
+
+
+    });
+  });
+
+</script>
+{% endblock %}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Budget Report</title>
+    
+
+
+
+        <style type="text/css">
+            @page{
+                size:landscape;
+                height: 50vh;
+                overflow: auto;
+                width:50vh ;
+                margin-top: 30px;
+                margin-left: 20px;
+                margin-bottom: 10px;
+                margin-right: 20px;
+            }
+          
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+                color: black;
+               /*  text-align: right; */
+                padding: 10px 20px 0px 20px;  
+            }
+            td {
+            word-wrap: break-word;
+             }
+
+             table.b {
+                empty-cells: hide;
+              }
+              
+              td.c { 
+                height: 30px;
+                text-align:center;
+                vertical-align: middle;
+                transition: all .5s;
+                max-width:120px;
+                min-height:500px;
+                text-overflow:ellipsis;
+                word-break:break-all;
+                padding-top: 2px;
+
+
+                white-space: -o-pre-wrap; 
+                word-wrap: break-word;
+                white-space: pre-wrap; 
+                white-space: -moz-pre-wrap; 
+                white-space: -pre-wrap; 
+                
+            }
+            td.b { 
+                height: 50px;
+                text-align:center;
+                vertical-align: bottom;
+                transition: all .5s;
+                max-width:120px;
+                min-height:500px;
+                text-overflow:ellipsis;
+                word-break:break-all;
+
+
+                white-space: -o-pre-wrap; 
+                word-wrap: break-word;
+                white-space: pre-wrap; 
+                white-space: -moz-pre-wrap; 
+                white-space: -pre-wrap; 
+                
+            }
+            table.b {
+                width:  100%;
+                border-collapse: collapse;
+            }
+            th.b { 
+                height: 50px;
+                text-align:center;
+                vertical-align: bottom;
+            } 
+             
+        </style>
+ 
+<style>
+    td{
+        padding: 3px;
+    }
+ 
+    #officer_id{
+        margin-left: 50px;
+    }
+
+    @page{
+        size: A4;
+        margin: 1cm;
+
+    /* @frame footer_frame {          
+        -pdf-frame-content: footer_content;
+        left: 270pt; top: 800pt; */
+        
+    }
+    /* } */
+   
+ 
+</style>
+</head>
+<body>
+    <b><h2 style="text-align: center; font-size: 18px; padding-top: 0px;">Budget Pronouncement Implementation</h2></b>
+
+    <div>
+        <table border="1">
+            <thead>
+                <tr >
+                    <th style="font-size: 14px; padding: 2px; width: 6%;">S.No.</th>
+                    <th style="font-size: 14px; padding: 2px; width: 15%;">Budget Para</th>
+                    <th style="font-size: 14px; padding: 2px; width: 18%;">Action Point</th>
+                    <th style="font-size: 14px; padding: 2px; width: 15%;">Concerned Officer</th>
+                    <th style="font-size: 14px; padding: 2px; width: 15%;">Action</th>
+                    <th style="font-size: 14px; padding: 2px; width: 30%;">Status</th>
+                </tr>
+            </thead>
+            <tbody id="addworkpara">
+            </tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.title}} [ {{i.financial_year}} / {{i.para_no}}]</td>
+                <td>{{i.specific_action}}</td>
+                <td>
+                {% for j in i.marked_officer %}
+                
+                    {% for k in j %}
+                    {{k}}
+                    {% endfor %}
+                {% endfor %}
+            </td>
+                <td>{{i.action}}</td>
+
+                <td>
+                    {% for j in i.sub_specific_action %}
+                
+                    {% for k in j %}
+                    {{k}}                    
+                    {% endfor %}
+                    {% endfor %}
+                    
+                    
+                </td>
+
+            </tr>
+            {% empty %}
+            <td colspan="6" style="text-align: center;"> No Data Found</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    <br><br>
+                    <h3 align="right" style="font-size: 15px;" ><b>
+                        {% if empname.station_des %}
+                        {{empname.station_des}} Dated: {{today_date|date:'d/m/Y'}}
+                        {% else %}
+                            Dated: {{today_date|date:'d/m/Y'}}
+                        {% endif %}
+                    </b></h3>
+                 </td>
+           
+        </tr>
+    </table>        
+
+    </div>
+</body>
+</html>

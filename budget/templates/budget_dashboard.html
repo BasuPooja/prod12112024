@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load static %}
+<head>
+	{% include 'inspects_staticProvider.html' %}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.12.1/features/scrollResize/dataTables.scrollResize.min.js"></script>
+    <title>Budget Pronouncements</title>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <style>   
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button {
+
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+
+            bottom: 0;
+
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            border: 0px;
+            background-color: rgb(255, 255, 255, 0) !important;
+            color: #007bff !important;
+
+        }
+
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            background-color: rgba(232, 77, 77, 0) !important;
+
+
+        }
+
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+
+            padding-bottom: 0px;
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            color: #333 !important;
+            border: 1px solid rgba(0, 0, 0, 0);
+            background-color: rgba(232, 77, 77, 0);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(255, 255, 255, 0)), color-stop(100%, rgba(0, 0, 0, 0)));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, rgba(230, 230, 230, 0) 0%, rgba(0, 0, 0, 0) 100%);
+            /* W3C */
+        }
+
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+
+            /* color: #007bff !important; */
+            border: 1px solid rgba(17, 17, 17, 0);
+            background-color: #58585800;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58585800), color-stop(100%rgba(17, 17, 17, 0)11));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, #58585800 0%, rgba(17, 17, 17, 0) 100%);
+            /* W3C */
+        }
+
+        .tabledash .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+            border: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+
+            margin-left: 0.25rem;
+            margin-right: 0.5rem;
+            outline: none;
+            background-color: #2b2b2b00;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b2b2b00), color-stop(100%, #0c0c0c00));
+            /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* Chrome10+,Safari5.1+ */
+            background: -moz-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* FF3.6+ */
+            background: -ms-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* IE10+ */
+            background: -o-linear-gradient(top, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* Opera 11.10+ */
+            background: linear-gradient(to bottom, #2b2b2b00 0%, #0c0c0c00 100%);
+            /* W3C */
+            box-shadow: inset 0 0 3px rgba(17, 17, 17, 0);
+        }
+
+        .tabledash .dataTables_wrapper .dataTables_info {
+            clear: both;
+            float: left;
+            /* padding-top: 0.25em; */
+        }
+
+        .tabledash .dataTables_wrapper .dataTables_paginate {
+            float: right;
+            text-align: right;
+            /* padding-top: 0.25em; */
+        }
+        .dataTables_filter .fa-search {
+            position: absolute;
+            top: 10px;
+            left: auto;
+            right: 10px;
+        }
+        .dataTables_filter {
+            position: relative;
+        }
+        .dataTables_filter input {
+            width: 250px;
+            height: 32px;
+            background: #fcfcfc;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+            text-indent: 10px;
+        }
+        .icon-extntitle
+		{
+			text-align:center;
+			font-weight:600;
+			font-size:20px;
+		}
+        .icon-extntitle1
+		{
+			text-align:center;
+			font-weight:600;
+			font-size:30px;
+		}
+        .option-card-extn {
+            box-shadow: 0 5px 18px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            background:#fff;
+            padding:0.4rem;
+            text-align:center;
+            border-bottom:2px solid #3333ff;
+            margin-bottom:10px;
+            margin-top:10px;
+            }
+            .option-card-extn:hover {
+                box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+            }
+            #createTable tr:hover { background-color: #ddddff; }
+    </style>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">
+</head>
+<body>
+    <h3 class="report_heading">BUDGET PRONOUNCEMENTS</h3>
+
+    <div class="container-fluid">
+        <div class="row" style="margin-top:2%;">
+            <div class="card col-md-8" style="margin-left:2%;">
+                <div class="shadow" id="myChart"></div>    
+            </div>
+            <div class="col-md-3" style="margin-left:2%;">
+                <a href="/budget_implementation?action_point=Dropped" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:21.8%;background: radial-gradient(circle at 12.3% 19.3%, rgb(97, 100, 246) 0%, rgb(95, 209, 249) 100.2%);">
+                        <span class="icon-extntitle">Dropped</span><br>
+                        <span class="icon-extntitle1">{{dropped}}</span>
+                    </div> 
+                </a>   
+                <a href="/budget_implementation?action_point=Action Initiated" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:21.8%;background: linear-gradient(110.1deg, rgb(41, 222, 41) 2.9%, rgb(158, 241, 50) 90.3%);">
+                        <span class="icon-extntitle">Action Initiated</span><br>
+                        <span class="icon-extntitle1">{{actioninitiated}}</span>
+                    </div>  
+                </a>
+                <a href="/budget_implementation?action_point=Action Not Initiated" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:21.8%;background: linear-gradient(to right, #c471f5 0%, #fa71cd 100%);">
+                        <span class="icon-extntitle">Action Not Initiated</span><br>
+                        <span class="icon-extntitle1">{{actionnot}}</span>
+                    </div>  
+                </a>
+                <a href="/budget_implementation?action_point=Implemented" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:21.8%;background: linear-gradient(to right, #FF6B95 0%, #FFC796 100%);">
+                        <span class="icon-extntitle">Implemented</span><br>
+                        <span class="icon-extntitle1">{{imp}}</span>
+                    </div> 
+                </a> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8" style="margin-left:2%;margin-top:2%;">
+                <table id="createTable" class="table table-data center">
+                    <thead>
+                        <tr style="margin-left: 5em;">
+                            <th>
+                                S.No.
+                            </th>
+                            <th>Budget
+                                Para</th>
+                                <th>Action Point</th>
+                                <th>Concerned
+                                Officer</th>
+                                <th>Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="addworkpara">
+                        {% for i in data %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{i.title}} [{{i.financial_year}}/{{i.para_no}}]</td>
+                            <td>{{i.specific_action}}</td>
+                            <td>
+                                {% for j in i.marked_officer %}
+                                {% for k in j %}
+                                {{k}}
+                                {% endfor %}
+                                {% endfor %}
+                            </td>
+                            <td>{{i.action}}</td>
+                        </tr>
+                        {% empty %}
+                        <td colspan="6" style="text-align: center;"> No Data Found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3" style="margin-left:2%;">
+                <a href="/budget_implementation?action_point=Needs Monitoring" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:27%;background: linear-gradient(to right, rgb(241, 80, 52), rgb(240, 118, 96));">
+                        <span class="icon-extntitle">Needs Monitoring</span><br>
+                        <span class="icon-extntitle1">{{needsmon}}</span>
+                    </div> 
+                </a>
+                <a href="/budget_implementation?action_point=Substantially Implemented" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:27%;background: linear-gradient(to right, rgb(252, 74, 26), rgb(247, 183, 51) 80%);">
+                        <span class="icon-extntitle">Substantially Implemented</span><br>
+                        <span class="icon-extntitle1">{{subimp}}</span>
+                    </div>  
+                </a>
+                <a href="/budget_implementation?action_point=Under Reconsideration" style="text-decoration:none;color:black;" target="budget">
+                    <div class="option-card-extn" style="height:27%;background: radial-gradient(circle at 10% 20%, orange, rgb(247, 193, 65) 80%);">
+                        <span class="icon-extntitle">Under Reconsideration</span><br>
+                        <span class="icon-extntitle1">{{underrec}}</span>
+                    </div>  
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="xAxis" name="variable" value="{{xAxis}}"/>
+    <input type="hidden" id="Bar" name="variable" value="{{Bar}}"/>
+</body>
+
+<script>
+    $(document).ready(function(){
+        $.extend(true, $.fn.dataTable.defaults, {
+            language: {
+                search: ""
+            }
+        });
+        $('#createTable').DataTable({
+            scrollY: '20vh',
+            scrollCollapse: true,
+            paging: false,
+        });
+        $('#createTable_length').hide();
+        $('[type=search]').each(function () {
+            $(this).attr("placeholder", "Search");
+            $(this).before('<span class="fa fa-search"></span>');
+            $(this).css({'width':'200px','float':'right'});
+        });
+        var xAxis = document.getElementById("xAxis").value;
+        xAxis=xAxis.replaceAll('[','');
+        xAxis=xAxis.replaceAll(']','');
+        xAxis=xAxis.replaceAll("'","");
+        var bar = document.getElementById("Bar").value;
+        var bar =bar.split(',');
+        var xValues = xAxis.split(','); 
+        var trace1 = {
+            x: xValues,
+            y: bar,
+            fill: 'tozeroy',
+            type:'scatter',
+            textposition: 'auto',
+            opacity: 0.5,
+            marker:{
+                color: '#0d4a75',
+                size: 15,
+                symbol: "circle-open-dot",
+                line: {
+                    color: 'linear-gradient(to left, #3333ff 2%, #6600cc 100%)',
+                    width: 3
+                },
+            },
+            line: {
+                color: 'linear-gradient(to left, #3333ff 2%, #6600cc 100%)',
+                width: 3
+            },
+            fillcolor: '#c6c6ff',
+            hovertemplate: '<b>Budget (in lakhs)</b>: %{y}' +
+                            '<extra></extra>', 
+        };
+        var data = [trace1]; 
+        var barLayout = {
+            autoscale:false,
+            hovermode: "x unified",
+            hoverlabel: { 
+                bgcolor:'#FFF', //rgba(255,255,255,0.75)
+            },
+            xaxis: {
+                type: 'category',
+                title: 'Year',
+                showgrid: false,
+                tickfont: {
+                size: 10,
+                },
+            margin: {
+                l: 0,
+                r: 0,
+                b: 0,
+                t: 0,
+                pad:0
+            },
+            zeroline: false,
+            tickmode: "array", // If "array", the placement of the ticks is set via `tickvals` and the tick text is `ticktext`.
+            tickvals: xValues,
+            ticktext: xValues,
+            },
+            yaxis: {
+                title: 'Budget (in lakhs)',
+                showline: false
+            },
+        }
+        Plotly.newPlot('myChart', data,barLayout);
+    });
+</script>
+{% endblock %}

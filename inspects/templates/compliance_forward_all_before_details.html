@@ -1,0 +1,1800 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/forms_common.css' %}">  
+    <script type="text/javascript">
+        $(".sidebar").addClass('close');
+      </script>
+</head>
+
+<body>
+    <h3 class="report_heading">Inspections Forwarded by Me</h3> 
+    <br>
+    <div id="maindiv">
+    <div class="container" style="overflow-x: auto;">
+        <div class="inpt-container" id="container1" style="padding-bottom: 10px;" >
+            <div class="row" style="text-align: left; margin-left: 2em;" >
+                <div class="col">
+                    <label for="Zone" class="lbl-caption">Rly./Org. Wise</label>
+                    <select class="form-control" name="rly_id" id="rly_id" class="custom-select" data-placeholder="Select zone.." style="max-width:100%;height:2em;">
+                        <option value="" selected>All</option>
+                        {% for z in zone %}
+                        <option value="{{z}}">{{z}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="division" class="lbl-caption">Div./Unit Wise</label>
+                    <select class="form-control" name="div_id" id="div_id" class="custom-select" data-placeholder="Select division.." style="max-width:100%;;height:2em">
+                        <option value="" selected>All</option>
+                        {% for d in division %}
+                        <option value="{{d.location_code}}">{{d.location_code}}-{{d.location_type}}</option>
+                        {% endfor %}
+                    </select>  
+                </div>
+                <div class="col">
+                    <label for="Ofc" class="lbl-caption">Insp. Officer</label>
+                    <select class="form-control" name="ofc_id" id="ofc_id" class="custom-select" data-placeholder="Select officer.." style="max-width:100%;height:2em;">
+                        <option value="" selected>All</option>
+                        {% for z in officr %}
+                        <option value="{{z}}">{{z}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label style="width:10em" class="lbl-caption">Date Range</label>
+                    <label id="reportrange" style="width:15em;background: #fff; cursor: pointer;border: 1px solid #ccc;height:2em">
+                    <i class="fa fa-calendar" style="margin-left:10px"></i>
+                    <span id="dateid"></span> 
+                    <i class="fa fa-caret-down"></i>
+                    </label>
+                </div>
+                <div class="col">
+                    <div class="btn-toolbar" role="toolbar" style="margin-top:30px;">
+                        <div class="btn-group mr-2" role="group" >
+                            <button type="button" id="submit_filter" class="btn btn-warning btn-sm" onclick="compliance_filterdata(this);">Continue</button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="compliance_alterdata();">Reset</button>
+                            <a type="button" class="btn btn-danger btn-sm"  target="_blank" href="{% url 'compliance_forward_all_pdf' %}" hidden> PDF</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <table id="tableshow" class="table table-striped table-bordered table-data" cellspacing="0">
+                <thead style="background-color:black; color:white">
+                    <tr style="text-align:left">
+                        <th>S.No.</th>
+                        <th style="display: none;"></th>
+                        <th>Insp. Date</th>
+                        <th>Insp. Note No</th>
+                        <th>Insp. Title</th>
+                        <th>Insp. Officer</th>
+                        <th>Rly./Org.</th>
+                        <th>Div. /Unit</th>
+                        <th>View</th>
+                        <th>Status</th>
+                        <th>REC'D REPLY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                {% for i in phase2 %}
+                    <tr style="text-align:left">
+                        <td style="width:5%">{{i.sr_no}}</td>
+                        <td style="display: none;">{{i.eitemid__einspno__inspected_on| date:'Y-m-d' }}</td>
+                        <td style="width:10%">{{i.eitemid__einspno__inspected_on | date:'d/m/y'}}</td>
+                        <td style="width:10%">{{i.eitemid__einspno__inspection_note_no}}</td>
+                        <td style="width:45%;"><a class="js-btn-tooltip"  data-toggle="tooltip" data-placement="top" title='{{i.eitemid__einspno__inspection_title}}'>{{i.eitemid__einspno__inspection_title|truncatechars:100}}</a></td>
+                        <td style="width:10%">{{i.eitemid__einspno__designation__designation}}</td>
+                        <td>
+                            {% for j in i.einsprly %}
+                                  <span >{{j.location_code}}<br></span>
+                                {% endfor %}
+                                </td>
+                          <td> {% for j in i.einspdiv %}
+                            <span >{{j.location_code}}<br></span>
+                          {% endfor %}
+                          </td>
+                        <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " href="{% url 'pdfDetails' %}?id={{i.eitemid__einspno}}"  id=/{{i.eitemid__einspno}} target="_blank"><i class="far fa-file-alt"></i></a>
+                        </td>
+                        <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " onclick="showdetails('{{i.eitemid__einspno}}','2')"   id=/{{i.eitemid__einspno}} target="blank" ><i class="far fa-edit"></i></a>
+                        </td>
+                        <td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="{% url 'inspectionReportReply_pdf' i.eitemid__einspno %}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>
+                    </tr>
+                {% endfor %} 
+                {% for i in listgrid %}
+                    <tr style="text-align:left">
+                        <td width="5%">{{forloop.counter}}</td>
+                        <td style="display: none;">{{i.inspected_on_date| date:'Y-m-d' }}</td>
+                        <td width="10%">{{i.inspected_on}}</td>
+                        <td width="10%">{{i.inspection_note_no}}</td>
+                        <td width="45%"><a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='{{i.inspection_title}}'>{{i.inspection_title|truncatechars:100}}</a></td>
+                        <td width="10%">{{i.inspection_officer}}</td>
+                        <td style="width:5%">{% for z in i.zone %}<p>{{z}}</p>{% endfor %}</td>
+                        <td style="width:5%">{% for z in i.div %}<p>{{z}}</p>{% endfor %}</td>
+                        <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " href="{% url 'inspectionReportHtml' i.inspection_no %}"  id=/{{i.inspection_no}} target="blank" onclick="viewdate(this)"><i class="far fa-file-alt"></i></a>
+                        </td>
+                        <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " onclick="showdetails('{{i.inspection_no}}','1')"  id=/{{i.inspection_no}} target="blank" onclick="viewdate(this)"><i class="far fa-edit"></i></a>
+                        </td>
+                        <td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="{% url 'inspectionReportReply_pdf' i.inspection_no %}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>
+                    </tr>
+                {% endfor %} 
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>
+<div id="secondarydiv">
+    <div class="container">
+        <div>
+            <button onclick="reloadFunction()" class="btn btn-secondary"
+                style="width:160px;margin-left: 15px;">Back To Forwarded</button>
+        </div>
+        <br>
+
+        <div class="inpt-container p-2">
+
+            <div class="acc-head" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                aria-controls="collapseOne">
+                <div class="row">
+                    <div class="col-11">
+                        <h5>Inspection Note Details</h5>
+                    </div>
+                    <div class="col-1" style="text-align: right;">
+                        <button class="btn btn-sm btn-outline-dark ">
+                            <i class="fas fa-angle-double-up fa-lg"></i>&nbsp;&nbsp;
+                            <i class="fas fa-angle-double-down fa-lg"></i>
+                        </button>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label class="lbl-caption">Inspection Note No</label>
+                            <input type="text" value="" id="ins_note_id" readonly
+                                class="form-control lbl-caption" readonly />
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspecting Officer Designation</label>
+                            <input type="text" value="" id="ins_desig" readonly class="form-control lbl-caption"
+                                readonly />
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspecting Officer Name</label>
+                            <input type="text" value="" id="ins_officer" class="form-control lbl-caption"
+                                readonly />
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="col">
+                            <label class="lbl-caption">Inspection Date</label>
+                            <input type="text" value="" id="ins_date" class="form-control lbl-caption"
+                                readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="lbl-caption">Inspection Title</label>
+                                <textarea type="text" class="form-control lbl-caption word-wrap h-100"
+                                    style="max-width: 100%; " id="ins_title" readonly></textarea>
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <input type="text" value="" id="ins_id" readonly class="form-control lbl-caption"
+                            hidden />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div  id="divlist">
+        <table id="mytable225" class="table table-striped table-bordered table-data ">
+            <thead>
+                <tr align="left">
+                    <th width="5%">Item No.</th>
+                    <th width="45%">Insp. Para</th>
+                    <th width="10%">Forward On</th>
+                    <th width="20%">Marked Officer</th>
+                    <th width="10%">Status</th>
+                    <th width="10%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        </div>
+        <div id="divdetails">
+            <div>
+                <button onclick="gotoglobal()" class="btn btn-secondary"
+                    style="width:160px;margin-left: 15px;float: right;">Back</button>
+            </div>
+            <br>
+            <br>
+            <div class="inpt-container p-2" id="container1" style="margin-bottom:5%;" >
+                <label  class=" lbl-caption" >Rly./Org. Wise</label>
+                <select class="form-control  lbl-caption" name="rly_id" id="rly_id1"  data-placeholder="Select zone.."  style=" width:15%;height:3em" >
+                    <option value="" selected disabled>All</option>
+                    {% for z in zone %}
+                    <option value="{{z}}" {% if rly_code == z %} selected {%endif%}>{{z}}</option>
+                    {% endfor %}
+                </select> &nbsp;
+               
+                <label for="division" class="lbl-caption"  >Div./Unit Wise</label>
+                <select class="form-control custom-select lbl-caption" name="div_id" id="div_id1" class="custom-select" data-placeholder="Select division.."  style="width:10%;height:3em" > 
+                    <option value="all" >Select Division..</option>
+                    {% for d in division %}
+                    <option value="{{d.location_code}}" {% if div_code == d %} selected {%endif%}>{{d.location_code}}-{{d.location_type}}</option>
+                    {% endfor %}
+                </select>   &nbsp;
+  
+                <label class ="lbl-caption" >Forward To</label>
+                
+                <select id="desig_for" name="desig_for" class="form-control custom-select lbl-caption" style="width:20%;height:2em" class="custom-select"  data-placeholder="Select Designation.." multiple>
+                    <option value=""  disabled>Select</option>
+                    
+                    {% for z in designation %}
+                    <option value="{{z.designation}}">{{z.designation}}</option>
+                    {% endfor %}
+                </select> &nbsp;
+                <label class ="lbl-caption" > Forward To Panel</label>
+                <button type="button" class="btn btn-outline-secondary btn-sm " data-toggle="modal" data-target="#PanelModal" onclick="showPanel()"><i class="fa fa-address-book" aria-hidden="true"></i></button>
+                &nbsp;&nbsp;
+                <label class ="lbl-caption" >Item No</label>
+                <input type="textarea" style="width:5%;text-align: center;background-color:aliceblue;height: 2.2em; width: 15%;" id="item" value="" disabled></input>
+                <input class =" form-control lbl-caption" id="inspection_no" value="{{inspection_no}}" hidden></input>
+                <input type="textarea" class ="lbl-caption" id="item_no" value="{{item_no}}" hidden></input>
+                &nbsp;&nbsp;&nbsp;
+                <button type="button" id="submit_filter" style="width:5%;border: 1px solid #ccc; margin-left: 0%;" class="btn btn-success btn-sm float-right" onclick="compliance_forward111(this);" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button>  
+            </div>
+            <table id="mytable2" class="table table-striped table-bordered table-data">
+                <thead>
+                    <tr>
+                        <th>Sr. No.</th>
+                        <th>Forwarded On</th>
+                        <th>Forward Offiecr</th>
+                        <th>Reply Received</th>
+                        <th>Recieved On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>                        
+                <tbody>
+                </tbody>
+            </table>
+            <br>
+            <div for="edit" style="text-align:left;">Edit Section</div>
+            <div class="row">
+              <div class="col-11">
+                  <textarea class="form-control lbl-caption word-wrap h-100" row="5"  id="textAreaExample1" style="background-color: aliceblue;" disabled></textarea>
+              </div>
+              <div class="col-1">
+                  <button style="margin:2%" type="button" class="btn btn-warning savebtn"  id="save_item_no" style="height:7%;" onclick="save_reply()" disabled>Save</button>
+              </div>
+          </div>
+
+        </div>
+
+        <div id="forwarddivphase2">
+            <div class="modal-body">
+                <div>
+                    <button onclick="gotoglobal()" class="btn btn-secondary"
+                        style="width:160px;margin-left: 15px;float: right;">Back</button>
+                </div>
+                <br>
+                <br>
+                <div class="inpt-container p-2">
+                    <div class="row">
+                        <div class="col">
+                            <label class=" lbl-caption">Rly./Org. Wise</label>
+                            <select class="form-control  lbl-caption" name="rly_id22" id="rly_id122" style="width:100%;"
+                                data-placeholder="Select zone..">
+                                <option value="" selected disabled>All</option>
+                                {% for z in zone %}
+                                <!-- <option value="{{z}}">{{z}}AA</option> -->
+                                <option value="{{z}}" {% if rly_code == z %} selected {%endif%}>{{z}}</option>
+                                {% endfor %}
+                            </select> &nbsp;
+                        </div>
+
+                        <div class="col">
+                            <label for="division" class="lbl-caption">Div./Unit Wise</label>
+                            <select class="form-control custom-select lbl-caption" name="div_id22" style="width:100%;"
+                                id="div_id122" class="custom-select" data-placeholder="Select division..">
+                                <option value="all">Select Division..</option>
+                                {% for d in division %}
+                                <option value="{{d.location_code}}" {% if div_code == d.location_code %}
+                                    selected {%endif%}>{{d.location_code}}-{{d.location_type}}</option>
+                                {% endfor %}
+                            </select> &nbsp;
+                        </div>
+
+                        <div class="col">
+                            <label class="lbl-caption">Forward To</label>
+<br>
+                            <select id="desig_for22" style="width:100%;" name="desig_for22"
+                                class="form-control custom-select lbl-caption" class="custom-select"
+                                data-placeholder="Select Designation.." multiple>
+                                <option value="" disabled>Select</option>
+                                <!-- <option value="" selected disabled>All</option> -->
+                                {% for z in designation %}
+                                <option value="{{z.designation}}">{{z.designation}}</option>
+                                {% endfor %}
+                            </select> &nbsp;
+                        </div>
+                        <div class="col">
+                            <label class="lbl-caption"> Forward To Panel</label>
+                            <br>
+                            <!-- <input type="checkbox" name="panel" id ="panel" value="panel" onclick="showPanel22()" data-toggle="modal" data-target="#PanelModal"> -->
+                            <button type="button" class="btn btn-outline-secondary btn-sm "
+                                data-toggle="modal" data-target="#PanelModal22" onclick="showPanel22()"><i
+                                    class="fa fa-address-book" aria-hidden="true"></i></button>
+
+                            &nbsp;&nbsp;
+                        </div>
+                        <div class="col">
+
+                            <label class="lbl-caption">Item No</label>
+                            <br>
+                            <input type="textarea"
+                                style="text-align: center;background-color:aliceblue;width:100%" id="item22"
+                                value="" disabled></input>
+                            <input class=" form-control lbl-caption" id="inspection_no22"
+                                value="{{inspection_no}}" hidden></input>
+                        </div>
+                        <div class="col">
+                            <button type="button" id="submit_filter"
+                                style="border: 1px solid #ccc;margin-left: 2%;margin-top: 20px;"
+                                class="btn btn-success btn-sm float-right"
+                                onclick="compliance_forward22(this);" {% if request.session.userrole == 'guest' %} hidden {% endif %}>Submit</button>
+                        </div>
+                        <input type="textarea" class="lbl-caption" id="marked_no22" value="{{marked_no}}"
+                            hidden></input>
+                        <input type="textarea" class="lbl-caption" id="furtherFwd22" value="{{furtherFwd}}"
+                            hidden></input>
+                        &nbsp;&nbsp;&nbsp;
+                    </div>
+
+                </div>
+            </div>
+            <table id="mytable22" class="table table-striped table-bordered table-data ">
+                <thead>
+                    <tr align="left">
+                        <th>Sr.No.</th>
+                        <th>Insp. Para</th>
+                        <th>Forward On</th>
+                        <th>Forward Officer</th>
+                        <th>Received Reply</th>
+                        <th>Rejected Remark</th>
+                        <th>Rejected On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <br><br>
+            <div for="edit" style="text-align:left;">Edit Section</div>
+            <div class="row">
+                <div class="col-11">
+                    <textarea class="form-control lbl-caption word-wrap" rows="2" id="textAreaExample12"
+                        onkeyup="expandarea22(this)" style="background-color: aliceblue;"
+                        disabled></textarea>
+                </div>
+                <div class="col-1">
+                    <button style="margin:2%" type="button" class="btn btn-warning savebtn"
+                        data-dismiss="modal" id="save_btn_frwd2" style="height:7%;"
+                        onclick="save_replied22()" disabled>Save</button>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+
+</div>
+
+
+ 
+
+  
+      <!-- Modal for panel compliance-->
+      <div class="modal fade" id="PanelModal" tabindex="-1" role="dialog" aria-labelledby="PanelModallabel" aria-hidden="true" >
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="report_heading" id="PanelModalLabel">Select Designations</h3>
+                    <button type="button"  class="close"  data-dismiss="modal" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+  
+                <div class="modal-body" style="overflow-y:scroll; height: 300px;">
+                    <table id="mytablepanel" class="table table-striped table-bordered table-data ">
+                        <thead>
+                            <tr>
+                                <th>Mark</th>
+                                <th>Designation</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>                        
+                        <tbody>
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-toolbar" role="toolbar" >
+                        <div class="btn-group mr-2" role="group" >
+                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-dismiss="modal" onclick="save_panel(this)" >Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- Modal for panel22 compliance-->
+        <div class="modal fade" id="PanelModal22" tabindex="-1" role="dialog" aria-labelledby="PanelModallabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="report_heading" id="PanelModalLabel">Select Designations</h3>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" style="overflow-y:scroll; height: 300px;">
+                    <table id="mytablepanel" class="table table-striped table-bordered table-data ">
+                        <thead>
+                            <tr>
+                                <th>Mark <input class="pan_checks_all" type="checkbox" id="panel_checks_all222"
+                                        value="all" onclick="pan_checks_all_fun22()"></th>
+                                <th>Designation</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-toolbar" role="toolbar">
+                        <div class="btn-group mr-2" role="group">
+                            <button type="button" class="btn btn-outline-danger btn-sm mb-1" data-dismiss="modal"
+                                onclick="save_panel22(this)">Save</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+
+</body>
+<script>
+     function reloadFunction()
+    {
+        $('#secondarydiv').hide();
+        $('#maindiv').show();
+               
+    }
+      $( document ).ready(function(){
+        $('#secondarydiv').hide();
+        $('#maindiv').show();
+     
+        $('#tableshow').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    },
+                    "aaSorting": [[ 1, "desc" ]] ,
+                    "aoColumns": [
+            null,
+            null,
+            { "sType": "date-uk" },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+                "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html(iDisplayIndex +1);
+				return nRow;
+				}
+                });
+            
+    $('#container1').show();
+        $('#tableshow').show();
+        var start = moment().subtract(30, 'days');
+        var end = moment();
+        function cb(start, end) 
+        {
+            // $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('D/M/YY') + ' to ' + end.format('D/M/YY'));
+        }
+        $('#reportrange').daterangepicker
+        ({
+            startDate: start,
+            endDate: end,
+            maxDate: new Date(),
+            // ranges: 
+            // {
+            //     'Today': [moment(), moment()],
+            //     'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            //     'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            //     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            //     'This Month': [moment().startOf('month'), moment().endOf('month')],
+            //     'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            // }
+        },cb);
+        // cb(start, end);
+})
+    
+</script>
+
+<script>
+    function compliance_filterdata(e)
+    {
+        var table = $('#tableshow').DataTable(    
+        );
+        table.destroy();
+        $('#tableshow').hide();
+        var str=e.id;
+        var data={}
+        if(str=='submit_filter')
+        {
+            var div_id=$('#div_id').val();
+            var rly_id=$('#rly_id').val();
+            var ofc_id=$('#ofc_id').val();
+            
+            var date_id=document.getElementById('dateid').innerHTML
+            if (date_id==''){
+                var start = moment().subtract(50, 'years');
+                var end = moment();
+            }
+            else{
+                var start=$('#reportrange').data('daterangepicker').startDate;
+                var end=$('#reportrange').data('daterangepicker').endDate;
+            }
+            
+            var startDate = new Date(start);
+            startDate= startDate.getFullYear()+ '-' + (startDate.getMonth()+1) + '-' + startDate.getDate()
+            var endDate = new Date(end);
+            endDate=endDate.getFullYear() + '-' +(endDate.getMonth()+1) + '-' + endDate.getDate()
+            data=
+            {
+                'div_id':div_id,
+                'rly_id':rly_id,
+                'ofc_id':ofc_id,
+                'startDate':startDate,
+                'endDate': endDate,
+                // 'dept_id':dept_id,
+                'str':'forwarded_all'
+            }
+            console.log(data)
+        }
+        $.ajax
+        ({
+            url: "{% url 'compliance_filterdata1' %}",
+            method: "GET",
+            dataType: "JSON",
+            async: false,
+            data: data,
+            success: function (response) 
+            {
+                let filterdata = response.inspect_details;
+        
+                let row = "";
+                let head = 
+                    `<thead style="background-color:black; color:white">
+                        <tr align=left>
+                            <th>S.No.</th>
+                            <th>Insp. Date</th>
+                            <th>Insp. Note No</th>
+                            <th>Insp. Title</th>
+                            <th>Insp. Officer</th>
+                            <th>Rly./Org.</th>
+                            <th>Div. /Unit</th>
+                            <th>View</th>
+                            <th>Status</th>
+                            <th>REC'D REPLY</th>
+                        </tr>
+                    </thead>`;
+                // <td>${filterdata[i]['viewed_on']}</td>
+                for (let i = 0; i < filterdata.length; i++) 
+                {
+                    var zns=filterdata[i]['zone'];
+                    var divs=filterdata[i]['div'];
+                    var railway_zone='';
+                    for (let z = 0; z < zns.length; z++) {
+                        railway_zone+=`<p>`+zns[z]+`</p>`;
+                    }
+                    var divisions='';
+                    for (let z = 0; z < divs.length; z++) {
+                        divisions+=`<p>`+divs[z]+`</p>`;
+                    }
+
+                    row += "<tr align=left>";
+                    row += `<td width=5%>${filterdata[i]['sr_no']}</td>
+                    <td style="display:none;">${filterdata[i]['inspected_on']}</td>
+                    <td width=10%>${filterdata[i]['inspected_on']}</td>
+                    <td width=10%>${filterdata[i]['inspection_note_no']}</td>
+                    <td width=45%><a class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='${filterdata[i]['inspection_title']}'>${filterdata[i]['inspection_title'].slice(0, 100)}..</a></td>
+                    <td width=15%>${filterdata[i]['inspection_officer']}</td>
+                    <td style="width:5%">`+railway_zone+`</td>
+                    <td style="width:5%">`+divisions+`</td>`
+                    row+=`<td style="width:5%">
+                        <a type="button"  class="btn btn-outline-primary btn-sm" href="/inspectionReportHtml/${filterdata[i]['inspection_no']}" id=/{{i.inspection_no}} target="blank" onclick="viewdate(this)"><i class="far fa-file-alt"></i></a>
+                        </td>
+                        <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " onclick="showdetails('${filterdata[i]['inspection_no']}','1')"   id=/{{i.inspection_no}} target="blank" onclick="viewdate(this)"><i class="far fa-edit"></i></a>
+                        </td>`
+                        row += `<td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="/'inspectionReportReply_pdf/${filterdata[i]['inspection_no']}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>`
+
+                    row += "</tr>";                    
+                }
+                let phase2_data = response.phase2;
+                for (let i = 0; i < phase2_data.length; i++) 
+                {
+                    row += "<tr align=left>";
+                    row += `<td width=5%>${i+1}</td>
+                    <td style="display:none;">${phase2_data[i]['eitemid__einspno__inspected_on']}</td>
+                    <td width=10%>${phase2_data[i]['eitemid__einspno__inspected_on']}</td>
+                    <td width=10% >${phase2_data[i]['eitemid__einspno__inspection_note_no']}</td>
+                    <td width=45%>${phase2_data[i]['eitemid__einspno__inspection_title'].slice(0, 100)}..</td>
+                    <td width=15%>${phase2_data[i]['eitemid__einspno__designation__designation']}</td>
+                    `
+                    row += `<td>`;
+                    for(j in phase2_data[i]['einsprly'])
+                    {
+                    row += phase2_data[i]['einsprly'][j]['location_code']+'<br>';
+                    }
+                    
+                    row += `</td><td width=7%>`;
+                    for(j in phase2_data[i]['einspdiv'])
+                    {
+                    row += phase2_data[i]['einspdiv'][j]['location_code']+'<br>';
+                    }
+                    row += `</td>`;
+
+
+                    row+=`
+                    <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " href="/pdfDetails/?id=${phase2_data[i]['eitemid__einspno']}"  id=/${phase2_data[i]['eitemid__einspno']} target="_blank"><i class="far fa-file-alt"></i></a>
+                        </td>
+                        <td style="width:5%">
+                            <a type="button"  class="btn btn-outline-primary btn-sm " onclick="showdetails('${phase2_data[i]['eitemid__einspno']}','2')"   id=/${phase2_data[i]['eitemid__einspno']} target="blank" ><i class="far fa-edit"></i></a>
+                        </td>
+                        `
+                        row += ` <td><a type="button" class="btn btn-outline-danger btn-sm"  target="_blank" href="/inspectionReportReply_pdf/${phase2_data[i]['eitemid__einspno']}" style="text-align: center;"><i class="far fa-file-alt"></i></a></td>`
+
+                    row += "</tr>";                    
+                }
+                // $('#tableshow thead').remove();
+                $('#tableshow tbody').empty();
+                // $('#tableshow').append(head);
+                $('#tableshow tbody').append(row);
+                $('#tableshow').show();
+                
+                $('#tableshow').DataTable({
+                    "language":{
+                        "search": "Keyword search:"
+                    },
+                    "aaSorting": [[ 1, "desc" ]] ,
+                    "aoColumns": [
+            null,
+            null,
+            { "sType": "date-uk" },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        ],
+                "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html(iDisplayIndex +1);
+				return nRow;
+				}
+                });
+            
+            }
+        })
+    }
+
+
+    function compliance_alterdata()
+    {
+        window.location.reload()
+    }
+
+</script>
+<script>
+      jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+"date-uk-pre": function ( a ) {
+    var ukDatea = a.split('/');
+    return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+},
+
+"date-uk-asc": function ( a, b ) {
+    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+},
+
+"date-uk-desc": function ( a, b ) {
+    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+}
+} );
+</script>
+<script>
+    function gotoglobal()
+    {
+        showdetails(globalid, globalphase);
+    }
+     function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        let newyear = String(year).slice(2, 5)
+        return [day, month, newyear].join('/');
+    }
+
+    var globalid,globalphase;
+    function showdetails(id, phase)
+    {   
+        globalid = id, globalphase = phase;
+        $('#secondarydiv').show();
+        $('#maindiv').hide();
+        data = {
+            'inspection_no': id,
+            'phase': phase
+        }
+        $.ajax
+            ({
+                url: "{% url 'compliance_forward_samelist' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response) 
+                {
+                        $('#divdetails').hide();
+                        $('#divlist').show();
+                        $('#forwarddivphase2').hide();
+                        idetails = response.details;
+                        $('#ins_id').val(response.inspection_no);
+                        $('#ins_note_id').val(idetails[0]['inspection_note_no']);
+                        $('#ins_title').val(idetails[0]['inspection_title']);
+                        $('#ins_date').val(formatDate(idetails[0]['inspected_on']));
+                        $('#ins_desig').val(idetails[0]['officer_desig'])
+                        $('#ins_officer').val(response.name);
+                        let listgrid = response.listgrid, row = '';
+                        if(phase == '2')
+                        {
+                            for(let i=0;i<listgrid.length;i++)
+                        {
+                            let forwardss = listgrid[i].forwardss;
+                                        row +=`   <tr>
+                                        <td>${(i+1)}</td>
+                                        <td>${listgrid[i]['question']} <br>
+                                            Observation: ${listgrid[i]['value']}<br>
+                                            Remarks: ${listgrid[i]['report_act']}
+                                        </td>
+                                        <td>
+                                            <table>`
+
+                                            for(let x = 0;x<forwardss.length;x++)
+                                                row +=`<tr><td>${forwardss[x]['forward_on']}</td></tr>`
+                                            
+                                                row +=`</table>
+                                        </td>
+                                        <td>
+                                            <table>`
+                                                for(let x = 0;x<forwardss.length;x++)
+                                                        row +=`<tr><td>${forwardss[x]['designationTo']}</td></tr>`
+                                            
+                                                        row +=` </table>
+                                        </td>
+                                        <td>
+                                            <table>`
+                                                for(let x = 0;x<forwardss.length;x++)
+                                                {
+                                                    if (forwardss[x]['forwardStatus'] == 2)
+                                                    row +=` <tr><td style="color: green;">${forwardss[x]['stts']}</td></tr>`
+                                                    else 
+                                                    row +=`<tr><td style="color: red;">${forwardss[x]['stts']}</td></tr>`
+                                                           
+                                                }
+                                        row +=`</table>
+                                        </td>
+                                        <td><button type="button" class="btn btn-outline-primary" id="${listgrid[i]['marked_no']}" name="get_data" onclick="fetch_forward_reply(this,'2')"><i class="far fa-edit"></i></button></td>
+                                    </tr>
+                                    `;
+                                }
+
+                        }
+                        else
+                        {
+                            let final_list = response.final_list;
+                            
+                            for(let i=0;i<final_list.length;i++)
+                            {
+                                let marked = final_list[i]['marked']
+                                
+                                if(final_list[i]['chk'] == 'YES')
+                                {
+                                   
+                                    if(final_list[i]['type'] == 'H')
+                                    {
+                                        row += `
+                                                <tr>
+                                                <td>${final_list[i]['item_no']}</td>
+                                                <td>${final_list[i]['item_title']}</td>
+                                                <td>
+                                                    <table>`
+                                                for(let j=0;j<marked.length;j++)
+                                                    row += `   <tr><td>${formatDate(marked[j]['created_on_forward'])}</td></tr>`
+                                                   
+                                                    row += `</table></td>
+                                                <td><table>`
+                                                    for(let j=0;j<marked.length;j++)
+                                                    row += `  <tr><td>${marked[j]['marked_to_forward__designation']}</td></tr>`
+                                                    
+                                                    row += `   </table></td>
+                                                <td><table>`
+
+                                                    for(let j=0;j<marked.length;j++)
+                                                    {
+                                                    if (marked[j]['status_flag'] == 1)
+                                                    row += `   <tr><td style="color:red">Pending</td></tr>`
+                                                    else if (marked[j]['status_flag'] == 2)
+                                                    row += `   <tr><td style="color:green">Received</td></tr>`
+                                                    else if (marked[j]['status_flag'] == 3 )
+                                                    row += `   <tr><td style="color:red">Rejected</td></tr>`
+                                                    }
+                                                row += ` </table></td>
+                                                <td><button type="button" class="btn btn-outline-primary"  id="${final_list[i]['item_db']}" name="get_data" onclick="fetch_forward_reply(this,'1')"><i class="far fa-edit"></i></button></td>
+                                                </tr>`
+                                    }
+                                    else if(final_list[i]['type'] == 'SH')
+                                            {
+                                                
+                                                row+=`<tr>
+                                                <td>${final_list[i]['item_no']}</td>
+                                                <td>${final_list[i]['observation']}</td>
+                                                <td>
+                                                    <table>`
+                                                for(let j=0;j<marked.length;j++)
+                                                    row += `   <tr><td>${formatDate(marked[j]['created_on_forward'])}</td></tr>`
+                                                   
+                                                row += `</table></td>
+                                                <td><table>`
+                                                for(let j=0;j<marked.length;j++)
+                                                    row += `  <tr><td>${marked[j]['marked_to_forward__designation']}</td></tr>`
+                                                    
+                                                row += `   </table></td>
+                                                <td><table>`
+
+                                                    for(let j=0;j<marked.length;j++)
+                                                    {
+                                                        if (marked[j]['status_flag'] == 1)
+                                                            row += `   <tr><td style="color:red">Pending</td></tr>`
+                                                        else if (marked[j]['status_flag'] == 2)
+                                                            row += `   <tr><td style="color:green">Received</td></tr>`
+                                                        else if (marked[j]['status_flag'] == 3 )
+                                                            row += `   <tr><td style="color:red">Rejected</td></tr>`
+                                                    }
+                                                row += ` </table></td>
+                                                <td><button type="button" class="btn btn-outline-primary" data-toggle="modal"  id="${final_list[i]['item_db']}" name="get_data" onclick="fetch_forward_reply(this,'1')"><i class="far fa-edit"></i></button></td>
+                                                </tr> `
+                                                
+                                            }
+                                        }
+                                        }
+                       
+                }
+               
+                        $('#mytable225 tbody').empty();
+                        $('#mytable225 tbody').append(row)
+                }
+            })
+    }
+</script>
+
+<script>
+  
+    $( document ).ready
+    (
+      function() 
+      {
+        $('#mytable').DataTable({
+                      "language":{
+                          "search": "Keyword search:"
+                      }
+                  });
+        $('#mytable2').DataTable({
+                      "language":{
+                          "search": "Keyword search:"
+                      }
+                  });
+      });
+      
+      $("#desig").select2(
+        {dropdownParent:$('#ForwardModal')}
+      );
+    
+      function fetch_forward_reply(e, phase)
+      {
+          if (phase == '2')
+          {
+            var marked_no=(e.id);
+           
+            var inspection_id=document.getElementById("ins_id").value;
+            
+            data =
+        {
+            'inspection_id': inspection_id,
+            'type': 'Forward',
+            'status': 'F',
+            'duration': 'Later',
+            'marked_no': marked_no,
+        }
+        $.ajax
+            ({
+                url: "{% url 'compliance_phase2' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response) {
+                    $('#divdetails').hide();
+                  $('#divlist').hide();
+                  $('#forwarddivphase2').show();
+                    $('#inspection_no22').val(response.inspection_id);
+                    $('#marked_no22').val(response.marked_no);
+                    $('#furtherFwd22').val(response.furtherFwd);
+
+                    let listgrid = response.listgrid, row = '';
+
+                    for (let i = 0; i < listgrid.length; i++) {
+                        let forwardss = listgrid[i].forwardss;
+                        console.log(forwardss)
+                        for (let j = 0; j < forwardss.length; j++) {
+                            console.log(listgrid[i]['sr_no'])
+                            row += ` <tr>
+                                <td>${listgrid[i]['sr_no']}</td>
+                                <td>${listgrid[i]['question']} <br>
+                                    Observation: ${listgrid[i]['value']}<br>
+                                    Remarks: ${listgrid[i]['report_act']}
+                                </td>
+                            <td>${forwardss[j]['forward_on']}</td>
+                            <td>${forwardss[j]['designationTo']}</td>
+                            <td>`
+                            if (forwardss[j]['forwardStatus'] == 0)
+                                row += `NA`
+                            else
+                                row += ` ${forwardss[j]['compliance_forward']}
+                                </td>    
+                            <td>
+                                <textarea class="form-control" name="remark_id" id="remark_id${forwardss[j]['forwardId']}" rows="2" maxlength="200"`
+
+                            if (forwardss[j]['forwardStatus'] != 2)
+                                row += ` disabled`
+
+                            row += ` >${forwardss[j]['remarks_forward']} </textarea>
+                            </td>
+                            <td>
+                                ${forwardss[j]['rejected_on_fwd']}
+                                </td>  
+                            <td>`
+                            if (forwardss[j]['forwardStatus'] != 2)
+                                row += `    <button type="button" class="btn btn-primary" id="${forwardss[j]['compliance_forward22']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Move</button>`
+                            else
+                                row += `<button type="button" class="btn btn-primary" id="${forwardss[j]['compliance_forward22']}"  >Move</button> &nbsp;
+                                    <br>`
+
+
+                            if (forwardss[j]['forwardStatus'] == 2)
+                                row += `<button type="button" class="btn btn-primary" id="${forwardss[j]['forwardId']}" onclick="reject_forward_reply22(this);">Reject</button>`
+                            else
+                                row += `<button type="button" class="btn btn-primary" id="${forwardss[j]['forwardId']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>`
+
+                            row += ` </td>  
+                            </tr>`;
+                        }
+
+                    }
+
+                    $('#mytable22 tbody').empty();
+                    $('#mytable22 tbody').append(row);
+                }
+            });
+
+          }
+          else
+          {
+          items=[]
+          var item_no=(e.id);
+          items.push(item_no)
+          item_no=JSON.stringify(items)
+          forwarded_already= already_for(item_no);
+          var table = $('#mytable2').DataTable();
+          table.destroy();
+          $('#mytable2').hide();
+          data={'item_no':item_no,}
+          $.ajax
+          ({
+              url: "{% url 'fetch_forward_reply' %}",
+              method: "GET",
+              dataType: "JSON",
+              async: false,
+              data: data,
+              success: function (response) 
+              {
+                  $('#divdetails').show();
+                  $('#divlist').hide();
+                  $('#forwarddivphase2').hide();
+
+                  $('#item_no').val(response.item_no);
+                  $('#inspection_no').val(response.inspection_no);
+                  $('#item').val(response.item);
+                  forwardreplydata=response.list1;
+                  let row = "";
+                  
+                  let head = 
+                      `<thead>
+                          <tr align="left">
+                              <th>Sr.No.</th>
+                              <th>Forward On</th>
+                              <th>Forward Officer</th>
+                              <th>Received Reply</th>
+                              <th>Rejected Remark</th>
+                              <th>Rejected On</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>`;
+                  for (let i = 0; i < forwardreplydata.length; i++) 
+                  {
+                      
+                      row += "<tr>";    
+                      row += `<td width=5%>${i+1}</td>
+                              <td width=10%>${forwardreplydata[i]['recieved_on']}</td>`;
+                      if(forwardreplydata[i]['status_flag']==1)
+                      {
+                          row += `<td width=15% align="left" style="color:red">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                  <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                  <td width=18%>`
+                                    if (forwardreplydata[i]['remark']){
+                                      row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea></td> 
+                                      <td width=8%>${forwardreplydata[i]['daterej']}</td>`
+                                    }
+                                      else{
+                                      row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled></textarea></td> 
+                                      <td width=8%></td>`
+                                      }
+                                    
+                                  row+=`  
+                                  <td width=14%>
+                                      <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Move</button>
+                                      &nbsp;
+                                      <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                  </td>`;
+                                  
+                      }
+                      else if(forwardreplydata[i]['status_flag']==3)
+                      {
+                          row += `<td width=15% align="left" style="color:red">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                  <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                  <td width=18%>`
+                                    if (forwardreplydata[i]['remark']){
+                                      row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea></td> 
+                                      <td width=8%>${forwardreplydata[i]['daterej']}</td>`
+                                    }
+                                      else{
+                                      row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled></textarea></td> 
+                                      <td width=8%></td>`
+                                      }
+                                    
+                                  row+=`  
+                                  <td width=14%>
+                                      <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Move reply to edit Section" onclick="merge(this)" disabled>Move</button>
+                                      &nbsp;
+                                      <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title='No reply received yet.' disabled>Reject</button>
+                                  </td>`;
+                          document.getElementById('textAreaExample1').disabled=false;
+                          document.getElementById('save_item_no').disabled=false;
+                      }
+                      else if(forwardreplydata[i]['status_flag']==2)
+                      {
+                          row += `<td width=15% align="left" style="color:green">${forwardreplydata[i]['designation']}<br>(${forwardreplydata[i]['marked_to_forward']})</td>
+                                  <td align="left" width=30%>${forwardreplydata[i]['reply']}</td>
+                                  <td width=18%>`
+                                    if (forwardreplydata[i]['remark']){
+                                      row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled>${forwardreplydata[i]['remark']}</textarea></td> 
+                                      <td width=8%>${forwardreplydata[i]['daterej']}</td>`
+                                    }
+                                      else{
+                                      row+=`<textarea class="form-control" name="remark_id" id="remark_id${forwardreplydata[i]['marked_no_forward']}" rows="2" maxlength="200" disabled></textarea></td> 
+                                      <td width=8%></td>`
+                                      }
+                                    
+                                  row+=`  
+                                  <td width=14%>
+                                      <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['reply']}" class="js-btn-tooltip" data-toggle="tooltip" data-placement="top" title="Move reply to edit Section" onclick="merge(this)">Move</button>
+                                      &nbsp;
+                                      <button type="button" class="btn btn-primary" id="${forwardreplydata[i]['marked_no_forward']}" onclick="reject_forward_reply(this);">Reject</button>
+                                  </td>`;
+                          document.getElementById('textAreaExample1').disabled=false;
+                          document.getElementById('save_item_no').disabled=false;
+                      }
+                      row += "</tr>"; 
+                  }
+                  $('#mytable2 thead').remove();
+                  $('#mytable2 tr').remove();
+                  $('#mytable2').append(head);
+                  $('#mytable2 tbody').append(row);
+                  $('#mytable2').show();
+                  $('#mytable2').DataTable({
+                      "language":{
+                          "search": "Keyword search:"
+                      }
+                  });
+                  desig=response.desig;
+                  $('#desig_for').empty();
+                  $('#desig_for').append(`<option value="" disabled>Select</option>`);
+                  for (let i = 0; i < desig.length; i++)
+                  {
+                      if (  forwarded_already.includes(desig[i]['designation'])){
+                          
+                          $('#desig_for').append(`<option value="${desig[i]['designation']}" disabled>${desig[i]['designation']}</option>`);
+  
+                      }
+                      else
+                      $('#desig_for').append(`<option value="${desig[i]['designation']}" >${desig[i]['designation']}</option>`);
+  
+                  }
+              }
+          })
+      }
+    }
+      
+      function reject_forward_reply(e)
+      {
+          var forward=e.id;
+          var remark=$('#remark_id'+forward).val()
+          // alert(remark);
+          data={'forward':forward,'remark':remark}
+          $.ajax
+          ({
+              url: "{% url 'reject_forward_reply' %}",
+              method: "GET",
+              dataType: "JSON",
+              async: false,
+              data: data,
+              success: function (response) 
+              {
+               
+                  alert('Reject Successful');
+                  window.location.reload();
+                  id='remark_id';
+                  id1='closeforward';
+                  document.getElementById(forward).disabled = true;
+                  document.getElementById(id).style.backgroundColor = "lightred";
+                  //document.getElementById(id1).click();
+                  showdetails(globalid, globalphase);
+                  // window.location.reload();
+              }
+          })
+      }
+  
+    function compliance_forward111()
+      {
+          item_no=$('#item_no').val()
+          inspection_no=$('#inspection_no').val()
+          data=
+          {
+            'item_no':JSON.stringify(item_no),
+              'inspection_no': inspection_no,
+              'forward_to':JSON.stringify($('#desig_for').val()),
+              'str':'filter-desig',
+          }
+          $.ajax
+          ({
+              url: "{% url 'compliance_marked_forward' %}",
+              method: "GET",
+              dataType: "JSON",
+              async: false,
+              data: data,
+              success: function (response) 
+              {
+                 
+                      alert('Forwarded Successfully');
+                      showdetails(globalid, globalphase);
+                 
+              }
+          })
+      }
+    
+  </script>
+  
+  <script>
+      $("#rly_id1").select2();
+      $("#div_id1").select2();
+      $('#desig_for').select2();
+  
+      function merge(e)
+      {
+          var val=e.id;
+          if(document.getElementById(val)) 
+          {
+              var textval=$('#textAreaExample1').val()+' '+val;
+              $('#textAreaExample1').val(textval);
+          }
+      }
+      
+      $('#rly_id1').change(function() {
+          var rly=$('#rly_id1').val();
+          var desigss=$('#desig_for').val();
+          // desigss=JSON.stringify(desigss)
+          // alert(desigss)
+          forwarded_already= already_for(1);
+      
+              data={  
+                  'rly_data_hrms': JSON.stringify(rly),
+  
+                }
+      
+                $.ajax({
+                  type : 'GET',
+                  url : "{% url 'getdiv_rly_desig' %}",
+                  dataType : 'json',
+                  data : data,
+      
+                  success : function(response)
+                  {
+                      if(response.desig){
+                        $('#desig_for').empty()
+                        $('#desig_for').append(`<option value="">Select Designation</option>`);
+                        for (let j=0; j<desigss.length;j++){
+                          $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                        }
+                        for (let i = 0; i < response.desig.length; i++) {
+                          if (  forwarded_already.includes(response.desig[i]['designation']))
+                              $('#desig_for').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                          else
+                          $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                      }
+                      let division=response.division;
+                      $('#div_id1').empty()
+                      $('#div_id1').append(`<option value="all">Select Division..</option>`);
+                      for (let i = 0; i < division.length; i++) {
+                          $('#div_id1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+  
+                          // $('#div_id1').append(`<option value="${division[i].location_code}"> ${division[i].location_code}-${division[i].location_type}</option>`);
+                      }
+              
+                      }
+  
+      
+                  }
+                  
+      
+                });
+        });
+        
+      $('#div_id1').change(function() {
+          var rly=$('#rly_id1').val();
+          var div=$('#div_id1').val();
+          var desigss=$('#desig_for').val();
+          forwarded_already= already_for(1);
+          data={  
+              'rly_data_hrms': JSON.stringify(rly),
+              'div_data_hrms': JSON.stringify(div),
+                }
+      
+                $.ajax({
+                  type : 'GET',
+                  url : "{% url 'getdiv_div_desig' %}",
+                  dataType : 'json',
+                  data : data,
+      
+                  success : function(response)
+                  {
+                      if(response.desig){
+                        $('#desig_for').empty()
+                        $('#desig_for').append(`<option value="">Select Designation</option>`);
+                        for (let j=0; j<desigss.length;j++){
+                          $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                        }
+                        for (let i = 0; i < response.desig.length; i++) {
+                          if (  forwarded_already.includes(response.desig[i]['designation']))
+                              $('#desig_for').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                          else
+                              $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                      }
+              
+                      }
+  
+      
+                  }
+                  
+      
+                });
+        
+              });
+  
+  function showPanel(){
+      forwarded_already= already_for(1);
+      $.ajax({
+                  type : 'GET',
+                  url : "{% url 'get_panel_officers' %}",
+                  dataType : 'json',
+      
+                  success : function(response)
+                  {
+                      $('#mytablepanel tbody').empty();
+                      // alert("yaay")
+                      if(response.desig){
+                        row=''
+                        for(var i=0;i<response.desig.length;i++){
+                          if (  forwarded_already.includes(response.desig[i]['designation'])){
+                              row+=`<tr disabled>
+                              <td><input class="pan_checks" type="checkbox" disabled id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                              <td>${response.desig[i]['designation']}</td>
+                              <td>${response.desig[i]['name']}</td>
+                              </tr>`
+                          }
+                          else{
+                          row+=`<tr>
+                              <td><input class="pan_checks" type="checkbox" id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                              <td>${response.desig[i]['designation']}</td>
+                              <td>${response.desig[i]['name']}</td>
+                              </tr>`
+                          }
+                        }
+                        $('#mytablepanel tbody').append(row);
+  
+                          // elements=document.getElementsByClassName("pan_checks");
+                          // for(i=0;i<elements.length;i++){
+                          //     var dd=elements[i].id
+                          //     document.getElementById(dd).checked = true
+                          // }
+                      }
+  
+      
+                  }
+                  
+      
+                });
+     
+  }
+  
+  function save_panel(){
+      var desigss=$('#desig_for').val();
+      elements=document.getElementsByClassName("pan_checks");
+      new_desig=[]
+      for(i=0;i<elements.length;i++){
+          var dd=elements[i].id
+          // alert(dd)
+          if (document.getElementById(dd).checked == true){
+              var x='#'+dd;
+              var valdd= $(x).val();
+              new_desig.push(valdd)
+          }
+      }
+      // alert(new_desig)
+      $('#desig_for').empty()
+      $('#desig_for').append(`<option value="">Select Designation</option>`);
+      for (let j=0; j<desigss.length;j++)
+              $('#desig_for').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+      for (let i = 0; i < new_desig.length; i++) 
+              $('#desig_for').append(`<option value="${new_desig[i]}" selected> ${new_desig[i]}</option>`);
+  
+      var rly=$('#rly_id1').val();
+      var div=$('#div_id1').val();
+      data={  
+              'rly_data_hrms': JSON.stringify(rly),
+              'div_data_hrms': JSON.stringify(div),
+                }
+      
+                $.ajax({
+                  type : 'GET',
+                  url : "{% url 'getdiv_div_desig' %}",
+                  dataType : 'json',
+                  data : data,
+      
+                  success : function(response)
+                  {
+                      if(response.desig){
+                        for (let i = 0; i < response.desig.length; i++) 
+                          $('#desig_for').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                      }
+                  }
+              });
+  }
+  
+  function already_for(item_no){
+      var val =0
+      if (item_no == 1){
+          var item_no=$('#item_no').val();
+          item_no=JSON.stringify(item_no);
+          val=1
+      }
+      data={'item_no':item_no,'val':val}
+      // alert(data['item_no'], )
+      // alert(data['val'])
+      var forwarofc;
+          $.ajax
+          ({
+              url: "{% url 'forward_officer' %}",
+              method: "GET",
+              dataType: "JSON",
+              async: false,
+              data: data,
+              success: function (response)
+              {
+                  forwarofc =response.for_desigs;
+                  // console.log(forwarofc);
+                  
+              }
+          })
+          return forwarofc
+  }
+  
+  let $modal = $("#PanelModal");
+  $modal.draggable({
+          handle: ".modal-header",
+          });
+  </script>
+  
+
+  <script>
+    $("#rly_id22").select2();
+    $("#div_id22").select2();
+    $("#rly_id122").select2();
+    $("#div_id122").select2();
+    $('#desig').select2();
+    $('#desig_for22').select2();
+
+
+    function expandarea22(element) {
+        element.style.height = "1px";
+        element.style.height = (15 + element.scrollHeight) + "px";
+    }
+
+    $('#rly_id122').change(function () {
+        var rly = $('#rly_id122').val();
+        var desigss = $('#desig_for22').val();
+
+        forwarded_already = already_for22(1);
+
+        data = {
+            'rly_data_hrms': JSON.stringify(rly),
+
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'getdiv_rly_desig' %}",
+            dataType: 'json',
+            data: data,
+
+            success: function (response) {
+                if (response.desig) {
+                    $('#desig_for22').empty()
+                    $('#desig_for22').append(`<option value="">Select Designation</option>`);
+                    for (let j = 0; j < desigss.length; j++) {
+                        $('#desig_for22').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                    }
+                    for (let i = 0; i < response.desig.length; i++) {
+                        if (forwarded_already.includes(response.desig[i]['designation']))
+                            $('#desig_for22').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                        else
+                            $('#desig_for22').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+                    let division = response.division;
+                    $('#div_id122').empty()
+                    $('#div_id122').append(`<option value="all">Select Division..</option>`);
+                    for (let i = 0; i < division.length; i++) {
+                        $('#div_id122').append(`<option value="${division[i].location_code}"> ${division[i].location_code}</option>`);
+
+                    }
+
+                }
+
+
+            }
+
+
+        });
+    });
+
+    $('#div_id122').change(function () {
+        var rly = $('#rly_id122').val();
+        var div = $('#div_id122').val();
+        var desigss = $('#desig_for22').val();
+        forwarded_already = already_for22(1);
+        data = {
+            'rly_data_hrms': JSON.stringify(rly),
+            'div_data_hrms': JSON.stringify(div),
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'getdiv_div_desig' %}",
+            dataType: 'json',
+            data: data,
+
+            success: function (response) {
+                if (response.desig) {
+                    $('#desig_for22').empty()
+                    $('#desig_for22').append(`<option value="">Select Designation</option>`);
+                    for (let j = 0; j < desigss.length; j++) {
+                        $('#desig_for22').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+                    }
+                    for (let i = 0; i < response.desig.length; i++) {
+                        if (forwarded_already.includes(response.desig[i]['designation']))
+                            $('#desig_for22').append(`<option value="${response.desig[i].designation}" disabled> ${response.desig[i].designation}</option>`);
+                        else
+                            $('#desig_for22').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+
+                }
+
+
+            }
+
+
+        });
+
+    });
+
+    function showPanel22() {
+        forwarded_already = already_for22(1);
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'get_panel_officers' %}",
+            dataType: 'json',
+
+            success: function (response) {
+                $('#mytablepanel tbody').empty();
+                console.log(response.desig)
+                if (response.desig) {
+                    row = ''
+                    for (var i = 0; i < response.desig.length; i++) {
+                        if (forwarded_already.includes(response.desig[i]['designation'])) {
+                            row += `<tr disabled>
+                    <td><input class="pan_checks" type="checkbox" disabled id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                    <td>${response.desig[i]['designation']}</td>
+                    <td>${response.desig[i]['name']}</td>
+                    </tr>`
+                        }
+                        else {
+                            row += `<tr>
+                    <td><input class="pan_checks" type="checkbox" id =chck${response.desig[i]['designation_code']} value=${response.desig[i]['designation']}></td>
+                    <td>${response.desig[i]['designation']}</td>
+                    <td>${response.desig[i]['name']}</td>
+                    </tr>`
+                        }
+                    }
+                    $('#mytablepanel tbody').append(row);
+
+
+                }
+            }
+        });
+    }
+
+    function save_panel22() {
+        var desigss = $('#desig_for22').val();
+        elements = document.getElementsByClassName("pan_checks");
+        new_desig = []
+        for (i = 0; i < elements.length; i++) {
+            var dd = elements[i].id
+            if (document.getElementById(dd).checked == true) {
+                var x = '#' + dd;
+                var valdd = $(x).val();
+                new_desig.push(valdd)
+            }
+        }
+        $('#desig_for22').empty()
+        $('#desig_for22').append(`<option value="">Select Designation</option>`);
+        for (let j = 0; j < desigss.length; j++) {
+            if (!(new_desig.includes(response.desig[i]['designation'])))
+                $('#desig_for22').append(`<option value="${desigss[j]}" selected> ${desigss[j]}</option>`);
+        }
+
+        for (let i = 0; i < new_desig.length; i++)
+            $('#desig_for22').append(`<option value="${new_desig[i]}" selected> ${new_desig[i]}</option>`);
+
+        var rly = $('#rly_id122').val();
+        var div = $('#div_id122').val();
+        data = {
+            'rly_data_hrms': JSON.stringify(rly),
+            'div_data_hrms': JSON.stringify(div),
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'getdiv_div_desig' %}",
+            dataType: 'json',
+            data: data,
+
+            success: function (response) {
+                if (response.desig) {
+                    for (let i = 0; i < response.desig.length; i++) {
+                        if ((desigss.includes(response.desig[i]['designation'])) || (new_desig.includes(response.desig[i]['designation'])))
+                            continue;
+                        else
+                            $('#desig_for22').append(`<option value="${response.desig[i].designation}"> ${response.desig[i].designation}</option>`);
+                    }
+                }
+            }
+        });
+    }
+
+    function already_for22(item_no) {
+        var val = 0
+        var furtherFwd = $('#furtherFwd22').val()
+        if (item_no == 1) {
+            var marked_no = $('#marked_no22').val();
+            marked_no = JSON.stringify(marked_no);
+            val = 1
+        }
+        else {
+            var marked_no = $('#marked_no22').val();
+            val = marked_no.length()
+            marked_no = JSON.stringify(marked_no);
+        }
+
+        data = {
+            'marked_no': marked_no,
+            'val': val,
+            'furtherFwd': furtherFwd
+        }
+        // alert(data['item_no'], )
+        // alert(data['val'])
+        // alert(marked_no)
+        var forwarofc;
+        $.ajax
+            ({
+                url: "{% url 'forward_officer_phase2' %}",
+                method: "GET",
+                dataType: "JSON",
+                async: false,
+                data: data,
+                success: function (response) {
+                    forwarofc = response.for_desigs;
+                    // console.log(forwarofc);
+
+                }
+            })
+        return forwarofc
+    }
+
+
+    // to forward query successfully (multiselect)
+    function compliance_forward22() {
+        marked_no = JSON.stringify($('#marked_no22').val())
+        // alert(marked_no+"shafgashfgashf")
+
+        inspection_no = $('#inspection_no22').val()
+        var furtherFwd = $('#furtherFwd22').val()
+        data =
+        {
+            // 'marked_no':JSON.stringify(marked_no),
+            'inspection_no': inspection_no,
+            'forwardToId': JSON.stringify($('#desig_for22').val()),
+            'id': marked_no,
+            'byOthersAction': 'forward',
+            'furtherFwd': furtherFwd
+        }
+        $.ajax({
+            url: "{% url 'updateEinspUser' %}",
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                alert(response);
+                showdetails(globalid, globalphase);
+            }
+        })
+    }
+
+    function reject_forward_reply22(e) {
+        marked_no = $('#marked_no22').val()
+        inspection_no = $('#inspection_no22').val()
+        var forward = e.id;
+        var remark = $('#remark_id' + forward).val()
+        data =
+        {
+            'inspection_no': inspection_no,
+            'id': marked_no,
+            'forward_id': forward,
+            'byOthersAction': 'reject_forward',
+            'forwardToRemarks': remark,
+        }
+        $.ajax({
+            url: "{% url 'updateEinspUser' %}",
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                alert(response);
+                showdetails(globalid, globalphase);
+            }
+        })
+    }
+
+    function merge22(e) {
+        var val = e.id;
+
+
+        if (document.getElementById(val)) {
+            expandarea22(document.getElementById('textAreaExample12'))
+            var textval = $('#textAreaExample12').val() + '\n' + val;
+            $('#textAreaExample12').val(textval);
+            document.getElementById('textAreaExample12').disabled = false;
+            document.getElementById('save_btn_frwd2').disabled = false;
+        }
+    }
+
+
+    function save_replied22() {
+        var marked_no = $('#marked_no22').val();
+        var item_no_id = '//' + item_no;
+        var compliance = $('#textAreaExample12').val();
+        var com_id = item_no + '/';
+        data =
+        {
+            'marked_no': marked_no,
+            'byOthersAction': 'close',
+            'compliance': compliance,
+        }
+        $.ajax({
+            url: "{% url 'updateEinspUser' %}",
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function (response) {
+                alert(response);
+                showdetails(globalid, globalphase);
+            }
+        })
+    }
+
+</script>
+
+{% endblock %}

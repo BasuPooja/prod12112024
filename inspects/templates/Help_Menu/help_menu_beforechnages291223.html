@@ -1,0 +1,1007 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+    <title>e-Inspection: Help Menu</title>
+   
+        <!-- <link rel="stylesheet" type="text/css" media="screen" href="{% static '/css/help_menu.css' %}">   -->
+     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+    .my-heading {
+      font-family: Georgia;
+      margin-top: 0px;
+      font-weight: 500;
+      font-size: 2.5rem;
+      text-align: center;
+      Color: black;
+      font-weight: bold;
+    }
+</style>
+
+<style type="text/css">
+      
+    body {
+    background: #f6f3f7;
+    }
+    
+    p {
+    margin: 0;
+    }
+    
+    .topbar {
+    font-family: 'Roboto', sans-serif;
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    text-align: center;
+    display: block;
+    background: #730000;
+    color: #fff;
+    padding: 5px 0;
+    background: #730000;
+      background: -moz-linear-gradient(top, #730000 0%, #000000 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#730000), color-stop(100%,#000000));
+      background: -webkit-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -o-linear-gradient(top, #730000 0%,#000000 100%);
+      background: -ms-linear-gradient(top, #730000 0%,#000000 100%);
+      background: linear-gradient(to bottom, #730000 0%, #000000 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#730000', endColorstr='#000000',GradientType=0 );
+    }
+    
+    .topbar p {
+    margin: 0;
+    font-weight: 200;
+    }
+    
+    .topbar p a {
+    font-size: 12px;
+    }
+    
+    .header {
+    background: #fff;
+    padding: 20px 0;
+    padding-top: 60px;
+    }
+    
+    .control-box h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    }
+    
+    .control-box {
+    border: 1px solid #dddcd8;    
+    background-color: #fff;
+    position:relative;
+    padding-top:2rem !important;
+    margin-bottom:2rem;
+    }
+    
+    .control-box .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+    
+    .control-box .links li {
+    margin-bottom: 10px;
+    }
+    
+    .control-box .links li a {
+    color: #aa1212;
+    text-decoration: underline;
+    }
+    
+    .content {
+    margin-top: 10px;
+    }
+    
+    .breadcrumb p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #777;
+    font-size: 14px;
+    }
+    
+    .breadcrumb p a {
+    color: #aa1212;
+    }
+    
+    .main-content h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 27px;
+    color: #000;
+    margin-bottom: 20px;
+    }
+    
+    .main-content p {
+    font-size: 17px;
+    color: #4d4d4d;
+    line-height: 29px;
+    margin-bottom: 20px;
+    }
+    
+    .main-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    }
+    
+    .main-content h1 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    }
+    h2, h3, h4{
+      padding: 5px;
+      text-align: center;
+    }
+    
+    .text_color{
+    background-color: rgb(95, 225, 230);
+    font-size: 24;
+    }
+    
+    .text_color_h2 {
+    background-color: rgb(109, 109, 214); 
+    }
+
+    .video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.heading-title {
+    position: relative;
+    padding-bottom: 16px;
+    font-weight: 600;
+    color: #262626 !important;
+    font-size: 20px;
+    margin-bottom: 1rem;
+    /* margin-left: 2rem; */
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif;
+    margin-bottom:0px;
+} 
+.section-head
+{
+    font-size:14px;
+    font-weight:600;
+    color:#4d4d4d;
+    text-align:left;
+    margin-top:1rem;
+    margin-bottom:10px;
+}
+a.help-link
+{
+    font-weight:500;
+    text-decoration:none;
+    color:#0059b3;
+    font-size:14px;
+}
+.link-list .list-group-item
+{
+    padding:2px !important;
+}
+.dtls-list .list-group-item
+{
+    padding:6px !important;
+    text-align: justify;
+}
+.help-heading
+{
+    position:absolute;
+    top:-20px;
+    right:10px;
+    background:#ff6600;
+    padding:5px;
+    font-size:15px;
+    font-weight:600;
+    color:#fff !important;
+    padding-right:1rem;
+    padding-left:1rem;
+    border-left:2px solid #cc5200;
+}
+.ribbon {
+  position: absolute;
+  left: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+hr{
+    margin-bottom:2rem;
+}
+.parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.parent button {
+  background-color: #cccdce;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  box-shadow: 0 1px 2px #AEAEAE;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parent button:active {
+  background-color: #AEAEAE;
+  box-shadow: 0 0 1px #aeaeae;
+  transform: translateY(2px);
+}
+
+.btn-back
+{
+    border-radius: 70%;
+}
+
+.custom-list {
+  list-style-type: disc; /* You can change "disc" to other values like "circle" or "square" */
+  margin-left: 25px; /* Adjust the margin as needed */
+}
+</style>
+  <script>
+    function backTop()
+    {
+        $("html, body").animate(
+                { scrollTop: "0" }, 1000);
+    }
+
+    $(document).ready(function(){
+      $('#help_options').width($('#help_options').parent().width()-25)
+    })
+    </script>
+<body>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12">
+                  <div class="my-heading">
+                    <h1 class="heading-title"><i class="fas fa-angle-right"></i>Let's get you started..</h1>
+                  </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3" style="position:relative">
+                        
+                            <div class="control-box p-3 mt-0  sticky-top " style="height: auto;z-index:1;position:fixed;top:7.25em" id="help_options">
+                                <div class="ribbon"><span>Categories</span></div>
+                                <div class="fix">
+                                <div class="container-fluid index">
+                                <h3 class="section-head">About</h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C1" class="help-link">e-Inspection</a></li>
+                                </ul>
+                                <h3 class="section-head">Account Management</h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C2" class="help-link">Sign Up</a></li>
+                                    <li class="list-group-item"><a href="#C3" class="help-link">Sign In</a></li>
+                                    <li class="list-group-item"><a href="#C4" class="help-link">Forgot Password</a></li>
+                                  </ul>
+                                <h3 class="section-head">Application Features</h3>
+                                <ul class="list-group list-group-flush link-list">
+                                    <li class="list-group-item"><a href="#C5" class="help-link">Home (Dashboard)</a></li>
+                                    <li class="list-group-item"><a href="#C6" class="help-link">My Inspections</a></li>
+                                    <li class="list-group-item"><a href="#C7" class="help-link">Compliances (Marked to Me)</a></li>
+                                    <li class="list-group-item"><a href="#C10" class="help-link">Forwarded Compliance</a></li>
+                                    <li class="list-group-item"><a href="#C11" class="help-link">D.O Letter</a></li>
+                                    <li class="list-group-item"><a href="#C12" class="help-link">Minutes of Meeting</a></li>
+                                    <li class="list-group-item"><a href="#C13" class="help-link">Search</a></li>
+                                    <li class="list-group-item"><a href="#C14" class="help-link">Tour Programme</a></li>
+                                    <li class="list-group-item"><a href="#C15" class="help-link">COPY TO</a></li>
+                                    
+                                    <li class="list-group-item"><a href="#C17" class="help-link">Task Tracker </a></li>
+                                    <li class="list-group-item"><a href="#C18" class="help-link">User Feedback</a></li>
+                                    <li class="list-group-item"><a href="#C19" class="help-link">Hierarchy</a></li>
+                                    <li class="list-group-item"><a href="#C9" class="help-link">RB Minutes</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                <div class="col-md-9">
+                
+                    <div class="control-box p-3 main-content" id="C1">
+                        <p class="help-heading">About e-Inspection</p>
+                        <ul class="list-group list-group-flush dtls-list custom-list">
+                            <!-- <ul class="custom-list">  -->
+                                
+                                The e-Inspection website is accessible through any major web-browser viz. Google Chrome, Mozilla Firefox, Internet Explorer, Apple Safari etc. through the url: <a href="https://deveins.indianrailways.gov.in/" target="_self" class="help-link">https://deveins.indianrailways.gov.in/</a>
+                                <li>Draft and issue inspection notes</li>
+                                <li>Marking officers for action taken with target</li>  
+                                <li>View pending and sent compliances</li>   
+                                <li>View and review received compliances of inspection notes</li>   
+                                <li> Send compliances or forward the inspection para</li>   
+                                <li>Create, Upload and view D.O. letters, send/view reply</li>  
+                                <li>Create, view Minutes of Board/weekly meetings, send/view reply</li>   
+                                <li>Task Tracker</li>   
+                                <li> Search Inspection Notes</li>   
+                                <li>View reports and status on dashboard against different items</li>  
+                                <li>Raise compliant </li>   
+                                <li>View Hierarchy </li>   
+                              
+                            </ul>
+                            <br>
+                            
+                       
+              
+              <img src="\static\inspects\images\help menu\inspection2.jpg" alt="Login" style="width: 100%;height: auto;"><br>
+              <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+            <hr id="C2" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Sign Up</p>
+            <p ><b>First time uses:-</b><br>
+                Link to open <b>Sign-up</b> form is provided in the login form. This feature is useful for the officer transferred to a new post, to update employee number (IPAS no.) of an officer posted on a particular designation or to change posting status, password, etc. Firstly, users have to enter their Email address linked with their new designation, (if email is not available, the user can raise a request to register their new email id). Once email id is entered, the designation corresponding to email will be autofetched in the designation field and the <b>Get OTP</b> button will become active to receive an OTP on registered email for the self-authorization purpose.
+</p>
+                <img src="\static\inspects\images\help menu\eins_image2.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                <p>This is the sign-up page.</p>
+                <img src="\static\inspects\images\help menu\eins_image3.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                <p> On successful verification, other fields will become active, The user can enter his employee number to change the incumbent posted on selected designation along with posting status as Primary or Dual charge. Users are required to change password during successful signup.</p>
+                <img src="\static\inspects\images\help menu\getotp.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+
+
+                
+                <p>After that fill the <b>Posting Status, Employee Number</b></p>
+                <p>After, entering the Employee Number <b>Employee Name</b> will be autofetched.</p>
+                <p>Hence after filling the above details then set a strong password of user account and then click on Submit button.
+                After this user account will be created.</p>
+            
+            <img src="\static\inspects\images\help menu\eins_image4.png" alt="Sign Up" style="width: 100%;height: auto;"><br>            
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+<hr id="C3" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Sign In</p>
+            <p>Login with the user id (Login helps user to quickly and easily manage user authentication and sign-in to user website).</p>
+            <p>This is the initial page that is displayed upon accessing the e-Inspection website. Users can utilise the provided form on this page to log in to the website by entering their assigned user ID and password,  provided by the CRIS admin.
+            Upon successful login, users will gain access to a personalised dashboard, to have complete control over their inspection records.</p>
+            
+            <img src="\static\inspects\images\help menu\eins_image5.png" alt="Login" style="width: 100%;height: auto;"><br>  
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div>
+
+            <hr id="C4" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Forgot Password</p>
+            <p> The user’s password can be reset by clicking the 'Forgot Password' option available in the login form. </p>
+                <!-- <img src="\static\inspects\images\help menu\forget.png" alt="Forget Password" style="width: 100%;height: auto;"> -->
+                <p>
+                After that, user has to fill their registered email id to receive a link to reset password.</p>     
+                <img src="\static\inspects\images\help menu\eins_image6.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                <img src="\static\inspects\images\help menu\eins_image7.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                <p>On successful verification, the user can insert a new password in a given combination and format and click on the Reset Password button to save the changes.</p>
+                <img src="\static\inspects\images\help menu\eins_image8.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+                <hr id="C5" />
+                <div class="control-box p-3 main-content">
+                    <p class="help-heading">Home Page (Dashboard)</p>
+            <h3 style="color:#971111"><b>General Inspection</b></h3>
+            <p>After sign-in, user is redirected to the dashboard page providing the summary of the website.
+                The four cards on top displaying the status of the inspection created/drafted/submitted and compliances pending/received/closed with graphics and statistics.</p>
+            
+            <img src="\static\inspects\images\help menu\dashboard2.png" alt="Home Page" style="width: 100%;height: auto;"><br>
+            <p>After signing in, the user will be redirected to the personal dashboard page, to view an overview of the data pertaining to Inspection,
+            D.O letters, Minutes of meetings, task tracker, etc. All data available in the dashboard is interactive in nature and will show detailed information on a single click.
+            Tooltips, visible on mouse hover, are also provided over each hyperlinks for better understanding of the options/features given to users. </p>
+            <img src="\static\inspects\images\help menu\dashboard1.png" alt="Home Page" style="width: 100%;height: auto;"><br><br>
+            <p>There are four summary cards at the top to display the number of inspection notes, status of my inspections and the status of my compliances, status of task, respectively.
+            All data in the summary cards have hyperlinked to detail view pages and the left part shows inspection count and right part shows paras count.
+            Under the <b>‘Pending Compliance, %’</b> card users can view compliances of their inspecting notes marked to the concerned officers (only unit incharges) with detail of total marked, pending and overdue paras (in red colour) on mouse hover. </p>
+            <img src="\static\inspects\images\help menu\eins_image9.png" alt="Home Page" style="width: 100%;height: auto;"><br><br>
+            <p>Using left and right arrow buttons, users can scroll over all unit in-charge’s compliances. </p>
+            <p>Additionally, there are cards for<b> D.O. letters, minutes of meetings </b>to create new or view already issued letters/minutes and send compliances or view received letters/minutes marked to them.
+            All data in these cards have hyperlinked to detail view pages and under the ‘Status’ column, the left part shows the count of officers replied and the right part shows the count of officers marked, which on click will open relevant information on top of screen.</p>
+            <img src="\static\inspects\images\help menu\eins_image10.png" alt="Home Page" style="width: 100%;height: auto;"><br><br>
+            <h3><b>Cards</b></h3>
+            <p>Additionally, there are cards for D.O. letters, minutes of meetings to create new or view already issued letters/minutes and send compliances or view received letters/minutes marked to them.</p>
+            <p style="font-size:larger;"><b>D.O. Letter</b></p>
+            <img src="\static\inspects\images\help menu\eins_image11.png" alt="Home Page" style="width: 100%;height: auto;"><br><br>
+            <p style="font-size:larger;"><b>MOM</b></p>
+            <img src="\static\inspects\images\help menu\eins_image12.png" alt="Home Page" style="width: 100%;height: auto;"><br><br>
+            
+            <p style="font-size:larger;"><b>Setting ICON</b></p><br>
+            <p>Located on the rightmost side of the dashboard page, users can find an orange-coloured settings icon. By clicking on this icon, users can access the latest modifications done in inspections. This feature allows for easy navigation and quick access to recently updated inspection pages, 
+                enhancing user convenience and ensuring that the most recent modifications are readily available.</p>
+            <img src="\static\inspects\images\help menu\eins_image13.png" alt="Home Page" style="width: 100%;height: auto;"><br><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+      </div>
+      <hr id="C6" />
+      <div class="control-box p-3 main-content">
+          <p class="help-heading">My Inspections</p>
+            
+            <p>This menu is given to the inspecting officer, where to create, draft inspection notes,
+                final inspection notes, view already issued inspection notes, view compliance status along with the reply received.
+                <ul class="custom-list">
+                    <li>Create Notes</li>
+                    <li>Draft Notes</li>
+                    <li>Completed Notes</li>
+                    <li>Pending Compliance</li>
+                    <li>Closed Compliance</li>
+                    <li>Received Compliance</li>
+                    <li>Reverted Compliance</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\my_insp.png" alt="My Inspection" style="width: 100%;height: auto;">
+            <br><br>
+            <p style="font-size:larger;"><b>Create Notes</b></p>
+            <p style="margin-right: 5%;">1. Inspecting officers can generate inspection notes and can mark  each point to the concerned officers for action with a target date, as well as set priority levels.</p>
+            
+            <img src="\static\inspects\images\help menu\create_notes1.png" alt="Create Notes" style="width: 100%;height: auto;"><br>
+            <ul class="custom-list">
+                <li style="margin-right: 5%;"><b>Inspection Detail:</b> First of all, select inspecting locations (ZR/PU/PSU/CTI) from ‘Rly./Org.’ field (compulsory field),  then corresponding divisions/units, if any, from ‘Div./Unit’ field (optional field).
+                Specific Railway units like station, section, running room etc. can also be selected after selecting ‘Location Type’ (optional field) then selecting respective Railway units from ‘Location’ field.  Date of inspection 
+                can be fed using double click on single date or single clicks on two dates to select range of date from ‘Insp. Date’ field (compulsory field).</li><br>
+                <li style="margin-right: 5%;"><b>Inspection Title:</b> The Title of Inspection and list of officials accompanied while inspection (select designation from ‘Accompanied By’ field from dropdown, 
+                if designation doesn’t exist the designation can be entered by the user).</li>
+                <ol>
+                    <li style="margin-right: 5%;">Add Para: The officer can be either used to enter heading without marking to any officer or to enter inspection para along with marking to concerned officer(s). </li>
+                    <li style="margin-right: 5%;">Add Sub Para: To enter inspection para or sub para after adding Title or inspection para respectively in option (1) above along with marking to concerned officer(s).</li>
+                    <li style="margin-right: 5%;">Add Sub-Sub Para: To enter sub-para of any inspection para or sub-sub para of any sub para after adding para or sub para, respectively in option (2) above.</li>
+                    <li style="margin-right: 5%;">Delete: To delete the observation added in the last row with all details like marked officer, table, images, priority or any selection and data. </li>
+                    <li style="margin-right: 5%;">Apart from this, users can also insert or delete an observation between any two observations using the Action menu option given under the Action column.
+                    </li>
+                </ol>
+                <br>
+                <li style="margin-right: 5%;"><b>Marking Officer:</b> Under select officer dropdown, the list of officers belonging to selected inspection locations are populated and users can select or deselect one or more officers for action of respectivepara or click on the search icon provided within the dropdown to search on the basis of Railway, Division, Department and Designation or select or deselect all GM, PHOD, DRM etc. as per their requirements.Option to copy a list of marked officers in a particular observation from another observation already having marked officers is also provided to mark officers in a fast manner. The user can set the target date, marked select for information or mark priority in case compliance is mandatory for marked officers and will be added in the task tracker of marked officers. 
+                </li><br>
+                <li style="margin-right: 5%;"><b>Adding/Deleting Images</b>: Users can also add an image related to any inspection observation in .png, .jpeg, .jpg file format with max file size of 100 KB. Image menu opens on click of <b>‘Add Image’</b> buttonunder inspection observation section. To add an image, click on the<b>‘Choose File’</b> button first to browse the image file and click on <b>‘Upload’</b> button to upload the selected image file, preview it before orafter uploading and remove the uploaded images using the <b>‘Reset’</b> button. Every image added is required to be linked with an inspection para by selecting the reference number and in inspection note all imagesadded will be displayed at bottom with the reference number added. Delete image linked to any observation using the <b>‘Delete’</b> button. </li><br>
+                <li style="margin-right: 5%;"><b>Adding/Deleting Tables:</b> Users can add tables after defining rows and columns required for table using Table icon provided below text box for adding observation. All cells in the table added are compulsory to feed some data and if not required then the complete row or complete  column or whole table can be deleted using the delete icon provided for the table. </li><br>
+                <li style="margin-right: 5%;"><b>Sending Copy:</b> Under <b>‘Copy To’</b>, field users can send a copy of the inspection notes to the <b>'concerned officer'</b> for information only by selection officers from the similar dropdown as given with the observation. Option is given to concerned officers in their login to mark the status as Noted under <b>‘Copy to Received’</b> menu.</li><br>
+                <li style="margin-right: 5%;"><b>Signature Stamp:</b> There are three fields viz. Station of Inspecting Officer, Designation of Inspecting Officer, Name of Inspecting Officer are provided where existing data are auto fetched from the system, but users can also edit station, designation or name, if required.</li><br>
+                <li style="margin-right: 5%;"><b>Saving Inspection Notes:</b> Initially, <b>'Save as Draft'</b> button is visible and the <b>'Submit'</b> button will be visible when  <b>'Add Para'</b> is clicked. </li>
+                <p>At bottom there are three option:-
+                </p>
+                <ol style="margin-right: 5%;">
+                    <li><b>Save as Draft:</b> Partially filled inspection notes can be saved as draft, the inspection notes will be accessible on the 'Draft Report' section, where it can be edited again.
+                    </li>
+                    <li><b>View:</b> Users can see the preview of their inspection notes before saving as draft or submit.
+                    </li>
+                    <li><b>Submit:</b> On submit, action OTP will be sent for verification purpose and after successful verification inspection notes will be issued and further editing won't be possible. All such inspection notes will be accessible under the ‘Completed Notes’ section.</li>
+                </ol>
+            </ul>
+            <img src="\static\inspects\images\help menu\eins_image14.png" alt="Create Notes" style="width: 100%;height: auto;"><br><br>
+            <h3 style="color:#971111"><b>Field Inspection</b></h3><br>
+            <p>In this module, users can generate inspections by choosing predefined checklists for each form field. You can add custom questions; however, it can provide concise descriptions for the selected sections.</p>
+            <p>As you access this area, you'll come across distinct module names neatly categorised within individual boxes,</p>
+            <h5> i) Common </h5>
+            <p>In this module you have two options one is Footplate and other is Station (General). </p>
+            <ul class="custom-list">
+                <li style="color:#0059b3"><h5>Footplate</h5></li>
+                <p>This module contains distinct sections with essential fields for creating inspections. Users can create inspections for both crew members and train conditions.
+                </p>
+                <p><b>Inspection Details</b></p>
+                <p>In this section the user needs to select each field provided in the checklist.</p>
+                <p><b>Loco Safety Equipment</b> </p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.
+                </p>
+                <p><b>Crew Safety Equipments</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>Crew Fitness</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>Crew Working</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.
+                </p>
+                <p><b>Crew Knowledge</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p ><b>Track Aspect During Run</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p ><b>Signal Aspect</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>OHE</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>Inspection Conclusion</b></p>
+                <p>In this segment, you have the opportunity to note down any additional irregularities or issues that were not covered in the previous sections. If the provided questions did not address your concerns , you can include remarks and, if needed, propose additional questions for your ease. You also have the option to attach any relevant files if required.</p>
+            </ul>
+            <ul class="custom-list">
+                <li style="color:#0059b3"><h5>Station(General)</h5></li>
+                <p>This module contains distinct sections with essential fields for creating inspections. Users can create inspections for station related inspections.</p>
+                <p><b>Inspection Details</b></p>
+                <p>In this section the user needs to select each field provided in the checklist like railway, division, section, train details, common department, End Date, End Time (Start date and Start time is taken by default), select loco pilot, select assistant loco pilot and select locomotive (train engine).
+                </p>
+                <p><b>Circulating Area</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>Concourse Area</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.
+                </p>
+                <p><b>Platform Area</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>Passing/originating Trains</b></p>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <p><b>Inspection Conclusion</b></p>
+                <p>In this segment, you have the opportunity to note down any additional irregularities or issues that were not covered in the previous sections. If the provided questions did not address your concerns , you can include remarks and, if needed, propose additional questions for your ease. You also have the option to attach any relevant files if required.</p>
+
+            </ul>
+            <p>After selecting your options you can now save your details as <b>‘Save as Draft’</b> or <b>‘Save and Finalise’</b>. There are more options in the button below i.e <b>Finalize Start Date/Time</b> and <b>Finalize End Date/Time</b> and you can choose to go Back.</p>
+            <p>After choosing Save as Draft your details will be shown in <b>My Inspection -> Draft Notes</b> and after choosing <b>‘Save and Finalize’</b> your details will be shown in <b>My Inspection -> Completed Notes</b> and <b>My Inspection -> Pending Compliances.
+            </b></p>
+            <h5> ii) Locomotive </h5>
+            <p>This module contains distinct sections with essential fields for creating inspections. Users can create inspections for both crew members and train conditions.</p>
+            <ol style="margin-right: 5%;">
+                <li><b>Inspection Details</b></li>
+                <p>In this section the user needs to select each field provided in the checklist like railway, division, section, train details, common department, End Date, End Time (Start date and Start time is taken by default), select loco pilot, select assistant loco pilot and select locomotive (train engine).</p>
+                <li><b>Loco Safety Equipment</b></li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <li><b>Crew Safety Equipment</b>s</li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.
+                </p>
+                <li><b>Crew Fitness</b></li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.
+                </p>
+                <li><b>Crew Working</b>
+                </li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <li><b>Crew Knowledge</b></li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <li> <b>Track Aspect During Run</b></li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column..</p>
+                <li><b>Signal Aspect</b></li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <li><b>OHE</b></li>
+                <p>In this section, users are required to choose specific topics from the table. After selecting the topics, users need to make choices in the different columns by selecting options provided in that particular column.</p>
+                <li> <b>Inspection Conclusion</b></li>
+                <p>In this segment, you have the opportunity to note down any additional irregularities or issues that were not covered in the previous sections. If the provided questions did not address your concerns , you can include remarks and, if needed, propose additional questions for your ease. You also have the option to attach any relevant files if required.
+                </p>
+            </ol>
+            <p>After selecting your options you can now save your details as <b>‘Save as Draft’</b> or <b>‘Save and Finalise’</b>. There are more options in the button below i.e <b>Finalize Start Date/Time</b> and <b>Finalize End Date/Time</b> and you can choose to go Back.</p>
+            <p>After choosing <b>Save as Draft</b> your details will be shown in <b>My Inspection -> Draft Notes</b> and after choosing <b>‘Save and Finalize’</b> your details will be shown in <b>My Inspection -> Completed Notes</b> and <b>My Inspection -> Pending Compliances.</b></p><br>
+
+            <p>Clicking on <b>Draft Notes</b> section, users can view a list of the inspection notes in draft stage with the option to edit it again or delete it permanently. It allows the user to complete the partially filled Inspection notes and submit it after -completion to issue or save again as draft for further editing. </p>
+            <img src="\static\inspects\images\help menu\draft_insp.png" alt="Draft Notes" style="width: 100%;height: auto;">
+            <p>Provision is given to search any specific inspection notes between any date range or any inspection railway location, division using the filter given i.e date range or Rly./Org. wise or Div./Unit wise. Click on 'Continue', will show a list of all inspection notes as per filters selected.</p>
+            <img src="\static\inspects\images\help menu\eins_image15.png" alt="Draft Notes" style="width: 100%;height: auto;"><br><br>
+            <p>Clicking on <b>Completed Notes</b>, new page will appear. After creating the respective above report, the officers have a choice to save it as draft or submit it. On submit, the report will be submitted and will be present in the submitted notes page with the option to view it as pdf and view the reply of the marked officers.</p>
+            <img src="\static\inspects\images\help menu\complete_notes.png" alt="Completed Notes" style="width: 100%;height: auto;"><br><br>
+            <p>but specific inspection notes can be searched between any date range or any inspection railway location or division/unit using the filter given i.e Date Range or Rly./Org. wise or Div./Unit wise.</p>
+
+            <img src="\static\inspects\images\help menu\eins_image16.png" alt="Completed Notes" style="width: 100%;height: auto;"><br>
+            <p> The <b>"Pending Compliance"</b> section allows users to view a list of inspection notes that are not closed. Some or all of the inspection paras (paragraphs) in these notes are marked for action and are pending compliance. Users can access the inspection notes in PDF form. Users can view the pending compliance of the marked officer by clicking on the red eye icon under the "Rec'd Reply" column.</p>
+           
+            <img src="\static\inspects\images\help menu\eins_image18.png" alt="Pending Compliance" style="width: 100%;height: auto;"><br>
+            <p>Clicking the eye icon, will display a list of inspection observations with marked officers. Compliance status is indicated by the colour of the officer's designation: red indicates pending compliance and green indicates compliance received. Users can view the received reply, the number of days taken from the date of issue of the inspection notes, the percentage of compliances and other relevant information. The inspecting officer has the ability to reject a received compliance by clicking on the green button under the "Reject Reply" column. After rejecting the compliance, the button turns red. There is a provision to search for specific inspection notes based on a date range or railway location/division using the provided filters. Clicking on "Continue", will display a list of all inspection notes based on the selected filters.</p>
+
+            
+            <p>Under the <b>Closed Compliance’</b>‘ section, a list of closed inspection notes and all of the paras marked to concerned officers have been complied and accepted by the inspecting officer (by default the compliance received is accepted if not rejected at any point of time). Users can view the inspection notes in pdf form and can view the closed compliances of the marked officer by clicking on the Eye icon in green colour under <b>Rec’d Reply </b>column. Search optional any specific inspection notes between any date range or any inspection railway location, division using the filter given i.e date range or <b>Rly./Org</b>. wise or <b>Div./Unit</b> wise. Click on <b>'Continue'</b>, will show a list of all inspection notes as per filters selected.</p>
+
+            <img src="\static\inspects\images\help menu\eins_image19.png" alt="Closed Compliance" style="width: 100%;height: auto;"><br>
+            
+            <!-- <p>Clicking on <b>Reverted Compliance</b> new page will appear. In this all the reverted Complainces will be shown here.</p> -->
+            <p>The <b>'Reverted Compliance'</b> section provides users with the ability to access a comprehensive list of inspection notes. These notes contain information about any inspection paragraphs that have been assigned to a specific officer and subsequently reverted, along with remarks detailing the reasons for the reversion. The inspecting officers can access the inspection notes in PDF format and review the reverted compliances of the assigned officer by clicking on the red-coloured eye icon located under the 'Rec'd Reply' column. Upon clicking the icon, a list of inspection observations, marked officers, and their corresponding reverted remarks will be displayed. If deemed appropriate by the inspecting officer, changes to the concerned officer can be made using the 'Edit' button provided under the <b>'Action'</b> column. Additionally, the system allows for efficient searching of specific inspection notes within a designated date range or based on railway location, division, or organisational unit using the provided filter options. By clicking on <b>'Continue,</b>' users will be presented with a comprehensive list of all inspection notes based on the selected filters.
+            </p>
+            <img src="\static\inspects\images\help menu\eins_image20.png" alt="Reverted Compliance" style="width: 100%;height: auto;"><br>
+            
+            </div>
+
+            <hr id="C7" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Compliances (Marked to Me)</p>
+                <p>This menu is given for marked officers where they can view inspection para marked to them, send a reply or revert back to the inspecting officer.
+                    Provision to forward any inspection para to their subordinate officers for getting reply of any particular para, if required.</p>
+                <p>Following option are available in this menu accessible through side bar provided:-</p>
+                        
+                        <p>User can find several options such as:-
+                            <ul class="custom-list">
+                                <li>Pending</li>
+                                <li>Sent</li>
+                                <li>Rejected</li>
+                                <li>Reverted</li>
+                            </ul>
+                        </p>
+                        <img src="\static\inspects\images\help menu\eins_imag21.png" alt="My Complainces" style="width: 100%;height: auto;">
+                        <br>
+                        <p>Under the <b>'Pending'</b> section users can view a list of inspection notes marked to them by the inspecting officers. The pending reply feature allows the marked officer to view the inspection note and send compliance of an inspection para marked to them by the inspecting officer. The officer can also choose to either forward the inspection para to their subordinate officers for getting the compliance and finally send it back to inspecting officers or revert the inspection para back to the inspecting officer with a remark for reverting the correcting concerned officer or set target date for task assigned and include it in the task tracker. Provision is given to search any specific inspection notes between any date range or any inspection railway location, division, inspecting officer using the filter given i.e date range or <b> Rly./Org</b>. wise or Div./Unit wise or Insp. Officer. Click on 'Continue', will show a list of all inspection notes as per filters selected.
+                        </p>
+                        <!-- <p>Clicking on <b>Pending</b> new page will appear. Pending Reply, provides facility for the marked officer to view the report and reply to the inspecting officer with a choice to either forward or revert the observations. User can also view the Report and Reply on it.</p> -->
+                        <img src="\static\inspects\images\help menu\eins_image22.png" alt="Pending" style="width: 100%;height: auto;"><br>
+                        <p>Under Action, Forwarded and Complied columns user can view status of action taken on pending compliances as explained here as under:</p>
+                        <p>There is an action button displayed in red colour. The number displayed on the button represents the count of inspection paragraphs that have been forwarded and are pending for compliance. Clicking the action button will reveal a list of pending paragraphs for that particular inspection note. The marked officer has the option to submit compliance for a marked inspection paragraph after saving it, or they can choose to save it for further editing. Users can reply with either "Noted" or provide full compliance and save the paragraph. They can edit the saved compliance if needed.</p>
+                        <img src="\static\inspects\images\help menu\eins_image26.png" alt="Reply" style="width: 100%;height: auto;"><br>
+                        <p>Hovering over the <b>"Forwarded"</b> button displays a list of officers to whom the paragraph has been forwarded. There is an option to revert the inspection paragraph back to the inspecting officer with remarks for  correction. A target date can be specified to complete the task, which adds the respective paragraph to the task tracker section. A submit button is provided to send the saved compliance for any inspection. It is  mandatory to save the compliance before submitting.</p>
+                        <img src="\static\inspects\images\help menu\eins_image27.png" alt="Reply" style="width: 100%;height: auto;"><br>
+                        <p>Forwarded button in yellow colour shows the number of forwarded officers w.r.t to the number of inspection paras forwarded, if clicked it will display a list of forwarded paras The marked officer can use this feature to keep track of which replies they have already forwarded. The user can edit the reply  received by the forwarded officer and choose to either move the received reply after moving the reply will be shown below the edit section where you can save reply or reject the reply with remarks.</p>
+                        <img src="\static\inspects\images\help menu\eins_image28.png" alt="Sent" style="width: 100%;height: auto;"><br>
+                        <p>In the interface, there is a <b>"Complied"</b> button highlighted in green colour, which indicates the number of received compliances from the subordinate officers in relation to the total number of marked inspection paragraphs. This button serves as a visual indicator of the progress made in terms of compliance. By clicking on the "Complied" button, the marked officer can access a detailed list of the accepted inspection paragraphs that have been successfully complied with by the subordinate officers. This feature enables the marked officer to keep track of the specific inspection paragraphs that have been addressed and meet the required standards. This functionality provides a convenient way for the marked officer to monitor the compliance status of the forwarded paras. It offers a clear overview of the extent to which the subordinate officers have completed the necessary actions and ensures transparency in the compliance process. The ability to view the list of accepted paras allows the marked officer to focus on the remaining areas that still require attention, facilitating efficient management and follow-up on the inspection process.
+                        </p><br>
+
+
+                        <p>Clicking on <b>Complied</b> new page will appear. Sent Reply, provides facility for the marked officer to see their respective reply for the marked observation.
+                        User can also view the Report and Reply on it.</p>
+                       <img src="\static\inspects\images\help menu\eins_image29.png" alt="View" style="width: 100%;height: auto;"><br>
+                       <p>It allows the marked officers to view their respective compliance for any inspection notes by clicking on the <b>‘Reply’</b> button in green colour under <b>‘View’</b> column, if clicked it will show a list of inspection observations along with compliance sent earlier. Provision is given to search any specific inspection notes between any date range or any inspection railway location, division using the filter given i.e date range or <b>Rly./Org.</b> wise or <b>Div./Unit</b> wise is available. Click on <b>'Continue'</b>, will show a list of all inspection notes as per filters selected and officers can see the inspection note in PDF format by clicking on the icon under <b>‘View’</b>  column.</p>
+                        <img src="\static\inspects\images\help menu\eins_image30.png" alt="View" style="width: 100%;height: auto;"><br>
+                        
+                        <p>Clicking on <b>Rejected</b> new page will appear. It informs us about the reply being rejected for the respective observation of the report generated.</p>
+                        <p>Under this section, marked officers can see a list of inspection notes has been rejected by the inspecting officer. Accordingly, marked officers can review and revise their compliance as per remarks (Rejected remarks) given by the inspecting officer.
+                        </p>
+                        <img src="\static\inspects\images\help menu\eins_image31.png" alt="Rejected Reply" style="width: 100%;height: auto;"><br>
+                        <p>Provision is given to search any specific inspection notes between any date range or any inspection railway location, division using the filter given i.e date range or <b>Rly./Org.</b> wise or <b>Div./Unit</b> wise. Click on <b>'Continue'</b>, will show a list of all inspection notes as per filters selected and officers can see the inspection note in PDF format by clicking on the icon under <b>‘View’</b> column. The  <b>‘Reply’</b> button in red colour under the <b>‘View’</b> column, if clicked, will show a list of rejected paras along with the remarks for rejection.</p>
+                        <img src="\static\inspects\images\help menu\eins_image32.png" alt="Rejected Reply" style="width: 100%;height: auto;"><br>
+                        
+                        <p>Clicking on <b>Reverted</b> new page will appear. It informs us about the reply being reverted for the respective observation of the report generated. User can also view the Report and Remark on it.</p>
+                        <p>Under this section, marked officers can see a list of inspection notes for which one or more inspection paras marked to them have been reverted back to the inspecting officer for marking to the concerned officer. </p>
+                        <img src="\static\inspects\images\help menu\reverted_reply.png" alt="Reverted" style="width: 100%;height: auto;">
+                        <p>Provision is given to search any reverted inspection notes between any date range or any inspection railway location, division using the filter given i.e date range or <b>Rly./Org.</b> wise or <b>Div./Unit</b> wise. Click on <b>'Continue'</b>, will show a list of all inspection notes as per filters selected and officers can view the inspection note in PDF format by clicking on the PDF icon and reverted remarks by clicking on the <b>‘Remarks’</b> button under <b>‘View’</b> column. </p>
+                        <img src="\static\inspects\images\help menu\eins_image33.png" alt="Reverted" style="width: 100%;height: auto;"><br>
+                        <p>Under <b>Forwarded by me</b>officers can view a list of inspection notes, marked for any inspection para & the same have been forwarded to subordinate officers for getting the compliance of that inspection para. Officers can view the inspection note in PDF format by clicking on the PDF icon and reverted remarks by clicking on the <b>‘Remarks’</b> button under <b>‘View’</b> column. </p>
+                        <img src="\static\inspects\images\help menu\eins_image34.png" alt="Reverted" style="width: 100%;height: auto;"><br>
+                        <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+                        </div>
+
+                <hr id="C10" />
+                    <div class="control-box p-3 main-content">
+                     <p class="help-heading">Forwarded Compliance</p>
+                        <p>Following option are available in this menu accessible through side bar provided:-</p>
+                        <ul>
+                            <li>Pending</li>
+                            <li>Sent</li>
+                        </ul>
+                        
+                        <img src="\static\inspects\images\help menu\eins_image23.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p>Officers have access to a comprehensive list of inspection notes. These inspection notes are specifically marked for particular inspection paragraphs (or inspection criteria) that need to be addressed. The purpose of these inspection notes is to ensure that the necessary actions are taken to comply with the requirements outlined in the inspection paragraphs. The inspection notes are typically generated during the inspection process when officers identify areas that require attention or improvements. Once these inspection notes are created, they are forwarded to subordinate officers, responsible for implementing the necessary changes and ensuring compliance with the corresponding inspection paragraphs. Within the list of inspection notes, officers have the ability to view additional details related to each note. This includes the inspection para it is associated with and the status of its compliance. Officers can conveniently access the inspection note in PDF format by clicking on the PDF icon provided. Officers can access and review remarks or comments provided by subordinate officers regarding inspection notes to gain insights into the actions taken or planned for addressing inspection requirements. They can conveniently access these remarks by clicking on the 'Remarks' button under the 'View' column for the respective inspection note.
+                        </p>
+                         <p style="font-size:larger;"><b>Pending</b></p>
+                        <p>Under the 'Pending' feature, the marked forward officer is provided with the facility to view the report and reply to the officer as it contains the inspection notes that have been forwarded. 
+                            The user can also view the report in PDF format and the reply on it.</p>
+                            <img src="\static\inspects\images\help menu\eins_image24.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                            <p style="font-size:larger;"><b>Sent</b></p>
+                            <p>The <b>'Sent'</b> feature provides a facility for the marked forward officer to view their respective replies for the marked forwarded inspection notes.
+                            Users can also view the report in PDF format and its corresponding replies.</p>
+                            <img src="\static\inspects\images\help menu\eins_image25.png" alt="Sign Up" style="width: 100%;height: auto;"><br>          
+                 <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+                    </div> 
+                    
+                    <hr id="C11" />
+                    <div class="control-box p-3 main-content">
+                     <p class="help-heading">D.O Letter</p>
+                     <p>Following option are available in this menu accessible through side bar provided:-</p>
+                     <ul>
+                         <li>Letters Marked to Me</li>
+                         <li>Letters Issued by Me</li>
+                         <li>Upload D.O. Letter</li>
+                     </ul>
+                        
+                     <img src="\static\inspects\images\help menu\eins_image54.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                     <p>Users create a new d.o letter in the dashboard. user add the d.o letter number, date, subject, in the address to field,user select the officer for whom the letter is being created. In the copy to field, the user marks another officer. Users  can either upload the file or  write a text and then submit it. </p>
+                     <img src="\static\inspects\images\help menu\eins_image55.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                     
+                     <p style="font-size:larger;"><b>Letters Marked to Me</b></p> 
+                     <p>Under the <b>'D.O. Letter Marked to Me'</b> it displays the details of the designation that has been marked to the officer in the D.O. letters marked by them. </p>
+                     <img src="\static\inspects\images\help menu\eins_image56.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                     <p>The officer's reply can be viewed in the <b>'View Reply' </b>section and if the reply is pending, the user will give a reply by uploading the file or clicking on notes and then submitting it.</p>
+                     <img src="\static\inspects\images\help menu\eins_image57.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+     
+                     <p style="font-size:larger;"><b>D.O. Letter Issued by me</b></p> 
+                     <p>Under the 'D.O. Letter  Issued by Me' it  displays the replies to the letters issued by the user.</p>
+                     <img src="\static\inspects\images\help menu\eins_image58.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                     <p>This feature enables the officer to search for a specific D.O. letter between any date range, any subject, marked officer or filter given i.e date range, subject, marked officer . Click on <b>"Continue"</b>, it will display all the. Users can view the d.o letter no. in the form of pdf. </p>
+                     <img src="\static\inspects\images\help menu\eins_image59.png" alt="Forgot Password" style="width: 100%;height: auto;"><br> 
+                     
+                     <p style="font-size:larger;"><b>Upload D.O Letter:-</b></p>
+                     <p>From the dashboard, users have the option to create a D.O. (Demands and Orders) letter directly. This functionality allows them to draft and compose a new D.O. letter using the provided tools and features within the system.
+                        Alternatively, users can upload an existing D.O. letter from the "Upload D.O. Letter" section available in the sidebar. This feature enables users to upload a pre-existing D.O. letter document directly into the system for further processing or dissemination. Both options provide flexibility and convenience for users to either create a new D.O. letter or utilise existing ones within the system. This streamlines the process of generating and managing D.O. letters, enhancing efficiency and ensuring accurate record-keeping.
+                        </p>
+                        <p>Users add the d.o letter number, date, subject, in the address to field,user select the officer for whom the letter is being created. In the copy to field, the user marks another officer. Users  can either upload the file or  write a text and then submit it. </p>
+                        <img src="\static\inspects\images\help menu\eins_image73.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                 <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+                    </div> 
+                
+                    
+                <hr id="C12" />
+                    <div class="control-box p-3 main-content">
+                     <p class="help-heading">Minutes of Meeting</p>
+                        <p>In this section, users have the capability to create and draft minutes of meetings (MoM) for various types of meetings or based on their preferences. They can easily generate MoM documents by providing relevant details and capturing the key points discussed during the meeting. Additionally, users can view previously issued MoM documents for reference or review purposes. This allows them to access and retrieve the minutes of any past meetings whenever needed. The section also provides an overview of the compliance status related to the items discussed in the MoM. Users can track the progress and status of the action items or tasks assigned during the meeting. This feature helps ensure that the necessary follow-up actions are being taken and facilitates effective monitoring of compliance.Moreover, users have the ability to reply to specific items marked for their attention in the MoM. They can send their replies or responses directly within the system, addressing the action items or providing updates on the tasks assigned to them. -->
+                        </p> 
+                        
+                        <p>Following option are available in this menu accessible through side bar provided:-
+                        </p>
+                        <ul>
+                            <li>Create Minutes</li>
+                            <li>Draft Minutes</li>
+                            <li>Completed Minutes</li>
+                            <li>Send Reply</li>
+                            <li>Received Reply</li>
+                        </ul>
+                        <img src="\static\inspects\images\help menu\eins_image35.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p style="font-size:larger;"><b>Create Notes</b></p>
+                        <p>In the <b>'Create Minute'</b> section, users can create Minutes of Meeting by filling out a form that includes the MOM Title, Meeting type (from the dropdown or type & select any meeting type as per their choice), List of  members present and the Date of the meeting.
+                        </p>
+                        <img src="\static\inspects\images\help menu\eins_image36.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p>Once these details are filled, users can add para and sub-para along with description (optional), mark to concerned officer for action required with or without target date & priority, send copy to concerned officer if required. </p>
+                        <p>For adding MoM para, following options have been provided:</p>
+                        <ul>
+                            <li><b>Add Para:</b> can be either used to enter heading without marking to any     officer or to enter MoM point along with marking to concerned officer(s). </li>
+                            <li><b>Add Sub Para:</b> to enter MoM point or sub point after adding or along with marking to concerned officer(s).</li>
+                            <li>Initially, <b>'Save as Draft'</b> button is visible and the 'Submit' button will be visible when  'Add Para' is clicked. </li>
+                        </ul>
+                        <P>Under dealt by  field there is a filter search where users can search on the bases of railway, division, department and designation after that user can set the target date and priority. Under copy to field we send a copy of the MoM notes to the 'marked officer'.
+                        </P>
+                        <img src="\static\inspects\images\help menu\eins_image37.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p>At bottom there are Two option:-
+                        </p>
+                        <ul>
+                            <li><b>Save as Draft:</b> It partially fills the data and saves as draft for further editing.</li>
+                            <li><b>Submit:</b> Users can submit their MoM  notes.</li>
+                        </ul><br>
+                        <p style="font-size:larger;"><b>Complete Minutes</b></p>
+                        <p>In the "Completed Notes" section, users have access to a comprehensive list of issued MoM notes. This list includes the option to view specific MoM notes by their unique identification numbers or to view the replies received in PDF format. By default, all MoM notes are visible to users, providing a complete overview of the issued notes. To facilitate easier navigation and search, the system provides a filtering mechanism. Users can refine the list by specifying specific criteria such as the date of the meeting, meeting type, or status of the MoM notes. This allows users to narrow down the displayed MoM notes based on their specific requirements. For example, users can search for MoM notes issued within a certain date range, ensuring that they can quickly locate notes from a particular time frame. Similarly, they can filter the MoM notes based on meeting types, such as board meetings, team meetings, or department-specific meetings, to focus on a specific category of notes. Additionally, users can filter based on the status of the MoM notes, such as pending, completed, or in-progress, to further streamline their search.</p>
+                        <p>By utilising these filters, users can easily locate and access the desired MoM notes based on specific criteria. This feature enhances the user experience by providing a flexible and efficient way to retrieve relevant MoM notes while reducing the time and effort required for manual searching.</p>
+                        <img src="\static\inspects\images\help menu\eins_image38.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <img src="\static\inspects\images\help menu\eins_image39.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+
+                         <p style="font-size:larger;"><b>Draft MoM</b></p>             
+                        <p>If saved as a draft, the MoM notes will be accessible on the 'Draft Minutes of Meeting' page, where it can be edited again. On submit action further editing won't be possible and the MoM report will be issued and accessible under completed MoM.</p>
+                        <img src="\static\inspects\images\help menu\eins_image40.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p style="font-size:larger;"><b>Sent Reply</b></p>
+                        <p>It allows the marked officer to view their respective compliance sent marked MoM para. This feature enables the officer to search for specific MoM notes  between any date of meeting or any meeting type or status using the filter given i.e date of meeting or meeting type or status. Users can also view the MoM notes  by clicking on the MoM note no. in the form of a PDF. </p>
+                        <img src="\static\inspects\images\help menu\eins_image41.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p>User can reply to the compliance by providing the reason in the remark field and uploading the file from your folder then submit it.</p>
+                        <img src="\static\inspects\images\help menu\eins_image42.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                        <p style="font-size:larger;"><b>Received Reply</b></p>
+                        <p>On the Received Reply page, the inspecting officer can view the response provided by the marked officer in the corresponding section. This allows for a seamless exchange of information and updates regarding the MoM notes. Users have the option to access the MoM notes in PDF format, enabling them to view and download the complete document for reference or further action. In addition to viewing the reply, users can also see any uploaded files or attachments associated with the response. This allows for the sharing of supporting documents or additional information related to the MoM notes. If the inspecting officer determines that the reply needs to be rejected, they can provide a reason for the rejection. This reason can help in communicating the specific concerns or discrepancies identified in the reply.By providing this rejection functionality, users can effectively manage and address any issues or non-compliance identified in the replies, promoting a transparent and accountable process.</p>
+                        <img src="\static\inspects\images\help menu\eins_image43.png" alt="Sign Up" style="width: 100%;height: auto;"><br>
+                    </hr><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+                    </div> 
+
+                    <hr id="C13" />
+                    <div class="control-box p-3 main-content">
+                        <p class="help-heading">Search</p>
+                        <p>Following option are available in this menu accessible through side bar provided:-</p>
+                                
+                                
+                                    <ul class="custom-list">
+                                        <li>Search Inspection Notes</li>
+                                        <li>Search MoM Notes</li>
+                                        
+                                    </ul>
+                                
+                                <img src="\static\inspects\images\help menu\eins_image44.png" alt="My Complainces" style="width: 100%;height: auto;">
+                                <br>
+                                <p style="font-size:larger;"><b>Search Inspection Notes</b></p>
+                                <p>This feature enables the officer to search for specific inspection notes between any date range or any inspection railway location designation wise or status using the filter given i.e date range or rly/org wise or div/org wise. Click on "Continue", it will display all the inspection notes. Users can view the inspection notes in the form of pdf and the red button indicates that the inspection is still pending or the green button indicates that the designation officer has sent compliance to the marked officer. To search a specific keyword by selecting "Search Insp Para" the system will show the paragraph number(s) where the word appears in all pending or closed inspection notes.</p>
+                                <img src="\static\inspects\images\help menu\eins_image45.png" alt="My Complainces" style="width: 100%;height: auto;">
+                                <img src="\static\inspects\images\help menu\eins_image46.png" alt="My Complainces" style="width: 100%;height: auto;">
+                                <p style="font-size:larger;"><b>Search MoM Notes</b></p>
+                                <p>This feature enables the officer to search for specific MoM notes between any date range or any meeting type designation wise or status using the filter given i.e date range.meeting type.  Click on "Continue", it will display all the MoM  notes.  Users can view the MoM notes in the form of a pdf. The red button indicates that the MoM is still pending or the green button indicates that the designation officer has sent MoM to the marked officer. to search a specific keyword by selecting "Search Insp Para" the system will show the paragraph number(s) where the word appears in all pending or closed MoM notes.</p>
+                                <img src="\static\inspects\images\help menu\eins_image48.png" alt="My Complainces" style="width: 100%;height: auto;">
+        
+        
+                                
+                                <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+                                </div>
+
+                <hr id="C14" />
+                <div class="control-box p-3 main-content">
+                    <p class="help-heading">Tour Programme</p>
+                    <p>Following option are available in this menu accessible through side bar provided:-</p>
+                    <ul>
+                        <li>Create Tour</li>
+                        <li>Draft Tour</li>
+                        <li>List of Tour</li>
+                        <li>Other Officer's Tour</li>
+                    </ul>
+                    <img src="\static\inspects\images\help menu\eins_image49.png" alt="My Complainces" style="width: 100%;height: auto;"><br>
+                    <p style="font-size:larger;"><b>Create Tour</b></p>
+                    <p>Under the <b>'Create Tour'</b> it  allows inspecting officers to generate an inspection by itself which is scheduled by selecting inspection types, providing descriptions, specifying rly.org and division, designating major locations, date and inspection type.</p>
+                    <p>Officers can select from when and where to start inspection to when and where to end it by specifying several fields as start date, Dep time, Station, End Date and Arrival time. </p>
+                    <p>Officer can also add more inspection notes by clicking on <b>‘Add Insp.Location’</b> and can delete inspection notes before saving it if required. Officer can also upload a necessary documents if required in upload document section.
+                        After filling all the required details Officer can select Officers to review created inspection notes and to make it approved.
+                        </p>
+                    <p><b>Looking after by:</b> They have authority to revert to the officer to make necessary changes and if the changes are not required then  they will pass to the Recommending Officer.</p>
+                    <p><b>Recommending Officer:</b> They have authority to revert back to officer, cancel the inspection and pass to higher authority to get the inspection sanctioned. </p>
+                    <p><b>Sanctioning Authority:</b> They have the final authority to accept and reject the inspection proposal.
+                    </p>
+                    <p style="font-size:larger;"><b>Draft</b></p>
+                    <p>In this section the all data is saved as draft which is created by officer in if they choose to <b>Save as Draft</b> in <b>Create Tour</b>.</p>
+                    <p style="font-size:larger;"><b>Outbox</b></p>
+                    <p>This section contains all the inspection notes which are being sent to higher authorities for approval.</p>
+                    <p style="font-size:larger;"><b>Sanctioned </b></p>
+                    <p>This section contains all inspection notes which are being sanctioned by the Sanctioning Authority.</p>
+                    <p style="font-size:larger;"><b>Rejected </b></p>
+                    <p>This section contains all the inspection notes which are being rejected from Recommending Officers and Sanctioning Authority.</p>
+                    <img src="\static\inspects\images\help menu\eins_image50.png" alt="My Complainces" style="width: 100%;height: auto;"><br>
+                    <p>After creating a report, officers using the Draft Tour feature have the option to either save it as a draft or submit it. If saved as a draft, the report will be stored on the draft report page, which allows the officer to edit and submit it at a later time.</p>
+                    <img src="\static\inspects\images\help menu\eins_image51.png" alt="My Complainces" style="width: 100%;height: auto;"><br>
+                    <p>Under the <b>'List of Tours'</b> it  allows users to view a list of created tours, with the added functionality of creating a new schedule directly from the same page.</p>
+                    <img src="\static\inspects\images\help menu\eins_image52.png" alt="My Complainces" style="width: 100%;height: auto;"><br>
+                    <p>Under the <b>'Other Officers'</b> it  displays a list of intersecting officers who wish to conduct inspections.</p>
+                </div>
+
+                <hr id="C15" />
+            <div class="control-box p-3 main-content">
+                <p class="help-heading">Copy To</p>
+            <p> Following option are available in this menu accessible through side bar provided:- </p>
+                
+                <p>When a user creates a new note, they have the option to add officers in the 'Copy To’ field, who will receive the note via email. This feature enables the officer to search for specific inspection reports and MoM reports  between any date range, any document type, designation wise or filter given i.e date range, document type or designation wise. Click on "Continue", it will display all the inspection reports or MoM reports. Users can view the inspection notes or MoM notes in the form of a pdf.  A red button indicates that the officer has not yet viewed the report. When clicked on the button turns green it  indicates that the officer has seen the report.
+                </p>  
+                <ul>
+                    <li><b>Copy-To Mails Received</b></li>
+                    <p>When an officer adds a user while creating notes in the <b>"My Inspection"</b> module, the user will receive an update in the <b>"Copy-To Received"</b> section. The user can then provide a response by selecting the <b>"Noted"</b> button. This formal process ensures that the user is informed and can acknowledge their receipt of the notes. By selecting the <b>"Noted"</b> button, the user confirms their acknowledgment and response to the received notes, promoting effective communication and collaboration within the inspection process.</p>
+                    <img src="\static\inspects\images\help menu\eins_image52.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                    <li><b>Copy-To Mails Sent</b></li>
+                    <p>When a user creates a note in the "My Inspections" module, they have the option to select different authorities in the "Accompanied By" field. This allows the user to specify the relevant authorities to whom a copy of the task needs to be sent. The system then presents the number of authorities to whom the user has sent a copy based on the selected options. This formal feature provides users with an overview of the recipients involved in the task, ensuring that appropriate stakeholders are informed and involved in the inspection process.
+                    </p>     
+                </ul> 
+                 
+                
+                <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+                    <hr id="C17" />
+                    <div class="control-box p-3 main-content">
+                        <p class="help-heading">Task Tracker</p>
+                        <p>Following option are available in this menu accessible through side bar provided:-</p>
+                        <ul>
+                            <li>Create Task </li>
+                            <li>Pending on me</li>
+                            <li>Assigned by me</li>
+                        </ul>
+                        <img src="\static\inspects\images\help menu\eins_image62.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                        <p style="font-size:larger;"><b>Create Task</b></p>
+                        <p>When selecting the <b>"Create Task"</b> option, users are presented with a form on the screen. This form allows users to create a specific task, either for themselves or for others. Within the form, users can enter the necessary details for the task, including the task description, the assigned person or team ("Assign To"), the initiation date, the deadline, and the current status of the task. This formalises the process of task creation and ensures that all relevant information is captured accurately for effective task management.</p>
+                        <img src="\static\inspects\images\help menu\eins_image63.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                        <p style="font-size:larger;"><b>Pending on me</b></p>
+                        <p>By selecting the <b>"Pending on Me"</b> option, users can access a comprehensive view of various assigned tasks specifically assigned to them. This view provides users with detailed information about each task, including the full task description, the person or entity from whom it is assigned, the designated deadline, the type of task, the current status, the date of the last update, and the actions taken on the assigned task. This formal presentation of task details ensures that users have a clear overview of their responsibilities and enables effective tracking and management of assigned tasks.</p>
+                        <img src="\static\inspects\images\help menu\eins_image64.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                        <ul>
+                            <li><b>Type of Task</b></li>
+                            <p>Within the column labelled "Type of Task," there is a hyperlink associated with the word "Inspection." Clicking on this hyperlink opens a PDF page displaying the draft of the assigned task. The PDF document includes relevant legal stamps for authentication and verification purposes. This formalises the process of reviewing assigned tasks and ensures compliance with legal requirements by providing a documented record of the task's draft with official stamps.</p>
+                            <li><b>Action</b></li>
+                            <p>At the rightmost side of the table, there is a column labelled "Action" which contains two downward-pointing arrows. Upon clicking this button, a new table is activated, presenting three columns: "Updated Status," "Updated Reply," and "Action." This formal feature allows users to track and review the latest updates regarding the assigned tasks. Users can observe any changes in the task's status, view the updated replies, and take appropriate actions based on the provided information.
+                            </p>
+                            <ol>
+                                <li><b>Updated Status:-</b> In this column, users are provided with a dropdown menu featuring five options: "Started," "On Track," "Partially Completed," "Delayed," and "Completed." These options allow users to select and indicate their work status for the assigned tasks based on their progress and completion. This formal feature enables users to accurately update and communicate the current status of their work, facilitating effective task management and providing a clear overview of the progress made on the assigned tasks.</li>
+                                <li><b>Updated Reply:-</b> Within this column, users have the ability to provide a reply regarding their work status for the assigned tasks. They can input additional notes or comments related to the task as well. This formal functionality allows users to provide a detailed and comprehensive update on their progress, offering insights and explanations regarding their work status. By including these additional notes, users can provide valuable context and information, facilitating effective communication and collaboration in the task management process.
+                                </li>
+                            </ol>
+                        </ul>
+                        <p><b>Action:-</b> In the "Action" column, there are three buttons available: "Save," "Edit," and "Submit." The "Save" button allows users to store the entered information related to updates or changes that need to be made to the task. The "Edit" button enables users to modify and update the saved information as needed. Lastly, the "Submit" button is used to finalise and submit the updated task details to the higher authority or relevant stakeholders. This formal feature provides users with the ability to effectively manage and communicate task updates, ensuring accurate and timely submission of required information to the appropriate channels.</p>
+                        <img src="\static\inspects\images\help menu\eins_image65.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                        <p style="font-size:larger;"><b>Assigned by me:- </b></p>
+                        <p>Within this option, users can access a comprehensive table that displays all the relevant details pertaining to tasks assigned by them to their subordinates. The table consists of the following fields: Task Description, Assigned To (the designated subordinate), Initiation Date, Deadline, Type of Task, Status, Last Updated On, and a "View" button. This formal feature provides users with a structured and organised view of task-related information, facilitating effective monitoring and management of assignments given to subordinates. At the rightmost side of the table, there is a column labelled "Action" which contains two downward-pointing arrows. 
+                        </p>
+                        <img src="\static\inspects\images\help menu\eins_image66.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                        <p>Upon clicking this button, two new tables are activated. Within this option, users can access a comprehensive table that displays all the relevant details pertaining to tasks assigned by them to their subordinates. The table consists of the following fields: Task Description, Assigned To (the designated subordinate), Initiation Date, Deadline, Type of Task, Status, Last Updated On, and a "View" button. This formal feature provides users with a structured and organised view of task-related information, facilitating effective monitoring and management of assignments given to subordinates.
+                        </p>
+                        <p>The detailed information about the assigned task provides users with various key pieces of information. This includes the task's current status, updated remarks, the date on which remarks were received, and the ability to reject remarks if the user disagrees with their subordinate's actions or input. Furthermore, users have the option to edit the remarks provided or reject them if necessary. This feature allows users to modify or clarify any comments or feedback given by their subordinates regarding the task. If the user finds it necessary to reject the remarks, they can provide a clear explanation or justification for doing so.</p>
+                        <img src="\static\inspects\images\help menu\eins_image67.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+                        <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+        </div>
+
+        <hr id="C18" />
+        <div class="control-box p-3 main-content">
+            <p class="help-heading">User Feedback</p>
+            <p>Our system provides a well-defined provision for individuals to submit their feedback. This is achieved by offering a user-friendly interface where individuals can select various mandatory fields to ensure accurate categorization of their feedback. These fields include Railway Zones, Division, Designation, Feedback Type, and Sub Category. To streamline the feedback process, the fields are dynamically activated based on the user's selection of the appropriate Category. This ensures that individuals can provide feedback specific to their respective areas of concern or interest. In addition to the structured fields, there is a dedicated Remarks section where officers can elaborate on their experience with the portal in detail. This allows them to provide a comprehensive narrative, addressing specific aspects, concerns, or suggestions they may have. To supplement their feedback, officers are also given the opportunity to upload relevant photos. This feature enables them to visually illustrate their points, providing valuable context and supporting their feedback with visual evidence when necessary.</p>
+            <img src="\static\inspects\images\help menu\eins_image68.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <p>Below, officers are provided with the capability to check the status of their feedback. This is facilitated by a set of multiple options to choose from, including Pending, Resolved, In Progress, and Not Feasible. By selecting the desired option, officers can obtain the latest information on the progress of their feedback. Additionally, officers have the convenience of downloading comprehensive lists for each section in either Excel or PDF format. Moreover, they can customise the number of entries displayed by utilising a dropdown button, which provides a counter to indicate the selected number of entries. This feature allows officers to conveniently manage and view feedback information according to their preferences.
+            </p>
+            <img src="\static\inspects\images\help menu\eins_image69.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\eins_image70.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\eins_image71.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+
+        <hr id="C19" />
+        <div class="control-box p-3 main-content">
+            <p class="help-heading">Hierarchy</p>
+            <p>Within this module, officers will have access to the comprehensive hierarchy of railway staff, which proves to be highly convenient for allocating tasks and assignments for various purposes. This hierarchy provides officers with a clear understanding of the organisational structure, enabling them to select suitable personnel for specific roles and responsibilities, particularly in the context of inspections.</p>
+            <p>To streamline the process, officers can utilise the available fields such as RLY./Org (Railway/Organization), Division/Unit, and Department wise. These fields allow officers to narrow down their search and choose a particular officer who possesses the requisite skills and expertise for the assigned task. This targeted approach ensures that the right individual is selected for each inspection, optimising efficiency and effectiveness. By utilising this module, officers can leverage the hierarchical information to facilitate task allocation and enhance the overall management of inspections within the railway system. </p>
+
+            <img src="\static\inspects\images\help menu\eins_image72.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <p>Beneath the hierarchical tree, a hovering feature is incorporated. When activated, this feature displays a menu providing officers with additional information related to specific designations within the hierarchy. This information includes the names of officers associated with each respective designation, along with other pertinent details mentioned. By utilising this hovering menu, officers can gain access to comprehensive information about officers' roles and responsibilities, allowing for more informed decision-making and efficient communication within the organisation. This feature enhances the overall usability and functionality of the system, such as</p>
+            <ul>
+                <li>Total Draft Created by me</li>
+                <li>Total Compiled Inspections Created by me</li>
+                <li>Total Pending inspections Created by me</li>
+                <li>Total Inspections Created by me</li>
+                <li>Total Forwarded Inspections by me</li>
+                <li>Total Compiled Inspection Marked to me</li>
+                <li>Total Pending Inspections Marked to me</li>
+                <li>Total Forwarded Inspection Marked to me</li>
+                
+            </ul>
+            <img src="\static\inspects\images\help menu\eins_image69.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\eins_image70.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <img src="\static\inspects\images\help menu\eins_image71.png" alt="Forgot Password" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+        </div>
+
+
+        <hr id="C9" />
+    <div class="control-box p-3 main-content">
+    <p class="help-heading">RB Minutes</p>
+            
+            <p>User can find several options such as:-
+                <ul>
+                    <li>Create</li>
+                    <li>Saved</li>
+                    <li>Reply</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\RB Minutes.png" alt="RB Minutes" style="width: 100%;height: auto;">
+            <br>
+            <p>Clicking on <b>Create</b> new page will appear. In Create form user can <b>Create Minutes Of Meeting</b> with the list of members(s) present, Date of meeting, after that the user can <b>Add heading, Add Sub Heading and Add Decision</b> and can also copy to different members.</p>
+            
+            <img src="\static\inspects\images\help menu\RB-2.png" alt="RB-3" style="width: 100%;height: auto;"><br>
+            <p>After clicking on <b>Saved</b> new page will appear with new form. In Saved form user can view all the saved meetings.</p>
+            <img src="\static\inspects\images\help menu\saved.png" alt="Saved" style="width: 100%;height: auto;"><br>
+            <p>After clicking on <b>Reply</b> new page will appear with new form. In Reply form user can reply to all the meetings.</p>
+            <img src="\static\inspects\images\help menu\reply4.png" alt="Reply" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+</div>
+                    
+            
+</div>
+
+            
+<!-- <hr id="C8" />
+<div class="control-box p-3 main-content">
+    <p class="help-heading">Query</p>
+            
+            <p>User can find several options such as:-
+                <ul>
+                    <li>Pending</li>
+                    <li>Sent</li>
+                </ul>
+            </p>
+            <img src="\static\inspects\images\help menu\Query.png" alt="Query" style="width: 100%;height: auto;">
+            <br>
+            <p>Clicking on <b>Pending</b> new page will appear. Pending Query, provides facility for the marked forward officer to view the report and reply to the officer as this contains those observation which has been forwarded. User can also view the Report and Reply on it.</p>
+            <img src="\static\inspects\images\help menu\pending1.png" alt="Pending" style="width: 100%;height: auto;"><br>
+            <p>After clicking on <b>sent</b> new page will appear. Sent Query, provides facility for the marked forward officer to see their respective reply for the marked forwarded observation. User can also view the Report and Reply on it.</p>
+            <img src="\static\inspects\images\help menu\sent1.png" alt="Sent" style="width: 100%;height: auto;"><br>
+            <hr/><div class="parent"><button class="btn btn-light btn-sm btn-back pull-right float-right" onclick="backTop();"><i class="fas fa-angle-up"></i></button></div>
+            </div> -->
+            
+
+
+{% endblock content %}
